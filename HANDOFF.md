@@ -36,3 +36,26 @@
    — und beim Bauen neuer lib_global_*-Regeln gilt ab jetzt: Rule-Stores
    IMMER pro GameState keyen, nie package-global flach (Muster:
    lib_global_life_gain_prevention.go nach dem Fix).
+
+## Kosten-Optimierung Worker (2026-07-25, zweiter Commit)
+Gemessene Kosten-Anatomie (3 E2E-Läufe): Park ~110k Token / Build ~2.08M über
+17 Turns. Umgesetzt in `dispatcher-worker-real.sh`:
+1. **Cache-Layout**: statischer Prefix (Kataloge+Regeln) zuerst, Ticket nur im
+   Schwanz, kein sed im Prefix mehr → aufeinanderfolgende Jobs LESEN den
+   Prompt-Cache statt ihn je Job neu zu schreiben.
+2. **Signatur-Index** statt Voll-Katalog (~27k statt ~52k Token); volle
+   Einträge per Grep aus `scripts/skills/primitive-catalog.md` (Regel-1-
+   Ausnahme: Docs + `go doc` erlaubt, Go-Quelltext bleibt tabu). Vor
+   MISSING_PRIMITIVE ist Grep im Voll-Katalog PFLICHT (Krark's-Thumb-Klasse).
+   `CATALOG_FULL=1` = altes Verhalten.
+3. **Turn-Diät**: Test-Cheat-Sheet im Prompt (killt go-doc-Runden); kein
+   `go build ./...`/Vollsuite durch den Worker (Harness gated ohnehin), max
+   ein fokussierter Test + ein Fix-Rerun, im Vordergrund.
+4. **Mirror+GOCACHE**: Erst-Clone via lokalem Bare-Mirror (`--reference`,
+   origin bleibt GitHub); GOCACHE auf geteiltes persistentes Verzeichnis.
+
+NOCH OFFEN (optional): GPU-Embedding-Ranker (lokales sentence-transformers)
+zur Auswahl der pro Ticket INLINE eingebetteten Katalog-Einträge — nur als
+Ranking über dem Index, NIE als einziger Zugriffspfad (Recall-Risiko =
+systematische False-Parks). Gleiche Behandlung für den vocab-batch-Prompt
+(`dispatcher-vocab-batch.sh`) steht ebenfalls noch aus.
