@@ -133,7 +133,9 @@ claude_run() { # claude-Flags (ohne --output-format); Prompt via stdin
   raw=$(cd "$CLONE_PATH" && timeout "${CJ_TIMEOUT:-$CLAUDE_TIMEOUT}" "$CLAUDE_BIN" -p \
         --output-format json "$@" 2>>"/tmp/disp-$WORKER_ID-claude.err") \
     || { echo "CLAUDE_TIMEOUT_OR_ERROR"; return 0; }
-  used=$(printf '%s' "$raw" | jq -r 'if type=="object" then ((.usage.input_tokens//0)+(.usage.cache_creation_input_tokens//0)+(.usage.cache_read_input_tokens//0)+(.usage.output_tokens//0)) else 0 end' 2>/dev/null)
+  # Kumulative Usage: .modelUsage summiert über ALLE Turns/Modelle der Session
+  # (.usage ist nur der letzte Turn — hat historisch massiv unterreported).
+  used=$(printf '%s' "$raw" | jq -r 'if (type=="object" and .modelUsage) then ([.modelUsage[] | (.inputTokens//0)+(.outputTokens//0)+(.cacheReadInputTokens//0)+(.cacheCreationInputTokens//0)] | add // 0) elif type=="object" then ((.usage.input_tokens//0)+(.usage.cache_creation_input_tokens//0)+(.usage.cache_read_input_tokens//0)+(.usage.output_tokens//0)) else 0 end' 2>/dev/null)
   [ -n "$used" ] && [ "$used" != 0 ] && echo "$used" >> "$TOK_FILE"
   txt=$(printf '%s' "$raw" | jq -r '.result // empty' 2>/dev/null)
   if [ -n "$txt" ]; then printf '%s' "$txt"; else printf '%s' "$raw"; fi
@@ -262,9 +264,15 @@ while true; do
     [ -s "$CONCISE_CAT" ] || cp "$SRC_CAT" "$CONCISE_CAT"
   fi
 
+  # STATIC_FILE geht per --append-system-prompt in den SYSTEM-Prompt: der hat
+  # einen EIGENEN Cache-Breakpoint, während der User-Message-Breakpoint erst
+  # am Ende der (pro Ticket verschiedenen) Message liegt — im User-Teil würde
+  # der statische Block daher NIE über Jobs hinweg gecacht (gemessen:
+  # cache_write ~63k pro Job trotz identischer Bytes).
+  STATIC_FILE="/tmp/disp-$WORKER_ID-static.md"
   PROMPT_FILE="/tmp/disp-$WORKER_ID-prompt.txt"
   {
-    # ---- STATISCHER PREFIX (byte-identisch über alle Tickets → cachebar) ----
+    # ---- STATISCHER BLOCK (byte-identisch über alle Tickets → cachebar) ----
     SHAPE_CAT="$CLONE_PATH/scripts/skills/shape-catalog.md"; [ -f "$SHAPE_CAT" ] || SHAPE_CAT="$LIVE_REPO/scripts/skills/shape-catalog.md"
     if [ -f "$SHAPE_CAT" ]; then
       echo "=== SHAPE CATALOG (data-record tier — check FIRST, see STEP 0 below) ==="
@@ -333,8 +341,9 @@ ENGINE TEST CHEAT SHEET (write tests from this — no go doc round-trips needed 
   // counters: AddCounters(c, game.CounterPlusOnePlusOne, 1) (cardfns helper)
   // records (STEP 0): db := cards.NewCardDatabase(); db.LoadFromDir("../data/carddb"); card, err := db.CreateCard("Name", 0)
 INSTR
-    # ---- DYNAMISCHER SCHWANZ (einzige pro-Ticket-Bytes) ----
-    echo ""
+  } > "$STATIC_FILE"
+  # ---- DYNAMISCHER TEIL (User-Message: nur das Ticket + Fix-Loop-Anhänge) ----
+  {
     echo "=== THE TICKET ==="
     echo "TICKET_ID: $TICKET_ID   (use this number in every task<TICKET_ID>_ filename)"
     echo "TICKET #$TICKET_ID: $TICKET_TITLE"
@@ -352,7 +361,8 @@ INSTR
     log "attempt $attempt/$MAX_ATTEMPTS (model $MODEL)"
 
     CLAUDE_OUT=$(claude_run --model "$MODEL" --permission-mode bypassPermissions \
-      --max-turns "$WORKER_MAX_TURNS" < "$PROMPT_FILE")
+      --max-turns "$WORKER_MAX_TURNS" \
+      --append-system-prompt "$(cat "$STATIC_FILE")" < "$PROMPT_FILE")
 
     # Modell-Flakiness (Timeout/"model may not exist") ist meist TRANSIENT →
     # EINMAL mit DEMSELBEN (billigen) Modell neu, statt teuer auf pro zu springen.
