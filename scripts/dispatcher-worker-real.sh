@@ -16,6 +16,13 @@ CATALOG="$LIVE_REPO/scripts/skills/primitive-catalog.md"
 GO=/usr/local/go/bin/go
 export PATH="/usr/local/go/bin:$PATH"
 CLAUDE_BIN="${CLAUDE_BIN:-$HOME/.local/bin/claude}"
+# Geteilter, persistenter Go-Build-Cache (content-addressed — identische
+# Commits in verschiedenen Clones treffen dieselben Einträge). Explizit statt
+# ~/.cache/go-build, damit Worker-Umgebungen ihn sicher erben.
+export GOCACHE="${GOCACHE:-/opt/development/.gocache-magic}"
+mkdir -p "$GOCACHE" 2>/dev/null || true
+# Lokaler Bare-Mirror: Erst-Clones in Sekunden statt ~40s GitHub-Vollclone.
+MIRROR="${MIRROR:-/opt/development/openmagic-mirror.git}"
 
 MODEL_SONNET="${MODEL_SONNET:-claude-sonnet-5}"
 MODEL_HAIKU="${MODEL_HAIKU:-claude-haiku-4-5-20251001}"
@@ -165,9 +172,22 @@ stop_heartbeat() {
 trap stop_heartbeat EXIT
 
 # ---- Setup: eigener Clone via SSH (NIE der Live-Checkout) ----
+# Objekte kommen aus dem lokalen Mirror (--reference: alternates, kein Kopieren);
+# origin bleibt GitHub (push unverändert). Fallback: plain clone.
 if [ ! -d "$CLONE_PATH/.git" ]; then
+  if [ ! -d "$MIRROR" ]; then
+    log "mirror anlegen: $MIRROR"
+    GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone --mirror "$REPO_SSH" "$MIRROR" 2>/dev/null || true
+  fi
   log "clone $REPO_SSH -> $CLONE_PATH"
-  GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone "$REPO_SSH" "$CLONE_PATH" || { log "FATAL: clone failed"; exit 1; }
+  if [ -d "$MIRROR" ]; then
+    GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git -C "$MIRROR" fetch -q 2>/dev/null || true
+    GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone --reference "$MIRROR" "$REPO_SSH" "$CLONE_PATH" \
+      || GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone "$REPO_SSH" "$CLONE_PATH" \
+      || { log "FATAL: clone failed"; exit 1; }
+  else
+    GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone "$REPO_SSH" "$CLONE_PATH" || { log "FATAL: clone failed"; exit 1; }
+  fi
 fi
 cd "$CLONE_PATH"
 git config user.email "dispatcher-worker@magic"
@@ -211,69 +231,116 @@ while true; do
   git clean -qfd
 
   # ---- Prompt bauen (eine Datei, kein Nesting) ----
-  # Knappen Katalog ableiten (0 Modell-Token; volle Quelle bleibt im Repo).
-  # Halbiert die Kosten pro Karte: voll ~109k Token, knapp ~52k (gemessen).
+  # CACHE-LAYOUT: statischer Prefix ZUERST (Kataloge + generische Regeln),
+  # Ticket-spezifisches NUR am Ende. Prompt-Caching ist ein byte-exakter
+  # Prefix-Match — vorher stand task${TICKET_ID}_ (per sed ersetzt) OBEN in
+  # den Regeln, wodurch JEDER Job den ~86k-Prefix neu GESCHRIEBEN hat
+  # (cache_creation) statt ihn zu LESEN. Kein sed mehr: Regeln generisch,
+  # Ticket-ID nur im dynamischen Schwanz. Fix-Loop-Anhänge (>>) landen
+  # ebenfalls am Ende — Prefix bleibt stabil.
   SRC_CAT="$CLONE_PATH/scripts/skills/primitive-catalog.md"; [ -f "$SRC_CAT" ] || SRC_CAT="$CATALOG"
   CONCISE_CAT="/tmp/disp-$WORKER_ID-catalog.md"
-  GEN_PY="/opt/development/magic-claude/scripts/concise-catalog.py"
-  if [ -f "$GEN_PY" ]; then python3 "$GEN_PY" "$SRC_CAT" > "$CONCISE_CAT" 2>/dev/null && [ -s "$CONCISE_CAT" ] || cp "$SRC_CAT" "$CONCISE_CAT"; else cp "$SRC_CAT" "$CONCISE_CAT"; fi
+  if [ "${CATALOG_FULL:-0}" = "1" ]; then
+    # Escape-Hatch: kompletter Knapp-Katalog wie früher (~52k Token).
+    GEN_PY="/opt/development/magic-claude/scripts/concise-catalog.py"
+    if [ -f "$GEN_PY" ]; then python3 "$GEN_PY" "$SRC_CAT" > "$CONCISE_CAT" 2>/dev/null && [ -s "$CONCISE_CAT" ] || cp "$SRC_CAT" "$CONCISE_CAT"; else cp "$SRC_CAT" "$CONCISE_CAT"; fi
+  else
+    # Standard: Signatur-INDEX (~10-15k Token statt ~52-86k) — Überschriften,
+    # Signatur (bis zum ersten " — ") und der [dur]-Tag. Volle Einträge holt
+    # der Worker gezielt per Grep aus dem Katalog im Clone (erlaubte
+    # Ausnahme in Regel 1 — Docs ja, Engine-Code nein).
+    awk '
+      /^#/ { print; next }
+      /^- `/ {
+        line=$0; sig=line; sub(/ — .*/,"",sig)
+        if (length(sig) > 240) sig = substr(sig, 1, 240) "…"
+        dur=""
+        if (match(line, /\*\*\[dur:[^]]*\]\*\*/)) dur=" " substr(line, RSTART, RLENGTH)
+        print sig dur
+      }
+    ' "$SRC_CAT" > "$CONCISE_CAT"
+    [ -s "$CONCISE_CAT" ] || cp "$SRC_CAT" "$CONCISE_CAT"
+  fi
 
   PROMPT_FILE="/tmp/disp-$WORKER_ID-prompt.txt"
   {
+    # ---- STATISCHER PREFIX (byte-identisch über alle Tickets → cachebar) ----
+    SHAPE_CAT="$CLONE_PATH/scripts/skills/shape-catalog.md"; [ -f "$SHAPE_CAT" ] || SHAPE_CAT="$LIVE_REPO/scripts/skills/shape-catalog.md"
+    if [ -f "$SHAPE_CAT" ]; then
+      echo "=== SHAPE CATALOG (data-record tier — check FIRST, see STEP 0 below) ==="
+      cat "$SHAPE_CAT"
+      echo ""
+    fi
+    echo "=== PRIMITIVE CATALOG INDEX (signatures + [dur] only; the FULL entries live in scripts/skills/primitive-catalog.md — grep/read THAT FILE for every primitive you intend to use before using it) ==="
+    cat "$CONCISE_CAT"
+    echo ""
     cat <<'INSTR'
-You are working inside a checked-out Go repository (OpenMagic, a Magic: The Gathering engine). Your job: implement the ticket's card(s) — as a DATA RECORD when possible, as a card handler otherwise — plus one behavioral test per card, WRITING THE FILES YOURSELF with your file tools.
+=== YOUR JOB ===
+You are working inside a checked-out Go repository (OpenMagic, a Magic: The Gathering engine). Implement the ticket's card(s) — as a DATA RECORD when possible, as a card handler otherwise — plus one behavioral test per card, WRITING THE FILES YOURSELF with your file tools. The ticket (with its numeric TICKET_ID) is at the END of this prompt.
 
 STEP 0 — RECORD FIRST (cheapest tier wins):
 If EVERY ability of a card is expressible as an AbilityDSL record (see the SHAPE
-CATALOG below: trigger x effect vocabulary), do NOT write a handler for it.
+CATALOG above: trigger x effect vocabulary), do NOT write a handler for it.
 Instead: (a) update the card's record with the surgical tool — never read or
 hand-edit the (large) shard files:
-  cd backend && go run ./tools/recordedit -name "<Exact Card Name>" -abilities '<AbilityDSL JSON array>' -notes "task TICKETID"
-(b) write the behavioral test as backend/cards/taskTICKETID_<cardslug>_record_test.go
+  cd backend && go run ./tools/recordedit -name "<Exact Card Name>" -abilities '<AbilityDSL JSON array>' -notes "task <TICKET_ID>"
+(b) write the behavioral test as backend/cards/task<TICKET_ID>_<cardslug>_record_test.go
 using the record harness from the shape catalog (LoadFromDir + CreateCard +
-RegisterCardAbilities + event + resolve). A card that is only stats + printed keywords needs NO abilities
-at all — just verify/fix its record. Cards with any ability BEYOND the shape
-vocabulary get a full HANDLER as before (a handler overrides the record, so always
-implement the COMPLETE card in that case). A standard-looking ability the shape
-vocabulary can't express: declare it like rule 5 but with SHAPE_DEMAND instead of
+RegisterCardAbilities + event + resolve).
+A card that is only stats + printed keywords needs NO abilities at all — just
+verify/fix its record. Cards with any ability BEYOND the shape vocabulary get a
+full HANDLER as before (a handler overrides the record, so always implement the
+COMPLETE card in that case). A standard-looking ability the shape vocabulary
+can't express: declare it like rule 5 but with SHAPE_DEMAND instead of
 MISSING_PRIMITIVE.
 
 STRICT RULES:
-1. Do NOT explore the repository. No grep, no reading backend/cardfns/lib_*.go, no reading other handlers or tests. Your ONLY vocabulary is the SHAPE CATALOG and the PRIMITIVE CATALOG above the ticket. (Budget target: this whole task in well under 100k tokens.)
-2. Per card create ONE new handler file: backend/cardfns/taskTICKETID_<cardslug>.go
+1. Do NOT explore the repository's Go source. No reading backend/cardfns/lib_*.go, other handlers, tests, or backend/game/ code. ALLOWED lookups (cheap, use them instead): grep/read the doc files scripts/skills/*.md (especially the FULL primitive catalog), and `go doc ./game <Symbol>` for an API signature the cheat sheet below doesn't cover. (Budget target: well under 15 turns.)
+2. Per card needing a handler, create ONE new handler file: backend/cardfns/task<TICKET_ID>_<cardslug>.go
    - self-registering, NO edits to any register file:
      func init() { game.CardHandlers["<Exact Card Name>"] = handleFn }
    - for instants/sorceries register in game.SpellHandlers instead (fires on resolution).
-3. Per card create ONE test file: backend/cardfns/taskTICKETID_<cardslug>_test.go
+3. Per card create ONE test file: backend/cardfns/task<TICKET_ID>_<cardslug>_test.go
+   (records: backend/cards/task<TICKET_ID>_<cardslug>_record_test.go)
    with ONE behavioral test named Test<CardSlugInCamelCase> that exercises the card's core effect.
-4. BUNDLE tickets list 2-3 cards: implement EVERY card (own handler+test each). If ONE card needs a primitive the catalog does not have, SKIP exactly that card (no files for it) and declare the gap (rule 5); still implement the others.
-5. NEVER fake or approximate a missing engine capability. If the catalog has no primitive for a needed effect, print these lines (one block per missing capability):
+4. BUNDLE tickets list 2-3 cards: implement EVERY card (own handler/record+test each). If ONE card needs a primitive the catalog does not have, SKIP exactly that card (no files for it) and declare the gap (rule 5); still implement the others.
+5. NEVER fake or approximate a missing engine capability. BEFORE declaring anything missing, grep the FULL catalog (scripts/skills/primitive-catalog.md) — the index above is abbreviated. If the capability truly is not there, print these lines (one block per missing capability):
    MISSING_PRIMITIVE: <short kebab-case capability name>
    WHY: <2-4 sentences: which engine capability is missing and why the card cannot work without it>
    SKIPPED_CARD: <exact card name that you skipped because of this>   (only when you skipped a bundle card)
 6. Compile-check mentally against the catalog signatures; do not invent functions or fields.
-7. Your FINAL output lines must be exactly:
+7. TURN DIET — the harness gates your work after you finish, so do not duplicate it:
+   - Do NOT run `go build ./...` or the full test suite.
+   - You MAY run your own focused test ONCE: cd backend && go test ./cardfns/ -run Test<YourTest> -count=1 (or ./cards/ for record tests). Run it in the FOREGROUND and wait — do not background it and poll.
+   - If it fails, fix and re-run once more; then finish. The harness's fix-loop handles the rest.
+8. Your FINAL output lines must be exactly:
    TESTS: TestName1,TestName2   (comma-separated, empty if none)
    RESULT: FIXED                (or: RESULT: PARKED  if no card could be built)
+
+ENGINE TEST CHEAT SHEET (write tests from this — no go doc round-trips needed for these):
+  gs := game.NewGame("P0", "P1", false)                                  // fresh 2-player game, players 0 and 1
+  c := game.NewCreature("Name", game.ManaCost{Generic: 2}, 2, 2, 0)      // name, cost, power, toughness, controller
+  c.Owner, c.Controller = 0, 0
+  c.SubTypes = []string{"Merfolk"}                                       // as needed
+  gs.Battlefield.AddCard(c)
+  handleMyCard(gs, c)                                                    // arm the handler directly in tests
+  gs.EventBus.Publish(game.CreateETBEvent(c, 0))                         // ETB trigger; also CreateDiesEvent(c, 0),
+                                                                         // CreateAttacksEvent(c, 0, 1), CreateLTBEvent(c, 0)
+  // spells: handleMySpell(gs, spell, &game.StackObject{Controller: 0})  // spell handlers run at resolution
+  // triggered abilities land on the stack: gs.ResolveTopOfStack() to execute them
+  // asserts: gs.Players[0].Life / .Hand.Count() / .Library.Count() / .EnergyCounters
+  //          gs.Battlefield.HasCard(c.ID) / c.Tapped / c.GetPower()
+  // counters: AddCounters(c, game.CounterPlusOnePlusOne, 1) (cardfns helper)
+  // records (STEP 0): db := cards.NewCardDatabase(); db.LoadFromDir("../data/carddb"); card, err := db.CreateCard("Name", 0)
 INSTR
-    # Kataloge VOR die (variable) Karte: statischer Prefix, cachebar; knappe Form.
-    # Shape-Katalog zuerst (Record-Tier, Step 0), dann Primitive-Katalog.
-    SHAPE_CAT="$CLONE_PATH/scripts/skills/shape-catalog.md"; [ -f "$SHAPE_CAT" ] || SHAPE_CAT="$LIVE_REPO/scripts/skills/shape-catalog.md"
-    if [ -f "$SHAPE_CAT" ]; then
-      echo ""
-      echo "=== SHAPE CATALOG (data-record tier — check FIRST, see STEP 0) ==="
-      cat "$SHAPE_CAT"
-    fi
+    # ---- DYNAMISCHER SCHWANZ (einzige pro-Ticket-Bytes) ----
     echo ""
-    echo "=== PRIMITIVE CATALOG (concise: signature + [dur] + short desc; ALL primitives listed) ==="
-    cat "$CONCISE_CAT"
-    echo ""
+    echo "=== THE TICKET ==="
+    echo "TICKET_ID: $TICKET_ID   (use this number in every task<TICKET_ID>_ filename)"
     echo "TICKET #$TICKET_ID: $TICKET_TITLE"
     echo ""
     printf '%s\n' "$TICKET_DESC"
   } > "$PROMPT_FILE"
-  # TICKETID im Instruktionstext ersetzen
-  sed -i "s/taskTICKETID_/task${TICKET_ID}_/g" "$PROMPT_FILE"
 
   # ---- Phase 1-3: Generieren → Fast-Gate → bounded Fix-Loop ----
   OUTCOME=""  # fixed | parked_prim | parked_fail
