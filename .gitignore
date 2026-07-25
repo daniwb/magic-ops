@@ -1,0 +1,21 @@
+# Secrets — niemals committen
+*.key
+*.secret
+*.deepseek_key
+.env
+.credentials.json
+# Runtime SQLite (Dispatcher) — nie tracken (git clean würde offene DB zerschiessen)
+*.db
+*.db-wal
+*.db-shm
+*.db-journal
+# Kompilierte Binaries
+services/dispatcher/v4/dispatcher-v4
+dispatcher-v4
+*.exe
+bin/
+# Logs / Caches / Python
+*.log
+logs/
+__pycache__/
+*.pyc
