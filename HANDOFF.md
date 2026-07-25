@@ -59,3 +59,19 @@ zur Auswahl der pro Ticket INLINE eingebetteten Katalog-Einträge — nur als
 Ranking über dem Index, NIE als einziger Zugriffspfad (Recall-Risiko =
 systematische False-Parks). Gleiche Behandlung für den vocab-batch-Prompt
 (`dispatcher-vocab-batch.sh`) steht ebenfalls noch aus.
+
+### Verifikation Kosten-Optimierung (gemessen, 2 Job-Paare)
+- **Cross-Job-Prompt-Cache: FUNKTIONIERT** nach dem --append-system-prompt-Fix.
+  Erster Turn pro Job: vorher cw=62.9k/cr=23.7k → nachher cw=0–3.3k/cr=83–86.5k.
+  (Rest-Invalidierung: der CLI-eigene System-Kontext enthält die
+  Recent-Commits-Liste — ein Push nach main invalidiert den Prefix einmalig.)
+- **Token-Accounting ehrlich**: tokens-Feld im Dispatcher war Last-Turn-only
+  (Build als "107k" gemeldet, real 2.09M). Jetzt .modelUsage-Summe. Historische
+  tokens-Werte in der DB entsprechend als Untergrenzen lesen.
+- **Park-Kosten** (gewichtet ~ cw×1.25 + cr×0.1 + out): sauberer Park jetzt
+  ~41k effektiv (vorher ~110k) — trotz Pflicht-Grep im Voll-Katalog.
+- **WATCH-ITEM**: Ein Park-Versuch (Ticket #33, Attempt 1) verbrannte 16 Turns
+  ohne Datei und ohne gültige MISSING_PRIMITIVE-Zeile → Gate wertete
+  "keine Dateien" → teurer Zweitversuch. Prompt-Compliance der Park-Ausgabe
+  beobachten; ggf. Regel 5 im Prompt schärfen (Zeilen MÜSSEN exakt so
+  ausgegeben werden, auch wenn keine Karte gebaut wird).
