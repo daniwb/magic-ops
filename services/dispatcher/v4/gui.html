@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Magic-Fabrik · Dispatcher</title>
+<style>
+  :root { --bg:#0f1117; --card:#1a1d27; --fg:#e6e8ee; --mut:#8b90a0; --line:#262a36;
+          --acc:#6ea8fe; --ok:#4ade80; --warn:#fbbf24; --bad:#f87171; --vio:#a78bfa; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:14px/1.5 system-ui,sans-serif; background:var(--bg); color:var(--fg); }
+  header { padding:14px 24px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:14px; position:sticky; top:0; background:var(--bg); z-index:5; }
+  header h1 { font-size:17px; margin:0; }
+  .pulse { width:9px; height:9px; border-radius:50%; background:var(--ok); box-shadow:0 0 8px var(--ok); animation:p 2s infinite; }
+  @keyframes p { 50%{opacity:.4} }
+  .mut { color:var(--mut); }
+  main { padding:20px; max-width:1180px; margin:0 auto; }
+  .row { display:grid; gap:14px; margin-bottom:18px; }
+  .row.k { grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); }
+  .row.two { grid-template-columns:1fr 1fr; }
+  @media(max-width:720px){ .row.two{grid-template-columns:1fr} }
+  .kpi { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px; cursor:pointer; transition:border-color .15s; }
+  .kpi:hover { border-color:var(--acc); }
+  .kpi.static { cursor:default; } .kpi.static:hover{ border-color:var(--line); }
+  .kpi .n { font-size:26px; font-weight:700; }
+  .kpi .l { color:var(--mut); font-size:11px; text-transform:uppercase; letter-spacing:.04em; }
+  .kpi.big .n { color:var(--acc); }
+  section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px 18px; margin-bottom:16px; }
+  section h2 { font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:var(--mut); margin:0 0 12px; display:flex; justify-content:space-between; }
+  table { width:100%; border-collapse:collapse; }
+  td,th { text-align:left; padding:6px 8px; border-bottom:1px solid #22252f; font-size:13px; }
+  th { color:var(--mut); font-weight:500; font-size:11px; }
+  .bar { height:8px; border-radius:4px; background:#2a2f3d; overflow:hidden; }
+  .bar > div { height:100%; }
+  .wk { font-family:ui-monospace,monospace; font-size:12px; padding:3px 0; }
+  .empty { color:var(--mut); font-style:italic; }
+  button { background:#242836; color:var(--fg); border:1px solid var(--line); border-radius:6px; padding:4px 10px; font-size:12px; cursor:pointer; }
+  button:hover { border-color:var(--acc); color:var(--acc); }
+  .gauge { display:flex; align-items:center; gap:10px; margin:8px 0; }
+  .gauge .lab { width:64px; font-size:12px; color:var(--mut); }
+  .gauge .bar { flex:1; }
+  .gauge .pct { width:42px; text-align:right; font-variant-numeric:tabular-nums; }
+  .dot { width:8px; height:8px; border-radius:50%; display:inline-block; margin-right:6px; }
+  #tickets { max-height:340px; overflow:auto; }
+  .pill { font-size:10px; padding:1px 7px; border-radius:20px; border:1px solid var(--line); color:var(--mut); }
+  canvas { width:100%; height:70px; display:block; }
+  .flash { animation:fl .6s; } @keyframes fl { from{background:#243044} to{background:transparent} }
+</style>
+</head>
+<body>
+<header>
+  <span class="pulse"></span><h1>Magic-Fabrik</h1>
+  <span class="mut" id="clock"></span>
+  <span style="margin-left:auto"><button onclick="ingest()">＋ Backlog laden</button></span>
+</header>
+<main>
+  <div class="row k" id="kpis"></div>
+
+  <div class="row two">
+    <section>
+      <h2>Kontingent</h2>
+      <div id="usage"><span class="empty">lade…</span></div>
+    </section>
+    <section>
+      <h2>Aktive Worker · Karten</h2>
+      <div id="workers"><span class="empty">lade…</span></div>
+      <h2 style="margin-top:14px">Primitive-Builder</h2>
+      <div id="builders"><span class="empty">lade…</span></div>
+    </section>
+  </div>
+
+  <section>
+    <h2>Durchsatz · wartende Karten (todo) über Zeit</h2>
+    <canvas id="chart" width="1100" height="70"></canvas>
+  </section>
+
+  <div class="row two">
+    <section>
+      <h2>Top-Blocker · [VOCAB] mit den meisten wartenden Karten</h2>
+      <table><tbody id="vocab"></tbody></table>
+    </section>
+    <section>
+      <h2><span id="listTitle">wait-triage</span> <span class="mut" id="listCount"></span></h2>
+      <div id="tickets"><span class="empty">lade…</span></div>
+    </section>
+  </div>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+const j = async u => (await fetch(u)).json();
+let curState = 'wait';
+
+function kpi(n,l,big,st){ return `<div class="kpi ${big?'big':''} ${st?'':'static'}" ${st?`onclick="showList('${st}')"`:''}><div class="n">${n}</div><div class="l">${l}</div></div>`; }
+
+function gauge(lab,pct,reset){
+  const col = pct>=95?'var(--bad)':pct>=75?'var(--warn)':'var(--ok)';
+  return `<div class="gauge"><span class="lab">${lab}</span>
+    <span class="bar"><div style="width:${Math.min(100,pct)}%;background:${col}"></div></span>
+    <span class="pct">${pct}%</span></div>
+    ${reset?`<div class="mut" style="font-size:11px;margin:-4px 0 8px 74px">reset ${new Date(reset).toLocaleString('de-CH',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}</div>`:''}`;
+}
+
+async function tick(){
+  try {
+    const s = await j('/stats');
+    const st = s.states||{};
+    $('#kpis').innerHTML =
+      kpi(s.fixed_24h??0,'Fixes /24h',true,'done') +
+      kpi(st.todo??0,'wartend',false,'todo') +
+      kpi(st.working??0,'in Arbeit',false,'working') +
+      kpi(st.blocked??0,'blockiert',false,'blocked') +
+      kpi(st.wait??0,'wait-triage',false,'wait') +
+      kpi(s.vocab_open??0,'[VOCAB] offen',false,'') +
+      kpi(s.backlog_remaining??0,'Backlog-Vorrat',false,'');
+
+    const ws = s.workers||[];
+    $('#workers').innerHTML = ws.length ? ws.map(w=>
+      `<div class="wk">▸ <b>${w.worker}</b> — #${w.id} <span class="mut">${(w.title||'').slice(0,52)}</span></div>`).join('')
+      : '<span class="empty">keine aktiven Leases</span>';
+    const bs = s.builders||[];
+    $('#builders').innerHTML = bs.length ? bs.map(b=>
+      `<div class="wk">◆ <b>${b.worker}</b> — v#${b.id} <span class="pill" style="color:var(--vio)">${b.model||'?'}</span>
+        <span class="mut">${(b.title||'').replace('[VOCAB] ','').slice(0,40)} · ${b.cards} Karten</span></div>`).join('')
+      : '<span class="empty">gerade kein Primitiv in Bau</span>';
+
+    const tv = s.top_vocab||[], max=Math.max(1,...tv.map(v=>v.cards));
+    $('#vocab').innerHTML = tv.length ? tv.map(v=>
+      `<tr><td class="mut">#${v.id}</td><td>${v.title.replace('[VOCAB] ','')}</td>
+       <td style="width:110px"><div class="bar"><div style="width:${100*v.cards/max}%;background:var(--vio)"></div></div></td>
+       <td class="mut" style="width:24px">${v.cards}</td></tr>`).join('')
+      : '<tr><td class="empty">keine offenen [VOCAB]</td></tr>';
+    $('#clock').textContent = 'aktualisiert '+new Date().toLocaleTimeString('de-CH');
+  } catch(e){ $('#clock').textContent='Dispatcher nicht erreichbar'; }
+}
+
+async function usage(){
+  try {
+    const u = await j('/usage');
+    let h = '';
+    if(u.claude){ const age=u.claude_age_s??999;
+      const fresh = age<120 ? `<span class="mut" style="font-size:10px">· ${age}s alt</span>`
+                            : `<span style="font-size:10px;color:var(--warn)">· ${Math.round(age/60)}min alt (stale)</span>`;
+      h += `<div style="font-size:12px;color:var(--acc);margin-bottom:2px">◆ Claude (Sonnet-Bucket) ${fresh}</div>`
+      + gauge('5h', u.claude.h5_pct, u.claude.h5_reset) + gauge('7 Tage', u.claude.d7_pct, u.claude.d7_reset); }
+    else h += '<div class="mut" style="font-size:12px">Claude: kein Usage-Cache</div>';
+    if(u.ollama){ const o=u.ollama;
+      const col = o.reachable?(o.worker==='paused'?'var(--warn)':'var(--ok)'):'var(--bad)';
+      const txt = !o.reachable?'nicht erreichbar':(o.worker==='paused'?'Kontingent erschöpft (pausiert)':'aktiv');
+      h += `<div style="font-size:12px;color:var(--vio);margin:10px 0 2px">◆ Ollama (glm-5.2, eigene Quota)</div>
+            <div style="font-size:13px"><span class="dot" style="background:${col}"></span>${txt}</div>
+            <div class="mut" style="font-size:11px;margin-top:2px">Ollama gibt kein Kontingent über die API preis — Status = Erreichbarkeit + Worker-Zustand</div>`;
+    }
+    $('#usage').innerHTML = h;
+  } catch(e){ $('#usage').innerHTML='<span class="empty">Usage nicht verfügbar</span>'; }
+}
+
+async function showList(state){
+  curState = state;
+  $('#listTitle').textContent = state;
+  const ts = await j('/tickets?state='+state+'&limit=60');
+  $('#listCount').textContent = ts.length ? `(${ts.length}${ts.length===60?'+':''})` : '';
+  if(!ts.length){ $('#tickets').innerHTML='<span class="empty">keine Tickets in diesem Zustand</span>'; return; }
+  const act = (state==='wait'||state==='blocked');
+  $('#tickets').innerHTML = '<table><tbody>'+ts.map(t=>
+    `<tr><td class="mut" style="width:44px">#${t.id}</td>
+     <td>${t.title.slice(0,60)} ${t.mechanic?`<span class="pill">${t.mechanic}</span>`:''}
+        ${t.fails?`<span class="pill" style="color:var(--warn)">${t.fails}× fail</span>`:''}
+        ${t.tokens?`<span class="pill" title="verbrauchte Claude-Token">${t.tokens>=1000?(t.tokens/1000).toFixed(1)+'k':t.tokens} tok</span>`:''}</td>
+     <td style="width:70px;text-align:right">${act?`<button onclick="requeue(${t.id})">→ todo</button>`:''}</td></tr>`
+  ).join('')+'</tbody></table>';
+}
+
+async function requeue(id){ await fetch('/action?do=requeue&id='+id); showList(curState); tick(); }
+async function ingest(){ const r=await j('/action?do=ingest&n=200'); alert('Backlog geladen: +'+(r.added??0)+' Karten'); tick(); }
+
+async function drawChart(){
+  try {
+    const h = (await j('/history')).reverse();
+    const c=$('#chart'), ctx=c.getContext('2d'), W=c.width, H=c.height;
+    ctx.clearRect(0,0,W,H);
+    if(h.length<2){ ctx.fillStyle='#8b90a0'; ctx.font='12px sans-serif'; ctx.fillText('sammelt Datenpunkte (alle 15 min)…',10,40); return; }
+    const vals=h.map(s=>{try{return (JSON.parse(s.counts).todo)||0}catch{return 0}});
+    const mn=Math.min(...vals), mx=Math.max(...vals), rng=Math.max(1,mx-mn);
+    ctx.beginPath(); ctx.strokeStyle='#6ea8fe'; ctx.lineWidth=2;
+    vals.forEach((v,i)=>{ const x=i/(vals.length-1)*(W-8)+4, y=H-6-((v-mn)/rng)*(H-16); i?ctx.lineTo(x,y):ctx.moveTo(x,y); });
+    ctx.stroke();
+    ctx.fillStyle='#8b90a0'; ctx.font='11px sans-serif';
+    ctx.fillText(mx+' todo', 6, 12); ctx.fillText(mn+'', 6, H-2);
+  } catch(e){}
+}
+
+function all(){ tick(); usage(); showList(curState); drawChart(); }
+all(); setInterval(tick,5000); setInterval(usage,15000); setInterval(()=>showList(curState),10000); setInterval(drawChart,60000);
+</script>
+</body>
+</html>

@@ -19,3 +19,7 @@ bin/
 logs/
 __pycache__/
 *.pyc
+# kompilierte Dispatcher-Binary (jeder Name, nicht nur -v4)
+services/dispatcher/dispatcher
+# Runtime-State
+state.json
