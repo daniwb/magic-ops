@@ -219,10 +219,24 @@ while true; do
   PROMPT_FILE="/tmp/disp-$WORKER_ID-prompt.txt"
   {
     cat <<'INSTR'
-You are working inside a checked-out Go repository (OpenMagic, a Magic: The Gathering engine). Your job: implement card handler(s) + one behavioral test per card for the ticket below, WRITING THE FILES YOURSELF with your file tools.
+You are working inside a checked-out Go repository (OpenMagic, a Magic: The Gathering engine). Your job: implement the ticket's card(s) — as a DATA RECORD when possible, as a card handler otherwise — plus one behavioral test per card, WRITING THE FILES YOURSELF with your file tools.
+
+STEP 0 — RECORD FIRST (cheapest tier wins):
+If EVERY ability of a card is expressible as an AbilityDSL record (see the SHAPE
+CATALOG below: trigger x effect vocabulary), do NOT write a handler for it.
+Instead: (a) edit the card's entry in backend/data/carddb/<first-letter>.json —
+set "abilities" to the record list and "status" to "manual"; (b) write the
+behavioral test as backend/cards/taskTICKETID_<cardslug>_record_test.go using the
+record harness from the shape catalog (LoadFromDir + CreateCard + RegisterCardAbilities
++ event + resolve). A card that is only stats + printed keywords needs NO abilities
+at all — just verify/fix its record. Cards with any ability BEYOND the shape
+vocabulary get a full HANDLER as before (a handler overrides the record, so always
+implement the COMPLETE card in that case). A standard-looking ability the shape
+vocabulary can't express: declare it like rule 5 but with SHAPE_DEMAND instead of
+MISSING_PRIMITIVE.
 
 STRICT RULES:
-1. Do NOT explore the repository. No grep, no reading backend/cardfns/lib_*.go, no reading other handlers or tests. Your ONLY vocabulary is the PRIMITIVE CATALOG above the ticket. (Budget target: this whole task in well under 100k tokens.)
+1. Do NOT explore the repository. No grep, no reading backend/cardfns/lib_*.go, no reading other handlers or tests. Your ONLY vocabulary is the SHAPE CATALOG and the PRIMITIVE CATALOG above the ticket. (Budget target: this whole task in well under 100k tokens.)
 2. Per card create ONE new handler file: backend/cardfns/taskTICKETID_<cardslug>.go
    - self-registering, NO edits to any register file:
      func init() { game.CardHandlers["<Exact Card Name>"] = handleFn }
@@ -239,7 +253,14 @@ STRICT RULES:
    TESTS: TestName1,TestName2   (comma-separated, empty if none)
    RESULT: FIXED                (or: RESULT: PARKED  if no card could be built)
 INSTR
-    # Katalog VOR die (variable) Karte: statischer Prefix, cachebar; knappe Form.
+    # Kataloge VOR die (variable) Karte: statischer Prefix, cachebar; knappe Form.
+    # Shape-Katalog zuerst (Record-Tier, Step 0), dann Primitive-Katalog.
+    SHAPE_CAT="$CLONE_PATH/scripts/skills/shape-catalog.md"; [ -f "$SHAPE_CAT" ] || SHAPE_CAT="$LIVE_REPO/scripts/skills/shape-catalog.md"
+    if [ -f "$SHAPE_CAT" ]; then
+      echo ""
+      echo "=== SHAPE CATALOG (data-record tier — check FIRST, see STEP 0) ==="
+      cat "$SHAPE_CAT"
+    fi
     echo ""
     echo "=== PRIMITIVE CATALOG (concise: signature + [dur] + short desc; ALL primitives listed) ==="
     cat "$CONCISE_CAT"
@@ -337,16 +358,20 @@ INSTR
     fi
     RUN_RE="^($TESTS)$"
     if BUILD_OUT=$(cd "$CLONE_PATH/backend" && "$GO" build ./... 2>&1); then
-      if TEST_OUT=$(cd "$CLONE_PATH/backend" && timeout 300 "$GO" test ./cardfns/ -run "$RUN_RE" -count=1 2>&1); then
+      # ./cards/ zusätzlich: Record-Tier-Tests (STEP 0) leben in backend/cards/
+      if TEST_OUT=$(cd "$CLONE_PATH/backend" && timeout 300 "$GO" test ./cardfns/ ./cards/ -run "$RUN_RE" -count=1 2>&1); then
         # Vollständigkeits-Gate: jede Bundle-Karte braucht einen Handler ODER
         # eine SKIPPED_CARD-Deklaration. Ohne das verschwinden Karten still im
         # finished-Ticket (#8245: nur 1 von 3 gebaut, 2 verloren).
         CARD_COUNT=$(printf '%s\n' "$TICKET_DESC" | grep -c '^### ' || true)
         HANDLER_COUNT=$(cd "$CLONE_PATH" && git status --porcelain | awk '{print $2}' | grep 'backend/cardfns/.*\.go$' | grep -vc '_test\.go$' || true)
+        # Record-Tier (STEP 0): eine Karte kann statt eines Handlers als
+        # Datensatz gefixt sein — zählt ein carddb-Shard-Edit + Record-Test.
+        RECORD_COUNT=$(cd "$CLONE_PATH" && git status --porcelain | awk '{print $2}' | grep -c 'backend/cards/.*_record_test\.go$' || true)
         SKIP_COUNT=$(printf '%s' "$CLAUDE_OUT" | grep -c '^SKIPPED_CARD:' || true)
-        if [ "$CARD_COUNT" -gt 0 ] && [ $((HANDLER_COUNT + SKIP_COUNT)) -lt "$CARD_COUNT" ]; then
-          log "❌ unvollständig: $CARD_COUNT Karten, aber nur $HANDLER_COUNT Handler + $SKIP_COUNT Skips (attempt $attempt)"
-          GATE_TAIL="INCOMPLETE BUNDLE: the ticket lists $CARD_COUNT cards but you wrote only $HANDLER_COUNT handler file(s) and declared $SKIP_COUNT SKIPPED_CARD line(s). Implement EVERY card, or declare each skipped card with MISSING_PRIMITIVE/WHY/SKIPPED_CARD lines."
+        if [ "$CARD_COUNT" -gt 0 ] && [ $((HANDLER_COUNT + RECORD_COUNT + SKIP_COUNT)) -lt "$CARD_COUNT" ]; then
+          log "❌ unvollständig: $CARD_COUNT Karten, aber nur $HANDLER_COUNT Handler + $RECORD_COUNT Records + $SKIP_COUNT Skips (attempt $attempt)"
+          GATE_TAIL="INCOMPLETE BUNDLE: the ticket lists $CARD_COUNT cards but you wrote only $HANDLER_COUNT handler file(s), $RECORD_COUNT record test(s), and declared $SKIP_COUNT SKIPPED_CARD line(s). Implement EVERY card (record or handler), or declare each skipped card with MISSING_PRIMITIVE/WHY/SKIPPED_CARD lines."
           {
             echo ""
             echo "=== YOUR PREVIOUS ATTEMPT FAILED — fix the existing files, do not start over ==="
@@ -355,7 +380,7 @@ INSTR
           attempt=$((attempt + 1))
           continue
         fi
-        log "✅ fast-gate grün (tests: ${TESTS:-cardfns}, $HANDLER_COUNT/$CARD_COUNT Handler, $SKIP_COUNT Skips)"
+        log "✅ fast-gate grün (tests: ${TESTS:-cardfns}, $HANDLER_COUNT Handler + $RECORD_COUNT Records / $CARD_COUNT Karten, $SKIP_COUNT Skips)"
         OUTCOME="gate_green"
         break
       else
