@@ -28,9 +28,11 @@
    -dispdb services/dispatcher/v4/dispatcher.db` (openmagic) liefert die
    Tier-/Playability-Zahlen (aktuell: 68.8% playable). In den täglichen
    Report/Mail aufnehmen — die Zahl ist die Fortschrittsmetrik der Factory.
-4. **Suite-Rot auf main**: `go test ./cardfns/` hat ~15 vorbestehende Failures
-   (Cross-Test-Pollution durch package-globale Maps, z.B.
-   `lifeGainPreventionRules` — kartenID-gekeyt, nie pro Game gescoped; mit
-   jüngeren vbatch-Batches eingezogen). Der 2h-Regression-Cron sollte das
-   sehen — prüfen, warum die Batches trotzdem gemerged wurden. Fix-Idee:
-   Rules pro GameState scopen statt package-global.
+4. **Suite-Rot auf main**: ERLEDIGT (openmagic b8606744) — alle 15 Failures
+   gefixt (Kumena an neue TapOther-Enforcement angepasst; Life-Gain- und
+   Combat-Authority-Rules pro GameState gescoped; CreepyDoll war ein
+   Test-Bug). Suite ist grün (5× verifiziert, exit 0). NOCH prüfen: warum
+   der 2h-Regression-Cron die Batches gemerged hat, die das Rot einführten
+   — und beim Bauen neuer lib_global_*-Regeln gilt ab jetzt: Rule-Stores
+   IMMER pro GameState keyen, nie package-global flach (Muster:
+   lib_global_life_gain_prevention.go nach dem Fix).
