@@ -138,7 +138,9 @@ collect_skips() { # $1 = claude output, nutzt $TICKET_DESC; echo JSON-Array
   local out="$1" skips='[]' i card prim why block
   local -a cards prims whys
   mapfile -t cards < <(printf '%s' "$out" | grep "^SKIPPED_CARD:" | sed 's/^SKIPPED_CARD: *//' | awk '!seen[$0]++')
-  mapfile -t prims < <(printf '%s' "$out" | grep "^MISSING_PRIMITIVE:" | sed 's/^MISSING_PRIMITIVE: *//')
+  # SHAPE_DEMAND (record-tier, STEP 0) wird wie MISSING_PRIMITIVE erfasst —
+  # gleiche Park-/Demand-Pipeline, Prefix bleibt im Namen erhalten.
+  mapfile -t prims < <(printf '%s' "$out" | grep -E "^(MISSING_PRIMITIVE|SHAPE_DEMAND):" | sed -E 's/^MISSING_PRIMITIVE: *//; s/^SHAPE_DEMAND: */shape:/')
   mapfile -t whys  < <(printf '%s' "$out" | grep "^WHY:" | sed 's/^WHY: *//')
   for i in "${!cards[@]}"; do
     card="${cards[$i]}"
@@ -224,11 +226,12 @@ You are working inside a checked-out Go repository (OpenMagic, a Magic: The Gath
 STEP 0 — RECORD FIRST (cheapest tier wins):
 If EVERY ability of a card is expressible as an AbilityDSL record (see the SHAPE
 CATALOG below: trigger x effect vocabulary), do NOT write a handler for it.
-Instead: (a) edit the card's entry in backend/data/carddb/<first-letter>.json —
-set "abilities" to the record list and "status" to "manual"; (b) write the
-behavioral test as backend/cards/taskTICKETID_<cardslug>_record_test.go using the
-record harness from the shape catalog (LoadFromDir + CreateCard + RegisterCardAbilities
-+ event + resolve). A card that is only stats + printed keywords needs NO abilities
+Instead: (a) update the card's record with the surgical tool — never read or
+hand-edit the (large) shard files:
+  cd backend && go run ./tools/recordedit -name "<Exact Card Name>" -abilities '<AbilityDSL JSON array>' -notes "task TICKETID"
+(b) write the behavioral test as backend/cards/taskTICKETID_<cardslug>_record_test.go
+using the record harness from the shape catalog (LoadFromDir + CreateCard +
+RegisterCardAbilities + event + resolve). A card that is only stats + printed keywords needs NO abilities
 at all — just verify/fix its record. Cards with any ability BEYOND the shape
 vocabulary get a full HANDLER as before (a handler overrides the record, so always
 implement the COMPLETE card in that case). A standard-looking ability the shape
@@ -311,9 +314,9 @@ INSTR
       continue 2
     fi
 
-    # Missing primitive deklariert?
-    if printf '%s' "$CLAUDE_OUT" | grep -q "^MISSING_PRIMITIVE:"; then
-      PRIM=$(printf '%s' "$CLAUDE_OUT" | grep "^MISSING_PRIMITIVE:" | head -1 | sed 's/^MISSING_PRIMITIVE: *//')
+    # Missing primitive ODER shape (STEP 0) deklariert?
+    if printf '%s' "$CLAUDE_OUT" | grep -qE "^(MISSING_PRIMITIVE|SHAPE_DEMAND):"; then
+      PRIM=$(printf '%s' "$CLAUDE_OUT" | grep -E "^(MISSING_PRIMITIVE|SHAPE_DEMAND):" | head -1 | sed -E 's/^MISSING_PRIMITIVE: *//; s/^SHAPE_DEMAND: */shape:/')
       PRIM_WHY=$(printf '%s' "$CLAUDE_OUT" | grep "^WHY:" | head -1 | sed 's/^WHY: *//')
       # PARKED ohne gebaute Karten → ganzes Ticket parken. FIXED mit skip → weiter (Bundle-Teilfix).
       if printf '%s' "$CLAUDE_OUT" | grep -q "^RESULT: PARKED"; then
