@@ -22,7 +22,14 @@ log(){ printf '[%s] %s\n' "$(date +%H:%M:%S)" "$*" | tee -a "$REPORT"; }
 
 # --- Shadow-Clone vorbereiten (Worker-Clones nicht anfassen) ---
 if [ ! -d "$CLONE/.git" ]; then
-  log "Shadow-Clone anlegen (cp aus $SRC_CLONE)…"; cp -r "$SRC_CLONE" "$CLONE"
+  if [ -d "$SRC_CLONE/.git" ]; then
+    log "Shadow-Clone anlegen (cp aus $SRC_CLONE)…"; cp -r "$SRC_CLONE" "$CLONE"
+  else
+    # Worker-Clone weg (tmp-Cleanup) → frisch aus dem lokalen Mirror clonen.
+    MIRROR="${MIRROR:-/opt/development/openmagic-mirror.git}"
+    log "Shadow-Clone anlegen (Mirror $MIRROR)…"
+    GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone --reference "$MIRROR" git@github.com:daniwb/openmagic.git "$CLONE"       || GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone git@github.com:daniwb/openmagic.git "$CLONE"
+  fi
 fi
 git -C "$CLONE" config user.email shadow@local; git -C "$CLONE" config user.name ollama-shadow
 git -C "$CLONE" fetch -q origin main 2>/dev/null || true
@@ -32,7 +39,7 @@ git -C "$CLONE" clean -qfd
 
 # --- knapper Katalog + Worked Example (einmal) ---
 python3 /opt/development/magic-claude/scripts/concise-catalog.py "$CLONE/scripts/skills/primitive-catalog.md" > "$WORK/catalog.md"
-bash /opt/development/magic-claude/scripts/engine-reference.sh "$CLONE" > "$WORK/engine-ref.md" 2>/dev/null
+bash "$(dirname "$0")/engine-reference.sh" "$CLONE" > "$WORK/engine-ref.md" 2>/dev/null
 EX_H=$(cat "$CLONE/backend/cardfns/task606_trumpeting_gnarr.go")
 EX_T=$(cat "$CLONE/backend/cardfns/task606_trumpeting_gnarr_test.go")
 

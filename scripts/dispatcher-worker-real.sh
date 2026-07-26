@@ -200,9 +200,16 @@ while true; do
   if [ -f "$PAUSE_FILE" ] && [ "$(date +%s)" -lt "$(cat "$PAUSE_FILE" 2>/dev/null || echo 0)" ]; then
     log "Pause aktiv bis $(date -d @"$(cat "$PAUSE_FILE")" '+%F %T' 2>/dev/null) — kein neues Ticket"; sleep 300; continue
   fi
-  if declare -f pace_ok >/dev/null && ! pace_ok; then log "weekly-pace erreicht — pausiere bis ~${PACE_RESUME_HOUR:-20}:00 CH"; sleep 300; continue; fi
-  if ! peak_gate; then log "Peak-Stunde (UTC $(date -u +%H)) — pausiere 20min (API teurer)"; sleep 1200; continue; fi
-  if ! usage_gate; then sleep 120; continue; fi
+  # Pace-/Peak-/Usage-Gates metern die ANTHROPIC-Subscription bzw. -Preise —
+  # für Ollama-/GLM-geroutete Worker (GLM_WORKER=1, eigene Quota) irrelevant:
+  # die sollen ausdrücklich "ungebremst laufen, während die Sonnet-Worker
+  # usage-gated sind" (dispatcher-worker-ollama.sh). Nur der manuelle
+  # PAUSE_FILE-Stopp oben gilt für alle.
+  if [ "${GLM_WORKER:-0}" != "1" ]; then
+    if declare -f pace_ok >/dev/null && ! pace_ok; then log "weekly-pace erreicht — pausiere bis ~${PACE_RESUME_HOUR:-20}:00 CH"; sleep 300; continue; fi
+    if ! peak_gate; then log "Peak-Stunde (UTC $(date -u +%H)) — pausiere 20min (API teurer)"; sleep 1200; continue; fi
+    if ! usage_gate; then sleep 120; continue; fi
+  fi
 
   CLAIM=$(curl -s -m 30 "$DISPATCHER/claim?worker=$WORKER_ID" 2>/dev/null || echo '{}')
   TICKET_ID=$(printf '%s' "$CLAIM" | jq -r '.id // empty' 2>/dev/null || true)
