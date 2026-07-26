@@ -292,11 +292,14 @@ CATALOG above: trigger x effect vocabulary), do NOT write a handler for it.
 Instead: (a) update the card's record with the surgical tool — never read or
 hand-edit the (large) shard files:
   cd backend && go run ./tools/recordedit -name "<Exact Card Name>" -abilities '<AbilityDSL JSON array>' -notes "task <TICKET_ID>"
-(b) write the behavioral test as backend/cards/task<TICKET_ID>_<cardslug>_record_test.go
-using the record harness from the shape catalog (LoadFromDir + CreateCard +
-RegisterCardAbilities + event + resolve).
+(b) print a line for each record card:
+  RECORD_DONE: <Exact Card Name>
+Records need NO test file: every shape is proven once in
+backend/cards/shape_behavior_test.go and your record is validated by the
+record linter (the harness runs it). ONLY use trigger x effect combinations
+that appear in the SHAPE CATALOG; anything else is a SHAPE_DEMAND.
 A card that is only stats + printed keywords needs NO abilities at all — just
-verify/fix its record. Cards with any ability BEYOND the shape vocabulary get a
+verify/fix its record and print its RECORD_DONE line. Cards with any ability BEYOND the shape vocabulary get a
 full HANDLER as before (a handler overrides the record, so always implement the
 COMPLETE card in that case). A standard-looking ability the shape vocabulary
 can't express: declare it like rule 5 but with SHAPE_DEMAND instead of
@@ -308,9 +311,9 @@ STRICT RULES:
    - self-registering, NO edits to any register file:
      func init() { game.CardHandlers["<Exact Card Name>"] = handleFn }
    - for instants/sorceries register in game.SpellHandlers instead (fires on resolution).
-3. Per card create ONE test file: backend/cardfns/task<TICKET_ID>_<cardslug>_test.go
-   (records: backend/cards/task<TICKET_ID>_<cardslug>_record_test.go)
+3. Per HANDLER card create ONE test file: backend/cardfns/task<TICKET_ID>_<cardslug>_test.go
    with ONE behavioral test named Test<CardSlugInCamelCase> that exercises the card's core effect.
+   RECORD cards get NO test file (see STEP 0 — print RECORD_DONE instead).
 4. BUNDLE tickets list 2-3 cards: implement EVERY card (own handler/record+test each). If ONE card needs a primitive the catalog does not have, SKIP exactly that card (no files for it) and declare the gap (rule 5); still implement the others.
 5. NEVER fake or approximate a missing engine capability. BEFORE declaring anything missing, grep the FULL catalog (scripts/skills/primitive-catalog.md) — the index above is abbreviated. If the capability truly is not there, print these lines (one block per missing capability):
    MISSING_PRIMITIVE: <short kebab-case capability name>
@@ -425,6 +428,13 @@ INSTR
       # Fallback: Claudes TESTS:-Zeile (aber nie die ganze Suite)
       TESTS=$(printf '%s' "$CLAUDE_OUT" | grep "^TESTS:" | head -1 | sed 's/^TESTS: *//; s/ //g; s/,/|/g')
     fi
+    # Record-only-Ticket: keine Testdateien, aber RECORD_DONE-Zeilen + geänderte
+    # carddb-Shards → Gate = Record-Linter + Shape-Tests (validieren ALLE Records).
+    RECORD_DONE_COUNT=$(printf '%s' "$CLAUDE_OUT" | grep -c '^RECORD_DONE:' || true)
+    CARDDB_TOUCHED=$(cd "$CLONE_PATH" && git status --porcelain | awk '{print $2}' | grep -c 'backend/data/carddb/.*\.json$' || true)
+    if [ -z "$TESTS" ] && [ "$RECORD_DONE_COUNT" -gt 0 ] && [ "$CARDDB_TOUCHED" -gt 0 ]; then
+      TESTS="TestCardDBLint|TestShape_.*"
+    fi
     if [ -z "$TESTS" ]; then
       log "❌ keine Tests geschrieben (attempt $attempt)"
       GATE_TAIL="No *_test.go written and no TESTS: line — a behavioral test per card is required."
@@ -447,7 +457,7 @@ INSTR
         HANDLER_COUNT=$(cd "$CLONE_PATH" && git status --porcelain | awk '{print $2}' | grep 'backend/cardfns/.*\.go$' | grep -vc '_test\.go$' || true)
         # Record-Tier (STEP 0): eine Karte kann statt eines Handlers als
         # Datensatz gefixt sein — zählt ein carddb-Shard-Edit + Record-Test.
-        RECORD_COUNT=$(cd "$CLONE_PATH" && git status --porcelain | awk '{print $2}' | grep -c 'backend/cards/.*_record_test\.go$' || true)
+        RECORD_COUNT=$(printf '%s' "$CLAUDE_OUT" | grep '^RECORD_DONE:' | sed 's/^RECORD_DONE: *//' | awk '!seen[$0]++' | wc -l)
         SKIP_COUNT=$(printf '%s' "$CLAUDE_OUT" | grep -c '^SKIPPED_CARD:' || true)
         if [ "$CARD_COUNT" -gt 0 ] && [ $((HANDLER_COUNT + RECORD_COUNT + SKIP_COUNT)) -lt "$CARD_COUNT" ]; then
           log "❌ unvollständig: $CARD_COUNT Karten, aber nur $HANDLER_COUNT Handler + $RECORD_COUNT Records + $SKIP_COUNT Skips (attempt $attempt)"
