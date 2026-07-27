@@ -4,13 +4,24 @@
 #
 # pace_ok()  →  Rückgabe 0 = weiterarbeiten, 1 = pausieren.
 #
-# Prinzip (Variante B):
-#   - Pace-Linie = "verstrichener Wochenanteil × PACE_TARGET_PCT". Liegt die
-#     7d-Nutzung DARÜBER → Stopp-Auslöser.
-#   - Anti-Flatter: einmal ausgelöst, bleibt es AUS bis zum nächsten 20:00
-#     (Europe/Zurich) — KEINE Minutentakt-Neubewertung an der Linie.
+# Prinzip (Variante C — TAGES-STUFEN, User-Entscheid 2026-07-27):
+#   - Das Wochenbudget wird NICHT kontinuierlich, sondern in 7 TAGESSTUFEN
+#     freigegeben. Jede Stufe schaltet an der 20:00-CH-Grenze (= dem Anker des
+#     echten Quota-Fensters, r7 - 7d) eine weitere Siebtel-Tranche frei:
+#         Tag 1 → 14%   Tag 2 → 29%   Tag 3 → 43%   Tag 4 → 57%
+#         Tag 5 → 71%   Tag 6 → 86%   Tag 7 → 100%
+#     Ist die 7d-Nutzung über der Stufe des laufenden Tages → Stopp bis zur
+#     nächsten 20:00-Grenze (dann gibt die nächste Stufe wieder Luft).
+#   - Warum Stufen statt Linie: die frühere kontinuierliche Linie
+#     ("verstrichener Wochenanteil × TARGET") lag bei TARGET=100 praktisch
+#     DECKUNGSGLEICH mit der tatsächlichen Nutzung — schon 1% Überschuss
+#     (73% vs. 72%) löste einen vollen Tages-Lock aus (Vorfall 2026-07-27,
+#     Worker standen still). Stufen geben pro Tag bewusst Vorlauf: man darf
+#     die Tagestranche am Stück verbrauchen und wartet dann bis zum Reset.
+#   - Anti-Flatter ist damit inhärent: Pause endet exakt an der nächsten
+#     Tagesgrenze, keine Minutentakt-Neubewertung.
 #   - 5h-Fenster: harte Decke (Rate-Limit-Schutz), nur TRANSIENTER Pause (kein
-#     20:00-Lock), weil das 5h-Fenster sich schnell wieder leert.
+#     Tages-Lock), weil das 5h-Fenster sich schnell wieder leert.
 #   - fail-open: keine Usage-Daten erreichbar → weiterarbeiten (kein Blockieren
 #     wegen API-Ausfall).
 set -uo pipefail
@@ -51,12 +62,33 @@ _pace_refresh_usage() {
 }
 
 # Nächster Wiederanlauf-Zeitpunkt (heute HH:00 CH, sonst morgen).
+# NUR noch Fallback, wenn _P_R7 (Quota-Reset) fehlt — der Normalfall rechnet
+# die Tagesgrenze aus dem Quota-Anker (_pace_day_bounds).
 _pace_next_resume() {
   local now t
   now=$(date +%s)
   t=$(TZ='Europe/Zurich' date -d "today ${PACE_RESUME_HOUR}:00" +%s 2>/dev/null || echo 0)
   [ "$now" -ge "$t" ] && t=$(TZ='Europe/Zurich' date -d "tomorrow ${PACE_RESUME_HOUR}:00" +%s 2>/dev/null || echo 0)
   echo "$t"
+}
+
+# Tages-Stufen-Rechnung. Setzt:
+#   _P_DAY      laufender Tag im Quota-Fenster, 1..7
+#   _P_ALLOWED  freigegebenes Budget in % für diesen Tag  = round(DAY * TARGET / 7)
+#   _P_NEXTDAY  Unix-ts der nächsten Tagesgrenze (= Wiederanlauf, wenn gestoppt)
+# Anker ist der ECHTE Quota-Reset (_P_R7 - 7d), nicht "20:00 lokal" — dadurch
+# bleiben Stufen und Quota-Fenster auch über Sommer-/Winterzeit synchron.
+_pace_day_bounds() { # $1=r7(reset-ts)
+  local r7="$1" now ws elapsed
+  now=$(date +%s)
+  ws=$(( r7 - PACE_WEEK ))
+  elapsed=$(( now - ws )); [ "$elapsed" -lt 0 ] && elapsed=0
+  _P_DAY=$(( elapsed / 86400 + 1 )); [ "$_P_DAY" -gt 7 ] && _P_DAY=7
+  # round-half-up statt Abschneiden: Tag 6 → 85.7 → 86 (nicht 85)
+  _P_ALLOWED=$(( (_P_DAY * PACE_TARGET_PCT * 10 / 7 + 5) / 10 ))
+  [ "$_P_ALLOWED" -gt "$PACE_TARGET_PCT" ] && _P_ALLOWED=$PACE_TARGET_PCT
+  _P_NEXTDAY=$(( ws + _P_DAY * 86400 ))
+  [ "$_P_NEXTDAY" -gt "$r7" ] && _P_NEXTDAY=$r7
 }
 
 pace_ok() {
@@ -79,14 +111,11 @@ pace_ok() {
   { [ "$nh" -ge 23 ] || [ "$nh" -lt 6 ]; } && lim5=100
   [ "${_P_U5:-0}" -ge "$lim5" ] 2>/dev/null && return 1
 
-  # (4) Wochen-Pace-Linie → Stopp-Auslöser, dann AUS bis 20:00
+  # (4) Tages-Stufe → Stopp-Auslöser, dann AUS bis zur nächsten Tagesgrenze
   if [ "${_P_R7:-0}" -gt 0 ] 2>/dev/null; then
-    elapsed=$(( now - (_P_R7 - PACE_WEEK) ))
-    [ "$elapsed" -lt 0 ] && elapsed=0
-    [ "$elapsed" -gt "$PACE_WEEK" ] && elapsed=$PACE_WEEK
-    allowed=$(( elapsed * PACE_TARGET_PCT / PACE_WEEK ))
-    if [ "${_P_U7:-0}" -gt "$allowed" ] 2>/dev/null; then
-      _pace_next_resume > "$PACE_OFF_FILE"
+    _pace_day_bounds "${_P_R7}"
+    if [ "${_P_U7:-0}" -gt "${_P_ALLOWED}" ] 2>/dev/null; then
+      echo "${_P_NEXTDAY}" > "$PACE_OFF_FILE"
       return 1
     fi
   fi
@@ -98,17 +127,19 @@ pace_status() {
   local now off; now=$(date +%s)
   _P_U5=0; _P_U7=0; _P_R7=0; _P_BLIND=0; _pace_refresh_usage
   off=$(cat "$PACE_OFF_FILE" 2>/dev/null || echo 0); off=${off:-0}
-  local elapsed allowed="n/a"
+  local allowed="n/a" day="?" nextday=0
   if [ "${_P_R7:-0}" -gt 0 ]; then
-    elapsed=$(( now - (_P_R7 - PACE_WEEK) )); [ "$elapsed" -lt 0 ] && elapsed=0; [ "$elapsed" -gt "$PACE_WEEK" ] && elapsed=$PACE_WEEK
-    allowed=$(( elapsed * PACE_TARGET_PCT / PACE_WEEK ))
+    _pace_day_bounds "${_P_R7}"
+    allowed=$_P_ALLOWED; day=$_P_DAY; nextday=$_P_NEXTDAY
   fi
-  echo "5h=${_P_U5:-?}% 7d=${_P_U7:-?}% | Pace-erlaubt=${allowed}% (Ziel ${PACE_TARGET_PCT}%)"
+  echo "5h=${_P_U5:-?}% 7d=${_P_U7:-?}% | Tag ${day}/7 → erlaubt ${allowed}% (Ziel ${PACE_TARGET_PCT}%)"
+  [ "$nextday" -gt 0 ] 2>/dev/null && \
+    echo "nächste Stufe: $(TZ='Europe/Zurich' date -d @"$nextday" '+%F %H:%M %Z')"
   if [ "$off" -gt 0 ] 2>/dev/null && [ "$now" -lt "$off" ]; then
     echo "PACE-PAUSE bis $(TZ='Europe/Zurich' date -d @"$off" '+%F %H:%M %Z')"
   elif [ "$allowed" != "n/a" ] && [ "${_P_U7:-0}" -gt "$allowed" ] 2>/dev/null; then
-    echo "→ würde pausieren (aus bis $(TZ='Europe/Zurich' date -d "today ${PACE_RESUME_HOUR}:00" +'%H:%M %Z' 2>/dev/null) CH)"
-  else echo "→ läuft (unter Pace)"; fi
+    echo "→ würde pausieren (aus bis $(TZ='Europe/Zurich' date -d @"$nextday" '+%F %H:%M %Z' 2>/dev/null))"
+  else echo "→ läuft (unter Tages-Stufe)"; fi
 }
 
 # Direktaufruf: `bash lib-pace-gate.sh status|ok`  (gesourct: nur Funktionen)
