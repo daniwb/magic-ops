@@ -589,6 +589,18 @@ func stats(w http.ResponseWriter, r *http.Request) {
 	}
 	br.Close()
 
+	// Lokale GPU-Triage-Lane (Annotator, qwen3.6 auf 192.168.1.15).
+	// Gezählt wird pro KARTE (DISTINCT ticket_id), nicht pro Zeile — eine
+	// mehrfach triagierte Karte ist ein Ticket, kein doppelter Fortschritt.
+	// missing_open = MISSING-Hinweise, die noch auf den Sonnet-Precheck warten
+	// (erledigte Tickets fallen raus, sonst wächst die Zahl monoton weiter).
+	var triage24, triageTotal, triageMissing int
+	db.QueryRow(`SELECT COUNT(DISTINCT ticket_id) FROM local_triage WHERE ts>?`, now()-86400).Scan(&triage24)
+	db.QueryRow(`SELECT COUNT(DISTINCT ticket_id) FROM local_triage`).Scan(&triageTotal)
+	db.QueryRow(`SELECT COUNT(DISTINCT l.ticket_id) FROM local_triage l
+	             JOIN tickets t ON t.id=l.ticket_id
+	             WHERE l.verdict LIKE 'MISSING%' AND t.state!='done'`).Scan(&triageMissing)
+
 	// Backlog-Restvorrat: Zeilen in backlog.jsonl minus verbrauchtem Offset
 	backlogRemaining := 0
 	if b, err := os.ReadFile(backlog); err == nil {
@@ -603,6 +615,7 @@ func stats(w http.ResponseWriter, r *http.Request) {
 		"states": counts, "vocab_open": vocabOpen, "done_total": doneTotal,
 		"fixed_24h": fixed24, "workers": workers, "builders": builders, "top_vocab": topVocab,
 		"backlog_remaining": backlogRemaining,
+		"triage_24h":        triage24, "triage_total": triageTotal, "triage_missing_open": triageMissing,
 	})
 }
 
@@ -617,19 +630,40 @@ func tickets(w http.ResponseWriter, r *http.Request) {
 	}
 	mu.Lock()
 	defer mu.Unlock()
-	sql := `SELECT id,title,state,mechanic,retry_count,tokens,
-	          (SELECT COUNT(*) FROM tickets c WHERE c.vocab_id=t.id AND c.state='blocked')
-	        FROM tickets t WHERE 1=1`
+	// triage/tier filtern über die JÜNGSTE local_triage-Zeile je Ticket
+	// (MAX(ts) + bare columns = SQLite-Sonderregel, liefert genau diese Zeile).
+	tri := r.URL.Query().Get("triage")
+	tier := r.URL.Query().Get("tier")
+	sql := `SELECT t.id,t.title,t.state,t.mechanic,t.retry_count,t.tokens,
+	          (SELECT COUNT(*) FROM tickets c WHERE c.vocab_id=t.id AND c.state='blocked'),
+	          COALESCE(lt.verdict,''), COALESCE(lt.tier,'')
+	        FROM tickets t
+	        LEFT JOIN (SELECT ticket_id,verdict,tier,MAX(ts) FROM local_triage GROUP BY ticket_id) lt
+	               ON lt.ticket_id=t.id
+	        WHERE 1=1`
 	var args []any
 	if st != "" {
-		sql += ` AND state=?`
+		sql += ` AND t.state=?`
 		args = append(args, st)
 	}
 	if q != "" {
-		sql += ` AND title LIKE ?`
+		sql += ` AND t.title LIKE ?`
 		args = append(args, "%"+q+"%")
 	}
-	sql += ` ORDER BY id DESC LIMIT ?`
+	switch tri {
+	case "any":
+		sql += ` AND lt.ticket_id IS NOT NULL`
+	case "MISSING":
+		sql += ` AND lt.verdict LIKE 'MISSING%'`
+	case "BUILDABLE", "UNSURE":
+		sql += ` AND lt.verdict=?`
+		args = append(args, tri)
+	}
+	if tier != "" {
+		sql += ` AND lt.tier=?`
+		args = append(args, tier)
+	}
+	sql += ` ORDER BY t.id DESC LIMIT ?`
 	args = append(args, limit)
 	rows, err := db.Query(sql, args...)
 	if err != nil {
@@ -645,11 +679,13 @@ func tickets(w http.ResponseWriter, r *http.Request) {
 		Fails    int    `json:"fails"`
 		Tokens   int64  `json:"tokens"`
 		Blocked  int    `json:"blocked"`
+		Verdict  string `json:"verdict,omitempty"`
+		Tier     string `json:"tier,omitempty"`
 	}
 	var out []tk
 	for rows.Next() {
 		var t tk
-		rows.Scan(&t.ID, &t.Title, &t.State, &t.Mechanic, &t.Fails, &t.Tokens, &t.Blocked)
+		rows.Scan(&t.ID, &t.Title, &t.State, &t.Mechanic, &t.Fails, &t.Tokens, &t.Blocked, &t.Verdict, &t.Tier)
 		out = append(out, t)
 	}
 	writeJSON(w, out)

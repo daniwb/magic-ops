@@ -124,7 +124,12 @@ const $ = s => document.querySelector(s);
 const j = async u => (await fetch(u)).json();
 let curState = 'wait';
 
-function kpi(n,l,big,st){ return `<div class="kpi ${big?'big':''} ${st?'':'static'}" ${st?`onclick="showList('${st}')"`:''}><div class="n">${n}</div><div class="l">${l}</div></div>`; }
+function kpi(n,l,big,st,sub,onclick){
+  const act = onclick || (st?`showList('${st}')`:'');
+  return `<div class="kpi ${big?'big':''} ${act?'':'static'}" ${act?`onclick="${act}"`:''}>
+    <div class="n">${n}</div><div class="l">${l}</div>
+    ${sub?`<div class="l" style="text-transform:none;letter-spacing:0;margin-top:3px;opacity:.75">${sub}</div>`:''}</div>`;
+}
 
 function gauge(lab,pct,reset){
   const col = pct>=95?'var(--bad)':pct>=75?'var(--warn)':'var(--ok)';
@@ -145,7 +150,10 @@ async function tick(){
       kpi(st.blocked??0,'blockiert',false,'blocked') +
       kpi(st.wait??0,'wait-triage',false,'wait') +
       kpi(s.vocab_open??0,'[VOCAB] offen',false,'') +
-      kpi(s.backlog_remaining??0,'Backlog-Vorrat',false,'');
+      kpi(s.backlog_remaining??0,'Backlog-Vorrat',false,'') +
+      kpi(s.triage_24h??0,'GPU-Triage /24h',false,'',
+          `gesamt ${s.triage_total??0} · ${s.triage_missing_open??0} MISSING offen`,
+          "showTriage('any','')");
 
     const ws = s.workers||[];
     $('#workers').innerHTML = ws.length ? ws.map(w=>
@@ -198,6 +206,40 @@ async function usage(){
   } catch(e){ $('#usage').innerHTML='<span class="empty">Usage nicht verfügbar</span>'; }
 }
 
+// ---- Lokale GPU-Triage: Liste mit Verdict- + Tier-Filter ----
+// Die Lane ist reiner ANNOTATOR (parkt nie selbst) — die Liste zeigt daher
+// das Urteil, entscheidet aber nichts; Requeue bleibt wie gehabt manuell.
+let triV='any', triT='';
+async function showTriage(v,t){
+  triV = v; triT = t; curState = null;
+  const qs = `/tickets?triage=${v}&tier=${t}&limit=60`;
+  const ts = await j(qs);
+  $('#listTitle').textContent = 'GPU-Triage';
+  $('#listCount').textContent = ts.length ? `(${ts.length}${ts.length===60?'+':''})` : '(0)';
+  const btn = (lab,vv,tt,on) =>
+    `<button onclick="showTriage('${vv}','${tt}')" style="${on?'border-color:var(--acc);color:var(--acc)':''}">${lab}</button>`;
+  const bar = `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+      ${btn('alle','any',triT,triV==='any')}
+      ${btn('BUILDABLE','BUILDABLE',triT,triV==='BUILDABLE')}
+      ${btn('MISSING','MISSING',triT,triV==='MISSING')}
+      ${btn('UNSURE','UNSURE',triT,triV==='UNSURE')}
+      <span style="width:12px"></span>
+      ${btn('Tier: alle',triV,'',triT==='')}
+      ${btn('handler',triV,'handler',triT==='handler')}
+      ${btn('record',triV,'record',triT==='record')}
+    </div>`;
+  if(!ts.length){ $('#tickets').innerHTML = bar+'<span class="empty">keine Karten für diesen Filter</span>'; return; }
+  const vcol = x => x.startsWith('MISSING') ? 'var(--warn)' : x==='UNSURE' ? 'var(--mut)' : 'var(--ok)';
+  $('#tickets').innerHTML = bar+'<table><tbody>'+ts.map(t=>
+    `<tr><td style="width:44px"><a href="#" style="color:var(--acc);text-decoration:none" onclick="openTicket(${t.id});return false">#${t.id}</a></td>
+     <td>${t.title.slice(0,52)}
+        ${t.verdict?`<span class="pill" style="color:${vcol(t.verdict)}" title="${t.verdict}">${t.verdict.startsWith('MISSING')?t.verdict.replace(/^MISSING_(PRIMITIVE|SHAPE): */,'⚠ '):t.verdict}</span>`:''}
+        ${t.tier?`<span class="pill" style="color:var(--vio)">${t.tier}</span>`:''}
+        <span class="pill">${t.state}</span></td>
+     <td style="width:70px;text-align:right">${(t.state==='wait'||t.state==='blocked')?`<button onclick="requeue(${t.id})">→ todo</button>`:''}</td></tr>`
+  ).join('')+'</tbody></table>';
+}
+
 async function showList(state){
   curState = state;
   $('#listTitle').textContent = state;
@@ -214,7 +256,10 @@ async function showList(state){
   ).join('')+'</tbody></table>';
 }
 
-async function requeue(id){ await fetch('/action?do=requeue&id='+id); showList(curState); tick(); }
+// Liste neu laden — je nachdem, welche Ansicht gerade aktiv ist
+// (curState===null bedeutet: GPU-Triage-Ansicht mit eigenen Filtern).
+function refreshList(){ if(curState===null) showTriage(triV,triT); else showList(curState); }
+async function requeue(id){ await fetch('/action?do=requeue&id='+id); refreshList(); tick(); }
 
 const esc = s => String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
 const dt = ts => ts ? new Date(ts*1000).toLocaleString('de-CH',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—';
@@ -261,8 +306,8 @@ async function drawChart(){
   } catch(e){}
 }
 
-function all(){ tick(); usage(); showList(curState); drawChart(); }
-all(); setInterval(tick,5000); setInterval(usage,15000); setInterval(()=>showList(curState),10000); setInterval(drawChart,60000);
+function all(){ tick(); usage(); refreshList(); drawChart(); }
+all(); setInterval(tick,5000); setInterval(usage,15000); setInterval(refreshList,10000); setInterval(drawChart,60000);
 </script>
 </body>
 </html>
