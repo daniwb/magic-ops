@@ -212,6 +212,11 @@ for m in "${MERGED[@]}"; do
   vid="${m%% *}"; log "vocab-close #$vid (requeued blockierte Karten)"; curl -s "$DISP/vocab-close?id=$vid" >/dev/null; skip_clear "$vid"
 done
 
+# Stale-park sweep: frisch gelandete Primitives gegen ALLE fremden Parks prüfen
+# (vocab-close requeued nur die eigenen Kinder). Report-only, requeue bleibt
+# ein bewusster Precheck-Schritt — siehe reports/ollama-triage-summary-2026-07-27.md.
+SWEEP_OUT=$("$(dirname "$0")/stale-park-sweep.sh" 2>/dev/null | tail -1) && log "Stale-park sweep: $SWEEP_OUT" || true
+
 /opt/development/magic-new/scripts/kanboard-regression-check.sh >> /opt/development/magic-new/.bugfixer-logs/regression-cron.log 2>&1 || true
 log "Regression-Status: $(cat /opt/development/magic-new/.bugfixer-logs/regression-status.txt 2>/dev/null || echo '?')"
 log "Batch fertig — ${#MERGED[@]} VOCAB gebaut+gemerged"
