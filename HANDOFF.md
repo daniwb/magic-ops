@@ -84,3 +84,23 @@ Stale-Park-Grep-Sweep (1 Fund: Dispelling Exhale), (3) LOCAL-TRIAGE-
 Annotationen via `qwen3.6:27b think` (80% Präzision) mit Sonnet-Precheck.
 Werkzeug: `scripts/ollama-triage.sh` (read-only, memory-gekapselt).
 Ollama auf 192.168.1.15 auf 0.32.4 aktualisiert (qwen3.6-GPU-Support).
+
+## Lokale GPU-Lanes 2–4 verdrahtet (2026-07-27, nachmittags)
+- **Kill-Switch:** Datei `LOCAL_GPU_OFF` (Repo-Root magic-ops) stoppt ALLE
+  lokalen GPU-Skripte. Toggle im Dispatcher-GUI ("GPU: AN/AUS 🔇", Endpoint
+  `/local-gpu?set=on|off`) — Home-Office-Modus.
+- **`scripts/local-triage-queue.sh [N]`** (Streams 2+3): annotiert todo-Karten-
+  Tickets via qwen3.6:27b+think. Record-shaped → Titel-Prefix `DSL-RECORD:`
+  (Routing-Hook, Worker-STEP-0 fängt Fehltags); MISSING (grep-überlebend) →
+  LOCAL-TRIAGE-Hinweis in descr (parkt NIE). Sidecar-Tabelle `local_triage`
+  in der Dispatcher-DB macht Läufe idempotent.
+- **`scripts/local-record-builder.sh [N]`** (Stream 4): schreibt AbilityDSL-
+  Records für record-getaggte Tickets, Gate = recordedit+Linter+Shape-Tests
+  im Scratch-Clone (/tmp/work/record-builder); GRÜN → Kandidat in
+  `record-candidates/pending/ticket-N.json` (Review nötig, KEIN Auto-Merge).
+- Betrieb: manuell oder Cron/Loop; noch NICHT automatisch geschedult.
+- ACHTUNG Ops: `pkill -f dispatcher-v4` tötet auch die tmux-Wrapper (Server!)
+  — 2026-07-27 passiert, riss ollama-w3 mit. Recovery: 
+  `dispatcher-orchestrator-launch.sh` (idempotent) + 
+  `tmux new-session -d -s ollama-w3 "bash scripts/archive/dispatcher-worker-ollama.sh >> /tmp/ollama-w3.log 2>&1"`.
+  Besser: gezielt `pkill -f "v4/dispatcher-v4$"` NIE ohne Anker verwenden.
