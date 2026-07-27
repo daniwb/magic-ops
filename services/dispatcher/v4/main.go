@@ -799,6 +799,62 @@ func gui(w http.ResponseWriter, r *http.Request) {
 	w.Write(b)
 }
 
+// ---- Ticket-Detailansicht: GET /ticket?id=N -> volle Zeile + Events + Triage ----
+func ticketDetail(w http.ResponseWriter, r *http.Request) {
+	var id int64
+	fmt.Sscanf(r.URL.Query().Get("id"), "%d", &id)
+	if id <= 0 {
+		http.Error(w, "id?", 400)
+		return
+	}
+	mu.Lock()
+	defer mu.Unlock()
+	out := map[string]any{}
+	row := db.QueryRow(`SELECT id,type,title,descr,mechanic,state,worker_id,lease_exp,
+	        retry_count,missing_prim,vocab_id,parent_id,priority,build_model,tokens,
+	        created_at,updated_at FROM tickets WHERE id=?`, id)
+	var t struct {
+		ID, LeaseExp, VocabID, ParentID, Prio, Tokens, Created, Updated int64
+		Retry                                                          int
+		Type, Title, Descr, Mech, State, Worker, Missing, Model        string
+	}
+	if err := row.Scan(&t.ID, &t.Type, &t.Title, &t.Descr, &t.Mech, &t.State, &t.Worker,
+		&t.LeaseExp, &t.Retry, &t.Missing, &t.VocabID, &t.ParentID, &t.Prio,
+		&t.Model, &t.Tokens, &t.Created, &t.Updated); err != nil {
+		http.Error(w, "ticket nicht gefunden", 404)
+		return
+	}
+	out["ticket"] = map[string]any{"id": t.ID, "type": t.Type, "title": t.Title,
+		"descr": t.Descr, "mechanic": t.Mech, "state": t.State, "worker_id": t.Worker,
+		"lease_exp": t.LeaseExp, "retry_count": t.Retry, "missing_prim": t.Missing,
+		"vocab_id": t.VocabID, "parent_id": t.ParentID, "priority": t.Prio,
+		"build_model": t.Model, "tokens": t.Tokens, "created_at": t.Created, "updated_at": t.Updated}
+	evs := []map[string]any{}
+	if rows, err := db.Query(`SELECT ts,msg FROM events WHERE ticket_id=? ORDER BY id`, id); err == nil {
+		for rows.Next() {
+			var ts int64
+			var msg string
+			rows.Scan(&ts, &msg)
+			evs = append(evs, map[string]any{"ts": ts, "msg": msg})
+		}
+		rows.Close()
+	}
+	out["events"] = evs
+	// local_triage-Sidecar existiert erst nach dem ersten Lauf von local-triage-queue.sh
+	if rows, err := db.Query(`SELECT ts,model,verdict,tier,evidence FROM local_triage WHERE ticket_id=?`, id); err == nil {
+		for rows.Next() {
+			var ts int64
+			var model, verdict string
+			var tier, evidence any
+			rows.Scan(&ts, &model, &verdict, &tier, &evidence)
+			out["local_triage"] = map[string]any{"ts": ts, "model": model,
+				"verdict": verdict, "tier": tier, "evidence": evidence}
+		}
+		rows.Close()
+	}
+	writeJSON(w, out)
+}
+
 // ---- Local-GPU-Kill-Switch (Datei LOCAL_GPU_OFF, Home-Office-Modus) ----
 // GET /local-gpu            -> {"local_gpu_enabled": bool}
 // GET /local-gpu?set=off|on -> Datei anlegen/entfernen, neuer Zustand zurück
@@ -976,6 +1032,7 @@ func main() {
 	http.HandleFunc("/history", history)
 	http.HandleFunc("/usage", usage)
 	http.HandleFunc("/local-gpu", localGPU)
+	http.HandleFunc("/ticket", ticketDetail)
 	http.HandleFunc("/", gui)
 	log.Fatal(http.ListenAndServe(Port, nil))
 }

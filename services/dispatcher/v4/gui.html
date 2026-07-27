@@ -52,10 +52,26 @@
   <span class="pulse"></span><h1>Magic-Fabrik</h1>
   <span class="mut" id="clock"></span>
   <span style="margin-left:auto">
+    <input id="tkInput" placeholder="#Ticket" size="6" style="background:#242836;color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:4px 8px;font-size:12px"
+           onkeydown="if(event.key==='Enter')openTicket(this.value.replace('#',''))">
     <button id="gpuBtn" onclick="gpuToggle()" title="Lokale GPU-Lanes (Triage/Record-Builder) an/aus — Home-Office-Modus">GPU: …</button>
     <button onclick="ingest()">＋ Backlog laden</button>
   </span>
 </header>
+<div id="tkModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:50" onclick="if(event.target===this)this.style.display='none'">
+  <div style="max-width:860px;margin:5vh auto;background:var(--card);border:1px solid var(--line);border-radius:12px;max-height:88vh;overflow:auto;padding:20px 24px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h2 id="tkTitle" style="margin:0;font-size:15px"></h2>
+      <button onclick="document.getElementById('tkModal').style.display='none'">✕ schliessen</button>
+    </div>
+    <div id="tkMeta" style="margin:10px 0"></div>
+    <div id="tkTriage"></div>
+    <h3 style="font-size:11px;text-transform:uppercase;color:var(--mut);margin:14px 0 6px">Beschreibung</h3>
+    <pre id="tkDescr" style="white-space:pre-wrap;font:12px ui-monospace,monospace;background:#141722;border:1px solid var(--line);border-radius:8px;padding:12px;max-height:34vh;overflow:auto"></pre>
+    <h3 style="font-size:11px;text-transform:uppercase;color:var(--mut);margin:14px 0 6px">Verlauf</h3>
+    <div id="tkEvents" style="font-size:12px"></div>
+  </div>
+</div>
 <script>
 async function gpuState(set){
   const q = set ? ('?set='+set) : '';
@@ -180,7 +196,7 @@ async function showList(state){
   if(!ts.length){ $('#tickets').innerHTML='<span class="empty">keine Tickets in diesem Zustand</span>'; return; }
   const act = (state==='wait'||state==='blocked');
   $('#tickets').innerHTML = '<table><tbody>'+ts.map(t=>
-    `<tr><td class="mut" style="width:44px">#${t.id}</td>
+    `<tr><td style="width:44px"><a href="#" style="color:var(--acc);text-decoration:none" onclick="openTicket(${t.id});return false">#${t.id}</a></td>
      <td>${t.title.slice(0,60)} ${t.mechanic?`<span class="pill">${t.mechanic}</span>`:''}
         ${t.fails?`<span class="pill" style="color:var(--warn)">${t.fails}× fail</span>`:''}
         ${t.tokens?`<span class="pill" title="verbrauchte Claude-Token">${t.tokens>=1000?(t.tokens/1000).toFixed(1)+'k':t.tokens} tok</span>`:''}</td>
@@ -189,6 +205,34 @@ async function showList(state){
 }
 
 async function requeue(id){ await fetch('/action?do=requeue&id='+id); showList(curState); tick(); }
+
+const esc = s => String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const dt = ts => ts ? new Date(ts*1000).toLocaleString('de-CH',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—';
+async function openTicket(id){
+  if(!id || isNaN(+id)) return;
+  let d;
+  try { d = await j('/ticket?id='+(+id)); } catch(e){ alert('Ticket #'+id+' nicht gefunden'); return; }
+  const t = d.ticket;
+  $('#tkTitle').textContent = `#${t.id} · ${t.title}`;
+  const pill = (l,v,col) => v!==''&&v!==0&&v!=null ? `<span class="pill" ${col?`style="color:${col}"`:''}>${l}: ${esc(v)}</span> ` : '';
+  $('#tkMeta').innerHTML =
+    pill('state', t.state, t.state==='done'?'var(--ok)':t.state==='blocked'?'var(--bad)':'var(--acc)') +
+    pill('worker', t.worker_id) + pill('retries', t.retry_count) + pill('prio', t.priority) +
+    pill('model', t.build_model) + pill('tokens', t.tokens>=1000?(t.tokens/1000).toFixed(1)+'k':t.tokens) +
+    pill('missing', t.missing_prim, 'var(--warn)') + pill('vocab', t.vocab_id&&'#'+t.vocab_id) +
+    pill('parent', t.parent_id&&'#'+t.parent_id) + pill('mechanic', t.mechanic) +
+    `<div class="mut" style="font-size:11px;margin-top:6px">angelegt ${dt(t.created_at)} · geändert ${dt(t.updated_at)}${t.lease_exp>Date.now()/1000?` · Lease bis ${dt(t.lease_exp)}`:''}</div>`;
+  $('#tkTriage').innerHTML = d.local_triage ?
+    `<div style="border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin-top:8px;font-size:12px">
+       <b style="color:var(--vio)">Local-Triage</b> (${esc(d.local_triage.model)}, ${dt(d.local_triage.ts)}):
+       <b>${esc(d.local_triage.verdict)}</b>${d.local_triage.tier?` · tier: ${esc(d.local_triage.tier)}`:''}
+       ${d.local_triage.evidence?`<div class="mut" style="margin-top:4px">${esc(d.local_triage.evidence)}</div>`:''}</div>` : '';
+  $('#tkDescr').textContent = t.descr || '(leer)';
+  $('#tkEvents').innerHTML = (d.events&&d.events.length) ? d.events.map(e=>
+    `<div style="padding:3px 0;border-bottom:1px solid #22252f"><span class="mut" style="font-variant-numeric:tabular-nums">${dt(e.ts)}</span> — ${esc(e.msg)}</div>`).join('')
+    : '<span class="empty">keine Ereignisse</span>';
+  document.getElementById('tkModal').style.display='block';
+}
 async function ingest(){ const r=await j('/action?do=ingest&n=200'); alert('Backlog geladen: +'+(r.added??0)+' Karten'); tick(); }
 
 async function drawChart(){
