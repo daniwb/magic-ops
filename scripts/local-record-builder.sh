@@ -56,6 +56,7 @@ PY
 
 while IFS=$'\t' read -r TID CARD; do
   [ -f "$OPS/LOCAL_GPU_OFF" ] && { echo "kill switch raised mid-run — stopping"; break; }
+  echo "Record-Build: $CARD (#$TID)" > /tmp/local-lanes-status
   # --- prompt: shape catalog + live example records + the card ---------------
   python3 - "$CARD" > "$RUN/prompt.txt" <<'PY'
 import json, sys, glob

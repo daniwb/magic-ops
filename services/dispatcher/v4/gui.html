@@ -177,6 +177,16 @@ async function usage(){
       h += `<div style="font-size:12px;color:var(--acc);margin-bottom:2px">◆ Claude (Sonnet-Bucket) ${fresh}</div>`
       + gauge('5h', u.claude.h5_pct, u.claude.h5_reset) + gauge('7 Tage', u.claude.d7_pct, u.claude.d7_reset); }
     else h += '<div class="mut" style="font-size:12px">Claude: kein Usage-Cache</div>';
+    if(u.local_lanes){ const l=u.local_lanes;
+      const stale = (l.age_s??9999) > 1800;
+      const col = !l.enabled ? 'var(--warn)' : stale ? 'var(--bad)' : 'var(--ok)';
+      const txt = !l.enabled ? 'AUS (Switch)'
+                : !l.status ? 'noch kein Status'
+                : stale ? `${l.status} — seit ${Math.round(l.age_s/60)} min kein Update (hängt?)`
+                : `${l.status} <span class="mut">(vor ${l.age_s<120?l.age_s+' s':Math.round(l.age_s/60)+' min'})</span>`;
+      h += `<div style="font-size:12px;color:var(--vio);margin:10px 0 2px">◆ Lokale GPU-Lane (Triage/Records, qwen3.6)</div>
+            <div style="font-size:13px"><span class="dot" style="background:${col}"></span>${txt}</div>`;
+    }
     if(u.ollama){ const o=u.ollama;
       const col = o.reachable?(o.worker==='paused'?'var(--warn)':'var(--ok)'):'var(--bad)';
       const txt = !o.reachable?'nicht erreichbar':(o.worker==='paused'?'Kontingent erschöpft (pausiert)':'aktiv');

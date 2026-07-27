@@ -53,6 +53,7 @@ PY
 # --- triage each card (single-shot, jsonl sidecar) ---------------------------
 while IFS=$'\t' read -r TID CARD; do
   [ -f "$OPS/LOCAL_GPU_OFF" ] && { echo "kill switch raised mid-run — stopping"; break; }
+  echo "Triage: $CARD (#$TID)" > /tmp/local-lanes-status
   REPORT="$RUN_DIR/report-$TID.md" REPORT_JSONL="$RUN_DIR/verdicts.jsonl" \
     TID="$TID" "$OPS/scripts/ollama-triage.sh" "$CARD" >/dev/null 2>&1
   # tag the jsonl line with the ticket id (triage only knows the card name)

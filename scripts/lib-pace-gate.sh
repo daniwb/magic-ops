@@ -15,7 +15,7 @@
 #     wegen API-Ausfall).
 set -uo pipefail
 
-PACE_TARGET_PCT="${PACE_TARGET_PCT:-90}"      # Wochen-Ziel-Ceiling (Puffer bis 100)
+PACE_TARGET_PCT="${PACE_TARGET_PCT:-100}"     # Wochen-Ziel-Ceiling (User-Entscheid 2026-07-27: voll ausnutzen statt 90er-Puffer)
 PACE_HARD5="${PACE_HARD5:-95}"                # 5h-Decke (nachts 23-06 CH = 100)
 PACE_RESUME_HOUR="${PACE_RESUME_HOUR:-20}"    # Wiederanlauf-Stunde (Europe/Zurich)
 PACE_WEEK="${PACE_WEEK:-604800}"             # 7 Tage in s

@@ -9,16 +9,17 @@ OPS="$(cd "$(dirname "$0")/.." && pwd)"
 SESSION="local-lanes"
 N_TRIAGE="${N_TRIAGE:-10}"
 N_RECORDS="${N_RECORDS:-5}"
-CYCLE_SLEEP="${CYCLE_SLEEP:-2700}"
+CYCLE_SLEEP="${CYCLE_SLEEP:-120}"   # kurze Verschnaufpause zwischen Zyklen; Stopp via Dispatcher-Switch
 
 tmux has-session -t "$SESSION" 2>/dev/null && { echo "local-lanes läuft bereits."; exit 0; }
 tmux new-session -d -s "$SESSION" \
   "while true; do
-     if [ -f '$OPS/LOCAL_GPU_OFF' ]; then sleep 120; continue; fi
+     if [ -f '$OPS/LOCAL_GPU_OFF' ]; then echo 'aus (Switch AUS)' > /tmp/local-lanes-status; sleep 120; continue; fi
      echo \"[\$(date -Is)] lane cycle start\" >> /tmp/local-lanes.log
      bash '$OPS/scripts/local-triage-queue.sh' $N_TRIAGE >> /tmp/local-lanes.log 2>&1
      bash '$OPS/scripts/local-record-builder.sh' $N_RECORDS >> /tmp/local-lanes.log 2>&1
      echo \"[\$(date -Is)] lane cycle done — sleep $CYCLE_SLEEP s\" >> /tmp/local-lanes.log
+     echo \"Pause ($((CYCLE_SLEEP/60)) min bis zum nächsten Zyklus)\" > /tmp/local-lanes-status
      sleep $CYCLE_SLEEP
    done"
-echo "local-lanes gestartet (tmux $SESSION): Triage $N_TRIAGE + Records $N_RECORDS pro Zyklus, Pause $((CYCLE_SLEEP/60)) min, Switch-Check alle 2 min bei AUS."
+echo "local-lanes gestartet (tmux $SESSION): Triage $N_TRIAGE + Records $N_RECORDS pro Zyklus, Pause $((CYCLE_SLEEP/60)) min, Stopp über Dispatcher-Switch."

@@ -785,6 +785,20 @@ func usage(w http.ResponseWriter, r *http.Request) {
 		resp.Body.Close()
 		oll["reachable"] = resp.StatusCode == 200
 	}
+	// Lokale GPU-Lane (Triage/Record-Builder): Statuszeile aus Marker-Datei
+	ll := map[string]any{}
+	if _, err := os.Stat(localGPUOffFile); err == nil {
+		ll["enabled"] = false
+	} else {
+		ll["enabled"] = true
+	}
+	if fi, err := os.Stat("/tmp/local-lanes-status"); err == nil {
+		if b, err := os.ReadFile("/tmp/local-lanes-status"); err == nil {
+			ll["status"] = strings.TrimSpace(string(b))
+			ll["age_s"] = int(time.Since(fi.ModTime()).Seconds())
+		}
+	}
+	out["local_lanes"] = ll
 	// w3-Status aus Marker (Worker schreibt /tmp/w3-status: working|paused)
 	if b, err := os.ReadFile("/tmp/w3-status"); err == nil {
 		oll["worker"] = strings.TrimSpace(string(b))
