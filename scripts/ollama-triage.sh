@@ -24,6 +24,11 @@
 set -uo pipefail
 ulimit -Sv "${MEM_KB:-2097152}"   # 2 GB virtual memory cap for this script tree
 
+# Global kill switch: touch magic-ops/LOCAL_GPU_OFF to silence the GPU box
+# (home-office mode). Every local-GPU lane honors this file.
+OFF_FILE="$(cd "$(dirname "$0")/.." && pwd)/LOCAL_GPU_OFF"
+[ -f "$OFF_FILE" ] && { echo "local GPU disabled ($OFF_FILE exists) — skipping"; exit 0; }
+
 OLLAMA="${OLLAMA:-http://192.168.1.15:11434}"
 MODEL="${MODEL:-qwen3-coder:30b}"
 NUM_CTX="${NUM_CTX:-32768}"       # fits 24 GB card next to the Q4 weights; do NOT raise past 49152
@@ -73,8 +78,9 @@ HARD RULES:
 2. Before any MISSING_* verdict, name in EVIDENCE the closest existing
    catalog entries you checked and why each one falls short. This evidence is
    attached to the ticket so a stronger model can precheck your claim first.
-3. Output EXACTLY three lines, nothing else, no markdown:
+3. Output EXACTLY these lines, nothing else, no markdown (TIER only when BUILDABLE):
 VERDICT: <BUILDABLE | MISSING_SHAPE: kebab-name | MISSING_PRIMITIVE: kebab-name | UNSURE>
+TIER: <record if EVERY ability maps to a shape-catalog trigger x effect; handler otherwise>
 WHY: <1-2 sentences>
 EVIDENCE: <ONLY the closest candidate shapes/primitives (max 8, comma-separated), each with a word on why it falls short — never dump the whole vocabulary>
 INSTR
@@ -134,9 +140,10 @@ PY
     if [ "$HTTP" != "200" ] || [ ! -s "$WORK/resp.json" ] || [ "$(stat -c%s "$WORK/resp.json")" -gt 1048576 ]; then
       echo "- verdict: **UNSURE** (transport: http=$HTTP, ${DUR}s) → requeue for Sonnet"
     else
-      python3 - "$WORK/resp.json" "$DUR" "$WORK/full-catalog.md" <<'PY'
+      python3 - "$WORK/resp.json" "$DUR" "$WORK/full-catalog.md" "$CARD" "${REPORT_JSONL:-}" <<'PY'
 import json,sys,re
 d=json.load(open(sys.argv[1])); dur=sys.argv[2]
+card=sys.argv[4]; jsonl=sys.argv[5]
 catalog=open(sys.argv[3]).read().lower()
 out=d.get('message',{}).get('content','').strip()
 pt=d.get('prompt_eval_count','?'); ct=d.get('eval_count','?')
@@ -156,18 +163,25 @@ def grep_refute(kebab):
             return f"all claim words on one line: {ln.strip()[:90]}"
     return None
 
+tier=re.search(r'^TIER:\s*(record|handler)\s*$',out,re.M)
+rec={"card":card,"verdict":"UNSURE","tier":None,"why":None,"evidence":None,"refuted":None}
 if not m:
     print(f"- verdict: **UNSURE** (malformed output) → requeue for Sonnet\n- raw: `{out[:200]}`")
 else:
     v=re.sub(r'\s+',' ',m.group(1))
+    rec["why"]=why.group(1) if why else None
+    rec["evidence"]=ev.group(1) if ev else None
+    rec["tier"]=tier.group(1) if tier else None
     refuted=None
     if v.startswith('MISSING'):
         refuted=grep_refute(v.partition(':')[2].strip())
     if refuted:
+        rec["refuted"]=refuted; rec["claimed"]=v
         print(f"- verdict: **UNSURE** — model claimed `{v}` but catalog grep refutes it ({refuted}) → requeue for Sonnet")
         print(f"- ticket annotation: `LOCAL-TRIAGE: refuted {v} | {refuted}`")
     else:
-        print(f"- verdict: **{v}** ({dur}s, prompt {pt} tok, out {ct} tok)")
+        rec["verdict"]=v
+        print(f"- verdict: **{v}**{' [tier: '+tier.group(1)+']' if tier else ''} ({dur}s, prompt {pt} tok, out {ct} tok)")
         if why: print(f"- why: {why.group(1)}")
         if ev:  print(f"- evidence: {ev.group(1)}")
         if v.startswith('MISSING'):
@@ -175,6 +189,8 @@ else:
             print(f"- NOT terminal: batch-confirm with Sonnet before parking")
         elif v=='UNSURE':
             print(f"- → requeue for Sonnet (by design)")
+if jsonl:
+    with open(jsonl,'a') as f: f.write(json.dumps(rec)+'\n')
 PY
     fi
     echo ""

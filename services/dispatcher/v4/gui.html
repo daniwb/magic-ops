@@ -51,8 +51,26 @@
 <header>
   <span class="pulse"></span><h1>Magic-Fabrik</h1>
   <span class="mut" id="clock"></span>
-  <span style="margin-left:auto"><button onclick="ingest()">＋ Backlog laden</button></span>
+  <span style="margin-left:auto">
+    <button id="gpuBtn" onclick="gpuToggle()" title="Lokale GPU-Lanes (Triage/Record-Builder) an/aus — Home-Office-Modus">GPU: …</button>
+    <button onclick="ingest()">＋ Backlog laden</button>
+  </span>
 </header>
+<script>
+async function gpuState(set){
+  const q = set ? ('?set='+set) : '';
+  const r = await fetch('/local-gpu'+q).then(r=>r.json()).catch(()=>null);
+  const b = document.getElementById('gpuBtn');
+  if(!r){ b.textContent='GPU: ?'; return; }
+  b.textContent = r.local_gpu_enabled ? 'GPU: AN' : 'GPU: AUS 🔇';
+  b.style.background = r.local_gpu_enabled ? '' : '#7a3333';
+}
+function gpuToggle(){
+  const off = document.getElementById('gpuBtn').textContent.includes('AN');
+  gpuState(off ? 'off' : 'on');
+}
+gpuState(); setInterval(()=>gpuState(), 15000);
+</script>
 <main>
   <div class="row k" id="kpis"></div>
 

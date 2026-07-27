@@ -799,6 +799,22 @@ func gui(w http.ResponseWriter, r *http.Request) {
 	w.Write(b)
 }
 
+// ---- Local-GPU-Kill-Switch (Datei LOCAL_GPU_OFF, Home-Office-Modus) ----
+// GET /local-gpu            -> {"local_gpu_enabled": bool}
+// GET /local-gpu?set=off|on -> Datei anlegen/entfernen, neuer Zustand zurück
+const localGPUOffFile = "/opt/development/magic-ops/LOCAL_GPU_OFF"
+
+func localGPU(w http.ResponseWriter, r *http.Request) {
+	switch r.URL.Query().Get("set") {
+	case "off":
+		os.WriteFile(localGPUOffFile, []byte("set via dispatcher GUI\n"), 0644)
+	case "on":
+		os.Remove(localGPUOffFile)
+	}
+	_, err := os.Stat(localGPUOffFile)
+	writeJSON(w, map[string]any{"local_gpu_enabled": err != nil})
+}
+
 func writeJSON(w http.ResponseWriter, v any) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Cache-Control", "no-store") // sonst zeigt der Browser stale Zahlen
@@ -959,6 +975,7 @@ func main() {
 	http.HandleFunc("/action", action)
 	http.HandleFunc("/history", history)
 	http.HandleFunc("/usage", usage)
+	http.HandleFunc("/local-gpu", localGPU)
 	http.HandleFunc("/", gui)
 	log.Fatal(http.ListenAndServe(Port, nil))
 }
