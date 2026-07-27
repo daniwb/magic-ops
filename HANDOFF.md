@@ -75,3 +75,12 @@ systematische False-Parks). Gleiche Behandlung für den vocab-batch-Prompt
   "keine Dateien" → teurer Zweitversuch. Prompt-Compliance der Park-Ausgabe
   beobachten; ggf. Regel 5 im Prompt schärfen (Zeilen MÜSSEN exakt so
   ausgegeben werden, auch wenn keine Karte gebaut wird).
+
+## Lokale-GPU-Triage — Evaluation abgeschlossen (2026-07-27)
+Ergebnis + Empfehlung: `reports/ollama-triage-summary-2026-07-27.md`.
+Kurzfassung: kein lokales Modell darf autonom parken (Präzision zu niedrig);
+validiert sind (1) Record-Shaped-Routing, (2) deterministischer
+Stale-Park-Grep-Sweep (1 Fund: Dispelling Exhale), (3) LOCAL-TRIAGE-
+Annotationen via `qwen3.6:27b think` (80% Präzision) mit Sonnet-Precheck.
+Werkzeug: `scripts/ollama-triage.sh` (read-only, memory-gekapselt).
+Ollama auf 192.168.1.15 auf 0.32.4 aktualisiert (qwen3.6-GPU-Support).
