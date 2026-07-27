@@ -29,6 +29,12 @@ MODEL="${MODEL:-qwen3-coder:30b}"
 NUM_CTX="${NUM_CTX:-32768}"       # fits 24 GB card next to the Q4 weights; do NOT raise past 49152
 NUM_PREDICT="${NUM_PREDICT:-400}"
 THINK="${THINK:-false}"           # true: allow chain-of-thought — raise NUM_PREDICT to 3000+, thinking tokens count against it
+PRESENCE_PENALTY="${PRESENCE_PENALTY:-0}"  # >0 curbs circular thinking loops in small thinkers
+# Qwen 3.5/3.6 official guidance: NEVER greedy-decode (endless repetition);
+# thinking/precise: temp 0.6 top_p 0.95 top_k 20; loop-prone small thinkers: presence 1.5
+TEMP="${TEMP:-0.6}"
+TOP_P="${TOP_P:-0.95}"
+TOP_K="${TOP_K:-20}"
 MAX_TIME="${MAX_TIME:-600}"
 REPO="${REPO:-/opt/development/test/openmagic}"
 OPS="$(cd "$(dirname "$0")/.." && pwd)"
@@ -104,13 +110,15 @@ PY
   cat "$WORK/prefix.txt" > "$WORK/prompt.txt"
   printf '\n=== THE CARD ===\n%s\n' "$CARDBLOCK" >> "$WORK/prompt.txt"
 
-  python3 - "$WORK/prompt.txt" "$MODEL" "$NUM_CTX" "$NUM_PREDICT" "$THINK" > "$WORK/req.json" <<'PY'
+  python3 - "$WORK/prompt.txt" "$MODEL" "$NUM_CTX" "$NUM_PREDICT" "$THINK" "$PRESENCE_PENALTY" "$TEMP" "$TOP_P" "$TOP_K" > "$WORK/req.json" <<'PY'
 import json,sys
 prompt=open(sys.argv[1]).read()
 # think defaults to false — thinking models (gemma4) otherwise burn the whole
 # num_predict budget on chain-of-thought and return empty content
 print(json.dumps({"model":sys.argv[2],"stream":False,"think":sys.argv[5]=='true',
-  "options":{"num_ctx":int(sys.argv[3]),"num_predict":int(sys.argv[4]),"temperature":0},
+  "options":{"num_ctx":int(sys.argv[3]),"num_predict":int(sys.argv[4]),
+             "temperature":float(sys.argv[7]),"top_p":float(sys.argv[8]),
+             "top_k":int(sys.argv[9]),"presence_penalty":float(sys.argv[6])},
   "messages":[{"role":"user","content":prompt}]}))
 PY
 

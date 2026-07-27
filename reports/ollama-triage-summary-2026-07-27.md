@@ -74,3 +74,21 @@ Key findings:
   MemoryMax) and hard per-request timeouts; restart Ollama between batches
   if long-running.
 - Ollama durations are nanoseconds (923000000 ≈ 0.92 s, not minutes).
+
+## Addendum — sampling config & small-model tests (same day, later)
+
+- **Official Qwen sampling adopted as script default** (temp 0.6, top_p 0.95,
+  top_k 20; env: TEMP/TOP_P/TOP_K/PRESENCE_PENALTY). Vendor guidance: never
+  greedy-decode qwen3.5/3.6 — greedy loops small thinkers endlessly (verified:
+  qwen3.5:9b spun 18k chars of thinking into a 4000-tok budget, empty content).
+  For qwen3.6:27b the rerun under official sampling matched the greedy run
+  within noise (miss-recall 4/10, build-recall 8/10 vs 7/10, MISSING-precision
+  67% vs 80%) — quality is stable; config kept for loop-safety, not for gains.
+- **qwen3.5:9b (6.6 GB): rejected.** With anti-loop config it stops failing but
+  answers UNSURE 4/5 (safe, useless) at 94–188 s/card — slower than the 27B.
+- **qwen3.6:27b is dense** (all 27.8B active) — that, not size, is why it's the
+  only discriminating model; the A3B MoEs (3B active) showed zero judgment.
+- **BUILDABLE precision ≈ 60%** (both 27B runs): local generate-on-BUILDABLE
+  (records first: recordedit + linter/shape-test gate; handlers via revived
+  shadow-runner + Sonnet review) is viable ONLY because deterministic gates
+  absorb the ~40% wrong-BUILDABLE — never merge ungated local output.
