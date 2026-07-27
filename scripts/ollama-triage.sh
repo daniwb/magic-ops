@@ -80,7 +80,7 @@ HARD RULES:
    attached to the ticket so a stronger model can precheck your claim first.
 3. Output EXACTLY these lines, nothing else, no markdown (TIER only when BUILDABLE):
 VERDICT: <BUILDABLE | MISSING_SHAPE: kebab-name | MISSING_PRIMITIVE: kebab-name | UNSURE>
-TIER: <record if EVERY ability maps to a shape-catalog trigger x effect; handler otherwise>
+TIER: <record if EVERY ability maps to a shape-catalog trigger x effect AND every printed keyword in the card TEXT is a game.Keyword constant in the index (toxic/protection/ward etc. NOT listed there => handler); handler otherwise>
 WHY: <1-2 sentences>
 EVIDENCE: <ONLY the closest candidate shapes/primitives (max 8, comma-separated), each with a word on why it falls short — never dump the whole vocabulary>
 INSTR

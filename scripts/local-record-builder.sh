@@ -16,7 +16,9 @@ MODEL="${MODEL:-qwen3.6:27b}"
 GO="${GO:-/usr/local/go/bin/go}"
 N="${1:-5}"
 CLONE="${CLONE:-/tmp/work/record-builder}"
-PEND="$OPS/record-candidates/pending"; mkdir -p "$PEND"
+PEND="$OPS/record-candidates/pending"; FAILED="$OPS/record-candidates/failed"
+mkdir -p "$PEND" "$FAILED"
+mark_failed(){ echo "{\"ticket\":$1,\"card\":\"$2\",\"reason\":\"$3\"}" > "$FAILED/ticket-$1.json"; }
 RUN=$(mktemp -d /tmp/record-builder.XXXXXX); trap 'rm -rf "$RUN"' EXIT
 ulimit -Sv 4194304
 
@@ -35,6 +37,9 @@ carddb = {}
 for f in glob.glob('/opt/development/test/openmagic/backend/data/carddb/[a-z0].json'):
     carddb.update(json.load(open(f)))
 done = {fn.split('ticket-')[1].split('.')[0] for fn in os.listdir(sys.argv[3])} if os.path.isdir(sys.argv[3]) else set()
+failed_dir = os.path.join(os.path.dirname(sys.argv[3]), 'failed')
+if os.path.isdir(failed_dir):
+    done |= {fn.split('ticket-')[1].split('.')[0] for fn in os.listdir(failed_dir)}
 n = int(sys.argv[2]); out = 0
 for tid, tier, verdict in db.execute("select ticket_id,tier,verdict from local_triage where tier='record' and verdict='BUILDABLE'"):
     if out >= n: break
@@ -73,7 +78,9 @@ Write the AbilityDSL "abilities" JSON array for THE CARD below, using ONLY
 triggers/effects from the shape catalog and value-keys as seen in the example
 records. Printed keywords (Flying, ...) are NOT abilities — omit them.
 Output ONLY the JSON array on one line, no markdown, no commentary.
-If any ability cannot be expressed as a catalog shape, output exactly: CANNOT
+If any ability cannot be expressed as a catalog shape, OR the card text
+contains a keyword mechanic outside the plain keyword list (toxic, protection,
+ward, crew, ...), output exactly: CANNOT
 === THE CARD ===""")
 print(f"NAME: {c['name']}\nTYPE: {c.get('type','')}\nKEYWORDS: {', '.join(c.get('keywords',[]))}\nTEXT: {c.get('text','')}")
 PY
@@ -92,11 +99,11 @@ d=json.load(open('$RUN/resp.json'))
 c=d['message'].get('content','').strip()
 m=re.search(r'\[.*\]', c, re.S)
 print(m.group(0).replace(chr(10),' ') if m and c!='CANNOT' else '')")
-  if [ -z "$ABIL" ]; then echo "#$TID $CARD: model declined/no JSON"; continue; fi
+  if [ -z "$ABIL" ]; then echo "#$TID $CARD: model declined/no JSON"; mark_failed "$TID" "$CARD" "declined"; continue; fi
   # --- gate: recordedit + linter + shape tests in the scratch clone ----------
   if ! (cd "$CLONE/backend" && timeout 120 "$GO" run ./tools/recordedit \
         -name "$CARD" -abilities "$ABIL" -notes "LOCAL CANDIDATE ticket #$TID — NOT reviewed" >/dev/null 2>&1); then
-    echo "#$TID $CARD: recordedit rejected"; continue
+    echo "#$TID $CARD: recordedit rejected"; mark_failed "$TID" "$CARD" "recordedit"; continue
   fi
   if (cd "$CLONE/backend" && timeout 600 "$GO" test ./cards/ -run 'TestCardDBLint|TestShape_' -count=1 >/dev/null 2>&1); then
     python3 - "$TID" "$CARD" "$ABIL" "$PEND" "$MODEL" <<'PY'
@@ -110,7 +117,7 @@ json.dump({"ticket": int(tid), "card": card, "model": model,
 PY
     echo "#$TID $CARD: GREEN — candidate filed"
   else
-    echo "#$TID $CARD: linter/shape-test RED — discarded"
+    echo "#$TID $CARD: linter/shape-test RED — discarded"; mark_failed "$TID" "$CARD" "linter-red"
   fi
   git -C "$CLONE" checkout -q -- backend/data/carddb 2>/dev/null || true
 done < "$RUN/batch.tsv"
