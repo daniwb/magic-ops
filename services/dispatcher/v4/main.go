@@ -399,6 +399,11 @@ func vocabClose(w http.ResponseWriter, r *http.Request) {
 	fmt.Sscanf(r.URL.Query().Get("id"), "%d", &vid)
 	mu.Lock()
 	defer mu.Unlock()
+	// Token-Verbrauch des Builds mitschreiben (?tok=N). Wird ADDIERT, weil ein
+	// VOCAB über mehrere Runden gebaut werden kann; ohne das blieben alle
+	// [VOCAB]-Tickets bei tokens=0, während Karten-Tickets korrekt zählten
+	// (2026-07-28).
+	addVocabTokens(vid, r)
 	// state=done UND Build-Marker räumen (sonst zeigt das Board fertige Builds
 	// weiter als "in Bau", bis die 90min-Lease abläuft — 2026-07-21).
 	db.Exec(`UPDATE tickets SET state='done',worker_id='',build_model='',lease_exp=0,updated_at=? WHERE id=? AND type='vocab'`, now(), vid)
@@ -505,11 +510,24 @@ func vocabClaim(w http.ResponseWriter, r *http.Request) {
 }
 
 // ---- /vocab-fail: Builder meldet Fehlschlag/Engine-Hook → retry_count++, Marker frei ----
+// addVocabTokens addiert ?tok=N auf tickets.tokens. Muss unter gehaltenem mu
+// aufgerufen werden. Gescheiterte Builds kosten genauso Tokens wie
+// erfolgreiche — deshalb zählt vocab-fail mit, sonst fehlt genau der teure
+// Teil (Abbrüche nach 100 Turns) in der Statistik.
+func addVocabTokens(vid int64, r *http.Request) {
+	var tok int64
+	fmt.Sscanf(r.URL.Query().Get("tok"), "%d", &tok)
+	if tok > 0 {
+		db.Exec(`UPDATE tickets SET tokens=tokens+? WHERE id=? AND type='vocab'`, tok, vid)
+	}
+}
+
 func vocabFail(w http.ResponseWriter, r *http.Request) {
 	var vid int64
 	fmt.Sscanf(r.URL.Query().Get("id"), "%d", &vid)
 	reason := r.URL.Query().Get("reason")
 	mu.Lock()
+	addVocabTokens(vid, r)
 	db.Exec(`UPDATE tickets SET retry_count=retry_count+1,worker_id='',build_model='',lease_exp=0,updated_at=? WHERE id=? AND type='vocab'`, now(), vid)
 	addEvent(vid, "PRIM-BUILDER fail: "+reason)
 	mu.Unlock()

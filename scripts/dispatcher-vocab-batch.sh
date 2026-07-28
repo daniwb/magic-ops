@@ -64,6 +64,27 @@ skip_clear() {  # $1=VID
   ) 7>"$SKIP_LOCK"
 }
 
+# --- Claude-Aufruf MIT Token-Erfassung (Muster: dispatcher-worker-real.sh) --
+# --output-format json liefert .result (Text, damit die bestehende
+# Text-Parsing-Logik unverändert bleibt) UND .modelUsage (kumulativ über alle
+# Turns/Modelle). Die Summe wandert in eine Datei pro VOCAB, weil build_one in
+# einer Subshell läuft und Variablen die nicht überleben.
+# Ohne das blieben ALLE [VOCAB]-Tickets bei tokens=0, obwohl ein Primitive-Build
+# (bis 100 Turns) deutlich teurer ist als ein Karten-Ticket (2026-07-28).
+VTOK_FILE=""
+vclaude() { # $1=timeout  $2=max-turns   (Prompt via stdin)
+  local to="$1" turns="$2" raw txt used
+  raw=$(timeout "$to" "$CLAUDE_BIN" -p --output-format json --model "$MODEL" \
+        --permission-mode bypassPermissions --max-turns "$turns" 2>>/tmp/vbatch-claude.err) \
+    || { echo TIMEOUT; return 0; }
+  used=$(printf '%s' "$raw" | jq -r 'if (type=="object" and .modelUsage) then ([.modelUsage[] | (.inputTokens//0)+(.outputTokens//0)+(.cacheReadInputTokens//0)+(.cacheCreationInputTokens//0)] | add // 0) elif type=="object" then ((.usage.input_tokens//0)+(.usage.cache_creation_input_tokens//0)+(.usage.cache_read_input_tokens//0)+(.usage.output_tokens//0)) else 0 end' 2>/dev/null)
+  [ -n "$used" ] && [ "$used" != 0 ] && [ -n "$VTOK_FILE" ] && echo "$used" >> "$VTOK_FILE"
+  txt=$(printf '%s' "$raw" | jq -r '.result // empty' 2>/dev/null)
+  if [ -n "$txt" ]; then printf '%s' "$txt"; else printf '%s' "$raw"; fi
+}
+# Bisher verbrauchte Tokens dieses VOCAB (0, wenn nichts erfasst).
+vtok() { [ -n "$VTOK_FILE" ] && [ -f "$VTOK_FILE" ] && awk '{s+=$1} END{print s+0}' "$VTOK_FILE" || echo 0; }
+
 # --- EIN VOCAB bauen + SELBST testen (parallel, KEIN Merge) ----------------
 # Schreibt Ergebnis nach $RES_DIR/<slot>:  "OK<TAB>VID<TAB>BR<TAB>CLONE<TAB>TITLE<TAB>BLK"
 # oder gar nichts (= Fehlschlag; vocab-fail/skip schon erledigt).
@@ -77,13 +98,14 @@ build_one() {
   DESC=$(jq -r '.descr'  <<<"$V")
   BLK=$(jq -r '.blocked' <<<"$V")
   BR="prim/vbatch-$VID"
+  VTOK_FILE="/tmp/vbatch-tok-$VID"; : > "$VTOK_FILE"
 
   sleep $(( (slot - 1) * 8 ))   # Stagger gegen gleichzeitige go-build-RAM-Peaks
   log "slot$slot baue #$VID ($BLK Karten): $TITLE"
   curl -s "$DISP/vocab-claim?id=$VID&worker=vbatch-$slot&model=$(printf '%s' "$MODEL" | jq -sRr @uri)" >/dev/null 2>&1 || true
 
   [ -d "$clone/.git" ] || GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone -q "$REPO_SSH" "$clone" \
-    || { log "slot$slot clone failed"; curl -s "$DISP/vocab-fail?id=$VID&reason=clone-failed" >/dev/null; skip_bump "$VID"; return; }
+    || { log "slot$slot clone failed"; curl -s "$DISP/vocab-fail?id=$VID&reason=clone-failed&tok=$(vtok)" >/dev/null; skip_bump "$VID"; return; }
   cd "$clone" || { skip_bump "$VID"; return; }
   git config user.email vbatch@magic; git config user.name vbatch
   git checkout -q main && git fetch -q origin main && git reset -q --hard origin/main && git clean -qfd
@@ -99,41 +121,41 @@ build_one() {
     echo "- Do NOT run full suites; iterate with focused -run tests."
   } > "$P1"
   local OUT1
-  OUT1=$(timeout 2400 "$CLAUDE_BIN" -p --model "$MODEL" --permission-mode bypassPermissions --max-turns 100 < "$P1" 2>>/tmp/vbatch-claude.err || echo TIMEOUT)
+  OUT1=$(vclaude 2400 100 < "$P1")
 
   if printf '%s' "$OUT1" | grep -q "^ENGINE_HOOK_NEEDED:"; then
     local HOOK; HOOK=$(printf '%s' "$OUT1" | grep "^ENGINE_HOOK_NEEDED:" | head -1)
     log "slot$slot #$VID engine-hook nötig"
-    curl -s "$DISP/vocab-fail?id=$VID&reason=$(printf '%s' "engine-hook: $HOOK" | jq -sRr @uri)" >/dev/null; skip_bump "$VID"; return
+    curl -s "$DISP/vocab-fail?id=$VID&reason=$(printf '%s' "engine-hook: $HOOK" | jq -sRr @uri)&tok=$(vtok)" >/dev/null; skip_bump "$VID"; return
   fi
   if printf '%s' "$OUT1" | grep -q "^ALREADY_EXISTS:"; then
     local EXFN; EXFN=$(printf '%s' "$OUT1" | grep "^ALREADY_EXISTS:" | head -1 | sed 's/^ALREADY_EXISTS: *//' | tr -d '`()' | awk '{print $1}')
     if [ -n "$EXFN" ] && grep -rqE "func +$EXFN\b|^[[:space:]]*$EXFN[[:space:]]+[A-Za-z\[]" "$clone/backend/cardfns/" "$clone/backend/game/" 2>/dev/null; then
       log "slot$slot #$VID bereits vorhanden ($EXFN) — schließe"
-      curl -s "$DISP/vocab-close?id=$VID" >/dev/null; skip_clear "$VID"; return
+      curl -s "$DISP/vocab-close?id=$VID&tok=$(vtok)" >/dev/null; skip_clear "$VID"; return
     fi
     log "slot$slot #$VID: ALREADY_EXISTS '$EXFN' nicht verifizierbar — baue trotzdem"
   fi
 
   local P2=/tmp/vbatch-$slot-$VID-p2.txt
   echo "Continue on branch $BR. Ensure ONE focused behavioral test (backend/cardfns/..._test.go, core + worst edge). Iterate: cd backend && $GO test ./cardfns/ -run '<Names>' -count=1. Add primitive to scripts/skills/primitive-catalog.md (signature + [dur:]). git add+commit. NEVER push. Final: BUILT: <slug> or FAILED: <reason>." > "$P2"
-  timeout 1800 "$CLAUDE_BIN" -p --model "$MODEL" --permission-mode bypassPermissions --max-turns 60 < "$P2" >>/tmp/vbatch-claude.err 2>&1 || true
+  vclaude 1800 60 < "$P2" >>/tmp/vbatch-claude.err 2>&1 || true
   [ -n "$(git status --porcelain)" ] && { git add -A; git commit -qm "feat(primitive): $TITLE (vbatch)" || true; }
 
   local NEW_TESTS TESTS
   NEW_TESTS=$(git diff main --name-only | grep '_test\.go$' || true)
   if [ -z "$NEW_TESTS" ]; then
-    log "slot$slot #$VID: kein Test — fail"; curl -s "$DISP/vocab-fail?id=$VID&reason=no-test" >/dev/null; skip_bump "$VID"; return
+    log "slot$slot #$VID: kein Test — fail"; curl -s "$DISP/vocab-fail?id=$VID&reason=no-test&tok=$(vtok)" >/dev/null; skip_bump "$VID"; return
   fi
   TESTS=$(cat $NEW_TESTS 2>/dev/null | sed -n 's/^func \(Test[A-Za-z0-9_]*\).*/\1/p' | sort -u | paste -sd'|')
   # SELBST-Test: nur die neuen Tests dieses Tickets (schnell, im eigenen Clone)
   if ! (cd backend && timeout 300 "$GO" build ./... >/dev/null 2>&1 \
      && timeout 300 "$GO" test ./cardfns/ -run "^($TESTS)$" -count=1 >/tmp/vbatch-$slot-$VID-gate.log 2>&1); then
-    log "slot$slot #$VID: Self-Test rot — fail"; curl -s "$DISP/vocab-fail?id=$VID&reason=gate-red" >/dev/null; skip_bump "$VID"; return
+    log "slot$slot #$VID: Self-Test rot — fail"; curl -s "$DISP/vocab-fail?id=$VID&reason=gate-red&tok=$(vtok)" >/dev/null; skip_bump "$VID"; return
   fi
 
   log "slot$slot #$VID: gebaut + self-getestet OK (Branch $BR)"
-  printf 'OK\t%s\t%s\t%s\t%s\t%s\n' "$VID" "$BR" "$clone" "$TITLE" "$BLK" > "$res"
+  printf 'OK\t%s\t%s\t%s\t%s\t%s\t%s\n' "$VID" "$BR" "$clone" "$TITLE" "$BLK" "$(vtok)" > "$res"
 }
 
 # --- Auswahl: bis BATCH_SIZE, meiste-Karten-zuerst, Skip-Liste raus ---------
@@ -166,23 +188,23 @@ INT="$WORKDIR_BASE-1"
 git -C "$INT" checkout -q main && git -C "$INT" fetch -q origin main && git -C "$INT" reset -q --hard origin/main && git -C "$INT" clean -qfd
 
 MERGED=()   # "VID BR"
-while IFS=$'\t' read -r st VID BR CLONE TITLE BLK; do
+while IFS=$'\t' read -r st VID BR CLONE TITLE BLK TOK; do
   [ "$st" = OK ] || continue
   [ -n "${VID:-}" ] || continue
   # Branch aus dem Slot-Clone in den Integration-Clone holen (lokaler Pfad-Fetch)
   if [ "$CLONE" != "$INT" ]; then
-    git -C "$INT" fetch -q "$CLONE" "$BR:$BR" 2>/dev/null || { log "#$VID: fetch Branch fehlgeschlagen — fail"; curl -s "$DISP/vocab-fail?id=$VID&reason=fetch-branch" >/dev/null; skip_bump "$VID"; continue; }
+    git -C "$INT" fetch -q "$CLONE" "$BR:$BR" 2>/dev/null || { log "#$VID: fetch Branch fehlgeschlagen — fail"; curl -s "$DISP/vocab-fail?id=$VID&reason=fetch-branch&tok=${TOK:-0}" >/dev/null; skip_bump "$VID"; continue; }
   fi
   if ! git -C "$INT" merge -q --no-ff "$BR" -m "feat(primitive): $TITLE (vbatch, vocab #$VID)"; then
     git -C "$INT" merge --abort 2>/dev/null || true
-    log "#$VID: Merge-Konflikt gegen Batch — fail"; curl -s "$DISP/vocab-fail?id=$VID&reason=merge-conflict" >/dev/null; skip_bump "$VID"; continue
+    log "#$VID: Merge-Konflikt gegen Batch — fail"; curl -s "$DISP/vocab-fail?id=$VID&reason=merge-conflict&tok=${TOK:-0}" >/dev/null; skip_bump "$VID"; continue
   fi
   # Build-Gate nach jedem Merge → isoliert einen Verursacher, der andere bricht
   if ! (cd "$INT/backend" && timeout 300 "$GO" build ./... >/dev/null 2>&1); then
     log "#$VID: bricht Integration-Build — rückgängig, fail"; git -C "$INT" reset -q --hard HEAD~1
-    curl -s "$DISP/vocab-fail?id=$VID&reason=integration-build-red" >/dev/null; skip_bump "$VID"; continue
+    curl -s "$DISP/vocab-fail?id=$VID&reason=integration-build-red&tok=${TOK:-0}" >/dev/null; skip_bump "$VID"; continue
   fi
-  MERGED+=("$VID $BR"); log "#$VID gemerged + Build grün"
+  MERGED+=("$VID ${TOK:-0}"); log "#$VID gemerged + Build grün"
 done < <(cat "$RES_DIR"/* 2>/dev/null)
 
 if [ "${#MERGED[@]}" = 0 ]; then log "Batch: nichts erfolgreich integriert"; exit 0; fi
@@ -209,7 +231,7 @@ if [ "$PUSHED" != 1 ]; then log "push fehlgeschlagen — Tickets bleiben offen (
   && sudo -n systemctl restart magic-backend magic-frontend 2>/dev/null && log "deployed" || log "deploy skipped/failed"
 
 for m in "${MERGED[@]}"; do
-  vid="${m%% *}"; log "vocab-close #$vid (requeued blockierte Karten)"; curl -s "$DISP/vocab-close?id=$vid" >/dev/null; skip_clear "$vid"
+  vid="${m%% *}"; vtk="${m##* }"; log "vocab-close #$vid (requeued blockierte Karten, ${vtk} tok)"; curl -s "$DISP/vocab-close?id=$vid&tok=$vtk" >/dev/null; skip_clear "$vid"
 done
 
 # Stale-park sweep: frisch gelandete Primitives gegen ALLE fremden Parks prüfen
