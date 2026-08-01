@@ -28,6 +28,9 @@ mkdir -p "$GOCACHE" 2>/dev/null || true
 MIRROR="${MIRROR:-/opt/development/openmagic-mirror.git}"
 
 MODEL="${MODEL:-claude-sonnet-5}"
+# Eskalation: Versuch 2 (nach Gate-Fail) läuft auf Fable statt Sonnet-Retry —
+# Sonnet ist bisher 3/3 im Erstversuch, Eskalation bleibt der seltene Pfad.
+MODEL_ESCALATE="${MODEL_ESCALATE:-claude-fable-5}"
 # Parser-Engineering braucht mehr Turns als eine Karte (reproduce -> mappen ->
 # --card-Verify gegen Oracle-Text -> Tests). 20 wäre sicher zu wenig.
 WORKER_MAX_TURNS="${WORKER_MAX_TURNS:-140}"
@@ -219,14 +222,15 @@ HARNESS
   : > "$TOK_FILE"
   attempt=1
   while [ "$attempt" -le "$MAX_ATTEMPTS" ]; do
-    log "attempt $attempt/$MAX_ATTEMPTS (model $MODEL)"
-    CLAUDE_OUT=$(claude_run --model "$MODEL" --permission-mode bypassPermissions \
+    RUN_MODEL="$MODEL"; [ "$attempt" -ge 2 ] && RUN_MODEL="$MODEL_ESCALATE"
+    log "attempt $attempt/$MAX_ATTEMPTS (model $RUN_MODEL)"
+    CLAUDE_OUT=$(claude_run --model "$RUN_MODEL" --permission-mode bypassPermissions \
       --max-turns "$WORKER_MAX_TURNS" \
       --append-system-prompt-file "$STATIC_FILE" < "$PROMPT_FILE")
 
     if printf '%s' "$CLAUDE_OUT" | grep -qi "model.*not exist\|CLAUDE_TIMEOUT_OR_ERROR"; then
       log "flake — retry mit demselben Modell (transient)"
-      CLAUDE_OUT=$(claude_run --model "$MODEL" --permission-mode bypassPermissions \
+      CLAUDE_OUT=$(claude_run --model "$RUN_MODEL" --permission-mode bypassPermissions \
         --max-turns "$WORKER_MAX_TURNS" --append-system-prompt-file "$STATIC_FILE" < "$PROMPT_FILE")
     fi
 
