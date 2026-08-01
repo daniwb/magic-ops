@@ -211,7 +211,8 @@ while true; do
 - Run all commands in the FOREGROUND and wait for them; no backgrounding.
 - The harness gate afterwards runs: go build ./... (in backend/),
   go test ./cards/ -run 'TestVocabulary|TestV2|TestShape_' -count=1,
-  and reparse.py --review-pile (eligibility MUST have increased for DONE).
+  and reparse.py --review-pile: DONE requires eligibility to rise OR your task's
+  miss-shape to lose instances in the demand table (both count as progress).
   Do not run the full suite yourself.
 - Your FINAL output must contain exactly one verdict block:
     VERDICT: DONE|NEEDS_PRIMITIVE|SEMANTIC_GAP|AMBIGUOUS|NOT_A_SHAPE

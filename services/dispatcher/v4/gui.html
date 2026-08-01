@@ -144,12 +144,18 @@ async function tick(){
     const s = await j('/stats');
     const st = s.states||{};
     $('#kpis').innerHTML =
-      kpi(s.fixed_24h??0,'Fixes /24h',true,'done') +
+      kpi(s.fixed_24h??0,'Fixes /24h',true,'done',
+          `7 Tage: ${s.fixed_7d??0}`) +
       kpi(st.todo??0,'wartend',false,'todo') +
       kpi(st.working??0,'in Arbeit',false,'working') +
       kpi(st.blocked??0,'blockiert',false,'blocked') +
       kpi(st.wait??0,'wait-triage',false,'wait') +
       kpi(s.vocab_open??0,'[VOCAB] offen',false,'') +
+      kpi(s.vocab_done_24h??0,'Primitive /24h',false,'',
+          `7 Tage: ${s.vocab_done_7d??0}`) +
+      kpi(s.cards_since_vocab??0,'Karten seit VOCAB',false,'',
+          s.last_vocab_ts ? `letztes Primitiv ${dt(s.last_vocab_ts)}` : 'noch kein Primitiv',
+          "showSinceVocab()") +
       kpi(s.backlog_remaining??0,'Backlog-Vorrat',false,'') +
       kpi(s.triage_24h??0,'GPU-Triage /24h',false,'',
           `gesamt ${s.triage_total??0} · ${s.triage_missing_open??0} MISSING offen`,
@@ -211,7 +217,7 @@ async function usage(){
 // das Urteil, entscheidet aber nichts; Requeue bleibt wie gehabt manuell.
 let triV='any', triT='';
 async function showTriage(v,t){
-  triV = v; triT = t; curState = null;
+  triV = v; triT = t; curState = null; sinceVocabView = false;
   const qs = `/tickets?triage=${v}&tier=${t}&limit=60`;
   const ts = await j(qs);
   $('#listTitle').textContent = 'GPU-Triage';
@@ -240,8 +246,24 @@ async function showTriage(v,t){
   ).join('')+'</tbody></table>';
 }
 
+// Karten, die SEIT dem letzten fertigen Primitiv abgeschlossen wurden.
+// curState=null, damit refreshList() nicht in showList zurückfällt.
+let sinceVocabView = false;
+async function showSinceVocab(){
+  curState = null; sinceVocabView = true;
+  const ts = await j('/tickets?since_vocab=1&limit=200');
+  $('#listTitle').textContent = 'Karten seit letztem VOCAB';
+  $('#listCount').textContent = ts.length ? `(${ts.length}${ts.length===200?'+':''})` : '(0)';
+  if(!ts.length){ $('#tickets').innerHTML='<span class="empty">seit dem letzten Primitiv noch keine Karte fertig</span>'; return; }
+  $('#tickets').innerHTML = '<table><tbody>'+ts.map(t=>
+    `<tr><td style="width:44px"><a href="#" style="color:var(--acc);text-decoration:none" onclick="openTicket(${t.id});return false">#${t.id}</a></td>
+     <td>${esc(t.title).slice(0,68)} ${t.mechanic?`<span class="pill">${esc(t.mechanic)}</span>`:''}
+        ${t.tokens?`<span class="pill" title="verbrauchte Claude-Token">${t.tokens>=1000?(t.tokens/1000).toFixed(1)+'k':t.tokens} tok</span>`:''}</td></tr>`
+  ).join('')+'</tbody></table>';
+}
+
 async function showList(state){
-  curState = state;
+  curState = state; sinceVocabView = false;
   $('#listTitle').textContent = state;
   const ts = await j('/tickets?state='+state+'&limit=60');
   $('#listCount').textContent = ts.length ? `(${ts.length}${ts.length===60?'+':''})` : '';
@@ -258,7 +280,7 @@ async function showList(state){
 
 // Liste neu laden — je nachdem, welche Ansicht gerade aktiv ist
 // (curState===null bedeutet: GPU-Triage-Ansicht mit eigenen Filtern).
-function refreshList(){ if(curState===null) showTriage(triV,triT); else showList(curState); }
+function refreshList(){ if(sinceVocabView) showSinceVocab(); else if(curState===null) showTriage(triV,triT); else showList(curState); }
 async function requeue(id){ await fetch('/action?do=requeue&id='+id); refreshList(); tick(); }
 
 const esc = s => String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;');

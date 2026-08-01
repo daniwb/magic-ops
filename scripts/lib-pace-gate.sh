@@ -114,7 +114,12 @@ pace_ok() {
   # (4) Tages-Stufe → Stopp-Auslöser, dann AUS bis zur nächsten Tagesgrenze
   if [ "${_P_R7:-0}" -gt 0 ] 2>/dev/null; then
     _pace_day_bounds "${_P_R7}"
-    if [ "${_P_U7:-0}" -gt "${_P_ALLOWED}" ] 2>/dev/null; then
+    # -ge, NICHT -gt: bei Verbrauch == Tages-Stufe ist das Tagesbudget genau
+    # aufgebraucht, nicht "noch frei". Mit -gt lief die Fabrik bei 29% Verbrauch
+    # gegen 29% erlaubt weiter (Tag 2/7) und stoppte erst bei 30% — eine ganze
+    # Prozentstufe zu spät, und der Status meldete dabei "unter Tages-Stufe",
+    # obwohl er exakt AUF der Stufe stand.
+    if [ "${_P_U7:-0}" -ge "${_P_ALLOWED}" ] 2>/dev/null; then
       echo "${_P_NEXTDAY}" > "$PACE_OFF_FILE"
       return 1
     fi
@@ -137,9 +142,9 @@ pace_status() {
     echo "nächste Stufe: $(TZ='Europe/Zurich' date -d @"$nextday" '+%F %H:%M %Z')"
   if [ "$off" -gt 0 ] 2>/dev/null && [ "$now" -lt "$off" ]; then
     echo "PACE-PAUSE bis $(TZ='Europe/Zurich' date -d @"$off" '+%F %H:%M %Z')"
-  elif [ "$allowed" != "n/a" ] && [ "${_P_U7:-0}" -gt "$allowed" ] 2>/dev/null; then
+  elif [ "$allowed" != "n/a" ] && [ "${_P_U7:-0}" -ge "$allowed" ] 2>/dev/null; then
     echo "→ würde pausieren (aus bis $(TZ='Europe/Zurich' date -d @"$nextday" '+%F %H:%M %Z' 2>/dev/null))"
-  else echo "→ läuft (unter Tages-Stufe)"; fi
+  else echo "→ läuft (unter Tages-Stufe, Stopp bei >=)"; fi
 }
 
 # Direktaufruf: `bash lib-pace-gate.sh status|ok`  (gesourct: nur Funktionen)

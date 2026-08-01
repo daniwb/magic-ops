@@ -26,7 +26,21 @@ MIRROR="${MIRROR:-/opt/development/openmagic-mirror.git}"
 
 MODEL_SONNET="${MODEL_SONNET:-claude-sonnet-5}"
 MODEL_HAIKU="${MODEL_HAIKU:-claude-haiku-4-5-20251001}"
-WORKER_MAX_TURNS="${WORKER_MAX_TURNS:-20}"
+# ALLINONE=1 — Experiment (2026-07-30): der Worker PARKT nicht mehr auf einem
+# fehlenden Primitiv, sondern BAUT es in DERSELBEN Session und implementiert die
+# Karte danach weiter. Frage: ist das billiger als der heutige Split
+# (Park-Run + VOCAB-Batch-Session + Requeue-Run), bei dem der ~93k-Token-Katalog
+# ZWEIMAL bezahlt wird und eine dritte Session dazwischenliegt?
+# Default 0 = unverändertes Produktionsverhalten.
+ALLINONE="${ALLINONE:-0}"
+# Ein Primitiv zu bauen braucht deutlich mehr Turns als eine Karte (der
+# VOCAB-Builder nutzt 100+60). 20 wäre garantiert zu wenig und würde das
+# Experiment künstlich schlecht aussehen lassen.
+if [ "$ALLINONE" = "1" ]; then
+  WORKER_MAX_TURNS="${WORKER_MAX_TURNS:-60}"
+else
+  WORKER_MAX_TURNS="${WORKER_MAX_TURNS:-20}"
+fi
 # Mechaniken, die Haiku auf Erstversuch zuverlässig schafft (aus Bugfixer)
 HAIKU_MECHS=" create_token draw gain_life mill add_mana pump_boost destroy_target exile_target scry each_opponent put_counter reanimate_gy_to_bf "
 MAX_ATTEMPTS="${MAX_ATTEMPTS:-3}"
@@ -35,7 +49,7 @@ ONE_SHOT="${ONE_SHOT:-0}"   # 1 = genau ein Ticket bearbeiten, dann exit (für E
 DEPLOY="${DEPLOY:-1}"       # 0 = kein Build/Restart des Backends nach Merge
 
 # Usage-Gate (portiert aus kanboard-bugfixer.sh, fail-open)
-USAGE_LIMIT_PCT="${USAGE_LIMIT_PCT:-95}"
+USAGE_LIMIT_PCT="${USAGE_LIMIT_PCT:-99}"   # 95->99 (2026-07-29), siehe Orchestrator
 USAGE_GATE_TTL="${USAGE_GATE_TTL:-180}"
 USAGE_CACHE="${USAGE_CACHE:-/tmp/claude-usage-gate.json}"
 PAUSE_FILE="${PAUSE_FILE:-/opt/development/magic-claude/.orch-pause-until}"
@@ -98,6 +112,19 @@ usage_gate() {
 # ---- Difficulty-Router: Haiku für einfache Bundle-Mechaniken im Erstversuch ----
 pick_model() {
   local title="$1" attempt="$2" retries="$3" mech
+  # HAIKU_ROUNDS=N — Experiment: die ersten N Versuche mit Haiku, erst danach
+  # auf Sonnet eskalieren. Frage: kann Haiku Karten ÜBERHAUPT korrekt bauen
+  # (das Fast-Gate ist der Schiedsrichter), oder ist es nur bei den
+  # HAIKU_MECHS-Bundles brauchbar? Steht bewusst VOR den beiden Regeln unten,
+  # die sonst jeden Versuch>1 sofort auf Sonnet ziehen würden.
+  # Per-Worker setzbar (wie catalog-mode), damit ein Worker das Experiment
+  # fährt und der andere unverändert als Vergleich weiterläuft:
+  #   /opt/development/magic-ops/haiku-rounds-<worker-id>   (Inhalt: z.B. 2)
+  local hr="${HAIKU_ROUNDS:-$(cat "/opt/development/magic-ops/haiku-rounds-$WORKER_ID" 2>/dev/null || echo 0)}"
+  if [ "${hr:-0}" -gt 0 ] 2>/dev/null; then
+    if [ "$attempt" -le "$hr" ]; then echo "$MODEL_HAIKU"; else echo "$MODEL_SONNET"; fi
+    return
+  fi
   [ "$attempt" -gt 1 ] && { echo "$MODEL_SONNET"; return; }
   [ "$retries" != "0" ] && { echo "$MODEL_SONNET"; return; }
   # CHEAP_FIRST=1 (z.B. DeepSeek flash→pro): billiges Modell für JEDEN
@@ -137,6 +164,12 @@ claude_run() { # claude-Flags (ohne --output-format); Prompt via stdin
   # (.usage ist nur der letzte Turn — hat historisch massiv unterreported).
   used=$(printf '%s' "$raw" | jq -r 'if (type=="object" and .modelUsage) then ([.modelUsage[] | (.inputTokens//0)+(.outputTokens//0)+(.cacheReadInputTokens//0)+(.cacheCreationInputTokens//0)] | add // 0) elif type=="object" then ((.usage.input_tokens//0)+(.usage.cache_creation_input_tokens//0)+(.usage.cache_read_input_tokens//0)+(.usage.output_tokens//0)) else 0 end' 2>/dev/null)
   [ -n "$used" ] && [ "$used" != 0 ] && echo "$used" >> "$TOK_FILE"
+  # num_turns wurde bisher verworfen — ohne diese Zahl ist nicht belegbar, wofür
+  # die Tokens draufgehen (System-Prompt wird PRO TURN neu gelesen). Billig zu
+  # loggen, sagt uns ob das 20er-Limit überhaupt erreicht wird.
+  printf '%s turns=%s tok=%s\n' "$(date +%H:%M:%S)" \
+    "$(printf '%s' "$raw" | jq -r '.num_turns // "?"' 2>/dev/null)" "${used:-0}" \
+    >> "/tmp/disp-$WORKER_ID-turns.log" 2>/dev/null || true
   txt=$(printf '%s' "$raw" | jq -r '.result // empty' 2>/dev/null)
   if [ -n "$txt" ]; then printf '%s' "$txt"; else printf '%s' "$raw"; fi
 }
@@ -249,13 +282,39 @@ while true; do
   # ebenfalls am Ende — Prefix bleibt stabil.
   SRC_CAT="$CLONE_PATH/scripts/skills/primitive-catalog.md"; [ -f "$SRC_CAT" ] || SRC_CAT="$CATALOG"
   CONCISE_CAT="/tmp/disp-$WORKER_ID-catalog.md"
-  if [ "${CATALOG_FULL:-0}" = "1" ]; then
+  # CATALOG_MODE: index (default) | headings | full
+  #   index    = Signatur-INDEX (Status quo). GEMESSEN 2026-07-29: 92846 tok/Turn.
+  #   headings = nur die Abschnitts-Überschriften als Landkarte; die Einträge holt
+  #              das Modell per Grep aus dem Katalog im Clone. GEMESSEN: 41935
+  #              tok/Turn (-55%). Risiko: das Modell SIEHT nicht mehr, dass ein
+  #              Primitiv existiert -> evtl. mehr falsche [VOCAB]-Tickets. Genau
+  #              das misst der A/B (siehe scripts/catalog-ab-report.sh).
+  #   full     = kompletter Knapp-Katalog (alte Escape-Hatch).
+  # Per-Worker überschreibbar via Datei, damit zwei Worker gleichzeitig
+  # unterschiedliche Modi fahren können (echtes A/B, gleicher Ticket-Pool):
+  #   /opt/development/magic-ops/catalog-mode-<worker-id>
+  CATALOG_MODE="${CATALOG_MODE:-$(cat "/opt/development/magic-ops/catalog-mode-$WORKER_ID" 2>/dev/null || echo index)}"
+  [ "${CATALOG_FULL:-0}" = "1" ] && CATALOG_MODE=full   # Rückwärtskompatibilität
+  if [ "$CATALOG_MODE" = "full" ]; then
     # Escape-Hatch: kompletter Knapp-Katalog wie früher (~52k Token).
     GEN_PY="/opt/development/magic-claude/scripts/concise-catalog.py"
     if [ -f "$GEN_PY" ]; then python3 "$GEN_PY" "$SRC_CAT" > "$CONCISE_CAT" 2>/dev/null && [ -s "$CONCISE_CAT" ] || cp "$SRC_CAT" "$CONCISE_CAT"; else cp "$SRC_CAT" "$CONCISE_CAT"; fi
+  elif [ "$CATALOG_MODE" = "headings" ]; then
+    # Variante F: nur Überschriften + expliziter Grep-Auftrag.
+    { grep '^#' "$SRC_CAT"
+      echo ""
+      echo "(ONLY the section headings are listed above. The FULL primitive entries —"
+      echo "exact signatures, parameters and [dur] semantics — live in"
+      echo "scripts/skills/primitive-catalog.md in this checkout. You MUST grep/read"
+      echo "that file for every primitive you intend to use, BEFORE using it, and"
+      echo "BEFORE filing any MISSING_PRIMITIVE — the primitive very likely exists.)"
+    } > "$CONCISE_CAT"
+    [ -s "$CONCISE_CAT" ] || cp "$SRC_CAT" "$CONCISE_CAT"
   else
-    # Standard: Signatur-INDEX (~10-15k Token statt ~52-86k) — Überschriften,
-    # Signatur (bis zum ersten " — ") und der [dur]-Tag. Volle Einträge holt
+    # Standard: Signatur-INDEX — Überschriften, Signatur (bis zum ersten " — ")
+    # und der [dur]-Tag. ACHTUNG: der alte Kommentar behauptete "~10-15k Token";
+    # nachgemessen 2026-07-29 sind es ~86k (schon am Einführungstag 07-25 ~75k).
+    # Volle Einträge holt
     # der Worker gezielt per Grep aus dem Katalog im Clone (erlaubte
     # Ausnahme in Regel 1 — Docs ja, Engine-Code nein).
     awk '
@@ -271,7 +330,13 @@ while true; do
     [ -s "$CONCISE_CAT" ] || cp "$SRC_CAT" "$CONCISE_CAT"
   fi
 
-  # STATIC_FILE geht per --append-system-prompt in den SYSTEM-Prompt: der hat
+  # WICHTIG: per --append-system-prompt-FILE übergeben, NICHT als "$(cat …)"-
+  # Argument. Linux begrenzt ein EINZELNES argv-Element auf MAX_ARG_STRLEN
+  # (32 Pages = 131072 B) — unabhängig von ARG_MAX (2 MB). Der statische Block
+  # wuchs 2026-07-29 auf 134 kB und jeder Versuch 1 starb sofort mit
+  # "timeout: Argument list too long"; der Flake-Retry lief dann OHNE Katalog
+  # weiter (still degradiert). Dateipfad = kurzes Argument, Limit entfällt.
+  # STATIC_FILE geht in den SYSTEM-Prompt: der hat
   # einen EIGENEN Cache-Breakpoint, während der User-Message-Breakpoint erst
   # am Ende der (pro Ticket verschiedenen) Message liegt — im User-Teil würde
   # der statische Block daher NIE über Jobs hinweg gecacht (gemessen:
@@ -351,6 +416,38 @@ ENGINE TEST CHEAT SHEET (write tests from this — no go doc round-trips needed 
   // counters: AddCounters(c, game.CounterPlusOnePlusOne, 1) (cardfns helper)
   // records (STEP 0): db := cards.NewCardDatabase(); db.LoadFromDir("../data/carddb"); card, err := db.CreateCard("Name", 0)
 INSTR
+    # ---- ALL-IN-ONE-Modus: Primitiv selbst bauen statt parken ----------------
+    # Bewusst ANS ENDE des statischen Blocks, damit es die Regeln 1/4/5/7 oben
+    # sichtbar überschreibt (das Modell liest zuletzt Gelesenes als maßgeblich).
+    # Bleibt byte-identisch über alle Tickets -> der Cache-Breakpoint hält.
+    if [ "$ALLINONE" = "1" ]; then
+      cat <<'ALLIN'
+
+=== ALL-IN-ONE MODE — THESE RULES OVERRIDE RULES 1, 4, 5 AND 7 ABOVE ===
+You do NOT park. If the vocabulary is missing something, you BUILD it here and
+now, then finish the card in the same session.
+
+A. Rule 1 (no engine exploration) is LIFTED: you MAY read backend/cardfns/ and
+   backend/game/ — you need them to add a primitive correctly.
+B. Before building anything, STILL grep the FULL catalog
+   (scripts/skills/primitive-catalog.md) AND backend/cardfns/ for an existing
+   symbol. Most "missing" capabilities already exist under a different name;
+   an unfiltered version where a filtered one is needed does NOT count.
+C. If it genuinely does not exist, build it ADDITIVELY:
+   - new backend/cardfns/lib_<slug>.go (never rewrite existing primitives)
+   - ONE focused behavioral test for the primitive
+   - add its signature + [dur: ...] line to scripts/skills/primitive-catalog.md
+   Only touch backend/game/ if there is no other way AND you are certain it is
+   safe; prefer composing what is already there.
+D. THEN implement the card(s) as usual and print the normal final lines.
+E. Do NOT print MISSING_PRIMITIVE / SHAPE_DEMAND / RESULT: PARKED. They are not
+   valid outcomes here — building it IS the job.
+F. Only if the capability needs an engine change you judge UNSAFE, stop and
+   print exactly:  BLOCKED_UNSAFE: <slug> | <what would have to change>
+G. Report what you did on its own line so the experiment can be measured:
+   PRIMITIVE_BUILT: <slug>      (or) PRIMITIVE_BUILT: none
+ALLIN
+    fi
   } > "$STATIC_FILE"
   # ---- DYNAMISCHER TEIL (User-Message: nur das Ticket + Fix-Loop-Anhänge) ----
   {
@@ -372,7 +469,7 @@ INSTR
 
     CLAUDE_OUT=$(claude_run --model "$MODEL" --permission-mode bypassPermissions \
       --max-turns "$WORKER_MAX_TURNS" \
-      --append-system-prompt "$(cat "$STATIC_FILE")" < "$PROMPT_FILE")
+      --append-system-prompt-file "$STATIC_FILE" < "$PROMPT_FILE")
 
     # Modell-Flakiness (Timeout/"model may not exist") ist meist TRANSIENT →
     # EINMAL mit DEMSELBEN (billigen) Modell neu, statt teuer auf pro zu springen.
@@ -405,6 +502,21 @@ INSTR
     if printf '%s' "$CLAUDE_OUT" | grep -qE "^(MISSING_PRIMITIVE|SHAPE_DEMAND):"; then
       PRIM=$(printf '%s' "$CLAUDE_OUT" | grep -E "^(MISSING_PRIMITIVE|SHAPE_DEMAND):" | head -1 | sed -E 's/^MISSING_PRIMITIVE: *//; s/^SHAPE_DEMAND: */shape:/')
       PRIM_WHY=$(printf '%s' "$CLAUDE_OUT" | grep "^WHY:" | head -1 | sed 's/^WHY: *//')
+      # ALL-IN-ONE: Parken ist hier KEIN gültiger Ausgang — zurückschicken mit
+      # der Aufforderung, das Primitiv zu bauen. Nur wenn das Modell einen
+      # Engine-Eingriff als unsicher meldet (BLOCKED_UNSAFE), wird doch geparkt;
+      # sonst würde der Worker eine unsichere Änderung erzwingen.
+      if [ "$ALLINONE" = "1" ] && ! printf '%s' "$CLAUDE_OUT" | grep -q "^BLOCKED_UNSAFE:"; then
+        log "all-in-one: '$PRIM' als fehlend gemeldet — zurück an das Modell (bauen statt parken), attempt $attempt"
+        GATE_TAIL="You printed MISSING_PRIMITIVE/PARKED, which is NOT a valid outcome in ALL-IN-ONE MODE. Build '$PRIM' yourself now: grep the full catalog and backend/cardfns/ once more to be sure it is really absent, then add backend/cardfns/lib_<slug>.go plus ONE focused behavioral test, register its signature in scripts/skills/primitive-catalog.md, and THEN finish the card. If and only if it requires an engine change you consider unsafe, print BLOCKED_UNSAFE: <slug> | <what>."
+        {
+          echo ""
+          echo "=== YOUR PREVIOUS ATTEMPT PARKED — that is not allowed here ==="
+          echo "$GATE_TAIL"
+        } >> "$PROMPT_FILE"
+        attempt=$((attempt + 1))
+        continue
+      fi
       # PARKED ohne gebaute Karten → ganzes Ticket parken. FIXED mit skip → weiter (Bundle-Teilfix).
       if printf '%s' "$CLAUDE_OUT" | grep -q "^RESULT: PARKED"; then
         OUTCOME="parked_prim"
@@ -413,12 +525,26 @@ INSTR
     fi
 
     # Hat Claude überhaupt Dateien geschrieben?
-    if [ -z "$(git status --porcelain)" ]; then
+    #
+    # WICHTIG: nicht nur `git status --porcelain` prüfen. Das sieht ausschliesslich
+    # UNCOMMITTETE Änderungen — ein Modell, das seine Arbeit ordentlich selbst
+    # committet, hinterlässt einen SAUBEREN Baum und wurde deshalb als "nichts
+    # getan" gewertet. Der Versuch verfiel, der nächste sah die eigene Arbeit
+    # bereits am HEAD ("already resolved at HEAD (commit …)") und wurde für diese
+    # korrekte Aussage ebenfalls als Fehlschlag gezählt — nach 3 Runden landete
+    # ein FERTIGES Ticket in wait-triage und die Commits blieben als
+    # unreferenzierte Objekte im Worker-Clone liegen (2026-07-31: 10 solcher
+    # Commits geborgen, ~20 Karten + 1 Primitiv, alle Tests grün).
+    # Deshalb zusätzlich zählen, ob es neue Commits gegenüber origin/main gibt.
+    NEW_COMMITS=$(git rev-list --count origin/main..HEAD 2>/dev/null || echo 0)
+    if [ -z "$(git status --porcelain)" ] && [ "${NEW_COMMITS:-0}" -eq 0 ]; then
       log "attempt $attempt: keine Dateien geschrieben"
       GATE_TAIL="Claude wrote no files (output tail: $(printf '%s' "$CLAUDE_OUT" | tail -c 300))"
       attempt=$((attempt + 1))
       continue
     fi
+    [ "${NEW_COMMITS:-0}" -gt 0 ] && [ -z "$(git status --porcelain)" ] && \
+      log "attempt $attempt: Arbeit liegt als $NEW_COMMITS Commit(s) vor (sauberer Baum) — zählt als erledigt"
 
     # ---- Phase 2: Fast-Gate ----
     # Testnamen DETERMINISTISCH aus den neu angelegten/geänderten *_test.go

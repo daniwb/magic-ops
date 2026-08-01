@@ -19,7 +19,8 @@ VOCAB_BATCH="/opt/development/magic-claude/scripts/dispatcher-vocab-batch.sh"
 VOCAB_HIGH="${VOCAB_HIGH:-100}"      # Card→Vocab Umschaltschwelle
 VOCAB_LOW="${VOCAB_LOW:-0}"          # Vocab→Card Drain-Ziel
 POLL="${POLL:-60}"                   # Sekunden zwischen Zähl-Checks (Card-Phase)
-USAGE_LIMIT_PCT="${USAGE_LIMIT_PCT:-95}"
+USAGE_LIMIT_PCT="${USAGE_LIMIT_PCT:-99}"   # 95->99 (2026-07-29): 7d-Fenster lief sonst
+                                           # am letzten Wochentag ungenutzt aus
 STATE_DIR="/tmp/orch"; mkdir -p "$STATE_DIR"
 PHASE_FILE="$STATE_DIR/phase"
 
@@ -91,8 +92,19 @@ cleanup() { stop_cards; log "Orchestrator beendet"; }
 trap cleanup EXIT INT TERM
 
 # --- Hauptschleife ---------------------------------------------------------
-log "Orchestrator start (VOCAB_HIGH=$VOCAB_HIGH VOCAB_LOW=$VOCAB_LOW usage_lim=${USAGE_LIMIT_PCT}%)"
+# Resume-Fix: ein (Re-)Start (z.B. nach Reboot/Crash) landete bisher IMMER in
+# CARD-Phase, auch wenn gerade eine VOCAB-Drainage lief (vc>VOCAB_LOW). Das
+# feuerte unnötig neue Card-Worker (mehr VOCAB-Bedarf) mitten im Drain. Beim
+# Start also: offene VOCAB > LOW → direkt in VOCAB-Phase weitermachen.
+vc0=$(vocab_count)
+log "Orchestrator start (VOCAB_HIGH=$VOCAB_HIGH VOCAB_LOW=$VOCAB_LOW usage_lim=${USAGE_LIMIT_PCT}%, vc0=$vc0)"
+skip_card_phase=0
+[ "$vc0" -gt "$VOCAB_LOW" ] 2>/dev/null && skip_card_phase=1
 while true; do
+  if [ "$skip_card_phase" = 1 ]; then
+    skip_card_phase=0
+    log "Resume: $vc0 offene VOCAB (> $VOCAB_LOW) → weiter in VOCAB-Phase statt frischer CARD-Phase"
+  else
   # ===== CARD-PHASE =====
   echo card > "$PHASE_FILE"
   pause_gate
@@ -109,6 +121,7 @@ while true; do
     [ "$vc" -ge "$VOCAB_HIGH" ] && { log "Schwelle erreicht ($vc >= $VOCAB_HIGH) → VOCAB-Phase"; break; }
   done
   stop_cards
+  fi
 
   # ===== VOCAB-PHASE =====
   echo vocab > "$PHASE_FILE"

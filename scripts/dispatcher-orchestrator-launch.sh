@@ -9,6 +9,11 @@ DISP_BIN="/opt/development/magic-claude/services/dispatcher/v4/dispatcher-v4"
 DB_PATH="/opt/development/magic-claude/services/dispatcher/v4/dispatcher.db"
 ORCH="/opt/development/magic-claude/scripts/dispatcher-orchestrator.sh"
 
+# /tmp is tmpfs and gets wiped on reboot; the @reboot cron's own log redirect
+# (>> /tmp/orch/launch.log) fails silently if this doesn't exist yet, which
+# previously prevented the whole script from ever running after a reboot.
+mkdir -p /tmp/orch
+
 # Session anlegen falls nicht vorhanden
 tmux has-session -t "$SESSION" 2>/dev/null || tmux new-session -d -s "$SESSION" -n disp \
   "while true; do PORT=:9999 DB_PATH='$DB_PATH' '$DISP_BIN' >> /tmp/dispatcher-v4.log 2>&1; echo \"[\$(date -Is)] dispatcher exited, restart 5s\" >> /tmp/dispatcher.log; sleep 5; done"
