@@ -135,6 +135,7 @@ func ingestBacklog(limit int) int {
 	var off int
 	fmt.Sscanf(metaGet("backlog_offset"), "%d", &off)
 	added := 0
+	skipped := 0
 	for off < len(lines) && added < limit {
 		line := strings.TrimSpace(lines[off])
 		off++
@@ -148,10 +149,28 @@ func ingestBacklog(limit int) int {
 		if json.Unmarshal([]byte(line), &t) != nil || t.Title == "" {
 			continue
 		}
+		// DEDUPE: never enqueue a title that already exists in ANY state.
+		// Ohne diese Prüfung wurde derselbe Titel mehrfach zum Ticket — der
+		// Bulk-Import vom 2026-07-20 15:02 erzeugte so 44 Dubletten-Gruppen /
+		// 49 überzählige Tickets (4.2% der Karten-Queue, ~99M Token). Zwei
+		// Worker bauten dieselbe Bundle-Karte parallel; die Handler-Funktionen
+		// kollidierten und main compilierte nicht mehr (#729/#730).
+		// Bewusst OHNE State-Filter: ist der Titel schon 'done', ist die Karte
+		// gefixt und ein zweites Ticket wäre reine Doppelarbeit. Ein echtes
+		// Requeue läuft über /action?do=requeue, nicht über den Ingest.
+		var seen int
+		db.QueryRow(`SELECT COUNT(*) FROM tickets WHERE title=?`, t.Title).Scan(&seen)
+		if seen > 0 {
+			skipped++
+			continue
+		}
 		mech := parseMechanic(t.Title)
 		db.Exec(`INSERT INTO tickets(type,title,descr,mechanic,state,created_at,updated_at)
 		         VALUES('card',?,?,?,'todo',?,?)`, t.Title, t.Description, mech, now(), now())
 		added++
+	}
+	if skipped > 0 {
+		log.Printf("ingest: %d Zeile(n) als Dublette übersprungen (Titel existiert bereits)", skipped)
 	}
 	metaSet("backlog_offset", fmt.Sprintf("%d", off))
 	return added
@@ -585,8 +604,24 @@ func stats(w http.ResponseWriter, r *http.Request) {
 	tr.Close()
 
 	// Durchsatz letzte 24h (done-events)
-	var fixed24 int
+	var fixed24, fixed7d int
 	db.QueryRow(`SELECT COUNT(*) FROM events WHERE msg LIKE 'FIXED%' AND ts>?`, now()-86400).Scan(&fixed24)
+	db.QueryRow(`SELECT COUNT(*) FROM events WHERE msg LIKE 'FIXED%' AND ts>?`, now()-604800).Scan(&fixed7d)
+
+	// Karten seit dem letzten fertigen Primitiv (Fortschritt der laufenden
+	// CARD-Phase — beantwortet "wie viel haben wir mit dem aktuellen Vokabular
+	// noch geschafft, bevor die nächste VOCAB-Runde nötig wird").
+	lastVoc := lastVocabDone()
+	var cardsSinceVocab int
+	db.QueryRow(`SELECT COUNT(*) FROM tickets WHERE type IN('card','split')
+	             AND state='done' AND updated_at>?`, lastVoc).Scan(&cardsSinceVocab)
+
+	// Gebaute Primitive (VOCAB). Es gibt KEIN "PRIM-BUILD done"-Event —
+	// /vocab-close setzt nur state='done' —, deshalb über die tickets-Tabelle
+	// statt über events zählen.
+	var vocabDone24, vocabDone7d int
+	db.QueryRow(`SELECT COUNT(*) FROM tickets WHERE type='vocab' AND state='done' AND updated_at>?`, now()-86400).Scan(&vocabDone24)
+	db.QueryRow(`SELECT COUNT(*) FROM tickets WHERE type='vocab' AND state='done' AND updated_at>?`, now()-604800).Scan(&vocabDone7d)
 
 	// aktive Primitive-Builder (VOCABs gerade in Bau)
 	type bld struct {
@@ -631,13 +666,30 @@ func stats(w http.ResponseWriter, r *http.Request) {
 	}
 	writeJSON(w, map[string]any{
 		"states": counts, "vocab_open": vocabOpen, "done_total": doneTotal,
-		"fixed_24h": fixed24, "workers": workers, "builders": builders, "top_vocab": topVocab,
+		"fixed_24h": fixed24, "fixed_7d": fixed7d,
+		"vocab_done_24h": vocabDone24, "vocab_done_7d": vocabDone7d,
+		"cards_since_vocab": cardsSinceVocab, "last_vocab_ts": lastVoc,
+		"workers": workers, "builders": builders, "top_vocab": topVocab,
 		"backlog_remaining": backlogRemaining,
 		"triage_24h":        triage24, "triage_total": triageTotal, "triage_missing_open": triageMissing,
 	})
 }
 
 // ---- /tickets?state=&q=&limit= : Ticket-Browser für die GUI ----
+// lastVocabDone liefert den Zeitpunkt des zuletzt FERTIG gebauten Primitivs.
+// Das ist die Grenze für "Karten seit dem letzten VOCAB-Lauf": der Orchestrator
+// wechselt zwischen CARD- und VOCAB-Phase, und genau dieser Zeitpunkt trennt
+// "mit dem alten Vokabular gebaut" von "mit dem neuen". 0 = noch nie ein VOCAB
+// fertig → die Anzeige zählt dann schlicht alles.
+func lastVocabDone() int64 {
+	var ts sql.NullInt64
+	db.QueryRow(`SELECT MAX(updated_at) FROM tickets WHERE type='vocab' AND state='done'`).Scan(&ts)
+	if ts.Valid {
+		return ts.Int64
+	}
+	return 0
+}
+
 func tickets(w http.ResponseWriter, r *http.Request) {
 	st := r.URL.Query().Get("state")
 	q := r.URL.Query().Get("q")
@@ -680,6 +732,12 @@ func tickets(w http.ResponseWriter, r *http.Request) {
 	if tier != "" {
 		sql += ` AND lt.tier=?`
 		args = append(args, tier)
+	}
+	// since_vocab=1 → nur Karten, die SEIT dem letzten fertigen Primitiv
+	// abgeschlossen wurden (die KPI-Kachel verlinkt hierher).
+	if r.URL.Query().Get("since_vocab") == "1" {
+		sql += ` AND t.type IN('card','split') AND t.state='done' AND t.updated_at>?`
+		args = append(args, lastVocabDone())
 	}
 	sql += ` ORDER BY t.id DESC LIMIT ?`
 	args = append(args, limit)
@@ -1101,6 +1159,8 @@ func main() {
 	http.HandleFunc("/usage", usage)
 	http.HandleFunc("/local-gpu", localGPU)
 	http.HandleFunc("/ticket", ticketDetail)
+	http.HandleFunc("/dashboard", dashboard)
+	http.HandleFunc("/carddb", carddb)
 	http.HandleFunc("/", gui)
 	log.Fatal(http.ListenAndServe(Port, nil))
 }

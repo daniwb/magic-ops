@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Magefield Reparse Fleet — live</title>
+<style>
+  :root {
+    --bg: #F4F6F5; --panel: #FFFFFF; --ink: #20272B; --muted: #5E6D6A;
+    --line: #DCE3E0; --accent: #2F8577; --accent-soft: #E3F0ED;
+    --good: #4C9A56; --warn: #B07E2E; --crit: #B85C4A;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #161B1E; --panel: #1D2529; --ink: #DEE5E2; --muted: #8FA09B;
+      --line: #2C3639; --accent: #4FB3A2; --accent-soft: #1F3833;
+      --good: #6FBE78; --warn: #D3A254; --crit: #D08069;
+    }
+  }
+  body {
+    background: var(--bg); color: var(--ink);
+    font: 15px/1.5 "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    margin: 0; padding: 24px clamp(16px, 4vw, 48px) 48px;
+  }
+  .mono { font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, monospace; font-variant-numeric: tabular-nums; }
+  header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 20px; margin-bottom: 18px; }
+  h1 { font-size: 1.4rem; font-weight: 650; margin: 0; }
+  .live { display: inline-flex; align-items: center; gap: 6px; background: var(--accent-soft); color: var(--accent);
+    font-size: 0.78rem; font-weight: 600; padding: 3px 10px; border-radius: 3px; }
+  .live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+  a { color: var(--accent); }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 22px; }
+  .kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 12px 16px 10px; }
+  .kpi .label { font-size: 0.66rem; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .kpi .value { font-size: 1.6rem; font-weight: 650; }
+  .kpi.accent .value { color: var(--accent); }
+  .kpi.warn .value { color: var(--warn); }
+  section { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 16px 20px; margin-bottom: 16px; }
+  h2 { font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+  .controls input[type="search"] { flex: 1 1 220px; max-width: 340px; padding: 7px 12px; font: inherit;
+    color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 5px; }
+  .controls input[type="search"]:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .chip { border: 1px solid var(--line); background: var(--bg); color: var(--muted); font: inherit;
+    font-size: 0.8rem; font-weight: 600; padding: 5px 12px; border-radius: 99px; cursor: pointer; }
+  .chip[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+  .count { margin-left: auto; color: var(--muted); font-size: 0.82rem; }
+  .cardtablewrap { overflow: auto; max-height: 440px; border: 1px solid var(--line); border-radius: 5px; }
+  table.cards { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+  table.cards th { text-align: left; font-size: 0.66rem; letter-spacing: 0.07em; text-transform: uppercase;
+    color: var(--muted); padding: 8px 12px; position: sticky; top: 0; background: var(--panel); border-bottom: 1px solid var(--line); }
+  table.cards td { padding: 5px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  .tier { display: inline-block; padding: 0 8px; border-radius: 3px; font-size: 0.72rem; font-weight: 650; }
+  .tier.full { background: color-mix(in srgb, var(--good) 15%, transparent); color: var(--good); }
+  .tier.part { background: color-mix(in srgb, var(--warn) 15%, transparent); color: var(--warn); }
+  .v2flag { color: var(--accent); font-weight: 700; }
+  .more button { font: inherit; font-size: 0.82rem; font-weight: 600; color: var(--accent); background: none;
+    border: 1px solid var(--accent); border-radius: 5px; padding: 6px 14px; cursor: pointer; margin-top: 10px; }
+  .rows { display: flex; flex-direction: column; gap: 8px; font-size: 0.86rem; }
+  .row { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dashed var(--line); padding-bottom: 7px; }
+  .row:last-child { border-bottom: none; }
+  .row .k { color: var(--muted); }
+  .row .v { font-weight: 600; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 800px) { .grid2 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Magefield Reparse Fleet</h1>
+  <span class="live">live — dispatcher :9999</span>
+  <span class="mono" id="stamp" style="color:var(--muted);font-size:0.82rem"></span>
+  <a href="/" style="margin-left:auto;font-size:0.82rem">ticket board →</a>
+</header>
+
+<div class="kpis">
+  <div class="kpi accent"><div class="label">Playable cards</div><div class="value mono" id="k-total">…</div></div>
+  <div class="kpi"><div class="label">Fully implemented</div><div class="value mono" id="k-full">…</div></div>
+  <div class="kpi warn"><div class="label">Partial (review)</div><div class="value mono" id="k-part">…</div></div>
+  <div class="kpi"><div class="label">Native v2 records</div><div class="value mono" id="k-v2">…</div></div>
+  <div class="kpi"><div class="label">Tasks open</div><div class="value mono" id="k-todo">…</div></div>
+  <div class="kpi"><div class="label">Tasks done</div><div class="value mono" id="k-done">…</div></div>
+</div>
+
+<section>
+  <h2>Card database</h2>
+  <div class="controls">
+    <input id="q" type="search" placeholder="Search cards…" aria-label="Search cards">
+    <button class="chip" data-f="all" aria-pressed="true">All</button>
+    <button class="chip" data-f="full" aria-pressed="false">Full</button>
+    <button class="chip" data-f="part" aria-pressed="false">Partial</button>
+    <button class="chip" data-f="v2" aria-pressed="false">v2-native</button>
+    <span class="count mono" id="count"></span>
+  </div>
+  <div class="cardtablewrap">
+    <table class="cards">
+      <thead><tr><th>Card</th><th>Cost</th><th>Type</th><th>Tier</th><th>v2</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+  <p class="more"><button id="more" hidden>Show more</button></p>
+</section>
+
+<div class="grid2">
+  <section>
+    <h2>Fleet</h2>
+    <div class="rows" id="fleet"></div>
+  </section>
+  <section>
+    <h2>Queue states</h2>
+    <div class="rows" id="states"></div>
+  </section>
+</div>
+
+<script>
+  let CARDS = [], filter = 'all', shown = 0, matches = [];
+  const PAGE = 300;
+  const rowsEl = document.getElementById('rows'), countEl = document.getElementById('count'),
+        moreBtn = document.getElementById('more'), q = document.getElementById('q');
+  const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  const fmt = n => n.toLocaleString('en-US');
+  function recompute() {
+    const needle = q.value.trim().toLowerCase();
+    matches = CARDS.filter(c => {
+      if (filter === 'full' && c[1] === 'r') return false;
+      if (filter === 'part' && c[1] !== 'r') return false;
+      if (filter === 'v2'   && !c[4]) return false;
+      return !needle || c[0].toLowerCase().includes(needle);
+    });
+    shown = 0; rowsEl.innerHTML = '';
+    countEl.textContent = fmt(matches.length) + ' cards';
+    renderMore();
+  }
+  function renderMore() {
+    const html = [];
+    for (let i = shown; i < Math.min(shown + PAGE, matches.length); i++) {
+      const c = matches[i];
+      html.push('<tr><td>' + esc(c[0]) + '</td><td class="mono">' + esc(c[2]) +
+        '</td><td>' + esc(c[3]) + '</td><td><span class="tier ' +
+        (c[1] === 'r' ? 'part">partial' : 'full">full') + '</span></td><td>' +
+        (c[4] ? '<span class="v2flag">v2</span>' : '') + '</td></tr>');
+    }
+    rowsEl.insertAdjacentHTML('beforeend', html.join(''));
+    shown = Math.min(shown + PAGE, matches.length);
+    moreBtn.hidden = shown >= matches.length;
+    moreBtn.textContent = 'Show ' + Math.min(PAGE, matches.length - shown) + ' more (' + fmt(matches.length - shown) + ' left)';
+  }
+  q.addEventListener('input', recompute);
+  moreBtn.addEventListener('click', renderMore);
+  document.querySelectorAll('.chip').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', 'false'));
+    b.setAttribute('aria-pressed', 'true');
+    filter = b.dataset.f; recompute();
+  }));
+
+  async function loadCards() {
+    const r = await fetch('/carddb'); CARDS = await r.json();
+    let full = 0, part = 0, v2 = 0;
+    for (const c of CARDS) { if (c[1] === 'r') part++; else full++; if (c[4]) v2++; }
+    document.getElementById('k-total').textContent = fmt(CARDS.length);
+    document.getElementById('k-full').textContent = fmt(full);
+    document.getElementById('k-part').textContent = fmt(part);
+    document.getElementById('k-v2').textContent = fmt(v2);
+    document.getElementById('stamp').textContent = 'data: ' + new Date().toLocaleString();
+    recompute();
+  }
+  async function loadStats() {
+    try {
+      const r = await fetch('/stats'); const s = await r.json();
+      const st = s.states || {};
+      document.getElementById('k-todo').textContent = fmt((st.todo||0) + (st.working||0));
+      document.getElementById('k-done').textContent = fmt(st.done||0);
+      const fleet = document.getElementById('fleet');
+      const workers = (s.workers||[]) .map(w => '<div class="row"><span class="k">' + esc(w.worker||w.id||'worker') +
+        '</span><span class="v">#' + esc(w.ticket_id||w.id||'') + ' ' + esc((w.title||'').slice(0,48)) + '</span></div>').join('');
+      fleet.innerHTML = (workers || '<div class="row"><span class="k">workers</span><span class="v">idle</span></div>') +
+        '<div class="row"><span class="k">fixed 24h / 7d</span><span class="v mono">' + fmt(s.fixed_24h||0) + ' / ' + fmt(s.fixed_7d||0) + '</span></div>' +
+        '<div class="row"><span class="k">backlog remaining</span><span class="v mono">' + fmt(s.backlog_remaining||0) + '</span></div>';
+      const states = document.getElementById('states');
+      states.innerHTML = Object.keys(st).sort().map(k =>
+        '<div class="row"><span class="k">' + esc(k) + '</span><span class="v mono">' + fmt(st[k]) + '</span></div>').join('');
+    } catch (e) { /* dispatcher restarting — keep last view */ }
+  }
+  loadCards(); loadStats();
+  setInterval(loadStats, 15000);
+  setInterval(loadCards, 120000);
+</script>
+</body>
+</html>
