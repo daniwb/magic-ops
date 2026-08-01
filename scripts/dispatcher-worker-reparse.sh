@@ -113,6 +113,15 @@ eligible_count() {
   (cd "$CLONE_PATH" && timeout 120 python3 scripts/paragraph/reparse.py --review-pile 2>/dev/null) \
     | sed -n 's/^flip-ELIGIBLE[^:]*: \([0-9]\+\).*/\1/p' | head -1
 }
+# Instanzen der Task-Shape in der Demand-Table ("  1234  <shape>  ..."). 0 wenn
+# die Shape ganz verschwunden ist (auch ein Erfolg). Leer bei Pipeline-Fehler.
+shape_count() { # $1 = shape
+  local out n
+  out=$( (cd "$CLONE_PATH" && timeout 120 python3 scripts/paragraph/reparse.py --review-pile 2>/dev/null) ) || { echo ""; return; }
+  printf '%s' "$out" | grep -q '^flip-ELIGIBLE' || { echo ""; return; }
+  n=$(printf '%s\n' "$out" | awk -v s="$1" '$2 == s {print $1; exit}')
+  echo "${n:-0}"
+}
 
 stop_heartbeat() {
   if [ -n "${HB_PID:-}" ]; then
@@ -175,13 +184,16 @@ while true; do
   fi
   git clean -qfd
 
+  # Task-Shape aus dem Titel: "REPARSE-MAP: <shape> (..."
+  TASK_SHAPE=$(printf '%s' "$TICKET_TITLE" | sed -n 's/^REPARSE-MAP: \([^ ]*\) .*/\1/p')
   BASE_ELIG=$(eligible_count)
   if [ -z "$BASE_ELIG" ]; then
     log "reparse.py --review-pile liefert keine Baseline — infra"
     report retry infra "" "" "review-pile baseline failed on $WORKER_ID"
     stop_heartbeat; sleep 60; continue
   fi
-  log "baseline eligibility: $BASE_ELIG"
+  BASE_SHAPE=$(shape_count "$TASK_SHAPE")
+  log "baseline eligibility: $BASE_ELIG, shape '$TASK_SHAPE': ${BASE_SHAPE:-?} instances"
 
   # ---- Prompt: statischer Block = Contract + Harness-Protokoll (cachebar) ----
   STATIC_FILE="/tmp/disp-$WORKER_ID-static.md"
@@ -262,14 +274,23 @@ HARNESS
     if BUILD_OUT=$(cd "$CLONE_PATH/backend" && "$GO" build ./... 2>&1); then
       if TEST_OUT=$(cd "$CLONE_PATH/backend" && timeout 600 "$GO" test ./cards/ -run 'TestVocabulary|TestV2|TestShape_' -count=1 2>&1); then
         NEW_ELIG=$(eligible_count)
-        if [ -n "$NEW_ELIG" ] && [ "$NEW_ELIG" -gt "$BASE_ELIG" ]; then
-          DELTA=$((NEW_ELIG - BASE_ELIG))
-          log "✅ gate grün: eligibility $BASE_ELIG -> $NEW_ELIG (+$DELTA)"
+        NEW_SHAPE=$(shape_count "$TASK_SHAPE")
+        # Erfolg = Eligibility steigt ODER die Task-Shape verliert Instanzen.
+        # Seit die Single-Blocker-Karten gedraint sind, ist ein korrektes
+        # Mapping mit Elig-Delta 0 der NORMALFALL (jede Karte hat noch andere
+        # Misses) — die Shape-Instanzen sind die ehrliche Task-Metrik.
+        ELIG_OK=0; SHAPE_OK=0
+        [ -n "$NEW_ELIG" ] && [ "$NEW_ELIG" -gt "$BASE_ELIG" ] && ELIG_OK=1
+        [ -n "$NEW_SHAPE" ] && [ -n "$BASE_SHAPE" ] && [ "$NEW_SHAPE" -lt "$BASE_SHAPE" ] && SHAPE_OK=1
+        if [ "$ELIG_OK" = 1 ] || [ "$SHAPE_OK" = 1 ]; then
+          DELTA=$(( ${NEW_ELIG:-$BASE_ELIG} - BASE_ELIG ))
+          SDELTA=$(( ${BASE_SHAPE:-0} - ${NEW_SHAPE:-${BASE_SHAPE:-0}} ))
+          log "✅ gate grün: eligibility $BASE_ELIG -> ${NEW_ELIG:-?} (+$DELTA), shape $TASK_SHAPE ${BASE_SHAPE:-?} -> ${NEW_SHAPE:-?} (-$SDELTA)"
           OUTCOME="gate_green"
           break
         else
-          GATE_TAIL="Gate: build+tests green, but review-pile eligibility did NOT increase (before=$BASE_ELIG after=${NEW_ELIG:-parse-failed}). A DONE task must raise it: your mapping either didn't fire on the review pile or reparse.py now errors. Reproduce with --review-pile and --card on the ticket's examples."
-          log "❌ eligibility-delta <= 0 (attempt $attempt)"
+          GATE_TAIL="Gate: build+tests green, but neither review-pile eligibility rose (before=$BASE_ELIG after=${NEW_ELIG:-parse-failed}) nor did the task shape '$TASK_SHAPE' lose instances (before=${BASE_SHAPE:-?} after=${NEW_SHAPE:-?}). Your mapping did not fire on the review pile — reproduce with --review-pile and --card on the ticket's examples."
+          log "❌ weder eligibility- noch shape-delta (attempt $attempt)"
         fi
       else
         GATE_TAIL=$(printf '%s' "$TEST_OUT" | tail -c 2000)
@@ -300,10 +321,10 @@ HARNESS
     fi
   elif [ "$OUTCOME" = "gate_green" ]; then
     git add -A
-    git commit -qm "reparse(task-$TICKET_ID): $TICKET_TITLE (+$DELTA eligible, $WORKER_ID)" || true
+    git commit -qm "reparse(task-$TICKET_ID): $TICKET_TITLE (+$DELTA eligible, -${SDELTA:-0} $TASK_SHAPE, $WORKER_ID)" || true
     if git push -qf origin "HEAD:refs/heads/reparse/task-$TICKET_ID" 2>/dev/null; then
-      log "✅ branch reparse/task-$TICKET_ID gepusht (+$DELTA eligible) — Integrator merged"
-      report fixed "" "" "" "delta +$DELTA (eligibility $BASE_ELIG->$NEW_ELIG); branch reparse/task-$TICKET_ID; VERDICT: ${VERDICT:-DONE}; $V_REASON"
+      log "✅ branch reparse/task-$TICKET_ID gepusht (+$DELTA elig, -${SDELTA:-0} shape) — Integrator merged"
+      report fixed "" "" "" "elig +$DELTA ($BASE_ELIG->${NEW_ELIG:-?}), shape $TASK_SHAPE -${SDELTA:-0} (${BASE_SHAPE:-?}->${NEW_SHAPE:-?}); branch reparse/task-$TICKET_ID; VERDICT: ${VERDICT:-DONE}; $V_REASON"
     else
       log "❌ branch push failed — Ticket zurückgeben"
       report retry "" "" "" "branch push failed on $WORKER_ID"
