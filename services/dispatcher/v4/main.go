@@ -1135,8 +1135,12 @@ func main() {
 	}
 	initDB()
 	log.Printf("Dispatcher v4 — DB=%s port=%s", dbPath, Port)
-	// Startup-Recovery: hängende working → todo
-	db.Exec(`UPDATE tickets SET state='todo',worker_id='',lease_exp=0 WHERE state='working'`)
+	// Startup-Recovery: hängende working → todo. NUR abgelaufene Leases —
+	// lebende Worker heartbeaten über einen Binary-Hot-Swap hinweg weiter
+	// (2026-08-01: bedingungsloses Requeue warf r1s In-Flight-Ticket zurück,
+	// ein nachfolgender Queue-Sweep markierte es dup, der Report wäre 409t).
+	// Tote Worker laufen ohnehin über den Reaper aus.
+	db.Exec(`UPDATE tickets SET state='todo',worker_id='',lease_exp=0 WHERE state='working' AND lease_exp<?`, now())
 	if openCount() == 0 {
 		log.Printf("Queue leer — initialer Ingest: +%d", ingestBacklog(500))
 	}
