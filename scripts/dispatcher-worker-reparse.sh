@@ -1,0 +1,316 @@
+#!/bin/bash
+# Dispatcher-Worker REPARSE-Ära (2026-08-01) — arbeitet REPARSE-MAP-Tickets ab:
+# ein Ticket = eine Miss-Shape aus der Demand-Table, Erfolg = Eligibility-Delta.
+# Ersetzt dispatcher-worker-real.sh (Karten-Handler-Ära) für die neue Fabrik.
+#
+#   Phase 1: Claude erweitert scripts/paragraph/reparse.py (o. slotparse) nach
+#            dem Worker-Contract (scripts/skills/reparse-worker-contract.md).
+#   Phase 2: Harness-Gate = go build + Vocab/Shape-Tests + Eligibility-Delta>0
+#            (reparse.py --review-pile, ~5s).
+#   Phase 3: bounded Fix-Loop (MAX_ATTEMPTS), dann Branch-Push reparse/task-<id>.
+#            KEIN Push auf main, KEIN Deploy — der Integrator merged, flippt
+#            Batches, fährt die volle Suite und deployed (reparse-plan.md).
+# Verdicts (Contract): DONE | NEEDS_PRIMITIVE | SEMANTIC_GAP | AMBIGUOUS | NOT_A_SHAPE
+#   DONE            -> report fixed (Note: Delta + Branch)
+#   NEEDS_PRIMITIVE -> report parked/missing_primitive (Dispatcher filed Demand-Ticket)
+#   sonstige Parks  -> report parked/max_retry_reached -> wait-triage (Mensch)
+set -uo pipefail
+
+WORKER_ID="${1:-r1}"
+CLONE_PATH="${2:-/tmp/work/disp-$WORKER_ID}"
+DISPATCHER="${DISPATCHER:-http://localhost:9999}"
+REPO_SSH="${REPO_SSH:-git@github.com:daniwb/openmagic.git}"
+GO=/usr/local/go/bin/go
+export PATH="/usr/local/go/bin:$PATH"
+CLAUDE_BIN="${CLAUDE_BIN:-$HOME/.local/bin/claude}"
+export GOCACHE="${GOCACHE:-/opt/development/.gocache-magic}"
+mkdir -p "$GOCACHE" 2>/dev/null || true
+MIRROR="${MIRROR:-/opt/development/openmagic-mirror.git}"
+
+MODEL="${MODEL:-claude-sonnet-5}"
+# Parser-Engineering braucht mehr Turns als eine Karte (reproduce -> mappen ->
+# --card-Verify gegen Oracle-Text -> Tests). 20 wäre sicher zu wenig.
+WORKER_MAX_TURNS="${WORKER_MAX_TURNS:-80}"
+MAX_ATTEMPTS="${MAX_ATTEMPTS:-2}"
+CLAUDE_TIMEOUT="${CLAUDE_TIMEOUT:-1800}"
+ONE_SHOT="${ONE_SHOT:-0}"
+
+USAGE_LIMIT_PCT="${USAGE_LIMIT_PCT:-99}"
+USAGE_GATE_TTL="${USAGE_GATE_TTL:-180}"
+USAGE_CACHE="${USAGE_CACHE:-/tmp/claude-usage-gate.json}"
+PAUSE_FILE="${PAUSE_FILE:-/opt/development/magic-claude/.orch-pause-until}"
+source /opt/development/magic-claude/scripts/lib-pace-gate.sh 2>/dev/null || true
+
+# env hygiene: geerbtes Ollama-Routing zerlegt jeden Claude-Call
+unset ANTHROPIC_BASE_URL ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN
+
+log() { printf '[%s] %s: %s\n' "$(date '+%H:%M:%S')" "$WORKER_ID" "$*" >&2; }
+
+usage_gate() {
+  [ "$USAGE_LIMIT_PCT" -le 0 ] 2>/dev/null && return 0
+  local lim5="$USAGE_LIMIT_PCT" lim7="$USAGE_LIMIT_PCT" nh now age tok body u5 u7 r5 r7
+  nh=$(TZ='Europe/Zurich' date +%H); nh=$((10#$nh))
+  if [ "$nh" -ge 23 ] || [ "$nh" -lt 6 ]; then lim5=100; fi
+  now=$(date +%s); age=99999
+  [ -s "$USAGE_CACHE" ] && age=$(( now - $(stat -c %Y "$USAGE_CACHE" 2>/dev/null || echo 0) ))
+  if [ "$age" -ge "$USAGE_GATE_TTL" ]; then
+    tok=$(jq -r '.claudeAiOauth.accessToken // empty' "$HOME/.claude/.credentials.json" 2>/dev/null || true)
+    [ -z "$tok" ] && return 0
+    if body=$(curl -fsS --max-time 15 -H "Authorization: Bearer $tok" \
+         -H "anthropic-beta: oauth-2025-04-20" \
+         https://api.anthropic.com/api/oauth/usage 2>/dev/null) \
+       && printf '%s' "$body" | jq -e '.five_hour' >/dev/null 2>&1; then
+      printf '%s' "$body" > "$USAGE_CACHE"
+    elif [ "$age" -ge 1800 ]; then
+      return 0
+    else
+      touch "$USAGE_CACHE" 2>/dev/null || true
+    fi
+  fi
+  u5=$(jq -r '.five_hour.utilization // 0 | floor' "$USAGE_CACHE" 2>/dev/null || echo 0)
+  u7=$(jq -r '.seven_day.utilization // 0 | floor' "$USAGE_CACHE" 2>/dev/null || echo 0)
+  now=$(date +%s)
+  r5=$(date -d "$(jq -r '.five_hour.resets_at // empty' "$USAGE_CACHE" 2>/dev/null)" +%s 2>/dev/null || echo 0)
+  r7=$(date -d "$(jq -r '.seven_day.resets_at // empty' "$USAGE_CACHE" 2>/dev/null)" +%s 2>/dev/null || echo 0)
+  [ "$r5" -gt 0 ] && [ "$now" -ge "$r5" ] && u5=0
+  [ "$r7" -gt 0 ] && [ "$now" -ge "$r7" ] && u7=0
+  if [ "$u5" -ge "$lim5" ] || [ "$u7" -ge "$lim7" ]; then
+    log "usage-gate: 5h=${u5}% 7d=${u7}% — pausiere"
+    return 1
+  fi
+  return 0
+}
+
+report() { # $1 status  $2 reason  $3 missing_primitive  $4 why  $5 note
+  local tok=0; [ -f "/tmp/disp-$WORKER_ID-tokens" ] && tok=$(awk '{s+=$1} END{print s+0}' "/tmp/disp-$WORKER_ID-tokens")
+  jq -n --arg t "$TICKET_ID" --arg w "$WORKER_ID" --arg s "$1" --arg r "$2" \
+        --arg p "$3" --arg y "$4" --arg n "$5" --argjson tok "$tok" \
+    '{ticket_id:$t, worker_id:$w, status:$s, reason:$r,
+      missing_primitive:$p, primitive_why:$y, note:$n, tokens:$tok, skipped:[]}' \
+  | curl -s -X POST "$DISPATCHER/report" -H 'Content-Type: application/json' -d @- >/dev/null 2>&1 || true
+}
+
+TOK_FILE="/tmp/disp-$WORKER_ID-tokens"
+claude_run() { # claude-Flags; Prompt via stdin
+  local raw txt used
+  raw=$(cd "$CLONE_PATH" && timeout "${CJ_TIMEOUT:-$CLAUDE_TIMEOUT}" "$CLAUDE_BIN" -p \
+        --output-format json "$@" 2>>"/tmp/disp-$WORKER_ID-claude.err") \
+    || { echo "CLAUDE_TIMEOUT_OR_ERROR"; return 0; }
+  used=$(printf '%s' "$raw" | jq -r 'if (type=="object" and .modelUsage) then ([.modelUsage[] | (.inputTokens//0)+(.outputTokens//0)+(.cacheReadInputTokens//0)+(.cacheCreationInputTokens//0)] | add // 0) elif type=="object" then ((.usage.input_tokens//0)+(.usage.cache_creation_input_tokens//0)+(.usage.cache_read_input_tokens//0)+(.usage.output_tokens//0)) else 0 end' 2>/dev/null)
+  [ -n "$used" ] && [ "$used" != 0 ] && echo "$used" >> "$TOK_FILE"
+  printf '%s turns=%s tok=%s\n' "$(date +%H:%M:%S)" \
+    "$(printf '%s' "$raw" | jq -r '.num_turns // "?"' 2>/dev/null)" "${used:-0}" \
+    >> "/tmp/disp-$WORKER_ID-turns.log" 2>/dev/null || true
+  txt=$(printf '%s' "$raw" | jq -r '.result // empty' 2>/dev/null)
+  if [ -n "$txt" ]; then printf '%s' "$txt"; else printf '%s' "$raw"; fi
+}
+
+# Eligibility-Zähler: "flip-ELIGIBLE (...): N (x%)" -> N. Leer bei Fehler.
+eligible_count() {
+  (cd "$CLONE_PATH" && timeout 120 python3 scripts/paragraph/reparse.py --review-pile 2>/dev/null) \
+    | sed -n 's/^flip-ELIGIBLE[^:]*: \([0-9]\+\).*/\1/p' | head -1
+}
+
+stop_heartbeat() {
+  if [ -n "${HB_PID:-}" ]; then
+    pkill -P "$HB_PID" 2>/dev/null || true
+    kill "$HB_PID" 2>/dev/null || true
+    wait "$HB_PID" 2>/dev/null || true
+    HB_PID=""
+  fi
+}
+trap stop_heartbeat EXIT
+
+# ---- Setup: eigener Clone via SSH (NIE der Live-Checkout, NIE stashen) ----
+if [ ! -d "$CLONE_PATH/.git" ]; then
+  if [ ! -d "$MIRROR" ]; then
+    log "mirror anlegen: $MIRROR"
+    GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone --mirror "$REPO_SSH" "$MIRROR" 2>/dev/null || true
+  fi
+  log "clone $REPO_SSH -> $CLONE_PATH"
+  if [ -d "$MIRROR" ]; then
+    GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git -C "$MIRROR" fetch -q 2>/dev/null || true
+    GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone --reference "$MIRROR" "$REPO_SSH" "$CLONE_PATH" \
+      || GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone "$REPO_SSH" "$CLONE_PATH" \
+      || { log "FATAL: clone failed"; exit 1; }
+  else
+    GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone "$REPO_SSH" "$CLONE_PATH" || { log "FATAL: clone failed"; exit 1; }
+  fi
+fi
+cd "$CLONE_PATH"
+git config user.email "dispatcher-worker@magic"
+git config user.name  "dispatcher-$WORKER_ID"
+
+# ---- Hauptschleife ----
+while true; do
+  if [ -f "$PAUSE_FILE" ] && [ "$(date +%s)" -lt "$(cat "$PAUSE_FILE" 2>/dev/null || echo 0)" ]; then
+    log "Pause aktiv bis $(date -d @"$(cat "$PAUSE_FILE")" '+%F %T' 2>/dev/null) — kein neues Ticket"; sleep 300; continue
+  fi
+  if declare -f pace_ok >/dev/null && ! pace_ok; then log "weekly-pace erreicht — pausiere"; sleep 300; continue; fi
+  if ! usage_gate; then sleep 120; continue; fi
+
+  CLAIM=$(curl -s -m 30 "$DISPATCHER/claim?worker=$WORKER_ID" 2>/dev/null || echo '{}')
+  TICKET_ID=$(printf '%s' "$CLAIM" | jq -r '.id // empty' 2>/dev/null || true)
+  if [ -z "$TICKET_ID" ]; then
+    log "queue leer — warte 60s"
+    sleep 60
+    continue
+  fi
+  TICKET_TITLE=$(printf '%s' "$CLAIM" | jq -r '.title // ""')
+  TICKET_DESC=$(printf '%s' "$CLAIM" | jq -r '.desc // ""')
+  RETRIES=$(printf '%s' "$CLAIM" | jq -r '.retry_count // 0')
+  log "ticket #$TICKET_ID (retry $RETRIES): $TICKET_TITLE"
+
+  ( while sleep 60; do curl -s "$DISPATCHER/heartbeat?ticket=$TICKET_ID" >/dev/null 2>&1; done ) >/dev/null 2>&1 &
+  HB_PID=$!
+
+  # Clone hart auf origin/main + Task-Branch (eigener Clone — reset ok, stash NIE)
+  if ! git fetch -q origin main || ! git checkout -qB "reparse/task-$TICKET_ID" origin/main; then
+    log "git sync failed — Ticket zurückgeben"
+    report retry infra "" "" "git fetch/checkout failed on worker $WORKER_ID"
+    stop_heartbeat; sleep 30; continue
+  fi
+  git clean -qfd
+
+  BASE_ELIG=$(eligible_count)
+  if [ -z "$BASE_ELIG" ]; then
+    log "reparse.py --review-pile liefert keine Baseline — infra"
+    report retry infra "" "" "review-pile baseline failed on $WORKER_ID"
+    stop_heartbeat; sleep 60; continue
+  fi
+  log "baseline eligibility: $BASE_ELIG"
+
+  # ---- Prompt: statischer Block = Contract + Harness-Protokoll (cachebar) ----
+  STATIC_FILE="/tmp/disp-$WORKER_ID-static.md"
+  PROMPT_FILE="/tmp/disp-$WORKER_ID-prompt.txt"
+  {
+    cat "$CLONE_PATH/scripts/skills/reparse-worker-contract.md"
+    cat <<'HARNESS'
+
+## Harness protocol (this run)
+
+- You are already on your task branch in your own clone; the repo root is your
+  working directory. Work HERE (this checkout), not in any other path.
+- Commit your work yourself (the contract's commit-message rules apply).
+  Do NOT push — the harness pushes your branch. NEVER touch main, NEVER stash.
+- Run all commands in the FOREGROUND and wait for them; no backgrounding.
+- The harness gate afterwards runs: go build ./... (in backend/),
+  go test ./cards/ -run 'TestVocabulary|TestV2|TestShape_' -count=1,
+  and reparse.py --review-pile (eligibility MUST have increased for DONE).
+  Do not run the full suite yourself.
+- Your FINAL output must contain exactly one verdict block:
+    VERDICT: DONE|NEEDS_PRIMITIVE|SEMANTIC_GAP|AMBIGUOUS|NOT_A_SHAPE
+    DELTA: <eligibility delta as integer, 0 if none>
+    REASON: <one line: DONE = mapping rule summary; NEEDS_PRIMITIVE = kebab-case
+            primitive name + one-paragraph proposal; SEMANTIC_GAP = the
+            mismatch; AMBIGUOUS = both readings; NOT_A_SHAPE = why junk>
+- A park verdict (anything but DONE) means: leave the tree CLEAN (git checkout
+  -- . && git clean -fd) so no half-mapping ships.
+HARNESS
+  } > "$STATIC_FILE"
+  {
+    echo "=== THE TICKET ==="
+    echo "TICKET #$TICKET_ID: $TICKET_TITLE"
+    echo ""
+    printf '%s\n' "$TICKET_DESC"
+  } > "$PROMPT_FILE"
+
+  OUTCOME=""; VERDICT=""; V_REASON=""; GATE_TAIL=""
+  : > "$TOK_FILE"
+  attempt=1
+  while [ "$attempt" -le "$MAX_ATTEMPTS" ]; do
+    log "attempt $attempt/$MAX_ATTEMPTS (model $MODEL)"
+    CLAUDE_OUT=$(claude_run --model "$MODEL" --permission-mode bypassPermissions \
+      --max-turns "$WORKER_MAX_TURNS" \
+      --append-system-prompt-file "$STATIC_FILE" < "$PROMPT_FILE")
+
+    if printf '%s' "$CLAUDE_OUT" | grep -qi "model.*not exist\|CLAUDE_TIMEOUT_OR_ERROR"; then
+      log "flake — retry mit demselben Modell (transient)"
+      CLAUDE_OUT=$(claude_run --model "$MODEL" --permission-mode bypassPermissions \
+        --max-turns "$WORKER_MAX_TURNS" --append-system-prompt-file "$STATIC_FILE" < "$PROMPT_FILE")
+    fi
+
+    # Infra-/Quota-Ausfall ohne geschriebene Dateien -> Ticket zurück, Probe-Loop
+    if [ -z "$(git status --porcelain)" ] \
+       && [ "$(git rev-list --count origin/main..HEAD 2>/dev/null || echo 0)" -eq 0 ] \
+       && printf '%s' "$CLAUDE_OUT" | grep -qiE "CLAUDE_TIMEOUT_OR_ERROR|quota|rate.?limit|too many requests|429|overloaded|insufficient|exhausted|billing"; then
+      log "⚠️ API/Quota-Problem — Ticket #$TICKET_ID zurückgeben (infra), pausiere"
+      report retry infra "" "" "api/quota outage on $WORKER_ID: $(printf '%s' "$CLAUDE_OUT" | tail -c 150 | tr '\n' ' ')"
+      stop_heartbeat
+      until PROBE=$(timeout 180 "$CLAUDE_BIN" -p --model "$MODEL" --permission-mode bypassPermissions --max-turns 1 <<< "Reply with exactly: OK" 2>&1) && printf '%s' "$PROBE" | grep -q "OK"; do
+        log "Probe negativ — nächster Versuch in 15 min"
+        sleep 900
+      done
+      log "✅ API wieder erreichbar — weiter"
+      continue 2
+    fi
+
+    VERDICT=$(printf '%s' "$CLAUDE_OUT" | grep -E '^VERDICT: *[A-Z_]+' | tail -1 | sed 's/^VERDICT: *//; s/ .*//')
+    V_REASON=$(printf '%s' "$CLAUDE_OUT" | grep '^REASON:' | tail -1 | sed 's/^REASON: *//')
+
+    # Park-Verdicts sind terminale Ausgänge — kein Gate nötig
+    case "$VERDICT" in
+      NEEDS_PRIMITIVE|SEMANTIC_GAP|AMBIGUOUS|NOT_A_SHAPE)
+        OUTCOME="parked"; break;;
+    esac
+
+    # ---- Gate: build + Vocab/Shape-Tests + Eligibility-Delta ----
+    if BUILD_OUT=$(cd "$CLONE_PATH/backend" && "$GO" build ./... 2>&1); then
+      if TEST_OUT=$(cd "$CLONE_PATH/backend" && timeout 600 "$GO" test ./cards/ -run 'TestVocabulary|TestV2|TestShape_' -count=1 2>&1); then
+        NEW_ELIG=$(eligible_count)
+        if [ -n "$NEW_ELIG" ] && [ "$NEW_ELIG" -gt "$BASE_ELIG" ]; then
+          DELTA=$((NEW_ELIG - BASE_ELIG))
+          log "✅ gate grün: eligibility $BASE_ELIG -> $NEW_ELIG (+$DELTA)"
+          OUTCOME="gate_green"
+          break
+        else
+          GATE_TAIL="Gate: build+tests green, but review-pile eligibility did NOT increase (before=$BASE_ELIG after=${NEW_ELIG:-parse-failed}). A DONE task must raise it: your mapping either didn't fire on the review pile or reparse.py now errors. Reproduce with --review-pile and --card on the ticket's examples."
+          log "❌ eligibility-delta <= 0 (attempt $attempt)"
+        fi
+      else
+        GATE_TAIL=$(printf '%s' "$TEST_OUT" | tail -c 2000)
+        log "❌ tests rot (attempt $attempt)"
+      fi
+    else
+      GATE_TAIL=$(printf '%s' "$BUILD_OUT" | tail -c 2000)
+      log "❌ build rot (attempt $attempt)"
+    fi
+
+    {
+      echo ""
+      echo "=== YOUR PREVIOUS ATTEMPT FAILED THE GATE — fix your existing work, do not start over ==="
+      echo "$GATE_TAIL"
+    } >> "$PROMPT_FILE"
+    attempt=$((attempt + 1))
+  done
+
+  # ---- Ergebnis behandeln ----
+  if [ "$OUTCOME" = "parked" ]; then
+    log "parked: $VERDICT — $V_REASON"
+    git checkout -q -- . 2>/dev/null; git clean -qfd
+    if [ "$VERDICT" = "NEEDS_PRIMITIVE" ]; then
+      PRIM=$(printf '%s' "$V_REASON" | grep -oE '^[a-z0-9_-]+' | head -1)
+      report parked missing_primitive "${PRIM:-unnamed-primitive}" "$V_REASON" "reparse verdict NEEDS_PRIMITIVE"
+    else
+      report parked max_retry_reached "" "" "reparse verdict $VERDICT: $V_REASON"
+    fi
+  elif [ "$OUTCOME" = "gate_green" ]; then
+    git add -A
+    git commit -qm "reparse(task-$TICKET_ID): $TICKET_TITLE (+$DELTA eligible, $WORKER_ID)" || true
+    if git push -qf origin "HEAD:refs/heads/reparse/task-$TICKET_ID" 2>/dev/null; then
+      log "✅ branch reparse/task-$TICKET_ID gepusht (+$DELTA eligible) — Integrator merged"
+      report fixed "" "" "" "delta +$DELTA (eligibility $BASE_ELIG->$NEW_ELIG); branch reparse/task-$TICKET_ID; VERDICT: ${VERDICT:-DONE}; $V_REASON"
+    else
+      log "❌ branch push failed — Ticket zurückgeben"
+      report retry "" "" "" "branch push failed on $WORKER_ID"
+    fi
+  else
+    log "❌ $MAX_ATTEMPTS Versuche gescheitert — retry/wait"
+    git checkout -q -- . 2>/dev/null; git clean -qfd
+    report retry "" "" "" "gate tail: $(printf '%s' "$GATE_TAIL" | head -c 500)"
+  fi
+
+  stop_heartbeat
+  log "cycle done"
+  [ "$ONE_SHOT" = 1 ] && { log "ONE_SHOT — exit"; exit 0; }
+done
