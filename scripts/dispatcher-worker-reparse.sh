@@ -30,7 +30,7 @@ MIRROR="${MIRROR:-/opt/development/openmagic-mirror.git}"
 MODEL="${MODEL:-claude-sonnet-5}"
 # Parser-Engineering braucht mehr Turns als eine Karte (reproduce -> mappen ->
 # --card-Verify gegen Oracle-Text -> Tests). 20 wäre sicher zu wenig.
-WORKER_MAX_TURNS="${WORKER_MAX_TURNS:-80}"
+WORKER_MAX_TURNS="${WORKER_MAX_TURNS:-140}"
 MAX_ATTEMPTS="${MAX_ATTEMPTS:-2}"
 CLAUDE_TIMEOUT="${CLAUDE_TIMEOUT:-1800}"
 ONE_SHOT="${ONE_SHOT:-0}"
