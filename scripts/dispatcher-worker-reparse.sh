@@ -113,6 +113,11 @@ eligible_count() {
   (cd "$CLONE_PATH" && timeout 120 python3 scripts/paragraph/reparse.py --review-pile 2>/dev/null) \
     | sed -n 's/^flip-ELIGIBLE[^:]*: \([0-9]\+\).*/\1/p' | head -1
 }
+# Untruncierter Gesamt-Miss-Zähler (SWEEP-Gate, Option B 2026-08-02).
+total_misses() {
+  (cd "$CLONE_PATH" && timeout 120 python3 scripts/paragraph/reparse.py --review-pile 2>/dev/null) \
+    | sed -n 's/^total-misses: \([0-9]\+\).*/\1/p' | head -1
+}
 # Instanzen der Task-Shape in der Demand-Table ("  1234  <shape>  ..."). 0 wenn
 # die Shape ganz verschwunden ist (auch ein Erfolg). Leer bei Pipeline-Fehler.
 shape_count() { # $1 = shape
@@ -184,8 +189,14 @@ while true; do
   fi
   git clean -qfd
 
-  # Task-Shape aus dem Titel: "REPARSE-MAP: <shape> (..."
+  # Task-Shape aus dem Titel: "REPARSE-MAP: <shape> (..."; SWEEP-Tickets
+  # (Option B) haben keine Einzel-Shape — Gate läuft über total-misses,
+  # Budget deutlich größer (ein Run = ganze Demand-Table top-down).
   TASK_SHAPE=$(printf '%s' "$TICKET_TITLE" | sed -n 's/^REPARSE-MAP: \([^ ]*\) .*/\1/p')
+  SWEEP=0; RUN_TURNS="$WORKER_MAX_TURNS"; RUN_TIMEOUT="$CLAUDE_TIMEOUT"
+  if printf '%s' "$TICKET_TITLE" | grep -q '^REPARSE-SWEEP'; then
+    SWEEP=1; RUN_TURNS=250; RUN_TIMEOUT=5400
+  fi
   BASE_ELIG=$(eligible_count)
   if [ -z "$BASE_ELIG" ]; then
     log "reparse.py --review-pile liefert keine Baseline — infra"
@@ -193,7 +204,9 @@ while true; do
     stop_heartbeat; sleep 60; continue
   fi
   BASE_SHAPE=$(shape_count "$TASK_SHAPE")
-  log "baseline eligibility: $BASE_ELIG, shape '$TASK_SHAPE': ${BASE_SHAPE:-?} instances"
+  BASE_TOTAL=""
+  [ "$SWEEP" = 1 ] && BASE_TOTAL=$(total_misses)
+  log "baseline eligibility: $BASE_ELIG, shape '$TASK_SHAPE': ${BASE_SHAPE:-?} instances${BASE_TOTAL:+, total-misses: $BASE_TOTAL}"
 
   # ---- Prompt: statischer Block = Contract + Harness-Protokoll (cachebar) ----
   STATIC_FILE="/tmp/disp-$WORKER_ID-static.md"
@@ -237,14 +250,14 @@ HARNESS
   while [ "$attempt" -le "$MAX_ATTEMPTS" ]; do
     RUN_MODEL="$MODEL"; [ "$attempt" -ge 2 ] && RUN_MODEL="$MODEL_ESCALATE"
     log "attempt $attempt/$MAX_ATTEMPTS (model $RUN_MODEL)"
-    CLAUDE_OUT=$(claude_run --model "$RUN_MODEL" --permission-mode bypassPermissions \
-      --max-turns "$WORKER_MAX_TURNS" \
+    CLAUDE_OUT=$(CJ_TIMEOUT="$RUN_TIMEOUT" claude_run --model "$RUN_MODEL" --permission-mode bypassPermissions \
+      --max-turns "$RUN_TURNS" \
       --append-system-prompt-file "$STATIC_FILE" < "$PROMPT_FILE")
 
     if printf '%s' "$CLAUDE_OUT" | grep -qi "model.*not exist\|CLAUDE_TIMEOUT_OR_ERROR"; then
       log "flake — retry mit demselben Modell (transient)"
-      CLAUDE_OUT=$(claude_run --model "$RUN_MODEL" --permission-mode bypassPermissions \
-        --max-turns "$WORKER_MAX_TURNS" --append-system-prompt-file "$STATIC_FILE" < "$PROMPT_FILE")
+      CLAUDE_OUT=$(CJ_TIMEOUT="$RUN_TIMEOUT" claude_run --model "$RUN_MODEL" --permission-mode bypassPermissions \
+        --max-turns "$RUN_TURNS" --append-system-prompt-file "$STATIC_FILE" < "$PROMPT_FILE")
     fi
 
     # Infra-/Quota-Ausfall ohne geschriebene Dateien -> Ticket zurück, Probe-Loop
@@ -282,7 +295,13 @@ HARNESS
         # Misses) — die Shape-Instanzen sind die ehrliche Task-Metrik.
         ELIG_OK=0; SHAPE_OK=0
         [ -n "$NEW_ELIG" ] && [ "$NEW_ELIG" -gt "$BASE_ELIG" ] && ELIG_OK=1
-        [ -n "$NEW_SHAPE" ] && [ -n "$BASE_SHAPE" ] && [ "$NEW_SHAPE" -lt "$BASE_SHAPE" ] && SHAPE_OK=1
+        if [ "$SWEEP" = 1 ]; then
+          NEW_TOTAL=$(total_misses)
+          [ -n "$NEW_TOTAL" ] && [ -n "$BASE_TOTAL" ] && [ "$NEW_TOTAL" -lt "$BASE_TOTAL" ] && SHAPE_OK=1
+          NEW_SHAPE="$NEW_TOTAL"; BASE_SHAPE="$BASE_TOTAL"
+        else
+          [ -n "$NEW_SHAPE" ] && [ -n "$BASE_SHAPE" ] && [ "$NEW_SHAPE" -lt "$BASE_SHAPE" ] && SHAPE_OK=1
+        fi
         if [ "$ELIG_OK" = 1 ] || [ "$SHAPE_OK" = 1 ]; then
           DELTA=$(( ${NEW_ELIG:-$BASE_ELIG} - BASE_ELIG ))
           SDELTA=$(( ${BASE_SHAPE:-0} - ${NEW_SHAPE:-${BASE_SHAPE:-0}} ))
