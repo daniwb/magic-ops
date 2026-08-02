@@ -56,5 +56,12 @@ for i in $(seq 1 "$N"); do
     "while true; do bash '$WORKER' 'r$i' '/tmp/work/disp-r$i' >> /tmp/orch/reparse-r$i.log 2>&1; echo \"[\$(date -Is)] r$i exit, restart 15s\" >> /tmp/orch/reparse-r$i.log; sleep 15; done"
 done
 
-echo "Reparse-Fabrik läuft: dispatcher (:9999, BACKLOG=$(basename "$BACKLOG")) + $N Worker."
+# Fable-Engine-Worker (TIER=engine): claimt nur REPARSE-ENGINE-Tickets.
+# FABLE_WORKERS=0 deaktiviert (Default 1 seit 2026-08-02, Dani).
+if [ "${FABLE_WORKERS:-1}" = "1" ]; then
+  tmux new-window -t "$SESSION:" -n rf1 \
+    "while true; do TIER=engine bash '$WORKER' 'rf1' '/tmp/work/disp-rf1' >> /tmp/orch/reparse-rf1.log 2>&1; echo \"[\$(date -Is)] rf1 exit, restart 15s\" >> /tmp/orch/reparse-rf1.log; sleep 15; done"
+fi
+
+echo "Reparse-Fabrik läuft: dispatcher (:9999, BACKLOG=$(basename "$BACKLOG")) + $N Worker + Fable-Engine-Worker rf1."
 echo "  Attach: tmux attach -t $SESSION   Logs: tail -f /tmp/orch/reparse-r1.log"

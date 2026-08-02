@@ -36,9 +36,15 @@ for ref in $(git for-each-ref --format='%(refname:short)' refs/remotes/origin/re
   [ "$(git rev-list --count origin/main.."$ref")" = 0 ] && continue
   files=$(git diff --name-only origin/main..."$ref")
   if echo "$files" | grep -qv '^scripts/paragraph/.*\.py$'; then
-    grep -qxF "$branch (engine diff — interactive review)" "$REVIEW_LIST" 2>/dev/null \
-      || echo "$branch (engine diff — interactive review)" >> "$REVIEW_LIST"
-    continue
+    # Fable-Tier-Branches (reparse/engine-task-*) dürfen Engine-Code ändern:
+    # sie durchlaufen dieselben VOLLEN Gates unten (build + fast gate +
+    # komplette Sharded-Suite). Alle anderen Engine-Diffs -> Review-Liste.
+    if ! printf '%s' "$branch" | grep -q '^reparse/engine-task-'; then
+      grep -qxF "$branch (engine diff — interactive review)" "$REVIEW_LIST" 2>/dev/null \
+        || echo "$branch (engine diff — interactive review)" >> "$REVIEW_LIST"
+      continue
+    fi
+    log "candidate: $branch (FABLE engine tier — full gates)"
   fi
   log "candidate: $branch (python-only)"
   if ! git merge --no-edit -q "$ref" 2>>"$LOG"; then

@@ -27,6 +27,15 @@ export GOCACHE="${GOCACHE:-/opt/development/.gocache-magic}"
 mkdir -p "$GOCACHE" 2>/dev/null || true
 MIRROR="${MIRROR:-/opt/development/openmagic-mirror.git}"
 
+# TIER=engine (Fable-Worker): claimt NUR REPARSE-ENGINE-Tickets, Modell Fable,
+# großes Budget, Branch-Präfix reparse/engine-task-* (integrator-lite landet
+# diese nach VOLLER Suite automatisch). Default: map (Sonnet-Fleet).
+TIER="${TIER:-map}"
+if [ "$TIER" = "engine" ]; then
+  MODEL="${MODEL:-claude-fable-5}"
+  WORKER_MAX_TURNS="${WORKER_MAX_TURNS:-250}"
+  CLAUDE_TIMEOUT="${CLAUDE_TIMEOUT:-7200}"
+fi
 MODEL="${MODEL:-claude-sonnet-5}"
 # Eskalation: Versuch 2 (nach Gate-Fail) läuft auf Fable statt Sonnet-Retry —
 # Sonnet ist bisher 3/3 im Erstversuch, Eskalation bleibt der seltene Pfad.
@@ -166,7 +175,7 @@ while true; do
   if declare -f pace_ok >/dev/null && ! pace_ok; then log "weekly-pace erreicht — pausiere"; sleep 300; continue; fi
   if ! usage_gate; then sleep 120; continue; fi
 
-  CLAIM=$(curl -s -m 30 "$DISPATCHER/claim?worker=$WORKER_ID" 2>/dev/null || echo '{}')
+  CLAIM=$(curl -s -m 30 "$DISPATCHER/claim?worker=$WORKER_ID&tier=$TIER" 2>/dev/null || echo '{}')
   TICKET_ID=$(printf '%s' "$CLAIM" | jq -r '.id // empty' 2>/dev/null || true)
   if [ -z "$TICKET_ID" ]; then
     log "queue leer — warte 60s"
@@ -305,7 +314,13 @@ HARNESS
         else
           [ -n "$NEW_SHAPE" ] && [ -n "$BASE_SHAPE" ] && [ "$NEW_SHAPE" -lt "$BASE_SHAPE" ] && SHAPE_OK=1
         fi
-        if [ "$ELIG_OK" = 1 ] || [ "$SHAPE_OK" = 1 ]; then
+        ENGINE_OK=0
+        if [ "$TIER" = "engine" ] && git diff origin/main...HEAD 2>/dev/null | grep -q '^+func TestShape_'; then
+          # Engine-Runden liefern oft +0 Eligibility (Infrastruktur) — neue
+          # Shape-Tests + grüne Gates zählen als Erfolg (Modal-Runden-Muster).
+          ENGINE_OK=1
+        fi
+        if [ "$ELIG_OK" = 1 ] || [ "$SHAPE_OK" = 1 ] || [ "$ENGINE_OK" = 1 ]; then
           DELTA=$(( ${NEW_ELIG:-$BASE_ELIG} - BASE_ELIG ))
           SDELTA=$(( ${BASE_SHAPE:-0} - ${NEW_SHAPE:-${BASE_SHAPE:-0}} ))
           NEW_UNCLASS=$(shape_count "kind_unsupported:UNCLASSIFIED")
@@ -347,9 +362,10 @@ HARNESS
   elif [ "$OUTCOME" = "gate_green" ]; then
     git add -A
     git commit -qm "reparse(task-$TICKET_ID): $TICKET_TITLE (+$DELTA eligible, -${SDELTA:-0} $TASK_SHAPE, $WORKER_ID)" || true
-    if git push -qf origin "HEAD:refs/heads/reparse/task-$TICKET_ID" 2>/dev/null; then
-      log "✅ branch reparse/task-$TICKET_ID gepusht (+$DELTA elig, -${SDELTA:-0} shape) — Integrator merged"
-      report fixed "" "" "" "elig +$DELTA ($BASE_ELIG->${NEW_ELIG:-?}), shape $TASK_SHAPE -${SDELTA:-0} (${BASE_SHAPE:-?}->${NEW_SHAPE:-?}), unclassified Δ${UDELTA:-?}; branch reparse/task-$TICKET_ID; VERDICT: ${VERDICT:-DONE}; $V_REASON"
+    BRANCH_PREFIX="reparse/task"; [ "$TIER" = "engine" ] && BRANCH_PREFIX="reparse/engine-task"
+    if git push -qf origin "HEAD:refs/heads/$BRANCH_PREFIX-$TICKET_ID" 2>/dev/null; then
+      log "✅ branch $BRANCH_PREFIX-$TICKET_ID gepusht (+$DELTA elig, -${SDELTA:-0} shape) — Integrator merged"
+      report fixed "" "" "" "elig +$DELTA ($BASE_ELIG->${NEW_ELIG:-?}), shape $TASK_SHAPE -${SDELTA:-0} (${BASE_SHAPE:-?}->${NEW_SHAPE:-?}), unclassified Δ${UDELTA:-?}; branch $BRANCH_PREFIX-$TICKET_ID; VERDICT: ${VERDICT:-DONE}; $V_REASON"
     else
       log "❌ branch push failed — Ticket zurückgeben"
       report retry "" "" "" "branch push failed on $WORKER_ID"

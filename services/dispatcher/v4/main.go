@@ -224,9 +224,15 @@ func claim(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// ältestes todo Card/Split (VOCAB wird nie an Card-Worker verteilt)
+	// ältestes todo Card/Split (VOCAB wird nie an Card-Worker verteilt).
+	// tier=engine -> nur REPARSE-ENGINE-Tickets (Fable-Worker); sonst alles
+	// AUSSER engine (Sonnet-Fleet). Rückwärtskompatibel: ohne tier = wie tier!=engine.
+	tierCond := "AND title NOT LIKE 'REPARSE-ENGINE:%'"
+	if r.URL.Query().Get("tier") == "engine" {
+		tierCond = "AND title LIKE 'REPARSE-ENGINE:%'"
+	}
 	row = db.QueryRow(`SELECT id,title,descr,retry_count FROM tickets
-	                   WHERE state='todo' AND type IN('card','split')
+	                   WHERE state='todo' AND type IN('card','split') ` + tierCond + `
 	                   ORDER BY priority DESC, id ASC LIMIT 1`)
 	if row.Scan(&t.ID, &t.Title, &t.Descr, &t.Retry) != nil {
 		writeJSON(w, map[string]any{"id": ""})
