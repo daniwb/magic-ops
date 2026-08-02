@@ -192,6 +192,33 @@ func pilestats(w http.ResponseWriter, r *http.Request) {
 	w.Write(pileCache.data)
 }
 
+// buildplan — the deterministic build order (coverage_planner.py output),
+// straight from the live checkout so the dashboard always shows the current
+// committed plan ("what must be done", Dani 2026-08-02).
+func buildplan(w http.ResponseWriter, r *http.Request) {
+	data, err := os.ReadFile("/opt/development/magic-new/corpus/build-plan.jsonl")
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Cache-Control", "no-store")
+	if err != nil {
+		w.Write([]byte("[]"))
+		return
+	}
+	var items []map[string]interface{}
+	for _, line := range strings.Split(string(data), "\n") {
+		line = strings.TrimSpace(line)
+		if line == "" {
+			continue
+		}
+		var it map[string]interface{}
+		if json.Unmarshal([]byte(line), &it) == nil {
+			delete(it, "examples")
+			items = append(items, it)
+		}
+	}
+	out, _ := json.Marshal(items)
+	w.Write(out)
+}
+
 func dashboard(w http.ResponseWriter, r *http.Request) {
 	b, _ := dashFS.ReadFile("dashboard.html")
 	w.Header().Set("Content-Type", "text/html")

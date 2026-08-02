@@ -104,6 +104,24 @@
   <p class="more"><button id="more" hidden>Show more</button></p>
 </section>
 
+<section>
+  <h2>Corpus — where every card stands</h2>
+  <div id="corpusbar" style="display:flex;height:26px;border-radius:5px;overflow:hidden;font-size:0.7rem;color:#fff;margin-bottom:6px"></div>
+  <div id="corpuslegend" style="display:flex;gap:16px;flex-wrap:wrap;font-size:0.78rem;color:var(--muted)"></div>
+</section>
+
+<section>
+  <h2>Build plan — what must be done (deterministic, exact yields)</h2>
+  <p class="h2note">coverage_planner.py set-cover over all blocked cards. Streams:
+  <b style="color:var(--accent)">session</b> (kinds/engine) ·
+  <b style="color:var(--good)">fleet</b> (mapping rules) ·
+  <b style="color:var(--warn)">catch-all</b> (decomposes into sub-families).</p>
+  <div class="tablewrap" style="max-height:340px;overflow:auto">
+  <table class="cards"><thead><tr><th>#</th><th>Build item</th><th>Unlocks</th><th></th></tr></thead>
+  <tbody id="planrows"></tbody></table>
+  </div>
+</section>
+
 <div class="grid2">
   <section>
     <h2>Fleet</h2>
@@ -192,7 +210,50 @@
         '<div class="row"><span class="k">' + esc(k) + '</span><span class="v mono">' + fmt(st[k]) + '</span></div>').join('');
     } catch (e) { /* dispatcher restarting — keep last view */ }
   }
-  loadCards(); loadStats(); loadPile();
+  async function loadPlan() {
+    try {
+      const r = await fetch('/buildplan'); const plan = await r.json();
+      if (!plan.length) return;
+      const max = Math.max(...plan.map(p => p.marginal_unlock));
+      let cum = 0;
+      const total = plan.reduce((a,p)=>a+p.marginal_unlock,0);
+      document.getElementById('planrows').innerHTML = plan.map(p => {
+        cum += p.marginal_unlock;
+        const it = p.item;
+        const cls = it.startsWith('kind_') || it.startsWith('spine') || it.includes('referent') ? 'var(--accent)'
+                  : (it === 'verb_unmapped:?' || it.includes('UNCLASSIFIED') || it === 'static_unmapped' || it === 'keyword_unsupported') ? 'var(--warn)'
+                  : 'var(--good)';
+        const w = Math.max(2, Math.round(p.marginal_unlock / max * 100));
+        return '<tr><td class="mono">' + p.rank + '</td><td style="color:' + cls + '">' + esc(it) +
+          '</td><td class="mono">+' + fmt(p.marginal_unlock) + ' (cum ' + fmt(cum) + ')</td>' +
+          '<td style="min-width:120px"><div style="height:8px;border-radius:2px;width:' + w + '%;background:' + cls + '"></div></td></tr>';
+      }).join('');
+    } catch (e) {}
+  }
+  function paintCorpus(full, review, corpusBlocked, handlerFloor) {
+    const segs = [
+      ['Fully implemented', full, 'var(--good)'],
+      ['Review (playable, partial)', review, 'var(--warn)'],
+      ['Not yet imported (mappable)', corpusBlocked, '#7a8fa6'],
+      ['Handler floor (~13.7%)', handlerFloor, 'var(--crit)'],
+    ];
+    const total = segs.reduce((a,s)=>a+s[1],0);
+    document.getElementById('corpusbar').innerHTML = segs.map(s =>
+      '<div style="width:' + (s[1]/total*100) + '%;background:' + s[2] + ';display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden">' + (s[1]/total>0.07 ? fmt(s[1]) : '') + '</div>').join('');
+    document.getElementById('corpuslegend').innerHTML = segs.map(s =>
+      '<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:' + s[2] + ';margin-right:5px"></span>' + s[0] + ': <b>' + fmt(s[1]) + '</b></span>').join('');
+  }
+  async function loadCorpusBar() {
+    try {
+      const r = await fetch('/carddb'); const cards = await r.json();
+      let full=0, rev=0;
+      for (const c of cards) { if (c[1]==='r') rev++; else full++; }
+      const CORPUS_TOTAL = 33859, HANDLER_FLOOR = Math.round(33859*0.137);
+      const blocked = Math.max(0, CORPUS_TOTAL - full - rev - HANDLER_FLOOR);
+      paintCorpus(full, rev, blocked, HANDLER_FLOOR);
+    } catch (e) {}
+  }
+  loadCards(); loadStats(); loadPile(); loadPlan(); loadCorpusBar();
   setInterval(loadPile, 300000);
   setInterval(loadStats, 15000);
   setInterval(loadCards, 120000);
