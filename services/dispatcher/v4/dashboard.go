@@ -7,9 +7,12 @@ package main
 import (
 	"embed"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
+	"regexp"
 	"sort"
 	"strconv"
 	"strings"
@@ -130,6 +133,63 @@ func carddb(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Cache-Control", "no-store")
 	w.Write(data)
+}
+
+var pileCache struct {
+	mu   sync.Mutex
+	ts   time.Time
+	data []byte
+}
+
+// pilestats — demand-pile health for the dashboard tiles (Dani 2026-08-02):
+// UNCLASSIFIED + kind_unsupported:* rows are SESSION-gated work (the fleet
+// cannot map them by contract), so their share of total-misses is the
+// engine-round trigger metric. Runs reparse.py --review-pile in the live
+// checkout, cached 10 minutes.
+func pilestats(w http.ResponseWriter, r *http.Request) {
+	pileCache.mu.Lock()
+	defer pileCache.mu.Unlock()
+	if time.Since(pileCache.ts) > 10*time.Minute || pileCache.data == nil {
+		out, err := exec.Command("python3", "/opt/development/magic-new/scripts/paragraph/reparse.py", "--review-pile").Output()
+		if err == nil {
+			stats := map[string]int{}
+			reNum := regexp.MustCompile(`^\s*(\d+)\s+(\S+)`)
+			for _, line := range strings.Split(string(out), "\n") {
+				if strings.HasPrefix(line, "review-pile cards scanned:") {
+					var n int
+					fmt.Sscanf(line, "review-pile cards scanned: %d", &n)
+					stats["review_cards"] = n
+				} else if strings.HasPrefix(line, "total-misses:") {
+					var n int
+					fmt.Sscanf(line, "total-misses: %d", &n)
+					stats["total_misses"] = n
+				} else if strings.HasPrefix(line, "flip-ELIGIBLE") {
+					var n int
+					if _, err := fmt.Sscanf(line[strings.Index(line, ":")+1:], " %d", &n); err == nil {
+						stats["flip_eligible"] = n
+					}
+				} else if m := reNum.FindStringSubmatch(line); m != nil {
+					n := 0
+					fmt.Sscanf(m[1], "%d", &n)
+					if m[2] == "kind_unsupported:UNCLASSIFIED" {
+						stats["unclassified"] = n
+					}
+					if strings.HasPrefix(m[2], "kind_unsupported:") || strings.HasPrefix(m[2], "condition_referent") || strings.HasPrefix(m[2], "spell_seq_targeted") {
+						stats["session_gated"] += n
+					}
+				}
+			}
+			pileCache.data, _ = json.Marshal(stats)
+			pileCache.ts = time.Now()
+		}
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Cache-Control", "no-store")
+	if pileCache.data == nil {
+		w.Write([]byte("{}"))
+		return
+	}
+	w.Write(pileCache.data)
 }
 
 func dashboard(w http.ResponseWriter, r *http.Request) {

@@ -80,6 +80,9 @@
   <div class="kpi"><div class="label">Native v2 records</div><div class="value mono" id="k-v2">…</div></div>
   <div class="kpi"><div class="label">Tasks open</div><div class="value mono" id="k-todo">…</div></div>
   <div class="kpi"><div class="label">Tasks done</div><div class="value mono" id="k-done">…</div></div>
+  <div class="kpi warn"><div class="label">Unclassified</div><div class="value mono" id="k-unclass">…</div><div class="hint">classifier-round trigger</div></div>
+  <div class="kpi warn"><div class="label">Session-gated misses</div><div class="value mono" id="k-gated">…</div><div class="hint">engine rounds needed</div></div>
+  <div class="kpi"><div class="label">Total misses</div><div class="value mono" id="k-misses">…</div><div class="hint">review pile, all shapes</div></div>
 </div>
 
 <section>
@@ -164,6 +167,14 @@
     document.getElementById('stamp').textContent = 'data: ' + new Date().toLocaleString();
     recompute();
   }
+  async function loadPile() {
+    try {
+      const r = await fetch('/pilestats'); const s = await r.json();
+      if (s.unclassified !== undefined) document.getElementById('k-unclass').textContent = fmt(s.unclassified);
+      if (s.session_gated !== undefined) document.getElementById('k-gated').textContent = fmt(s.session_gated);
+      if (s.total_misses !== undefined) document.getElementById('k-misses').textContent = fmt(s.total_misses);
+    } catch (e) {}
+  }
   async function loadStats() {
     try {
       const r = await fetch('/stats'); const s = await r.json();
@@ -181,7 +192,8 @@
         '<div class="row"><span class="k">' + esc(k) + '</span><span class="v mono">' + fmt(st[k]) + '</span></div>').join('');
     } catch (e) { /* dispatcher restarting — keep last view */ }
   }
-  loadCards(); loadStats();
+  loadCards(); loadStats(); loadPile();
+  setInterval(loadPile, 300000);
   setInterval(loadStats, 15000);
   setInterval(loadCards, 120000);
 </script>

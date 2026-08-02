@@ -1165,6 +1165,7 @@ func main() {
 	http.HandleFunc("/ticket", ticketDetail)
 	http.HandleFunc("/dashboard", dashboard)
 	http.HandleFunc("/carddb", carddb)
+	http.HandleFunc("/pilestats", pilestats)
 	http.HandleFunc("/", gui)
 	log.Fatal(http.ListenAndServe(Port, nil))
 }

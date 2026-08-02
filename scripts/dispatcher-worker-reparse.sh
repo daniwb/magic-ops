@@ -206,6 +206,9 @@ while true; do
   BASE_SHAPE=$(shape_count "$TASK_SHAPE")
   BASE_TOTAL=""
   [ "$SWEEP" = 1 ] && BASE_TOTAL=$(total_misses)
+  # UNCLASSIFIED je Job messen (Dani 2026-08-02): steigt sie, hat der Job
+  # Klassifikations-Leaks erzeugt; als Engine-Round-Trigger im Report.
+  BASE_UNCLASS=$(shape_count "kind_unsupported:UNCLASSIFIED")
   log "baseline eligibility: $BASE_ELIG, shape '$TASK_SHAPE': ${BASE_SHAPE:-?} instances${BASE_TOTAL:+, total-misses: $BASE_TOTAL}"
 
   # ---- Prompt: statischer Block = Contract + Harness-Protokoll (cachebar) ----
@@ -305,7 +308,9 @@ HARNESS
         if [ "$ELIG_OK" = 1 ] || [ "$SHAPE_OK" = 1 ]; then
           DELTA=$(( ${NEW_ELIG:-$BASE_ELIG} - BASE_ELIG ))
           SDELTA=$(( ${BASE_SHAPE:-0} - ${NEW_SHAPE:-${BASE_SHAPE:-0}} ))
-          log "✅ gate grün: eligibility $BASE_ELIG -> ${NEW_ELIG:-?} (+$DELTA), shape $TASK_SHAPE ${BASE_SHAPE:-?} -> ${NEW_SHAPE:-?} (-$SDELTA)"
+          NEW_UNCLASS=$(shape_count "kind_unsupported:UNCLASSIFIED")
+          UDELTA=$(( ${NEW_UNCLASS:-0} - ${BASE_UNCLASS:-0} ))
+          log "✅ gate grün: eligibility $BASE_ELIG -> ${NEW_ELIG:-?} (+$DELTA), shape $TASK_SHAPE ${BASE_SHAPE:-?} -> ${NEW_SHAPE:-?} (-$SDELTA), unclassified Δ$UDELTA"
           OUTCOME="gate_green"
           break
         else
@@ -344,7 +349,7 @@ HARNESS
     git commit -qm "reparse(task-$TICKET_ID): $TICKET_TITLE (+$DELTA eligible, -${SDELTA:-0} $TASK_SHAPE, $WORKER_ID)" || true
     if git push -qf origin "HEAD:refs/heads/reparse/task-$TICKET_ID" 2>/dev/null; then
       log "✅ branch reparse/task-$TICKET_ID gepusht (+$DELTA elig, -${SDELTA:-0} shape) — Integrator merged"
-      report fixed "" "" "" "elig +$DELTA ($BASE_ELIG->${NEW_ELIG:-?}), shape $TASK_SHAPE -${SDELTA:-0} (${BASE_SHAPE:-?}->${NEW_SHAPE:-?}); branch reparse/task-$TICKET_ID; VERDICT: ${VERDICT:-DONE}; $V_REASON"
+      report fixed "" "" "" "elig +$DELTA ($BASE_ELIG->${NEW_ELIG:-?}), shape $TASK_SHAPE -${SDELTA:-0} (${BASE_SHAPE:-?}->${NEW_SHAPE:-?}), unclassified Δ${UDELTA:-?}; branch reparse/task-$TICKET_ID; VERDICT: ${VERDICT:-DONE}; $V_REASON"
     else
       log "❌ branch push failed — Ticket zurückgeben"
       report retry "" "" "" "branch push failed on $WORKER_ID"
