@@ -92,6 +92,10 @@ _pace_day_bounds() { # $1=r7(reset-ts)
 }
 
 pace_ok() {
+  # PACE_DISABLE=1 — expliziter Override (manuelle Test-Läufe, Dani 2026-08-02):
+  # ignoriert Off-Datei UND Wochen-Pacing. Bewusst NUR per Env setzbar,
+  # damit kein Dauerzustand entsteht.
+  [ "${PACE_DISABLE:-0}" = "1" ] && return 0
   local now off nh lim5 elapsed allowed
   now=$(date +%s)
   mkdir -p "$(dirname "$PACE_OFF_FILE")" 2>/dev/null || true
