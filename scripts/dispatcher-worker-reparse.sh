@@ -69,6 +69,11 @@ if [ "${OLLAMA_WORKER:-0}" = "1" ]; then
   MODEL="${OLLAMA_MODEL:-deepseek-v4-flash:0731-cloud}"
   MODEL_ESCALATE="$MODEL"   # kein Fable auf der Gratis-Schiene — same-model retry
   USAGE_LIMIT_PCT=0
+  # llama.cpp's json-schema->grammar converter tips over on the COMBINED
+  # WebFetch+WebSearch schemas ("failed to parse grammar", 2026-08-03,
+  # gpt-oss on the 395+; either one alone is fine). Local/free lanes don't
+  # need web tools — drop both.
+  EXTRA_CLAUDE_FLAGS="${EXTRA_CLAUDE_FLAGS:---disallowedTools WebFetch,WebSearch}"
 else
   unset ANTHROPIC_BASE_URL ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN
 fi
@@ -293,13 +298,13 @@ HARNESS
   while [ "$attempt" -le "$MAX_ATTEMPTS" ]; do
     RUN_MODEL="$MODEL"; [ "$attempt" -ge 2 ] && RUN_MODEL="$MODEL_ESCALATE"
     log "attempt $attempt/$MAX_ATTEMPTS (model $RUN_MODEL)"
-    CLAUDE_OUT=$(CJ_TIMEOUT="$RUN_TIMEOUT" claude_run --model "$RUN_MODEL" --permission-mode bypassPermissions \
+    CLAUDE_OUT=$(CJ_TIMEOUT="$RUN_TIMEOUT" claude_run --model "$RUN_MODEL" --permission-mode bypassPermissions ${EXTRA_CLAUDE_FLAGS:-} \
       --max-turns "$RUN_TURNS" \
       --append-system-prompt-file "$STATIC_FILE" < "$PROMPT_FILE")
 
     if printf '%s' "$CLAUDE_OUT" | grep -qi "model.*not exist\|CLAUDE_TIMEOUT_OR_ERROR"; then
       log "flake — retry mit demselben Modell (transient)"
-      CLAUDE_OUT=$(CJ_TIMEOUT="$RUN_TIMEOUT" claude_run --model "$RUN_MODEL" --permission-mode bypassPermissions \
+      CLAUDE_OUT=$(CJ_TIMEOUT="$RUN_TIMEOUT" claude_run --model "$RUN_MODEL" --permission-mode bypassPermissions ${EXTRA_CLAUDE_FLAGS:-} \
         --max-turns "$RUN_TURNS" --append-system-prompt-file "$STATIC_FILE" < "$PROMPT_FILE")
     fi
 
