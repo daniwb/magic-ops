@@ -251,6 +251,11 @@ while true; do
     # between landings -> prompt-cache friendly.
     [ -f "$CLONE_PATH/scripts/skills/mission-state.md" ] && cat "$CLONE_PATH/scripts/skills/mission-state.md"
     cat "$CLONE_PATH/scripts/skills/reparse-worker-contract.md"
+    if [ "$TIER" = "handler" ] && [ -f "$CLONE_PATH/scripts/skills/primitive-catalog.md" ]; then
+      # Handler-Tier: Karten aus Doku statt Code bauen (minimal-context,
+      # ~34k statt ~1M Token) — Katalog mit Dauer-Tags gegen silently-wrong.
+      cat "$CLONE_PATH/scripts/skills/primitive-catalog.md"
+    fi
     cat <<'HARNESS'
 
 ## Harness protocol (this run)
@@ -341,6 +346,14 @@ HARNESS
           [ -n "$NEW_SHAPE" ] && [ -n "$BASE_SHAPE" ] && [ "$NEW_SHAPE" -lt "$BASE_SHAPE" ] && SHAPE_OK=1
         fi
         ENGINE_OK=0
+        if [ "$TIER" = "handler" ]; then
+          # Handler-Tier: Ziel sind cardfns-Handler + Behavior-Tests, nicht
+          # Parser-Deltas. Erfolg = neue Test-Funktion(en) + VOLLE Suite grün.
+          if git diff origin/main...HEAD 2>/dev/null | grep -q '^+func Test' \
+             && (cd "$CLONE_PATH" && bash scripts/test-cards-sharded.sh 6 >/dev/null 2>&1); then
+            ENGINE_OK=1
+          fi
+        fi
         if [ "$TIER" = "engine" ] && git diff origin/main...HEAD 2>/dev/null | grep -q '^+func TestShape_'; then
           # Engine-Runden liefern oft +0 Eligibility (Infrastruktur) — neue
           # Shape-Tests + grüne Gates zählen als Erfolg (Modal-Runden-Muster).
@@ -389,6 +402,7 @@ HARNESS
     git add -A
     git commit -qm "reparse(task-$TICKET_ID): $TICKET_TITLE (+$DELTA eligible, -${SDELTA:-0} $TASK_SHAPE, $WORKER_ID)" || true
     BRANCH_PREFIX="reparse/task"; [ "$TIER" = "engine" ] && BRANCH_PREFIX="reparse/engine-task"
+    [ "$TIER" = "handler" ] && BRANCH_PREFIX="reparse/handler-task"
     if git push -qf origin "HEAD:refs/heads/$BRANCH_PREFIX-$TICKET_ID" 2>/dev/null; then
       log "✅ branch $BRANCH_PREFIX-$TICKET_ID gepusht (+$DELTA elig, -${SDELTA:-0} shape) — Integrator merged"
       report fixed "" "" "" "elig +$DELTA ($BASE_ELIG->${NEW_ELIG:-?}), shape $TASK_SHAPE -${SDELTA:-0} (${BASE_SHAPE:-?}->${NEW_SHAPE:-?}), unclassified Δ${UDELTA:-?}; branch $BRANCH_PREFIX-$TICKET_ID; VERDICT: ${VERDICT:-DONE}; $V_REASON"

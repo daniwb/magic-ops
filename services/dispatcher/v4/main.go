@@ -227,9 +227,14 @@ func claim(w http.ResponseWriter, r *http.Request) {
 	// ältestes todo Card/Split (VOCAB wird nie an Card-Worker verteilt).
 	// tier=engine -> nur REPARSE-ENGINE-Tickets (Fable-Worker); sonst alles
 	// AUSSER engine (Sonnet-Fleet). Rückwärtskompatibel: ohne tier = wie tier!=engine.
-	tierCond := "AND title NOT LIKE 'REPARSE-ENGINE:%'"
-	if r.URL.Query().Get("tier") == "engine" {
+	tierCond := "AND title NOT LIKE 'REPARSE-ENGINE:%' AND title NOT LIKE 'REPARSE-HANDLER:%'"
+	switch r.URL.Query().Get("tier") {
+	case "engine":
 		tierCond = "AND title LIKE 'REPARSE-ENGINE:%'"
+	case "handler":
+		// Handler-Tier (2026-08-03): cardfns-Handler-Karten für den lokalen
+		// 395+-Worker (rl1). Default-Claim (Sonnet-Fleet) sieht sie NICHT.
+		tierCond = "AND title LIKE 'REPARSE-HANDLER:%'"
 	}
 	row = db.QueryRow(`SELECT id,title,descr,retry_count FROM tickets
 	                   WHERE state='todo' AND type IN('card','split') ` + tierCond + `

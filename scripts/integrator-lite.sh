@@ -39,7 +39,7 @@ for ref in $(git for-each-ref --format='%(refname:short)' refs/remotes/origin/re
     # Fable-Tier-Branches (reparse/engine-task-*) dürfen Engine-Code ändern:
     # sie durchlaufen dieselben VOLLEN Gates unten (build + fast gate +
     # komplette Sharded-Suite). Alle anderen Engine-Diffs -> Review-Liste.
-    if ! printf '%s' "$branch" | grep -q '^reparse/engine-task-'; then
+    if ! printf '%s' "$branch" | grep -qE '^reparse/(engine|handler)-task-'; then
       grep -qxF "$branch (engine diff — interactive review)" "$REVIEW_LIST" 2>/dev/null \
         || echo "$branch (engine diff — interactive review)" >> "$REVIEW_LIST"
       continue
