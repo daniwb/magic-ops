@@ -249,6 +249,15 @@ while true; do
   # ---- Prompt: statischer Block = Contract + Harness-Protokoll (cachebar) ----
   STATIC_FILE="/tmp/disp-$WORKER_ID-static.md"
   PROMPT_FILE="/tmp/disp-$WORKER_ID-prompt.txt"
+  ACTION_NUDGE=""
+  if [ "${OLLAMA_WORKER:-0}" = "1" ]; then
+    # gpt-oss (395+ lane, 2026-08-03): with a big briefing + a complex ticket
+    # the model answers with a PLAN as plain text and never calls a tool
+    # (turns=1 no-ops). An explicit action-forcing opener fixes it (proven:
+    # "First action: use the Bash tool..." -> clean multi-turn run).
+    ACTION_NUDGE="IMPORTANT: You are an AGENT with tools, not a chat assistant. Your FIRST response MUST be a tool call (e.g. Bash or Read) — NEVER a prose answer or a plan. Work step by step with tools until the task is done.
+"
+  fi
   {
     # MISSION BRIEFING FIRST (Dani 2026-08-03: cold starts were the root
     # inefficiency — every run re-derived what the project knows). The
@@ -291,6 +300,7 @@ while true; do
 HARNESS
   } > "$STATIC_FILE"
   {
+    printf '%s\n' "$ACTION_NUDGE"
     echo "=== THE TICKET ==="
     echo "TICKET #$TICKET_ID: $TICKET_TITLE"
     echo ""
@@ -307,6 +317,7 @@ HARNESS
       --max-turns "$RUN_TURNS" \
       --append-system-prompt-file "$STATIC_FILE" < "$PROMPT_FILE")
 
+    printf '%s' "$CLAUDE_OUT" | tail -c 4000 > "/tmp/disp-$WORKER_ID-last-result.txt" 2>/dev/null || true
     if printf '%s' "$CLAUDE_OUT" | grep -qi "model.*not exist\|CLAUDE_TIMEOUT_OR_ERROR"; then
       log "flake — retry mit demselben Modell (transient)"
       CLAUDE_OUT=$(CJ_TIMEOUT="$RUN_TIMEOUT" claude_run --model "$RUN_MODEL" --permission-mode bypassPermissions ${EXTRA_CLAUDE_FLAGS:-} \
