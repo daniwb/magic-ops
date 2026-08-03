@@ -243,6 +243,11 @@ while true; do
   STATIC_FILE="/tmp/disp-$WORKER_ID-static.md"
   PROMPT_FILE="/tmp/disp-$WORKER_ID-prompt.txt"
   {
+    # MISSION BRIEFING FIRST (Dani 2026-08-03: cold starts were the root
+    # inefficiency — every run re-derived what the project knows). The
+    # auto-generated state doc replaces exploration turns; byte-stable
+    # between landings -> prompt-cache friendly.
+    [ -f "$CLONE_PATH/scripts/skills/mission-state.md" ] && cat "$CLONE_PATH/scripts/skills/mission-state.md"
     cat "$CLONE_PATH/scripts/skills/reparse-worker-contract.md"
     cat <<'HARNESS'
 
