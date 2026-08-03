@@ -69,6 +69,11 @@ if [ "${OLLAMA_WORKER:-0}" = "1" ]; then
   MODEL="${OLLAMA_MODEL:-deepseek-v4-flash:0731-cloud}"
   MODEL_ESCALATE="$MODEL"   # kein Fable auf der Gratis-Schiene — same-model retry
   USAGE_LIMIT_PCT=0
+  # Claude CLI fires auxiliary requests (conversation-title generation etc.)
+  # alongside the main run; on a single-slot local server the answers got
+  # CROSSED — the worker's "result" was literally the title response
+  # ("Create Magic Enchantment", 2026-08-03) and the run died at turns=1.
+  export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
   # llama.cpp's json-schema->grammar converter tips over on the COMBINED
   # WebFetch+WebSearch schemas ("failed to parse grammar", 2026-08-03,
   # gpt-oss on the 395+; either one alone is fine). Local/free lanes don't
