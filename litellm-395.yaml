@@ -2,12 +2,13 @@ model_list:
   - model_name: gpt-oss:120b
     litellm_params:
       model: openai/gpt-oss:120b
-      api_base: http://192.168.1.251:11434/v1
+      api_base: http://192.168.1.251:8080/v1
       api_key: none
   - model_name: qwen3-coder:30b
     litellm_params:
-      model: openai/models/qwen3-coder-30B-A3B/BF16/Qwen3-Coder-30B-A3B-Instruct-BF16-00001-of-00002.gguf
+      model: openai/qwen3-coder:30b
       api_base: http://192.168.1.251:8080/v1
       api_key: none
+      extra_body: {"cache_prompt": true}
 litellm_settings:
   drop_params: true
