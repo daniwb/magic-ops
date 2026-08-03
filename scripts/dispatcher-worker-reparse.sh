@@ -56,8 +56,20 @@ USAGE_CACHE="${USAGE_CACHE:-/tmp/claude-usage-gate.json}"
 PAUSE_FILE="${PAUSE_FILE:-/opt/development/magic-claude/.orch-pause-until}"
 source /opt/development/magic-claude/scripts/lib-pace-gate.sh 2>/dev/null || true
 
-# env hygiene: geerbtes Ollama-Routing zerlegt jeden Claude-Call
-unset ANTHROPIC_BASE_URL ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN
+# env hygiene: geerbtes Ollama-Routing zerlegt jeden Claude-Call — AUSSER der
+# Worker läuft absichtlich auf Ollama Cloud (OLLAMA_WORKER=1, eigene Quota,
+# keine Usage-/Pace-Gates; Modell via OLLAMA_MODEL, Test 2026-08-03:
+# deepseek-v4-flash:0731-cloud). Qualität sichern die Gates + Integrator.
+if [ "${OLLAMA_WORKER:-0}" = "1" ]; then
+  export ANTHROPIC_BASE_URL=http://127.0.0.1:11434
+  export ANTHROPIC_AUTH_TOKEN=ollama
+  unset ANTHROPIC_API_KEY
+  MODEL="${OLLAMA_MODEL:-deepseek-v4-flash:0731-cloud}"
+  MODEL_ESCALATE="$MODEL"   # kein Fable auf der Gratis-Schiene — same-model retry
+  USAGE_LIMIT_PCT=0
+else
+  unset ANTHROPIC_BASE_URL ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN
+fi
 
 log() { printf '[%s] %s: %s\n' "$(date '+%H:%M:%S')" "$WORKER_ID" "$*" >&2; }
 
@@ -175,7 +187,7 @@ while true; do
   if [ -f "$PAUSE_FILE" ] && [ "$(date +%s)" -lt "$(cat "$PAUSE_FILE" 2>/dev/null || echo 0)" ]; then
     log "Pause aktiv bis $(date -d @"$(cat "$PAUSE_FILE")" '+%F %T' 2>/dev/null) — kein neues Ticket"; sleep 300; continue
   fi
-  if declare -f pace_ok >/dev/null && ! pace_ok; then log "weekly-pace erreicht — pausiere"; sleep 300; continue; fi
+  if [ "${OLLAMA_WORKER:-0}" != "1" ] && declare -f pace_ok >/dev/null && ! pace_ok; then log "weekly-pace erreicht — pausiere"; sleep 300; continue; fi
   if ! usage_gate; then sleep 120; continue; fi
 
   CLAIM=$(curl -s -m 30 "$DISPATCHER/claim?worker=$WORKER_ID&tier=$TIER" 2>/dev/null || echo '{}')
