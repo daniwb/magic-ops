@@ -256,10 +256,15 @@ while true; do
     # between landings -> prompt-cache friendly.
     [ -f "$CLONE_PATH/scripts/skills/mission-state.md" ] && cat "$CLONE_PATH/scripts/skills/mission-state.md"
     cat "$CLONE_PATH/scripts/skills/reparse-worker-contract.md"
-    if [ "$TIER" = "handler" ] && [ -f "$CLONE_PATH/scripts/skills/primitive-catalog.md" ]; then
-      # Handler-Tier: Karten aus Doku statt Code bauen (minimal-context,
-      # ~34k statt ~1M Token) — Katalog mit Dauer-Tags gegen silently-wrong.
-      cat "$CLONE_PATH/scripts/skills/primitive-catalog.md"
+    if [ "$TIER" = "handler" ]; then
+      # Handler-Tier: Karten aus Doku statt Code bauen. DIGEST, nicht der
+      # volle Katalog — 489KB sprengen ein 128k-Kontextfenster (rl1 bekam
+      # stillschweigend truncierte Requests, 1-Turn-No-Ops, 2026-08-03).
+      if [ -f "$CLONE_PATH/scripts/skills/primitive-catalog-digest.md" ]; then
+        cat "$CLONE_PATH/scripts/skills/primitive-catalog-digest.md"
+      elif [ -f "$CLONE_PATH/scripts/skills/primitive-catalog.md" ]; then
+        cat "$CLONE_PATH/scripts/skills/primitive-catalog.md"
+      fi
     fi
     cat <<'HARNESS'
 
