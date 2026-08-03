@@ -61,7 +61,9 @@ source /opt/development/magic-claude/scripts/lib-pace-gate.sh 2>/dev/null || tru
 # keine Usage-/Pace-Gates; Modell via OLLAMA_MODEL, Test 2026-08-03:
 # deepseek-v4-flash:0731-cloud). Qualität sichern die Gates + Integrator.
 if [ "${OLLAMA_WORKER:-0}" = "1" ]; then
-  export ANTHROPIC_BASE_URL=http://127.0.0.1:11434
+  # OLLAMA_URL: default = local ollama (cloud routing). Set to the 395+ box
+  # (http://192.168.1.251:8080) for the fully-local $0 lane (2026-08-03).
+  export ANTHROPIC_BASE_URL="${OLLAMA_URL:-http://127.0.0.1:11434}"
   export ANTHROPIC_AUTH_TOKEN=ollama
   unset ANTHROPIC_API_KEY
   MODEL="${OLLAMA_MODEL:-deepseek-v4-flash:0731-cloud}"
