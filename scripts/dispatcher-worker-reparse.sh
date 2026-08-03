@@ -298,6 +298,18 @@ while true; do
 - A park verdict (anything but DONE) means: leave the tree CLEAN (git checkout
   -- . && git clean -fd) so no half-mapping ships.
 HARNESS
+    if [ "$TIER" = "handler" ]; then
+      cat <<'HGATE'
+
+## HANDLER-TIER OVERRIDE of the gate description above
+Your gate is DIFFERENT: build green + at least one NEW Go test function
+(+func Test...) in your diff + the FULL sharded cards suite green
+(bash scripts/test-cards-sharded.sh 6 — the harness runs it). Eligibility /
+miss-shape deltas do NOT apply to handler tickets; ignore that part.
+Write the handler in backend/cards/cardfns/, register it per the existing
+per-card conventions, and put the behavior test in a NEW test file.
+HGATE
+    fi
   } > "$STATIC_FILE"
   {
     printf '%s\n' "$ACTION_NUDGE"
