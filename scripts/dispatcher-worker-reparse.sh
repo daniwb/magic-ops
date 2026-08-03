@@ -32,7 +32,10 @@ MIRROR="${MIRROR:-/opt/development/openmagic-mirror.git}"
 # diese nach VOLLER Suite automatisch). Default: map (Sonnet-Fleet).
 TIER="${TIER:-map}"
 if [ "$TIER" = "engine" ]; then
-  MODEL="${MODEL:-claude-fable-5}"
+  # 2026-08-03 (Dani: 10% usage for ~500 cards is too little): engine tier
+  # runs SONNET first — Fable only on attempt 2 (MODEL_ESCALATE). Fable-priced
+  # infrastructure rounds were the night's cost driver.
+  MODEL="${MODEL:-claude-sonnet-5}"
   WORKER_MAX_TURNS="${WORKER_MAX_TURNS:-250}"
   CLAUDE_TIMEOUT="${CLAUDE_TIMEOUT:-7200}"
 fi
@@ -202,6 +205,10 @@ while true; do
   # (Option B) haben keine Einzel-Shape — Gate läuft über total-misses,
   # Budget deutlich größer (ein Run = ganze Demand-Table top-down).
   TASK_SHAPE=$(printf '%s' "$TICKET_TITLE" | sed -n 's/^REPARSE-MAP: \([^ ]*\) .*/\1/p')
+  # ENGINE tickets carry their plan item in the title too — gate them on the
+  # SAME shape-drain metric so machinery-only rounds don't count as done
+  # (breadth must materialize the predicted yield in the same ticket).
+  [ -z "$TASK_SHAPE" ] && TASK_SHAPE=$(printf '%s' "$TICKET_TITLE" | sed -n 's/^REPARSE-ENGINE: \([^ ]*\) .*/\1/p')
   SWEEP=0; RUN_TURNS="$WORKER_MAX_TURNS"; RUN_TIMEOUT="$CLAUDE_TIMEOUT"
   if printf '%s' "$TICKET_TITLE" | grep -q '^REPARSE-SWEEP'; then
     SWEEP=1; RUN_TURNS=250; RUN_TIMEOUT=5400
