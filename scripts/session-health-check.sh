@@ -13,12 +13,13 @@ fi
 echo "== TMUX LANES (expect: disp r1 ro1 shim [rl1] [litellm])"
 tmux list-windows -t dispatcher -F '#{window_name}' 2>/dev/null | tr '\n' ' '; echo
 echo "== DISPATCHER"
-curl -s -m 5 localhost:9999/pilestats || echo "DOWN"
+curl -s -m 10 localhost:9999/pilestats || curl -s -m 10 localhost:9999/pilestats || echo "DOWN (2 tries)"
 echo; echo "== SERVICE"
 systemctl is-active magic-backend
 echo "== INTEGRATOR (last 3)"
 tail -3 /opt/development/magic-new/.bugfixer-logs/integrator-lite.log 2>/dev/null
-echo "== TREE (must be clean or integrator skips!)"
+echo "== TREE (dirty is OK ONLY while the integrator cron is mid-run — check next line)"
+pgrep -cf "integrator-lite.sh" >/dev/null 2>&1 && echo "  integrator currently running: $(pgrep -cf integrator-lite.sh)"
 git -C /opt/development/test/openmagic status --porcelain | grep -v '^??' | head -3 || true
 echo "== UNMERGED BRANCHES"
 cd /opt/development/test/openmagic && git fetch -qp origin 2>/dev/null; U=0
