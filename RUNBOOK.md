@@ -16,7 +16,8 @@ express get hand-written handlers (backend/cardfns/).
 | Worker r1 (Sonnet, map tier) | tmux `dispatcher:r1` | /tmp/orch/launch-r1.sh |
 | Worker ro1 (GLM-5.2 cloud, $0, map) | tmux `dispatcher:ro1` | /tmp/orch/launch-ro1.sh |
 | Worker rl1 (local/llmproxy, handler tier) | tmux `dispatcher:rl1` | RL1_MODEL=qwen3-coder:30b /tmp/orch/launch-rl1.sh |
-| Anthropic→OpenAI shim (:4102) | tmux `dispatcher:shim` | python3 magic-ops/anthropic-openai-shim.py |
+| Anthropic→OpenAI shim (:4102) | tmux `dispatcher:shim` | python3 magic-ops/anthropic-openai-shim.py >> /tmp/orch/shim.log (traffic recorder: /tmp/orch/shim-log/traffic.jsonl) |
+| Card-knowledge service (:4103) | tmux `dispatcher:kb` | python3 magic-ops/scripts/card-knowledge-service.py >> /tmp/orch/kb.log (find/similar/reindex; index from openmagic, /reindex after landings) |
 | Integrator (lands branches) | cron */15 | magic-ops/scripts/integrator-lite.sh (stop: touch magic-ops/INTEGRATOR_LITE_OFF) |
 | Regression check | cron 0 */2 | red main safety net |
 | Daily report mail | cron 06:30 | magic-new/scripts/kanboard-daily-report.sh |
@@ -60,6 +61,11 @@ build (backend: go build ./...) + fast gate (go test ./cards/ -run
   python3 magic-ops/scripts/watch-local-ai.py rl1 -n 40   (or -f)
 - Stale review list entries: verify with git rev-list --count
   origin/main..origin/<branch> before re-merging.
+- gpt-oss via llmproxy 400 "failed to parse grammar": llama-server chokes on
+  exotic JSON-Schema keywords in tool defs; the shim's sanitize_schema()
+  strips them — if it reappears, a new tool schema feature slipped through.
+- Worker↔model debugging: /tmp/orch/shim-log/traffic.jsonl (one line per
+  exchange), last-exchange.json (full payload), error-*.json (failures).
 - gen_fleet_tasks rewrites reparse-tasks.jsonl but dispatcher ingests from a
   stored offset: reset via sqlite meta k=backlog_offset v=0, then
   /action?do=ingest&n=300.
