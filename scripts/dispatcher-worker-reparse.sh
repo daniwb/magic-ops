@@ -365,6 +365,14 @@ HGATE
         OUTCOME="parked"; break;;
     esac
 
+    # Auto-commit (2026-08-04, Unbounded-Potential lesson): qwen did 41
+    # turns of real handler work but never committed — the gate greps the
+    # COMMITTED diff and failed on an empty one. Local models can't be
+    # trusted to remember the commit step; the harness does it.
+    if [ -n "$(git status --porcelain)" ]; then
+      git add -A >/dev/null 2>&1
+      git commit -qm "wip(auto-commit): task-$TICKET_ID $TICKET_TITLE" >/dev/null 2>&1 || true
+    fi
     # ---- Gate: build + Vocab/Shape-Tests + Eligibility-Delta ----
     if BUILD_OUT=$(cd "$CLONE_PATH/backend" && "$GO" build ./... 2>&1); then
       if TEST_OUT=$(cd "$CLONE_PATH/backend" && timeout 600 "$GO" test ./cards/ -run 'TestVocabulary|TestV2|TestShape_' -count=1 2>&1); then
