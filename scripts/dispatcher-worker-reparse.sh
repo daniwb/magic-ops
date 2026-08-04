@@ -78,7 +78,11 @@ if [ "${OLLAMA_WORKER:-0}" = "1" ]; then
   # WebFetch+WebSearch schemas ("failed to parse grammar", 2026-08-03,
   # gpt-oss on the 395+; either one alone is fine). Local/free lanes don't
   # need web tools — drop both.
-  EXTRA_CLAUDE_FLAGS="${EXTRA_CLAUDE_FLAGS:---disallowedTools WebFetch,WebSearch}"
+  # Minimal toolset (2026-08-04): a finished qwen run invoked Skill twice
+  # "for fun" — each injects a full skill doc; context blew 267k/131k and
+  # the run died AT THE FINISH LINE. Workers get exactly what the job
+  # needs: Bash, Read, Edit, Write, Agent.
+  EXTRA_CLAUDE_FLAGS="${EXTRA_CLAUDE_FLAGS:---disallowedTools WebFetch,WebSearch,Skill,ReportFindings,TaskCreate,TaskUpdate,TaskList,TaskGet,TaskOutput,TaskStop,CronCreate,CronDelete,CronList,DesignSync,PushNotification,ScheduleWakeup,SendMessage,Monitor,EnterWorktree,ExitWorktree,Workflow,NotebookEdit}"
 else
   unset ANTHROPIC_BASE_URL ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN
 fi
