@@ -343,9 +343,12 @@ HGATE
 
     printf '%s' "$CLAUDE_OUT" | tail -c 4000 > "/tmp/disp-$WORKER_ID-last-result.txt" 2>/dev/null || true
     if printf '%s' "$CLAUDE_OUT" | grep -qi "model.*not exist\|CLAUDE_TIMEOUT_OR_ERROR"; then
-      log "flake — retry mit demselben Modell (transient)"
-      CLAUDE_OUT=$(CJ_TIMEOUT="$RUN_TIMEOUT" claude_run --model "$RUN_MODEL" --permission-mode bypassPermissions ${EXTRA_CLAUDE_FLAGS:-} \
-        --max-turns "$RUN_TURNS" --append-system-prompt-file "$STATIC_FILE" < "$PROMPT_FILE")
+      # --continue (2026-08-04, Dani): resume the SAME session after a
+      # mid-work flake — files survived anyway, now the model's reasoning
+      # state survives too instead of re-discovering its own work.
+      log "flake — retry mit --continue (Session-Resume)"
+      CLAUDE_OUT=$(CJ_TIMEOUT="$RUN_TIMEOUT" printf '%s' "Your previous session was interrupted mid-work. Continue EXACTLY where you left off — your files are still in the working tree. Finish the task per the original instructions." | claude_run --model "$RUN_MODEL" --permission-mode bypassPermissions ${EXTRA_CLAUDE_FLAGS:-} \
+        --max-turns "$RUN_TURNS" --continue --append-system-prompt-file "$STATIC_FILE")
     fi
 
     # Infra-/Quota-Ausfall ohne geschriebene Dateien -> Ticket zurück, Probe-Loop
