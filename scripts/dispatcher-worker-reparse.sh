@@ -274,6 +274,9 @@ while true; do
       # Handler-Tier: Karten aus Doku statt Code bauen. DIGEST, nicht der
       # volle Katalog — 489KB sprengen ein 128k-Kontextfenster (rl1 bekam
       # stillschweigend truncierte Requests, 1-Turn-No-Ops, 2026-08-03).
+      # one-shot worked example FIRST (Dani 2026-08-04) — local models
+      # follow a complete concrete example far better than rules alone.
+      [ -f "$CLONE_PATH/scripts/skills/handler-worked-example.md" ] && cat "$CLONE_PATH/scripts/skills/handler-worked-example.md"
       if [ -f "$CLONE_PATH/scripts/skills/primitive-catalog-digest.md" ]; then
         cat "$CLONE_PATH/scripts/skills/primitive-catalog-digest.md"
       elif [ -f "$CLONE_PATH/scripts/skills/primitive-catalog.md" ]; then
