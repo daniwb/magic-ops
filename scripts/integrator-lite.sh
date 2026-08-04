@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# integrator-lite — unbemannter Lander für RISIKOARME Reparse-Branches.
+# integrator-lite — unbemannter Lander für Reparse-Branches.
 #
-# Landet reparse/task-* Branches automatisch NUR wenn:
-#   - der Diff AUSSCHLIESSLICH scripts/paragraph/*.py berührt (kein Engine-Code)
-#   - der Merge konfliktfrei ist
-#   - build + Fast-Gate (Vocab/Shape/Subtype-Ratchet) + VOLLE Sharded-Suite grün
-# Alles andere (Engine-Diffs, Konflikte, rote Gates) wird NUR GELISTET —
-# Review bleibt bei der interaktiven Fable-Session. Kein Claude-Call, 0 Token.
+# BATCH-MODUS (Dani, 2026-08-04): ALLE konfliktfreien Branches zusammen
+# mergen, EIN flip/import-Wave, EIN Gate-Lauf (build + Fast-Gate + volle
+# Sharded-Suite), EIN Deploy — statt ~10 min Suite pro Branch. Ist das
+# Batch-Gate rot, Fallback auf per-Branch-Landung zur Isolation des
+# Verursachers (das alte Verhalten ist der Bisektionspfad, nicht der
+# Default). Konflikte gehen weiterhin einzeln auf die Review-Liste.
 #
 # Cron: */15 * * * *  (flock-guarded). Stopp: touch /opt/development/magic-ops/INTEGRATOR_LITE_OFF
 set -uo pipefail
@@ -32,49 +32,81 @@ cd "$REPO" || exit 1
 git fetch -q origin 'refs/heads/main:refs/remotes/origin/main' 'refs/heads/reparse/*:refs/remotes/origin/reparse/*' 2>/dev/null || { log "fetch failed"; exit 0; }
 git merge -q --ff-only origin/main 2>/dev/null || { log "local main not ff-able — skip"; exit 0; }
 
-landed=0
-for ref in $(git for-each-ref --format='%(refname:short)' refs/remotes/origin/reparse/); do
+candidates() {
+  git for-each-ref --format='%(refname:short)' refs/remotes/origin/reparse/ | while read -r ref; do
+    [ "$(git rev-list --count origin/main.."$ref")" = 0 ] && continue
+    echo "$ref"
+  done
+}
+
+run_gates() { # one wave + full gates over the CURRENT tree; returns 0 on green
+  local tag="reparse-auto-$(date +%m%d-%H%M)"
+  python3 scripts/paragraph/reparse.py --flip-batch 300 --tag "$tag" >> "$LOG" 2>&1
+  python3 scripts/paragraph/reparse.py --import-corpus --tag "$tag" >> "$LOG" 2>&1
+  (cd backend && "$GO" build ./...) >> "$LOG" 2>&1 || return 1
+  (cd backend && "$GO" test ./cards/ -run 'TestVocabulary|TestV2|TestShape_|TestCardDBSubtypeScopes' -count=1) >> "$LOG" 2>&1 || return 1
+  bash scripts/test-cards-sharded.sh 6 >> "$LOG" 2>&1 || return 1
+  return 0
+}
+
+push_deploy() { # $1 = commit message
+  git add -A backend/data/carddb
+  git commit -qm "$1" 2>/dev/null || true
+  if ! git push -q origin main 2>>"$LOG"; then
+    git reset -q --hard origin/main
+    log "push failed — reset, retry next run"
+    return 1
+  fi
+  (cd backend && "$GO" build -o "$LIVE/bin/magic-api-server" ./api) >> "$LOG" 2>&1 \
+    && sudo -n systemctl restart magic-backend 2>>"$LOG"
+  git -C "$LIVE" pull -q --ff-only 2>>"$LOG" || true
+  return 0
+}
+
+# ---- Phase 1: batch — alle konfliktfreien Branches zusammen mergen ----
+merged=()
+for ref in $(candidates); do
   branch="${ref#origin/}"
-  # schon in main?
-  [ "$(git rev-list --count origin/main.."$ref")" = 0 ] && continue
-  # 2026-08-04: python-only restriction DROPPED — since the contract asks
-  # map workers for Go shape tests, their branches legitimately carry Go
-  # diffs; the FULL gates below (build + fast gate + complete sharded
-  # suite) carry correctness for every tier. Conflicts still go to review.
-  log "candidate: $branch (full gates)"
+  if git merge --no-edit -q "$ref" 2>>"$LOG"; then
+    merged+=("$branch")
+  else
+    git merge --abort 2>/dev/null
+    log "$branch: merge conflict — listed for review"
+    grep -qxF "$branch (merge conflict)" "$REVIEW_LIST" 2>/dev/null || echo "$branch (merge conflict)" >> "$REVIEW_LIST"
+  fi
+done
+[ "${#merged[@]}" = 0 ] && exit 0
+
+log "batch candidate: ${#merged[@]} branch(es): ${merged[*]} (one wave, one gate run)"
+if run_gates; then
+  if push_deploy "feat(reparse): auto-land batch of ${#merged[@]} (integrator-lite batch; all gates green): ${merged[*]}"; then
+    log "batch: ${#merged[@]} branch(es) LANDED + deployed in one gate run"
+  fi
+  exit 0
+fi
+
+# ---- Phase 2: Batch-Gate rot — per-Branch-Bisektion (altes Verhalten) ----
+git reset -q --hard origin/main
+log "batch gate RED — falling back to per-branch isolation"
+landed=0
+for ref in $(candidates); do
+  branch="${ref#origin/}"
+  log "candidate: $branch (full gates, isolation mode)"
   if ! git merge --no-edit -q "$ref" 2>>"$LOG"; then
     git merge --abort 2>/dev/null; git reset -q --hard origin/main
     log "$branch: merge conflict — listed for review"
     grep -qxF "$branch (merge conflict)" "$REVIEW_LIST" 2>/dev/null || echo "$branch (merge conflict)" >> "$REVIEW_LIST"
     continue
   fi
-  tag="reparse-auto-$(date +%m%d-%H%M)"
-  python3 scripts/paragraph/reparse.py --flip-batch 300 --tag "$tag" >> "$LOG" 2>&1
-  python3 scripts/paragraph/reparse.py --import-corpus --tag "$tag" >> "$LOG" 2>&1
-  ok=1
-  (cd backend && "$GO" build ./...) >> "$LOG" 2>&1 || ok=0
-  if [ "$ok" = 1 ]; then
-    (cd backend && "$GO" test ./cards/ -run 'TestVocabulary|TestV2|TestShape_|TestCardDBSubtypeScopes' -count=1) >> "$LOG" 2>&1 || ok=0
-  fi
-  [ "$ok" = 1 ] && { bash scripts/test-cards-sharded.sh 6 >> "$LOG" 2>&1 || ok=0; }
-  if [ "$ok" != 1 ]; then
+  if ! run_gates; then
     git reset -q --hard origin/main
     log "$branch: gates RED — listed for review, tree reset"
     grep -qxF "$branch (gates red)" "$REVIEW_LIST" 2>/dev/null || echo "$branch (gates red)" >> "$REVIEW_LIST"
     continue
   fi
-  git add -A backend/data/carddb
-  git commit -qm "feat(reparse): auto-land $branch (integrator-lite; python-only, all gates green)" 2>/dev/null || true
-  if ! git push -q origin main 2>>"$LOG"; then
-    git reset -q --hard origin/main
-    log "$branch: push failed — reset, retry next run"
-    continue
-  fi
-  (cd backend && "$GO" build -o "$LIVE/bin/magic-api-server" ./api) >> "$LOG" 2>&1 \
-    && sudo -n systemctl restart magic-backend 2>>"$LOG" \
-    && log "$branch: LANDED + deployed"
-  git -C "$LIVE" pull -q --ff-only 2>>"$LOG" || true
+  push_deploy "feat(reparse): auto-land $branch (integrator-lite; all gates green)" || continue
+  log "$branch: LANDED + deployed"
   landed=$((landed+1))
 done
-[ "$landed" -gt 0 ] && log "run done: $landed branch(es) landed"
+[ "$landed" -gt 0 ] && log "isolation run done: $landed branch(es) landed"
 exit 0
