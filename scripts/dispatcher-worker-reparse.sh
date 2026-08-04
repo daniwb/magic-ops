@@ -281,7 +281,13 @@ while true; do
       # one-shot worked example FIRST (Dani 2026-08-04) — local models
       # follow a complete concrete example far better than rules alone.
       [ -f "$CLONE_PATH/scripts/skills/handler-worked-example.md" ] && cat "$CLONE_PATH/scripts/skills/handler-worked-example.md"
-      if [ -f "$CLONE_PATH/scripts/skills/primitive-catalog-digest.md" ]; then
+      # Briefing diet (2026-08-04): compact primitive TOC (~44KB) from the
+      # knowledge service instead of the 169KB digest — details are one
+      # /find query away. Fail-open to the digest when the service is down.
+      TOC_FILE="/tmp/disp-$WORKER_ID-toc.md"
+      if curl -s -m 5 http://127.0.0.1:4103/toc > "$TOC_FILE" 2>/dev/null && [ -s "$TOC_FILE" ]; then
+        cat "$TOC_FILE"
+      elif [ -f "$CLONE_PATH/scripts/skills/primitive-catalog-digest.md" ]; then
         cat "$CLONE_PATH/scripts/skills/primitive-catalog-digest.md"
       elif [ -f "$CLONE_PATH/scripts/skills/primitive-catalog.md" ]; then
         cat "$CLONE_PATH/scripts/skills/primitive-catalog.md"

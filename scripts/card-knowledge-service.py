@@ -131,6 +131,19 @@ class H(http.server.BaseHTTPRequestHandler):
         if u.path == '/reindex':
             _, COUNTS = build_index()
             return self.reply('reindexed %s\n' % COUNTS)
+        if u.path == '/toc':
+            # Compact primitive index for briefings: every primitive name +
+            # first body line. Replaces the 169KB catalog digest; details are
+            # one /find query away.
+            out, seen = [], set()
+            for title, body in db.execute("SELECT title, body FROM docs WHERE kind='primitive' ORDER BY title"):
+                if title in seen:
+                    continue
+                seen.add(title)
+                first = next((l.strip() for l in body.splitlines() if l.strip() and not l.strip().startswith('regEffect')), '')
+                out.append('%s — %s' % (title, first[:90]))
+            return self.reply('# Primitive index (%d entries; query /find?q=&kind=primitive for details)\n%s\n'
+                              % (len(out), '\n'.join(out)))
         if u.path == '/find':
             words = tokens(p.get('q', ''), keep_stop=True)
             kind = p.get('kind') or None
