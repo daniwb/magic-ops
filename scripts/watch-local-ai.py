@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
-"""watch-local-ai.py [worker] [-f] — the local AI worker's actual
-conversation (claude CLI transcript). Default: rl1."""
+"""watch-local-ai.py [worker] [-n N] [-f] — the local AI worker's actual
+conversation (claude CLI transcript). Default: rl1, last 120 raw lines.
+-n N shows the last N transcript lines, -f follows live."""
 import glob, json, os, sys, time
 
 w = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith('-') else 'rl1'
 follow = '-f' in sys.argv
+n = 120
+if '-n' in sys.argv:
+    try:
+        n = int(sys.argv[sys.argv.index('-n') + 1])
+    except Exception:
+        pass
 d = os.path.expanduser('~/.claude/projects/-tmp-work-disp-' + w)
 files = sorted(glob.glob(d + '/*.jsonl'), key=os.path.getmtime)
 if not files:
@@ -37,7 +44,7 @@ def render(line):
 
 with open(f) as fh:
     lines = fh.readlines()
-for line in lines[-120:]:
+for line in lines[-n:]:
     render(line)
 if follow:
     with open(f) as fh:
