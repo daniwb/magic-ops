@@ -362,13 +362,18 @@ HGATE
   # card from the knowledge service (:4103) — saves the model its own search
   # turns. Fail-open: skipped silently when the service is down.
   if [ "$TIER" = "handler" ] && curl -s -m 3 -o /dev/null http://127.0.0.1:4103/health 2>/dev/null; then
+    # Query with the ORACLE TEXT ONLY (the fenced block in the ticket), not
+    # the whole desc — boilerplate words drowned the ranking (Myr Turbine got
+    # an energy card as "nearest" template, 2026-08-04).
+    ORACLE_TEXT=$(printf '%s\n' "$TICKET_DESC" | sed -n '/^```/,/^```/p' | sed '/^```/d')
+    [ -n "$ORACLE_TEXT" ] || ORACLE_TEXT="$TICKET_TITLE"
     {
       echo ""
       echo "=== PRE-SELECTED KNOWLEDGE (auto-generated for this card; verify, then reuse) ==="
       echo "--- Nearest existing handlers (use as templates): ---"
-      curl -s -m 15 'http://127.0.0.1:4103/similar' --get --data-urlencode "text=$TICKET_DESC" --data-urlencode 'n=2' 2>/dev/null
+      curl -s -m 15 'http://127.0.0.1:4103/similar' --get --data-urlencode "text=$ORACLE_TEXT" --data-urlencode 'n=2' 2>/dev/null
       echo "--- Possibly relevant primitives/helpers/handlers: ---"
-      curl -s -m 15 'http://127.0.0.1:4103/find' --get --data-urlencode "q=$TICKET_DESC" --data-urlencode 'n=5' 2>/dev/null
+      curl -s -m 15 'http://127.0.0.1:4103/find' --get --data-urlencode "q=$ORACLE_TEXT" --data-urlencode 'n=5' 2>/dev/null
     } >> "$PROMPT_FILE"
   fi
 
