@@ -3,9 +3,75 @@
 llmproxy lane, 2026-08-04). Sends NO Authorization header (llmproxy is
 keyless-open, rejects wrong keys). Title side-requests answered locally.
 Streams the response as one buffered burst of Anthropic SSE events."""
-import http.server, json, socketserver, urllib.request, uuid
+import http.server, json, os, socketserver, time, urllib.request, uuid
 
 UP = 'https://llm.k.ezq.ch/v1/chat/completions'
+LOGDIR = '/tmp/orch/shim-log'
+os.makedirs(LOGDIR, exist_ok=True)
+
+def _excerpt(x, n=400):
+    s = x if isinstance(x, str) else json.dumps(x, ensure_ascii=False)
+    return s[:n] + ('…' if len(s) > n else '')
+
+def log_exchange(payload, resp, wall, err=None):
+    """One JSONL line per exchange + full snapshot of the latest one."""
+    try:
+        msgs = payload.get('messages', [])
+        sys_len = sum(len(m.get('content') or '') for m in msgs if m.get('role') == 'system')
+        last = msgs[-1] if msgs else {}
+        rec = {'ts': time.strftime('%H:%M:%S'), 'wall_s': round(wall, 1),
+               'n_msgs': len(msgs), 'sys_kb': round(sys_len / 1024, 1),
+               'last_role': last.get('role'), 'last_msg': _excerpt(last.get('content') or '')}
+        if err:
+            rec['error'] = _excerpt(str(err), 600)
+            with open(f'{LOGDIR}/error-{int(time.time())}.json', 'w') as f:
+                json.dump({'request': payload, 'error': str(err)}, f, ensure_ascii=False)
+        elif resp:
+            m = (resp.get('choices') or [{}])[0].get('message', {})
+            u = resp.get('usage') or {}
+            rec.update({'prompt_tok': u.get('prompt_tokens'), 'compl_tok': u.get('completion_tokens'),
+                        'reply': _excerpt(m.get('content') or ''),
+                        'tool_calls': [{'name': tc['function']['name'],
+                                        'args': _excerpt(tc['function'].get('arguments') or '', 300)}
+                                       for tc in m.get('tool_calls') or []]})
+        with open(f'{LOGDIR}/traffic.jsonl', 'a') as f:
+            f.write(json.dumps(rec, ensure_ascii=False) + '\n')
+        with open(f'{LOGDIR}/last-exchange.json', 'w') as f:
+            json.dump({'request': payload, 'response': resp, 'error': err and str(err)}, f,
+                      ensure_ascii=False, indent=1)
+    except Exception:
+        pass  # Beobachtung darf den Traffic nie brechen
+
+def sanitize_schema(s):
+    """llama-server compiles tool schemas to a GBNF grammar; exotic JSON-Schema
+    keywords (anyOf/const/pattern/propertyNames/type-unions...) make it 400 with
+    'failed to parse grammar'. Keep only the grammar-safe subset."""
+    if not isinstance(s, dict):
+        return {'type': 'object', 'properties': {}}
+    if 'anyOf' in s and isinstance(s['anyOf'], list) and s['anyOf']:
+        return sanitize_schema(s['anyOf'][0])
+    out = {}
+    t = s.get('type')
+    if isinstance(t, list) and t:
+        t = t[0]
+    if isinstance(t, str):
+        out['type'] = t
+    if isinstance(s.get('description'), str):
+        out['description'] = s['description'][:1000]
+    if isinstance(s.get('enum'), list):
+        out['enum'] = s['enum']
+    if out.get('type') == 'object' or 'properties' in s:
+        out['type'] = 'object'
+        props = s.get('properties') or {}
+        out['properties'] = {k: sanitize_schema(v) for k, v in props.items()}
+        req = [r for r in s.get('required') or [] if r in props]
+        if req:
+            out['required'] = req
+    elif out.get('type') == 'array':
+        out['items'] = sanitize_schema(s.get('items') or {})
+    elif 'type' not in out:
+        out = {'type': 'string'}
+    return out
 
 def a2o(d):
     msgs = []
@@ -40,7 +106,7 @@ def a2o(d):
     out = {'model': d.get('model'), 'messages': msgs,
            'max_tokens': min(int(d.get('max_tokens') or 4096), 16000)}
     tools = [{'type': 'function', 'function': {'name': t['name'],
-              'description': t.get('description', ''), 'parameters': t.get('input_schema', {})}}
+              'description': t.get('description', ''), 'parameters': sanitize_schema(t.get('input_schema', {}))}}
              for t in d.get('tools', [])]
     if tools: out['tools'] = tools
     return out
@@ -63,15 +129,25 @@ class H(http.server.BaseHTTPRequestHandler):
             self.send_response(200); self.send_header('content-type', 'application/json')
             self.send_header('content-length', str(len(body))); self.end_headers()
             self.wfile.write(body); return
+        payload = a2o(d)
+        t0 = time.time()
         try:
-            req = urllib.request.Request(UP, json.dumps(a2o(d)).encode(),
+            req = urllib.request.Request(UP, json.dumps(payload).encode(),
                                          {'content-type': 'application/json'})
             r = json.load(urllib.request.urlopen(req, timeout=3000))
         except urllib.error.HTTPError as e:
             body = e.read()
+            log_exchange(payload, None, time.time() - t0, err=f'HTTP {e.code}: {body[:400]}')
             self.send_response(e.code); self.send_header('content-type', 'application/json')
             self.send_header('content-length', str(len(body))); self.end_headers()
             self.wfile.write(body); return
+        except Exception as e:
+            log_exchange(payload, None, time.time() - t0, err=e)
+            body = json.dumps({'error': str(e)}).encode()
+            self.send_response(502); self.send_header('content-type', 'application/json')
+            self.send_header('content-length', str(len(body))); self.end_headers()
+            self.wfile.write(body); return
+        log_exchange(payload, r, time.time() - t0)
         ch = (r.get('choices') or [{}])[0]
         m = ch.get('message', {})
         blocks = []

@@ -320,6 +320,28 @@ Your gate is DIFFERENT: build green + at least one NEW Go test function
 miss-shape deltas do NOT apply to handler tickets; ignore that part.
 Write the handler in backend/cards/cardfns/, register it per the existing
 per-card conventions, and put the behavior test in a NEW test file.
+
+## Knowledge service (USE THIS FIRST — do not spelunk the engine)
+A local search service indexes every primitive, helper, and existing card
+handler. Query it with Bash BEFORE reading any engine file:
+  curl -s 'http://127.0.0.1:4103/similar' --get --data-urlencode 'text=<the card text>'
+  curl -s 'http://127.0.0.1:4103/find' --get --data-urlencode 'q=<capability you need>' --data-urlencode 'kind=primitive'
+  (kind can be primitive, helper, or handler; omit it to search everything)
+Start with /similar: the nearest existing handlers are your best template —
+copy their structure. Open engine files only to PROVE a symbol exists, never
+to discover; if /find returns NO MATCH for a needed capability, the engine
+almost certainly lacks it.
+
+## Discipline rules (hard requirements)
+- PARK EARLY: within your first 5 tool calls, decide buildable vs park. If
+  the card changes combat/attack/blocking/targeting/casting RULES and neither
+  /find nor /similar shows a matching primitive or handler pattern, output
+  VERDICT: NEEDS_PRIMITIVE immediately. A fast, well-named park is a SUCCESS.
+- NEVER repeat a tool call that just failed or returned the same result.
+  Same command + same answer twice = STOP, change approach or park.
+- go test: ALWAYS pass "timeout": 300000 or more in the Bash tool call. If
+  the harness says a command was "moved to background", READ the output file
+  it names to get the result — do NOT run the command again.
 HGATE
     fi
   } > "$STATIC_FILE"
@@ -330,6 +352,19 @@ HGATE
     echo ""
     printf '%s\n' "$TICKET_DESC"
   } > "$PROMPT_FILE"
+  # Pre-pack (2026-08-04): inject nearest handlers + primitive hits for THIS
+  # card from the knowledge service (:4103) — saves the model its own search
+  # turns. Fail-open: skipped silently when the service is down.
+  if [ "$TIER" = "handler" ] && curl -s -m 3 -o /dev/null http://127.0.0.1:4103/health 2>/dev/null; then
+    {
+      echo ""
+      echo "=== PRE-SELECTED KNOWLEDGE (auto-generated for this card; verify, then reuse) ==="
+      echo "--- Nearest existing handlers (use as templates): ---"
+      curl -s -m 15 'http://127.0.0.1:4103/similar' --get --data-urlencode "text=$TICKET_DESC" --data-urlencode 'n=2' 2>/dev/null
+      echo "--- Possibly relevant primitives/helpers/handlers: ---"
+      curl -s -m 15 'http://127.0.0.1:4103/find' --get --data-urlencode "q=$TICKET_DESC" --data-urlencode 'n=5' 2>/dev/null
+    } >> "$PROMPT_FILE"
+  fi
 
   OUTCOME=""; VERDICT=""; V_REASON=""; GATE_TAIL=""
   : > "$TOK_FILE"
