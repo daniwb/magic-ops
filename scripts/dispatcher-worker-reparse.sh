@@ -347,7 +347,7 @@ HGATE
       # mid-work flake — files survived anyway, now the model's reasoning
       # state survives too instead of re-discovering its own work.
       log "flake — retry mit --continue (Session-Resume)"
-      CLAUDE_OUT=$(CJ_TIMEOUT="$RUN_TIMEOUT" printf '%s' "Your previous session was interrupted mid-work. Continue EXACTLY where you left off — your files are still in the working tree. Finish the task per the original instructions." | claude_run --model "$RUN_MODEL" --permission-mode bypassPermissions ${EXTRA_CLAUDE_FLAGS:-} \
+      CLAUDE_OUT=$(printf '%s' "Your previous session was interrupted mid-work. Continue EXACTLY where you left off — your files are still in the working tree. Finish the task per the original instructions." | CJ_TIMEOUT="$RUN_TIMEOUT" claude_run --model "$RUN_MODEL" --permission-mode bypassPermissions ${EXTRA_CLAUDE_FLAGS:-} \
         --max-turns "$RUN_TURNS" --continue --append-system-prompt-file "$STATIC_FILE")
     fi
 
