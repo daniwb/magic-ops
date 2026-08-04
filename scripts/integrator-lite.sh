@@ -14,6 +14,9 @@ set -uo pipefail
 REPO=/opt/development/test/openmagic
 LIVE=/opt/development/magic-new
 GO=/usr/local/go/bin/go
+# cron PATH lacks go — test-cards-sharded.sh calls bare `go` (cardfns gate step
+# 2026-08-04); without this every suite run dies "go: command not found".
+export PATH="/usr/local/go/bin:$PATH"
 LOG="$LIVE/.bugfixer-logs/integrator-lite.log"
 REVIEW_LIST="$LIVE/.bugfixer-logs/integrator-needs-review.txt"
 LOCK=/tmp/integrator-lite.lock
