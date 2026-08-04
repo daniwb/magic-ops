@@ -1,0 +1,74 @@
+# RUNBOOK — Magic reparse factory (emergency reference)
+Updated 2026-08-04. In an emergency: point a fresh Claude session at THIS file.
+
+## The system in one paragraph
+Deterministic parser (scripts/paragraph/reparse.py in /opt/development/test/openmagic)
+turns MTGJSON corpus text into card records (backend/data/carddb/*.json).
+Workers (LLM agents) improve the parser or write per-card Go handlers, push
+branches; an integrator cron lands them through full gates and deploys.
+Coverage_planner.py decides what is worth building. Cards the schema can't
+express get hand-written handlers (backend/cardfns/).
+
+## Components & where they run
+| What | Where | Restart |
+|---|---|---|
+| Dispatcher v4 (:9999, tickets) | tmux `dispatcher:disp` | /tmp/orch/launch-dispatcher.sh (DB: magic-ops/services/dispatcher/v4/dispatcher.db) |
+| Worker r1 (Sonnet, map tier) | tmux `dispatcher:r1` | /tmp/orch/launch-r1.sh |
+| Worker ro1 (GLM-5.2 cloud, $0, map) | tmux `dispatcher:ro1` | /tmp/orch/launch-ro1.sh |
+| Worker rl1 (local/llmproxy, handler tier) | tmux `dispatcher:rl1` | RL1_MODEL=qwen3-coder:30b /tmp/orch/launch-rl1.sh |
+| Anthropic→OpenAI shim (:4102) | tmux `dispatcher:shim` | python3 magic-ops/anthropic-openai-shim.py |
+| Integrator (lands branches) | cron */15 | magic-ops/scripts/integrator-lite.sh (stop: touch magic-ops/INTEGRATOR_LITE_OFF) |
+| Regression check | cron 0 */2 | red main safety net |
+| Daily report mail | cron 06:30 | magic-new/scripts/kanboard-daily-report.sh |
+| Live game backend | systemd magic-backend | binary /opt/development/magic-new/bin/magic-api-server (built from openmagic backend/api) |
+
+NOTE: /tmp/orch/launch-*.sh do NOT survive reboot — recreate from this table
+or from memory file local_395_lane.md if missing.
+
+## Repos
+- /opt/development/test/openmagic  = THE repo (parser, engine, carddb, skills). Push origin main.
+- /opt/development/magic-new       = live checkout (ff-only from origin) + service binary.
+- /opt/development/magic-ops       = this infra repo (scripts, dispatcher, shim). Local only.
+
+## The loop
+fleet parks NEEDS_PRIMITIVE w/ spec → session builds primitive (registry_*.go
+init file + shape_<topic>_test.go + emitter) → requeue ticket
+(localhost:9999/action?do=requeue&id=N) → fleet maps it → integrator lands.
+
+## Gates (never bypass)
+build (backend: go build ./...) + fast gate (go test ./cards/ -run
+'TestVocabulary|TestV2|TestShape_') + FULL sharded suite
+(bash scripts/test-cards-sharded.sh, ~3min). Wave = reparse.py --flip-batch +
+--import-corpus (deterministic, no tokens). Deploy = ff magic-new, go build
+-o magic-new/bin/magic-api-server ./api (from magic-new/backend!), restart.
+
+## Known failure modes & fixes
+- "tree dirty — skip run" in integrator log: uncommitted files in openmagic
+  block ALL landings. git status; commit or checkout them.
+- Suite FAIL swallowed by `| tail`: NEVER pipe test runs in && chains.
+- Worker claim-churn "git sync failed" every 30s: dead cwd. Kill window,
+  rm -rf /tmp/work/disp-<w>, relaunch via its launch script.
+- pkill: patterns match YOUR OWN command line and the TMUX SERVER's.
+  Always split patterns ("disp-r""l1") and prefer kill-by-PID.
+- Ollama cloud quota (ro1): auto-parks, probes every 15min, self-resumes.
+- llmproxy (llm.k.ezq.ch): keyless OK, but a WRONG Bearer key is rejected;
+  no /v1/responses (that's why litellm failed → we use our own shim).
+- Local model doesn't commit → auto-commit now in worker; if gate says
+  "weder eligibility- noch shape-delta" on a handler ticket, check clone for
+  uncommitted work first.
+- Watch a local worker's conversation:
+  python3 magic-ops/scripts/watch-local-ai.py rl1 -n 40   (or -f)
+- Stale review list entries: verify with git rev-list --count
+  origin/main..origin/<branch> before re-merging.
+- gen_fleet_tasks rewrites reparse-tasks.jsonl but dispatcher ingests from a
+  stored offset: reset via sqlite meta k=backlog_offset v=0, then
+  /action?do=ingest&n=300.
+
+## Dashboards / status
+- localhost:9999/dashboard (tickets, pilestats, buildplan, carddb)
+- Queue: sqlite3 dispatcher.db "select state,count(*) from tickets group by state"
+- DB count: python one-liner over backend/data/carddb/*.json status fields.
+
+## Memory (Claude sessions)
+~/.claude/projects/-opt-development-magic-new/memory/ — start with MEMORY.md;
+fleet_operating_model.md + local_395_lane.md hold the operating decisions.
