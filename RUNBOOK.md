@@ -64,6 +64,22 @@ build (backend: go build ./...) + fast gate (go test ./cards/ -run
   stored offset: reset via sqlite meta k=backlog_offset v=0, then
   /action?do=ingest&n=300.
 
+
+## Session monitors (NOT persistent — they die with the Claude session!)
+The interactive session usually runs these watchers via its Monitor tool.
+A fresh session should re-arm them (they are conveniences, not infra —
+the crons above are the real safety net):
+- Fleet results:  tail -n0 -f /tmp/orch/reparse-r1.log /tmp/orch/reparse-ro1.log
+    | grep --line-buffered -E "ticket #|gate|parked|gepusht|rot|Fehler"
+- Local lane:     same on /tmp/orch/reparse-rl1.log
+- After each worker "gepusht" event: probe merge cleanliness
+    git merge-tree --write-tree origin/main origin/reparse/<branch>
+    (exit 0 = cron will land it; exit 1 = hand-merge job for the session)
+- Optional one-shots: 45-min ticket timers, model-appearing-on-a-box
+  watchers — recreate ad hoc.
+Worker turn/token accounting: /tmp/disp-<w>-turns.log, /tmp/disp-<w>-tokens,
+last model output: /tmp/disp-<w>-last-result.txt.
+
 ## Dashboards / status
 - localhost:9999/dashboard (tickets, pilestats, buildplan, carddb)
 - Queue: sqlite3 dispatcher.db "select state,count(*) from tickets group by state"
