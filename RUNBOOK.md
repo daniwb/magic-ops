@@ -65,6 +65,15 @@ build (backend: go build ./...) + fast gate (go test ./cards/ -run
   /action?do=ingest&n=300.
 
 
+
+## Session startup & operator lock (multi-session guardrail)
+Every Claude session MUST at start: run
+magic-ops/scripts/session-health-check.sh and inspect /tmp/orch/operator.lock.
+Lock free/stale(>4h) -> take it, act as operator. Lock held by another live
+session -> OBSERVER MODE: monitors + reporting ONLY, zero mutations (no
+commits, pushes, restarts, ticket ops, deploys). Protocol details: memory
+file session_startup_protocol.md.
+
 ## Session monitors (NOT persistent — they die with the Claude session!)
 The interactive session usually runs these watchers via its Monitor tool.
 A fresh session should re-arm them (they are conveniences, not infra —
