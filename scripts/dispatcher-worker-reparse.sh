@@ -136,7 +136,9 @@ report() { # $1 status  $2 reason  $3 missing_primitive  $4 why  $5 note
 TOK_FILE="/tmp/disp-$WORKER_ID-tokens"
 claude_run() { # claude-Flags; Prompt via stdin
   local raw txt used
-  raw=$(cd "$CLONE_PATH" && timeout "${CJ_TIMEOUT:-$CLAUDE_TIMEOUT}" "$CLAUDE_BIN" -p \
+  # -k 30 (2026-08-05): plain TERM was survivable — a flake-resume run ran 8h
+  # past its 90-min cap (ticket 2136). KILL follows 30s after TERM.
+  raw=$(cd "$CLONE_PATH" && timeout -k 30 "${CJ_TIMEOUT:-$CLAUDE_TIMEOUT}" "$CLAUDE_BIN" -p \
         --output-format json "$@" 2>>"/tmp/disp-$WORKER_ID-claude.err") \
     || { echo "CLAUDE_TIMEOUT_OR_ERROR"; return 0; }
   used=$(printf '%s' "$raw" | jq -r 'if (type=="object" and .modelUsage) then ([.modelUsage[] | (.inputTokens//0)+(.outputTokens//0)+(.cacheReadInputTokens//0)+(.cacheCreationInputTokens//0)] | add // 0) elif type=="object" then ((.usage.input_tokens//0)+(.usage.cache_creation_input_tokens//0)+(.usage.cache_read_input_tokens//0)+(.usage.output_tokens//0)) else 0 end' 2>/dev/null)
