@@ -103,7 +103,13 @@ def a2o(d):
         else:
             if texts: msgs.append({'role': 'user', 'content': '\n'.join(texts)})
             msgs.extend(results)
-    out = {'model': d.get('model'), 'messages': msgs,
+    model = d.get('model') or ''
+    if model.startswith('claude'):
+        # Interactive claude sessions pointed at the shim send their normal
+        # model ids (claude-fable-5 etc.) which llmproxy 404s (seen
+        # 2026-08-05). Alias every claude-* id to the local lane's model.
+        model = os.environ.get('SHIM_CLAUDE_ALIAS', 'gpt-oss:120b')
+    out = {'model': model, 'messages': msgs,
            'max_tokens': min(int(d.get('max_tokens') or 4096), 16000)}
     tools = [{'type': 'function', 'function': {'name': t['name'],
               'description': t.get('description', ''), 'parameters': sanitize_schema(t.get('input_schema', {}))}}
