@@ -412,8 +412,10 @@ HGATE
       continue 2
     fi
 
-    VERDICT=$(printf '%s' "$CLAUDE_OUT" | grep -E '^VERDICT: *[A-Z_]+' | tail -1 | sed 's/^VERDICT: *//; s/ .*//')
-    V_REASON=$(printf '%s' "$CLAUDE_OUT" | grep '^REASON:' | tail -1 | sed 's/^REASON: *//')
+    # Markdown-tolerant (2026-08-05): gpt-oss writes '**VERDICT:** DONE' —
+    # strip bold markers/leading list chars before matching.
+    VERDICT=$(printf '%s' "$CLAUDE_OUT" | sed 's/\*\*//g; s/^[-* ]*//' | grep -E '^VERDICT: *[A-Z_]+' | tail -1 | sed 's/^VERDICT: *//; s/ .*//')
+    V_REASON=$(printf '%s' "$CLAUDE_OUT" | sed 's/\*\*//g; s/^[-* ]*//' | grep '^REASON:' | tail -1 | sed 's/^REASON: *//')
 
     # Park-Verdicts sind terminale Ausgänge — kein Gate nötig
     case "$VERDICT" in
