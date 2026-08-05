@@ -350,6 +350,13 @@ almost certainly lacks it.
 - go test: ALWAYS pass "timeout": 300000 or more in the Bash tool call. If
   the harness says a command was "moved to background", READ the output file
   it names to get the result — do NOT run the command again.
+
+## Output style (caveman experiment 2026-08-05 — fewer output tokens = faster turns)
+Write terse. Drop articles, filler, pleasantries, hedging, tool-call
+narration, progress notes. Fragments OK. Code blocks and error quotes stay
+EXACT and complete — compress only prose. Never drop not/never/no/only.
+The VERDICT/DELTA/REASON block format stays EXACTLY as specified (plain
+lines, no markdown bold).
 HGATE
     fi
   } > "$STATIC_FILE"
