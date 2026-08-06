@@ -29,4 +29,20 @@ c=sqlite3.connect('$DB')
 c.execute("update meta set v='0' where k='backlog_offset'"); c.commit()
 EOF
 ADDED=$(curl -s -m 15 "http://localhost:9999/action?do=ingest&n=300")
-log "map todo was $TODO (<$THRESH) — regenerated + ingested: $ADDED"
+# Frontier-driven priorities (Dani 2026-08-06): shapes that are the LAST
+# blocker on the most review cards get worked first — max flips per landing.
+python3 - <<'PYEOF'
+import sqlite3, json
+try:
+    fr = json.load(open('/tmp/orch/flip-frontier.json'))
+except Exception:
+    raise SystemExit
+c = sqlite3.connect('$DB')
+for i in range(1, 6):
+    name = fr.get('frontier_top%d_name' % i)
+    if name:
+        c.execute("update tickets set priority=? where state='todo' and title like 'REPARSE-MAP%' and title like ?",
+                  (50 - (i - 1) * 5, '%' + name + '%'))
+c.commit()
+PYEOF
+log "map todo was $TODO (<$THRESH) — regenerated + ingested: $ADDED (frontier priorities applied)"
