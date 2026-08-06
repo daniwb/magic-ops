@@ -82,6 +82,7 @@
   <div class="kpi"><div class="label">Tasks done</div><div class="value mono" id="k-done">…</div></div>
   <div class="kpi warn"><div class="label">Unclassified</div><div class="value mono" id="k-unclass">…</div><div class="hint">classifier-round trigger</div></div>
   <div class="kpi warn"><div class="label">Session-gated misses</div><div class="value mono" id="k-gated">…</div><div class="hint">engine rounds needed</div></div>
+  <div class="kpi good"><div class="label">Flip frontier (1 / 2 / 3+ misses)</div><div class="value mono" id="k-frontier">…</div><div class="hint" id="k-frontier-top">1-miss cards flip on their next landing</div></div>
   <div class="kpi"><div class="label">Total misses</div><div class="value mono" id="k-misses">…</div><div class="hint">review pile, all shapes</div></div>
 </div>
 
@@ -191,6 +192,16 @@
       if (s.unclassified !== undefined) document.getElementById('k-unclass').textContent = fmt(s.unclassified);
       if (s.session_gated !== undefined) document.getElementById('k-gated').textContent = fmt(s.session_gated);
       if (s.total_misses !== undefined) document.getElementById('k-misses').textContent = fmt(s.total_misses);
+      if (s.frontier_1 !== undefined) {
+        const el = document.getElementById('k-frontier');
+        if (el) el.textContent = fmt(s.frontier_1) + ' / ' + fmt(s.frontier_2) + ' / ' + fmt(s.frontier_3plus);
+        const tops = [];
+        for (let i = 1; i <= 5; i++) {
+          if (s['frontier_top' + i] !== undefined) tops.push(esc(s['frontier_top' + i + '_name']) + ' (' + fmt(s['frontier_top' + i]) + ')');
+        }
+        const tl = document.getElementById('k-frontier-top');
+        if (tl && tops.length) tl.innerHTML = tops.join(' · ');
+      }
     } catch (e) {}
   }
   async function loadStats() {

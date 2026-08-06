@@ -179,7 +179,22 @@ func pilestats(w http.ResponseWriter, r *http.Request) {
 					}
 				}
 			}
-			pileCache.data, _ = json.Marshal(stats)
+			// flip-frontier merge (Dani 2026-08-06): cron-computed
+			// misses-per-review-card histogram — the 1-miss bucket is the
+			// "flips on next relevant landing" frontier.
+			merged := map[string]interface{}{}
+			for k, v := range stats {
+				merged[k] = v
+			}
+			if fb, err := os.ReadFile("/tmp/orch/flip-frontier.json"); err == nil {
+				var fr map[string]interface{}
+				if json.Unmarshal(fb, &fr) == nil {
+					for k, v := range fr {
+						merged[k] = v
+					}
+				}
+			}
+			pileCache.data, _ = json.Marshal(merged)
 			pileCache.ts = time.Now()
 		}
 	}
