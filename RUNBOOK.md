@@ -30,7 +30,7 @@ since 2026-08-06).
 ## Repos
 - /opt/development/test/openmagic  = THE repo (parser, engine, carddb, skills). Push origin main.
 - /opt/development/magic-new       = live checkout (ff-only from origin) + service binary.
-- /opt/development/magic-ops       = this infra repo (scripts, dispatcher, shim). Local only.
+- /opt/development/magic-ops       = this infra repo (scripts, dispatcher, shim, launchers). Remote: github daniwb/magic-ops (push after commits!).
 
 ## The loop
 fleet parks NEEDS_PRIMITIVE w/ spec → session builds primitive (registry_*.go
