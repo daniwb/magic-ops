@@ -350,6 +350,10 @@ almost certainly lacks it.
 - go test: ALWAYS pass "timeout": 300000 or more in the Bash tool call. If
   the harness says a command was "moved to background", READ the output file
   it names to get the result — do NOT run the command again.
+- Go module layout: run ALL go commands from backend/ (cd backend first).
+  The package is magic-backend/cardfns, NOT magic-backend/backend/cardfns.
+  NEVER edit go.mod — a "does not contain package" error means your cwd is
+  wrong, not that the module is broken.
 
 ## Output style (caveman experiment 2026-08-05 — fewer output tokens = faster turns)
 Write terse. Drop articles, filler, pleasantries, hedging, tool-call
