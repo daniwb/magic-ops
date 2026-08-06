@@ -23,8 +23,9 @@ express get hand-written handlers (backend/cardfns/).
 | Daily report mail | cron 06:30 | magic-new/scripts/kanboard-daily-report.sh |
 | Live game backend | systemd magic-backend | binary /opt/development/magic-new/bin/magic-api-server (built from openmagic backend/api) |
 
-NOTE: /tmp/orch/launch-*.sh do NOT survive reboot — recreate from this table
-or from memory file local_395_lane.md if missing.
+NOTE: /tmp/orch/launch-*.sh do NOT survive reboot — restore via
+magic-ops/launchers/restore-launchers.sh (canonical copies live in git
+since 2026-08-06).
 
 ## Repos
 - /opt/development/test/openmagic  = THE repo (parser, engine, carddb, skills). Push origin main.
