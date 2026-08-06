@@ -31,7 +31,7 @@ EOF
 ADDED=$(curl -s -m 15 "http://localhost:9999/action?do=ingest&n=300")
 # Frontier-driven priorities (Dani 2026-08-06): shapes that are the LAST
 # blocker on the most review cards get worked first — max flips per landing.
-python3 - <<'PYEOF'
+python3 - <<PYEOF
 import sqlite3, json
 try:
     fr = json.load(open('/tmp/orch/flip-frontier.json'))
