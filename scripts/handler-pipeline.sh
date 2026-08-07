@@ -119,9 +119,20 @@ $(printf '%s\n%s' "${BUILD_OUT:-}" "${SUITE_OUT:-}" | command grep -vE '^ok ' | 
           echo "## GATE ERROR"
           echo "$GATE_TAIL"
           echo
-          echo "Fix the error. Output ONLY correction blocks: SEARCH/REPLACE"
-          echo "against the current file contents above, or a full replacement"
-          echo "via NEWFILE (it may overwrite). Same block syntax as before."
+          M1='<<<'; M2='==='; M3='>>>'
+          [ -n "${PIPE_BASE_URL:-}" ] && { M1='@@@'; M2='@@@'; M3='@@@'; }
+          echo "Fix the error. Output ONLY correction blocks in EXACTLY this"
+          echo "syntax (no markdown, no code fences, no bold):"
+          echo "${M1}FILE path/relative/to/repo"
+          echo "${M1}SEARCH"
+          echo "exact lines copied verbatim from the file above"
+          echo "${M2}REPLACE"
+          echo "corrected lines"
+          echo "${M3}END"
+          echo "Or replace a whole file:"
+          echo "${M1}NEWFILE path/relative/to/repo"
+          echo "full corrected file content"
+          echo "${M3}END"
           echo "End with EXPECT: <one line>."
         } > "$BFP"
         log "bugfix call $bfx"
