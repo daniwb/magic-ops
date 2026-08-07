@@ -586,17 +586,23 @@ func stats(w http.ResponseWriter, r *http.Request) {
 	db.QueryRow(`SELECT COUNT(*) FROM tickets WHERE type='vocab' AND state='vocab'`).Scan(&vocabOpen)
 	db.QueryRow(`SELECT COUNT(*) FROM tickets WHERE state='done'`).Scan(&doneTotal)
 
-	// aktive Worker
+	// aktive Worker — pro Worker das zuletzt angefasste Ticket (letzte 30min),
+	// nicht nur state='working': eine Pipeline-Lane im Park/Circle/Warte-
+	// Zustand hält keinen Lease, arbeitet aber (Dani 2026-08-07).
 	type wk struct {
 		Worker string `json:"worker"`
 		ID     int64  `json:"id"`
 		Title  string `json:"title"`
+		State  string `json:"state"`
 	}
 	var workers []wk
-	wr, _ := db.Query(`SELECT worker_id,id,title FROM tickets WHERE state='working' ORDER BY worker_id`)
+	wr, _ := db.Query(`SELECT worker_id,id,title,state,MAX(updated_at) FROM tickets
+	                   WHERE worker_id!='' AND updated_at>?
+	                   GROUP BY worker_id ORDER BY worker_id`, now()-1800)
 	for wr.Next() {
 		var x wk
-		wr.Scan(&x.Worker, &x.ID, &x.Title)
+		var ts int64
+		wr.Scan(&x.Worker, &x.ID, &x.Title, &x.State, &ts)
 		workers = append(workers, x)
 	}
 	wr.Close()
@@ -755,7 +761,7 @@ func tickets(w http.ResponseWriter, r *http.Request) {
 		sql += ` AND t.type IN('card','split') AND t.state='done' AND t.updated_at>?`
 		args = append(args, lastVocabDone())
 	}
-	sql += ` ORDER BY t.id DESC LIMIT ?`
+	sql += ` ORDER BY t.updated_at DESC, t.id DESC LIMIT ?`
 	args = append(args, limit)
 	rows, err := db.Query(sql, args...)
 	if err != nil {

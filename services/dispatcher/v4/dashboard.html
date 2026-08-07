@@ -212,7 +212,8 @@
       document.getElementById('k-done').textContent = fmt(st.done||0);
       const fleet = document.getElementById('fleet');
       const workers = (s.workers||[]) .map(w => '<div class="row"><span class="k">' + esc(w.worker||w.id||'worker') +
-        '</span><span class="v">#' + esc(w.ticket_id||w.id||'') + ' ' + esc((w.title||'').slice(0,48)) + '</span></div>').join('');
+        '</span><span class="v">#' + esc(w.ticket_id||w.id||'') + ' ' + esc((w.title||'').slice(0,40)) +
+        (w.state && w.state !== 'working' ? ' <em>(' + esc(w.state) + ')</em>' : '') + '</span></div>').join('');
       fleet.innerHTML = (workers || '<div class="row"><span class="k">workers</span><span class="v">idle</span></div>') +
         '<div class="row"><span class="k">fixed 24h / 7d</span><span class="v mono">' + fmt(s.fixed_24h||0) + ' / ' + fmt(s.fixed_7d||0) + '</span></div>' +
         '<div class="row"><span class="k">backlog remaining</span><span class="v mono">' + fmt(s.backlog_remaining||0) + '</span></div>';
