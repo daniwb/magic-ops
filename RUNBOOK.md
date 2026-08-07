@@ -18,6 +18,7 @@ express get hand-written handlers (backend/cardfns/).
 | Worker rl1 (local/llmproxy, handler tier) | tmux `dispatcher:rl1` | RL1_MODEL=qwen3-coder:30b /tmp/orch/launch-rl1.sh |
 | Anthropic→OpenAI shim (:4102) | tmux `dispatcher:shim` | python3 magic-ops/anthropic-openai-shim.py >> /tmp/orch/shim.log (traffic recorder: /tmp/orch/shim-log/traffic.jsonl) |
 | Card-knowledge service (:4103) | tmux `dispatcher:kb` | python3 magic-ops/scripts/card-knowledge-service.py >> /tmp/orch/kb.log (find/similar/caps/reindex; index from openmagic, /reindex after landings; /caps?name=X = deterministic engine-readiness -> map-lane fail-fast park; harness auto-parks map branches touching backend/game/) |
+| Pipeline-Workflows (map/engine/handler) | Doku | docs/pipeline-workflows.md — staged Ticket-Verarbeitung, Eskalationsleiter, Messwerte 2026-08-07 |
 | Integrator (lands branches) | cron */15 | magic-ops/scripts/integrator-lite.sh (stop: touch magic-ops/INTEGRATOR_LITE_OFF) |
 | Regression check | cron 0 */2 | red main safety net |
 | Daily report mail | cron 06:30 | magic-new/scripts/kanboard-daily-report.sh |
