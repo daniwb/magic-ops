@@ -10,7 +10,7 @@
 #                     agentic fleet (r1) picks it up — the escalation ladder.
 # Leases/heartbeats via the normal claim/report API → dashboard-visible.
 #
-# Usage: pipeline-lane.sh WORKER_ID   (e.g. pl1); env:
+# Usage: pipeline-lane.sh WORKER_ID   (e.g. p1); env:
 #   PIPE_MODEL (default claude-sonnet-5), USAGE_LIMIT_PCT (default 75)
 set -uo pipefail
 WORKER_ID="${1:?worker id}"
