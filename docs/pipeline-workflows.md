@@ -98,7 +98,7 @@ Each rung fires only on a gate-verified failure of the rung below.
 | Engine #2485 build | GREEN — executor + test + full suite | ~1.0M | ~10 min |
 | Map #2485 after primitive | GREEN — total-misses −8 | ~0.57M | ~9 min |
 | Handler #2192 | GREEN — handler + test, first attempt | ~0.58M | ~9 min |
-| Handler #2193 local | exit 2 (blocks apply, Go compile red) | $0 | ~9 min |
+| Handler #2193 local | **GREEN — 1 bugfix round** (single-shot + step-6 fix loop) | $0 | ~9.5 min |
 | **Full circle Map→Engine→Map** | park → primitive → green | **~1.6M** | ~20 min |
 | Baseline: emergent engine work in an agentic session (#2457) | green | 22.5M | hours |
 
@@ -110,5 +110,5 @@ Each rung fires only on a gate-verified failure of the rung below.
   normalization for demand dedup (map parks ≠ cardfns helper namespace —
   the Brimaz lesson!).
 - ~~Port bugfix rounds to the map/engine pipelines~~ done 2026-08-07 (BUGFIX_MAX=2, kept tree, tier gate re-run).
-- Local pipeline: gpt-oss single-shot Go-compile quality is the limit;
-  as of today, local-agentic remains the green path of the local lane.
+- ~~Local pipeline compile limit~~ solved 2026-08-07: bugfix rounds on the
+  kept tree got gpt-oss to green (Cemetery Gatekeeper, 9.5 min, $0).
