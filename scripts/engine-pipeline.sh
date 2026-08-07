@@ -73,7 +73,8 @@ while [ $attempt -le 2 ]; do
     GATE_TAIL="Your edit blocks failed to apply: $APPLY_OUT"
   else
     log "applied; gating (build + tests + new-test check + sharded suite)"
-    if ! git diff --diff-filter=AM origin/main -- '*_test.go' | command grep -q '^+func Test'; then
+    git add -A
+    if ! git diff --cached --diff-filter=AM origin/main -- '*_test.go' | command grep -q '^+func Test'; then
       GATE_TAIL="Gate: no NEW test function (+func Test...) in your diff — a behavior test in a new _test.go file is REQUIRED."
       log "gate: missing new test func"
     elif BUILD_OUT=$(cd backend && "$GO" build ./... 2>&1) \
