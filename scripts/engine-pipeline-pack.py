@@ -150,6 +150,13 @@ Rules:
 
 %s
 
+## TOOL BUDGET
+You may Read/Grep/Glob to verify exact lines (~10 tool calls budget). Plan
+your reads, then STOP exploring and emit your answer — your FINAL message
+MUST be the output format below. An imperfect block set beats running out of
+turns in silence: the gate catches errors and you get one retry with the
+failure detail.
+
 ## OUTPUT FORMAT (strict)
 If ESSENTIAL source is missing from the code regions above (you would have to
 guess exact lines), reply ONLY with up to 3 request lines and nothing else:
