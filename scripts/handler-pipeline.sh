@@ -43,8 +43,11 @@ model_call() {
       -H 'content-type: application/json' -H "x-api-key: ${PIPE_AUTH_TOKEN:-ollama}" \
       -H 'anthropic-version: 2023-06-01' \
       -d "{\"model\":\"$MODEL\",\"max_tokens\":16000,\"messages\":[{\"role\":\"user\",\"content\":$prompt}]}")
-    printf '%s' "$raw" | jq -r '"tokens: in=\(.usage.input_tokens // 0) out=\(.usage.output_tokens // 0) cache_r=0 cache_w=0"' >> "$LOG" 2>/dev/null
-    printf '%s' "$raw" | jq -r '[.content[]? | select(.type=="text") | .text] | join("\n")'
+    # The shim always answers as SSE — reassemble the text deltas.
+    printf '%s' "$raw" | command grep '^data: ' | sed 's/^data: //' \
+      | jq -rs '"tokens: in=\([.[] | select(.type=="message_start") | .message.usage.input_tokens] | add // 0) out=\([.[] | .usage.output_tokens? // empty] | max // 0) cache_r=0 cache_w=0"' >> "$LOG" 2>/dev/null
+    printf '%s' "$raw" | command grep '^data: ' | sed 's/^data: //' \
+      | jq -rs '[.[] | select(.type=="content_block_delta") | .delta.text // empty] | join("")'
     return
   fi
   local raw
