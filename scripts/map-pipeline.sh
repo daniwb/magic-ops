@@ -41,21 +41,32 @@ fi
 log "pack built: $(wc -c < "$PACK") bytes"
 
 SHAPE=$(command grep -oP 'Miss shape: `\K[^`]+' "$PACK" | head -1)
+# --review-pile prints only the TOP-40 demand shapes, so a small shape
+# (e.g. 15 misses) is invisible there — grep would report 0 and the gate
+# would be blind. Fall back to total-misses: this clone is isolated, so a
+# total drop can only come from our patch.
 shape_count() {
-  python3 scripts/paragraph/reparse.py --review-pile 2>/dev/null \
-    | command grep -F "$SHAPE" | awk '{print $1; exit}'
+  local pile n
+  pile=$(python3 scripts/paragraph/reparse.py --review-pile 2>/dev/null)
+  n=$(printf '%s' "$pile" | command grep -F " $SHAPE " | awk '{print $1; exit}')
+  if [ -n "$n" ]; then printf '%s' "$n"; else
+    printf '%s' "$pile" | command grep -oP 'total-misses: \K\d+'
+  fi
 }
 BASE_SHAPE=$(shape_count); BASE_SHAPE=${BASE_SHAPE:-0}
-log "baseline: shape '$SHAPE' = $BASE_SHAPE instances"
+log "baseline: shape-or-total '$SHAPE' = $BASE_SHAPE"
 
 # ---- Stage B/C loop: model call -> apply -> gate (max 2 calls) ----
 model_call() { # stdin: prompt -> stdout: model text
   local env_prefix=()
   [ -n "${PIPE_BASE_URL:-}" ] && export ANTHROPIC_BASE_URL="$PIPE_BASE_URL" ANTHROPIC_AUTH_TOKEN="${PIPE_AUTH_TOKEN:-ollama}"
-  timeout -k 30 900 claude -p --output-format json --model "$MODEL" \
+  local raw
+  raw=$(timeout -k 30 900 claude -p --output-format json --model "$MODEL" \
       --max-turns 1 --permission-mode bypassPermissions \
       --disallowedTools 'Bash,Read,Edit,Write,Glob,Grep,WebFetch,WebSearch,Agent,Skill' \
-      2>>"$LOG" | jq -r '.result // empty'
+      2>>"$LOG")
+  printf '%s' "$raw" | jq -r '"tokens: in=\(.usage.input_tokens // 0) out=\(.usage.output_tokens // 0) cache_r=\(.usage.cache_read_input_tokens // 0) cache_w=\(.usage.cache_creation_input_tokens // 0)"' >> "$LOG" 2>/dev/null
+  printf '%s' "$raw" | jq -r '.result // empty'
 }
 
 attempt=1
