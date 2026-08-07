@@ -10,6 +10,7 @@ for the retry prompt).
 import re, sys, os
 
 ALLOW_GAME = '--allow-game' in sys.argv
+OVERWRITE = '--overwrite' in sys.argv
 
 out = sys.stdin.read()
 mv = re.search(r'^VERDICT:\s*([A-Z_]+)', out, re.M)
@@ -56,7 +57,7 @@ for path, content in newfiles:
     path = path.strip()
     if path.startswith('backend/game/') and not ALLOW_GAME:
         errors.append('%s: backend/game/ is off-limits (auto-park rule)' % path)
-    elif os.path.exists(path):
+    elif os.path.exists(path) and not OVERWRITE:
         errors.append('%s: NEWFILE but file already exists — use SEARCH/REPLACE' % path)
     elif '..' in path or path.startswith('/'):
         errors.append('%s: invalid path' % path)

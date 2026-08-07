@@ -101,7 +101,54 @@ while [ $attempt -le 2 ]; do
     else
       GATE_TAIL="Gate failed:
 $(printf '%s\n%s' "${BUILD_OUT:-}" "${SUITE_OUT:-}" | command grep -vE '^ok ' | tail -c 2500)"
-      log "gate: red"
+      log "gate: red — entering bugfix rounds (tree kept)"
+      # Bugfix-Job (Dani 2026-08-07): iterate ON the red state instead of
+      # regenerating from scratch — show current files + exact error, ask
+      # for corrections only. Up to BUGFIX_MAX rounds (local = \$0).
+      bfx=1
+      while [ $bfx -le "${BUGFIX_MAX:-3}" ]; do
+        BFP="/tmp/orch/handler-pipeline-$TICKET-bugfix-$bfx.md"
+        {
+          echo "# BUGFIX ROUND $bfx — your handler failed the gate"
+          echo
+          echo "Current state of YOUR files (already applied to the tree):"
+          for f in $(git diff --cached --name-only origin/main); do
+            echo; echo "### $f"; cat "$f"
+          done
+          echo
+          echo "## GATE ERROR"
+          echo "$GATE_TAIL"
+          echo
+          echo "Fix the error. Output ONLY correction blocks: SEARCH/REPLACE"
+          echo "against the current file contents above, or a full replacement"
+          echo "via NEWFILE (it may overwrite). Same block syntax as before."
+          echo "End with EXPECT: <one line>."
+        } > "$BFP"
+        log "bugfix call $bfx"
+        BOUT=$(model_call < "$BFP")
+        [ -z "$BOUT" ] && BOUT=$(model_call < "$BFP")
+        [ -z "$BOUT" ] && break
+        printf '%s\n' "$BOUT" > "/tmp/orch/handler-pipeline-$TICKET-bugfix-reply-$bfx.md"
+        BAPPLY=$(printf '%s' "$BOUT" | python3 "$OPS/scripts/map-pipeline-apply.py" --overwrite); brc=$?
+        if [ $brc -ne 0 ]; then
+          GATE_TAIL="Your correction blocks failed to apply: $BAPPLY"
+          bfx=$((bfx + 1)); continue
+        fi
+        git add -A
+        if BUILD_OUT=$(cd backend && "$GO" build ./... 2>&1) \
+           && SUITE_OUT=$(bash scripts/test-cards-sharded.sh 6 2>&1); then
+          log "GATE GREEN after bugfix round $bfx"
+          git commit -qm "reparse(handler-task-$TICKET): handler-pipeline card build (staged run, $bfx bugfix rounds)"
+          if [ $PUSH -eq 1 ]; then
+            git push -qf origin "HEAD:refs/heads/reparse/handler-task-$TICKET" && log "pushed reparse/handler-task-$TICKET"
+          fi
+          exit 0
+        fi
+        GATE_TAIL="Gate failed:
+$(printf '%s\n%s' "${BUILD_OUT:-}" "${SUITE_OUT:-}" | command grep -vE '^ok ' | tail -c 2500)"
+        log "bugfix round $bfx: still red"
+        bfx=$((bfx + 1))
+      done
     fi
     git reset -q HEAD >/dev/null 2>&1; git checkout -q -- . && git clean -qfd
   fi
