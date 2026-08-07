@@ -34,9 +34,17 @@ log "pack built: $(wc -c < "$PACK") bytes"
 model_call() {
   [ -n "${PIPE_BASE_URL:-}" ] && export ANTHROPIC_BASE_URL="$PIPE_BASE_URL" ANTHROPIC_AUTH_TOKEN="${PIPE_AUTH_TOKEN:-ollama}"
   local raw
+  # Local models (PIPE_BASE_URL -> shim) get NO tools and 3 turns: the shim
+  # has no cross-turn prompt cache (each turn re-sends everything, 644k+
+  # input observed) and gpt-oss wanders. The pack carries a full template —
+  # single-shot is the right shape locally. Sonnet keeps read-only agentic.
+  local turns=25 tools='Bash,Edit,Write,WebFetch,WebSearch,Agent,Skill,NotebookEdit'
+  if [ -n "${PIPE_BASE_URL:-}" ]; then
+    turns=3; tools='Bash,Read,Edit,Write,Glob,Grep,WebFetch,WebSearch,Agent,Skill,NotebookEdit'
+  fi
   raw=$(timeout -k 30 1800 claude -p --output-format json --model "$MODEL" \
-      --max-turns 25 --permission-mode bypassPermissions \
-      --disallowedTools 'Bash,Edit,Write,WebFetch,WebSearch,Agent,Skill,NotebookEdit' \
+      --max-turns "$turns" --permission-mode bypassPermissions \
+      --disallowedTools "$tools" \
       2>>"$LOG")
   printf '%s' "$raw" | jq -r '"tokens: in=\(.usage.input_tokens // 0) out=\(.usage.output_tokens // 0) cache_r=\(.usage.cache_read_input_tokens // 0) cache_w=\(.usage.cache_creation_input_tokens // 0)"' >> "$LOG" 2>/dev/null
   printf '%s' "$raw" | jq -r '.result // empty'
