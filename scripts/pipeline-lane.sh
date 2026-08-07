@@ -76,7 +76,8 @@ while :; do
   fi
 
   # heartbeat while the pipeline runs (lease stays visible on the dashboard)
-  ( while :; do sleep 240; curl -s -m 10 "$DISPATCHER/heartbeat?ticket=$TICKET" >/dev/null 2>&1 || true; done ) >/dev/null 2>&1 &
+  # dispatcher LeaseDuration is 180s — beat immediately, then every 60s like the fleet workers
+  ( while :; do curl -s -m 10 "$DISPATCHER/heartbeat?ticket=$TICKET" >/dev/null 2>&1 || true; sleep 60; done ) >/dev/null 2>&1 &
   HB=$!
 
   PLOG="/tmp/orch/pipeline-$TICKET.log"; : > "$PLOG"
