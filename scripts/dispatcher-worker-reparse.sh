@@ -318,6 +318,25 @@ while true; do
 - A park verdict (anything but DONE) means: leave the tree CLEAN (git checkout
   -- . && git clean -fd) so no half-mapping ships.
 HARNESS
+    if [ "$TIER" = "map" ]; then
+      cat <<'MGATE'
+
+## Fail-fast: engine readiness (map tier — hard rules)
+- Your lane maps parser/converter ONLY: scripts/paragraph/ and backend/cards/
+  (converter, registries, shape tests). backend/game/ is OFF-LIMITS — the
+  harness auto-parks any branch that touches it and ALL your work is discarded.
+- For event_unsupported / condition_unsupported shapes, your FIRST tool call:
+    curl -s 'http://127.0.0.1:4103/caps' --get --data-urlencode 'name=<the event/condition>'
+  MISSING -> output VERDICT: NEEDS_PRIMITIVE immediately (name it, one
+  paragraph). Do NOT explore the engine first; the check is authoritative.
+  SUPPORTED -> map it via converter case / parser rules, never new engine code.
+- Search before reading: curl -s 'http://127.0.0.1:4103/find' --get --data-urlencode 'q=<capability>'
+  Open a file only to PROVE a symbol exists, and read with offset/limit —
+  never whole engine files.
+- Long output is context poison: append  2>&1 | tail -40  to every go
+  build/test command.
+MGATE
+    fi
     if [ "$TIER" = "handler" ]; then
       cat <<'HGATE'
 
@@ -443,6 +462,17 @@ HGATE
     if [ -n "$(git status --porcelain)" ]; then
       git add -A >/dev/null 2>&1
       git commit -qm "wip(auto-commit): task-$TICKET_ID $TICKET_TITLE" >/dev/null 2>&1 || true
+    fi
+    # Map-Lane landet NIE Engine-Code (Dani 2026-08-07): Engine-Arbeit in
+    # einer 100-Turn-Worker-Session kostet ~10x die Tokens einer fokussierten
+    # Engine-Runde (Ticket 2457: 22.5M). Solche Branches -> Park statt Merge.
+    if [ "$TIER" = "map" ] && git diff origin/main...HEAD --name-only 2>/dev/null | grep -q '^backend/game/'; then
+      VERDICT="NEEDS_PRIMITIVE"
+      PRIM="engine-support-$(printf '%s' "$TASK_SHAPE" | tr -c 'a-z0-9' '-' | sed 's/-*$//')"
+      V_REASON="branch touched backend/game/ — map lane is parser/converter only; parked for an engine round (shape $TASK_SHAPE)"
+      OUTCOME="parked"
+      log "⛔ map-lane branch touched backend/game/ — auto-park NEEDS_PRIMITIVE"
+      break
     fi
     # ---- Gate: build + Vocab/Shape-Tests + Eligibility-Delta ----
     if BUILD_OUT=$(cd "$CLONE_PATH/backend" && "$GO" build ./... 2>&1); then

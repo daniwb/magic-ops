@@ -14,6 +14,9 @@ Endpoints (plain text, model-friendly):
   /similar?text=<card text>[&n=3]                       nearest handler cards
   /health                                               doc counts
   /reindex                                              rebuild from repo
+  /caps?name=<event_or_case>                            engine-readiness check
+             (exact match against game/events.go EventType constants and
+             converter case labels; MISSING -> map worker parks fail-fast)
 """
 import http.server, os, re, sqlite3, urllib.parse
 
@@ -92,6 +95,23 @@ def build_index():
             n['handler'] += 1
 
     db.commit()
+
+    # Engine capability sets for /caps fail-fast: which trigger events exist
+    # in the engine, and which shape/case labels the converter already maps.
+    caps = {'event': set(), 'case': set()}
+    ev = os.path.join(REPO, 'backend/game/events.go')
+    if os.path.exists(ev):
+        src = open(ev, encoding='utf-8', errors='replace').read()
+        caps['event'] = set(re.findall(r'Event\w+\s+EventType\s*=\s*"([a-z_]+)"', src))
+    for base in ('backend/cards/converter.go', 'backend/cards/v2.go'):
+        f = os.path.join(REPO, base)
+        if os.path.exists(f):
+            src = open(f, encoding='utf-8', errors='replace').read()
+            caps['case'] |= set(re.findall(r'case "([a-z_]+)"', src))
+    global CAPS
+    CAPS = caps
+    n['event'] = len(caps['event'])
+    n['case'] = len(caps['case'])
     return db, n
 
 
@@ -158,6 +178,21 @@ class H(http.server.BaseHTTPRequestHandler):
             for kind_, title, path, snip, _ in rows:
                 out.append('[%s] %s  (%s)\n  %s\n' % (kind_, title, path, snip.replace('\n', ' ')))
             return self.reply('\n'.join(out))
+        if u.path == '/caps':
+            # Deterministic engine-readiness check for map-lane fail-fast:
+            # exact match against engine EventType constants + converter cases.
+            name = p.get('name', '').strip().lower()
+            if not name:
+                return self.reply('usage: /caps?name=<event_or_case_label>\n')
+            hits = [k for k in ('event', 'case') if name in CAPS.get(k, ())]
+            if hits:
+                return self.reply('SUPPORTED (%s): %r exists in the engine — map it, do not park.\n'
+                                  % ('+'.join(hits), name))
+            near = sorted({c for k in CAPS for c in CAPS[k]
+                           if name in c or c in name or name.replace('becomes_', '') in c})[:6]
+            return self.reply('MISSING: %r is neither an engine EventType nor a converter case.\n'
+                              'Fixing this needs backend/game/ work -> VERDICT: NEEDS_PRIMITIVE (fail-fast).\n'
+                              '%s' % (name, ('Near names (check these first): %s\n' % ', '.join(near)) if near else ''))
         if u.path == '/similar':
             words = tokens(p.get('text', ''))
             nres = min(int(p.get('n', 3)), 10)
