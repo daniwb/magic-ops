@@ -151,7 +151,12 @@ Rules:
 %s
 
 ## OUTPUT FORMAT (strict)
-EITHER a park verdict:
+If ESSENTIAL source is missing from the code regions above (you would have to
+guess exact lines), reply ONLY with up to 3 request lines and nothing else:
+NEED: <repo-relative-path or exact symbol/identifier>
+The harness will send the regions and re-ask ONCE.
+
+OTHERWISE — EITHER a park verdict:
 VERDICT: FRAMEWORK|AMBIGUOUS
 REASON: <one line>
 

@@ -34,29 +34,32 @@ os.chdir(a.repo)
 sys.path.insert(0, os.path.join(a.repo, 'scripts/paragraph'))
 import reparse as R  # noqa: E402
 
-recs = {}
-for f in glob.glob('backend/data/carddb/*.json'):
-    if f.endswith(('_handlers.json', '_unresolved.json')):
+# The ticket's example list is a snapshot from generation time — cards may
+# have been fixed since (2482: 2 of 3 already parsed, so the model judged the
+# whole 34-card family from n=1 and parked). Scan the live review pile for up
+# to 5 cards that CURRENTLY miss with this exact shape instead.
+card_sections, found = [], 0
+for f in sorted(glob.glob('backend/data/carddb/*.json')):
+    if found >= 5 or f.endswith(('_handlers.json', '_unresolved.json')):
         continue
     try:
         d = json.load(open(f))
     except Exception:
         continue
-    for n in set(d) & set(examples):
-        recs[n] = d[n]
-
-card_sections = []
-for n in examples:
-    r = recs.get(n)
-    if not r:
-        continue
-    try:
-        out = R.reparse_card(r)
-        misses = out.get('misses') if isinstance(out, dict) else '?'
-    except Exception as e:
-        misses = 'reparse_card raised: %r' % e
-    card_sections.append('### %s\nOracle text:\n%s\nCurrent misses: %s' %
-                         (n, r.get('text', '?'), misses))
+    for n, r in d.items():
+        if found >= 5:
+            break
+        if r.get('status') != 'review':
+            continue
+        try:
+            out = R.reparse_card(r)
+            misses = out.get('misses') if isinstance(out, dict) else []
+        except Exception:
+            continue
+        if any(m[0] == shape for m in (misses or [])):
+            card_sections.append('### %s\nOracle text:\n%s\nCurrent misses: %s' %
+                                 (n, r.get('text', '?'), misses))
+            found += 1
 
 # Code regions: grep the shape's distinguishing token through the parser
 # sources, include +-25 lines per hit region, cap total.
@@ -101,8 +104,10 @@ You are patching the deterministic MTG reparse pipeline (repo openmagic).
 The shape above blocks the example cards below. Your job: ONE minimal patch to
 the parser/converter tables so these paragraphs map to REGISTERED vocabulary.
 Rules (map contract):
-- Registered vocabulary ONLY. If a genuinely new engine primitive is required,
-  do NOT patch — output the park verdict instead.
+- Registered vocabulary ONLY. If a genuinely new engine primitive is required
+  for ALL examples, do NOT patch — output the park verdict instead. If only
+  SOME examples need engine work, patch the mappable ones and name the
+  engine-blocked remainder in the EXPECT line.
 - NEVER touch backend/game/ (auto-park). Parser tables + backend/cards/ only.
 - Prefer extending existing tables/regex/case-lists over new mechanisms.
 
@@ -116,7 +121,12 @@ Rules (map contract):
 %s
 
 ## OUTPUT FORMAT (strict)
-EITHER a park verdict:
+If ESSENTIAL source is missing from the code regions above (you would have to
+guess exact lines), reply ONLY with up to 3 request lines and nothing else:
+NEED: <repo-relative-path or exact symbol/identifier>
+The harness will send the regions and re-ask ONCE.
+
+OTHERWISE — EITHER a park verdict:
 VERDICT: NEEDS_PRIMITIVE|SEMANTIC_GAP|AMBIGUOUS|NOT_A_SHAPE
 REASON: <one line>
 

@@ -56,6 +56,16 @@ while [ $attempt -le 2 ]; do
   fi
   printf '%s\n' "$OUT" > "/tmp/orch/engine-pipeline-$TICKET-reply-$attempt.md"
 
+  # NEED round: the model may request missing code regions once per run.
+  if printf '%s' "$OUT" | command grep -q '^NEED:' && [ "${NEED_USED:-0}" = 0 ]; then
+    NEED_USED=1
+    log "model requested regions: $(printf '%s' "$OUT" | command grep '^NEED:' | tr '\n' ' ')"
+    ADD=$(printf '%s' "$OUT" | python3 "$OPS/scripts/pipeline-fetch-regions.py")
+    PROMPT_FILE="/tmp/orch/engine-pipeline-$TICKET-need.md"
+    { cat "$PACK"; echo; echo "## REQUESTED CODE REGIONS"; printf '%s\n' "$ADD"; } > "$PROMPT_FILE"
+    continue
+  fi
+
   APPLY_OUT=$(printf '%s' "$OUT" | python3 "$OPS/scripts/map-pipeline-apply.py" --allow-game); rc=$?
   if [ $rc -eq 4 ]; then log "park: $APPLY_OUT"; echo "$APPLY_OUT"; exit 4; fi
   if [ $rc -ne 0 ]; then

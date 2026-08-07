@@ -62,7 +62,7 @@ model_call() { # stdin: prompt -> stdout: model text
   [ -n "${PIPE_BASE_URL:-}" ] && export ANTHROPIC_BASE_URL="$PIPE_BASE_URL" ANTHROPIC_AUTH_TOKEN="${PIPE_AUTH_TOKEN:-ollama}"
   local raw
   raw=$(timeout -k 30 900 claude -p --output-format json --model "$MODEL" \
-      --max-turns 1 --permission-mode bypassPermissions \
+      --max-turns 3 --permission-mode bypassPermissions \
       --disallowedTools 'Bash,Read,Edit,Write,Glob,Grep,WebFetch,WebSearch,Agent,Skill' \
       2>>"$LOG")
   printf '%s' "$raw" | jq -r '"tokens: in=\(.usage.input_tokens // 0) out=\(.usage.output_tokens // 0) cache_r=\(.usage.cache_read_input_tokens // 0) cache_w=\(.usage.cache_creation_input_tokens // 0)"' >> "$LOG" 2>/dev/null
@@ -74,8 +74,22 @@ PROMPT_FILE="$PACK"
 while [ $attempt -le 2 ]; do
   log "model call $attempt (model $MODEL)"
   OUT=$(model_call < "$PROMPT_FILE")
-  [ -z "$OUT" ] && { log "empty model reply"; exit 1; }
+  if [ -z "$OUT" ]; then
+    log "empty model reply (raw saved) — retrying once"
+    OUT=$(model_call < "$PROMPT_FILE")
+    [ -z "$OUT" ] && { log "empty twice — abort"; exit 1; }
+  fi
   printf '%s\n' "$OUT" > "/tmp/orch/pipeline-$TICKET-reply-$attempt.md"
+
+  # NEED round: the model may request missing code regions once per run.
+  if printf '%s' "$OUT" | command grep -q '^NEED:' && [ "${NEED_USED:-0}" = 0 ]; then
+    NEED_USED=1
+    log "model requested regions: $(printf '%s' "$OUT" | command grep '^NEED:' | tr '\n' ' ')"
+    ADD=$(printf '%s' "$OUT" | python3 "$OPS/scripts/pipeline-fetch-regions.py")
+    PROMPT_FILE="/tmp/orch/pipeline-$TICKET-need.md"
+    { cat "$PACK"; echo; echo "## REQUESTED CODE REGIONS"; printf '%s\n' "$ADD"; } > "$PROMPT_FILE"
+    continue
+  fi
 
   APPLY_OUT=$(printf '%s' "$OUT" | python3 "$OPS/scripts/map-pipeline-apply.py"); rc=$?
   if [ $rc -eq 4 ]; then log "park: $APPLY_OUT"; echo "$APPLY_OUT"; exit 4; fi
