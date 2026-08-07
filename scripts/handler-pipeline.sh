@@ -32,7 +32,21 @@ fi
 log "pack built: $(wc -c < "$PACK") bytes"
 
 model_call() {
-  [ -n "${PIPE_BASE_URL:-}" ] && export ANTHROPIC_BASE_URL="$PIPE_BASE_URL" ANTHROPIC_AUTH_TOKEN="${PIPE_AUTH_TOKEN:-ollama}"
+  # Local lane: bypass the claude CLI entirely — it always advertises
+  # internal tools, and gpt-oss then answers with finish_reason=tool_calls
+  # + empty content (work stuck in reasoning_content). A bare /v1/messages
+  # call with NO tools forces final-channel text.
+  if [ -n "${PIPE_BASE_URL:-}" ]; then
+    local prompt raw
+    prompt=$(python3 -c "import json,sys; print(json.dumps(sys.stdin.read()))")
+    raw=$(curl -s -m 1500 "$PIPE_BASE_URL/v1/messages" \
+      -H 'content-type: application/json' -H "x-api-key: ${PIPE_AUTH_TOKEN:-ollama}" \
+      -H 'anthropic-version: 2023-06-01' \
+      -d "{\"model\":\"$MODEL\",\"max_tokens\":16000,\"messages\":[{\"role\":\"user\",\"content\":$prompt}]}")
+    printf '%s' "$raw" | jq -r '"tokens: in=\(.usage.input_tokens // 0) out=\(.usage.output_tokens // 0) cache_r=0 cache_w=0"' >> "$LOG" 2>/dev/null
+    printf '%s' "$raw" | jq -r '[.content[]? | select(.type=="text") | .text] | join("\n")'
+    return
+  fi
   local raw
   # Local models (PIPE_BASE_URL -> shim) get NO tools and 3 turns: the shim
   # has no cross-turn prompt cache (each turn re-sends everything, 644k+
