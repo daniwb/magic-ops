@@ -1,113 +1,114 @@
-# Staged Pipeline-Workflows (Map / Engine / Handler)
+# Staged Pipeline Workflows (Map / Engine / Handler)
 
-Stand 2026-08-07. Idee (Dani): "Less thinking, more doing" — die Ticket-Arbeit
-ist stereotyp, also macht die **Harness die deterministischen Schritte** und
-das Modell bekommt **einen fokussierten Call** statt einer agentischen
-100-Turn-Session. Jede Stufe ist Gate-verifiziert; Eskalation nur bei echtem
-Scheitern (Exit 2). Messwerte unten aus der Validierungsserie vom 2026-08-07.
+As of 2026-08-07. Idea (Dani): "less thinking, more doing" — ticket work is
+stereotyped, so the **harness does the deterministic steps** and the model
+gets **one focused call** instead of an agentic 100-turn session. Every stage
+is gate-verified; escalation only on genuine failure (exit 2). Measurements
+below are from the 2026-08-07 validation series.
 
-Skripte: `magic-ops/scripts/{map,engine,handler}-pipeline.sh` + `*-pack.py`,
-gemeinsamer Applier `map-pipeline-apply.py`, Region-Nachladung
+Scripts: `magic-ops/scripts/{map,engine,handler}-pipeline.sh` + `*-pack.py`,
+shared applier `map-pipeline-apply.py`, region fetcher
 `pipeline-fetch-regions.py`.
 
 ---
 
-## 1. MAP-Pipeline (`map-pipeline.sh TICKET [--push]`)
+## 1. MAP pipeline (`map-pipeline.sh TICKET [--push]`)
 
-Ziel: ein REPARSE-MAP-Ticket (Miss-Shape) per Parser-/Converter-Patch mappen.
+Goal: map one REPARSE-MAP ticket (miss shape) via a parser/converter patch.
 
-| # | Schritt | Wer |
-|---|---------|-----|
-| 1 | Shape + Ticket aus Dispatcher-DB extrahieren | Skript (pack.py) |
-| 2 | Live-Beispiele: Review-Pile scannen, bis 5 Karten die JETZT mit diesem Shape missen (Oracle + exakte Misses) | Skript |
-| 3 | Code-Regionen per Shape-Token greppen (slotparse/reparse/converter) + Knowledge-Service-Hits | Skript + kb :4103 |
-| 4 | **Mapping-Regel entscheiden** (oder Park: NEEDS_PRIMITIVE / SEMANTIC_GAP / …) | **Modell** |
-| 5 | Patch als SEARCH/REPLACE-Blöcke | **Modell** |
-| 6 | Apply (exact-match, game/-Guard) + Gate: build, Vocab/Shape-Tests, Review-Pile-Delta (Shape-Zähler, Fallback total-misses bei Top-40-blinden kleinen Shapes) | Skript |
-| 7 | Commit + Branch `reparse/task-N` push → Integrator landet | Skript |
+| # | Step | Who |
+|---|------|-----|
+| 1 | Extract shape + ticket from the dispatcher DB | script (pack.py) |
+| 2 | Live examples: scan the review pile for up to 5 cards that miss with this shape RIGHT NOW (oracle text + exact misses) | script |
+| 3 | Grep code regions by shape token (slotparse/reparse/converter) + knowledge-service hits | script + kb :4103 |
+| 4 | **Decide the mapping rule** (or park: NEEDS_PRIMITIVE / SEMANTIC_GAP / …) | **model** |
+| 5 | Patch as SEARCH/REPLACE blocks | **model** |
+| 6 | Apply (exact match, game/ guard) + gate: build, vocab/shape tests, review-pile delta (shape counter; total-misses fallback for small shapes invisible in the top-40 table) | script |
+| 7 | Commit + push branch `reparse/task-N` → integrator lands it | script |
 
-Gate-Metrik: Shape-Instanzen sinken ODER total-misses sinken (isolierter Clone).
-Verbote: `backend/game/` (Auto-Park im Applier).
+Gate metric: shape instances drop OR total-misses drop (isolated clone).
+Forbidden: `backend/game/` (auto-park in the applier).
 
-## 2. ENGINE-Pipeline (`engine-pipeline.sh TICKET [--push]`)
+## 2. ENGINE pipeline (`engine-pipeline.sh TICKET [--push]`)
 
-Ziel: EIN kleines Primitiv aus einem Park (`missing_prim`) bauen.
-Input-Ticket: blocked mit missing_prim (Park aus Map-Lane oder Map-Pipeline).
+Goal: build ONE small primitive from a park (`missing_prim`).
+Input ticket: blocked with missing_prim (park from the map lane or map pipeline).
 
-| # | Schritt | Wer |
-|---|---------|-----|
-| 1 | Primitiv-Name + Park-REASON (aus Pipeline-Reply-Dateien) + Beispielkarten laden | Skript (pack.py) |
-| 2 | Executor-Regionen: Tokens aus Primitiv-Name + Backtick-Bezeichnern der REASON über game/cards-Dateien greppen, gerankt | Skript |
-| 3 | Vorbild suchen (kb /find) + Shape-Test-Template (head eines aktuellen shape_*_test.go) beilegen | Skript + kb |
-| 4 | **Kleinsten Engine-Change entscheiden** (oder Park: FRAMEWORK/AMBIGUOUS — Framework-Arbeit bleibt bei manuellen Runden) | **Modell** |
-| 5 | Edits (SEARCH/REPLACE, game/ ERLAUBT via --allow-game) + NEUE Testdatei (NEWFILE) | **Modell** |
-| 6 | Apply + Gate: build, Vocab/Shape/Combat-Tests, **neuer +func Test im Diff Pflicht** (nach `git add`! untracked-Falle), **volle Sharded-Suite** | Skript |
-| 7 | Commit + Branch `reparse/engine-task-N` push → Integrator | Skript |
+| # | Step | Who |
+|---|------|-----|
+| 1 | Load primitive name + park REASON (from pipeline reply files) + example cards | script (pack.py) |
+| 2 | Executor regions: grep tokens from the primitive name + backtick identifiers from the REASON across game/cards files, ranked | script |
+| 3 | Find a worked example (kb /find) + attach a shape-test template (head of a recent shape_*_test.go) | script + kb |
+| 4 | **Decide the smallest engine change** (or park: FRAMEWORK/AMBIGUOUS — framework-sized work stays with manual engine rounds) | **model** |
+| 5 | Edits (SEARCH/REPLACE, game/ ALLOWED via --allow-game) + NEW test file (NEWFILE) | **model** |
+| 6 | Apply + gate: build, vocab/shape/combat tests, **new `+func Test` in the diff required** (after `git add`! untracked-file trap), **full sharded suite** | script |
+| 7 | Commit + push branch `reparse/engine-task-N` → integrator | script |
 
-## 3. HANDLER-Pipeline (`handler-pipeline.sh TICKET [--push]`)
+## 3. HANDLER pipeline (`handler-pipeline.sh TICKET [--push]`)
 
-Ziel: EIN Karten-Handler (cardfns) + Behavior-Test. Stereotypster Tier.
+Goal: ONE per-card handler (cardfns) + behavior test. The most stereotyped tier.
 
-| # | Schritt | Wer |
-|---|---------|-----|
-| 1 | Karte aus Ticket-Titel, Oracle-Text aus carddb | Skript (pack.py) |
-| 2 | Nächster existierender Handler via kb /similar → **komplette Datei + deren Test als Template** in den Pack | Skript + kb |
-| 3 | Helper-Kandidaten via kb /find (Oracle-Text als Query) | Skript + kb |
-| 4 | **Handler entwerfen** (oder Park: präziser kebab-case-Primitive-Name) | **Modell** |
-| 5 | Zwei NEWFILE-Blöcke: `cardfns/<Name>.go` + `<Name>_test.go` | **Modell** |
-| 6 | Apply + Gate: build, neuer Test im Diff, volle Sharded-Suite; **bei rot: Bugfix-Runden auf dem STEHENDEN Tree** (eigene Dateien + exakter Fehler → nur Korrektur-Blöcke, bis BUGFIX_MAX=3, NEWFILE darf überschreiben) | Skript (+Modell für Fixes) |
-| 7 | Commit + Branch `reparse/handler-task-N` push → Integrator | Skript |
+| # | Step | Who |
+|---|------|-----|
+| 1 | Card from the ticket title, oracle text from carddb | script (pack.py) |
+| 2 | Nearest existing handler via kb /similar → **full file + its test as template** into the pack | script + kb |
+| 3 | Helper candidates via kb /find (oracle text as query) | script + kb |
+| 4 | **Design the handler** (or park: precise kebab-case primitive name) | **model** |
+| 5 | Two NEWFILE blocks: `cardfns/<Name>.go` + `<Name>_test.go` | **model** |
+| 6 | Apply + gate: build, new test in diff, full sharded suite; **on red: bugfix rounds on the KEPT tree** (its own files + exact error → correction blocks only, up to BUGFIX_MAX=3, NEWFILE may overwrite) | script (+model for fixes) |
+| 7 | Commit + push branch `reparse/handler-task-N` → integrator | script |
 
-game/ bleibt gesperrt (Handler nutzen Primitives/Helpers; fehlt einer → Park).
+game/ stays guarded (handlers use primitives/helpers; if one is missing → park).
 
 ---
 
-## Gemeinsame Mechanik
+## Shared mechanics
 
-- **Exit-Codes** (alle drei): 0 = Gate grün (+Push), 4 = Park (Erfolg! Demand
-  wird gefiled), 2 = 2 Model-Calls erschöpft → **eskalieren**, 1 = Infra.
-- **Modell-Modi**:
-  - Sonnet: read-only-agentisch (Read/Grep/Glob, 25 Turns, Emit-Pflicht am
-    Ende) — Mutation bleibt IMMER blockbasiert bei der Harness.
-  - Lokal (PIPE_BASE_URL=Shim :4102): Single-Shot ohne Tools via direktem
-    /v1/messages-curl (SSE-Parsing!), @@@-Marker statt <<< (llama-server-
-    Parser 500t auf <<<), + Bugfix-Runden. Claude-CLI ist lokal unbrauchbar
-    (meldet interne Tools an → gpt-oss antwortet mit tool_calls + leerem
-    content).
-- **NEED-Runde**: Modell darf 1× fehlende Regionen anfordern
-  (`NEED: <pfad|symbol>`), `pipeline-fetch-regions.py` liefert nach.
-- **Serieller GPU-Betrieb** (Dani): NIE parallel zur rl1-Lane auf dem
-  llama-server — Test/Pipeline-Läufe an der Ticket-Grenze (cycle done) starten,
-  Lane pausieren, danach Launcher wieder starten.
+- **Exit codes** (all three): 0 = gate green (+push), 4 = park (a success!
+  the demand gets filed), 2 = 2 model calls exhausted → **escalate**, 1 = infra.
+- **Model modes**:
+  - Sonnet: read-only agentic (Read/Grep/Glob, 25 turns, must-emit rule at
+    the end) — mutation ALWAYS stays block-based with the harness.
+  - Local (PIPE_BASE_URL = shim :4102): single-shot without tools via a
+    direct /v1/messages curl (SSE parsing!), @@@ markers instead of <<<
+    (the llama-server parser 500s on <<<), + bugfix rounds. The claude CLI
+    is unusable locally (it advertises internal tools → gpt-oss answers
+    with tool_calls + empty content).
+- **NEED round**: the model may request missing regions once
+  (`NEED: <path|symbol>`); `pipeline-fetch-regions.py` delivers them.
+- **Serial GPU operation** (Dani): NEVER run parallel to the rl1 lane on the
+  llama-server — start tests/pipeline runs at the ticket boundary
+  ("cycle done"), pause the lane, restart the launcher afterwards.
 
-## Eskalationsleiter (Kostenordnung)
+## Escalation ladder (cost order)
 
-1. **Lokal-Pipeline** (Handler: single-shot+bugfix) — $0, ~4–8 min
-2. **Lokal-agentisch** (rl1-Worker) — $0, ~20–25 min, heute 4/4 grün (auch Map!)
-3. **Sonnet-Pipeline** — ~0,3–1M Tokens, ~5–10 min
-4. **Sonnet-agentisch** (Fleet-Worker) — ~2,7M median, Reserve für echte Exploration
+1. **Local pipeline** (handler: single-shot + bugfix) — $0, ~4–8 min
+2. **Local agentic** (rl1 worker) — $0, ~20–25 min, 4/4 green today (incl. map!)
+3. **Sonnet pipeline** — ~0.3–1M tokens, ~5–10 min
+4. **Sonnet agentic** (fleet worker) — ~2.7M median, reserved for true exploration
 
-Jede Stufe feuert nur bei Gate-verifiziertem Scheitern der darunterliegenden.
+Each rung fires only on a gate-verified failure of the rung below.
 
-## Messwerte Validierungsserie 2026-08-07 (Sonnet, wenn nicht anders vermerkt)
+## Measurements, validation series 2026-08-07 (Sonnet unless noted)
 
-| Lauf | Ergebnis | Tokens (roh) | Dauer |
-|------|----------|--------------|-------|
-| Map #2485 Triage | Park each_player_discard (verifiziert korrekt) | ~30k | 63 s |
-| Map #2482/#2515 Triage | Parks mit Code-verifizierten Gap-Listen | 30–40k / ~0,9M (agentisch) | 35 s–3 min |
-| Engine #2485 Build | GRÜN — Executor + Test + volle Suite | ~1,0M | ~10 min |
-| Map #2485 nach Primitiv | GRÜN — total-misses −8 | ~0,57M | ~9 min |
-| Handler #2192 | GRÜN — Handler + Test, 1. Versuch | ~0,58M | ~9 min |
-| Handler #2193 lokal | Exit 2 (Blöcke applizieren, Go-Compile rot) | $0 | ~9 min |
-| **Kreislauf Map→Engine→Map gesamt** | Park→Primitiv→Grün | **~1,6M** | ~20 min |
-| Vergleich: emergente Engine-Arbeit agentisch (#2457) | grün | 22,5M | Stunden |
+| Run | Result | Tokens (raw) | Duration |
+|-----|--------|--------------|----------|
+| Map #2485 triage | Park each_player_discard (verified correct) | ~30k | 63 s |
+| Map #2482/#2515 triage | Parks with code-verified gap lists | 30–40k / ~0.9M (agentic) | 35 s–3 min |
+| Engine #2485 build | GREEN — executor + test + full suite | ~1.0M | ~10 min |
+| Map #2485 after primitive | GREEN — total-misses −8 | ~0.57M | ~9 min |
+| Handler #2192 | GREEN — handler + test, first attempt | ~0.58M | ~9 min |
+| Handler #2193 local | exit 2 (blocks apply, Go compile red) | $0 | ~9 min |
+| **Full circle Map→Engine→Map** | park → primitive → green | **~1.6M** | ~20 min |
+| Baseline: emergent engine work in an agentic session (#2457) | green | 22.5M | hours |
 
-## Offene Punkte
+## Open items
 
-- Lane-Integration: Pipelines claimen via Dispatcher `/claim` (Lease =
-  Dedup-Gate + Dashboard-Sichtbarkeit); Ticket-Erzeugung + Selbst-Claim für
-  Engine-Demands aus Parks (Dani Schritt-3-Idee); Namens-Normalisierung beim
-  Demand-Dedup (Map-Parks ≠ cardfns-Helper-Namensraum — Brimaz-Lektion!).
-- Bugfix-Runden in Map-/Engine-Pipeline nachziehen (aktuell nur Handler).
-- Lokale Pipeline: Go-Compile-Qualität von gpt-oss single-shot ist die
-  Grenze; Stand heute bleibt lokal-agentisch der Grün-Pfad der lokalen Lane.
+- Lane integration: pipelines claim via the dispatcher `/claim` (lease =
+  dedup gate + dashboard visibility); ticket creation + self-claim for
+  engine demands coming out of parks (Dani's step-3 idea); name
+  normalization for demand dedup (map parks ≠ cardfns helper namespace —
+  the Brimaz lesson!).
+- Port bugfix rounds to the map/engine pipelines (currently handler only).
+- Local pipeline: gpt-oss single-shot Go-compile quality is the limit;
+  as of today, local-agentic remains the green path of the local lane.
