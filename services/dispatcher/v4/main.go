@@ -235,6 +235,11 @@ func claim(w http.ResponseWriter, r *http.Request) {
 		// Handler-Tier (2026-08-03): cardfns-Handler-Karten für den lokalen
 		// 395+-Worker (rl1). Default-Claim (Sonnet-Fleet) sieht sie NICHT.
 		tierCond = "AND title LIKE 'REPARSE-HANDLER:%'"
+	case "map":
+		// Pipeline-Lane (2026-08-07): NUR einfache REPARSE-MAP-Tickets —
+		// die staged Pipeline kann keine SWEEP-Bundles (Multi-Shape-Gate)
+		// und keine Engine/Handler-Tickets verarbeiten.
+		tierCond = "AND title LIKE 'REPARSE-MAP:%'"
 	}
 	row = db.QueryRow(`SELECT id,title,descr,retry_count FROM tickets
 	                   WHERE state='todo' AND type IN('card','split') ` + tierCond + `
