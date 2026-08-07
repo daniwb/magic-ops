@@ -69,6 +69,26 @@ model_call() { # stdin: prompt -> stdout: model text
   printf '%s' "$raw" | jq -r '.result // empty'
 }
 
+
+run_bugfix_gate() { # green -> commit+push+0
+  if BUILD_OUT=$(cd backend && "$GO" build ./... 2>&1) \
+     && TEST_OUT=$(cd backend && timeout 600 "$GO" test ./cards/ -run 'TestVocabulary|TestV2|TestShape_|TestCardDBSubtypeScopes' -count=1 2>&1); then
+    NEW_SHAPE=$(shape_count); NEW_SHAPE=${NEW_SHAPE:-$BASE_SHAPE}
+    if [ "$NEW_SHAPE" -lt "$BASE_SHAPE" ]; then
+      log "GATE GREEN after bugfix: shape $BASE_SHAPE -> $NEW_SHAPE"
+      git add -A; git commit -qm "reparse(task-$TICKET): map-pipeline patch (bugfix round) — $SHAPE $BASE_SHAPE->$NEW_SHAPE"
+      [ $PUSH -eq 1 ] && git push -qf origin "HEAD:refs/heads/reparse/task-$TICKET" && log "pushed reparse/task-$TICKET"
+      return 0
+    fi
+    GATE_TAIL="Build+tests green but shape '$SHAPE' unchanged ($BASE_SHAPE -> $NEW_SHAPE)."
+  else
+    GATE_TAIL="Gate failed:
+$(printf '%s\n%s' "${BUILD_OUT:-}" "${TEST_OUT:-}" | tail -c 2500)"
+  fi
+  log "bugfix gate: still red"
+  return 1
+}
+
 attempt=1
 PROMPT_FILE="$PACK"
 while [ $attempt -le 2 ]; do
@@ -117,7 +137,37 @@ while [ $attempt -le 2 ]; do
 $(printf '%s\n%s' "${BUILD_OUT:-}" "${TEST_OUT:-}" | tail -c 2500)"
       log "gate: build/tests red"
     fi
-    git checkout -q -- . && git clean -qfd
+    # Bugfix rounds on the KEPT tree (step 6, ported from handler-pipeline):
+    # inline the changed files + exact error, ask for corrections only.
+    if [ "${GATE_TAIL#Your edit blocks}" = "$GATE_TAIL" ]; then
+      bfx=1
+      while [ $bfx -le "${BUGFIX_MAX:-2}" ]; do
+        BFP="$PACK.bugfix-$bfx"
+        {
+          echo "# BUGFIX ROUND $bfx — your patch failed the gate"
+          echo; echo "Current state of YOUR changed files (already applied):"
+          git add -A
+          for f in $(git diff --cached --name-only origin/main | head -8); do
+            echo; echo "### $f"; sed -n '1,400p' "$f"
+          done
+          echo; echo "## GATE ERROR"; echo "$GATE_TAIL"
+          M1='<<<'; M2='==='; M3='>>>'
+          [ -n "${PIPE_BASE_URL:-}" ] && { M1='@@@'; M2='@@@'; M3='@@@'; }
+          echo; echo "Fix the error. Output ONLY correction blocks, EXACTLY:"
+          echo "${M1}FILE path"; echo "${M1}SEARCH"; echo "exact current lines"
+          echo "${M2}REPLACE"; echo "corrected lines"; echo "${M3}END"
+          echo "End with EXPECT: <one line>."
+        } > "$BFP"
+        log "bugfix call $bfx"
+        BOUT=$(model_call < "$BFP")
+        [ -z "$BOUT" ] && break
+        BAPPLY=$(printf '%s' "$BOUT" | python3 "$OPS/scripts/map-pipeline-apply.py" --overwrite); brc=$?
+        if [ $brc -ne 0 ]; then GATE_TAIL="Correction blocks failed to apply: $BAPPLY"; bfx=$((bfx+1)); continue; fi
+        if run_bugfix_gate; then exit 0; fi
+        bfx=$((bfx+1))
+      done
+    fi
+    git reset -q HEAD >/dev/null 2>&1; git checkout -q -- . && git clean -qfd
   fi
   # retry prompt = original pack + failure
   PROMPT_FILE="/tmp/orch/pipeline-$TICKET-retry.md"

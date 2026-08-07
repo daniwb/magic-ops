@@ -109,6 +109,6 @@ Each rung fires only on a gate-verified failure of the rung below.
   engine demands coming out of parks (Dani's step-3 idea); name
   normalization for demand dedup (map parks ≠ cardfns helper namespace —
   the Brimaz lesson!).
-- Port bugfix rounds to the map/engine pipelines (currently handler only).
+- ~~Port bugfix rounds to the map/engine pipelines~~ done 2026-08-07 (BUGFIX_MAX=2, kept tree, tier gate re-run).
 - Local pipeline: gpt-oss single-shot Go-compile quality is the limit;
   as of today, local-agentic remains the green path of the local lane.
