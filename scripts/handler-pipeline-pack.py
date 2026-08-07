@@ -15,6 +15,7 @@ ap.add_argument('ticket', type=int)
 ap.add_argument('--repo', default='/opt/development/test/openmagic')
 ap.add_argument('--db', default='/opt/development/magic-ops/services/dispatcher/v4/dispatcher.db')
 ap.add_argument('--kb', default='http://127.0.0.1:4103')
+ap.add_argument('--alt-markers', action='store_true')
 a = ap.parse_args()
 
 c = sqlite3.connect(a.db)
@@ -64,6 +65,9 @@ if mm and os.path.exists(mm.group(1)):
 finds = kb('/find', q=oracle, n=5)
 
 fn_name = re.sub(r'[^A-Za-z0-9]', '', card_name)
+OUT = dict(F='<<<NEWFILE', E='>>>END')
+if a.alt_markers:
+    OUT = dict(F='@@@NEWFILE', E='@@@END')
 print('''# HANDLER-PIPELINE TASK — build ONE per-card handler + behavior test
 
 Ticket #%d: %s
@@ -102,14 +106,13 @@ VERDICT: NEEDS_PRIMITIVE|AMBIGUOUS
 REASON: <one line; NEEDS_PRIMITIVE = kebab-case name + one-paragraph proposal>
 
 OR file blocks:
-<<<NEWFILE backend/cardfns/%s.go
+%s backend/cardfns/%s.go
 full file content
->>>END
-<<<NEWFILE backend/cardfns/%s_test.go
+%s
+%s backend/cardfns/%s_test.go
 full file content
->>>END
-(Existing-file edits, if truly needed, via <<<FILE/<<<SEARCH/===REPLACE/>>>END —
-but a clean handler normally needs NO existing-file edits.)
+%s
+(A clean handler needs NO existing-file edits — emit only the two blocks above.)
 
 End with one line:
 EXPECT: <one sentence: the behavior now implemented>
@@ -117,4 +120,4 @@ No other prose.''' % (a.ticket, title, card_name, oracle,
                       fn_name, fn_name, fn_name,
                       tmpl or '(no similar handler found — follow standard cardfns conventions)',
                       finds.strip() or '(kb unavailable)',
-                      fn_name, fn_name))
+                      OUT['F'], fn_name, OUT['E'], OUT['F'], fn_name, OUT['E']))

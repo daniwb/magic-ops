@@ -26,7 +26,7 @@ git remote set-url origin "$(cd "$REPO" && git remote get-url origin)"
 git fetch -q origin main && git checkout -qb "hpipe-$TICKET" origin/main
 
 PACK="/tmp/orch/handler-pipeline-$TICKET-pack.md"
-if ! python3 "$OPS/scripts/handler-pipeline-pack.py" "$TICKET" --repo "$CLONE" > "$PACK" 2>>"$LOG"; then
+if ! python3 "$OPS/scripts/handler-pipeline-pack.py" "$TICKET" --repo "$CLONE" ${PIPE_BASE_URL:+--alt-markers} > "$PACK" 2>>"$LOG"; then
   log "pack failed"; exit 1
 fi
 log "pack built: $(wc -c < "$PACK") bytes"

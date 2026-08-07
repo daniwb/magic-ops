@@ -16,6 +16,12 @@ mv = re.search(r'^VERDICT:\s*([A-Z_]+)', out, re.M)
 blocks = re.findall(r'<<<FILE (.+?)\n<<<SEARCH\n(.*?)\n===REPLACE\n(.*?)\n>>>END',
                     out, re.S)
 newfiles = re.findall(r'<<<NEWFILE (.+?)\n(.*?)\n>>>END', out, re.S)
+# Alternate @@@ markers: llama-server's peg-native/harmony parser 500s on
+# outputs containing <<< sequences (local gpt-oss lane, 2026-08-07), so
+# local packs instruct @@@-style equivalents.
+blocks += re.findall(r'@@@FILE (.+?)\n@@@SEARCH\n(.*?)\n@@@REPLACE\n(.*?)\n@@@END',
+                     out, re.S)
+newfiles += re.findall(r'@@@NEWFILE (.+?)\n(.*?)\n@@@END', out, re.S)
 if mv and not blocks and not newfiles:
     print(mv.group(0))
     rm = re.search(r'^REASON:.*$', out, re.M)
