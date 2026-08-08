@@ -39,11 +39,20 @@ model_call() {
   # (ported from handler-pipeline.sh, validated green 2026-08-07).
   if [ -n "${PIPE_BASE_URL:-}" ]; then
     local prompt raw
-    prompt=$(python3 -c "import json,sys; print(json.dumps(sys.stdin.read()))")
+    # max_tokens computed from prompt size: the upstream llama-server
+    # context-shifts when prompt+max_tokens exceeds its ~8k window, corrupting
+    # the harmony stream ("peg-native format" 500, 2026-08-08). Keep the sum
+    # under the window; floor 1200 so verdicts/patches still fit.
+    local body
+    body=$(python3 -c "
+import json, sys
+p = sys.stdin.read()
+mt = max(1200, min(4000, 8192 - len(p)//4 - 512))
+print(json.dumps({'model': '$MODEL', 'max_tokens': mt, 'messages': [{'role': 'user', 'content': p}]}))")
     raw=$(curl -s -m 1500 "$PIPE_BASE_URL/v1/messages" \
       -H 'content-type: application/json' -H "x-api-key: ${PIPE_AUTH_TOKEN:-ollama}" \
       -H 'anthropic-version: 2023-06-01' \
-      -d "{\"model\":\"$MODEL\",\"max_tokens\":16000,\"messages\":[{\"role\":\"user\",\"content\":$prompt}]}")
+      -d "$body")
     printf '%s' "$raw" > "/tmp/orch/engine-pipeline-$TICKET-raw-last.json"
     printf '%s' "$raw" | command grep '^data: ' | sed 's/^data: //' \
       | jq -rs '"tokens: in=\([.[] | select(.type=="message_start") | .message.usage.input_tokens] | add // 0) out=\([.[] | .usage.output_tokens? // empty] | max // 0) cache_r=0 cache_w=0"' >> "$LOG" 2>/dev/null
