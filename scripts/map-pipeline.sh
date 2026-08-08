@@ -66,6 +66,8 @@ model_call() { # stdin: prompt -> stdout: model text
       --disallowedTools 'Bash,Edit,Write,WebFetch,WebSearch,Agent,Skill,NotebookEdit' \
       2>>"$LOG")
   printf '%s' "$raw" | jq -r '"tokens: in=\(.usage.input_tokens // 0) out=\(.usage.output_tokens // 0) cache_r=\(.usage.cache_read_input_tokens // 0) cache_w=\(.usage.cache_creation_input_tokens // 0)"' >> "$LOG" 2>/dev/null
+  # always keep the last raw CLI JSON — "empty reply" was undiagnosable without it
+  printf '%s' "$raw" > "/tmp/orch/pipeline-$TICKET-raw-last.json"
   printf '%s' "$raw" | jq -r '.result // empty'
 }
 
