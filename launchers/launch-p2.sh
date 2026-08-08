@@ -6,7 +6,7 @@ W=p2
 L=/tmp/orch/pipeline-lane-$W.log
 mkdir -p /tmp/orch /tmp/work
 while true; do
-  PIPE_MODEL="${P2_MODEL:-claude-sonnet-5}" USAGE_LIMIT_PCT="${USAGE_LIMIT_PCT:-75}" \
+  PIPE_MODEL="${P2_MODEL:-claude-sonnet-5}" USAGE_LIMIT_PCT="${USAGE_LIMIT_PCT:-99}" \
     bash /opt/development/magic-ops/scripts/pipeline-lane.sh "$W" >> "$L" 2>&1
   echo "[$(date -Is)] $W exit, restart 30s" >> "$L"
   sleep 30

@@ -11,7 +11,7 @@
 # Leases/heartbeats via the normal claim/report API → dashboard-visible.
 #
 # Usage: pipeline-lane.sh WORKER_ID   (e.g. p1); env:
-#   PIPE_MODEL (default claude-sonnet-5), USAGE_LIMIT_PCT (default 75)
+#   PIPE_MODEL (default claude-sonnet-5), USAGE_LIMIT_PCT (default 99 — emergency brake; daily pacing is operator judgment)
 set -uo pipefail
 WORKER_ID="${1:?worker id}"
 DISPATCHER="${DISPATCHER:-http://localhost:9999}"
@@ -27,7 +27,7 @@ usage_gate() { # true = ok to work (same oauth endpoint as the fleet workers)
   # JSON that used to parse as 0% — gate silently fail-open (found 2026-08-08
   # at real 44% weekly). Now: valid responses refresh a shared cache; on
   # error the last good reading is used; only genuinely-no-data fails open.
-  local raw u5 u7 lim="${USAGE_LIMIT_PCT:-75}" cache=/tmp/orch/usage-cache.json
+  local raw u5 u7 lim="${USAGE_LIMIT_PCT:-99}" cache=/tmp/orch/usage-cache.json
   raw=$(curl -s -m 10 -H "Authorization: Bearer $(jq -r '.claudeAiOauth.accessToken' ~/.claude/.credentials.json 2>/dev/null)" \
         https://api.anthropic.com/api/oauth/usage 2>/dev/null)
   if printf '%s' "$raw" | jq -e '.five_hour' >/dev/null 2>&1; then

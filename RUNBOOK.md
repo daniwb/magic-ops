@@ -77,8 +77,7 @@ build (backend: go build ./...) + fast gate (go test ./cards/ -run
 ## Usage budget & daily pacing (Dani's operating rule, noted 2026-08-08)
 The Claude subscription budget is a ROLLING 7-day window with a daily rhythm:
 each day up to the 20:00 boundary the fleet may consume roughly its daily
-share, ~14% of the weekly budget (100%/7). The 75% USAGE_LIMIT_PCT gate in
-the pipeline lanes is the hard emergency brake, NOT the target — sustained
+share, ~14% of the weekly budget (100%/7). The 99% USAGE_LIMIT_PCT gate is the hard emergency brake, NOT the target — sustained
 operation should track ~14%/day. If the 7d utilization runs well ahead of
 (days elapsed since last 20:00 anchor x 14%), throttle: pause a Sonnet lane
 or let the local/cloud $0 lanes carry more. Usage endpoint rate-limits under
