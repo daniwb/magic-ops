@@ -23,9 +23,19 @@ SKIPLIST="/tmp/orch/${WORKER_ID}-skip.txt"; touch "$SKIPLIST"
 log() { printf '[%s] %s: %s\n' "$(date +%H:%M:%S)" "$WORKER_ID" "$*"; }
 
 usage_gate() { # true = ok to work (same oauth endpoint as the fleet workers)
-  local raw u5 u7 lim="${USAGE_LIMIT_PCT:-75}"
+  # The endpoint rate-limits under multi-lane polling and returns an error
+  # JSON that used to parse as 0% — gate silently fail-open (found 2026-08-08
+  # at real 44% weekly). Now: valid responses refresh a shared cache; on
+  # error the last good reading is used; only genuinely-no-data fails open.
+  local raw u5 u7 lim="${USAGE_LIMIT_PCT:-75}" cache=/tmp/orch/usage-cache.json
   raw=$(curl -s -m 10 -H "Authorization: Bearer $(jq -r '.claudeAiOauth.accessToken' ~/.claude/.credentials.json 2>/dev/null)" \
-        https://api.anthropic.com/api/oauth/usage 2>/dev/null) || return 0
+        https://api.anthropic.com/api/oauth/usage 2>/dev/null)
+  if printf '%s' "$raw" | jq -e '.five_hour' >/dev/null 2>&1; then
+    printf '%s' "$raw" > "$cache"
+  else
+    raw=$(cat "$cache" 2>/dev/null)
+    [ -z "$raw" ] && return 0
+  fi
   u5=$(printf '%s' "$raw" | jq -r '.five_hour.utilization // 0' 2>/dev/null | cut -d. -f1)
   u7=$(printf '%s' "$raw" | jq -r '.seven_day.utilization // 0' 2>/dev/null | cut -d. -f1)
   [ "${u5:-0}" -ge "$lim" ] || [ "${u7:-0}" -ge "$lim" ] && { log "usage-gate: 5h=${u5}% 7d=${u7}% — pause"; return 1; }
