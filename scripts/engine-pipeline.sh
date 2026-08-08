@@ -64,9 +64,19 @@ model_call() {
 }
 
 
+# has_nontest_code: the diff must change at least one NON-test file — a
+# test-only "primitive" passes every gate trivially (fresh test asserting
+# current behavior) and lands phantom capability (lp1 2593/2602/2616,
+# 2026-08-08: three test-only commits landed as "primitives", every
+# circle-close then failed because nothing new existed to map).
+has_nontest_code() {
+  git diff --cached --name-only origin/main | command grep -v '_test\.go$' | command grep -q '\.\(go\|py\)$'
+}
+
 run_bugfix_gate() { # green -> commit+push+0
   git add -A
   if git diff --cached --diff-filter=AM origin/main -- '*_test.go' | command grep -q '^+func Test' \
+     && has_nontest_code \
      && BUILD_OUT=$(cd backend && "$GO" build ./... 2>&1) \
      && TEST_OUT=$(cd backend && timeout 600 "$GO" test ./cards/ ./game/ -run 'TestVocabulary|TestV2|TestShape_|TestCardDBSubtypeScopes|TestCombat' -count=1 2>&1) \
      && SUITE_OUT=$(bash scripts/test-cards-sharded.sh 6 2>&1); then
@@ -121,6 +131,9 @@ while [ $attempt -le 2 ]; do
     if ! git diff --cached --diff-filter=AM origin/main -- '*_test.go' | command grep -q '^+func Test'; then
       GATE_TAIL="Gate: no NEW test function (+func Test...) in your diff — a behavior test in a new _test.go file is REQUIRED."
       log "gate: missing new test func"
+    elif ! has_nontest_code; then
+      GATE_TAIL="Gate: your diff contains ONLY test files — a primitive needs real engine/emitter code (registry entry, executor, emitter), not just a test asserting current behavior."
+      log "gate: test-only diff rejected"
     elif BUILD_OUT=$(cd backend && "$GO" build ./... 2>&1) \
        && TEST_OUT=$(cd backend && timeout 600 "$GO" test ./cards/ ./game/ -run 'TestVocabulary|TestV2|TestShape_|TestCardDBSubtypeScopes|TestCombat' -count=1 2>&1) \
        && SUITE_OUT=$(bash scripts/test-cards-sharded.sh 6 2>&1); then
