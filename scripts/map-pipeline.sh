@@ -89,9 +89,23 @@ model_call() { # stdin: prompt -> stdout: model text
 }
 
 
+# flip_wave_gate: run the same flip-batch the integrator will run, THEN the
+# vocab lint — an eligibility-overreaching patch (e.g. suddenly claiming
+# morph, 2597/2598/2601 on 2026-08-08) passes plain tests locally but flips
+# unregistered-effect cards at the integrator and reddens the whole wave.
+# carddb is reverted afterwards so the branch never carries flips.
+flip_wave_gate() {
+  python3 scripts/paragraph/reparse.py --flip-batch 300 --tag pipe-gate >> "$LOG" 2>&1
+  local rc=0
+  (cd backend && timeout 600 "$GO" test ./cards/ -run 'TestVocabulary|TestV2|TestShape_|TestCardDBSubtypeScopes' -count=1 2>&1) || rc=1
+  git checkout -q -- backend/data/carddb 2>/dev/null
+  return $rc
+}
+
 run_bugfix_gate() { # green -> commit+push+0
   if BUILD_OUT=$(cd backend && "$GO" build ./... 2>&1) \
-     && TEST_OUT=$(cd backend && timeout 600 "$GO" test ./cards/ -run 'TestVocabulary|TestV2|TestShape_|TestCardDBSubtypeScopes' -count=1 2>&1); then
+     && TEST_OUT=$(cd backend && timeout 600 "$GO" test ./cards/ -run 'TestVocabulary|TestV2|TestShape_|TestCardDBSubtypeScopes' -count=1 2>&1) \
+     && WAVE_OUT=$(flip_wave_gate); then
     NEW_SHAPE=$(shape_count); NEW_SHAPE=${NEW_SHAPE:-$BASE_SHAPE}
     if [ "$NEW_SHAPE" -lt "$BASE_SHAPE" ]; then
       log "GATE GREEN after bugfix: shape $BASE_SHAPE -> $NEW_SHAPE"
@@ -102,7 +116,7 @@ run_bugfix_gate() { # green -> commit+push+0
     GATE_TAIL="Build+tests green but shape '$SHAPE' unchanged ($BASE_SHAPE -> $NEW_SHAPE)."
   else
     GATE_TAIL="Gate failed:
-$(printf '%s\n%s' "${BUILD_OUT:-}" "${TEST_OUT:-}" | tail -c 2500)"
+$(printf '%s\n%s\n%s' "${BUILD_OUT:-}" "${TEST_OUT:-}" "${WAVE_OUT:-}" | tail -c 2500)"
   fi
   log "bugfix gate: still red"
   return 1
@@ -147,7 +161,8 @@ while [ $attempt -le 2 ]; do
   else
     log "applied; gating"
     if BUILD_OUT=$(cd backend && "$GO" build ./... 2>&1) \
-       && TEST_OUT=$(cd backend && timeout 600 "$GO" test ./cards/ -run 'TestVocabulary|TestV2|TestShape_|TestCardDBSubtypeScopes' -count=1 2>&1); then
+       && TEST_OUT=$(cd backend && timeout 600 "$GO" test ./cards/ -run 'TestVocabulary|TestV2|TestShape_|TestCardDBSubtypeScopes' -count=1 2>&1) \
+       && WAVE_OUT=$(flip_wave_gate); then
       NEW_SHAPE=$(shape_count); NEW_SHAPE=${NEW_SHAPE:-$BASE_SHAPE}
       if [ "$NEW_SHAPE" -lt "$BASE_SHAPE" ]; then
         log "GATE GREEN: shape $BASE_SHAPE -> $NEW_SHAPE"
@@ -162,8 +177,8 @@ while [ $attempt -le 2 ]; do
       log "gate: no shape delta"
     else
       GATE_TAIL="Gate failed:
-$(printf '%s\n%s' "${BUILD_OUT:-}" "${TEST_OUT:-}" | tail -c 2500)"
-      log "gate: build/tests red"
+$(printf '%s\n%s\n%s' "${BUILD_OUT:-}" "${TEST_OUT:-}" "${WAVE_OUT:-}" | tail -c 2500)"
+      log "gate: build/tests/flip-wave red"
     fi
     # Bugfix rounds on the KEPT tree (step 6, ported from handler-pipeline):
     # inline the changed files + exact error, ask for corrections only.
