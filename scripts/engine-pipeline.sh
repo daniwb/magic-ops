@@ -37,7 +37,7 @@ model_call() {
   [ -n "${PIPE_BASE_URL:-}" ] && export ANTHROPIC_BASE_URL="$PIPE_BASE_URL" ANTHROPIC_AUTH_TOKEN="${PIPE_AUTH_TOKEN:-ollama}"
   local raw
   raw=$(timeout -k 30 1200 claude -p --output-format json --model "$MODEL" \
-      --max-turns 25 --permission-mode bypassPermissions \
+      --max-turns 5 --permission-mode bypassPermissions \
       --disallowedTools 'Bash,Edit,Write,WebFetch,WebSearch,Agent,Skill,NotebookEdit' \
       --append-system-prompt 'You have NO working tools — every tool call will be denied. Do not attempt any. Reply with plain text only.' \
       2>>"$LOG")
