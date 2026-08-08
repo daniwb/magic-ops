@@ -9,7 +9,7 @@ mkdir -p /tmp/orch /tmp/work
 while true; do
   PIPE_MODEL="${LP1_MODEL:-gpt-oss:120b}" \
     PIPE_BASE_URL="http://127.0.0.1:4102" \
-    USAGE_LIMIT_PCT=101 \
+    PACE_DISABLE=1 \
     bash /opt/development/magic-ops/scripts/pipeline-lane.sh "$W" >> "$L" 2>&1
   echo "[$(date -Is)] $W exit, restart 30s" >> "$L"
   sleep 30
