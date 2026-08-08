@@ -34,7 +34,23 @@ fi
 log "pack built: $(wc -c < "$PACK") bytes"
 
 model_call() {
-  [ -n "${PIPE_BASE_URL:-}" ] && export ANTHROPIC_BASE_URL="$PIPE_BASE_URL" ANTHROPIC_AUTH_TOKEN="${PIPE_AUTH_TOKEN:-ollama}"
+  # Local lane (PIPE_BASE_URL): bare /v1/messages curl, no tools — the claude
+  # CLI's advertised tools make gpt-oss emit tool_calls with empty content
+  # (ported from handler-pipeline.sh, validated green 2026-08-07).
+  if [ -n "${PIPE_BASE_URL:-}" ]; then
+    local prompt raw
+    prompt=$(python3 -c "import json,sys; print(json.dumps(sys.stdin.read()))")
+    raw=$(curl -s -m 1500 "$PIPE_BASE_URL/v1/messages" \
+      -H 'content-type: application/json' -H "x-api-key: ${PIPE_AUTH_TOKEN:-ollama}" \
+      -H 'anthropic-version: 2023-06-01' \
+      -d "{\"model\":\"$MODEL\",\"max_tokens\":16000,\"messages\":[{\"role\":\"user\",\"content\":$prompt}]}")
+    printf '%s' "$raw" > "/tmp/orch/engine-pipeline-$TICKET-raw-last.json"
+    printf '%s' "$raw" | command grep '^data: ' | sed 's/^data: //' \
+      | jq -rs '"tokens: in=\([.[] | select(.type=="message_start") | .message.usage.input_tokens] | add // 0) out=\([.[] | .usage.output_tokens? // empty] | max // 0) cache_r=0 cache_w=0"' >> "$LOG" 2>/dev/null
+    printf '%s' "$raw" | command grep '^data: ' | sed 's/^data: //' \
+      | jq -rs '[.[] | select(.type=="content_block_delta") | .delta.text // empty] | join("")'
+    return
+  fi
   local raw
   raw=$(timeout -k 30 1200 claude -p --output-format json --model "$MODEL" \
       --max-turns 5 --permission-mode bypassPermissions \
