@@ -13,7 +13,10 @@ ALLOW_GAME = '--allow-game' in sys.argv
 OVERWRITE = '--overwrite' in sys.argv
 
 out = sys.stdin.read()
-mv = re.search(r'^VERDICT:\s*([A-Z_]+)', out, re.M)
+# Not line-anchored: gpt-oss glues the verdict to its reasoning prose
+# ("...Search.VERDICT: NEEDS_PRIMITIVE") — a ^-anchored match scored those
+# replies rc=5 "no verdict found" (lp1 tickets 2588/2593, 2026-08-08).
+mv = re.search(r'\bVERDICT:\s*([A-Z_]+)', out)
 blocks = re.findall(r'<<<FILE (.+?)\n<<<SEARCH\n(.*?)\n===REPLACE\n(.*?)\n>>>END',
                     out, re.S)
 newfiles = re.findall(r'<<<NEWFILE (.+?)\n(.*?)\n>>>END', out, re.S)
