@@ -32,7 +32,7 @@ wait_for_landing() { # $1 branch — poll until merged into origin/main (max 25 
 while :; do
   if ! pace_ok; then log "pace-gate: over daily step — pause"; sleep 300; continue; fi
   TICKET=$(python3 - <<PYEOF
-import sqlite3
+import sqlite3, os
 c = sqlite3.connect('$DB')
 try:
     skip = set(open('$SKIPLIST').read().split())
@@ -40,9 +40,13 @@ except Exception:
     skip = set()
 rows = c.execute("select id from tickets where state='blocked' and missing_prim is not null and missing_prim != '' order by priority desc, id asc").fetchall()
 for (tid,) in rows:
-    if str(tid) not in skip:
-        print(tid)
-        break
+    # skip tickets whose engine-pipeline already ran (circle attempts leave
+    # a log) — re-tries were 0-for-8 on the first e1 shift; spend only on
+    # never-tried tickets.
+    if str(tid) in skip or os.path.exists('/tmp/orch/engine-pipeline-%d.log' % tid):
+        continue
+    print(tid)
+    break
 PYEOF
 )
   if [ -z "$TICKET" ]; then log "no primitive-parked tickets — sleep 300"; sleep 300; continue; fi
