@@ -77,13 +77,20 @@ while [ $attempt -le 2 ]; do
   fi
   printf '%s\n' "$OUT" > "/tmp/orch/engine-pipeline-$TICKET-reply-$attempt.md"
 
-  # NEED round: the model may request missing code regions once per run.
-  if printf '%s' "$OUT" | command grep -q '^NEED:' && [ "${NEED_USED:-0}" = 0 ]; then
-    NEED_USED=1
-    log "model requested regions: $(printf '%s' "$OUT" | command grep '^NEED:' | tr '\n' ' ')"
+  # NEED rounds: up to two per run (mirrors map-pipeline — one round was
+  # consistently insufficient; second requests died as rc=5).
+  if printf '%s' "$OUT" | command grep -q '^NEED:' && [ "${NEED_USED:-0}" -lt 2 ]; then
+    NEED_USED=$(( ${NEED_USED:-0} + 1 ))
+    log "model requested regions (round $NEED_USED): $(printf '%s' "$OUT" | command grep '^NEED:' | tr '\n' ' ')"
     ADD=$(printf '%s' "$OUT" | python3 "$OPS/scripts/pipeline-fetch-regions.py")
-    PROMPT_FILE="/tmp/orch/engine-pipeline-$TICKET-need.md"
-    { cat "$PACK"; echo; echo "## REQUESTED CODE REGIONS"; printf '%s\n' "$ADD"; } > "$PROMPT_FILE"
+    NEEDF="/tmp/orch/engine-pipeline-$TICKET-need.md"
+    if [ "$NEED_USED" = 1 ]; then
+      { cat "$PACK"; echo; echo "## REQUESTED CODE REGIONS"; printf '%s\n' "$ADD"; } > "$NEEDF"
+    else
+      { echo; echo "## REQUESTED CODE REGIONS (round 2 — FINAL)"; printf '%s\n' "$ADD"
+        echo; echo "No further regions will be served. Produce edit blocks or a verdict NOW."; } >> "$NEEDF"
+    fi
+    PROMPT_FILE="$NEEDF"
     continue
   fi
 
