@@ -38,7 +38,7 @@ try:
     skip = set(open('$SKIPLIST').read().split())
 except Exception:
     skip = set()
-rows = c.execute("select id from tickets where state='blocked' and missing_prim is not null and missing_prim != '' order by priority desc, id desc").fetchall()
+rows = c.execute("select id from tickets where state='blocked' and missing_prim is not null and missing_prim != '' order by priority desc, id asc").fetchall()
 for (tid,) in rows:
     if str(tid) not in skip:
         print(tid)
