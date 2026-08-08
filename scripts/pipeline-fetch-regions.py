@@ -50,6 +50,22 @@ budget = 500
 for need in needs:
     if budget <= 0:
         break
+    # explicit line ranges (path:NNN-MMM) — models ask for these constantly;
+    # without support they got the file head and re-asked until abort
+    handled_range = False
+    for m in re.finditer(r'([\w./-]+\.(?:go|py)):(\d+)-(\d+)', need):
+        p, lo, hi = m.group(1), int(m.group(2)) - 1, int(m.group(3))
+        if not os.path.exists(p):
+            continue
+        lines = open(p, encoding='utf-8', errors='replace').read().splitlines()
+        lo = max(0, min(lo, len(lines))); hi = min(hi, len(lines), lo + budget)
+        if hi > lo:
+            print('### %s:%d-%d\n%s\n' % (p, lo + 1, hi,
+                  '\n'.join('%5d %s' % (i + 1, lines[i]) for i in range(lo, hi))))
+            budget -= (hi - lo)
+            handled_range = True
+    if handled_range:
+        continue
     paths = [t for t in re.findall(r'[\w./-]+\.(?:go|py)', need) if '/' in t or '.' in t]
     idents = [t for t in re.findall(r'[A-Za-z_][A-Za-z0-9_]{4,}', need)
               if t.lower() not in STOP and not t.endswith(('.go', '.py'))]
