@@ -39,8 +39,11 @@ model_call() {
   raw=$(timeout -k 30 1200 claude -p --output-format json --model "$MODEL" \
       --max-turns 25 --permission-mode bypassPermissions \
       --disallowedTools 'Bash,Edit,Write,WebFetch,WebSearch,Agent,Skill,NotebookEdit' \
+      --append-system-prompt 'You have NO working tools — every tool call will be denied. Do not attempt any. Reply with plain text only.' \
       2>>"$LOG")
   printf '%s' "$raw" | jq -r '"tokens: in=\(.usage.input_tokens // 0) out=\(.usage.output_tokens // 0) cache_r=\(.usage.cache_read_input_tokens // 0) cache_w=\(.usage.cache_creation_input_tokens // 0)"' >> "$LOG" 2>/dev/null
+  # keep last raw CLI JSON — empty replies were error_max_turns tool-spin, undiagnosable without it
+  printf '%s' "$raw" > "/tmp/orch/engine-pipeline-$TICKET-raw-last.json"
   printf '%s' "$raw" | jq -r '.result // empty'
 }
 
