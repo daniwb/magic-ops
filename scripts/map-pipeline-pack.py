@@ -29,6 +29,14 @@ if not m:
     sys.exit(3)
 shape = m.group(1)
 examples = re.findall(r'^- \[([^\]]+)\]', descr, re.M)[:5]
+# CLUSTERED slice tickets (gen_fleet_tasks mega-shape split, 2026-08-08):
+# the shape is shared by MANY template families, so the live-pile rescan
+# below must stay within THIS ticket's family cards — otherwise every slice
+# pack shows the same 5 alphabetically-first cards of the whole shape and
+# the model judges the wrong family (seen on the first three ?-slices).
+cluster_allow = None
+if 'CLUSTERED slice' in descr:
+    cluster_allow = set(re.findall(r'^- \[([^\]]+)\]', descr, re.M))
 
 os.chdir(a.repo)
 sys.path.insert(0, os.path.join(a.repo, 'scripts/paragraph'))
@@ -50,6 +58,8 @@ for f in sorted(glob.glob('backend/data/carddb/*.json')):
         if found >= 5:
             break
         if r.get('status') != 'review':
+            continue
+        if cluster_allow is not None and n not in cluster_allow:
             continue
         try:
             out = R.reparse_card(r)
