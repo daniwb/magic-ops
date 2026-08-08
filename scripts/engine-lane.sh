@@ -45,11 +45,22 @@ for (tid,) in rows:
     # never-tried tickets.
     if str(tid) in skip or os.path.exists('/tmp/orch/engine-pipeline-%d.log' % tid):
         continue
+    row = c.execute("select worker_id, updated_at from tickets where id=?", (tid,)).fetchone()
+    # respect another lane's fresh mark (taken within the last hour)
+    import time
+    if row and row[0] and row[0] != '$WORKER_ID' and time.time() - (row[1] or 0) < 3600:
+        continue
     print(tid)
     break
 PYEOF
 )
   if [ -z "$TICKET" ]; then log "no primitive-parked tickets — sleep 300"; sleep 300; continue; fi
+  # TAKE the ticket (Dani 2026-08-08): mark worker_id+updated_at so the
+  # dashboard shows the engine lane's work and a second engine lane skips it.
+  python3 -c "
+import sqlite3, time
+c = sqlite3.connect('$DB')
+c.execute(\"update tickets set worker_id='$WORKER_ID', updated_at=? where id=$TICKET\", (int(time.time()),)); c.commit()"
   log "engine ticket #$TICKET"
   ELOG="/tmp/orch/engine-pipeline-$TICKET.log"; : > "$ELOG"
   CLONE="/tmp/work/${WORKER_ID}-clone" bash "$OPS/scripts/engine-pipeline.sh" "$TICKET" --push
