@@ -64,6 +64,7 @@ model_call() { # stdin: prompt -> stdout: model text
   raw=$(timeout -k 30 900 claude -p --output-format json --model "$MODEL" \
       --max-turns 25 --permission-mode bypassPermissions \
       --disallowedTools 'Bash,Edit,Write,WebFetch,WebSearch,Agent,Skill,NotebookEdit' \
+      --append-system-prompt 'You have NO working tools — every tool call will be denied. Do not attempt any. Reply with plain text only; if you need more code regions, use the NEED: mechanism described in the prompt.' \
       2>>"$LOG")
   printf '%s' "$raw" | jq -r '"tokens: in=\(.usage.input_tokens // 0) out=\(.usage.output_tokens // 0) cache_r=\(.usage.cache_read_input_tokens // 0) cache_w=\(.usage.cache_creation_input_tokens // 0)"' >> "$LOG" 2>/dev/null
   # always keep the last raw CLI JSON — "empty reply" was undiagnosable without it
@@ -97,7 +98,8 @@ while [ $attempt -le 2 ]; do
   log "model call $attempt (model $MODEL)"
   OUT=$(model_call < "$PROMPT_FILE")
   if [ -z "$OUT" ]; then
-    log "empty model reply (raw saved) — retrying once"
+    ST=$(jq -r '.subtype // "?"' "/tmp/orch/pipeline-$TICKET-raw-last.json" 2>/dev/null)
+    log "empty model reply (subtype=$ST, raw saved) — retrying once"
     OUT=$(model_call < "$PROMPT_FILE")
     [ -z "$OUT" ] && { log "empty twice — abort"; exit 1; }
   fi
