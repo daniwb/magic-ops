@@ -46,7 +46,7 @@ model_call() {
     body=$(python3 -c "
 import json, sys
 p = sys.stdin.read()
-mt = max(1200, min(4000, 8192 - len(p)//3 - 512))
+mt = max(1600, min(4000, 6900 - len(p)//3))  # empirical window: total 6914 passed, 6933 failed
 print(json.dumps({'model': '$MODEL', 'max_tokens': mt, 'messages': [{'role': 'user', 'content': p}]}))")
     raw=$(curl -s -m 1500 "$PIPE_BASE_URL/v1/messages" \
       -H 'content-type: application/json' -H "x-api-key: ${PIPE_AUTH_TOKEN:-ollama}" \
