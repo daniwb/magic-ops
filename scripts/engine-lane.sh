@@ -38,7 +38,9 @@ try:
     skip = set(open('$SKIPLIST').read().split())
 except Exception:
     skip = set()
-rows = c.execute("select id from tickets where state='blocked' and missing_prim is not null and missing_prim != '' order by priority desc, id asc").fetchall()
+rows = c.execute("""select id from tickets where state='blocked' and missing_prim is not null and missing_prim != ''
+    and missing_prim not like 'PHANTOM-%' and missing_prim not in ('parser-spine','unclassified-park')
+    order by priority desc, id asc""").fetchall()
 for (tid,) in rows:
     # skip tickets whose engine-pipeline already ran (circle attempts leave
     # a log) — re-tries were 0-for-8 on the first e1 shift; spend only on
