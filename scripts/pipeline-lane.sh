@@ -28,6 +28,7 @@ log() { printf '[%s] %s: %s\n' "$(date +%H:%M:%S)" "$WORKER_ID" "$*"; }
 # fail-open only after 30min blind) and the 5h hard ceiling. The earlier
 # ad-hoc 75%/99% flat gate here ignored that canon (2026-08-08).
 source "$OPS/scripts/lib-pace-gate.sh"
+source "$OPS/scripts/lib-prim-extract.sh"
 usage_gate() {
   if ! pace_ok; then log "pace-gate: over daily step — pause"; return 1; fi
   return 0
@@ -91,8 +92,7 @@ while :; do
       report "$TICKET" fixed "" "" "" "map-pipeline green (staged)" "$TOK"
       log "#$TICKET FIXED (map-pipeline, ${TOK} tok)";;
     4)
-      PRIM=$(command grep -aoP '^REASON:.*' "/tmp/orch/pipeline-$TICKET-reply-1.md" 2>/dev/null | head -1 | command grep -oP '[a-z][a-z0-9_-]{6,}' | head -1)
-      PRIM="${PRIM:-unnamed-primitive}"
+      PRIM=$(extract_prim "/tmp/orch/pipeline-$TICKET-reply-"*.md)
       WHY=$(command grep -am1 '^REASON:' "/tmp/orch/pipeline-$TICKET-reply-"*.md 2>/dev/null | head -c 400)
       report "$TICKET" parked missing_primitive "$PRIM" "$WHY" "map-pipeline park" "$TOK"
       log "#$TICKET parked on $PRIM — trying engine-pipeline (the circle)"

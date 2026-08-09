@@ -216,7 +216,9 @@
         (w.state && w.state !== 'working' ? ' <em>(' + esc(w.state) + ')</em>' : '') + '</span></div>').join('');
       fleet.innerHTML = (workers || '<div class="row"><span class="k">workers</span><span class="v">idle</span></div>') +
         '<div class="row"><span class="k">fixed 24h / 7d</span><span class="v mono">' + fmt(s.fixed_24h||0) + ' / ' + fmt(s.fixed_7d||0) + '</span></div>' +
-        '<div class="row"><span class="k">backlog remaining</span><span class="v mono">' + fmt(s.backlog_remaining||0) + '</span></div>';
+        '<div class="row"><span class="k">backlog remaining</span><span class="v mono">' + fmt(s.backlog_remaining||0) + '</span></div>' +
+        (s.misses_total >= 0 ? '<div class="row"><span class="k">corpus misses</span><span class="v mono">' + fmt(s.misses_total) +
+          ' (' + (s.misses_drop_24h > 0 ? '▼' + fmt(s.misses_drop_24h) : '±0') + '/24h, ' + fmt(s.misses_cards||0) + ' cards)</span></div>' : '');
       const states = document.getElementById('states');
       states.innerHTML = Object.keys(st).sort().map(k =>
         '<div class="row"><span class="k">' + esc(k) + '</span><span class="v mono">' + fmt(st[k]) + '</span></div>').join('');

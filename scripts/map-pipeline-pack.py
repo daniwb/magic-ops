@@ -145,6 +145,7 @@ The harness will send the regions and re-ask ONCE.
 
 OTHERWISE — EITHER a park verdict:
 VERDICT: NEEDS_PRIMITIVE|SEMANTIC_GAP|AMBIGUOUS|NOT_A_SHAPE
+PRIMITIVE: <snake_case_name of the missing engine capability — REQUIRED for NEEDS_PRIMITIVE, omit otherwise>
 REASON: <one line>
 
 OR one or more edit blocks (exact-match search text, unique in the file):

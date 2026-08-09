@@ -14,6 +14,7 @@ OPS=/opt/development/magic-ops
 SKIPLIST="/tmp/orch/${WORKER_ID}-skip.txt"; touch "$SKIPLIST"
 log() { printf '[%s] %s: %s\n' "$(date +%H:%M:%S)" "$WORKER_ID" "$*"; }
 source "$OPS/scripts/lib-pace-gate.sh"
+source "$OPS/scripts/lib-prim-extract.sh"
 
 report() { # $1 ticket $2 status $3 reason $4 prim $5 why $6 note $7 tokens
   jq -n --arg t "$1" --arg w "$WORKER_ID" --arg s "$2" --arg r "$3" \
@@ -56,8 +57,7 @@ while :; do
   case $rc in
     0) report "$TICKET" fixed "" "" "" "handler-pipeline green (staged)" "$TOK"
        log "#$TICKET FIXED (${TOK} tok)";;
-    4) PRIM=$(command grep -aoP '^REASON:.*' "/tmp/orch/handler-pipeline-$TICKET-reply-"*.md 2>/dev/null | tail -1 | command grep -oP '[a-z][a-z0-9_-]{6,}' | head -1)
-       PRIM="${PRIM:-unnamed-primitive}"
+    4) PRIM=$(extract_prim "/tmp/orch/handler-pipeline-$TICKET-reply-"*.md)
        WHY=$(command grep -am1 '^REASON:' "/tmp/orch/handler-pipeline-$TICKET-reply-"*.md 2>/dev/null | tail -1 | head -c 400)
        report "$TICKET" parked missing_primitive "$PRIM" "$WHY" "handler-pipeline park" "$TOK"
        log "#$TICKET parked on $PRIM";;

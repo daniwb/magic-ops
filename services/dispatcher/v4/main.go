@@ -686,8 +686,43 @@ func stats(w http.ResponseWriter, r *http.Request) {
 			backlogRemaining = 0
 		}
 	}
+	// Corpus-KPI: total-misses + review-pile aus miss-history.jsonl
+	// (miss-tracker.sh cron, stündlich). drop_24h = ältester Eintrag der
+	// letzten 24h minus aktuellster — DER Fortschritts-KPI (Dani 2026-08-09:
+	// "measure misses, not tickets").
+	missNow, missCards, missDrop24 := -1, -1, 0
+	if b, err := os.ReadFile("/opt/development/magic-ops/state/miss-history.jsonl"); err == nil {
+		type mh struct {
+			Ts    int64 `json:"ts"`
+			Total int   `json:"total"`
+			Cards int   `json:"cards"`
+		}
+		var oldest, newest *mh
+		for _, ln := range strings.Split(string(b), "\n") {
+			if ln == "" {
+				continue
+			}
+			var m mh
+			if json.Unmarshal([]byte(ln), &m) != nil {
+				continue
+			}
+			if m.Ts > now()-86400 && oldest == nil {
+				o := m
+				oldest = &o
+			}
+			n := m
+			newest = &n
+		}
+		if newest != nil {
+			missNow, missCards = newest.Total, newest.Cards
+			if oldest != nil {
+				missDrop24 = oldest.Total - newest.Total
+			}
+		}
+	}
 	writeJSON(w, map[string]any{
 		"states": counts, "vocab_open": vocabOpen, "done_total": doneTotal,
+		"misses_total": missNow, "misses_cards": missCards, "misses_drop_24h": missDrop24,
 		"fixed_24h": fixed24, "fixed_7d": fixed7d,
 		"vocab_done_24h": vocabDone24, "vocab_done_7d": vocabDone7d,
 		"cards_since_vocab": cardsSinceVocab, "last_vocab_ts": lastVoc,

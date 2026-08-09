@@ -103,7 +103,8 @@ the gate catches errors and you get one retry with the failure detail.
 ## OUTPUT FORMAT (strict)
 EITHER:
 VERDICT: NEEDS_PRIMITIVE|AMBIGUOUS
-REASON: <one line; NEEDS_PRIMITIVE = kebab-case name + one-paragraph proposal>
+PRIMITIVE: <snake_case_name of the missing engine capability — REQUIRED for NEEDS_PRIMITIVE, omit otherwise>
+REASON: <one line; NEEDS_PRIMITIVE = one-paragraph proposal>
 
 OR file blocks:
 %s backend/cardfns/%s.go
