@@ -62,7 +62,7 @@ wait_for_landing() { # $1 branch — poll until merged into origin/main (max 25 
 }
 
 while :; do
-  if ! usage_gate; then sleep 300; continue; fi
+  if ! usage_gate; then sleep 1800; continue; fi
   CLAIM=$(curl -s -m 30 "$DISPATCHER/claim?worker=$WORKER_ID&tier=map" 2>/dev/null || echo '{}')
   TICKET=$(printf '%s' "$CLAIM" | jq -r '.id // empty' 2>/dev/null)
   if [ -z "$TICKET" ]; then log "queue empty — sleep 120"; sleep 120; continue; fi
