@@ -113,10 +113,14 @@ c.execute(\"update tickets set priority=60 where id=$TICKET\"); c.commit()" 2>/d
     2)
       echo "$TICKET" >> "$SKIPLIST"
       report "$TICKET" retry "" "" "" "map-pipeline exhausted — escalate to agentic" "$TOK"
-      python3 -c "
+      # local $0 lanes must not wreck the unlock-ranking for the Sonnet shift
+      # (Dani 2026-08-09): they skiplist locally, no global deprioritize.
+      if [ "${LANE_NO_DEPRIO:-0}" != "1" ]; then
+        python3 -c "
 import sqlite3
 c=sqlite3.connect('$OPS/services/dispatcher/v4/dispatcher.db')
 c.execute(\"update tickets set priority=-10 where id=$TICKET and state='todo'\"); c.commit()" 2>/dev/null || true
+      fi
       log "#$TICKET escalated (retry counter++, deprioritized)";;
     *)
       report "$TICKET" retry infra "" "" "pipeline infra error rc=$rc" "$TOK"

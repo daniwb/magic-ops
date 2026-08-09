@@ -72,7 +72,7 @@ model_call() { # stdin: prompt -> stdout: model text
     body=$(python3 -c "
 import json, sys
 p = sys.stdin.read()
-mt = max(1600, min(4000, 6900 - len(p)//3))  # empirical window: total 6914 passed, 6933 failed
+mt = max(2500, min(6000, 26000 - len(p)//3))  # raised 2026-08-09: old 6900 budget bottomed big packs at the floor (analysis-channel truncation); overshoot fails clean
 print(json.dumps({'model': '$MODEL', 'max_tokens': mt, 'messages': [{'role': 'user', 'content': p}]}))")
     raw=$(curl -s -m 1500 "$PIPE_BASE_URL/v1/messages" \
       -H 'content-type: application/json' -H "x-api-key: ${PIPE_AUTH_TOKEN:-ollama}" \
