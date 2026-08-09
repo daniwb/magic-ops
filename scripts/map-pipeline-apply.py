@@ -17,6 +17,12 @@ out = sys.stdin.read()
 # ("...Search.VERDICT: NEEDS_PRIMITIVE") — a ^-anchored match scored those
 # replies rc=5 "no verdict found" (lp1 tickets 2588/2593, 2026-08-08).
 mv = re.search(r'\bVERDICT:\s*([A-Z_]+)', out)
+# Template-echo guard (qwen3-coder, 2026-08-09): a model copying the OUTPUT
+# FORMAT spec verbatim ("VERDICT: NEEDS_PRIMITIVE|SEMANTIC_GAP|..." with
+# "<snake_case_name..." placeholders) must NOT parse as a real park — it
+# polluted ticket 2772 with missing_prim "one-line".
+if mv and (re.search(r'\bVERDICT:\s*[A-Z_]+\|', out) or '<snake_case_name' in out or 'REASON: <one line>' in out):
+    mv = None
 blocks = re.findall(r'<<<FILE (.+?)\n<<<SEARCH\n(.*?)\n===REPLACE\n(.*?)\n>>>END',
                     out, re.S)
 newfiles = re.findall(r'<<<NEWFILE (.+?)\n(.*?)\n>>>END', out, re.S)
