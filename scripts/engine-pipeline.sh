@@ -47,11 +47,13 @@ model_call() {
     body=$(python3 -c "
 import json, sys
 p = sys.stdin.read()
-# 2026-08-09 le1: engine packs (~30kB ≈ 9k prompt tokens) bottomed the old
-# 6900-budget out at the 1600 floor — gpt-oss spent it all on the analysis
-# channel, never reached the final channel ("empty reply"). Box accepted
+# 2026-08-09 le1: engine packs (~30kB = 9k prompt tokens) bottomed the old
+# 6900-budget out at the 1600 floor; gpt-oss spent it all on the analysis
+# channel and never reached the final channel (empty reply). Box accepted
 # in=8710+out=1600 fine today, so the effective window is far above the old
 # under-load 6.9k measurement. Failure mode on overshoot is a clean abort.
+# NOTE: this comment lives inside a bash double-quoted python -c string —
+# no double quotes in here, they truncate the script.
 mt = max(2500, min(6000, 26000 - len(p)//3))
 print(json.dumps({'model': '$MODEL', 'max_tokens': mt, 'messages': [{'role': 'user', 'content': p}]}))")
     raw=$(curl -s -m 1500 "$PIPE_BASE_URL/v1/messages" \
