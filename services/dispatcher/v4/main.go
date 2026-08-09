@@ -241,8 +241,28 @@ func claim(w http.ResponseWriter, r *http.Request) {
 		// und keine Engine/Handler-Tickets verarbeiten.
 		tierCond = "AND title LIKE 'REPARSE-MAP:%'"
 	}
+	// exclude=1,2,3 — Worker-lokale Skiplist (2026-08-09): ohne das bounct
+	// eine Lane ewig auf ihrem eigenen Top-Priority-Skip-Ticket herum und
+	// erreicht nie frische Arbeit (lp1-Starvation, 2x am selben Tag).
+	// Nur Ziffern werden übernommen; Cap 400 IDs hält das SQL klein.
+	exclCond := ""
+	if ex := r.URL.Query().Get("exclude"); ex != "" {
+		var ids []string
+		for _, p := range strings.Split(ex, ",") {
+			p = strings.TrimSpace(p)
+			if p != "" && strings.IndexFunc(p, func(c rune) bool { return c < '0' || c > '9' }) == -1 {
+				ids = append(ids, p)
+			}
+			if len(ids) >= 400 {
+				break
+			}
+		}
+		if len(ids) > 0 {
+			exclCond = " AND id NOT IN (" + strings.Join(ids, ",") + ")"
+		}
+	}
 	row = db.QueryRow(`SELECT id,title,descr,retry_count FROM tickets
-	                   WHERE state='todo' AND type IN('card','split') ` + tierCond + `
+	                   WHERE state='todo' AND type IN('card','split') ` + tierCond + exclCond + `
 	                   ORDER BY priority DESC, id ASC LIMIT 1`)
 	if row.Scan(&t.ID, &t.Title, &t.Descr, &t.Retry) != nil {
 		writeJSON(w, map[string]any{"id": ""})
