@@ -46,7 +46,7 @@ model_call() {
     body=$(python3 -c "
 import json, sys
 p = sys.stdin.read()
-mt = max(2500, min(6000, 26000 - len(p)//3))  # raised 2026-08-09: old 6900 budget bottomed big packs at the floor (analysis-channel truncation); overshoot fails clean
+mt = max(1800, min(5000, 12000 - len(p)//3))  # 2026-08-09 pm: measured window today: in+out 10.3k ok, 14.5k peg-native 500 -> budget 12k; overshoot aborts clean, ticket returns
 print(json.dumps({'model': '$MODEL', 'max_tokens': mt, 'messages': [{'role': 'user', 'content': p}]}))")
     raw=$(curl -s -m 1500 "$PIPE_BASE_URL/v1/messages" \
       -H 'content-type: application/json' -H "x-api-key: ${PIPE_AUTH_TOKEN:-ollama}" \

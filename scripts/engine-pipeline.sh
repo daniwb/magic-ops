@@ -54,7 +54,7 @@ p = sys.stdin.read()
 # under-load 6.9k measurement. Failure mode on overshoot is a clean abort.
 # NOTE: this comment lives inside a bash double-quoted python -c string —
 # no double quotes in here, they truncate the script.
-mt = max(2500, min(6000, 26000 - len(p)//3))
+mt = max(1800, min(5000, 12000 - len(p)//3))
 print(json.dumps({'model': '$MODEL', 'max_tokens': mt, 'messages': [{'role': 'user', 'content': p}]}))")
     raw=$(curl -s -m 1500 "$PIPE_BASE_URL/v1/messages" \
       -H 'content-type: application/json' -H "x-api-key: ${PIPE_AUTH_TOKEN:-ollama}" \
