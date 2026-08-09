@@ -30,7 +30,7 @@ wait_for_landing() { # $1 branch — poll until merged into origin/main (max 25 
 }
 
 while :; do
-  if ! pace_ok; then log "pace-gate: over daily step — pause"; sleep 300; continue; fi
+  if ! pace_ok; then log "pace-gate: over daily step — pause"; sleep 1800; continue; fi
   TICKET=$(python3 - <<PYEOF
 import sqlite3, os
 c = sqlite3.connect('$DB')
