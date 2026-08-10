@@ -415,6 +415,14 @@ HGATE
   : > "$TOK_FILE"
   attempt=1
   while [ "$attempt" -le "$MAX_ATTEMPTS" ]; do
+    # TICKET_TOKEN_CAP (2026-08-10, nach 51.8M-Ticket #2827): Folge-Attempts
+    # nur unterhalb der Kappe — ein einzelner Attempt bleibt ungebremst, aber
+    # ein zweiter teurer Lauf auf einem schon-teuren Ticket wird verhindert.
+    tok_so_far=$(awk '{s+=$1} END{print s+0}' "$TOK_FILE" 2>/dev/null)
+    if [ "${tok_so_far:-0}" -gt "${TICKET_TOKEN_CAP:-12000000}" ]; then
+      log "token-cap: ${tok_so_far} tok > ${TICKET_TOKEN_CAP:-12000000} — kein weiterer Attempt, Ticket geht in den normalen Fail-Pfad"
+      break
+    fi
     RUN_MODEL="$MODEL"; [ "$attempt" -ge 2 ] && RUN_MODEL="$MODEL_ESCALATE"
     log "attempt $attempt/$MAX_ATTEMPTS (model $RUN_MODEL)"
     CLAUDE_OUT=$(CJ_TIMEOUT="$RUN_TIMEOUT" claude_run --model "$RUN_MODEL" --permission-mode bypassPermissions ${EXTRA_CLAUDE_FLAGS:-} \

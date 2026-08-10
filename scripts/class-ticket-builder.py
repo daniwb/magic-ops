@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """class-ticket-builder.py — class-level queue source (phase.rs adoption).
 
-Writes ranked class-round tickets DIRECTLY into dispatcher v4's sqlite DB
+Files ranked class-round tickets as state='fable' in dispatcher v4 — the
+Fable-session queue (operator sessions claim these; fleet workers never do:
+spine/kind class rounds burned 20-50M tokens on fleet models)'s sqlite DB
 (no Kanboard dependency), same insert shape the dispatcher's own vocab-filing
 path uses (services/dispatcher/v4/main.go:399: type='vocab', state='vocab').
 
@@ -62,7 +64,7 @@ honest misses reported with named reasons."""
         now = int(time.time())
         cur = db.execute(
             "INSERT INTO tickets(type,title,descr,mechanic,state,created_at,updated_at)"
-            " VALUES('card',?,?,?,'todo',?,?)", (title, descr, item, now, now))
+            " VALUES('card',?,?,?,'fable',?,?)", (title, descr, item, now, now))
         print(f"CREATED #{cur.lastrowid}: {title}")
     else:
         print(f"WOULD CREATE: {title}")
