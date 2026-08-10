@@ -43,7 +43,7 @@ for row in plan:
     item, unlock = row.get("item", ""), row.get("marginal_unlock", 0)
     if not item or unlock < MIN_UNLOCK or item in open_titles:
         continue
-    title = f"[VOCAB] {item} — class round (unlock {unlock})"
+    title = f"REPARSE-ENGINE: {item} — class round (unlock {unlock})"
     descr = f"""CLASS ROUND (class-ticket-builder.py, phase.rs regime).
 Item: {item} | marginal unlock: {unlock} review cards
 Examples: {', '.join(row.get('examples', [])[:5])}
@@ -62,7 +62,7 @@ honest misses reported with named reasons."""
         now = int(time.time())
         cur = db.execute(
             "INSERT INTO tickets(type,title,descr,mechanic,state,created_at,updated_at)"
-            " VALUES('vocab',?,?,?,'vocab',?,?)", (title, descr, item, now, now))
+            " VALUES('card',?,?,?,'todo',?,?)", (title, descr, item, now, now))
         print(f"CREATED #{cur.lastrowid}: {title}")
     else:
         print(f"WOULD CREATE: {title}")
