@@ -130,3 +130,19 @@ fleet_operating_model.md + local_395_lane.md hold the operating decisions.
   blockt nichts. Geplante Integration: integrator-lite nach Batch-Merge
   (log-only), später blocking. Hintergrund: docs/phase-rs-factory-analysis.md
   (magic-new).
+
+## Fleet-Stand 2026-08-10 Abend (class-round era)
+- Worker: tmux dispatcher:r1 (Sonnet) + dispatcher:rg2 (GLM-5.2 Ollama Cloud),
+  BEIDE TIER=engine — gleiche Queue (Modell-Vergleich). Launcher:
+  /tmp/orch/launch-r1.sh, /tmp/orch/launch-rg2.sh (Kopien in
+  magic-ops/launchers/). NUR EIN Ollama-Worker gleichzeitig (Quota).
+- Queue-Source: scripts/class-ticket-builder.py (Cron 03:40, dispatcher-DIREKT
+  via sqlite, TARGET_OPEN=5, MIN_UNLOCK=30). Alte per-Card-Tickets:
+  state='parked-era1' (261 Stück; Revert: UPDATE tickets SET state='todo'
+  WHERE state='parked-era1').
+- Corpus-Default: magic-new corpus/AtomicCards.json.gz (MTGJSON 2026-08-09).
+  Refresh: curl mtgjson.com/api/v5/AtomicCards.json.gz -> corpus/ ->
+  python3 scripts/paragraph/reparse.py --import-corpus (idempotent, nur voll
+  v2-eligible Karten werden auto) -> go test ./cards/... -> commit+deploy.
+- Kanboard war 2026-08-10 mittags 503 — class-Pipeline haengt NICHT mehr an
+  Kanboard (dispatcher-direkt); Bugfixer-Kanboard-Crons pruefen wenn wieder up.
