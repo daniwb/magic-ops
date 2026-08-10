@@ -392,22 +392,46 @@ HGATE
     echo ""
     printf '%s\n' "$TICKET_DESC"
   } > "$PROMPT_FILE"
-  # Pre-pack (2026-08-04): inject nearest handlers + primitive hits for THIS
-  # card from the knowledge service (:4103) — saves the model its own search
-  # turns. Fail-open: skipped silently when the service is down.
-  if [ "$TIER" = "handler" ] && curl -s -m 3 -o /dev/null http://127.0.0.1:4103/health 2>/dev/null; then
-    # Query with the ORACLE TEXT ONLY (the fenced block in the ticket), not
-    # the whole desc — boilerplate words drowned the ranking (Myr Turbine got
-    # an energy card as "nearest" template, 2026-08-04).
-    ORACLE_TEXT=$(printf '%s\n' "$TICKET_DESC" | sed -n '/^```/,/^```/p' | sed '/^```/d')
-    [ -n "$ORACLE_TEXT" ] || ORACLE_TEXT="$TICKET_TITLE"
+  # Pre-pack (2026-08-04 handler; extended to map/engine 2026-08-10): inject
+  # nearest-handler / primitive hits from the knowledge service (:4103) —
+  # saves the model its own search turns. Fail-open: skipped silently when
+  # the service is down. Query text is tier-specific: handler has one card's
+  # oracle text to search by; map/engine tickets are about a miss-shape or
+  # class-round item, not a single card, so they query on that token instead
+  # and skip /similar (nearest-CARD search doesn't fit a shape/primitive).
+  if { [ "$TIER" = "handler" ] || [ "$TIER" = "map" ] || [ "$TIER" = "engine" ]; } \
+     && curl -s -m 3 -o /dev/null http://127.0.0.1:4103/health 2>/dev/null; then
+    QUERY_TEXT=""
+    case "$TIER" in
+      handler)
+        # Oracle text ONLY (the fenced block in the ticket), not the whole
+        # desc — boilerplate words drowned the ranking (Myr Turbine got an
+        # energy card as "nearest" template, 2026-08-04).
+        QUERY_TEXT=$(printf '%s\n' "$TICKET_DESC" | sed -n '/^```/,/^```/p' | sed '/^```/d')
+        ;;
+      map)
+        # "**Miss shape:** `verb_unmapped:delayed`" — same field the staged
+        # map-pipeline-pack.py greps for.
+        QUERY_TEXT=$(printf '%s\n' "$TICKET_DESC" \
+          | command grep -oP 'Miss shape:\*\*\s*`\K[^`]+' | head -1 | tr '_:/' ' ')
+        ;;
+      engine)
+        # "Item: verb_unmapped:?/target | marginal unlock: 445 review cards"
+        # — class-ticket-builder.py's format.
+        QUERY_TEXT=$(printf '%s\n' "$TICKET_DESC" \
+          | command grep -oP 'Item:\s*\K[^|]+' | head -1 | tr '_:/?' ' ')
+        ;;
+    esac
+    [ -n "$QUERY_TEXT" ] || QUERY_TEXT="$TICKET_TITLE"
     {
       echo ""
-      echo "=== PRE-SELECTED KNOWLEDGE (auto-generated for this card; verify, then reuse) ==="
-      echo "--- Nearest existing handlers (use as templates): ---"
-      curl -s -m 15 'http://127.0.0.1:4103/similar' --get --data-urlencode "text=$ORACLE_TEXT" --data-urlencode 'n=2' 2>/dev/null
+      echo "=== PRE-SELECTED KNOWLEDGE (auto-generated; verify, then reuse) ==="
+      if [ "$TIER" = "handler" ]; then
+        echo "--- Nearest existing handlers (use as templates): ---"
+        curl -s -m 15 'http://127.0.0.1:4103/similar' --get --data-urlencode "text=$QUERY_TEXT" --data-urlencode 'n=2' 2>/dev/null
+      fi
       echo "--- Possibly relevant primitives/helpers/handlers: ---"
-      curl -s -m 15 'http://127.0.0.1:4103/find' --get --data-urlencode "q=$ORACLE_TEXT" --data-urlencode 'n=5' 2>/dev/null
+      curl -s -m 15 'http://127.0.0.1:4103/find' --get --data-urlencode "q=$QUERY_TEXT" --data-urlencode 'n=5' 2>/dev/null
     } >> "$PROMPT_FILE"
   fi
 

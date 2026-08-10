@@ -60,6 +60,12 @@ push_deploy() { # $1 = commit message
   (cd backend && "$GO" build -o "$LIVE/bin/magic-api-server" ./api) >> "$LOG" 2>&1 \
     && sudo -n systemctl restart magic-backend 2>>"$LOG"
   git -C "$LIVE" pull -q --ff-only 2>>"$LOG" || true
+  # Keep the FTS5 knowledge service (:4103, used by map/engine/handler
+  # pre-seeds) in step with what just landed — it only rebuilds at process
+  # start or on this call, otherwise newly-landed primitives/handlers are
+  # invisible to /find and /similar (found stale 2026-08-10: 3 days behind,
+  # 10 primitives missing). Fire-and-forget, fail-open: never block a deploy.
+  curl -s -m 10 http://127.0.0.1:4103/reindex >/dev/null 2>&1 &
   return 0
 }
 
