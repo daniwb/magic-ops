@@ -115,3 +115,18 @@ last model output: /tmp/disp-<w>-last-result.txt.
 ## Memory (Claude sessions)
 ~/.claude/projects/-opt-development-magic-new/memory/ — start with MEMORY.md;
 fleet_operating_model.md + local_395_lane.md hold the operating decisions.
+
+## Quality-Ratchet + Gates (phase.rs adoption, 2026-08-10)
+- prompts/quality-gates.md — 4 Gates (Premise-Verify, 5-Grep-Existenz,
+  Honest-Miss, Discriminating-Test), automatisch in JEDEN Worker-System-
+  Prompt eingehängt (dispatcher-worker-real.sh + -reparse.sh, STATIC_FILE-
+  Block). Laufende Worker sehen es erst nach inner-kill/Neustart.
+- scripts/quality-ratchet.sh — Cron 03:15: primitive_inventory + swallow_audit
+  über magic-new; Verschlechterung (inert_live/swallow steigt) -> ALERT-Mail
+  an dani@, Baseline bleibt (Alert wiederholt sich); Verbesserung -> Baseline
+  update. State: state/quality-ratchet.json. Log: /tmp/orch/quality-ratchet.log
+- scripts/fresh-review.sh <range> — Fresh-Context-Reviewer (Sonnet, sieht NUR
+  Diff+Standards), SHADOW MODE: loggt nach /tmp/orch/review-shadow.log,
+  blockt nichts. Geplante Integration: integrator-lite nach Batch-Merge
+  (log-only), später blocking. Hintergrund: docs/phase-rs-factory-analysis.md
+  (magic-new).

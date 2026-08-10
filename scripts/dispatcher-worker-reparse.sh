@@ -382,6 +382,8 @@ The VERDICT/DELTA/REASON block format stays EXACTLY as specified (plain
 lines, no markdown bold).
 HGATE
     fi
+    QG=/opt/development/magic-ops/prompts/quality-gates.md
+    [ -f "$QG" ] && { echo; cat "$QG"; }   # phase.rs quality gates (2026-08-10)
   } > "$STATIC_FILE"
   {
     printf '%s\n' "$ACTION_NUDGE"

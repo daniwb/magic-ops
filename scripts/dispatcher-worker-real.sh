@@ -448,6 +448,8 @@ G. Report what you did on its own line so the experiment can be measured:
    PRIMITIVE_BUILT: <slug>      (or) PRIMITIVE_BUILT: none
 ALLIN
     fi
+    QG=/opt/development/magic-ops/prompts/quality-gates.md
+    [ -f "$QG" ] && { echo; cat "$QG"; }   # phase.rs quality gates (2026-08-10)
   } > "$STATIC_FILE"
   # ---- DYNAMISCHER TEIL (User-Message: nur das Ticket + Fix-Loop-Anhänge) ----
   {
