@@ -146,3 +146,11 @@ fleet_operating_model.md + local_395_lane.md hold the operating decisions.
   v2-eligible Karten werden auto) -> go test ./cards/... -> commit+deploy.
 - Kanboard war 2026-08-10 mittags 503 — class-Pipeline haengt NICHT mehr an
   Kanboard (dispatcher-direkt); Bugfixer-Kanboard-Crons pruefen wenn wieder up.
+
+## Korrektur 2026-08-10 spät: Pipeline-first (Dani)
+Fleet-Default ist die STAGED PIPELINE (7 Steps, nur 1-2 agentic; 1.6M vs
+22.5M pro Kreis validiert 2026-08-07) — NICHT der free-form agentic Worker
+(der 51.8M-Vorfall lief free-form). Fenster: dispatcher:p1 (Sonnet
+map-pipeline) + dispatcher:lp1 (lokal $0). Free-form dispatcher-worker-*
+NUR noch als Eskalation wenn Pipeline nonzero exitet. Engine-Class-Rounds:
+state='fable' Queue, Operator-Sessions (Budget + go/no-go von Dani).
