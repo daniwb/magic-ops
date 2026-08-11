@@ -100,17 +100,27 @@ for f in files:
 
 kb_hits = ''
 try:
-    # Catch-all shapes ("verb_unmapped:?") reduce token to punctuation — a
-    # useless kb query (found 2026-08-11: every ?-shaped ticket all night
-    # was querying kb for the literal string "?", so real existing
-    # primitives like double_counters/extra_turn/tap_target never surfaced
-    # in the pack, and the model had to rediscover them live or miss them
-    # entirely). Fall back to real words pulled from the blocked example
-    # cards' oracle text, already collected above in card_sections.
-    kb_query = token.replace('_', ' ') if re.search(r'[a-z]{3,}', token) else \
-        ' '.join(re.findall(r'\b[a-z]{4,}\b', ' '.join(card_sections).lower()))[:200]
+    # Always blend the shape token with real words from the blocked example
+    # cards' oracle text (card_sections, already collected above) — the
+    # token alone is often too generic to surface what a ticket is
+    # actually about. Two found failure modes, both 2026-08-11:
+    #  1. Catch-all shapes ("verb_unmapped:?") reduce token to punctuation
+    #     — literally querying kb for "?". Every registered primitive was
+    #     invisible to every such ticket all night.
+    #  2. Category-shaped tokens that ARE real words ("kw_action",
+    #     "static_subject") still aren't card-specific: og1's kw_action
+    #     ticket queried "kw action" and never found amass/monstrosity/
+    #     proliferate even though the kb index has all three (verified
+    #     live) — the query was too generic, not the index stale.
+    # kb's own /find already AND-matches first and falls back to OR across
+    # all words if that's empty (card-knowledge-service.py:171-172), so
+    # blending in extra words is safe — worst case it degrades to OR
+    # ranking instead of returning nothing.
+    token_words = token.replace('_', ' ') if re.search(r'[a-z]{3,}', token) else ''
+    example_words = ' '.join(re.findall(r'\b[a-z]{4,}\b', ' '.join(card_sections).lower()))
+    kb_query = (token_words + ' ' + example_words).strip()[:300]
     q = urllib.parse.quote(kb_query)
-    kb_hits = urllib.request.urlopen('%s/find?q=%s&n=3' % (a.kb, q), timeout=5).read().decode()
+    kb_hits = urllib.request.urlopen('%s/find?q=%s&n=5' % (a.kb, q), timeout=5).read().decode()
 except Exception:
     pass
 
