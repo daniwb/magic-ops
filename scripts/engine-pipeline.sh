@@ -69,7 +69,7 @@ print(json.dumps({'model': '$MODEL', 'max_tokens': mt, 'messages': [{'role': 'us
   fi
   local raw
   raw=$(timeout -k 30 1200 claude -p --output-format json --model "$MODEL" \
-      --max-turns 10 --permission-mode bypassPermissions \
+      --max-turns "${PIPE_MAX_TURNS:-10}" --permission-mode bypassPermissions \
       --disallowedTools 'Bash,Edit,Write,WebFetch,WebSearch,Agent,Skill,NotebookEdit' \
       --append-system-prompt 'You have NO working tools — every tool call will be denied. Do not attempt any. Reply with plain text only.' \
       2>>"$LOG")
