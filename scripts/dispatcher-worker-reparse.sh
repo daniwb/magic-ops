@@ -150,21 +150,26 @@ claude_run() { # claude-Flags; Prompt via stdin
   if [ -n "$txt" ]; then printf '%s' "$txt"; else printf '%s' "$raw"; fi
 }
 
+# review-pile timeout was 120s; bumped to 240s 2026-08-11 after the MTGJSON
+# ineligible-import (12,559 cards -> status=review, pile now 19,134) pushed a
+# full scan to ~97s — under concurrent lane load that occasionally exceeded
+# 120s and produced silent "keine Baseline — infra" failures on rl1 (retry
+# stuck re-claiming the same ticket without ever landing).
 # Eligibility-Zähler: "flip-ELIGIBLE (...): N (x%)" -> N. Leer bei Fehler.
 eligible_count() {
-  (cd "$CLONE_PATH" && timeout 120 python3 scripts/paragraph/reparse.py --review-pile 2>/dev/null) \
+  (cd "$CLONE_PATH" && timeout 240 python3 scripts/paragraph/reparse.py --review-pile 2>/dev/null) \
     | sed -n 's/^flip-ELIGIBLE[^:]*: \([0-9]\+\).*/\1/p' | head -1
 }
 # Untruncierter Gesamt-Miss-Zähler (SWEEP-Gate, Option B 2026-08-02).
 total_misses() {
-  (cd "$CLONE_PATH" && timeout 120 python3 scripts/paragraph/reparse.py --review-pile 2>/dev/null) \
+  (cd "$CLONE_PATH" && timeout 240 python3 scripts/paragraph/reparse.py --review-pile 2>/dev/null) \
     | sed -n 's/^total-misses: \([0-9]\+\).*/\1/p' | head -1
 }
 # Instanzen der Task-Shape in der Demand-Table ("  1234  <shape>  ..."). 0 wenn
 # die Shape ganz verschwunden ist (auch ein Erfolg). Leer bei Pipeline-Fehler.
 shape_count() { # $1 = shape
   local out n
-  out=$( (cd "$CLONE_PATH" && timeout 120 python3 scripts/paragraph/reparse.py --review-pile 2>/dev/null) ) || { echo ""; return; }
+  out=$( (cd "$CLONE_PATH" && timeout 240 python3 scripts/paragraph/reparse.py --review-pile 2>/dev/null) ) || { echo ""; return; }
   printf '%s' "$out" | grep -q '^flip-ELIGIBLE' || { echo ""; return; }
   n=$(printf '%s\n' "$out" | awk -v s="$1" '$2 == s {print $1; exit}')
   echo "${n:-0}"
