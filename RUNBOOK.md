@@ -154,3 +154,59 @@ Fleet-Default ist die STAGED PIPELINE (7 Steps, nur 1-2 agentic; 1.6M vs
 map-pipeline) + dispatcher:lp1 (lokal $0). Free-form dispatcher-worker-*
 NUR noch als Eskalation wenn Pipeline nonzero exitet. Engine-Class-Rounds:
 state='fable' Queue, Operator-Sessions (Budget + go/no-go von Dani).
+
+## Fleet-Stand 2026-08-10 spät (r1+rg1 Engine-Pairing, rg2 gestoppt)
+Aktuelle Lane-Konfiguration (Stand ~20:20 CEST) — Components-Tabelle oben
+(Zeile "Worker r1 ... map tier") ist damit überholt, diese Sektion ist
+maßgeblich:
+- `dispatcher:p1` — Sonnet, staged map→engine-Pipeline (7 Steps). Launcher
+  `magic-ops/launchers/launch-p1.sh`. Läuft, Pace-Gate-gesteuert.
+- `dispatcher:r1` — Sonnet, TIER=engine, agentic (dispatcher-worker-reparse.sh).
+  Launcher `launch-r1.sh`.
+- `dispatcher:rg1` — GLM-5.2 Ollama Cloud, TIER=engine (geändert von handler
+  am 2026-08-10, Dani: "rg1 auf derselben Pipeline wie Sonnet r1"), $0/Woche-
+  Quota. Launcher `launch-rg1.sh`. Teilt sich die Queue mit r1
+  (Sonnet-vs-GLM-Signal).
+- `dispatcher:rl1` — gpt-oss:120b via Shim :4102, TIER=handler NUR
+  (explizit kein engine, kein map — Dani 2026-08-10). Launcher `launch-rl1.sh`.
+- `rg2` (das r1+rg2-Pairing aus der "Abend"-Sektion oben) ist GESTOPPT,
+  abgelöst durch r1+rg1. Falls rg2 wieder gebraucht wird: `launch-rg2.sh`
+  (TIER=engine, eigener Klon `/tmp/work/disp-rg2`) — NICHT gleichzeitig mit
+  rg1 starten (Ollama-Quota geteilt; "nur ein Ollama-Worker gleichzeitig"
+  gilt weiter).
+- `dispatcher:og1` — GLM-5.2 Ollama Cloud, aber auf der STAGED MAP-Pipeline
+  (NICHT agentic — Korrektur oben gilt weiter für map: Pipeline bleibt
+  Fleet-Default). Launcher `launch-og1.sh`: setzt `ANTHROPIC_BASE_URL=
+  http://127.0.0.1:11434` + `ANTHROPIC_AUTH_TOKEN=ollama` + `PIPE_MODEL=
+  glm-5.2:cloud` vor `pipeline-lane.sh og1` — kein Code-Change nötig, da
+  `map-pipeline.sh`s `model_call()` ohne `PIPE_BASE_URL` den normalen
+  `claude`-CLI-Pfad nimmt, der die Env-Vars respektiert (gleicher Trick wie
+  `dispatcher-worker-reparse.sh`s `OLLAMA_WORKER=1`-Branch). Eigener Klon
+  `/tmp/work/og1-clone` (Key = WORKER_ID, keine Kollision mit p1). Erster
+  Live-Test 2026-08-10 18:50: Ticket #2867 (`static_mod_unmapped`) — Modell
+  antwortet kohärent, nutzt den NEED-Mechanismus korrekt (26k in/11k out
+  Tokens erste Runde).
+- FTS5-Preseed (`dispatcher-worker-reparse.sh`, Stage-A-Injektion vor dem
+  ersten Modell-Call) läuft jetzt für handler+map+engine, nicht mehr nur
+  handler — direkt relevant für r1/rg1 (TIER=engine). kb-Index (:4103)
+  wird seit heute bei jedem `integrator-lite.sh`-Deploy automatisch
+  neu gebaut (`push_deploy()` ruft `/reindex`).
+
+**WICHTIG — Reboot-Lücke:** keiner der vier Worker oben (p1/r1/rg1/rl1)
+startet automatisch neu. Die einzigen `@reboot`-Crons sind
+`dispatcher-reparse-launch.sh` (baut Dispatcher + EIN `r1` OHNE Tier +
+`rf1` Fable/engine — eine ANDERE Konfiguration, kollidiert im Fenster-Namen
+mit dem `r1` oben!) und `local-lanes-launch.sh` (anderes System,
+Triage/Record-Builder). `p1` kam ursprünglich aus einem EINMALIGEN
+datierten Cron (7.8., nicht wiederkehrend) — läuft NICHT nach Reboot neu an.
+Nach jedem Reboot manuell:
+```
+bash magic-ops/launchers/restore-launchers.sh   # git -> /tmp/orch
+tmux new-window -t dispatcher -n p1  'bash /opt/development/magic-ops/launchers/launch-p1.sh; exec bash'
+tmux new-window -t dispatcher -n r1  'bash /opt/development/magic-ops/launchers/launch-r1.sh; exec bash'
+tmux new-window -t dispatcher -n rg1 'bash /opt/development/magic-ops/launchers/launch-rg1.sh; exec bash'
+tmux new-window -t dispatcher -n rl1 'bash /opt/development/magic-ops/launchers/launch-rl1.sh; exec bash'
+tmux new-window -t dispatcher -n og1 'bash /opt/development/magic-ops/launchers/launch-og1.sh; exec bash'
+```
+(kb :4103 und shim :4102 haben eigene manuelle Startzeilen in der
+Components-Tabelle oben — ebenfalls nicht reboot-persistent.)

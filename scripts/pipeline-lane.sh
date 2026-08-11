@@ -124,8 +124,13 @@ c.execute(\"update tickets set priority=-10 where id=$TICKET and state='todo'\")
       fi
       log "#$TICKET escalated (retry counter++, deprioritized)";;
     *)
+      # Skiplist too (2026-08-10): without this, a ticket whose pack
+      # deterministically blows the model's max-turns/empty-reply case loops
+      # forever on this worker — found live on og1/#2874 (GLM-cloud, 2 back-
+      # to-back "empty twice — abort" cycles, re-claimed a 3rd time).
+      echo "$TICKET" >> "$SKIPLIST"
       report "$TICKET" retry infra "" "" "pipeline infra error rc=$rc" "$TOK"
-      log "#$TICKET infra error rc=$rc — returned"; sleep 60;;
+      log "#$TICKET infra error rc=$rc — skiplisted, returned"; sleep 60;;
   esac
   kill $HB 2>/dev/null
   sleep 5
