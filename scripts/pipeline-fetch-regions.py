@@ -67,8 +67,21 @@ for need in needs:
     if handled_range:
         continue
     paths = [t for t in re.findall(r'[\w./-]+\.(?:go|py)', need) if '/' in t or '.' in t]
+    # path_words: exclude words that just echo a requested path's own
+    # components (e.g. "reparse.py" in the NEED line makes "scripts",
+    # "paragraph", "reparse" look like content-search identifiers, but
+    # matching a file's own name/dir against ITS OWN docstring/imports is
+    # noise, not signal — confirmed live 2026-08-12 (ticket #3168,
+    # put_counters): those generic words hit early lines (docstring at
+    # line 1, "paragraph" in a comment at line 13) and crowded out the
+    # real "put_counter" hits starting at line 760 out of hits[:4]'s
+    # sorted-position cap, so the actually-relevant region never got
+    # served across 2 full NEED rounds. See memory
+    # circle_duplicate_primitive_waste.md for the related registry.go fix.
+    path_words = {w.lower() for p in paths for w in re.split(r'[/._-]', p) if w}
     idents = [t for t in re.findall(r'[A-Za-z_][A-Za-z0-9_]{4,}', need)
-              if t.lower() not in STOP and not t.endswith(('.go', '.py'))]
+              if t.lower() not in STOP and t.lower() not in path_words
+              and not t.endswith(('.go', '.py'))]
     handled = False
     for p in paths:
         if os.path.exists(p):
