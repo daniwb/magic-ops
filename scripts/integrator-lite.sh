@@ -59,6 +59,14 @@ push_deploy() { # $1 = commit message
   fi
   (cd backend && "$GO" build -o "$LIVE/bin/magic-api-server" ./api) >> "$LOG" 2>&1 \
     && sudo -n systemctl restart magic-backend 2>>"$LOG"
+  # $LIVE is a pure mirror of origin/main (deploy binary is built from $REPO
+  # above, independent of this) — it should never carry local edits of its
+  # own. Discard any drift before pulling: found 2026-08-11/12 that
+  # corpus/build-plan.jsonl/.md repeatedly went dirty in $LIVE (source
+  # unconfirmed) and silently blocked --ff-only on every single cycle
+  # (`|| true` swallowed it), letting $LIVE fall up to 30 commits behind
+  # with no error surfaced. See memory: integrator_lite_live_pull_silent_fail.
+  git -C "$LIVE" checkout -q -- . 2>>"$LOG"
   git -C "$LIVE" pull -q --ff-only 2>>"$LOG" || true
   # Keep the FTS5 knowledge service (:4103, used by map/engine/handler
   # pre-seeds) in step with what just landed — it only rebuilds at process
