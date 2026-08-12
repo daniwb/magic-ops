@@ -161,6 +161,12 @@ Aktuelle Lane-Konfiguration (Stand ~20:20 CEST) — Components-Tabelle oben
 maßgeblich:
 - `dispatcher:p1` — Sonnet, staged map→engine-Pipeline (7 Steps). Launcher
   `magic-ops/launchers/launch-p1.sh`. Läuft, Pace-Gate-gesteuert.
+- `dispatcher:p2` — zweite Sonnet-Lane, identisch zu p1 (eigener Klon via
+  WORKER_ID, keine Kollision). Launcher `launch-p2.sh`. Gestartet 2026-08-11
+  ~20:00 CEST ("4% übrig, lohnt sich bis 20:00").
+- `dispatcher:p3` — dritte Sonnet-Lane, identisch zu p1/p2. Launcher
+  `launch-p3.sh`. Gestartet 2026-08-12 ~10:46 CEST (Usage-Headroom bestätigt:
+  25%/5h, 44%/7d).
 - `dispatcher:r1` — Sonnet, TIER=engine, agentic (dispatcher-worker-reparse.sh).
   Launcher `launch-r1.sh`.
 - `dispatcher:rg1` — GLM-5.2 Ollama Cloud, TIER=engine (geändert von handler
@@ -192,7 +198,7 @@ maßgeblich:
   wird seit heute bei jedem `integrator-lite.sh`-Deploy automatisch
   neu gebaut (`push_deploy()` ruft `/reindex`).
 
-**WICHTIG — Reboot-Lücke:** keiner der vier Worker oben (p1/r1/rg1/rl1)
+**WICHTIG — Reboot-Lücke:** keiner der Worker oben (p1/p2/p3/r1/rg1/rl1/og1)
 startet automatisch neu. Die einzigen `@reboot`-Crons sind
 `dispatcher-reparse-launch.sh` (baut Dispatcher + EIN `r1` OHNE Tier +
 `rf1` Fable/engine — eine ANDERE Konfiguration, kollidiert im Fenster-Namen
@@ -203,6 +209,8 @@ Nach jedem Reboot manuell:
 ```
 bash magic-ops/launchers/restore-launchers.sh   # git -> /tmp/orch
 tmux new-window -t dispatcher -n p1  'bash /opt/development/magic-ops/launchers/launch-p1.sh; exec bash'
+tmux new-window -t dispatcher -n p2  'bash /opt/development/magic-ops/launchers/launch-p2.sh; exec bash'
+tmux new-window -t dispatcher -n p3  'bash /opt/development/magic-ops/launchers/launch-p3.sh; exec bash'
 tmux new-window -t dispatcher -n r1  'bash /opt/development/magic-ops/launchers/launch-r1.sh; exec bash'
 tmux new-window -t dispatcher -n rg1 'bash /opt/development/magic-ops/launchers/launch-rg1.sh; exec bash'
 tmux new-window -t dispatcher -n rl1 'bash /opt/development/magic-ops/launchers/launch-rl1.sh; exec bash'
