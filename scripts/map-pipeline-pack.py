@@ -76,6 +76,31 @@ for f in sorted(glob.glob('backend/data/carddb/*.json')):
 token = shape.split(':', 1)[1] if ':' in shape else shape
 token = re.sub(r'[^a-z_].*$', '', token) or token
 code_sections, budget = [], 260
+
+# registry.go exact-key check, added 2026-08-12 (see [[circle_duplicate_
+# primitive_waste]]): two confirmed false "no registered X primitive
+# exists" parks (tap, exile — both long-registered, core verbs), traced to
+# the model never being shown registry.go and not asking for it via NEED
+# for a verb that "obviously" seemed unregistered. A loose substring search
+# for "exile" in registry.go hits 20+ lines (other entries' comments
+# mentioning exile, e.g. the "destroy" entry's cross-reference) LONG before
+# the real `"exile": {...}` key at its own line — first-4-hits-with-±25-
+# window never reaches it. So this checks for the EXACT registered key
+# `"token": {` first (small, cheap, unambiguous — the one fact that matters
+# most for avoiding a duplicate-primitive park) before falling back to the
+# general substring search below for everything else.
+try:
+    reg_lines = open('backend/cards/registry.go', encoding='utf-8', errors='replace').read().splitlines()
+    key_re = re.compile(r'^\s*"%s":\s*\{' % re.escape(token))
+    key_hit = next((i for i, l in enumerate(reg_lines) if key_re.match(l)), None)
+    if key_hit is not None:
+        lo, hi = key_hit, min(len(reg_lines), key_hit + 6)
+        seg = '\n'.join('%5d %s' % (i + 1, reg_lines[i]) for i in range(lo, hi))
+        code_sections.append('### backend/cards/registry.go:%d-%d (exact key match for "%s")\n%s' % (lo + 1, hi, token, seg))
+        budget -= (hi - lo)
+except OSError:
+    pass
+
 files = ['scripts/paragraph/slotparse_triggered.py', 'scripts/paragraph/reparse.py',
          'scripts/paragraph/slotparse.py', 'backend/cards/v2.go', 'backend/cards/converter.go']
 for f in files:
