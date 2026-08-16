@@ -28,11 +28,16 @@ LOG="/tmp/orch/pipeline-$TICKET.log"
 log() { printf '[%s] pipe-%s: %s\n' "$(date +%H:%M:%S)" "$TICKET" "$*" | tee -a "$LOG"; }
 ATTEMPT_ID=""
 finish_attempt() {
-  local rc="$1" outcome failure tok
+  local rc="$1" outcome failure tok verdict reply
   [ -z "$ATTEMPT_ID" ] && return 0
   case "$rc" in
     0) outcome=green; failure="";;
-    4) outcome=parked; failure=capability_required;;
+    4)
+      outcome=parked
+      reply=$(ls -1t "/tmp/orch/pipeline-$TICKET-reply-"*.md 2>/dev/null | head -1)
+      verdict=$(command grep -ahom1 'VERDICT: [A-Z_]*' "$reply" 2>/dev/null | awk '{print tolower($2)}')
+      failure="verdict_${verdict:-unknown}"
+      ;;
     2) outcome=failed; failure=gate_exhausted;;
     *) outcome=failed; failure=infra;;
   esac
