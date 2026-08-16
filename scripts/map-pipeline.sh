@@ -96,6 +96,45 @@ ATTEMPT_ID=$(jq -n --argjson ticket "$TICKET" --arg worker "${PIPE_WORKER_ID:-}"
 
 # ---- Stage B/C loop: model call -> apply -> gate (max 2 calls) ----
 model_call() { # stdin: prompt -> stdout: model text
+  # Codex lane (PIPE_ENGINE=codex): same staged single-shot contract as the
+  # claude branch below (pack in on stdin, edit-blocks/verdict/NEED text
+  # out), via `codex exec --json` instead of `claude -p`. --sandbox
+  # read-only is a soft guard, not a hard tool-block like claude's
+  # --disallowedTools — codex is inherently agentic and MAY explore the
+  # clone with read-only shell commands despite the pack's "no exploration
+  # budget" framing; that's a real cost-model difference from the claude
+  # branch, not a bug. `codex exec --json` streams JSONL events; the reply
+  # is the LAST `agent_message` item (codex's own commentary/final channel
+  # split — earlier agent_message items are intermediate commentary, per
+  # codex's own system prompt), and per-call usage comes off the trailing
+  # `turn.completed` event. Verified live 2026-08-16 against a real pack
+  # (ticket #3452): correctly emitted a NEED: line, same as claude.
+  if [ "${PIPE_ENGINE:-}" = codex ]; then
+    local raw
+    raw=$(timeout -k 30 900 codex exec --json --sandbox read-only -m "$MODEL" 2>>"$LOG")
+    printf '%s' "$raw" > "/tmp/orch/pipeline-$TICKET-raw-last.json"
+    printf '%s' "$raw" | python3 -c "
+import json, sys
+text, tin, tout, cr, cw = '', 0, 0, 0, 0
+for line in sys.stdin:
+    line = line.strip()
+    if not line:
+        continue
+    try:
+        ev = json.loads(line)
+    except Exception:
+        continue
+    if ev.get('type') == 'item.completed' and ev.get('item', {}).get('type') == 'agent_message':
+        text = ev['item'].get('text', '')
+    elif ev.get('type') == 'turn.completed':
+        u = ev.get('usage', {})
+        tin, cr, cw = u.get('input_tokens', 0), u.get('cached_input_tokens', 0), u.get('cache_write_input_tokens', 0)
+        tout = u.get('output_tokens', 0) + u.get('reasoning_output_tokens', 0)
+print('tokens: in=%d out=%d cache_r=%d cache_w=%d' % (tin, tout, cr, cw), file=sys.stderr)
+sys.stdout.write(text)
+" 2>>"$LOG"
+    return
+  fi
   # Local lane (PIPE_BASE_URL): bypass the claude CLI — it always advertises
   # internal tools, and gpt-oss answers with finish_reason=tool_calls + empty
   # content. Bare /v1/messages with NO tools forces final-channel text

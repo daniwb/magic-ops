@@ -28,8 +28,17 @@ log() { printf '[%s] %s: %s\n' "$(date +%H:%M:%S)" "$WORKER_ID" "$*"; }
 # fail-open only after 30min blind) and the 5h hard ceiling. The earlier
 # ad-hoc 75%/99% flat gate here ignored that canon (2026-08-08).
 source "$OPS/scripts/lib-pace-gate.sh"
+source "$OPS/scripts/lib-pace-gate-codex.sh"
 source "$OPS/scripts/lib-prim-extract.sh"
 usage_gate() {
+  # PIPE_ENGINE=codex (pipe-codex lane, 2026-08-16): codex has its own
+  # account rate-limit window, unrelated to Claude's — gate on that instead.
+  # See lib-pace-gate-codex.sh for how the usage number is even obtained
+  # (no public codex CLI flag exposes it).
+  if [ "${PIPE_ENGINE:-}" = codex ]; then
+    if ! pace_ok_codex; then log "codex pace-gate: over daily step — pause"; return 1; fi
+    return 0
+  fi
   if ! pace_ok; then log "pace-gate: over daily step — pause"; return 1; fi
   return 0
 }
