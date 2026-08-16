@@ -98,6 +98,51 @@ CREATE TABLE IF NOT EXISTS events (
 CREATE INDEX IF NOT EXISTS idx_ev_ticket ON events(ticket_id);
 CREATE TABLE IF NOT EXISTS meta (k TEXT PRIMARY KEY, v TEXT);
 CREATE TABLE IF NOT EXISTS snapshots (ts INTEGER PRIMARY KEY, counts TEXT, fixed_total INTEGER);
+CREATE TABLE IF NOT EXISTS capabilities (
+  id                    INTEGER PRIMARY KEY AUTOINCREMENT,
+  capability_key        TEXT NOT NULL UNIQUE,
+  summary               TEXT NOT NULL,
+  specification_json    TEXT NOT NULL,
+  state                 TEXT NOT NULL DEFAULT 'open',
+  implementation_branch TEXT NOT NULL DEFAULT '',
+  implementation_commit TEXT NOT NULL DEFAULT '',
+  created_at            INTEGER NOT NULL,
+  updated_at            INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_capability_state ON capabilities(state);
+CREATE TABLE IF NOT EXISTS ticket_capabilities (
+  ticket_id     INTEGER NOT NULL,
+  capability_id INTEGER NOT NULL,
+  state          TEXT NOT NULL DEFAULT 'blocked',
+  evidence_json  TEXT NOT NULL DEFAULT '{}',
+  created_at     INTEGER NOT NULL,
+  updated_at     INTEGER NOT NULL,
+  PRIMARY KEY(ticket_id, capability_id)
+);
+CREATE INDEX IF NOT EXISTS idx_ticket_capability_cap ON ticket_capabilities(capability_id,state);
+CREATE TABLE IF NOT EXISTS attempts (
+  id             INTEGER PRIMARY KEY AUTOINCREMENT,
+  ticket_id      INTEGER NOT NULL DEFAULT 0,
+  capability_id  INTEGER NOT NULL DEFAULT 0,
+  worker_id      TEXT NOT NULL DEFAULT '',
+  pipeline       TEXT NOT NULL,
+  model          TEXT NOT NULL DEFAULT '',
+  ops_sha        TEXT NOT NULL DEFAULT '',
+  repo_sha       TEXT NOT NULL DEFAULT '',
+  pack_sha       TEXT NOT NULL DEFAULT '',
+  started_at     INTEGER NOT NULL,
+  finished_at    INTEGER NOT NULL DEFAULT 0,
+  outcome        TEXT NOT NULL DEFAULT 'running',
+  failure_kind   TEXT NOT NULL DEFAULT '',
+  input_tokens   INTEGER NOT NULL DEFAULT 0,
+  output_tokens  INTEGER NOT NULL DEFAULT 0,
+  cache_read     INTEGER NOT NULL DEFAULT 0,
+  cache_write    INTEGER NOT NULL DEFAULT 0,
+  metrics_json   TEXT NOT NULL DEFAULT '{}',
+  note           TEXT NOT NULL DEFAULT ''
+);
+CREATE INDEX IF NOT EXISTS idx_attempt_ticket ON attempts(ticket_id,started_at);
+CREATE INDEX IF NOT EXISTS idx_attempt_capability ON attempts(capability_id,started_at);
 `)
 	if err != nil {
 		log.Fatal(err)
@@ -121,7 +166,364 @@ func metaGet(k string) string {
 	db.QueryRow(`SELECT v FROM meta WHERE k=?`, k).Scan(&v)
 	return v
 }
-func metaSet(k, v string) { db.Exec(`INSERT INTO meta(k,v) VALUES(?,?) ON CONFLICT(k) DO UPDATE SET v=?`, k, v, v) }
+func metaSet(k, v string) {
+	db.Exec(`INSERT INTO meta(k,v) VALUES(?,?) ON CONFLICT(k) DO UPDATE SET v=?`, k, v, v)
+}
+
+// CapabilityDemand is the durable map->engine contract. A demand describes
+// exactly one engine capability; tickets may depend on several demands and a
+// demand may block several tickets. Specification stays JSON so the contract
+// can grow without another dispatcher migration.
+type CapabilityDemand struct {
+	TicketID      int64           `json:"ticket_id"`
+	Key           string          `json:"key"`
+	Summary       string          `json:"summary"`
+	Specification json.RawMessage `json:"specification"`
+	Evidence      json.RawMessage `json:"evidence,omitempty"`
+}
+
+type CapabilitySourceMiss struct {
+	Card             string `json:"card"`
+	Paragraph        string `json:"paragraph"`
+	RequiredBehavior string `json:"required_behavior"`
+}
+
+type CapabilitySpecification struct {
+	RequiredBehavior string                 `json:"required_behavior"`
+	SourceMisses     []CapabilitySourceMiss `json:"source_misses"`
+	NegativeExamples []string               `json:"negative_examples,omitempty"`
+	ExpectedUnlock   int                    `json:"expected_unlock,omitempty"`
+}
+
+func validCapabilityKey(s string) bool {
+	if s == "" || len(s) > 96 {
+		return false
+	}
+	for i, r := range s {
+		if (r >= 'a' && r <= 'z') || (r >= '0' && r <= '9' && i > 0) || (r == '_' && i > 0) {
+			continue
+		}
+		return false
+	}
+	return !strings.HasSuffix(s, "_") && !strings.Contains(s, "__")
+}
+
+func validateCapabilityDemand(q CapabilityDemand) error {
+	if q.TicketID <= 0 {
+		return fmt.Errorf("ticket_id must be positive")
+	}
+	if !validCapabilityKey(q.Key) {
+		return fmt.Errorf("key must be lowercase snake_case")
+	}
+	if strings.TrimSpace(q.Summary) == "" {
+		return fmt.Errorf("summary is required")
+	}
+	var spec CapabilitySpecification
+	if len(q.Specification) == 0 || json.Unmarshal(q.Specification, &spec) != nil {
+		return fmt.Errorf("specification must be valid JSON")
+	}
+	if strings.TrimSpace(spec.RequiredBehavior) == "" || len(spec.SourceMisses) == 0 {
+		return fmt.Errorf("specification requires required_behavior and source_misses")
+	}
+	for _, miss := range spec.SourceMisses {
+		if strings.TrimSpace(miss.Card) == "" || strings.TrimSpace(miss.Paragraph) == "" || strings.TrimSpace(miss.RequiredBehavior) == "" {
+			return fmt.Errorf("each source miss requires card, paragraph, and required_behavior")
+		}
+		// The top-level behavior is the atomicity key. Mixed behaviors must be
+		// split into separate demands instead of being hidden in one bucket.
+		if normKey(miss.RequiredBehavior) != normKey(spec.RequiredBehavior) {
+			return fmt.Errorf("heterogeneous source_misses: split into one capability per required_behavior")
+		}
+	}
+	return nil
+}
+
+func mergeCapabilitySpecifications(existing, incoming json.RawMessage) (json.RawMessage, error) {
+	var a, b CapabilitySpecification
+	if json.Unmarshal(existing, &a) != nil || json.Unmarshal(incoming, &b) != nil {
+		return nil, fmt.Errorf("invalid capability specification")
+	}
+	if normKey(a.RequiredBehavior) != normKey(b.RequiredBehavior) {
+		return nil, fmt.Errorf("capability key collision: required behaviors differ")
+	}
+	seen := map[string]bool{}
+	for _, miss := range a.SourceMisses {
+		seen[miss.Card+"\x00"+miss.Paragraph] = true
+	}
+	for _, miss := range b.SourceMisses {
+		key := miss.Card + "\x00" + miss.Paragraph
+		if !seen[key] {
+			a.SourceMisses = append(a.SourceMisses, miss)
+			seen[key] = true
+		}
+	}
+	neg := map[string]bool{}
+	for _, example := range a.NegativeExamples {
+		neg[example] = true
+	}
+	for _, example := range b.NegativeExamples {
+		if !neg[example] {
+			a.NegativeExamples = append(a.NegativeExamples, example)
+			neg[example] = true
+		}
+	}
+	if b.ExpectedUnlock > a.ExpectedUnlock {
+		a.ExpectedUnlock = b.ExpectedUnlock
+	}
+	out, err := json.Marshal(a)
+	return json.RawMessage(out), err
+}
+
+func capabilityDemand(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "POST required", http.StatusMethodNotAllowed)
+		return
+	}
+	var q CapabilityDemand
+	if err := json.NewDecoder(io.LimitReader(r.Body, 1<<20)).Decode(&q); err != nil {
+		http.Error(w, "invalid JSON: "+err.Error(), 400)
+		return
+	}
+	if err := validateCapabilityDemand(q); err != nil {
+		http.Error(w, err.Error(), 422)
+		return
+	}
+	evidence := q.Evidence
+	if len(evidence) == 0 {
+		evidence = json.RawMessage(`{}`)
+	}
+	mu.Lock()
+	defer mu.Unlock()
+	var ticketExists int
+	db.QueryRow(`SELECT COUNT(*) FROM tickets WHERE id=?`, q.TicketID).Scan(&ticketExists)
+	if ticketExists == 0 {
+		http.Error(w, "ticket not found", 404)
+		return
+	}
+	ts := now()
+	var existing string
+	if err := db.QueryRow(`SELECT specification_json FROM capabilities WHERE capability_key=?`, q.Key).Scan(&existing); err == nil {
+		merged, mergeErr := mergeCapabilitySpecifications(json.RawMessage(existing), q.Specification)
+		if mergeErr != nil {
+			http.Error(w, mergeErr.Error(), 409)
+			return
+		}
+		q.Specification = merged
+	}
+	_, err := db.Exec(`INSERT INTO capabilities(capability_key,summary,specification_json,created_at,updated_at)
+		VALUES(?,?,?,?,?) ON CONFLICT(capability_key) DO UPDATE SET
+		summary=excluded.summary,specification_json=excluded.specification_json,updated_at=excluded.updated_at`,
+		q.Key, q.Summary, string(q.Specification), ts, ts)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	var cid int64
+	var capabilityState string
+	db.QueryRow(`SELECT id,state FROM capabilities WHERE capability_key=?`, q.Key).Scan(&cid, &capabilityState)
+	dependencyState := "blocked"
+	if capabilityState == "implemented" {
+		dependencyState = "ready_to_map"
+	}
+	_, err = db.Exec(`INSERT INTO ticket_capabilities(ticket_id,capability_id,state,evidence_json,created_at,updated_at)
+		VALUES(?,?,?,?,?,?) ON CONFLICT(ticket_id,capability_id) DO UPDATE SET
+		evidence_json=excluded.evidence_json,state=excluded.state,updated_at=excluded.updated_at`,
+		q.TicketID, cid, dependencyState, string(evidence), ts, ts)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	addEvent(q.TicketID, fmt.Sprintf("CAPABILITY #%d %s linked", cid, q.Key))
+	writeJSON(w, map[string]any{"id": cid, "key": q.Key, "state": capabilityState})
+}
+
+func capabilityComplete(w http.ResponseWriter, r *http.Request) {
+	var q struct {
+		ID     int64  `json:"id"`
+		Branch string `json:"branch"`
+		Commit string `json:"commit"`
+	}
+	if r.Method != http.MethodPost || json.NewDecoder(io.LimitReader(r.Body, 1<<20)).Decode(&q) != nil {
+		http.Error(w, "valid POST JSON required", 400)
+		return
+	}
+	if q.ID <= 0 || q.Commit == "" {
+		http.Error(w, "id and commit are required", 422)
+		return
+	}
+	mu.Lock()
+	defer mu.Unlock()
+	var currentState, currentCommit string
+	if err := db.QueryRow(`SELECT state,implementation_commit FROM capabilities WHERE id=?`, q.ID).Scan(&currentState, &currentCommit); err != nil {
+		http.Error(w, "capability not found", 404)
+		return
+	}
+	if currentState == "implemented" && currentCommit == q.Commit {
+		writeJSON(w, map[string]any{"ok": true, "idempotent": true})
+		return
+	}
+	res, err := db.Exec(`UPDATE capabilities SET state='implemented',implementation_branch=?,implementation_commit=?,updated_at=?
+		WHERE id=? AND state!='implemented'`, q.Branch, q.Commit, now(), q.ID)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	n, _ := res.RowsAffected()
+	if n == 0 {
+		http.Error(w, "capability not found or already complete", 409)
+		return
+	}
+	db.Exec(`UPDATE ticket_capabilities SET state='ready_to_map',updated_at=? WHERE capability_id=? AND state='blocked'`, now(), q.ID)
+	rows, _ := db.Query(`SELECT ticket_id FROM ticket_capabilities WHERE capability_id=?`, q.ID)
+	var tids []int64
+	for rows.Next() {
+		var tid int64
+		rows.Scan(&tid)
+		tids = append(tids, tid)
+	}
+	rows.Close()
+	for _, tid := range tids {
+		// A ticket is map-ready only when every linked capability is implemented.
+		var remaining int
+		db.QueryRow(`SELECT COUNT(*) FROM ticket_capabilities tc JOIN capabilities c ON c.id=tc.capability_id
+			WHERE tc.ticket_id=? AND c.state!='implemented'`, tid).Scan(&remaining)
+		if remaining == 0 {
+			db.Exec(`UPDATE tickets SET state='todo',worker_id='',lease_exp=0,retry_count=0,priority=60,updated_at=?
+				WHERE id=? AND state='blocked'`, now(), tid)
+			addEvent(tid, fmt.Sprintf("all capabilities implemented; requeued after capability #%d", q.ID))
+		}
+	}
+	writeJSON(w, map[string]any{"ok": true, "dependent_tickets": len(tids)})
+}
+
+type AttemptRecord struct {
+	ID           int64           `json:"id,omitempty"`
+	TicketID     int64           `json:"ticket_id"`
+	CapabilityID int64           `json:"capability_id,omitempty"`
+	WorkerID     string          `json:"worker_id,omitempty"`
+	Pipeline     string          `json:"pipeline"`
+	Model        string          `json:"model,omitempty"`
+	OpsSHA       string          `json:"ops_sha,omitempty"`
+	RepoSHA      string          `json:"repo_sha,omitempty"`
+	PackSHA      string          `json:"pack_sha,omitempty"`
+	Outcome      string          `json:"outcome,omitempty"`
+	FailureKind  string          `json:"failure_kind,omitempty"`
+	InputTokens  int64           `json:"input_tokens,omitempty"`
+	OutputTokens int64           `json:"output_tokens,omitempty"`
+	CacheRead    int64           `json:"cache_read,omitempty"`
+	CacheWrite   int64           `json:"cache_write,omitempty"`
+	Metrics      json.RawMessage `json:"metrics,omitempty"`
+	Note         string          `json:"note,omitempty"`
+}
+
+func attemptStart(w http.ResponseWriter, r *http.Request) {
+	var q AttemptRecord
+	if r.Method != http.MethodPost || json.NewDecoder(io.LimitReader(r.Body, 1<<20)).Decode(&q) != nil {
+		http.Error(w, "valid POST JSON required", 400)
+		return
+	}
+	if q.TicketID <= 0 || strings.TrimSpace(q.Pipeline) == "" {
+		http.Error(w, "ticket_id and pipeline are required", 422)
+		return
+	}
+	mu.Lock()
+	defer mu.Unlock()
+	var valid int
+	if q.CapabilityID > 0 {
+		db.QueryRow(`SELECT COUNT(*) FROM ticket_capabilities WHERE ticket_id=? AND capability_id=?`, q.TicketID, q.CapabilityID).Scan(&valid)
+	} else {
+		db.QueryRow(`SELECT COUNT(*) FROM tickets WHERE id=?`, q.TicketID).Scan(&valid)
+	}
+	if valid == 0 {
+		http.Error(w, "ticket/capability relationship not found", 404)
+		return
+	}
+	res, err := db.Exec(`INSERT INTO attempts(ticket_id,capability_id,worker_id,pipeline,model,ops_sha,repo_sha,pack_sha,started_at)
+		VALUES(?,?,?,?,?,?,?,?,?)`, q.TicketID, q.CapabilityID, q.WorkerID, q.Pipeline, q.Model, q.OpsSHA, q.RepoSHA, q.PackSHA, now())
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	id, _ := res.LastInsertId()
+	writeJSON(w, map[string]any{"id": id})
+}
+
+func attemptFinish(w http.ResponseWriter, r *http.Request) {
+	var q AttemptRecord
+	if r.Method != http.MethodPost || json.NewDecoder(io.LimitReader(r.Body, 1<<20)).Decode(&q) != nil {
+		http.Error(w, "valid POST JSON required", 400)
+		return
+	}
+	if q.ID <= 0 || strings.TrimSpace(q.Outcome) == "" {
+		http.Error(w, "id and outcome are required", 422)
+		return
+	}
+	metrics := q.Metrics
+	if len(metrics) == 0 {
+		metrics = json.RawMessage(`{}`)
+	}
+	mu.Lock()
+	defer mu.Unlock()
+	res, err := db.Exec(`UPDATE attempts SET finished_at=?,outcome=?,failure_kind=?,input_tokens=?,output_tokens=?,cache_read=?,cache_write=?,metrics_json=?,note=?
+		WHERE id=? AND outcome='running'`, now(), q.Outcome, q.FailureKind, q.InputTokens, q.OutputTokens, q.CacheRead, q.CacheWrite, string(metrics), q.Note, q.ID)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	n, _ := res.RowsAffected()
+	if n == 0 {
+		http.Error(w, "attempt not found or already finished", 409)
+		return
+	}
+	writeJSON(w, map[string]any{"ok": true})
+}
+
+func attemptList(w http.ResponseWriter, r *http.Request) {
+	limit := 100
+	fmt.Sscanf(r.URL.Query().Get("limit"), "%d", &limit)
+	if limit <= 0 || limit > 500 {
+		limit = 100
+	}
+	pipeline := r.URL.Query().Get("pipeline")
+	since := int64(0)
+	fmt.Sscanf(r.URL.Query().Get("since"), "%d", &since)
+	query := `SELECT id,ticket_id,capability_id,worker_id,pipeline,model,ops_sha,repo_sha,pack_sha,
+		started_at,finished_at,outcome,failure_kind,input_tokens,output_tokens,cache_read,cache_write,metrics_json,note
+		FROM attempts WHERE started_at>=?`
+	args := []any{since}
+	if pipeline != "" {
+		query += ` AND pipeline=?`
+		args = append(args, pipeline)
+	}
+	query += ` ORDER BY id DESC LIMIT ?`
+	args = append(args, limit)
+	mu.Lock()
+	defer mu.Unlock()
+	rows, err := db.Query(query, args...)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	defer rows.Close()
+	out := []map[string]any{}
+	for rows.Next() {
+		var id, tid, cid, started, finished, inTok, outTok, cr, cw int64
+		var worker, pipe, model, opsSHA, repoSHA, packSHA, outcome, failure, metrics, note string
+		rows.Scan(&id, &tid, &cid, &worker, &pipe, &model, &opsSHA, &repoSHA, &packSHA,
+			&started, &finished, &outcome, &failure, &inTok, &outTok, &cr, &cw, &metrics, &note)
+		var metricValue any
+		if json.Unmarshal([]byte(metrics), &metricValue) != nil {
+			metricValue = map[string]any{}
+		}
+		out = append(out, map[string]any{"id": id, "ticket_id": tid, "capability_id": cid,
+			"worker_id": worker, "pipeline": pipe, "model": model, "ops_sha": opsSHA,
+			"repo_sha": repoSHA, "pack_sha": packSHA, "started_at": started,
+			"finished_at": finished, "outcome": outcome, "failure_kind": failure,
+			"input_tokens": inTok, "output_tokens": outTok, "cache_read": cr,
+			"cache_write": cw, "metrics": metricValue, "note": note})
+	}
+	writeJSON(w, out)
+}
 
 // ---- Backlog-Ingest: liest backlog.jsonl ab gespeichertem Offset ----
 func ingestBacklog(limit int) int {
@@ -204,9 +606,9 @@ func claim(w http.ResponseWriter, r *http.Request) {
 
 	// gleicher Worker mit lebender Lease → dasselbe Ticket
 	var t struct {
-		ID              int64
-		Title, Descr    string
-		Retry           int
+		ID           int64
+		Title, Descr string
+		Retry        int
 	}
 	row := db.QueryRow(`SELECT id,title,descr,retry_count FROM tickets
 	                    WHERE state='working' AND worker_id=? AND lease_exp>? LIMIT 1`, worker, now())
@@ -330,6 +732,7 @@ func report(w http.ResponseWriter, r *http.Request) {
 	switch {
 	case q.Status == "fixed":
 		db.Exec(`UPDATE tickets SET state='done',updated_at=? WHERE id=?`, now(), tid)
+		db.Exec(`UPDATE ticket_capabilities SET state='mapped',updated_at=? WHERE ticket_id=? AND state='ready_to_map'`, now(), tid)
 		addEvent(tid, fmt.Sprintf("FIXED by %s [%d tok]; %s", q.WorkerID, q.Tokens, q.Note))
 		for _, s := range q.Skipped {
 			splitTitle := fmt.Sprintf("DSL-SPLIT: %s (from #%d)", s.Card, tid)
@@ -341,6 +744,11 @@ func report(w http.ResponseWriter, r *http.Request) {
 		}
 		log.Printf("report #%d FIXED", tid)
 
+	case q.Status == "parked" && q.Reason == "structured_capability":
+		db.Exec(`UPDATE tickets SET state='blocked',missing_prim=?,vocab_id=0,updated_at=? WHERE id=?`, q.MissingPrimitive, now(), tid)
+		addEvent(tid, "BLOCKED on structured capability "+q.MissingPrimitive)
+		log.Printf("report #%d BLOCKED capability (%s)", tid, q.MissingPrimitive)
+
 	case q.Status == "parked" && q.Reason == "missing_primitive":
 		vid := fileVocab(q.MissingPrimitive, q.PrimitiveWhy, tid, title)
 		db.Exec(`UPDATE tickets SET state='blocked',missing_prim=?,vocab_id=?,updated_at=? WHERE id=?`, q.MissingPrimitive, vid, now(), tid)
@@ -350,6 +758,10 @@ func report(w http.ResponseWriter, r *http.Request) {
 	case q.Status == "parked" && q.Reason == "max_retry_reached":
 		db.Exec(`UPDATE tickets SET state='wait',updated_at=? WHERE id=?`, now(), tid)
 		addEvent(tid, "WAIT-TRIAGE; "+q.Note)
+
+	case q.Status == "parked" && q.Reason == "capability_review":
+		db.Exec(`UPDATE tickets SET state='wait',worker_id='',lease_exp=0,updated_at=? WHERE id=?`, now(), tid)
+		addEvent(tid, "CAPABILITY-REVIEW; "+q.Note)
 
 	case q.Status == "retry" && q.Reason == "infra":
 		db.Exec(`UPDATE tickets SET state='todo',worker_id='',lease_exp=0,updated_at=? WHERE id=?`, now(), tid)
@@ -421,9 +833,9 @@ func reaper() {
 		mu.Lock()
 		rows, _ := db.Query(`SELECT id,worker_id,retry_count FROM tickets WHERE state='working' AND lease_exp<?`, now())
 		type ex struct {
-			id    int64
-			w     string
-			rc    int
+			id int64
+			w  string
+			rc int
 		}
 		var list []ex
 		for rows.Next() {
@@ -1018,8 +1430,8 @@ func ticketDetail(w http.ResponseWriter, r *http.Request) {
 	        created_at,updated_at FROM tickets WHERE id=?`, id)
 	var t struct {
 		ID, LeaseExp, VocabID, ParentID, Prio, Tokens, Created, Updated int64
-		Retry                                                          int
-		Type, Title, Descr, Mech, State, Worker, Missing, Model        string
+		Retry                                                           int
+		Type, Title, Descr, Mech, State, Worker, Missing, Model         string
 	}
 	if err := row.Scan(&t.ID, &t.Type, &t.Title, &t.Descr, &t.Mech, &t.State, &t.Worker,
 		&t.LeaseExp, &t.Retry, &t.Missing, &t.VocabID, &t.ParentID, &t.Prio,
@@ -1043,6 +1455,38 @@ func ticketDetail(w http.ResponseWriter, r *http.Request) {
 		rows.Close()
 	}
 	out["events"] = evs
+	caps := []map[string]any{}
+	if rows, err := db.Query(`SELECT c.id,c.capability_key,c.summary,c.state,tc.state,c.implementation_branch,c.implementation_commit
+		FROM ticket_capabilities tc JOIN capabilities c ON c.id=tc.capability_id
+		WHERE tc.ticket_id=? ORDER BY c.id`, id); err == nil {
+		for rows.Next() {
+			var cid int64
+			var key, summary, capState, depState, branch, commit string
+			rows.Scan(&cid, &key, &summary, &capState, &depState, &branch, &commit)
+			caps = append(caps, map[string]any{"id": cid, "key": key, "summary": summary,
+				"state": capState, "dependency_state": depState, "branch": branch, "commit": commit})
+		}
+		rows.Close()
+	}
+	out["capabilities"] = caps
+	attempts := []map[string]any{}
+	if rows, err := db.Query(`SELECT id,capability_id,worker_id,pipeline,model,ops_sha,repo_sha,pack_sha,
+		started_at,finished_at,outcome,failure_kind,input_tokens,output_tokens,cache_read,cache_write,note
+		FROM attempts WHERE ticket_id=? ORDER BY id`, id); err == nil {
+		for rows.Next() {
+			var aid, cid, started, finished, inTok, outTok, cr, cw int64
+			var worker, pipeline, model, opsSHA, repoSHA, packSHA, outcome, failure, note string
+			rows.Scan(&aid, &cid, &worker, &pipeline, &model, &opsSHA, &repoSHA, &packSHA,
+				&started, &finished, &outcome, &failure, &inTok, &outTok, &cr, &cw, &note)
+			attempts = append(attempts, map[string]any{"id": aid, "capability_id": cid, "worker_id": worker,
+				"pipeline": pipeline, "model": model, "ops_sha": opsSHA, "repo_sha": repoSHA,
+				"pack_sha": packSHA, "started_at": started, "finished_at": finished,
+				"outcome": outcome, "failure_kind": failure, "input_tokens": inTok,
+				"output_tokens": outTok, "cache_read": cr, "cache_write": cw, "note": note})
+		}
+		rows.Close()
+	}
+	out["attempts"] = attempts
 	// local_triage-Sidecar existiert erst nach dem ersten Lauf von local-triage-queue.sh
 	if rows, err := db.Query(`SELECT ts,model,verdict,tier,evidence FROM local_triage WHERE ticket_id=?`, id); err == nil {
 		for rows.Next() {
@@ -1227,6 +1671,11 @@ func main() {
 	http.HandleFunc("/claim", claim)
 	http.HandleFunc("/heartbeat", heartbeat)
 	http.HandleFunc("/report", report)
+	http.HandleFunc("/capability-demand", capabilityDemand)
+	http.HandleFunc("/capability/complete", capabilityComplete)
+	http.HandleFunc("/attempt/start", attemptStart)
+	http.HandleFunc("/attempt/finish", attemptFinish)
+	http.HandleFunc("/attempts", attemptList)
 	http.HandleFunc("/vocab-close", vocabClose)
 	http.HandleFunc("/vocab-list", vocabList)
 	http.HandleFunc("/vocab-fail", vocabFail)

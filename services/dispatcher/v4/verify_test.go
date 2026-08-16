@@ -234,25 +234,164 @@ func TestVocabListAndFail(t *testing.T) {
 func TestVocabMerge(t *testing.T) {
 	setup(t)
 	// zwei Karten auf zwei verschiedene (aber semantisch gleiche) Primitive blockieren
-	id1,_ := doClaim(t,"a")
-	doReport(fmt.Sprintf(`{"ticket_id":"%d","worker_id":"a","status":"parked","reason":"missing_primitive","missing_primitive":"alpha-one","primitive_why":"x"}`,id1))
-	id2,_ := doClaim(t,"b")
-	doReport(fmt.Sprintf(`{"ticket_id":"%d","worker_id":"b","status":"parked","reason":"missing_primitive","missing_primitive":"alpha-two-different","primitive_why":"y"}`,id2))
+	id1, _ := doClaim(t, "a")
+	doReport(fmt.Sprintf(`{"ticket_id":"%d","worker_id":"a","status":"parked","reason":"missing_primitive","missing_primitive":"alpha-one","primitive_why":"x"}`, id1))
+	id2, _ := doClaim(t, "b")
+	doReport(fmt.Sprintf(`{"ticket_id":"%d","worker_id":"b","status":"parked","reason":"missing_primitive","missing_primitive":"alpha-two-different","primitive_why":"y"}`, id2))
 	// vocab-ids ermitteln
-	var v1,v2 int64
-	db.QueryRow(`SELECT vocab_id FROM tickets WHERE id=?`,id1).Scan(&v1)
-	db.QueryRow(`SELECT vocab_id FROM tickets WHERE id=?`,id2).Scan(&v2)
-	if v1==v2 { t.Fatal("should be two distinct vocabs") }
+	var v1, v2 int64
+	db.QueryRow(`SELECT vocab_id FROM tickets WHERE id=?`, id1).Scan(&v1)
+	db.QueryRow(`SELECT vocab_id FROM tickets WHERE id=?`, id2).Scan(&v2)
+	if v1 == v2 {
+		t.Fatal("should be two distinct vocabs")
+	}
 	// v2 in v1 mergen
-	rec:=httptest.NewRecorder()
-	vocabMerge(rec,httptest.NewRequest("GET",fmt.Sprintf("/vocab-merge?from=%d&to=%d",v2,v1),nil))
-	if rec.Code!=200 { t.Fatalf("merge code %d",rec.Code) }
+	rec := httptest.NewRecorder()
+	vocabMerge(rec, httptest.NewRequest("GET", fmt.Sprintf("/vocab-merge?from=%d&to=%d", v2, v1), nil))
+	if rec.Code != 200 {
+		t.Fatalf("merge code %d", rec.Code)
+	}
 	// v2 geschlossen, dessen Karte hängt jetzt an v1
-	if state(v2)!="done" { t.Fatalf("dupe not closed: %s",state(v2)) }
-	var vc int64; db.QueryRow(`SELECT vocab_id FROM tickets WHERE id=?`,id2).Scan(&vc)
-	if vc!=v1 { t.Fatalf("card2 not moved to canonical: %d != %d",vc,v1) }
+	if state(v2) != "done" {
+		t.Fatalf("dupe not closed: %s", state(v2))
+	}
+	var vc int64
+	db.QueryRow(`SELECT vocab_id FROM tickets WHERE id=?`, id2).Scan(&vc)
+	if vc != v1 {
+		t.Fatalf("card2 not moved to canonical: %d != %d", vc, v1)
+	}
 	// vocab-close v1 muss jetzt BEIDE Karten requeuen
-	rec=httptest.NewRecorder()
-	vocabClose(rec,httptest.NewRequest("GET",fmt.Sprintf("/vocab-close?id=%d",v1),nil))
-	if state(id1)!="todo" || state(id2)!="todo" { t.Fatalf("both cards should requeue: %s %s",state(id1),state(id2)) }
+	rec = httptest.NewRecorder()
+	vocabClose(rec, httptest.NewRequest("GET", fmt.Sprintf("/vocab-close?id=%d", v1), nil))
+	if state(id1) != "todo" || state(id2) != "todo" {
+		t.Fatalf("both cards should requeue: %s %s", state(id1), state(id2))
+	}
+}
+
+func postJSON(handler http.HandlerFunc, path, body string) *httptest.ResponseRecorder {
+	rec := httptest.NewRecorder()
+	handler(rec, httptest.NewRequest(http.MethodPost, path, strings.NewReader(body)))
+	return rec
+}
+
+func TestCapabilityDemandAtomicContractAndDedup(t *testing.T) {
+	setup(t)
+	id1, _ := doClaim(t, "cap-a")
+	doReport(fmt.Sprintf(`{"ticket_id":"%d","worker_id":"cap-a","status":"retry","reason":"infra"}`, id1))
+	res, _ := db.Exec(`INSERT INTO tickets(type,title,descr,state,created_at,updated_at) VALUES('card','second source','','todo',?,?)`, now(), now())
+	id2, _ := res.LastInsertId()
+
+	spec := `{"required_behavior":"exclude attacking objects","source_misses":[{"card":"Arcades Sabboth","paragraph":"Other creatures you control that aren't attacking get +0/+2.","required_behavior":"exclude attacking objects"}],"negative_examples":[]}`
+	body := fmt.Sprintf(`{"ticket_id":%d,"key":"affects_filter_negation","summary":"Negated affects filter","specification":%s}`, id1, spec)
+	rec := postJSON(capabilityDemand, "/capability-demand", body)
+	if rec.Code != 200 {
+		t.Fatalf("first demand code=%d body=%s", rec.Code, rec.Body.String())
+	}
+	spec2 := `{"required_behavior":"exclude attacking objects","source_misses":[{"card":"Castle","paragraph":"Nonattacking creatures get +0/+2.","required_behavior":"exclude attacking objects"}],"negative_examples":["attacking creatures"]}`
+	body = fmt.Sprintf(`{"ticket_id":%d,"key":"affects_filter_negation","summary":"Negated affects filter","specification":%s}`, id2, spec2)
+	rec = postJSON(capabilityDemand, "/capability-demand", body)
+	if rec.Code != 200 {
+		t.Fatalf("second demand code=%d body=%s", rec.Code, rec.Body.String())
+	}
+	var got int
+	db.QueryRow(`SELECT COUNT(*) FROM capabilities`).Scan(&got)
+	if got != 1 {
+		t.Fatalf("expected one canonical capability, got %d", got)
+	}
+	db.QueryRow(`SELECT COUNT(*) FROM ticket_capabilities`).Scan(&got)
+	if got != 2 {
+		t.Fatalf("expected two linked source tickets, got %d", got)
+	}
+	var stored string
+	db.QueryRow(`SELECT specification_json FROM capabilities WHERE capability_key='affects_filter_negation'`).Scan(&stored)
+	var merged CapabilitySpecification
+	json.Unmarshal([]byte(stored), &merged)
+	if len(merged.SourceMisses) != 2 {
+		t.Fatalf("canonical evidence was overwritten instead of merged: %s", stored)
+	}
+
+	mixed := `{"required_behavior":"exclude attacking objects","source_misses":[{"card":"A","paragraph":"a","required_behavior":"exclude attacking objects"},{"card":"B","paragraph":"b","required_behavior":"chosen color substitution"}]}`
+	rec = postJSON(capabilityDemand, "/capability-demand",
+		fmt.Sprintf(`{"ticket_id":%d,"key":"mixed_bucket","summary":"bad","specification":%s}`, id1, mixed))
+	if rec.Code != 422 {
+		t.Fatalf("heterogeneous demand should be rejected, got %d: %s", rec.Code, rec.Body.String())
+	}
+}
+
+func TestCapabilityCompleteRequeuesOnlyWhenAllDependenciesReady(t *testing.T) {
+	setup(t)
+	id, _ := doClaim(t, "cap")
+	for _, key := range []string{"first_capability", "second_capability"} {
+		spec := fmt.Sprintf(`{"required_behavior":"%s","source_misses":[{"card":"Card1","paragraph":"oracle","required_behavior":"%s"}]}`, key, key)
+		rec := postJSON(capabilityDemand, "/capability-demand",
+			fmt.Sprintf(`{"ticket_id":%d,"key":%q,"summary":"test","specification":%s}`, id, key, spec))
+		if rec.Code != 200 {
+			t.Fatalf("demand %s: %d %s", key, rec.Code, rec.Body.String())
+		}
+	}
+	db.Exec(`UPDATE tickets SET state='blocked',worker_id='',lease_exp=0 WHERE id=?`, id)
+	var ids []int64
+	rows, _ := db.Query(`SELECT id FROM capabilities ORDER BY id`)
+	for rows.Next() {
+		var cid int64
+		rows.Scan(&cid)
+		ids = append(ids, cid)
+	}
+	rows.Close()
+	for i, cid := range ids {
+		body := fmt.Sprintf(`{"id":%d,"branch":"reparse/capability-%d","commit":"deadbeef%d"}`, cid, cid, i)
+		rec := postJSON(capabilityComplete, "/capability/complete", body)
+		if rec.Code != 200 {
+			t.Fatalf("complete %d: %d %s", cid, rec.Code, rec.Body.String())
+		}
+		want := "blocked"
+		if i == len(ids)-1 {
+			want = "todo"
+		}
+		if state(id) != want {
+			t.Fatalf("after completion %d wanted %s, got %s", i, want, state(id))
+		}
+		rec = postJSON(capabilityComplete, "/capability/complete", body)
+		if rec.Code != 200 {
+			t.Fatalf("completion retry must be idempotent, got %d", rec.Code)
+		}
+	}
+}
+
+func TestAttemptLedgerIsImmutableAndVisible(t *testing.T) {
+	setup(t)
+	id, _ := doClaim(t, "p1")
+	start := fmt.Sprintf(`{"ticket_id":%d,"worker_id":"p1","pipeline":"map","model":"sonnet","ops_sha":"abc","repo_sha":"def","pack_sha":"123"}`, id)
+	rec := postJSON(attemptStart, "/attempt/start", start)
+	if rec.Code != 200 {
+		t.Fatalf("start code=%d body=%s", rec.Code, rec.Body.String())
+	}
+	var started map[string]int64
+	json.Unmarshal(rec.Body.Bytes(), &started)
+	aid := started["id"]
+	finish := fmt.Sprintf(`{"id":%d,"outcome":"parked","failure_kind":"missing_capability","input_tokens":10,"output_tokens":2,"cache_read":20,"metrics":{"miss_before":5,"miss_after":5}}`, aid)
+	rec = postJSON(attemptFinish, "/attempt/finish", finish)
+	if rec.Code != 200 {
+		t.Fatalf("finish code=%d body=%s", rec.Code, rec.Body.String())
+	}
+	rec = postJSON(attemptFinish, "/attempt/finish", finish)
+	if rec.Code != 409 {
+		t.Fatalf("second finish must not overwrite an attempt, got %d", rec.Code)
+	}
+	rec = httptest.NewRecorder()
+	ticketDetail(rec, httptest.NewRequest("GET", fmt.Sprintf("/ticket?id=%d", id), nil))
+	var detail struct {
+		Attempts []map[string]any `json:"attempts"`
+	}
+	json.Unmarshal(rec.Body.Bytes(), &detail)
+	if len(detail.Attempts) != 1 || detail.Attempts[0]["outcome"] != "parked" {
+		t.Fatalf("attempt missing from detail: %s", rec.Body.String())
+	}
+	rec = httptest.NewRecorder()
+	attemptList(rec, httptest.NewRequest("GET", "/attempts?pipeline=map&limit=10", nil))
+	var listed []map[string]any
+	json.Unmarshal(rec.Body.Bytes(), &listed)
+	if len(listed) != 1 || listed[0]["pack_sha"] != "123" {
+		t.Fatalf("attempt list lost provenance: %s", rec.Body.String())
+	}
 }
