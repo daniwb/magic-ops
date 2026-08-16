@@ -309,6 +309,13 @@ func TestCapabilityDemandAtomicContractAndDedup(t *testing.T) {
 	if len(merged.SourceMisses) != 2 {
 		t.Fatalf("canonical evidence was overwritten instead of merged: %s", stored)
 	}
+	rec = httptest.NewRecorder()
+	capabilityList(rec, httptest.NewRequest("GET", "/capabilities?state=open", nil))
+	var listed []map[string]any
+	json.Unmarshal(rec.Body.Bytes(), &listed)
+	if len(listed) != 1 || listed[0]["pending_tickets"].(float64) != 2 {
+		t.Fatalf("capability list missing dependencies: %s", rec.Body.String())
+	}
 
 	mixed := `{"required_behavior":"exclude attacking objects","source_misses":[{"card":"A","paragraph":"a","required_behavior":"exclude attacking objects"},{"card":"B","paragraph":"b","required_behavior":"chosen color substitution"}]}`
 	rec = postJSON(capabilityDemand, "/capability-demand",

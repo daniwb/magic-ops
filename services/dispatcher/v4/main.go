@@ -396,6 +396,49 @@ func capabilityComplete(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, map[string]any{"ok": true, "dependent_tickets": len(tids)})
 }
 
+func capabilityList(w http.ResponseWriter, r *http.Request) {
+	state := r.URL.Query().Get("state")
+	limit := 100
+	fmt.Sscanf(r.URL.Query().Get("limit"), "%d", &limit)
+	if limit <= 0 || limit > 500 {
+		limit = 100
+	}
+	query := `SELECT c.id,c.capability_key,c.summary,c.specification_json,c.state,
+		c.implementation_branch,c.implementation_commit,c.created_at,c.updated_at,
+		(SELECT COUNT(*) FROM ticket_capabilities tc WHERE tc.capability_id=c.id AND tc.state!='mapped')
+		FROM capabilities c WHERE 1=1`
+	args := []any{}
+	if state != "" {
+		query += ` AND c.state=?`
+		args = append(args, state)
+	}
+	query += ` ORDER BY c.updated_at DESC,c.id DESC LIMIT ?`
+	args = append(args, limit)
+	mu.Lock()
+	defer mu.Unlock()
+	rows, err := db.Query(query, args...)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	defer rows.Close()
+	out := []map[string]any{}
+	for rows.Next() {
+		var id, created, updated int64
+		var pending int
+		var key, summary, specJSON, capState, branch, commit string
+		rows.Scan(&id, &key, &summary, &specJSON, &capState, &branch, &commit, &created, &updated, &pending)
+		var spec any
+		if json.Unmarshal([]byte(specJSON), &spec) != nil {
+			spec = map[string]any{}
+		}
+		out = append(out, map[string]any{"id": id, "key": key, "summary": summary,
+			"specification": spec, "state": capState, "branch": branch, "commit": commit,
+			"pending_tickets": pending, "created_at": created, "updated_at": updated})
+	}
+	writeJSON(w, out)
+}
+
 type AttemptRecord struct {
 	ID           int64           `json:"id,omitempty"`
 	TicketID     int64           `json:"ticket_id"`
@@ -1673,6 +1716,7 @@ func main() {
 	http.HandleFunc("/report", report)
 	http.HandleFunc("/capability-demand", capabilityDemand)
 	http.HandleFunc("/capability/complete", capabilityComplete)
+	http.HandleFunc("/capabilities", capabilityList)
 	http.HandleFunc("/attempt/start", attemptStart)
 	http.HandleFunc("/attempt/finish", attemptFinish)
 	http.HandleFunc("/attempts", attemptList)

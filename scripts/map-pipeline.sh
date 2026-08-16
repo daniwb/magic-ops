@@ -24,6 +24,7 @@ MODEL="${PIPE_MODEL:-claude-sonnet-5}"
 GO=/usr/local/go/bin/go
 export GOCACHE=/opt/development/.gocache-magic
 LOG="/tmp/orch/pipeline-$TICKET.log"
+: > "$LOG"
 log() { printf '[%s] pipe-%s: %s\n' "$(date +%H:%M:%S)" "$TICKET" "$*" | tee -a "$LOG"; }
 ATTEMPT_ID=""
 finish_attempt() {

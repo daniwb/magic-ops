@@ -53,6 +53,12 @@ Attempt rows are append-only in normal operation. `/attempt/finish` only
 transitions a running attempt once, preventing later results from overwriting
 the evidence used for comparisons.
 
+Operator/read APIs:
+
+- `GET /capabilities?state=open&limit=100`
+- `GET /attempts?pipeline=map&since=<unix>&limit=100`
+- `GET /ticket?id=<id>` includes both linked capabilities and attempts.
+
 ## Migration
 
 Do not infer capability contracts from legacy `missing_prim` strings.
