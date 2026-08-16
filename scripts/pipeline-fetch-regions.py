@@ -13,26 +13,36 @@ body)" — treating the raw line as one grep string finds nothing).
 import os, re, subprocess, sys
 
 STOP = {'function', 'full', 'body', 'file', 'equivalent', 'pattern', 'mirror',
-        'switch', 'case', 'and', 'its', 'the', 'registration', 'primitive'}
+        'switch', 'case', 'and', 'its', 'the', 'registration', 'primitive',
+        'exact', 'implementation', 'definitions', 'definition', 'used',
+        'identify', 'representation', 'accessors', 'points'}
 
 def regions_for(path, idents, budget):
     out = []
     lines = open(path, encoding='utf-8', errors='replace').read().splitlines()
-    hits = []
-    for ident in idents:
-        hits += [i for i, l in enumerate(lines) if ident in l]
+    ordered_hits = []
+    symbol_first = sorted(idents, key=lambda ident: (
+        0 if ('_' in ident or any(ch.isupper() for ch in ident[1:])) else 1,
+        idents.index(ident)))
+    for ident in symbol_first:
+        word = re.compile(r'\b%s\b' % re.escape(ident))
+        decl = re.compile(r'^\s*(?:func|type|var|const)\b.*\b%s\b' % re.escape(ident))
+        matches = [i for i, line in enumerate(lines) if word.search(line)]
+        matches.sort(key=lambda i: (0 if decl.search(lines[i]) else 1, i))
+        ordered_hits.extend(matches[:1])
+    hits = list(dict.fromkeys(ordered_hits))
     if not hits:
         take = min(len(lines), 120, budget)
         out.append('### %s:1-%d (head; no requested symbol found in file)\n%s'
                    % (path, take, '\n'.join('%5d %s' % (i + 1, lines[i]) for i in range(take))))
         return out, budget - take
-    # widen around the first hit per distinct area; function bodies need room
+    # Preserve requested-symbol order instead of globally sorting by line.
+    # Generic words such as "damage" must not crowd out an explicitly named
+    # executeDamageEffect declaration thousands of lines later.
     merged = []
-    for h in sorted(set(hits))[:4]:
-        lo, hi = max(0, h - 10), min(len(lines), h + 90)
-        if merged and lo <= merged[-1][1]:
-            merged[-1] = (merged[-1][0], max(hi, merged[-1][1]))
-        else:
+    for h in hits[:5]:
+        lo, hi = max(0, h - 10), min(len(lines), h + 180)
+        if not any(lo < old_hi and hi > old_lo for old_lo, old_hi in merged):
             merged.append((lo, hi))
     for lo, hi in merged[:3]:
         if budget <= 0:

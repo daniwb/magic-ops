@@ -30,7 +30,8 @@ finish_attempt() {
   [ -z "$ATTEMPT_ID" ] && return 0
   case "$rc" in
     0) outcome=green; failure="";; 4) outcome=parked; failure=framework_or_ambiguous;;
-    2) outcome=failed; failure=gate_exhausted;; *) outcome=failed; failure=infra;; esac
+    2) outcome=failed; failure=gate_exhausted;; 5) outcome=failed; failure=context_exhausted;;
+    *) outcome=failed; failure=infra;; esac
   tok=$(command grep -a 'tokens:' "$LOG" 2>/dev/null | python3 -c '
 import re,sys
 s={"in":0,"out":0,"cache_r":0,"cache_w":0}
@@ -186,7 +187,11 @@ while [ $attempt -le 2 ]; do
 
   # NEED rounds: up to two per run (mirrors map-pipeline — one round was
   # consistently insufficient; second requests died as rc=5).
-  if printf '%s' "$OUT" | command grep -q '^NEED:' && [ "${NEED_USED:-0}" -lt 2 ]; then
+  if printf '%s' "$OUT" | command grep -q '^NEED:'; then
+    if [ "${NEED_USED:-0}" -ge 2 ]; then
+      log "context exhausted: model requested a third region round"
+      exit 5
+    fi
     NEED_USED=$(( ${NEED_USED:-0} + 1 ))
     log "model requested regions (round $NEED_USED): $(printf '%s' "$OUT" | command grep '^NEED:' | tr '\n' ' ')"
     ADD=$(printf '%s' "$OUT" | python3 "$OPS/scripts/pipeline-fetch-regions.py")
