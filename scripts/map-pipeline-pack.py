@@ -44,7 +44,13 @@ examples = re.findall(r'^- \[([^\]]+)\]', descr, re.M)[:5]
 # pack shows the same 5 alphabetically-first cards of the whole shape and
 # the model judges the wrong family (seen on the first three ?-slices).
 cluster_allow = None
-if 'CLUSTERED slice' in descr:
+split_meta = re.search(r'<!-- factory-split: (\{.*\}) -->', descr)
+if split_meta:
+    try:
+        cluster_allow = set(json.loads(split_meta.group(1)).get('member_cards') or [])
+    except (ValueError, TypeError):
+        sys.exit('invalid factory-split metadata on ticket %d' % a.ticket)
+elif 'CLUSTERED slice' in descr:
     cluster_allow = set(re.findall(r'^- \[([^\]]+)\]', descr, re.M))
 
 os.chdir(a.repo)
