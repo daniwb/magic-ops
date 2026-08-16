@@ -68,6 +68,37 @@ ATTEMPT_ID=$(jq -n --argjson ticket "$TICKET" --argjson capability "$CAPABILITY_
   | jq -r '.id // empty' 2>/dev/null)
 
 model_call() {
+  # Codex lane: mirror map-pipeline.sh. PIPE_MODEL names in this lane belong
+  # to `codex exec`; passing them to `claude -p` returns a model-not-found
+  # 404 before any tokens are consumed (capabilities #1/#2, 2026-08-16).
+  if [ "${PIPE_ENGINE:-}" = codex ]; then
+    local raw
+    raw=$(timeout -k 30 1200 codex exec --json --sandbox read-only -m "$MODEL" 2>>"$LOG")
+    printf '%s' "$raw" > "/tmp/orch/engine-pipeline-$TICKET-raw-last.json"
+    printf '%s' "$raw" | python3 -c "
+import json, sys
+text, tin, tout, cr, cw = '', 0, 0, 0, 0
+for line in sys.stdin:
+    line = line.strip()
+    if not line:
+        continue
+    try:
+        ev = json.loads(line)
+    except Exception:
+        continue
+    if ev.get('type') == 'item.completed' and ev.get('item', {}).get('type') == 'agent_message':
+        text = ev['item'].get('text', '')
+    elif ev.get('type') == 'turn.completed':
+        u = ev.get('usage', {})
+        tin = u.get('input_tokens', 0)
+        cr = u.get('cached_input_tokens', 0)
+        cw = u.get('cache_write_input_tokens', 0)
+        tout = u.get('output_tokens', 0) + u.get('reasoning_output_tokens', 0)
+print('tokens: in=%d out=%d cache_r=%d cache_w=%d' % (tin, tout, cr, cw), file=sys.stderr)
+sys.stdout.write(text)
+" 2>>"$LOG"
+    return
+  fi
   # Local lane (PIPE_BASE_URL): bare /v1/messages curl, no tools — the claude
   # CLI's advertised tools make gpt-oss emit tool_calls with empty content
   # (ported from handler-pipeline.sh, validated green 2026-08-07).
