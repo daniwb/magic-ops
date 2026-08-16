@@ -62,6 +62,19 @@ wait_for_landing() { # $1 branch — poll until merged into origin/main (max 25 
   return 1
 }
 
+engine_attempt_exists() { # $1 ticket — true if an engine round already landed a primitive
+  # for this ticket (closing the circle for real, 2026-08-16): a ticket
+  # gets AT MOST ONE automatic engine round. If reparse/engine-task-$1
+  # already exists, map-pipeline-pack.py's landed-primitive detection
+  # should have tried wiring reparse.py to it already (see map-pipeline.sh
+  # call below) — re-invoking engine-pipeline.sh here instead of trusting
+  # that would risk building a SECOND, different primitive for the same
+  # demand (confirmed live on ticket #3467: two unrelated Go primitives
+  # built 35 minutes apart for the same park reason).
+  (cd "$REPO" && git fetch -q origin "reparse/engine-task-$1" 2>/dev/null)
+  (cd "$REPO" && git rev-parse --verify -q "origin/reparse/engine-task-$1") >/dev/null 2>&1
+}
+
 while :; do
   if ! usage_gate; then sleep 1800; continue; fi
   EXCL=$(command grep -oE '^[0-9]+$' "$SKIPLIST" 2>/dev/null | head -400 | paste -sd, -)
@@ -95,21 +108,30 @@ while :; do
     4)
       PRIM=$(extract_prim "/tmp/orch/pipeline-$TICKET-reply-"*.md)
       WHY=$(command grep -am1 '^REASON:' "/tmp/orch/pipeline-$TICKET-reply-"*.md 2>/dev/null | head -c 400)
-      report "$TICKET" parked missing_primitive "$PRIM" "$WHY" "map-pipeline park" "$TOK"
-      log "#$TICKET parked on $PRIM — trying engine-pipeline (the circle)"
-      ELOG="/tmp/orch/engine-pipeline-$TICKET.log"; : > "$ELOG"
-      CLONE="/tmp/work/${WORKER_ID}-engine-clone" bash "$OPS/scripts/engine-pipeline.sh" "$TICKET" --push
-      erc=$?
-      if [ $erc -eq 0 ] && wait_for_landing "reparse/engine-task-$TICKET"; then
-        log "#$TICKET primitive LANDED — requeue + closing the circle"
-        curl -s -m 10 "$DISPATCHER/action?do=requeue&id=$TICKET" >/dev/null 2>&1 || true
-        # priority boost so we (or anyone) picks it up next
-        python3 -c "
+      if engine_attempt_exists "$TICKET"; then
+        # Already had one engine round (map-pipeline-pack.py's landed-
+        # primitive detection would have tried the reparse.py wiring on
+        # THIS run already) and it still parked — do not fire a second
+        # engine round. Park for manual review instead of cycling.
+        report "$TICKET" parked missing_primitive "$PRIM" "$WHY (engine primitive already built — parser wiring still unresolved, needs manual review)" "map-pipeline park (post-engine, not re-escalating)" "$TOK"
+        log "#$TICKET parked — engine primitive already exists, NOT re-escalating (needs manual review)"
+      else
+        report "$TICKET" parked missing_primitive "$PRIM" "$WHY" "map-pipeline park" "$TOK"
+        log "#$TICKET parked on $PRIM — trying engine-pipeline (the circle)"
+        ELOG="/tmp/orch/engine-pipeline-$TICKET.log"; : > "$ELOG"
+        CLONE="/tmp/work/${WORKER_ID}-engine-clone" bash "$OPS/scripts/engine-pipeline.sh" "$TICKET" --push
+        erc=$?
+        if [ $erc -eq 0 ] && wait_for_landing "reparse/engine-task-$TICKET"; then
+          log "#$TICKET primitive LANDED — requeue + closing the circle"
+          curl -s -m 10 "$DISPATCHER/action?do=requeue&id=$TICKET" >/dev/null 2>&1 || true
+          # priority boost so we (or anyone) picks it up next
+          python3 -c "
 import sqlite3
 c=sqlite3.connect('$OPS/services/dispatcher/v4/dispatcher.db')
 c.execute(\"update tickets set priority=60 where id=$TICKET\"); c.commit()" 2>/dev/null || true
-      else
-        log "#$TICKET engine-pipeline rc=$erc — stays blocked for a manual round"
+        else
+          log "#$TICKET engine-pipeline rc=$erc — stays blocked for a manual round"
+        fi
       fi;;
     2)
       echo "$TICKET" >> "$SKIPLIST"

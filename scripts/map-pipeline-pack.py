@@ -123,6 +123,92 @@ for f in files:
         code_sections.append('### %s:%d-%d\n%s' % (f, lo + 1, lo + take, seg))
         budget -= take
 
+# Landed-primitive detection (2026-08-16, closing the map/engine "circle"
+# for real — see docs/../MEMORY circle_duplicate_primitive_waste): if a
+# prior engine round already built and merged a Go primitive for THIS
+# ticket, show it as ground-truth diff context and ask the model to wire
+# reparse.py/slotparse_*.py to it, instead of blindly re-running the normal
+# "find a way to map this" pack again (which has no idea a primitive
+# already exists, so it just re-parks with the identical NEEDS_PRIMITIVE
+# reason forever). Ground truth is the ACTUAL diff, not the ticket's
+# missing_prim field — confirmed on ticket #3484 that missing_prim can
+# name something different from what actually got built.
+def _git(*args):
+    try:
+        return subprocess.run(['git', *args], capture_output=True, text=True,
+                               check=True, cwd=a.repo).stdout
+    except subprocess.CalledProcessError:
+        return ''
+
+landed_primitive_section = ''
+engine_branch = 'origin/reparse/engine-task-%d' % a.ticket
+subprocess.run(['git', 'fetch', '-q', 'origin', 'main',
+                 'reparse/engine-task-%d' % a.ticket],
+                capture_output=True, text=True, cwd=a.repo)
+has_branch = subprocess.run(['git', 'rev-parse', '--verify', '-q', engine_branch],
+                             capture_output=True, text=True, cwd=a.repo).returncode == 0
+landed = False
+if has_branch:
+    landed = subprocess.run(['git', 'merge-base', '--is-ancestor', engine_branch, 'origin/main'],
+                             capture_output=True, text=True, cwd=a.repo).returncode == 0
+if landed:
+    # NOT merge-base(origin/main, engine_branch): once the branch is
+    # merged, the branch tip IS already an ancestor of (or equal to) main,
+    # so merge-base degenerates to the tip itself and the diff is empty
+    # (confirmed live on ticket #3452). engine-pipeline.sh always produces
+    # exactly ONE commit per successful run (failed gate attempts are
+    # discarded via `git checkout -- . && git clean -fd` before retry, only
+    # the winning gate ever commits) — so the commit's own parent is the
+    # correct, simple fork point.
+    base = _git('rev-parse', engine_branch + '^').strip()
+    if base:
+        names = [n for n in _git('diff', '--name-only', '%s..%s' % (base, engine_branch)).splitlines()
+                 if (n.startswith('backend/cards/') or n.startswith('backend/game/'))
+                 and n.endswith('.go') and not n.endswith('_test.go')]
+        diff_parts, budget2 = [], 220
+        for n in names:
+            if budget2 <= 0:
+                break
+            lines = _git('diff', '%s..%s' % (base, engine_branch), '--', n).splitlines()
+            take = lines[:max(0, min(len(lines), budget2))]
+            if take:
+                diff_parts.append('\n'.join(take))
+                budget2 -= len(take)
+        if diff_parts:
+            reg_effects_section = ''
+            try:
+                rp_lines = open('scripts/paragraph/reparse.py', encoding='utf-8', errors='replace').read().splitlines()
+                idx = next((i for i, l in enumerate(rp_lines) if 'def registered_effects' in l), None)
+                if idx is not None:
+                    lo, hi = idx, min(len(rp_lines), idx + 20)
+                    seg = '\n'.join('%5d %s' % (i + 1, rp_lines[i]) for i in range(lo, hi))
+                    reg_effects_section = '### scripts/paragraph/reparse.py:%d-%d (REGISTERED gate)\n%s' % (lo + 1, hi, seg)
+            except OSError:
+                pass
+            landed_primitive_section = '''
+## PRIMITIVE ALREADY BUILT (engine-task-%d landed on origin/main)
+
+A prior engine round already built and merged a Go primitive for this
+ticket's demand. Your ONLY job now is to wire scripts/paragraph/*.py (or
+scripts/paragraph/slotparse_*.py) so the example cards below actually
+produce it — do NOT request another engine round, and do NOT touch
+backend/. If, after reading the diff, these examples genuinely do not
+match what was built (wrong shape/wrong effect), reply `VERDICT: MISMATCH`
+with a REASON explaining the discrepancy instead of forcing a bad mapping.
+
+Typical wiring shape (from recent tickets): either a short new regex
+constant (e.g. `SOME_THING_RE = re.compile(...)`) paired with a small
+handler, or a new `if action == '<name>':` branch inside an existing
+dispatch function — a few lines, with a comment citing this ticket number
+and an explicit note about which adjacent-but-different shapes must stay
+honest misses rather than being over-matched.
+
+### What the engine round added (diff, engine-task-%d)
+%s
+
+%s
+''' % (a.ticket, a.ticket, '\n\n'.join(diff_parts), reg_effects_section)
+
 kb_hits = ''
 try:
     # Always blend the shape token with real words from the blocked example
@@ -164,7 +250,7 @@ Rules (map contract):
   engine-blocked remainder in the EXPECT line.
 - NEVER touch backend/game/ (auto-park). Parser tables + backend/cards/ only.
 - Prefer extending existing tables/regex/case-lists over new mechanisms.
-
+%s
 ## Example cards (current state)
 %s
 
@@ -188,7 +274,7 @@ NEED: <repo-relative-path or exact symbol/identifier>
 The harness will send the regions and re-ask ONCE.
 
 OTHERWISE — EITHER a park verdict:
-VERDICT: NEEDS_PRIMITIVE|SEMANTIC_GAP|AMBIGUOUS|NOT_A_SHAPE
+VERDICT: NEEDS_PRIMITIVE|SEMANTIC_GAP|AMBIGUOUS|NOT_A_SHAPE%s
 PRIMITIVE: <snake_case_name of the missing engine capability — REQUIRED for NEEDS_PRIMITIVE, omit otherwise>
 REASON: <one line>
 
@@ -203,6 +289,8 @@ replacement lines
 End with one line:
 EXPECT: <which example paragraph(s) should now parse and to what>
 No other prose.''' % (a.ticket, title, shape,
+                      landed_primitive_section,
                       '\n\n'.join(card_sections) or '(no records found)',
                       '\n\n'.join(code_sections) or '(no code hits)',
-                      kb_hits.strip() or '(kb unavailable)'))
+                      kb_hits.strip() or '(kb unavailable)',
+                      '|MISMATCH' if landed_primitive_section else ''))
