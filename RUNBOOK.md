@@ -217,3 +217,35 @@ tmux new-window -t dispatcher -n rl1 'bash /opt/development/magic-ops/launchers/
 (og1 bewusst NICHT hier — archiviert, siehe Fleet-Stand-Sektion oben.)
 (kb :4103 und shim :4102 haben eigene manuelle Startzeilen in der
 Components-Tabelle oben — ebenfalls nicht reboot-persistent.)
+
+## Factory-Redesign 2026-08-16 — Atomic Capability Contracts (LIVE)
+
+Der Dispatcher und die staged map→engine-Pipeline verwenden für NEUE Parks
+keinen freien `missing_prim`-String mehr als alleinige Autorität:
+
+- `capabilities` = ein atomisches Engine-Verhalten;
+- `ticket_capabilities` = many-to-many Abhängigkeiten;
+- `attempts` = unveränderliche Messzeilen mit Ops-/Repo-/Pack-SHA, Modell,
+  Token-Kategorien, Ergebnis und Gate-Metriken;
+- genau EIN gegen carddb verifizierter Oracle-Absatz pro neuem Demand;
+- Engine-Branch `reparse/capability-<id>`; Requeue erst, wenn alle
+  Ticket-Capabilities implementiert sind;
+- bereits implementierte Capability → nie zweiter Engine-Round, sondern
+  Parser-Context aus Spec + Implementation-Diff;
+- alte `reparse/engine-task-*` Branches bleiben über den Legacy-Fallback
+  lesbar, werden aber nicht in neue Contracts umgedeutet.
+
+Operator APIs:
+
+```
+GET /capabilities?state=open&limit=100
+GET /attempts?pipeline=map&since=<unix>&limit=100
+GET /ticket?id=<id>   # inkl. capabilities + attempts
+```
+
+Migration: `scripts/capability-migration-report.py` ist absichtlich read-only.
+Legacy-Parks werden aus ihren freien Texten NICHT automatisch migriert; sie
+brauchen neue atomische Discovery. Design/Rollout: `docs/factory-redesign.md`.
+
+Rollback-Snapshot vom Live-Deploy:
+`/opt/development/magic-ops-backups/20260816T124306Z/` (DB + altes Binary).
