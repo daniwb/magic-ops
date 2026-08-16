@@ -25,7 +25,7 @@ DB = os.environ.get("DISPATCHER_DB",
 TARGET_OPEN = int(os.environ.get("TARGET_OPEN", "5"))
 MIN_UNLOCK = int(os.environ.get("MIN_UNLOCK", "30"))
 COMMIT = "--commit" in sys.argv
-TERMINAL = ("done", "dup", "archived-v1", "superseded")
+TERMINAL = ("done", "dup", "archived-v1", "parked-era1", "superseded")
 
 if "--refresh" in sys.argv:
     subprocess.run(["python3", "scripts/paragraph/coverage_planner.py", "-n", "80"],
