@@ -12,14 +12,37 @@
 set -uo pipefail
 TICKET="${1:?ticket id}"; shift || true
 PUSH=0; [ "${1:-}" = "--push" ] && PUSH=1
-OPS=/opt/development/magic-ops
-REPO=/opt/development/test/openmagic
+OPS="${OPS:-/opt/development/magic-ops}"
+REPO="${REPO:-/opt/development/test/openmagic}"
+CAPABILITY_ID="${CAPABILITY_ID:-0}"
+BRANCH="reparse/engine-task-$TICKET"
+[ "$CAPABILITY_ID" != 0 ] && BRANCH="reparse/capability-$CAPABILITY_ID"
 CLONE="${CLONE:-/tmp/work/engine-pipe-clone}"
 MODEL="${PIPE_MODEL:-claude-sonnet-5}"
 GO=/usr/local/go/bin/go
 export GOCACHE=/opt/development/.gocache-magic
 LOG="/tmp/orch/engine-pipeline-$TICKET.log"
 log() { printf '[%s] epipe-%s: %s\n' "$(date +%H:%M:%S)" "$TICKET" "$*" | tee -a "$LOG"; }
+ATTEMPT_ID=""
+finish_attempt() {
+  local rc="$1" outcome failure tok
+  [ -z "$ATTEMPT_ID" ] && return 0
+  case "$rc" in
+    0) outcome=green; failure="";; 4) outcome=parked; failure=framework_or_ambiguous;;
+    2) outcome=failed; failure=gate_exhausted;; *) outcome=failed; failure=infra;; esac
+  tok=$(command grep -a 'tokens:' "$LOG" 2>/dev/null | python3 -c '
+import re,sys
+s={"in":0,"out":0,"cache_r":0,"cache_w":0}
+for line in sys.stdin:
+  for k,v in re.findall(r"(in|out|cache_r|cache_w)=(\d+)",line): s[k]+=int(v)
+print("%d %d %d %d"%(s["in"],s["out"],s["cache_r"],s["cache_w"]))' 2>/dev/null)
+  read -r tin tout tcr tcw <<<"${tok:-0 0 0 0}"
+  jq -n --argjson id "$ATTEMPT_ID" --arg outcome "$outcome" --arg failure "$failure" \
+    --argjson tin "${tin:-0}" --argjson tout "${tout:-0}" --argjson cr "${tcr:-0}" --argjson cw "${tcw:-0}" \
+    '{id:$id,outcome:$outcome,failure_kind:$failure,input_tokens:$tin,output_tokens:$tout,cache_read:$cr,cache_write:$cw}' \
+    | curl -s -m 10 -X POST "${DISPATCHER:-http://127.0.0.1:9999}/attempt/finish" -H 'Content-Type: application/json' -d @- >/dev/null 2>&1 || true
+}
+trap 'rc=$?; finish_attempt "$rc"' EXIT
 
 rm -rf "$CLONE"
 git clone -q "file://$REPO" "$CLONE" || exit 1
@@ -28,10 +51,20 @@ git remote set-url origin "$(cd "$REPO" && git remote get-url origin)"
 git fetch -q origin main && git checkout -qb "epipe-$TICKET" origin/main
 
 PACK="/tmp/orch/engine-pipeline-$TICKET-pack.md"
-if ! python3 "$OPS/scripts/engine-pipeline-pack.py" "$TICKET" --repo "$CLONE" > "$PACK" 2>>"$LOG"; then
+PACK_ARGS=("$TICKET" --repo "$CLONE")
+[ "$CAPABILITY_ID" != 0 ] && PACK_ARGS+=(--capability "$CAPABILITY_ID")
+if ! python3 "$OPS/scripts/engine-pipeline-pack.py" "${PACK_ARGS[@]}" > "$PACK" 2>>"$LOG"; then
   log "pack failed (ticket has no missing_prim?)"; exit 1
 fi
 log "pack built: $(wc -c < "$PACK") bytes"
+OPS_SHA=$(git -C "$OPS" rev-parse HEAD 2>/dev/null || true)
+REPO_SHA=$(git rev-parse HEAD 2>/dev/null || true)
+PACK_SHA=$(sha256sum "$PACK" | awk '{print $1}')
+ATTEMPT_ID=$(jq -n --argjson ticket "$TICKET" --argjson capability "$CAPABILITY_ID" \
+  --arg worker "${PIPE_WORKER_ID:-}" --arg model "$MODEL" --arg ops "$OPS_SHA" --arg repo "$REPO_SHA" --arg pack "$PACK_SHA" \
+  '{ticket_id:$ticket,capability_id:$capability,worker_id:$worker,pipeline:"engine",model:$model,ops_sha:$ops,repo_sha:$repo,pack_sha:$pack}' \
+  | curl -s -m 10 -X POST "${DISPATCHER:-http://127.0.0.1:9999}/attempt/start" -H 'Content-Type: application/json' -d @- \
+  | jq -r '.id // empty' 2>/dev/null)
 
 model_call() {
   # Local lane (PIPE_BASE_URL): bare /v1/messages curl, no tools — the claude
@@ -97,8 +130,8 @@ run_bugfix_gate() { # green -> commit+push+0
      && TEST_OUT=$(cd backend && timeout 600 "$GO" test ./cards/ ./game/ -run 'TestVocabulary|TestV2|TestShape_|TestCardDBSubtypeScopes|TestCombat' -count=1 2>&1) \
      && SUITE_OUT=$(bash scripts/test-cards-sharded.sh 6 2>&1); then
     log "GATE GREEN after bugfix"
-    git commit -qm "reparse(engine-task-$TICKET): engine-pipeline primitive build (bugfix round)"
-    [ $PUSH -eq 1 ] && git push -qf origin "HEAD:refs/heads/reparse/engine-task-$TICKET" && log "pushed reparse/engine-task-$TICKET"
+    git commit -qm "reparse(capability-$CAPABILITY_ID task-$TICKET): engine-pipeline primitive build (bugfix round)"
+    [ $PUSH -eq 1 ] && git push -qf origin "HEAD:refs/heads/$BRANCH" && log "pushed $BRANCH"
     return 0
   fi
   GATE_TAIL="Gate failed:
@@ -155,9 +188,9 @@ while [ $attempt -le 2 ]; do
        && SUITE_OUT=$(bash scripts/test-cards-sharded.sh 6 2>&1); then
       log "GATE GREEN (build + tests + full suite)"
       git add -A
-      git commit -qm "reparse(engine-task-$TICKET): engine-pipeline primitive build (staged non-agentic run)"
+      git commit -qm "reparse(capability-$CAPABILITY_ID task-$TICKET): engine-pipeline primitive build (staged non-agentic run)"
       if [ $PUSH -eq 1 ]; then
-        git push -qf origin "HEAD:refs/heads/reparse/engine-task-$TICKET" && log "pushed reparse/engine-task-$TICKET"
+        git push -qf origin "HEAD:refs/heads/$BRANCH" && log "pushed $BRANCH"
       fi
       exit 0
     else

@@ -13,6 +13,7 @@ import argparse, json, glob, os, re, sqlite3, sys, urllib.request, urllib.parse
 
 ap = argparse.ArgumentParser()
 ap.add_argument('ticket', type=int)
+ap.add_argument('--capability', type=int, default=0)
 ap.add_argument('--repo', default='/opt/development/test/openmagic')
 ap.add_argument('--db', default='/opt/development/magic-ops/services/dispatcher/v4/dispatcher.db')
 ap.add_argument('--kb', default='http://127.0.0.1:4103')
@@ -24,6 +25,14 @@ if not row:
     sys.exit('no such ticket %d' % a.ticket)
 title, descr, prim = row
 prim = (prim or '').strip()
+capability_spec = None
+if a.capability:
+    cap = c.execute('select capability_key, summary, specification_json from capabilities where id=?',
+                    (a.capability,)).fetchone()
+    if not cap:
+        sys.exit('no such capability %d' % a.capability)
+    prim, cap_summary, cap_json = cap
+    capability_spec = json.loads(cap_json)
 if not prim:
     sys.exit(3)
 
@@ -41,6 +50,9 @@ sys.path.insert(0, os.path.join(a.repo, 'scripts/paragraph'))
 
 # Example cards from the ticket bullet list, with oracle text + misses.
 examples = re.findall(r'^- \[([^\]]+)\]', descr, re.M)[:4]
+if capability_spec:
+    examples = list(dict.fromkeys(m.get('card', '') for m in capability_spec.get('source_misses', [])
+                                  if m.get('card')))[:8]
 try:
     import reparse as R
 except Exception:
@@ -123,6 +135,9 @@ print('''# ENGINE-PIPELINE TASK — build ONE small primitive, single-shot
 
 Ticket #%d: %s
 Primitive demand: `%s`
+Capability ID: `%s`
+Atomic capability specification:
+%s
 Park reason:
 %s
 
@@ -181,7 +196,9 @@ full file content
 
 End with one line:
 EXPECT: <what now works, one sentence>
-No other prose.''' % (a.ticket, title, prim, reason or '(no reason recorded — infer from examples)',
+No other prose.''' % (a.ticket, title, prim, a.capability or '(legacy)',
+                      json.dumps(capability_spec, indent=2, sort_keys=True) if capability_spec else '(legacy free-text demand)',
+                      reason or '(no reason recorded — use the atomic specification and examples)',
                       '\n\n'.join(card_sections) or '(none found)',
                       '\n\n'.join(code_sections) or '(no hits)',
                       kb_hits.strip() or '(kb unavailable)', test_tmpl))

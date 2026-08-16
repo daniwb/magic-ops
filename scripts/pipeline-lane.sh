@@ -15,8 +15,8 @@
 set -uo pipefail
 WORKER_ID="${1:?worker id}"
 DISPATCHER="${DISPATCHER:-http://localhost:9999}"
-OPS=/opt/development/magic-ops
-REPO=/opt/development/test/openmagic
+OPS="${OPS:-/opt/development/magic-ops}"
+REPO="${REPO:-/opt/development/test/openmagic}"
 export PIPE_MODEL="${PIPE_MODEL:-claude-sonnet-5}"
 LOG_PREFIX="[pipeline-lane]"
 SKIPLIST="/tmp/orch/${WORKER_ID}-skip.txt"; touch "$SKIPLIST"
@@ -84,7 +84,7 @@ while :; do
   HB=$!
 
   PLOG="/tmp/orch/pipeline-$TICKET.log"; : > "$PLOG"
-  CLONE="/tmp/work/${WORKER_ID}-clone" bash "$OPS/scripts/map-pipeline.sh" "$TICKET" --push
+  PIPE_WORKER_ID="$WORKER_ID" DISPATCHER="$DISPATCHER" CLONE="/tmp/work/${WORKER_ID}-clone" bash "$OPS/scripts/map-pipeline.sh" "$TICKET" --push
   rc=$?
   TOK=$(tokens_from_log "$PLOG")
 
@@ -95,19 +95,35 @@ while :; do
     4)
       PRIM=$(extract_prim "/tmp/orch/pipeline-$TICKET-reply-"*.md)
       WHY=$(command grep -am1 '^REASON:' "/tmp/orch/pipeline-$TICKET-reply-"*.md 2>/dev/null | head -c 400)
-      report "$TICKET" parked missing_primitive "$PRIM" "$WHY" "map-pipeline park" "$TOK"
-      log "#$TICKET parked on $PRIM — trying engine-pipeline (the circle)"
+      REPLY=$(ls -1t "/tmp/orch/pipeline-$TICKET-reply-"*.md 2>/dev/null | head -1)
+      CAP_RESULT=$(python3 "$OPS/scripts/capability-contract.py" --ticket "$TICKET" --reply "$REPLY" --dispatcher "$DISPATCHER" 2>>"$PLOG")
+      read -r CID CSTATE <<<"$CAP_RESULT"
+      if ! [[ "$CID" =~ ^[0-9]+$ ]]; then
+        report "$TICKET" parked capability_review "" "$WHY" "atomic capability contract missing/heterogeneous; manual split required" "$TOK"
+        log "#$TICKET sent to capability review — no engine round"
+        kill $HB 2>/dev/null
+        sleep 5
+        continue
+      fi
+      if [ "$CSTATE" = implemented ]; then
+        report "$TICKET" parked capability_review "$PRIM" "$WHY" "capability #$CID already implemented but mapping still parked; manual parser review required" "$TOK"
+        log "#$TICKET capability #$CID already implemented — no duplicate engine round"
+        kill $HB 2>/dev/null
+        sleep 5
+        continue
+      fi
+      report "$TICKET" parked structured_capability "$PRIM" "$WHY" "map-pipeline atomic capability #$CID" "$TOK"
+      log "#$TICKET parked on capability #$CID ($PRIM) — trying engine-pipeline"
       ELOG="/tmp/orch/engine-pipeline-$TICKET.log"; : > "$ELOG"
-      CLONE="/tmp/work/${WORKER_ID}-engine-clone" bash "$OPS/scripts/engine-pipeline.sh" "$TICKET" --push
+      CAPABILITY_ID="$CID" PIPE_WORKER_ID="$WORKER_ID" DISPATCHER="$DISPATCHER" CLONE="/tmp/work/${WORKER_ID}-engine-clone" bash "$OPS/scripts/engine-pipeline.sh" "$TICKET" --push
       erc=$?
-      if [ $erc -eq 0 ] && wait_for_landing "reparse/engine-task-$TICKET"; then
-        log "#$TICKET primitive LANDED — requeue + closing the circle"
-        curl -s -m 10 "$DISPATCHER/action?do=requeue&id=$TICKET" >/dev/null 2>&1 || true
-        # priority boost so we (or anyone) picks it up next
-        python3 -c "
-import sqlite3
-c=sqlite3.connect('$OPS/services/dispatcher/v4/dispatcher.db')
-c.execute(\"update tickets set priority=60 where id=$TICKET\"); c.commit()" 2>/dev/null || true
+      BRANCH="reparse/capability-$CID"
+      if [ $erc -eq 0 ] && wait_for_landing "$BRANCH"; then
+        COMMIT=$(cd "$REPO" && git rev-parse "origin/$BRANCH" 2>/dev/null)
+        jq -n --argjson id "$CID" --arg branch "$BRANCH" --arg commit "$COMMIT" \
+          '{id:$id,branch:$branch,commit:$commit}' \
+          | curl -s -m 15 -X POST "$DISPATCHER/capability/complete" -H 'Content-Type: application/json' -d @- >/dev/null
+        log "#$TICKET capability #$CID LANDED — dependent map tickets requeued"
       else
         log "#$TICKET engine-pipeline rc=$erc — stays blocked for a manual round"
       fi;;

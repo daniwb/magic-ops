@@ -34,6 +34,9 @@ blocks += re.findall(r'@@@FILE (.+?)\n@@@SEARCH\n(.*?)\n@@@REPLACE\n(.*?)\n@@@EN
 newfiles += re.findall(r'@@@NEWFILE (.+?)\n(.*?)\n@@@END', out, re.S)
 if mv and not blocks and not newfiles:
     print(mv.group(0))
+    cm = re.search(r'^CAPABILITY_JSON:\s*\{.*\}\s*$', out, re.M)
+    if cm:
+        print(cm.group(0))
     rm = re.search(r'^REASON:.*$', out, re.M)
     if rm:
         print(rm.group(0))

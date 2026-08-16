@@ -10,6 +10,10 @@ Scripts: `magic-ops/scripts/{map,engine,handler}-pipeline.sh` + `*-pack.py`,
 shared applier `map-pipeline-apply.py`, region fetcher
 `pipeline-fetch-regions.py`.
 
+> Redesign note (2026-08-16): the map→engine handoff is being migrated from
+> free-text `missing_prim` values to atomic, many-to-many capability contracts
+> with an immutable attempt ledger. See [factory-redesign.md](factory-redesign.md).
+
 ---
 
 ## 1. MAP pipeline (`map-pipeline.sh TICKET [--push]`)

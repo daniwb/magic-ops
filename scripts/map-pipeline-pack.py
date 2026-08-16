@@ -24,6 +24,15 @@ row = c.execute('select title, descr from tickets where id=?', (a.ticket,)).fetc
 if not row:
     sys.exit('no such ticket %d' % a.ticket)
 title, descr = row
+implemented_capabilities = []
+try:
+    implemented_capabilities = c.execute(
+        '''select c.id,c.capability_key,c.specification_json,c.implementation_commit
+           from ticket_capabilities tc join capabilities c on c.id=tc.capability_id
+           where tc.ticket_id=? and c.state='implemented' order by c.id''',
+        (a.ticket,)).fetchall()
+except sqlite3.OperationalError:
+    pass  # legacy dispatcher DB during migration
 m = re.search(r'Miss shape:\*\*\s*`([^`]+)`', descr)
 if not m:
     sys.exit(3)
@@ -149,6 +158,36 @@ try:
 except Exception:
     pass
 
+implemented_section = ''
+if implemented_capabilities:
+    parts = []
+    diff_budget = 260
+    for cid, key, spec_json, commit in implemented_capabilities:
+        try:
+            spec_text = json.dumps(json.loads(spec_json), indent=2, sort_keys=True)
+        except Exception:
+            spec_text = spec_json
+        diff = ''
+        if commit and diff_budget > 0:
+            proc = subprocess.run(
+                ['git', 'show', '--format=', '--no-ext-diff', commit, '--', 'backend/game', 'backend/cards'],
+                cwd=a.repo, capture_output=True, text=True)
+            lines = proc.stdout.splitlines()[:diff_budget]
+            diff = '\n'.join(lines)
+            diff_budget -= len(lines)
+        parts.append('### Capability #%s `%s` (already implemented)\n%s\n\nImplementation diff:\n%s' %
+                     (cid, key, spec_text, diff or '(commit diff unavailable)'))
+    implemented_section = '''
+## IMPLEMENTED CAPABILITIES FOR THIS TICKET
+
+The engine work below is already on main. Wire the parser/converter to these
+exact capabilities. Do not request another primitive for the same behavior.
+If the current examples genuinely need a different behavior, return AMBIGUOUS
+for discovery rather than broadening or duplicating the implemented primitive.
+
+%s
+''' % '\n\n'.join(parts)
+
 print('''# MAP-PIPELINE TASK — single-shot patch, no exploration
 
 Ticket #%d: %s
@@ -174,6 +213,8 @@ Rules (map contract):
 ## Knowledge-service hits
 %s
 
+%s
+
 ## TOOL BUDGET
 You may Read/Grep/Glob to verify exact lines (~10 tool calls budget). Plan
 your reads, then STOP exploring and emit your answer — your FINAL message
@@ -187,9 +228,14 @@ guess exact lines), reply ONLY with up to 3 request lines and nothing else:
 NEED: <repo-relative-path or exact symbol/identifier>
 The harness will send the regions and re-ask ONCE.
 
-OTHERWISE — EITHER a park verdict:
+OTHERWISE — EITHER a park verdict. NEEDS_PRIMITIVE is legal ONLY when every
+source_miss in the capability object needs the SAME atomic behavior. If the
+examples require different behaviors, return AMBIGUOUS so discovery can split
+the ticket; never invent one umbrella primitive name.
 VERDICT: NEEDS_PRIMITIVE|SEMANTIC_GAP|AMBIGUOUS|NOT_A_SHAPE
-PRIMITIVE: <snake_case_name of the missing engine capability — REQUIRED for NEEDS_PRIMITIVE, omit otherwise>
+For NEEDS_PRIMITIVE, add exactly one single-line JSON object (no markdown):
+PRIMITIVE: <same lowercase_snake_case key, retained for legacy dashboards>
+CAPABILITY_JSON: {"key":"lowercase_snake_case","summary":"short description","specification":{"required_behavior":"one precise behavior shared by every source miss","source_misses":[{"card":"exact card name","paragraph":"exact relevant oracle paragraph","required_behavior":"the identical required_behavior text"}],"negative_examples":["adjacent behavior that must not change"],"expected_unlock":0}}
 REASON: <one line>
 
 OR one or more edit blocks (exact-match search text, unique in the file):
@@ -205,4 +251,4 @@ EXPECT: <which example paragraph(s) should now parse and to what>
 No other prose.''' % (a.ticket, title, shape,
                       '\n\n'.join(card_sections) or '(no records found)',
                       '\n\n'.join(code_sections) or '(no code hits)',
-                      kb_hits.strip() or '(kb unavailable)'))
+                      kb_hits.strip() or '(kb unavailable)', implemented_section))

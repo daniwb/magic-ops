@@ -17,14 +17,38 @@
 set -uo pipefail
 TICKET="${1:?ticket id}"; shift || true
 PUSH=0; [ "${1:-}" = "--push" ] && PUSH=1
-OPS=/opt/development/magic-ops
-REPO=/opt/development/test/openmagic
+OPS="${OPS:-/opt/development/magic-ops}"
+REPO="${REPO:-/opt/development/test/openmagic}"
 CLONE="${CLONE:-/tmp/work/pipe-clone}"
 MODEL="${PIPE_MODEL:-claude-sonnet-5}"
 GO=/usr/local/go/bin/go
 export GOCACHE=/opt/development/.gocache-magic
 LOG="/tmp/orch/pipeline-$TICKET.log"
 log() { printf '[%s] pipe-%s: %s\n' "$(date +%H:%M:%S)" "$TICKET" "$*" | tee -a "$LOG"; }
+ATTEMPT_ID=""
+finish_attempt() {
+  local rc="$1" outcome failure tok
+  [ -z "$ATTEMPT_ID" ] && return 0
+  case "$rc" in
+    0) outcome=green; failure="";;
+    4) outcome=parked; failure=capability_required;;
+    2) outcome=failed; failure=gate_exhausted;;
+    *) outcome=failed; failure=infra;;
+  esac
+  tok=$(command grep -a 'tokens:' "$LOG" 2>/dev/null | python3 -c '
+import re,sys
+s={"in":0,"out":0,"cache_r":0,"cache_w":0}
+for line in sys.stdin:
+  for k,v in re.findall(r"(in|out|cache_r|cache_w)=(\d+)",line): s[k]+=int(v)
+print("%d %d %d %d"%(s["in"],s["out"],s["cache_r"],s["cache_w"]))' 2>/dev/null)
+  read -r tin tout tcr tcw <<<"${tok:-0 0 0 0}"
+  jq -n --argjson id "$ATTEMPT_ID" --arg outcome "$outcome" --arg failure "$failure" \
+    --argjson tin "${tin:-0}" --argjson tout "${tout:-0}" --argjson cr "${tcr:-0}" --argjson cw "${tcw:-0}" \
+    --argjson before "${BASE_SHAPE:-0}" --argjson after "${NEW_SHAPE:-${BASE_SHAPE:-0}}" \
+    '{id:$id,outcome:$outcome,failure_kind:$failure,input_tokens:$tin,output_tokens:$tout,cache_read:$cr,cache_write:$cw,metrics:{miss_before:$before,miss_after:$after}}' \
+    | curl -s -m 10 -X POST "${DISPATCHER:-http://127.0.0.1:9999}/attempt/finish" -H 'Content-Type: application/json' -d @- >/dev/null 2>&1 || true
+}
+trap 'rc=$?; finish_attempt "$rc"' EXIT
 
 # ---- Stage 0: fresh clone on a task branch ----
 rm -rf "$CLONE"
@@ -55,6 +79,14 @@ shape_count() {
 }
 BASE_SHAPE=$(shape_count); BASE_SHAPE=${BASE_SHAPE:-0}
 log "baseline: shape-or-total '$SHAPE' = $BASE_SHAPE"
+OPS_SHA=$(git -C "$OPS" rev-parse HEAD 2>/dev/null || true)
+REPO_SHA=$(git rev-parse HEAD 2>/dev/null || true)
+PACK_SHA=$(sha256sum "$PACK" | awk '{print $1}')
+ATTEMPT_ID=$(jq -n --argjson ticket "$TICKET" --arg worker "${PIPE_WORKER_ID:-}" --arg model "$MODEL" \
+  --arg ops "$OPS_SHA" --arg repo "$REPO_SHA" --arg pack "$PACK_SHA" \
+  '{ticket_id:$ticket,worker_id:$worker,pipeline:"map",model:$model,ops_sha:$ops,repo_sha:$repo,pack_sha:$pack}' \
+  | curl -s -m 10 -X POST "${DISPATCHER:-http://127.0.0.1:9999}/attempt/start" -H 'Content-Type: application/json' -d @- \
+  | jq -r '.id // empty' 2>/dev/null)
 
 # ---- Stage B/C loop: model call -> apply -> gate (max 2 calls) ----
 model_call() { # stdin: prompt -> stdout: model text
