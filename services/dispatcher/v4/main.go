@@ -226,6 +226,9 @@ func validateCapabilityDemand(q CapabilityDemand) error {
 	if strings.TrimSpace(spec.RequiredBehavior) == "" || len(spec.SourceMisses) == 0 {
 		return fmt.Errorf("specification requires required_behavior and source_misses")
 	}
+	if len(spec.SourceMisses) != 1 {
+		return fmt.Errorf("automatic demands require exactly one representative source miss")
+	}
 	for _, miss := range spec.SourceMisses {
 		if strings.TrimSpace(miss.Card) == "" || strings.TrimSpace(miss.Paragraph) == "" || strings.TrimSpace(miss.RequiredBehavior) == "" {
 			return fmt.Errorf("each source miss requires card, paragraph, and required_behavior")

@@ -27,6 +27,8 @@ capability may unlock several tickets. A capability specification contains:
 The dispatcher rejects mixed `required_behavior` values with HTTP 422. Reusing
 a capability key merges source evidence; a conflicting behavior receives 409.
 Legacy `missing_prim` and VOCAB paths remain available during migration.
+The automatic path accepts exactly one representative source miss per report;
+additional evidence accumulates only through later reports that reuse the key.
 
 ## Pipeline lifecycle
 

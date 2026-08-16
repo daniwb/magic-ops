@@ -365,6 +365,16 @@ func TestCapabilityCompleteRequeuesOnlyWhenAllDependenciesReady(t *testing.T) {
 	}
 }
 
+func TestCapabilityDemandRejectsMultiExampleUmbrella(t *testing.T) {
+	setup(t)
+	spec := `{"required_behavior":"broad static behavior","source_misses":[{"card":"A","paragraph":"a","required_behavior":"broad static behavior"},{"card":"B","paragraph":"b","required_behavior":"broad static behavior"}]}`
+	rec := postJSON(capabilityDemand, "/capability-demand",
+		fmt.Sprintf(`{"ticket_id":1,"key":"broad_static_behavior","summary":"too broad","specification":%s}`, spec))
+	if rec.Code != 422 || !strings.Contains(rec.Body.String(), "exactly one representative") {
+		t.Fatalf("multi-example umbrella should be rejected: %d %s", rec.Code, rec.Body.String())
+	}
+}
+
 func TestAttemptLedgerIsImmutableAndVisible(t *testing.T) {
 	setup(t)
 	id, _ := doClaim(t, "p1")

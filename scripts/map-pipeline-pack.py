@@ -235,7 +235,7 @@ the ticket; never invent one umbrella primitive name.
 VERDICT: NEEDS_PRIMITIVE|SEMANTIC_GAP|AMBIGUOUS|NOT_A_SHAPE
 For NEEDS_PRIMITIVE, add exactly one single-line JSON object (no markdown):
 PRIMITIVE: <same lowercase_snake_case key, retained for legacy dashboards>
-CAPABILITY_JSON: {"key":"lowercase_snake_case","summary":"short description","specification":{"required_behavior":"one precise behavior shared by every source miss","source_misses":[{"card":"exact card name","paragraph":"exact relevant oracle paragraph","required_behavior":"the identical required_behavior text"}],"negative_examples":["adjacent behavior that must not change"],"expected_unlock":0}}
+CAPABILITY_JSON: {"key":"lowercase_snake_case","summary":"short description","specification":{"required_behavior":"one precise atomic behavior","source_misses":[{"card":"ONE representative exact card name","paragraph":"exact relevant oracle paragraph","required_behavior":"the identical required_behavior text"}],"negative_examples":["adjacent behavior that must not change"],"expected_unlock":0}}
 REASON: <one line>
 
 OR one or more edit blocks (exact-match search text, unique in the file):
