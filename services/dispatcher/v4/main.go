@@ -186,6 +186,7 @@ type CapabilitySourceMiss struct {
 	Card             string `json:"card"`
 	Paragraph        string `json:"paragraph"`
 	RequiredBehavior string `json:"required_behavior"`
+	OracleTextSHA256 string `json:"oracle_text_sha256,omitempty"`
 }
 
 type CapabilitySpecification struct {

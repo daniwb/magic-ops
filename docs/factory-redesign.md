@@ -18,6 +18,8 @@ capability may unlock several tickets. A capability specification contains:
 
 - one canonical `required_behavior`;
 - exact card and oracle paragraph evidence;
+- a SHA-256 stamp of the current carddb oracle text (added only after the
+  paragraph is verified against the gameplay checkout);
 - the same required behavior on every source miss;
 - adjacent negative examples that must not change;
 - estimated unlock, when known.
