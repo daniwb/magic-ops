@@ -96,7 +96,7 @@ while :; do
       PRIM=$(extract_prim "/tmp/orch/pipeline-$TICKET-reply-"*.md)
       WHY=$(command grep -am1 '^REASON:' "/tmp/orch/pipeline-$TICKET-reply-"*.md 2>/dev/null | head -c 400)
       REPLY=$(ls -1t "/tmp/orch/pipeline-$TICKET-reply-"*.md 2>/dev/null | head -1)
-      CAP_RESULT=$(python3 "$OPS/scripts/capability-contract.py" --ticket "$TICKET" --reply "$REPLY" --dispatcher "$DISPATCHER" 2>>"$PLOG")
+      CAP_RESULT=$(python3 "$OPS/scripts/capability-contract.py" --ticket "$TICKET" --reply "$REPLY" --repo "$REPO" --dispatcher "$DISPATCHER" 2>>"$PLOG")
       read -r CID CSTATE <<<"$CAP_RESULT"
       if ! [[ "$CID" =~ ^[0-9]+$ ]]; then
         report "$TICKET" parked capability_review "" "$WHY" "atomic capability contract missing/heterogeneous; manual split required" "$TOK"

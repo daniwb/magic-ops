@@ -38,12 +38,15 @@ if not prim:
 
 # Park reason: pipeline replies live in /tmp/orch; fall back to ticket descr.
 reason = ''
-for f in sorted(glob.glob('/tmp/orch/pipeline-%d-reply-*.md' % a.ticket), reverse=True):
-    t = open(f).read()
-    m = re.search(r'^REASON:(.*?)(?=^EXPECT:|\Z)', t, re.M | re.S)
-    if m:
-        reason = m.group(1).strip()
-        break
+if capability_spec:
+    reason = 'Atomic contract authority: ' + capability_spec['required_behavior']
+else:
+    for f in sorted(glob.glob('/tmp/orch/pipeline-%d-reply-*.md' % a.ticket), reverse=True):
+        t = open(f).read()
+        m = re.search(r'^REASON:(.*?)(?=^EXPECT:|\Z)', t, re.M | re.S)
+        if m:
+            reason = m.group(1).strip()
+            break
 
 os.chdir(a.repo)
 sys.path.insert(0, os.path.join(a.repo, 'scripts/paragraph'))

@@ -6,7 +6,10 @@ goes through the dispatcher so schema validation and deduplication have one
 authority. Prints the canonical capability id on success.
 """
 import argparse
+import glob
+import hashlib
 import json
+import os
 import re
 import sys
 import urllib.error
@@ -25,14 +28,43 @@ def extract(text: str) -> dict:
     return obj
 
 
+def validate_oracle(obj: dict, repo: str) -> None:
+    records = {}
+    for path in glob.glob(os.path.join(repo, "backend/data/carddb/*.json")):
+        try:
+            with open(path, encoding="utf-8") as stream:
+                data = json.load(stream)
+        except (OSError, json.JSONDecodeError):
+            continue
+        if isinstance(data, dict):
+            records.update(data)
+
+    def norm(value: str) -> str:
+        return " ".join(value.replace("’", "'").replace("“", '"').replace("”", '"').split())
+
+    misses = obj.get("specification", {}).get("source_misses", [])
+    for miss in misses:
+        card = miss.get("card", "")
+        record = records.get(card)
+        if not isinstance(record, dict):
+            raise ValueError("source card not found in carddb: %s" % card)
+        oracle = record.get("text", "")
+        paragraph = miss.get("paragraph", "")
+        if not paragraph or norm(paragraph) not in norm(oracle):
+            raise ValueError("source paragraph is not exact oracle text for %s" % card)
+        miss["oracle_text_sha256"] = hashlib.sha256(oracle.encode()).hexdigest()
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--ticket", type=int, required=True)
     ap.add_argument("--reply", required=True)
     ap.add_argument("--dispatcher", default="http://127.0.0.1:9999")
+    ap.add_argument("--repo", required=True)
     args = ap.parse_args()
     try:
         obj = extract(open(args.reply, encoding="utf-8").read())
+        validate_oracle(obj, args.repo)
         obj["ticket_id"] = args.ticket
         body = json.dumps(obj, separators=(",", ":")).encode()
         req = urllib.request.Request(

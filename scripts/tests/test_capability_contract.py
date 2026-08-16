@@ -1,5 +1,7 @@
 import importlib.util
 import pathlib
+import json
+import tempfile
 import unittest
 
 
@@ -28,6 +30,25 @@ REASON: engine filter supports only the positive form'''
         two = 'CAPABILITY_JSON: {"key":"b","summary":"b","specification":{}}'
         with self.assertRaisesRegex(ValueError, "exactly one"):
             MOD.extract(one + "\n" + two)
+
+    def test_oracle_premise_is_verified_and_stamped(self):
+        obj = MOD.extract('CAPABILITY_JSON: {"key":"x","summary":"x","specification":{"source_misses":[{"card":"Arcades Sabboth","paragraph":"Each untapped creature gets +0/+2.","required_behavior":"x"}]}}')
+        with tempfile.TemporaryDirectory() as root:
+            carddb = pathlib.Path(root) / "backend/data/carddb"
+            carddb.mkdir(parents=True)
+            (carddb / "a.json").write_text(json.dumps({"Arcades Sabboth": {"text": "Flying\nEach untapped creature gets +0/+2."}}))
+            MOD.validate_oracle(obj, root)
+        digest = obj["specification"]["source_misses"][0]["oracle_text_sha256"]
+        self.assertEqual(len(digest), 64)
+
+    def test_fabricated_oracle_paragraph_is_rejected(self):
+        obj = MOD.extract('CAPABILITY_JSON: {"key":"x","summary":"x","specification":{"source_misses":[{"card":"Arcades Sabboth","paragraph":"Other creatures get +0/+2.","required_behavior":"x"}]}}')
+        with tempfile.TemporaryDirectory() as root:
+            carddb = pathlib.Path(root) / "backend/data/carddb"
+            carddb.mkdir(parents=True)
+            (carddb / "a.json").write_text(json.dumps({"Arcades Sabboth": {"text": "Each untapped creature gets +0/+2."}}))
+            with self.assertRaisesRegex(ValueError, "not exact oracle text"):
+                MOD.validate_oracle(obj, root)
 
 
 if __name__ == "__main__":
