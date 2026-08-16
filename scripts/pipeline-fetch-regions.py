@@ -26,7 +26,7 @@ def regions_for(path, idents, budget):
         idents.index(ident)))
     for ident in symbol_first:
         word = re.compile(r'\b%s\b' % re.escape(ident))
-        decl = re.compile(r'^\s*(?:func|type|var|const)\b.*\b%s\b' % re.escape(ident))
+        decl = re.compile(r'^\s*(?:func|type|var|const|def|class)\b.*\b%s\b' % re.escape(ident))
         matches = [i for i, line in enumerate(lines) if word.search(line)]
         matches.sort(key=lambda i: (0 if decl.search(lines[i]) else 1, i))
         ordered_hits.extend(matches[:1])

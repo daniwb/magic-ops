@@ -23,6 +23,20 @@ class FetchRegionsTest(unittest.TestCase):
                        "executeDamageEffect function\n"), capture_output=True)
             self.assertIn("func executeDamageEffect()", result.stdout)
 
+    def test_python_def_is_treated_as_declaration(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            path = root / "scripts/paragraph/reparse.py"
+            path.parent.mkdir(parents=True)
+            lines = ["# damage noise"] * 300
+            lines += ["def map_atom(verb, args):", "    return None"]
+            path.write_text("\n".join(lines) + "\n")
+            result = subprocess.run(
+                ["python3", str(SCRIPT)], cwd=root, text=True, check=True,
+                input=("NEED: scripts/paragraph/reparse.py exact damage branch "
+                       "in map_atom\n"), capture_output=True)
+            self.assertIn("def map_atom(verb, args):", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

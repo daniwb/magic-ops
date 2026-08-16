@@ -39,6 +39,7 @@ finish_attempt() {
       failure="verdict_${verdict:-unknown}"
       ;;
     2) outcome=failed; failure=gate_exhausted;;
+    5) outcome=failed; failure=context_exhausted;;
     *) outcome=failed; failure=infra;;
   esac
   tok=$(command grep -a 'tokens:' "$LOG" 2>/dev/null | python3 -c '
@@ -224,7 +225,11 @@ while [ $attempt -le 2 ]; do
   # NEED rounds: the model may request missing code regions up to twice per
   # run (one round was consistently not enough on tail-end tickets — models
   # re-asked and the reply died as rc=5; a NEED continue costs no attempt).
-  if printf '%s' "$OUT" | command grep -q '^NEED:' && [ "${NEED_USED:-0}" -lt 2 ]; then
+  if printf '%s' "$OUT" | command grep -q '^NEED:'; then
+    if [ "${NEED_USED:-0}" -ge 2 ]; then
+      log "context exhausted: model requested a third region round"
+      exit 5
+    fi
     NEED_USED=$(( ${NEED_USED:-0} + 1 ))
     log "model requested regions (round $NEED_USED): $(printf '%s' "$OUT" | command grep '^NEED:' | tr '\n' ' ')"
     ADD=$(printf '%s' "$OUT" | python3 "$OPS/scripts/pipeline-fetch-regions.py")
