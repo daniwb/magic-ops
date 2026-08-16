@@ -109,7 +109,15 @@ while :; do
       read -r CID CSTATE <<<"$CAP_RESULT"
       if ! [[ "$CID" =~ ^[0-9]+$ ]]; then
         report "$TICKET" parked capability_review "" "$WHY" "atomic capability contract missing/heterogeneous; manual split required" "$TOK"
-        log "#$TICKET sent to capability review — no engine round"
+        # The report above releases the lease into `wait`, which is exactly
+        # the splitter's transactional precondition. Known heterogeneous
+        # families are partitioned immediately into disjoint atomic children;
+        # unsupported families fail closed and remain in capability review.
+        if python3 "$OPS/scripts/split-ambiguous-ticket.py" --commit "$TICKET" >>"$PLOG" 2>&1; then
+          log "#$TICKET deterministically split after capability review"
+        else
+          log "#$TICKET sent to capability review — no deterministic splitter"
+        fi
         kill $HB 2>/dev/null
         sleep 5
         continue
