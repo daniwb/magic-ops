@@ -598,17 +598,17 @@ func ingestBacklog(limit int) int {
 		if json.Unmarshal([]byte(line), &t) != nil || t.Title == "" {
 			continue
 		}
-		// DEDUPE: never enqueue a title that already exists in ANY state.
+		// DEDUPE active and successfully completed work, but allow a title to
+		// be measured and issued again after an operator explicitly marks the
+		// old queue generation "superseded". This is how queue grooming can
+		// replace stale work without deleting its history.
 		// Ohne diese Prüfung wurde derselbe Titel mehrfach zum Ticket — der
 		// Bulk-Import vom 2026-07-20 15:02 erzeugte so 44 Dubletten-Gruppen /
 		// 49 überzählige Tickets (4.2% der Karten-Queue, ~99M Token). Zwei
 		// Worker bauten dieselbe Bundle-Karte parallel; die Handler-Funktionen
 		// kollidierten und main compilierte nicht mehr (#729/#730).
-		// Bewusst OHNE State-Filter: ist der Titel schon 'done', ist die Karte
-		// gefixt und ein zweites Ticket wäre reine Doppelarbeit. Ein echtes
-		// Requeue läuft über /action?do=requeue, nicht über den Ingest.
 		var seen int
-		db.QueryRow(`SELECT COUNT(*) FROM tickets WHERE title=?`, t.Title).Scan(&seen)
+		db.QueryRow(`SELECT COUNT(*) FROM tickets WHERE title=? AND state!='superseded'`, t.Title).Scan(&seen)
 		if seen > 0 {
 			skipped++
 			continue

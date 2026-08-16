@@ -108,6 +108,20 @@ func TestVocabDedup(t *testing.T) {
 	}
 }
 
+func TestIngestAllowsSupersededTitle(t *testing.T) {
+	setup(t)
+	var oldID int64
+	db.QueryRow(`SELECT id FROM tickets WHERE title='DSL-BUNDLE: [draw] Card1'`).Scan(&oldID)
+	db.Exec(`UPDATE tickets SET state='superseded' WHERE id=?`, oldID)
+	metaSet("backlog_offset", "0")
+	if added := ingestBacklog(1); added != 1 {
+		t.Fatalf("expected superseded title to be reissued, added=%d", added)
+	}
+	if got := count(`title='DSL-BUNDLE: [draw] Card1' AND state='todo'`); got != 1 {
+		t.Fatalf("expected one fresh todo ticket, got %d", got)
+	}
+}
+
 func TestOwnershipGuard(t *testing.T) {
 	setup(t)
 	id, _ := doClaim(t, "owner")

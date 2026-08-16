@@ -25,7 +25,7 @@ DB = os.environ.get("DISPATCHER_DB",
 TARGET_OPEN = int(os.environ.get("TARGET_OPEN", "5"))
 MIN_UNLOCK = int(os.environ.get("MIN_UNLOCK", "30"))
 COMMIT = "--commit" in sys.argv
-TERMINAL = ("done", "dup", "archived-v1")
+TERMINAL = ("done", "dup", "archived-v1", "superseded")
 
 if "--refresh" in sys.argv:
     subprocess.run(["python3", "scripts/paragraph/coverage_planner.py", "-n", "80"],
@@ -33,8 +33,9 @@ if "--refresh" in sys.argv:
 
 plan = [json.loads(l) for l in open(f"{REPO}/corpus/build-plan.jsonl")]
 db = sqlite3.connect(DB, timeout=15)
+marks = ",".join("?" for _ in TERMINAL)
 open_rows = db.execute(
-    "SELECT title FROM tickets WHERE state NOT IN (?,?,?)", TERMINAL).fetchall()
+    f"SELECT title FROM tickets WHERE state NOT IN ({marks})", TERMINAL).fetchall()
 open_titles = " | ".join(r[0] for r in open_rows)
 open_rounds = sum(1 for r in open_rows if "class round" in r[0])
 
