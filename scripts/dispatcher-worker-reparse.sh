@@ -82,9 +82,23 @@ if [ "${OLLAMA_WORKER:-0}" = "1" ]; then
   # "for fun" — each injects a full skill doc; context blew 267k/131k and
   # the run died AT THE FINISH LINE. Workers get exactly what the job
   # needs: Bash, Read, Edit, Write, Agent.
-  EXTRA_CLAUDE_FLAGS="${EXTRA_CLAUDE_FLAGS:---disallowedTools WebFetch,WebSearch,Skill,ReportFindings,TaskCreate,TaskUpdate,TaskList,TaskGet,TaskOutput,TaskStop,CronCreate,CronDelete,CronList,DesignSync,PushNotification,ScheduleWakeup,SendMessage,Monitor,EnterWorktree,ExitWorktree,Workflow,NotebookEdit}"
+  # Knowledge service as a real MCP tool, not a curl-via-Bash recipe
+  # (2026-08-13): checked real transcripts across rl1/rn1 — NONE of the
+  # local-model handler-tier lanes ever called the documented curl endpoint,
+  # despite explicit "USE THIS FIRST" instructions; they all fall back to
+  # slow grep/find spelunking instead. Giving the same lookup as a native
+  # tool (mcp__card-knowledge__find_capability / similar_handlers) got it
+  # used as the FIRST tool call in isolated testing, no prompting needed.
+  EXTRA_CLAUDE_FLAGS="${EXTRA_CLAUDE_FLAGS:---disallowedTools WebFetch,WebSearch,Skill,ReportFindings,TaskCreate,TaskUpdate,TaskList,TaskGet,TaskOutput,TaskStop,CronCreate,CronDelete,CronList,DesignSync,PushNotification,ScheduleWakeup,SendMessage,Monitor,EnterWorktree,ExitWorktree,Workflow,NotebookEdit --mcp-config /opt/development/magic-ops/scripts/kb-mcp-config.json --strict-mcp-config}"
 else
   unset ANTHROPIC_BASE_URL ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN
+  # Same knowledge-service MCP tool as the local-model lanes (2026-08-13),
+  # extended to Sonnet/Fable after a real-Sonnet test confirmed clean usage
+  # (5 turns, correct query, honest about not being able to verify locally).
+  # No --disallowedTools restriction here — the paid fleet legitimately uses
+  # the fuller toolset (ToolSearch/TaskOutput/ScheduleWakeup seen in real
+  # engine-round transcripts); only adding the MCP config, not narrowing.
+  EXTRA_CLAUDE_FLAGS="${EXTRA_CLAUDE_FLAGS:---mcp-config /opt/development/magic-ops/scripts/kb-mcp-config.json --strict-mcp-config}"
 fi
 
 log() { printf '[%s] %s: %s\n' "$(date '+%H:%M:%S')" "$WORKER_ID" "$*" >&2; }
@@ -330,14 +344,16 @@ HARNESS
 - Your lane maps parser/converter ONLY: scripts/paragraph/ and backend/cards/
   (converter, registries, shape tests). backend/game/ is OFF-LIMITS — the
   harness auto-parks any branch that touches it and ALL your work is discarded.
-- For event_unsupported / condition_unsupported shapes, your FIRST tool call:
-    curl -s 'http://127.0.0.1:4103/caps' --get --data-urlencode 'name=<the event/condition>'
+- For event_unsupported / condition_unsupported shapes, your FIRST tool call
+  MUST be the check_capability tool (mcp__card-knowledge__check_capability),
+  not Bash, not grep, not Read: check_capability(name=<the event/condition>).
   MISSING -> output VERDICT: NEEDS_PRIMITIVE immediately (name it, one
   paragraph). Do NOT explore the engine first; the check is authoritative.
   SUPPORTED -> map it via converter case / parser rules, never new engine code.
-- Search before reading: curl -s 'http://127.0.0.1:4103/find' --get --data-urlencode 'q=<capability>'
-  Open a file only to PROVE a symbol exists, and read with offset/limit —
-  never whole engine files.
+- Search before reading: use the find_capability tool
+  (mcp__card-knowledge__find_capability), not curl, not grep:
+  find_capability(query=<capability>). Open a file only to PROVE a symbol
+  exists, and read with offset/limit — never whole engine files.
 - Long output is context poison: append  2>&1 | tail -40  to every go
   build/test command.
 MGATE
@@ -353,16 +369,20 @@ miss-shape deltas do NOT apply to handler tickets; ignore that part.
 Write the handler in backend/cards/cardfns/, register it per the existing
 per-card conventions, and put the behavior test in a NEW test file.
 
-## Knowledge service (USE THIS FIRST — do not spelunk the engine)
-A local search service indexes every primitive, helper, and existing card
-handler. Query it with Bash BEFORE reading any engine file:
-  curl -s 'http://127.0.0.1:4103/similar' --get --data-urlencode 'text=<the card text>'
-  curl -s 'http://127.0.0.1:4103/find' --get --data-urlencode 'q=<capability you need>' --data-urlencode 'kind=primitive'
-  (kind can be primitive, helper, or handler; omit it to search everything)
-Start with /similar: the nearest existing handlers are your best template —
+## Knowledge service — USE THESE TOOLS FIRST, not Bash/grep
+Two MCP tools index every primitive, helper, and existing card handler.
+Call them directly — they are NOT curl commands, do not shell out to them:
+  mcp__card-knowledge__similar_handlers(text=<the card's oracle text>)
+  mcp__card-knowledge__find_capability(query=<capability you need>, kind=primitive|helper|handler)
+  (kind is optional; omit it to search everything)
+Your FIRST tool call, before any Bash/grep/find/ls, should be
+similar_handlers: the nearest existing handlers are your best template —
 copy their structure. Open engine files only to PROVE a symbol exists, never
-to discover; if /find returns NO MATCH for a needed capability, the engine
-almost certainly lacks it.
+to discover; if find_capability returns NO MATCH for a needed capability,
+the engine almost certainly lacks it. Manually grepping the codebase for a
+primitive/helper/handler BEFORE calling these tools is a process violation,
+even if it eventually works — it wastes many tool calls on something these
+tools answer in one.
 
 ## Discipline rules (hard requirements)
 - PARK EARLY: within your first 5 tool calls, decide buildable vs park. If

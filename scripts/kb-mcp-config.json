@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "card-knowledge": {
+      "command": "python3",
+      "args": ["/opt/development/magic-ops/scripts/kb-mcp-server.py"]
+    }
+  }
+}
