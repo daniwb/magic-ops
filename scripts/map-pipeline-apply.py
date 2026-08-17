@@ -49,6 +49,17 @@ errors = []
 staged = []
 for path, search, replace in blocks:
     path = path.strip()
+    # Duplicate-delimiter guard (qwen3.8/local lane, 2026-08-17): a model
+    # that re-drafts its REPLACE content mid-block by emitting a SECOND
+    # ===REPLACE (or @@@REPLACE) instead of settling on one final version
+    # makes the block's own non-greedy regex swallow that second marker as
+    # literal replacement content — corrupted a real file with a bare
+    # "===REPLACE" line (ticket #3786). Reject outright rather than apply.
+    if '\n===REPLACE\n' in replace or '\n@@@REPLACE\n' in replace:
+        errors.append('%s: block contains a second REPLACE marker — decide your final '
+                       'replacement content BEFORE writing the block, one SEARCH/REPLACE '
+                       'pair only' % path)
+        continue
     if path.startswith('backend/game/') and not ALLOW_GAME:
         errors.append('%s: backend/game/ is off-limits (auto-park rule)' % path)
         continue

@@ -136,6 +136,26 @@ sys.stdout.write(text)
 " 2>>"$LOG"
     return
   fi
+  # pipe-qwen agentic lane (PIPE_ENGINE=qwen-agentic): unlike the PIPE_BASE_URL
+  # branch below (single completion call, no real tools), this genuinely
+  # explores the clone via real tool-calling (read_file/grep/list_dir) —
+  # confirmed live 2026-08-17 to work dramatically better than either the
+  # staged single-shot approach OR the same agentic loop with the model's
+  # default sampling: a ticket that took 3.5hr and never succeeded staged
+  # completed correctly in 12.5 minutes once thinking was suppressed
+  # (qwen-agentic-call.py handles the temperature/enable_thinking fix
+  # internally). model_call()'s contract (stdin pack in, stdout text out,
+  # "tokens: ..." to $LOG) is honored exactly, so the surrounding gate/
+  # bugfix/commit/push machinery below needs zero changes — the agentic
+  # loop just runs INSIDE what looks like one model_call() from the
+  # caller's perspective. Runs from $CLONE (already the cwd here).
+  if [ "${PIPE_ENGINE:-}" = qwen-agentic ]; then
+    python3 "$OPS/scripts/qwen-agentic-call.py" --repo "$PWD" \
+      --base-url "${PIPE_BASE_URL:-http://192.168.1.251:8080}" --model "$MODEL" \
+      --max-turns "${PIPE_AGENTIC_MAX_TURNS:-25}" --max-tokens "${PIPE_MAX_TOKENS_CAP:-8000}" \
+      2>>"$LOG"
+    return
+  fi
   # Local lane (PIPE_BASE_URL): bypass the claude CLI — it always advertises
   # internal tools, and gpt-oss answers with finish_reason=tool_calls + empty
   # content. Bare /v1/messages with NO tools forces final-channel text
@@ -146,13 +166,63 @@ sys.stdout.write(text)
     # context-shifts when prompt+max_tokens exceeds its ~8k window, corrupting
     # the harmony stream ("peg-native format" 500, 2026-08-08). Keep the sum
     # under the window; floor 1200 so verdicts/patches still fit.
+    # Budget floor/cap/context-window are configurable (PIPE_MIN_TOKENS/
+    # PIPE_MAX_TOKENS_CAP/PIPE_CTX_BUDGET) — defaults below are UNCHANGED
+    # from the original 2026-08-09 gpt-oss tuning (that server context-
+    # shifted and corrupted its own stream past an ~8-12k combined window,
+    # "peg-native format" 500, 2026-08-08). qwen3.8/llama-server on
+    # 192.168.1.251:8080 reports n_ctx=131072 (confirmed via /v1/models,
+    # 2026-08-16/17) — none of that applies there; launch-pipe-qwen.sh
+    # overrides these to much larger values. Backward-compatible: any lane
+    # not setting these envs gets the exact old numbers.
     local body
     body=$(python3 -c "
 import json, sys
 p = sys.stdin.read()
-mt = max(1500, min(4000, 10000 - len(p)//3))  # 2026-08-09 pm: measured window today: in+out 10.3k ok, 14.5k peg-native 500 -> budget 12k; overshoot aborts clean, ticket returns
-print(json.dumps({'model': '$MODEL', 'max_tokens': mt, 'messages': [{'role': 'user', 'content': p}]}))")
-    raw=$(curl -s -m 1500 "$PIPE_BASE_URL/v1/messages" \
+mt = max(${PIPE_MIN_TOKENS:-1500}, min(${PIPE_MAX_TOKENS_CAP:-4000}, ${PIPE_CTX_BUDGET:-10000} - len(p)//3))
+# stream explicit (2026-08-16, qwen3.8/llama-server on 192.168.1.251:8080):
+# without it this server returns a plain JSON object, not SSE — the 'data: '
+# grep below would match nothing and every call would silently come back
+# empty. Explicit stream:true is a superset of whatever the earlier local
+# servers (gpt-oss) defaulted to, so this is backward-compatible.
+# system override (2026-08-17, qwen3.8): the pack's own '## TOOL BUDGET'
+# section ('You may Read/Grep/Glob...') is boilerplate written for the
+# claude/codex branches, which DO have real tool access there (claude's
+# CLI would otherwise advertise tools; codex genuinely can read its own
+# sandbox). This branch sends a bare completion call with NO 'tools' array
+# at all — gpt-oss handled that mismatch fine (fell back to plain text),
+# but qwen3.8 instead emits its own trained '<tool_call><function=Grep>...'
+# text syntax and burns its entire budget on that, never answering
+# (confirmed live, ticket #3790: two full calls, zero edit blocks, zero
+# verdict — 100% consumed by hallucinated tool-call text). Mirrors the
+# claude branch's --append-system-prompt override below.
+# ROOT CAUSE of the empty-reply/no-shape-delta pattern (2026-08-17): this
+# call never set temperature (server default 1.0 — ABOVE either of Qwen3's
+# own documented presets) and never suppressed "thinking", which turned
+# out unbounded: live testing found 5 consecutive full-budget calls (up to
+# 24000 tokens) burned ENTIRELY on reasoning with zero actual answer, in
+# BOTH this staged mode and a real agentic tool-loop test. Suppressing
+# thinking via chat_template_kwargs.enable_thinking:false (llama-server's
+# vLLM-compatible convention — the Qwen-native '/no_think' suffix did NOT
+# work against this template, confirmed live) is a dramatic, verified fix:
+# a control call dropped from 55 completion tokens (with a full
+# reasoning_content block) to 4 (direct answer only). Paired with Qwen3's
+# documented non-thinking-mode sampling preset (temp 0.7/top_p 0.8/top_k
+# 20/min_p 0 vs. thinking-mode's 0.6/0.95/20/0). Overridable via
+# PIPE_DISABLE_THINKING=0 if a future non-Qwen local server chokes on
+# these fields.
+disable_thinking = ${PIPE_DISABLE_THINKING:-1}
+extra = {}
+if disable_thinking:
+    extra = {'temperature': ${PIPE_TEMPERATURE:-0.7}, 'top_p': ${PIPE_TOP_P:-0.8},
+              'top_k': ${PIPE_TOP_K:-20}, 'min_p': ${PIPE_MIN_P:-0},
+              'chat_template_kwargs': {'enable_thinking': False}}
+body = {'model': '$MODEL', 'max_tokens': mt, 'stream': True,
+        'system': 'You have NO tools available for this request — no function/tool-calling capability exists on this API call. Do not attempt any tool or function call, including Read/Grep/Glob mentioned elsewhere in the prompt; that instruction does not apply here. Answer directly in plain text using only the code/context already given, following the OUTPUT FORMAT exactly.',
+        'messages': [{'role': 'user', 'content': p}]}
+body.update(extra)
+print(json.dumps(body))")
+    raw=$(curl -s -m "${PIPE_LOCAL_TIMEOUT:-1500}" "$PIPE_BASE_URL/v1/messages" \
       -H 'content-type: application/json' -H "x-api-key: ${PIPE_AUTH_TOKEN:-ollama}" \
       -H 'anthropic-version: 2023-06-01' \
       -d "$body")

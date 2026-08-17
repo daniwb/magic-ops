@@ -337,9 +337,17 @@ exact existing lines (copy verbatim, WITHOUT the line-number prefixes)
 ===REPLACE
 replacement lines
 >>>END
+Each block has EXACTLY ONE <<<SEARCH section and EXACTLY ONE ===REPLACE
+section — decide your final replacement content BEFORE writing the block.
+Do NOT write a second ===REPLACE inside the same block to revise yourself;
+if unsure, think it through first, then emit ONE clean block. A second
+===REPLACE marker is treated as literal file content and will corrupt the
+target file.
 
 End with one line:
 EXPECT: <which example paragraph(s) should now parse and to what>
+STOP immediately after that line. Do not continue reasoning, re-exploring,
+or second-guessing afterward — nothing after EXPECT: is read.
 No other prose.''' % (a.ticket, title, shape,
                       landed_primitive_section,
                       '\n\n'.join(card_sections) or '(no records found)',
