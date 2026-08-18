@@ -20,7 +20,35 @@ def extract(text: str) -> dict:
     matches = re.findall(r"^CAPABILITY_JSON:\s*(\{.*\})\s*$", text, re.M)
     if len(matches) != 1:
         raise ValueError("expected exactly one single-line CAPABILITY_JSON object")
-    obj = json.loads(matches[0])
+    raw = matches[0]
+    try:
+        obj = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        # Missing-closing-brace repair (2026-08-18): confirmed live on two
+        # independent well-formed capability demands (tickets #3659, #3854)
+        # — the model correctly nested "specification":{...} but miscounted
+        # its own closing braces at the very end of the line, losing an
+        # otherwise-valid single-capability NEEDS_PRIMITIVE to manual review
+        # for a one-character slip. Bounded repair: only try appending 1-2
+        # extra '}' (never rewriting/guessing content) and only accept the
+        # result if it round-trips through json.dumps back to a string
+        # ending the same way the model's own trailing content did — so
+        # this can ONLY recover exactly this failure shape, not paper over
+        # genuinely malformed/truncated output.
+        if exc.pos != len(raw):
+            raise
+        repaired = None
+        for extra in ("}", "}}"):
+            candidate = raw + extra
+            try:
+                candidate_obj = json.loads(candidate)
+            except json.JSONDecodeError:
+                continue
+            repaired = candidate_obj
+            break
+        if repaired is None:
+            raise
+        obj = repaired
     required = {"key", "summary", "specification"}
     missing = required - set(obj)
     if missing:
