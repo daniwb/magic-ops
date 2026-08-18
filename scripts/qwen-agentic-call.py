@@ -103,8 +103,20 @@ SYSTEM_PROMPT = (
     "no call limit. Registered vocabulary only; never touch backend/game/. "
     "When you are ready to answer, STOP calling tools and reply with plain "
     "text ONLY, in exactly this format:\n\n"
-    "EITHER a park verdict:\n"
+    "EITHER a park verdict. NEEDS_PRIMITIVE is legal ONLY when every source_miss "
+    "needs the SAME atomic behavior — if the examples need different behaviors, "
+    "return AMBIGUOUS instead so discovery can split the ticket; never invent one "
+    "umbrella primitive name:\n"
     "VERDICT: NEEDS_PRIMITIVE|SEMANTIC_GAP|AMBIGUOUS|NOT_A_SHAPE\n"
+    "For NEEDS_PRIMITIVE, add exactly one single-line JSON object (no markdown) — "
+    "quote paragraph EXACTLY as it appears in the card's real oracle text (read_file "
+    "the carddb record yourself to verify, don't paraphrase):\n"
+    'CAPABILITY_JSON: {"key":"lowercase_snake_case","summary":"short description",'
+    '"specification":{"required_behavior":"one precise atomic behavior",'
+    '"source_misses":[{"card":"ONE representative exact card name",'
+    '"paragraph":"exact relevant oracle paragraph","required_behavior":'
+    '"the identical required_behavior text"}],"negative_examples":'
+    '["adjacent behavior that must not change"],"expected_unlock":0}}\n'
     "REASON: <one line>\n\n"
     "OR one or more edit blocks (exact-match search text, unique in the file):\n"
     "<<<FILE path/relative/to/repo\n<<<SEARCH\nexact existing lines (copy verbatim, "
