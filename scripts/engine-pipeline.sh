@@ -100,6 +100,24 @@ sys.stdout.write(text)
 " 2>>"$LOG"
     return
   fi
+  # pipe-qwen agentic lane (PIPE_ENGINE=qwen-agentic): mirrors
+  # map-pipeline.sh's branch exactly — real tool-calling loop instead of a
+  # pre-packed single-shot completion, --allow-game since this IS the
+  # engine tier (backend/game/ edits legitimate here). Was MISSING until
+  # 2026-08-20: a qwen capability demand (e.g. #27, filed on a false "tap_all
+  # is creature-only" claim from the map tier) reached this function with
+  # PIPE_ENGINE=qwen-agentic still set (inherited from launch-pipe-qwen.sh),
+  # found no matching branch, fell through to the unfixed PIPE_BASE_URL
+  # branch below, and failed with "empty model reply" — the exact
+  # thinking-runaway symptom map-pipeline.sh's branch was fixed for days
+  # earlier but this file never got the same fix.
+  if [ "${PIPE_ENGINE:-}" = qwen-agentic ]; then
+    python3 "$OPS/scripts/qwen-agentic-call.py" --repo "$PWD" --allow-game \
+      --base-url "${PIPE_BASE_URL:-http://192.168.1.251:8080}" --model "$MODEL" \
+      --max-turns "${PIPE_AGENTIC_MAX_TURNS:-25}" --max-tokens "${PIPE_MAX_TOKENS_CAP:-8000}" \
+      2>>"$LOG"
+    return
+  fi
   # Local lane (PIPE_BASE_URL): bare /v1/messages curl, no tools — the claude
   # CLI's advertised tools make gpt-oss emit tool_calls with empty content
   # (ported from handler-pipeline.sh, validated green 2026-08-07).
@@ -109,20 +127,27 @@ sys.stdout.write(text)
     # context-shifts when prompt+max_tokens exceeds its ~8k window, corrupting
     # the harmony stream ("peg-native format" 500, 2026-08-08). Keep the sum
     # under the window; floor 1200 so verdicts/patches still fit.
+    # Budget floor/cap/context-window configurable + stream/temperature/
+    # thinking fix (2026-08-20, mirroring map-pipeline.sh's identical fix):
+    # this branch is now a fallback only (qwen-agentic is the real path
+    # above) but kept consistent so it isn't a silent trap for any future
+    # lane that reaches it without PIPE_ENGINE=qwen-agentic set.
     local body
     body=$(python3 -c "
 import json, sys
 p = sys.stdin.read()
-# 2026-08-09 le1: engine packs (~30kB = 9k prompt tokens) bottomed the old
-# 6900-budget out at the 1600 floor; gpt-oss spent it all on the analysis
-# channel and never reached the final channel (empty reply). Box accepted
-# in=8710+out=1600 fine today, so the effective window is far above the old
-# under-load 6.9k measurement. Failure mode on overshoot is a clean abort.
-# NOTE: this comment lives inside a bash double-quoted python -c string —
-# no double quotes in here, they truncate the script.
-mt = max(1500, min(4000, 10000 - len(p)//3))
-print(json.dumps({'model': '$MODEL', 'max_tokens': mt, 'messages': [{'role': 'user', 'content': p}]}))")
-    raw=$(curl -s -m 1500 "$PIPE_BASE_URL/v1/messages" \
+mt = max(${PIPE_MIN_TOKENS:-1500}, min(${PIPE_MAX_TOKENS_CAP:-4000}, ${PIPE_CTX_BUDGET:-10000} - len(p)//3))
+disable_thinking = ${PIPE_DISABLE_THINKING:-1}
+extra = {}
+if disable_thinking:
+    extra = {'temperature': ${PIPE_TEMPERATURE:-0.7}, 'top_p': ${PIPE_TOP_P:-0.8},
+              'top_k': ${PIPE_TOP_K:-20}, 'min_p': ${PIPE_MIN_P:-0},
+              'chat_template_kwargs': {'enable_thinking': False}}
+body = {'model': '$MODEL', 'max_tokens': mt, 'stream': True,
+        'messages': [{'role': 'user', 'content': p}]}
+body.update(extra)
+print(json.dumps(body))")
+    raw=$(curl -s -m "${PIPE_LOCAL_TIMEOUT:-1500}" "$PIPE_BASE_URL/v1/messages" \
       -H 'content-type: application/json' -H "x-api-key: ${PIPE_AUTH_TOKEN:-ollama}" \
       -H 'anthropic-version: 2023-06-01' \
       -d "$body")

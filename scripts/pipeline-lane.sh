@@ -39,6 +39,10 @@ usage_gate() {
     if ! pace_ok_codex; then log "codex pace-gate: over daily step — pause"; return 1; fi
     return 0
   fi
+  if [ "${PIPE_ENGINE:-}" = qwen-agentic ]; then
+    # Local llama-server, no metered account quota to pace against.
+    return 0
+  fi
   if ! pace_ok; then log "pace-gate: over daily step — pause"; return 1; fi
   return 0
 }

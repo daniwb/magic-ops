@@ -35,6 +35,8 @@ ap.add_argument('--base-url', default='http://192.168.1.251:8080')
 ap.add_argument('--model', default='./Qwen3.8-27B/Qwen3.8-27B-Q8_0.gguf')
 ap.add_argument('--max-turns', type=int, default=25)
 ap.add_argument('--max-tokens', type=int, default=8000)
+ap.add_argument('--allow-game', action='store_true',
+                 help='engine tier: backend/game/ edits are allowed (mirrors map-pipeline-apply.py\'s flag)')
 a = ap.parse_args()
 
 TOOLS = [
@@ -95,12 +97,31 @@ def run_tool(name, args):
     return 'ERROR: unknown tool %s' % name
 
 
+if a.allow_game:
+    # Engine tier (mirrors engine-pipeline-pack.py's own instructions):
+    # backend/game/ edits are legitimate here, but a NEW test function is a
+    # HARD gate requirement (engine-pipeline.sh greps the diff for
+    # '^+func Test' in a *_test.go file and rejects the patch outright if
+    # missing) — qwen has no way to know that unless told explicitly.
+    SCOPE_RULE = (
+        "This is the ENGINE tier: backend/game/ edits ARE allowed. Prefer "
+        "extending an existing executor/switch over inventing a new mechanism. "
+        "Your diff MUST include a NEW test function (a line starting 'func "
+        "Test...') in a NEW _test.go file — a real behavior test, not just an "
+        "assertion of current behavior — or the patch is rejected outright "
+        "regardless of whether the code itself is correct. If this demand is "
+        "actually FRAMEWORK-sized (new event system, new cross-cutting "
+        "dispatch/state), do NOT attempt it — return a park verdict instead."
+    )
+else:
+    SCOPE_RULE = "Registered vocabulary only; never touch backend/game/."
+
 SYSTEM_PROMPT = (
     "You are patching the deterministic MTG reparse pipeline (repo openmagic). "
     "You have REAL tools: read_file, grep, list_dir — use them to explore the "
     "repo yourself; ignore any '## Relevant code regions' or 'TOOL BUDGET' "
     "section below, that framing is stale, you have full real tool access with "
-    "no call limit. Registered vocabulary only; never touch backend/game/. "
+    "no call limit. " + SCOPE_RULE + " "
     "When you are ready to answer, STOP calling tools and reply with plain "
     "text ONLY, in exactly this format:\n\n"
     "EITHER a park verdict. NEEDS_PRIMITIVE is legal ONLY when every source_miss "
@@ -124,6 +145,9 @@ SYSTEM_PROMPT = (
     "Each block has EXACTLY ONE <<<SEARCH and EXACTLY ONE ===REPLACE — decide your "
     "final replacement content before writing the block, never a second ===REPLACE "
     "inside the same block.\n\n"
+    "To CREATE a brand-new file (e.g. a new _test.go file — SEARCH/REPLACE only "
+    "works on files that already exist), use a NEWFILE block instead:\n"
+    "<<<NEWFILE path/relative/to/repo\nfull file content\n>>>END\n\n"
     "End with: EXPECT: <one line>\nSTOP immediately after that line, no more prose "
     "or tool calls."
 )
