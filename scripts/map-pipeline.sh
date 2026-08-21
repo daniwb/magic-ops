@@ -205,6 +205,19 @@ print(json.dumps(body))")
     printf '%s' "$raw" | jq -r '.choices[0].message.content // empty'
     return
   fi
+  # pipe-ox agentic lane (PIPE_ENGINE=openrouter-agentic): built 2026-08-21
+  # after the staged branch above repeatedly hit its NEED-round cap (3 of
+  # ~18 tickets in the first live hour) — the same symptom that drove
+  # qwen-agentic-call.py's creation. Real read_file/grep/list_dir tools
+  # instead of the pre-packed context + bounded NEED protocol.
+  if [ "${PIPE_ENGINE:-}" = openrouter-agentic ]; then
+    python3 "$OPS/scripts/openrouter-agentic-call.py" --repo "$PWD" \
+      --base-url "${PIPE_BASE_URL:-https://openrouter.ai/api/v1}" --model "$MODEL" \
+      --max-turns "${PIPE_AGENTIC_MAX_TURNS:-25}" --max-tokens "${PIPE_MAX_TOKENS_CAP:-8000}" \
+      --reasoning-tokens "${PIPE_REASONING_TOKENS:-3000}" \
+      2>>"$LOG"
+    return
+  fi
   # pipe-qwen agentic lane (PIPE_ENGINE=qwen-agentic): unlike the PIPE_BASE_URL
   # branch below (single completion call, no real tools), this genuinely
   # explores the clone via real tool-calling (read_file/grep/list_dir) —

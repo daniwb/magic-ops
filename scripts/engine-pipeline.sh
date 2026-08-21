@@ -100,6 +100,63 @@ sys.stdout.write(text)
 " 2>>"$LOG"
     return
   fi
+  # pipe-ox lanes (PIPE_ENGINE=openrouter / openrouter-agentic): were MISSING
+  # entirely until 2026-08-21 — a pipe-ox capability escalation reaching this
+  # function fell through to the plain-claude branch below with
+  # PIPE_MODEL=stealth/ox-alpha, the same "inherited PIPE_ENGINE, no matching
+  # branch" gap as qwen-agentic's below (found and fixed 2026-08-20). Mirrors
+  # map-pipeline.sh's branches exactly, --allow-game passed to the agentic
+  # call since this IS the engine tier.
+  if [ "${PIPE_ENGINE:-}" = openrouter ]; then
+    : "${OPENROUTER_API_KEY:?OPENROUTER_API_KEY not set — put it in $OPS/.env}"
+    local body raw http_code bodyfile
+    body=$(python3 -c "
+import json, sys
+p = sys.stdin.read()
+body = {
+    'model': '$MODEL',
+    'max_tokens': ${PIPE_MAX_TOKENS_CAP:-8000},
+    'stream': False,
+    'reasoning': {'max_tokens': ${PIPE_REASONING_TOKENS:-3000}, 'exclude': True},
+    'messages': [
+        {'role': 'system', 'content': 'You have NO tools available for this request — no function/tool-calling capability exists on this API call. Do not attempt any tool or function call, including Read/Grep/Glob mentioned elsewhere in the prompt; that instruction does not apply here. Answer directly in plain text using only the code/context already given, following the OUTPUT FORMAT exactly.'},
+        {'role': 'user', 'content': p},
+    ],
+}
+print(json.dumps(body))")
+    bodyfile=$(mktemp)
+    printf '%s' "$body" > "$bodyfile"
+    raw=$(curl -s -m "${PIPE_LOCAL_TIMEOUT:-300}" -w '\n%{http_code}' \
+      https://openrouter.ai/api/v1/chat/completions \
+      -H "Authorization: Bearer $OPENROUTER_API_KEY" \
+      -H 'content-type: application/json' \
+      -H 'HTTP-Referer: https://github.com/daniwb/magic-ops' \
+      -H 'X-Title: pipe-ox-engine' \
+      --data-binary "@$bodyfile")
+    rm -f "$bodyfile"
+    http_code=$(printf '%s' "$raw" | tail -1)
+    raw=$(printf '%s' "$raw" | sed '$d')
+    printf '%s' "$raw" > "/tmp/orch/pipeline-$TICKET-raw-last.json"
+    if [ "$http_code" = 429 ]; then
+      echo "openrouter: HTTP 429 rate limited" >>"$LOG"
+      return
+    fi
+    if [ "$http_code" != 200 ]; then
+      echo "openrouter: HTTP $http_code — $(printf '%s' "$raw" | head -c 300)" >>"$LOG"
+      return
+    fi
+    printf '%s' "$raw" | jq -r '"tokens: in=\(.usage.prompt_tokens // 0) out=\(.usage.completion_tokens // 0) cache_r=\(.usage.prompt_tokens_details.cached_tokens // 0) cache_w=0"' >>"$LOG" 2>/dev/null
+    printf '%s' "$raw" | jq -r '.choices[0].message.content // empty'
+    return
+  fi
+  if [ "${PIPE_ENGINE:-}" = openrouter-agentic ]; then
+    python3 "$OPS/scripts/openrouter-agentic-call.py" --repo "$PWD" --allow-game \
+      --base-url "${PIPE_BASE_URL:-https://openrouter.ai/api/v1}" --model "$MODEL" \
+      --max-turns "${PIPE_AGENTIC_MAX_TURNS:-25}" --max-tokens "${PIPE_MAX_TOKENS_CAP:-8000}" \
+      --reasoning-tokens "${PIPE_REASONING_TOKENS:-3000}" \
+      2>>"$LOG"
+    return
+  fi
   # pipe-qwen agentic lane (PIPE_ENGINE=qwen-agentic): mirrors
   # map-pipeline.sh's branch exactly — real tool-calling loop instead of a
   # pre-packed single-shot completion, --allow-game since this IS the

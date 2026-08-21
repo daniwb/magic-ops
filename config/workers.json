@@ -1,0 +1,37 @@
+[
+  {
+    "name": "p1",
+    "engine": "claude",
+    "model": "claude-sonnet-5",
+    "max_turns": 5
+  },
+  {
+    "name": "pipe-codex",
+    "engine": "codex",
+    "model": "gpt-5.6-sol"
+  },
+  {
+    "name": "pipe-qwen",
+    "engine": "qwen-agentic",
+    "model": "./Qwen3.8-27B/Qwen3.8-27B-Q8_0.gguf",
+    "base_url": "http://192.168.1.251:8080",
+    "max_turns": 25,
+    "max_tokens": 8000
+  },
+  {
+    "name": "pipe-ox",
+    "engine": "openrouter",
+    "model": "stealth/ox-alpha",
+    "max_tokens": 8000,
+    "reasoning_tokens": 3000,
+    "max_need_rounds": 4
+  },
+  {
+    "name": "pipe-ox2",
+    "engine": "openrouter",
+    "model": "stealth/ox-alpha",
+    "max_tokens": 8000,
+    "reasoning_tokens": 3000,
+    "max_need_rounds": 4
+  }
+]
