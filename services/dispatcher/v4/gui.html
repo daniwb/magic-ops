@@ -104,6 +104,11 @@ gpuState(); setInterval(()=>gpuState(), 15000);
   </div>
 
   <section>
+    <h2>Workers <span class="mut" style="text-transform:none;letter-spacing:0">(config/workers.json)</span></h2>
+    <div id="workersPanel"><span class="empty">lade…</span></div>
+  </section>
+
+  <section>
     <h2>Durchsatz · wartende Karten (todo) über Zeit</h2>
     <canvas id="chart" width="1100" height="70"></canvas>
   </section>
@@ -328,8 +333,32 @@ async function drawChart(){
   } catch(e){}
 }
 
-function all(){ tick(); usage(); refreshList(); drawChart(); }
-all(); setInterval(tick,5000); setInterval(usage,15000); setInterval(refreshList,10000); setInterval(drawChart,60000);
+// ---- Workers panel: config/workers.json + live status, Start button for
+// configured-but-idle workers. GET /workers, start via POST /action?do=
+// start-worker&name=X (worker_ctl.py under the hood, detached tmux window
+// under the "dispatcher" session — this process never owns the child).
+async function workersPanel(){
+  try {
+    const ws = await j('/workers');
+    if(!ws.length){ $('#workersPanel').innerHTML='<span class="empty">config/workers.json leer oder nicht lesbar</span>'; return; }
+    $('#workersPanel').innerHTML = '<table><tbody>'+ws.map(w=>
+      `<tr><td style="width:100px"><b>${esc(w.name)}</b></td>
+       <td><span class="pill" style="color:var(--vio)">${esc(w.engine)}</span> ${esc(w.model)}</td>
+       <td>${w.running
+          ? `<span class="dot" style="background:var(--ok)"></span>läuft${w.current_ticket?` · #${w.current_ticket} <span class="mut">${esc((w.current_title||'').slice(0,40))}</span>`:''}`
+          : `<span class="dot" style="background:var(--mut)"></span><span class="mut">gestoppt</span>`}</td>
+       <td style="width:70px;text-align:right">${w.running?'' : `<button onclick="startWorker('${w.name}')">▶ Start</button>`}</td></tr>`
+    ).join('')+'</tbody></table>';
+  } catch(e){ $('#workersPanel').innerHTML='<span class="empty">Workers-Liste nicht verfügbar</span>'; }
+}
+async function startWorker(name){
+  const r = await fetch('/action?do=start-worker&name='+encodeURIComponent(name)).then(r=>r.json()).catch(()=>({ok:false}));
+  if(!r.ok) alert('Start fehlgeschlagen: '+(r.error||'unbekannter Fehler'));
+  workersPanel();
+}
+
+function all(){ tick(); usage(); refreshList(); drawChart(); workersPanel(); }
+all(); setInterval(tick,5000); setInterval(usage,15000); setInterval(refreshList,10000); setInterval(drawChart,60000); setInterval(workersPanel,15000);
 </script>
 </body>
 </html>

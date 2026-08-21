@@ -1320,6 +1320,13 @@ func action(w http.ResponseWriter, r *http.Request) {
 		fmt.Sscanf(r.URL.Query().Get("n"), "%d", &n)
 		added := ingestBacklog(n)
 		writeJSON(w, map[string]any{"ok": true, "added": added})
+	case "start-worker": // Workers-Panel "Start"-Button (2026-08-21)
+		name := r.URL.Query().Get("name")
+		if err := startWorker(name); err != nil {
+			http.Error(w, err.Error(), 500)
+			return
+		}
+		writeJSON(w, map[string]any{"ok": true, "started": name})
 	default:
 		http.Error(w, "unknown action", 400)
 	}
@@ -1738,6 +1745,7 @@ func main() {
 	http.HandleFunc("/local-gpu", localGPU)
 	http.HandleFunc("/ticket", ticketDetail)
 	http.HandleFunc("/dashboard", dashboard)
+	http.HandleFunc("/workers", workersHandler)
 	http.HandleFunc("/carddb", carddb)
 	http.HandleFunc("/pilestats", pilestats)
 	http.HandleFunc("/buildplan", buildplan)
