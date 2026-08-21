@@ -136,6 +136,75 @@ sys.stdout.write(text)
 " 2>>"$LOG"
     return
   fi
+  # pipe-ox lane (PIPE_ENGINE=openrouter): staged single-shot, same contract
+  # as the claude/codex branches above — pack in on stdin, edit-blocks/
+  # verdict/NEED text out. Model is a free OpenRouter reasoning model
+  # (stealth/ox-alpha, 2026-08-21) via the standard OpenAI-compatible
+  # /chat/completions endpoint. Two lessons carried over from the qwen3.8
+  # saga earlier this session, applied from day one instead of rediscovered:
+  #   1. "No tools" system override — the pack's TOOL BUDGET/NEED boilerplate
+  #      is written for claude/codex which DO have real tool access; without
+  #      this override an unfamiliar model can hallucinate tool-call syntax
+  #      and burn its whole reply on that instead of answering (confirmed
+  #      live on qwen3.8, ticket #3790).
+  #   2. Reasoning cap — OpenRouter's own docs confirm ox-alpha is a
+  #      reasoning model; qwen3.8 burned its ENTIRE token budget on
+  #      unbounded internal reasoning with zero output before that was
+  #      capped. OpenRouter exposes a first-class `reasoning.max_tokens`
+  #      dial (not a blind on/off switch) — use it, plus `exclude:true` so
+  #      the reasoning text itself doesn't pollute the visible content the
+  #      edit-block/verdict regexes parse.
+  # API key: OPENROUTER_API_KEY, sourced from $OPS/.env by pipeline-lane.sh
+  # (gitignored, never commit it) — fails loudly if unset rather than
+  # silently sending an unauthenticated request.
+  if [ "${PIPE_ENGINE:-}" = openrouter ]; then
+    : "${OPENROUTER_API_KEY:?OPENROUTER_API_KEY not set — put it in $OPS/.env}"
+    local body raw http_code
+    body=$(python3 -c "
+import json, sys
+p = sys.stdin.read()
+body = {
+    'model': '$MODEL',
+    'max_tokens': ${PIPE_MAX_TOKENS_CAP:-8000},
+    'stream': False,
+    'reasoning': {'max_tokens': ${PIPE_REASONING_TOKENS:-3000}, 'exclude': True},
+    'messages': [
+        {'role': 'system', 'content': 'You have NO tools available for this request — no function/tool-calling capability exists on this API call. Do not attempt any tool or function call, including Read/Grep/Glob mentioned elsewhere in the prompt; that instruction does not apply here. Answer directly in plain text using only the code/context already given, following the OUTPUT FORMAT exactly.'},
+        {'role': 'user', 'content': p},
+    ],
+}
+print(json.dumps(body))")
+    # Body goes through a temp file, not -d "$body" — a large ticket (many
+    # NEED-round-expanded code regions) can push the JSON well past the
+    # shell's ARG_MAX, which failed hard as "curl: Argument list too long"
+    # (confirmed live 2026-08-21, ticket #3891/#3914) instead of the normal
+    # empty-reply/retry path — a silent-looking crash, not a model failure.
+    local bodyfile
+    bodyfile=$(mktemp)
+    printf '%s' "$body" > "$bodyfile"
+    raw=$(curl -s -m "${PIPE_LOCAL_TIMEOUT:-300}" -w '\n%{http_code}' \
+      https://openrouter.ai/api/v1/chat/completions \
+      -H "Authorization: Bearer $OPENROUTER_API_KEY" \
+      -H 'content-type: application/json' \
+      -H 'HTTP-Referer: https://github.com/daniwb/magic-ops' \
+      -H 'X-Title: pipe-ox' \
+      --data-binary "@$bodyfile")
+    rm -f "$bodyfile"
+    http_code=$(printf '%s' "$raw" | tail -1)
+    raw=$(printf '%s' "$raw" | sed '$d')
+    printf '%s' "$raw" > "/tmp/orch/pipeline-$TICKET-raw-last.json"
+    if [ "$http_code" = 429 ]; then
+      echo "openrouter: HTTP 429 rate limited" >>"$LOG"
+      return
+    fi
+    if [ "$http_code" != 200 ]; then
+      echo "openrouter: HTTP $http_code — $(printf '%s' "$raw" | head -c 300)" >>"$LOG"
+      return
+    fi
+    printf '%s' "$raw" | jq -r '"tokens: in=\(.usage.prompt_tokens // 0) out=\(.usage.completion_tokens // 0) cache_r=\(.usage.prompt_tokens_details.cached_tokens // 0) cache_w=0"' >>"$LOG" 2>/dev/null
+    printf '%s' "$raw" | jq -r '.choices[0].message.content // empty'
+    return
+  fi
   # pipe-qwen agentic lane (PIPE_ENGINE=qwen-agentic): unlike the PIPE_BASE_URL
   # branch below (single completion call, no real tools), this genuinely
   # explores the clone via real tool-calling (read_file/grep/list_dir) —
@@ -295,9 +364,15 @@ while [ $attempt -le 2 ]; do
   # NEED rounds: the model may request missing code regions up to twice per
   # run (one round was consistently not enough on tail-end tickets — models
   # re-asked and the reply died as rc=5; a NEED continue costs no attempt).
+  # Cap is configurable (PIPE_MAX_NEED_ROUNDS, default 2 — unchanged from
+  # the original claude/codex tuning): pipe-ox's stealth/ox-alpha ignored
+  # the round-2 "FINAL, answer now" instruction and asked for a 3rd round
+  # in 2/2 initial test tickets (2026-08-21) — a real per-model behavior
+  # difference, not a bug in the cap itself. Backends that comply with
+  # "FINAL" (claude/codex, confirmed live) are unaffected by raising this.
   if printf '%s' "$OUT" | command grep -q '^NEED:'; then
-    if [ "${NEED_USED:-0}" -ge 2 ]; then
-      log "context exhausted: model requested a third region round"
+    if [ "${NEED_USED:-0}" -ge "${PIPE_MAX_NEED_ROUNDS:-2}" ]; then
+      log "context exhausted: model requested region round $(( ${NEED_USED:-0} + 1 ))"
       exit 5
     fi
     NEED_USED=$(( ${NEED_USED:-0} + 1 ))
@@ -306,8 +381,10 @@ while [ $attempt -le 2 ]; do
     NEEDF="/tmp/orch/pipeline-$TICKET-need.md"
     if [ "$NEED_USED" = 1 ]; then
       { cat "$PACK"; echo; echo "## REQUESTED CODE REGIONS"; printf '%s\n' "$ADD"; } > "$NEEDF"
+    elif [ "$NEED_USED" -lt "${PIPE_MAX_NEED_ROUNDS:-2}" ]; then
+      { echo; echo "## REQUESTED CODE REGIONS (round $NEED_USED)"; printf '%s\n' "$ADD"; } >> "$NEEDF"
     else
-      { echo; echo "## REQUESTED CODE REGIONS (round 2 — FINAL)"; printf '%s\n' "$ADD"
+      { echo; echo "## REQUESTED CODE REGIONS (round $NEED_USED — FINAL)"; printf '%s\n' "$ADD"
         echo; echo "No further regions will be served. Produce edit blocks or a verdict NOW."; } >> "$NEEDF"
     fi
     PROMPT_FILE="$NEEDF"

@@ -17,6 +17,9 @@ WORKER_ID="${1:?worker id}"
 DISPATCHER="${DISPATCHER:-http://localhost:9999}"
 OPS="${OPS:-/opt/development/magic-ops}"
 REPO="${REPO:-/opt/development/test/openmagic}"
+# .env holds API keys for hosted-model lanes (e.g. OPENROUTER_API_KEY for
+# pipe-ox) — .env is gitignored (see .gitignore), never commit it.
+[ -f "$OPS/.env" ] && set -a && source "$OPS/.env" && set +a
 export PIPE_MODEL="${PIPE_MODEL:-claude-sonnet-5}"
 LOG_PREFIX="[pipeline-lane]"
 SKIPLIST="/tmp/orch/${WORKER_ID}-skip.txt"; touch "$SKIPLIST"
@@ -41,6 +44,14 @@ usage_gate() {
   fi
   if [ "${PIPE_ENGINE:-}" = qwen-agentic ]; then
     # Local llama-server, no metered account quota to pace against.
+    return 0
+  fi
+  if [ "${PIPE_ENGINE:-}" = openrouter ]; then
+    # OpenRouter free tier has real server-side rate limits, but no usage-
+    # percentage API to pace against the way Claude's oauth/usage endpoint
+    # does — model_call()'s own curl call detects HTTP 429 and logs it
+    # distinctly so a rate-limited call isn't confused with a genuine empty
+    # reply; this gate itself always passes.
     return 0
   fi
   if ! pace_ok; then log "pace-gate: over daily step — pause"; return 1; fi
