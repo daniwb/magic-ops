@@ -347,13 +347,21 @@ async function workersPanel(){
        <td>${w.running
           ? `<span class="dot" style="background:var(--ok)"></span>läuft${w.current_ticket?` · #${w.current_ticket} <span class="mut">${esc((w.current_title||'').slice(0,40))}</span>`:''}`
           : `<span class="dot" style="background:var(--mut)"></span><span class="mut">gestoppt</span>`}</td>
-       <td style="width:70px;text-align:right">${w.running?'' : `<button onclick="startWorker('${w.name}')">▶ Start</button>`}</td></tr>`
+       <td style="width:70px;text-align:right">${w.running
+          ? `<button onclick="stopWorker('${w.name}')" style="border-color:var(--bad);color:var(--bad)">■ Stop</button>`
+          : `<button onclick="startWorker('${w.name}')">▶ Start</button>`}</td></tr>`
     ).join('')+'</tbody></table>';
   } catch(e){ $('#workersPanel').innerHTML='<span class="empty">Workers-Liste nicht verfügbar</span>'; }
 }
 async function startWorker(name){
   const r = await fetch('/action?do=start-worker&name='+encodeURIComponent(name)).then(r=>r.json()).catch(()=>({ok:false}));
   if(!r.ok) alert('Start fehlgeschlagen: '+(r.error||'unbekannter Fehler'));
+  workersPanel();
+}
+async function stopWorker(name){
+  if(!confirm(`${name} stoppen? Läuft der Worker gerade an einem Ticket, wird das unterbrochen (Lease läuft ab, Ticket wird später neu vergeben).`)) return;
+  const r = await fetch('/action?do=stop-worker&name='+encodeURIComponent(name)).then(r=>r.json()).catch(()=>({ok:false}));
+  if(!r.ok) alert('Stop fehlgeschlagen: '+(r.error||'unbekannter Fehler'));
   workersPanel();
 }
 

@@ -1327,6 +1327,13 @@ func action(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		writeJSON(w, map[string]any{"ok": true, "started": name})
+	case "stop-worker": // Workers-Panel "Stop"-Button (2026-08-21)
+		name := r.URL.Query().Get("name")
+		if err := stopWorker(name); err != nil {
+			http.Error(w, err.Error(), 500)
+			return
+		}
+		writeJSON(w, map[string]any{"ok": true, "stopped": name})
 	default:
 		http.Error(w, "unknown action", 400)
 	}

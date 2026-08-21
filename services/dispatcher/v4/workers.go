@@ -162,3 +162,31 @@ func startWorker(name string) error {
 	}
 	return nil
 }
+
+// stopWorker kills a worker's whole process tree via worker_ctl.py stop —
+// the tmux window first (owns the restart loop), then any stray leaf
+// process, so nothing respawns behind it. This interrupts whatever ticket
+// the worker is mid-flight on (its lease simply expires and the ticket
+// gets reclaimed later) — a real, visible action, unlike start.
+func stopWorker(name string) error {
+	cfgs, err := loadWorkerConfigs()
+	if err != nil {
+		return err
+	}
+	found := false
+	for _, c := range cfgs {
+		if c.Name == name {
+			found = true
+			break
+		}
+	}
+	if !found {
+		return fmt.Errorf("unknown worker %q — not in %s", name, workersConfigPath)
+	}
+	cmd := exec.Command("python3", "/opt/development/magic-ops/scripts/worker_ctl.py", "stop", name)
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("%s: %s", err, string(out))
+	}
+	return nil
+}
