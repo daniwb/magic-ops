@@ -69,6 +69,21 @@ ATTEMPT_ID=$(jq -n --argjson ticket "$TICKET" --argjson capability "$CAPABILITY_
   | jq -r '.id // empty' 2>/dev/null)
 
 model_call() {
+  # 2026-08-21: consolidated into scripts/model_call.py, same as
+  # map-pipeline.sh — see that file's model_call() for the full rationale.
+  # --tier engine selects this file's own defaults (longer timeouts, higher
+  # claude --max-turns, --allow-game passed to agentic calls) instead of
+  # map-pipeline.sh's, so both tiers share one implementation without
+  # silently drifting apart the way the old bash branches had (codex
+  # timeout 900s vs 1200s, claude --max-turns 5 vs 10, NEED-round cap
+  # configurable vs hardcoded).
+  TICKET="$TICKET" python3 "$OPS/scripts/model_call.py" \
+    --engine "${PIPE_ENGINE:-claude}" --model "$MODEL" --tier engine \
+    2>>"$LOG"
+  return
+  # --- superseded bash implementation kept below, dead code, for reference
+  # only during the migration; delete once model_call.py has run cleanly in
+  # production for a while. ---
   # Codex lane: mirror map-pipeline.sh. PIPE_MODEL names in this lane belong
   # to `codex exec`; passing them to `claude -p` returns a model-not-found
   # 404 before any tokens are consumed (capabilities #1/#2, 2026-08-16).

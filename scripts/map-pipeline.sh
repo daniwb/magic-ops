@@ -97,19 +97,21 @@ ATTEMPT_ID=$(jq -n --argjson ticket "$TICKET" --arg worker "${PIPE_WORKER_ID:-}"
 
 # ---- Stage B/C loop: model call -> apply -> gate (max 2 calls) ----
 model_call() { # stdin: prompt -> stdout: model text
-  # Codex lane (PIPE_ENGINE=codex): same staged single-shot contract as the
-  # claude branch below (pack in on stdin, edit-blocks/verdict/NEED text
-  # out), via `codex exec --json` instead of `claude -p`. --sandbox
-  # read-only is a soft guard, not a hard tool-block like claude's
-  # --disallowedTools — codex is inherently agentic and MAY explore the
-  # clone with read-only shell commands despite the pack's "no exploration
-  # budget" framing; that's a real cost-model difference from the claude
-  # branch, not a bug. `codex exec --json` streams JSONL events; the reply
-  # is the LAST `agent_message` item (codex's own commentary/final channel
-  # split — earlier agent_message items are intermediate commentary, per
-  # codex's own system prompt), and per-call usage comes off the trailing
-  # `turn.completed` event. Verified live 2026-08-16 against a real pack
-  # (ticket #3452): correctly emitted a NEED: line, same as claude.
+  # 2026-08-21: consolidated into scripts/model_call.py — one Python
+  # entrypoint for every engine (codex/claude/openrouter/openrouter-
+  # agentic/qwen-agentic) instead of per-branch bash with JSON built via
+  # `python3 -c "..."` heredocs interpolated into bash strings (the direct
+  # cause of the ARG_MAX curl bug on large pipe-ox tickets). Same contract
+  # as before: prompt on stdin, answer text on stdout, "tokens: ..." to
+  # $LOG. TICKET exported so model_call.py can still save the raw response
+  # to /tmp/orch/pipeline-$TICKET-raw-last.json for post-mortem debugging.
+  TICKET="$TICKET" python3 "$OPS/scripts/model_call.py" \
+    --engine "${PIPE_ENGINE:-claude}" --model "$MODEL" --tier map \
+    2>>"$LOG"
+  return
+  # --- superseded bash implementation kept below, dead code, for reference
+  # only during the migration; delete once model_call.py has run cleanly in
+  # production for a while. ---
   if [ "${PIPE_ENGINE:-}" = codex ]; then
     local raw
     raw=$(timeout -k 30 900 codex exec --json --sandbox read-only -m "$MODEL" 2>>"$LOG")
