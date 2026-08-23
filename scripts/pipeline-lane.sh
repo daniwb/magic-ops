@@ -46,12 +46,18 @@ usage_gate() {
     # Local llama-server, no metered account quota to pace against.
     return 0
   fi
-  if [ "${PIPE_ENGINE:-}" = openrouter ]; then
+  if [ "${PIPE_ENGINE:-}" = openrouter ] || [ "${PIPE_ENGINE:-}" = openrouter-agentic ]; then
     # OpenRouter free tier has real server-side rate limits, but no usage-
     # percentage API to pace against the way Claude's oauth/usage endpoint
     # does — model_call()'s own curl call detects HTTP 429 and logs it
     # distinctly so a rate-limited call isn't confused with a genuine empty
-    # reply; this gate itself always passes.
+    # reply; this gate itself always passes. (2026-08-23: openrouter-agentic
+    # was missing from this check entirely — switching pipe-ox/pipe-ox2 to
+    # agentic mode fell through to the default pace_ok() below, incorrectly
+    # gating them against Claude's OWN account quota, which happened to be
+    # exhausted for the day at that exact moment. Caught within minutes via
+    # worker_ctl.py status showing a nonsensical "pace-gate: over daily
+    # step" on a lane that has nothing to do with Claude's quota.)
     return 0
   fi
   if ! pace_ok; then log "pace-gate: over daily step — pause"; return 1; fi

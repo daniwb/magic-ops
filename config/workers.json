@@ -20,18 +20,18 @@
   },
   {
     "name": "pipe-ox",
-    "engine": "openrouter",
+    "engine": "openrouter-agentic",
     "model": "stealth/ox-alpha",
     "max_tokens": 8000,
     "reasoning_tokens": 3000,
-    "max_need_rounds": 4
+    "max_turns": 25
   },
   {
     "name": "pipe-ox2",
-    "engine": "openrouter",
+    "engine": "openrouter-agentic",
     "model": "stealth/ox-alpha",
     "max_tokens": 8000,
     "reasoning_tokens": 3000,
-    "max_need_rounds": 4
+    "max_turns": 25
   }
 ]
