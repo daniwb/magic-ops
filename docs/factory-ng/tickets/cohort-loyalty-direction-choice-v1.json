@@ -1,0 +1,18 @@
+{
+  "schema": "factory.ticket-spec/v1",
+  "id": "ticket:cohort.loyalty-direction-choice/v1",
+  "title": "Decide whether loyalty left-or-right choice is an existing capability",
+  "work_type": "engine",
+  "lifecycle": "ready_for_observation",
+  "parents": ["ticket:factory.evidence.loyalty-body-choose/v1"],
+  "source": {"repository": "/opt/development/test/openmagic", "revision": "6d85a3d649103d8f3a50fb6436ed266c77b0942a", "clean": true},
+  "scope": {"allowed_paths": [], "forbidden_paths": ["backend/", "scripts/paragraph/", "data/"]},
+  "evidence": [
+    {"card": "Aminatou, the Fateshifter", "paragraph": "Choose left or right. Each player gains control of all nonland permanents other than Aminatou controlled by the next player in the chosen direction.", "text_sha256": "sha256:ad3448d28b6b78ff0f6db765bb21086c0fde7d5c23b505e17903c72887af7464"},
+    {"card": "Teyo, Geometric Tactician", "paragraph": "Choose left or right. Until your next turn, each player may attack only the nearest opponent in the last chosen direction and planeswalkers controlled by that opponent.", "text_sha256": "sha256:02f81c811527f9d4577d9eee5c686968b76780a8a5b51e3d43fb2fff373a17c5"}
+  ],
+  "required_behavior": ["Return PARK/NEEDS_PRIMITIVE unless the packet itself proves an existing engine representation for directional player-order choice and both downstream effects.", "Do not propose source edits or claim that generic target selection covers this mechanic."],
+  "gates": ["response is one structured verdict and contains no edit block", "original source tree remains clean"],
+  "execution": {"mode": "supervised_no_push_canary", "selected_profile": "qwen-prepared-direct@1.0.0", "effective_token_target": 200000, "warning_reflection_threshold": 500000, "automatic_stop": false, "model_may_not_commit_push_deploy_or_mutate_live_tickets": true},
+  "on_failure": "Record raw response and telemetry; do not retry with a larger model because this ticket is a capability decision, not implementation work."
+}

@@ -1,0 +1,62 @@
+{
+  "schema": "factory.ticket-spec/v1",
+  "id": "ticket:engine.switch-pt-registry-bridge/v1",
+  "title": "Register the accepted switch_pt executor in the v2 vocabulary",
+  "work_type": "engine",
+  "lifecycle": "ready_for_observation",
+  "parents": ["ticket:engine.switch-pt/v2", "ticket:map.switch-pt/v5"],
+  "source": {"repository": "/opt/development/test/openmagic", "revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7", "clean": true},
+  "skill": {"name": "implement-engine-capability", "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md", "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"},
+  "scope": {
+    "allowed_paths": ["backend/cards/registry_switch_pt.go", "backend/cards/shape_switch_pt_test.go"],
+    "forbidden_paths": ["backend/game/", "backend/cards/registry.go", "backend/cards/converter.go", "scripts/paragraph/"]
+  },
+  "evidence": [
+    {
+      "ticket": "ticket:engine.switch-pt/v2",
+      "receipt": "docs/factory-ng/runs/2026-08-28-engine-switch-pt-v2-opus.json",
+      "sha256": "sha256:5e324594fc27842295b18870455d5fd5997b64d50d188fe1d027a508ba3e5764",
+      "fact": "The accepted overlay supplies a working switch_pt ExecuteAbilityEffect dispatcher for self, bare target creature, and each creature; its scope intentionally excluded the v2 registry."
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "sha256": "sha256:0b113cd5f8faa151a0c5fc1c2c8c15d9c7eb1df530f15560d6c55d2ed3285dbe",
+      "anchor": "85-98",
+      "fact": "The parser emits only effects discovered from backend/cards/registry.go plus registry_*.go; without a registered switch_pt primitive, a correct Map tuple remains an honest miss."
+    },
+    {
+      "path": "backend/cards/registry.go",
+      "sha256": "sha256:2c3b7e97004c3f8beee32ee442090839e68e46f47b22b59b4cac0bc6e826494f",
+      "anchor": "555-568",
+      "fact": "The frozen literal requires new primitives through a registry_*.go init function using regEffect, not a tail edit."
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "sha256": "sha256:265e33e57b8273e93d28b9d23b7b049142ad52f85d162e18d15216cde9bf7b61",
+      "anchor": "138-247",
+      "fact": "The existing v2 spell EffectAtom sequence path forwards an effect name, value, and target to the shared ability-effect executor; this ticket must prove registration is compatible with that existing path, not add a second converter route."
+    }
+  ],
+  "required_behavior": [
+    "Add exactly one switch_pt v2 Primitive through backend/cards/registry_switch_pt.go using the existing regEffect convention.",
+    "Its Executor evidence must name the accepted ExecuteAbilityEffect switch_pt dispatcher, and its ShapeTest must name the new discriminating test.",
+    "Add one backend/cards shape test proving switch_pt is registered and a spell EffectAtom sequence carrying a bare creature target reaches the existing shared execution path. The parent Engine test remains authority for Layer-7e behavior.",
+    "Do not edit parser, converter, frozen registry literal, or backend/game. Do not add any new primitive besides switch_pt."
+  ],
+  "gates": [
+    "cd backend && go test ./cards ./game -run 'TestVocabulary|TestShape_SwitchPT|TestSwitchPTExecution' -count=1",
+    "cd backend && go build ./...",
+    "git diff --check",
+    "git status --porcelain adds or changes only backend/cards/registry_switch_pt.go and backend/cards/shape_switch_pt_test.go"
+  ],
+  "execution": {
+    "mode": "isolated_clone_observation_only_with_parent_overlays",
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "This is a small but cross-boundary Engine registration proof. Claude receives the accepted parent overlays and exact registry/converter anchors; it may make one bounded NEED request but cannot commit, push, deploy, or mutate live tickets.",
+    "effective_token_target": 200000,
+    "warning_reflection_threshold": 500000,
+    "automatic_stop": false,
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true
+  },
+  "on_failure": "Record an immutable receipt. A request to change parser, converter, or Layer-7e execution is a separate TicketSpec."
+}

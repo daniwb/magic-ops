@@ -1,0 +1,7 @@
+1. INFRASTRUCTURE_BLOCKED
+
+2. No unified diff proposal.
+
+3. Focused test plan: restore read-only command execution; read the complete TicketSpec and bound skill; enumerate all three scopes and allowed paths; trace existing capabilities per scope; run the narrowest relevant tests for dispatch, failure handling, and cleanup.
+
+4. Evidence: every repository command failed before execution with `bwrap: loopback: Failed RTM_NEWADDR: Operation not permitted`. Therefore neither the mandated skill nor ticket could be read, and layer ordering or cleanup behavior could not be honestly verified. No files were modified.

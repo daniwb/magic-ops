@@ -1,0 +1,14 @@
+{
+  "schema": "factory.model-benchmark-matrix/v2",
+  "base_commit": "6d85a3d649103d8f3a50fb6436ed266c77b0942a",
+  "models": [
+    {"id":"qwen-local-direct","profile":"qwen-prepared-direct@1.0.0","provider":"local","engine":"qwen-prepared","model":"./Qwen3.8-27B/Qwen3.8-27B-Q8_0.gguf","rates_per_million":{"input":0,"cached_input":0,"output":0}},
+    {"id":"qwen-local","profile":"qwen-prepared-local@1.0.0","provider":"local","engine":"qwen-agentic","model":"./Qwen3.8-27B/Qwen3.8-27B-Q8_0.gguf","rates_per_million":{"input":0,"cached_input":0,"output":0}},
+    {"id":"codex-luna","profile":"codex-constrained@1.0.0","provider":"openai","engine":"codex","model":"gpt-5.6-luna","rates_per_million":{"input":0.20,"cached_input":0.02,"output":1.20}},
+    {"id":"codex-terra","profile":"codex-constrained@1.0.0","provider":"openai","engine":"codex","model":"gpt-5.6-terra","rates_per_million":{"input":2.00,"cached_input":0.20,"output":12.00}},
+    {"id":"codex-sol","profile":"codex-constrained@1.0.0","provider":"openai","engine":"codex","model":"gpt-5.6-sol","rates_per_million":{"input":4.00,"cached_input":0.40,"output":20.00}},
+    {"id":"claude-haiku","profile":"claude-staged@1.0.0","provider":"anthropic","engine":"claude","model":"haiku","rates_per_million":{"input":1.00,"cached_input":0.10,"cache_write":1.25,"output":5.00}},
+    {"id":"claude-sonnet","profile":"claude-staged@1.0.0","provider":"anthropic","engine":"claude","model":"sonnet","rates_per_million":{"input":3.00,"cached_input":0.30,"cache_write":3.75,"output":15.00}},
+    {"id":"claude-opus","profile":"claude-staged@1.0.0","provider":"anthropic","engine":"claude","model":"opus","rates_per_million":{"input":5.00,"cached_input":0.50,"cache_write":6.25,"output":25.00}}
+  ]
+}

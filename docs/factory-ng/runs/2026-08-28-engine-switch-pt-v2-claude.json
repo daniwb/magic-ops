@@ -1,0 +1,57 @@
+{
+  "schema": "factory.observation-receipt/v1",
+  "ticket": {
+    "id": "ticket:engine.switch-pt/v1",
+    "path": "docs/factory-ng/tickets/engine-switch-pt-v1.json",
+    "sha256": "sha256:3ddf9240db081a82ffc946e2f98ddd137bd938b193509af08b56814e763f064d"
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "model": {
+    "profile": "claude-staged@1.0.0",
+    "profile_path": "docs/factory-ng/model-profiles/v1/claude-staged.json",
+    "profile_sha256": "sha256:1db243c4ee115cc4a2fff55895e6065f6c3940aaeefbbcfc707409654f47652b",
+    "resolved_model": "claude-sonnet-5",
+    "routing_override_reason": "The selected Codex Sol adapter failed before reading the packet because its bwrap read-only sandbox could not create loopback; this was an adapter reroute, not a duplicate quality benchmark.",
+    "aggregate_telemetry": {
+      "input_tokens": 272,
+      "output_tokens": 495,
+      "cache_read_tokens": 5724290,
+      "cache_write_tokens": 589007,
+      "reasoning_tokens": null,
+      "provider_cost_usd": null,
+      "telemetry_status": "summed from 136 raw Claude stream messages; provider did not emit a final aggregate after termination"
+    }
+  },
+  "execution": {
+    "mode": "isolated_clone_observation_only",
+    "worktree": "temporary disposable clone",
+    "source_revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "source_tree_changed": false,
+    "clone_tree_changed": false,
+    "adapter_configuration": "claude -p --permission-mode plan --allowedTools Read,Glob,Grep --max-budget-usd 2"
+  },
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-engine-switch-pt-v2-claude.raw.jsonl",
+      "sha256": "sha256:1053bf174f76fe1a2a8e96375e53c3ce912d2b151be3bc1c57590a2067c49ef0"
+    }
+  ],
+  "reflection": {
+    "trigger": "effective token warning exceeded: cache-read tokens alone reached 5,724,290, far above the 500,000 warning threshold",
+    "verdict": "STOP_CURRENT_ADAPTER",
+    "reason": "The adapter spawned three exploration agents and continued for 136 provider messages without a terminal verdict or proposal. The ticket remains valid; this executable configuration is not a cost-bounded implementation route."
+  },
+  "gates": [
+    {
+      "id": "proposal-readiness",
+      "outcome": "not_reached",
+      "evidence": "The operator stopped the read-only observation after its warning/reflection; no terminal verdict, diff, or test result was emitted."
+    }
+  ],
+  "outcome": "warning_stopped_without_terminal_verdict",
+  "next_action": "Keep the TicketSpec unchanged. Use a genuinely one-turn implementation adapter or revise the Claude adapter's process controls before retrying; do not call this a model-quality failure."
+}

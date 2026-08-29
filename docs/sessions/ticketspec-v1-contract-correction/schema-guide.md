@@ -1,0 +1,7 @@
+# TicketSpec v1 corrected schema guide
+
+All normative JSON uses UTF-8, sorted-key compact encoding with a trailing newline and JSON Schema Draft 2020-12. Every nested normative object is closed with `additionalProperties: false`; arrays have item schemas and meaningful cardinality, with uniqueness where JSON structural equality is authoritative. Cross-member key uniqueness, DAG acyclicity, partition conservation, and content digests are enforced by the validator because JSON Schema cannot express them alone.
+
+Ticket embeds referenced closed Skill receipt, work profile, attempt policy, and gate declarations. Scope references closed members and content-bound projection descriptor/membership inputs. Evidence references complete parser analyses, repository/file receipts, Skill receipt, and Engine symbols/test/overlay. Graph, workflow/routing/telemetry, readiness predicates/evaluator, result partitions, gate execution receipts, and manifest records are typed independently.
+
+Digest exclusions are explicit: ticket identity sorts member IDs and excludes member ordering, lifecycle/readiness, presentation, priority, routing/model choice, attempt timestamps, command output timing, and the manifest. Artifact hashes cover canonical artifact bytes. Gate command digests cover exact argv/cwd/environment allowlist. The stable receipt-set digest covers gate ID, command digest, exit, and derived result; full receipt validation separately binds timestamps, repository state, and stdout/stderr bytes. The manifest excludes only its own bytes and is written last.

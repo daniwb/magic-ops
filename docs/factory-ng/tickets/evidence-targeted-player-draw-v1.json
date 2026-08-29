@@ -1,0 +1,42 @@
+{
+  "schema": "factory.ticket-spec/v1",
+  "id": "ticket:factory.evidence.targeted-player-draw/v1",
+  "title": "Refresh evidence for targeted player draw",
+  "work_type": "evidence",
+  "lifecycle": "completed",
+  "parents": [
+    "mission:targeted-player-draw"
+  ],
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "6d85a3d649103d8f3a50fb6436ed266c77b0942a",
+    "clean": true
+  },
+  "evidence": [
+    {
+      "path": "backend/cards/converter.go",
+      "sha256": "sha256:262d1ae4ae0f1a8d0bcc647be6f3e37978d5e5fb8b3b9cfcff08b48fd44400e0",
+      "anchor": "2239-2252",
+      "fact": "The draw branch preserves amount but drops ability.Target.Filter before constructing SpellEffect."
+    },
+    {
+      "path": "backend/go.mod",
+      "sha256": "sha256:3b6b285591d3a6fd23ea1111b0c0f4e15eb796738e5d5f38a201905c251685cb",
+      "anchor": "1",
+      "fact": "Focused cards tests import game as magic-backend/game."
+    },
+    {
+      "path": "backend/cards/shape_damage_test.go",
+      "sha256": "sha256:a68d59cccfff3be8fdc8c8dd89a5a3447d5529552cd4ca97d6453fd97b551eb7",
+      "anchor": "1-32",
+      "fact": "A focused converter test belongs in package cards and constructs CardDefinition before ToGameCard."
+    },
+    {
+      "path": "backend/game/lib_draw_target_player_test.go",
+      "sha256": "sha256:a8696f282fba32e3d8c4ed04ccec0fe692fe6be8cb8bec82d30c7ecb00a16361",
+      "anchor": "5-41",
+      "fact": "The engine already makes a selected player, rather than the controller, draw when a player target reaches execution."
+    }
+  ],
+  "result": "The Engine child may make only the converter target-lifting change and one focused cards test."
+}

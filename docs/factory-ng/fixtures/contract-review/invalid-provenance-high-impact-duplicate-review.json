@@ -1,0 +1,81 @@
+{
+  "schema": "factory.change-provenance/v1",
+  "ticket_id": "ticket:sha256:c151c28fb5ca4255a2c90b6655ac9ab6a7f03e2e148ea709b069317811c724f7",
+  "root_ids": [
+    "ticket:sha256:eacd2e712b8ea2f9c93087bc0394b9015d09a4f0dda57f224a2e7dd729e4dca8"
+  ],
+  "attempt_id": "attempt:sha256:d055f41b7008c61aa567867496f7b6a2adbb0103aefa41691885511fad55d955",
+  "change_class": "factory",
+  "contract_change_scope": "high_impact",
+  "affected_contract_areas": [
+    "token_cost_accounting"
+  ],
+  "reviewed_package_sha256": "sha256:7ce46af1a52f756b09bf3140b72b8321127dd05f6f027dc65defb509e7e48590",
+  "source_revision": "abc123",
+  "result_commit": "abc1234",
+  "patch_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "model": {
+    "profile": "human",
+    "resolved_model": "human",
+    "adapter_version": "n/a"
+  },
+  "evidence_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "skill_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "telemetry": {
+    "input_tokens": 1,
+    "output_tokens": 1,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "reasoning_tokens": 0,
+    "provider_cost_usd": 0,
+    "elapsed_ms": 1
+  },
+  "changed_paths": [
+    "docs/factory-ng/change-provenance-and-rca-contract-v1.md"
+  ],
+  "scope_measurement": {
+    "baseline": {},
+    "post_change": {}
+  },
+  "gate_receipts_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "reviews": [
+    {
+      "decision": "accepted",
+      "reviewer_profile": "codex-sol-review@1",
+      "review_id": "review:sha256:9676f693a52214ce8bcc8fb53d8a9d27ac40c5076866be2d02bc157d57282020",
+      "review_attempt_id": "attempt:sha256:8ac0b2772a800b3e176030da5e0c8b8678ac5411ea530ae31be59611f7c9a851",
+      "review_sha256": "sha256:74e56a0b7f5339dca602e342333565aa2eff4db046d378d20f38f6f191d290ae",
+      "review_receipt": {
+        "schema": "factory.review-receipt/v1",
+        "review_id": "review:sha256:9676f693a52214ce8bcc8fb53d8a9d27ac40c5076866be2d02bc157d57282020",
+        "review_attempt_id": "attempt:sha256:8ac0b2772a800b3e176030da5e0c8b8678ac5411ea530ae31be59611f7c9a851",
+        "reviewer_profile": "codex-sol-review@1",
+        "provider": "openai",
+        "resolved_model": "gpt-5.6-sol",
+        "package_sha256": "sha256:7ce46af1a52f756b09bf3140b72b8321127dd05f6f027dc65defb509e7e48590",
+        "decision": "accepted",
+        "recorded_by": "factory-harness/v1"
+      }
+    },
+    {
+      "decision": "accepted",
+      "reviewer_profile": "claude-opus-review@1",
+      "review_id": "review:sha256:9676f693a52214ce8bcc8fb53d8a9d27ac40c5076866be2d02bc157d57282020",
+      "review_attempt_id": "attempt:sha256:8ac0b2772a800b3e176030da5e0c8b8678ac5411ea530ae31be59611f7c9a851",
+      "review_sha256": "sha256:7e427ead93868b615ef1f0385183a050ef38a7fecc8851c02538b9e84acb9edb",
+      "review_receipt": {
+        "schema": "factory.review-receipt/v1",
+        "review_id": "review:sha256:9676f693a52214ce8bcc8fb53d8a9d27ac40c5076866be2d02bc157d57282020",
+        "review_attempt_id": "attempt:sha256:8ac0b2772a800b3e176030da5e0c8b8678ac5411ea530ae31be59611f7c9a851",
+        "reviewer_profile": "claude-opus-review@1",
+        "provider": "anthropic",
+        "resolved_model": "claude-opus-5",
+        "package_sha256": "sha256:7ce46af1a52f756b09bf3140b72b8321127dd05f6f027dc65defb509e7e48590",
+        "decision": "accepted",
+        "recorded_by": "factory-harness/v1"
+      }
+    }
+  ],
+  "outcome": "accepted",
+  "model_profile_sha256": "sha256:748bbeca29309cf5b9e6e8258114b22321cc19c375e98c97582bebac10f92fee"
+}

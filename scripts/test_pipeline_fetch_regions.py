@@ -37,6 +37,22 @@ class FetchRegionsTest(unittest.TestCase):
                        "in map_atom\n"), capture_output=True)
             self.assertIn("def map_atom(verb, args):", result.stdout)
 
+    def test_engine_roots_prefer_engine_symbol_over_parser_comment(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            parser = root / "scripts/paragraph/reparse.py"
+            parser.parent.mkdir(parents=True)
+            parser.write_text("# effectAffectsCard is mentioned in a comment\n")
+            engine = root / "backend/game/effects.go"
+            engine.parent.mkdir(parents=True)
+            engine.write_text("package game\nfunc effectAffectsCard() bool { return true }\n")
+            result = subprocess.run(
+                ["python3", str(SCRIPT), "--roots", "backend/game,backend/cards"],
+                cwd=root, text=True, check=True,
+                input="NEED: effectAffectsCard\n", capture_output=True)
+            self.assertIn("func effectAffectsCard()", result.stdout)
+            self.assertNotIn("reparse.py", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

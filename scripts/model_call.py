@@ -45,6 +45,15 @@ def save_raw(raw):
     if ticket:
         with open(f"/tmp/orch/pipeline-{ticket}-raw-last.json", "w") as f:
             f.write(raw if isinstance(raw, str) else json.dumps(raw))
+    # A staged run can legitimately make a bounded NEED continuation or a
+    # bounded repair call. Keep the familiar last-response diagnostic, and
+    # optionally retain each response when the harness supplies a durable
+    # artifact path for its observation receipt.
+    artifact = os.environ.get("PIPE_RAW_ARTIFACT")
+    if artifact:
+        os.makedirs(os.path.dirname(artifact) or ".", exist_ok=True)
+        with open(artifact, "w") as f:
+            f.write(raw if isinstance(raw, str) else json.dumps(raw))
 
 
 def call_codex(model, tier):

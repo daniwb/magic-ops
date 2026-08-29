@@ -1,0 +1,26 @@
+[
+  {
+    "id": "refactor:keyword-cost-switch-extraction-assessment",
+    "rank": 1,
+    "confidence": "review-required",
+    "evidence": {
+      "function": "applyKeywordCost",
+      "switch_line": 1378,
+      "case_count": 45,
+      "source": "backend/cards/converter.go"
+    },
+    "risk": "keyword-cost semantics",
+    "benefit": "only consider splitting into small tested handlers",
+    "suggested_child_ticket": {
+      "class": "refactor",
+      "scope": [
+        "backend/cards/converter.go"
+      ],
+      "acceptance": [
+        "freeze representative keyword-cost snapshots",
+        "no behavior change",
+        "scope remeasurement"
+      ]
+    }
+  }
+]

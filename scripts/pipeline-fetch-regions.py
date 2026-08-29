@@ -10,12 +10,18 @@ Each NEED line may mix a path and free text; we extract path-looking tokens
 and identifier-looking tokens separately (models add prose like "(full
 body)" — treating the raw line as one grep string finds nothing).
 """
-import os, re, subprocess, sys
+import argparse, os, re, subprocess, sys
 
 STOP = {'function', 'full', 'body', 'file', 'equivalent', 'pattern', 'mirror',
         'switch', 'case', 'and', 'its', 'the', 'registration', 'primitive',
         'exact', 'implementation', 'definitions', 'definition', 'used',
         'identify', 'representation', 'accessors', 'points'}
+
+ap = argparse.ArgumentParser()
+ap.add_argument('--roots', default='scripts/paragraph,backend/cards,backend/game',
+                help='comma-separated roots for unqualified symbol NEEDs')
+args = ap.parse_args()
+SEARCH_ROOTS = [root for root in args.roots.split(',') if root]
 
 def regions_for(path, idents, budget):
     out = []
@@ -102,7 +108,7 @@ for need in needs:
             # basename search: model may guess a filename that doesn't exist
             base = os.path.basename(p)
             try:
-                found = subprocess.run(['find', 'backend', 'scripts', '-name', base],
+                found = subprocess.run(['find'] + SEARCH_ROOTS + ['-name', base],
                                        capture_output=True, text=True, timeout=20).stdout.split()
             except Exception:
                 found = []
@@ -115,7 +121,7 @@ for need in needs:
     if not handled and idents:
         try:
             out = subprocess.run(['grep', '-rln', '--include=*.py', '--include=*.go'] +
-                                 [idents[0]] + ['scripts/paragraph', 'backend/cards', 'backend/game'],
+                                 [idents[0]] + SEARCH_ROOTS,
                                  capture_output=True, text=True, timeout=30).stdout.split()
         except Exception:
             out = []
@@ -124,4 +130,4 @@ for need in needs:
             print('\n\n'.join(secs) + '\n')
             handled = True
         if not handled:
-            print('### %r: nothing found in scripts/paragraph, backend/cards, backend/game\n' % need)
+            print('### %r: nothing found in %s\n' % (need, ', '.join(SEARCH_ROOTS)))

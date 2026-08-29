@@ -1,0 +1,59 @@
+{
+  "schema": "factory.change-provenance/v1",
+  "ticket_id": "ticket:sha256:cdcb6eb8bd41cba44b770a0a27916dc566b57d62588dc2fc4429eaff0df6014f",
+  "root_ids": [
+    "ticket:sha256:9d18fce4396aba69509863c289f59c65e73e2048456eaceba6f327bb4f412ddb"
+  ],
+  "attempt_id": "attempt:sha256:5f6d6509929af569929de9abb5439b012b9bbf977f5ad8522f0287d8e09e564c",
+  "change_class": "refactor",
+  "contract_change_scope": "none",
+  "source_revision": "abc123",
+  "result_commit": "abc1234",
+  "patch_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "model": {
+    "profile": "qwen-prepared-direct@1.0.0",
+    "resolved_model": "qwen",
+    "adapter_version": "1.0.0"
+  },
+  "evidence_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "skill_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "telemetry": {
+    "input_tokens": 1,
+    "output_tokens": 1,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "reasoning_tokens": 0,
+    "provider_cost_usd": 0,
+    "elapsed_ms": 1
+  },
+  "changed_paths": [
+    "scripts/factory-ng-routing-policy.py"
+  ],
+  "scope_measurement": {
+    "baseline": {},
+    "post_change": {}
+  },
+  "gate_receipts_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "reviews": [
+    {
+      "decision": "accepted",
+      "reviewer_profile": "qwen-independent-review@1",
+      "review_id": "review:sha256:e2d85a7d1db63e384d87469f594a62202b037545edf31bf0f6f723305cbae51c",
+      "review_attempt_id": "attempt:sha256:60e4fca42430a245cb097a978e28c7c1b5de2de872e66cf9d4e99368ac0c4400",
+      "review_sha256": "sha256:cbda98fc1e3d28de886958057384d95841ed143c3156259c8b1115a0ad863cf6",
+      "review_receipt": {
+        "schema": "factory.review-receipt/v1",
+        "review_id": "review:sha256:e2d85a7d1db63e384d87469f594a62202b037545edf31bf0f6f723305cbae51c",
+        "review_attempt_id": "attempt:sha256:60e4fca42430a245cb097a978e28c7c1b5de2de872e66cf9d4e99368ac0c4400",
+        "reviewer_profile": "qwen-independent-review@1",
+        "provider": "local",
+        "resolved_model": "qwen",
+        "package_sha256": "sha256:c1938cd0eb1933d1cecf50bab9b196245baaeff043a4a4f7099d92be1367f9d0",
+        "decision": "accepted",
+        "recorded_by": "factory-harness/v1"
+      }
+    }
+  ],
+  "outcome": "accepted",
+  "model_profile_sha256": "sha256:db12b731a010832db032bd354f47cac81a710e05f822e484e3e7809df309b35e"
+}

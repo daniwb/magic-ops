@@ -1,0 +1,29 @@
+{
+  "schema": "factory.model-profile/v1",
+  "id": "qwen-prepared-direct",
+  "version": "1.0.2",
+  "extends": "staged-baseline@1.0.0",
+  "adapter": {
+    "adapter_id": "qwen-prepared-direct-v1",
+    "executable": "scripts/qwen-prepared-call.py",
+    "engine": "qwen-prepared",
+    "workflow": "no-tools completion from a prepared packet over SSE; the primary response grammar is canonical FILE/SEARCH/REPLACE or NEWFILE blocks. One adapter-side recovery may normalize a wholly explicit FILE:/SEARCH:/REPLACE: response for Ticket-allowed paths only; then the normal harness owns apply/gates.",
+    "allowed_tools": [],
+    "filesystem": "read-only",
+    "network": "none",
+    "thinking": "disabled by adapter",
+    "max_completion_tokens": 2000,
+    "max_model_calls": 2
+  },
+  "routing": {
+    "best_for": ["small evidence-complete Map patch", "deterministic wiring", "constrained local repair"],
+    "do_not_use_when": ["the ticket needs repository discovery", "the packet has unresolved design alternatives", "cross-layer capability design is required"],
+    "escalate_to": "claude-staged@1.0.0"
+  },
+  "telemetry": {
+    "source": "SSE usage event emitted by llama.cpp stream_options.include_usage",
+    "measured": ["input", "output", "cache_read", "cache_write", "elapsed"],
+    "unavailable": ["provider_cost", "reasoning"]
+  },
+  "change_note": "1.0.2 makes the parser-owned response grammar explicit in the system instruction. It adds only a narrow recovery for a fully explicit, Ticket-allowed FILE:/SEARCH:/REPLACE: payload (optionally wrapped by one fence); it never infers a file path, accepts prose or a diff, or bypasses the standard patch applier and gates."
+}

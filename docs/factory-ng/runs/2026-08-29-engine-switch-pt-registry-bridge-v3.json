@@ -1,0 +1,85 @@
+{
+  "schema": "factory.observation-receipt/v1",
+  "ticket": {
+    "id": "ticket:engine.switch-pt-registry-bridge/v3",
+    "path": "docs/factory-ng/tickets/engine-switch-pt-registry-bridge-v3.json",
+    "sha256": "sha256:2e8b431b4da2b06cb85dea923cc796fbff899f49e407ffbd519b3278358f09b6"
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "model": {
+    "profile": "claude-staged@1.0.0",
+    "profile_path": "docs/factory-ng/model-profiles/v1/claude-staged.json",
+    "resolved_model": "claude-opus-5",
+    "telemetry": {
+      "input_tokens": 4,
+      "output_tokens": 7905,
+      "cache_read_tokens": 31626,
+      "cache_write_tokens": 38862,
+      "reasoning_tokens": {"availability": "unavailable"},
+      "provider_cost_usd": {"availability": "unavailable"},
+      "elapsed_ms": {"availability": "unavailable"},
+      "source": "Exact sums of the two model-call counters recorded in /tmp/orch/engine-pipeline-engine.switch-pt-registry-bridge-v3.log. The legacy last-raw path retained only the second response, so fields not recoverable from both calls are explicitly unavailable rather than inferred."
+    }
+  },
+  "execution": {
+    "mode": "ticket-spec-index-grounded-staged-no-tools-with-accepted-parent-overlays",
+    "source_revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "source_tree_changed": false,
+    "parent_overlays": [
+      "ticket:engine.pt-switch-layer/v2",
+      "ticket:engine.switch-pt/v2"
+    ],
+    "stages": [
+      "TicketSpec validation and compact SQLite-indexed evidence pack",
+      "initial no-tools Claude call returned a bounded NEED request",
+      "harness supplied only the requested code regions",
+      "continuation returned one constrained registry/test patch",
+      "harness applied the patch and ran build, focused tests, and six-shard suite"
+    ],
+    "changed_paths": [
+      "backend/cards/registry_switch_pt.go",
+      "backend/cards/shape_switch_pt_test.go"
+    ],
+    "candidate_commit": "087beb7cce2ba60d17f53b3e01aae39f1806c7fb",
+    "candidate_clone": "/tmp/factory-ng-staged-switch-pt",
+    "transient_evidence": {
+      "log_path": "/tmp/orch/engine-pipeline-engine.switch-pt-registry-bridge-v3.log",
+      "log_sha256": "sha256:d70c1d65fd88c13fa727bbe33f19d34873103e1d83e9c2e3865b91fe88fc7c7a",
+      "last_raw_path": "/tmp/orch/pipeline-engine.switch-pt-registry-bridge-v3-raw-last.json",
+      "last_raw_sha256": "sha256:96ba0303e206bc7790690eb1fb28eba56e738de51b423bf1f1cb50c9c29a309f"
+    }
+  },
+  "gates": [
+    {
+      "id": "ticket-scope",
+      "outcome": "passed",
+      "evidence": "The child diff relative to the accepted parent-overlay baseline contains exactly backend/cards/registry_switch_pt.go and backend/cards/shape_switch_pt_test.go."
+    },
+    {
+      "id": "build-and-focused-behavior",
+      "outcome": "passed",
+      "evidence": "go build ./... and the focused cards/game selector passed. The shape test uses a real spell EffectAtom and proves the existing executor changes the selected creature from 2/5 to 5/2 without changing a bystander."
+    },
+    {
+      "id": "full-regression-suite",
+      "outcome": "passed",
+      "evidence": "scripts/test-cards-sharded.sh 6 completed green."
+    },
+    {
+      "id": "dependent-map-remeasurement",
+      "outcome": "passed",
+      "evidence": "A separate disposable composition clone applied this accepted bridge and the accepted map.switch-pt/v5 patch. factory-ng-targeted-demand.py remeasured all 17 pinned switch_pt members with member_count 0; scripts.paragraph.test_switch_pt ran 6 tests green."
+    },
+    {
+      "id": "source-mutation",
+      "outcome": "passed",
+      "evidence": "The canonical openmagic checkout stayed clean; no branch was pushed and nothing was deployed."
+    }
+  ],
+  "outcome": "accepted_for_dependent_observation",
+  "next_action": "Use this Map-to-Engine closure as the second supervised factory trace. Integration into the shared source remains a separate, explicit operator action."
+}

@@ -1,0 +1,52 @@
+{
+  "files": [
+    {
+      "bytes": 5034,
+      "path": "docs/factory-ng/model-profile-contract-v1.md",
+      "sha256": "sha256:30541a677d1cffd00a77c0945892bed94ba7ad32f41562f417cec2884ae53080"
+    },
+    {
+      "bytes": 6805,
+      "path": "docs/factory-ng/change-provenance-and-rca-contract-v1.md",
+      "sha256": "sha256:5496b0ef6a42595d80a99b468447baa3dda8e3d2e5b0a8669162cecdd920ca61"
+    },
+    {
+      "bytes": 1847,
+      "path": "docs/factory-ng/schemas/factory.change-provenance-v1.schema.json",
+      "sha256": "sha256:13a1a7bce60909077ccdd6c7fdbdbe88c05dc14f8bf0fc469256eb26db7650ff"
+    },
+    {
+      "bytes": 1355,
+      "path": "docs/factory-ng/schemas/factory.root-cause-analysis-v1.schema.json",
+      "sha256": "sha256:24713fdedce95f0321c3603e0af199d0c95be39f22b11c0c8575dd7d85b0d2b9"
+    },
+    {
+      "bytes": 1078,
+      "path": "docs/factory-ng/model-profiles/v1/staged-baseline.json",
+      "sha256": "sha256:570dd9a969b571cba6c16839010ea96f39eb80434880aff7b26fc2371f408f23"
+    },
+    {
+      "bytes": 1026,
+      "path": "docs/factory-ng/model-profiles/v1/qwen-prepared-local.json",
+      "sha256": "sha256:c7515685579fb33f25e3dd2b107ec5c7649faf6f638985c966199f7220f2ce9d"
+    },
+    {
+      "bytes": 1070,
+      "path": "docs/factory-ng/model-profiles/v1/qwen-prepared-direct.json",
+      "sha256": "sha256:2ec6c96e2083bdedf7028e8cde23349b76e2ceff7b380723e45c3df2cda33603"
+    },
+    {
+      "bytes": 784,
+      "path": "docs/factory-ng/model-profiles/v1/codex-constrained.json",
+      "sha256": "sha256:2b0b2214a9271b21afae88b76a1093017cf5e675a84fc4ed5ff4a24c5d27be81"
+    },
+    {
+      "bytes": 939,
+      "path": "docs/factory-ng/model-profiles/v1/claude-staged.json",
+      "sha256": "sha256:ce37adfc9f5f3691dbd870723035a8210aafb7308ae3c50045ee8acf96915fd9"
+    }
+  ],
+  "package_sha256": "sha256:5f787accc4bf86217f0627321169ff60bf555e8a7498d6aa9ca85367c5e57c3c",
+  "schema": "factory.contract-review-package/v1",
+  "scope": "high-impact Factory NG governance contract"
+}

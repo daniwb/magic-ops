@@ -1,0 +1,114 @@
+{
+  "schema": "factory.execution-receipt/v1",
+  "attempt_id": "attempt:sha256:12b6697b4daf538d57e967eeb8a1229f169521f79df2f7ecb6af7fd974e73a25",
+  "ticket_id": "ticket:sha256:4a574b58f4c35dbcfe3a14dd654231e911a78bb330fd98976edc2d7314db924e",
+  "profile": "qwen-prepared-direct@1.0.0",
+  "model": {
+    "provider": "local",
+    "resolved_model": "qwen",
+    "adapter_version": "1.0.0"
+  },
+  "source_revision": "abc123",
+  "evidence_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "skill_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "adapter_command_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "model_calls": [
+    {
+      "id": "call-1",
+      "raw_counters": {
+        "input_tokens": 10,
+        "output_tokens": 2,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "reasoning_tokens": {
+          "availability": "unavailable",
+          "reason": "provider does not report reasoning"
+        },
+        "provider_cost_usd": {
+          "availability": "unavailable",
+          "reason": "local provider has no invoice"
+        },
+        "elapsed_ms": 20
+      }
+    }
+  ],
+  "telemetry": {
+    "input_tokens": 10,
+    "output_tokens": 2,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "reasoning_tokens": {
+      "availability": "unavailable",
+      "reason": "provider does not report reasoning"
+    },
+    "provider_cost_usd": {
+      "availability": "unavailable",
+      "reason": "local provider has no invoice"
+    },
+    "elapsed_ms": 20
+  },
+  "tool_counts": {
+    "tool_calls": 0,
+    "need_requests": 0,
+    "repair_calls": 0
+  },
+  "patch_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "changed_paths": [
+    "scripts/paragraph/reparse.py"
+  ],
+  "scope": {
+    "baseline": {
+      "mapped": 1
+    },
+    "post_change": {
+      "mapped": 2
+    }
+  },
+  "gates": [
+    {
+      "id": "fixture-gate",
+      "command_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+      "outcome": "passed"
+    }
+  ],
+  "budget_checkpoint": {
+    "calculation": "input_tokens + output_tokens; cache/read-write and reasoning counters retained separately to avoid double-counting",
+    "ordinary_target_effective_tokens": 200000,
+    "warning_reflection_effective_tokens": 500000,
+    "effective_tokens": 12,
+    "status": "within_target"
+  },
+  "recorded_by": "factory-harness/v1",
+  "attestation": {
+    "key_id": "factory-harness-review-v1",
+    "algorithm": "ed25519",
+    "signature_b64": "2l9FRGe3txDpJYZjtB7qMMb5bzlEMth5uVYl/g3a38aVZRxY1y7X3fTid/3ezkGgOeDYzMERjRINMIVF/xf6AA=="
+  },
+  "outcome": "accepted",
+  "root_ids": [
+    "ticket:sha256:e59b591878013479c9fd1f1d42e8fd01e070667a9df48ae5e5cefda3e9389bdd"
+  ],
+  "result_commit": "abc1234",
+  "acceptance_gate_manifest": {
+    "ticket_id": "ticket:sha256:4a574b58f4c35dbcfe3a14dd654231e911a78bb330fd98976edc2d7314db924e",
+    "evidence_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+    "skill_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+    "gates": [
+      {
+        "id": "fixture-gate",
+        "command_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124"
+      }
+    ]
+  },
+  "model_profile_sha256": "sha256:db12b731a010832db032bd354f47cac81a710e05f822e484e3e7809df309b35e",
+  "ticket_acceptance_contract": {
+    "schema": "factory.ticket-acceptance/v1",
+    "ticket_id": "ticket:sha256:4a574b58f4c35dbcfe3a14dd654231e911a78bb330fd98976edc2d7314db924e",
+    "acceptance_gate_manifest_sha256": "sha256:ca450633a43468ff426a4e7c9ef76ffdfd68450ef79315b44563498477ba7c69",
+    "attestation": {
+      "key_id": "factory-harness-review-v1",
+      "algorithm": "ed25519",
+      "signature_b64": "pZI9u+hqIMN0Zsoj2VZipmeOlKJT/JtBQ1apGWRjyi4c0o9RUjc/I/WUfWjhS8xCBcq+OSpY0Wv8lJiKbbgwBw=="
+    }
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "schema": "factory.change-provenance/v1",
+  "ticket_id": "ticket:sha256:3efc56a8a0866dceafcc4a521cbb5d7c0fe1c888d39e45267f1e582fcbd5dd4a",
+  "root_ids": [
+    "ticket:sha256:eacd2e712b8ea2f9c93087bc0394b9015d09a4f0dda57f224a2e7dd729e4dca8"
+  ],
+  "attempt_id": "attempt:sha256:af9c9c2c0795bed2b4deb6488f87a763b762c8ce788d3295fb8e85e6d0152009",
+  "change_class": "factory",
+  "contract_change_scope": "high_impact",
+  "affected_contract_areas": [
+    "token_cost_accounting",
+    "acceptance_semantics"
+  ],
+  "reviewed_package_sha256": "sha256:7ce46af1a52f756b09bf3140b72b8321127dd05f6f027dc65defb509e7e48590",
+  "source_revision": "abc123",
+  "result_commit": "abc1234",
+  "patch_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "model": {
+    "profile": "human@1",
+    "resolved_model": "human",
+    "adapter_version": "n/a"
+  },
+  "evidence_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "skill_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "telemetry": {
+    "input_tokens": 1,
+    "output_tokens": 1,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "reasoning_tokens": 0,
+    "provider_cost_usd": 0,
+    "elapsed_ms": 1
+  },
+  "changed_paths": [
+    "docs/factory-ng/change-provenance-and-rca-contract-v1.md"
+  ],
+  "scope_measurement": {
+    "baseline": {},
+    "post_change": {}
+  },
+  "gate_receipts_sha256": "sha256:a3249a18529cf4d65c365c3a30a3ca8aecb5586860582fd7eabea74ca7036210",
+  "reviews": [
+    {
+      "decision": "accepted",
+      "reviewer_profile": "codex-sol-review@1",
+      "review_id": "review:sha256:9cb45c44f1e8e5410abad0be23d4296afad691a605d308dee702a94990ee5034",
+      "review_attempt_id": "attempt:sha256:4bce3b5689a34a58c8005aa2bf949edf3ed1bb870bd3fb22d598b9e2d8f81d16",
+      "review_sha256": "sha256:a72b98fd713d56817e8615c9ddcf840b09f4286c305dffaf3271afcc5bff456b",
+      "review_receipt": {
+        "schema": "factory.review-receipt/v1",
+        "review_id": "review:sha256:9cb45c44f1e8e5410abad0be23d4296afad691a605d308dee702a94990ee5034",
+        "review_attempt_id": "attempt:sha256:4bce3b5689a34a58c8005aa2bf949edf3ed1bb870bd3fb22d598b9e2d8f81d16",
+        "reviewer_profile": "codex-sol-review@1",
+        "provider": "openai",
+        "resolved_model": "gpt-5.6-sol",
+        "package_sha256": "sha256:7ce46af1a52f756b09bf3140b72b8321127dd05f6f027dc65defb509e7e48590",
+        "decision": "accepted",
+        "recorded_by": "factory-harness/v1",
+        "attestation": {
+          "key_id": "factory-harness-review-v1",
+          "algorithm": "ed25519",
+          "signature_b64": "Em+gwDUptmGZu1gBlU1h1QbHC0eEC/OCKT5Tm0OFsdDf6UAN/IwbjbbbA28oxPhb9haSrF6OJTAzzGNafh6gAg=="
+        },
+        "raw_review_sha256": "sha256:e324180f285d1fa2104fce12da78493a07ca86830b151d92533b0561fcb328c2",
+        "acceptance_gate_manifest_sha256": "sha256:106c74b2676db395240b65c18efaae7fa4172cb250e53206564b01c18057f0ef",
+        "review_subject_sha256": "sha256:a0e872386d0c1e3872851e22cf3deea57b4659adad97adfc8d4e96a6dc08655a"
+      }
+    },
+    {
+      "decision": "accepted",
+      "reviewer_profile": "claude-opus-review@1",
+      "review_id": "review:sha256:75899635121aa897dda5f56b061b749d6210b55da5e3ccf7a387dd57d428c2a9",
+      "review_attempt_id": "attempt:sha256:f57fc2572c7e53a389153c78ab629644a291e1d1d297969e0e9996f209b7985a",
+      "review_sha256": "sha256:9baa593dd138f12a3aaa692e1ce24f0eff4e6e07c7dc53e0cf2b6cee696a02ed",
+      "review_receipt": {
+        "schema": "factory.review-receipt/v1",
+        "review_id": "review:sha256:75899635121aa897dda5f56b061b749d6210b55da5e3ccf7a387dd57d428c2a9",
+        "review_attempt_id": "attempt:sha256:f57fc2572c7e53a389153c78ab629644a291e1d1d297969e0e9996f209b7985a",
+        "reviewer_profile": "claude-opus-review@1",
+        "provider": "anthropic",
+        "resolved_model": "claude-opus-5",
+        "package_sha256": "sha256:7ce46af1a52f756b09bf3140b72b8321127dd05f6f027dc65defb509e7e48590",
+        "decision": "accepted",
+        "recorded_by": "factory-harness/v1",
+        "attestation": {
+          "key_id": "factory-harness-review-v1",
+          "algorithm": "ed25519",
+          "signature_b64": "qRspGnwmTQEKbsHxPbXPjgon/3CIW/rEhvxW7kqTg2vKsTOz27bFPzXNVEbNw1gJmZdihVyBdT368G6balJcAw=="
+        },
+        "raw_review_sha256": "sha256:e324180f285d1fa2104fce12da78493a07ca86830b151d92533b0561fcb328c2",
+        "acceptance_gate_manifest_sha256": "sha256:106c74b2676db395240b65c18efaae7fa4172cb250e53206564b01c18057f0ef",
+        "review_subject_sha256": "sha256:a0e872386d0c1e3872851e22cf3deea57b4659adad97adfc8d4e96a6dc08655a"
+      }
+    }
+  ],
+  "outcome": "accepted",
+  "execution_receipt": {
+    "schema": "factory.execution-receipt/v1",
+    "attempt_id": "attempt:sha256:af9c9c2c0795bed2b4deb6488f87a763b762c8ce788d3295fb8e85e6d0152009",
+    "ticket_id": "ticket:sha256:3efc56a8a0866dceafcc4a521cbb5d7c0fe1c888d39e45267f1e582fcbd5dd4a",
+    "profile": "human@1",
+    "model": {
+      "provider": "operator",
+      "resolved_model": "human",
+      "adapter_version": "n/a"
+    },
+    "source_revision": "abc123",
+    "evidence_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+    "skill_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+    "adapter_command_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+    "model_calls": [
+      {
+        "id": "bound-fixture-call",
+        "raw_counters": {
+          "input_tokens": 1,
+          "output_tokens": 1,
+          "cache_read_tokens": 0,
+          "cache_write_tokens": 0,
+          "reasoning_tokens": 0,
+          "provider_cost_usd": 0,
+          "elapsed_ms": 1
+        }
+      }
+    ],
+    "telemetry": {
+      "input_tokens": 1,
+      "output_tokens": 1,
+      "cache_read_tokens": 0,
+      "cache_write_tokens": 0,
+      "reasoning_tokens": 0,
+      "provider_cost_usd": 0,
+      "elapsed_ms": 1
+    },
+    "tool_counts": {
+      "tool_calls": 0,
+      "need_requests": 0,
+      "repair_calls": 0
+    },
+    "patch_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+    "changed_paths": [
+      "docs/factory-ng/change-provenance-and-rca-contract-v1.md"
+    ],
+    "scope": {
+      "baseline": {},
+      "post_change": {}
+    },
+    "gates": [
+      {
+        "id": "fixture-gate",
+        "command_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+        "outcome": "passed"
+      }
+    ],
+    "budget_checkpoint": {
+      "calculation": "input_tokens + output_tokens; cache/read-write and reasoning counters retained separately to avoid double-counting",
+      "ordinary_target_effective_tokens": 200000,
+      "warning_reflection_effective_tokens": 500000,
+      "effective_tokens": 2,
+      "status": "within_target"
+    },
+    "recorded_by": "factory-harness/v1",
+    "attestation": {
+      "key_id": "factory-harness-review-v1",
+      "algorithm": "ed25519",
+      "signature_b64": "AisXqac6EDm7xbo+DtebW+O1wfGBgrj4PQYo7bfg4n7DuP1zzBKA8inBbyne9LZ7DBMB4PQ8H3anB5zYtFnIBw=="
+    },
+    "outcome": "accepted",
+    "root_ids": [
+      "ticket:sha256:eacd2e712b8ea2f9c93087bc0394b9015d09a4f0dda57f224a2e7dd729e4dca8"
+    ],
+    "result_commit": "abc1234",
+    "acceptance_gate_manifest": {
+      "ticket_id": "ticket:sha256:3efc56a8a0866dceafcc4a521cbb5d7c0fe1c888d39e45267f1e582fcbd5dd4a",
+      "evidence_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+      "skill_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+      "gates": [
+        {
+          "id": "fixture-gate",
+          "command_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124"
+        }
+      ]
+    },
+    "model_profile_sha256": "sha256:2e11ac845e422b5d38ed70c64877f5e4a0e4123e4a755b4eb30ca4911fb6efd2",
+    "ticket_acceptance_contract": {
+      "schema": "factory.ticket-acceptance/v1",
+      "ticket_id": "ticket:sha256:3efc56a8a0866dceafcc4a521cbb5d7c0fe1c888d39e45267f1e582fcbd5dd4a",
+      "acceptance_gate_manifest_sha256": "sha256:106c74b2676db395240b65c18efaae7fa4172cb250e53206564b01c18057f0ef",
+      "attestation": {
+        "key_id": "factory-harness-review-v1",
+        "algorithm": "ed25519",
+        "signature_b64": "9BAAUYT5CAjkNwUAz/GYUBKIwj4viII2yEVU6qNdJMn8lcj/JE3YKcRu1xcaBongZbW8YrSPBy0HNJwLMcETDA=="
+      }
+    }
+  },
+  "attestation": {
+    "key_id": "factory-harness-review-v1",
+    "algorithm": "ed25519",
+    "signature_b64": "sh22eVfzFh2mobg5I88C8EifvuQU9VbC/61dnGBFrZuIeixUkcYIcY/z23poHGMmnCIWa+7PSpHMKqWzF+BqDw=="
+  },
+  "model_profile_sha256": "sha256:2e11ac845e422b5d38ed70c64877f5e4a0e4123e4a755b4eb30ca4911fb6efd2"
+}

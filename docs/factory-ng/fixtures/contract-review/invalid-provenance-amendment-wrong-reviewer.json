@@ -1,0 +1,31 @@
+{
+  "schema": "factory.change-provenance/v1",
+  "ticket_id": "ticket:sha256:d40c909aeb419c973ec44db592c26b49ed1eff257be09227c747f6cb1b5558c1",
+  "attempt_id": "attempt:sha256:d6ecacf48bb46422d8a853edd9d40a3945cf24b6a43e25af802b1c9e65c619fb",
+  "change_class": "factory",
+  "contract_change_scope": "amendment",
+  "affected_contract_areas": [
+    "model_profile"
+  ],
+  "source_revision": "abc123",
+  "patch_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "model": {
+    "profile": "human",
+    "resolved_model": "human",
+    "adapter_version": "n/a"
+  },
+  "evidence_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "skill_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "gate_receipts_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "reviews": [
+    {
+      "decision": "accepted",
+      "reviewer_profile": "qwen-review@1",
+      "review_id": "review:sha256:e2d85a7d1db63e384d87469f594a62202b037545edf31bf0f6f723305cbae51c",
+      "review_attempt_id": "attempt:sha256:60e4fca42430a245cb097a978e28c7c1b5de2de872e66cf9d4e99368ac0c4400",
+      "review_sha256": "sha256:e9a76f2fac583d580e0a9424f9c77416aea04bf260c37e871d2f983736773057"
+    }
+  ],
+  "outcome": "accepted",
+  "model_profile_sha256": "sha256:748bbeca29309cf5b9e6e8258114b22321cc19c375e98c97582bebac10f92fee"
+}

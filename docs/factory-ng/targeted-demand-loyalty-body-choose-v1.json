@@ -1,0 +1,176 @@
+{
+  "member_count": 14,
+  "members": [
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:UNCLASSIFIED",
+        "loyalty_body:?",
+        "loyalty_body:choose",
+        "loyalty_body:put_zone"
+      ],
+      "details": [
+        "choose left or right"
+      ],
+      "name": "Aminatou, the Fateshifter",
+      "text_sha256": "sha256:ad3448d28b6b78ff0f6db765bb21086c0fde7d5c23b505e17903c72887af7464"
+    },
+    {
+      "all_miss_shapes": [
+        "loyalty_body:?",
+        "loyalty_body:choose",
+        "loyalty_body:token_copy"
+      ],
+      "details": [
+        "choose one"
+      ],
+      "name": "Chandra, Flameshaper",
+      "text_sha256": "sha256:cd364d563399d58f9730f6341d647bfcfce7bcf7fa299b0256b75fc1aee1eee0"
+    },
+    {
+      "all_miss_shapes": [
+        "loyalty_body:?",
+        "loyalty_body:choose"
+      ],
+      "details": [
+        "choose an instant or sorcery card exiled this way and copy it three ti"
+      ],
+      "name": "Chandra, Pyromaster",
+      "text_sha256": "sha256:0254b3fbd3d1ab98199ed8924558cd35785b5e8780f05151eb2567667c61363b"
+    },
+    {
+      "all_miss_shapes": [
+        "loyalty_body:choose"
+      ],
+      "details": [
+        "choose target artifact card in a graveyard or artifact on the battlefi"
+      ],
+      "name": "Daretti, Ingenious Iconoclast",
+      "text_sha256": "sha256:039e9c73d6bb34aa434dd97e080160b6540866bdb98f2bf1cf2fdc692d041d86"
+    },
+    {
+      "all_miss_shapes": [
+        "loyalty_body:choose",
+        "loyalty_body:look_top"
+      ],
+      "details": [
+        "choose up to one target creature"
+      ],
+      "name": "Elspeth Resplendent",
+      "text_sha256": "sha256:b4a56fd9fba666a52911a69bc39121fda6c89fe6d5fd3ba6664754076b3d0a16"
+    },
+    {
+      "all_miss_shapes": [
+        "loyalty_body:?",
+        "loyalty_body:choose"
+      ],
+      "details": [
+        "choose a creature card in your hand"
+      ],
+      "name": "Garruk, Wrath of the Wilds",
+      "text_sha256": "sha256:acfd272d39e9d848283345778cf12ac0e342ee6bcce626918de6977d31cd7800"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:UNCLASSIFIED",
+        "kind_unsupported:replacement_enters",
+        "loyalty_body:choose"
+      ],
+      "details": [
+        "choose target creature"
+      ],
+      "name": "Jeska, Thrice Reborn",
+      "text_sha256": "sha256:b50cb928756b906b4b9d878f6f5ebd108399255437153f21c84381e0485005c4"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:UNCLASSIFIED",
+        "loyalty_body:choose",
+        "loyalty_body:create_token",
+        "loyalty_body:regrow"
+      ],
+      "details": [
+        "choose up to two target creatures"
+      ],
+      "name": "Jared Carthalion",
+      "text_sha256": "sha256:81893b944a92a2c4a6e54c4829fae58041e17fbf809fc8eefc298b5fa8730621"
+    },
+    {
+      "all_miss_shapes": [
+        "loyalty_body:?",
+        "loyalty_body:choose"
+      ],
+      "details": [
+        "choose one of them",
+        "choose target creature an opponent controls"
+      ],
+      "name": "Jaya, Fiery Negotiator",
+      "text_sha256": "sha256:8e99b82d8079323b55d65cce168c3863687fdfb01202acac574850e708029692"
+    },
+    {
+      "all_miss_shapes": [
+        "loyalty_body:choose",
+        "static_unmapped"
+      ],
+      "details": [
+        "choose a nonland card name"
+      ],
+      "name": "Tamiyo, Collector of Tales",
+      "text_sha256": "sha256:5a12192ff8f4374e1446a29752ba790cbb6df218e631cef65a69208ec7b9d707"
+    },
+    {
+      "all_miss_shapes": [
+        "loyalty_body:choose",
+        "loyalty_body:exile",
+        "static_unmapped"
+      ],
+      "details": [
+        "choose a creature that player controls"
+      ],
+      "name": "The Eternal Wanderer",
+      "text_sha256": "sha256:a69a04440b27125ba7d3aa9c8cc9a756080c8fd01e6739616759173b9fa38926"
+    },
+    {
+      "all_miss_shapes": [
+        "loyalty_body:?",
+        "loyalty_body:choose",
+        "loyalty_body:tap"
+      ],
+      "details": [
+        "choose up to two target creatures"
+      ],
+      "name": "Tamiyo, Field Researcher",
+      "text_sha256": "sha256:321ce63ae3b4e4f9c0ec44bddeabb2cf2836b58c04822e203fbc49f427c3f6e6"
+    },
+    {
+      "all_miss_shapes": [
+        "loyalty_body:?",
+        "loyalty_body:choose",
+        "loyalty_body:look_top"
+      ],
+      "details": [
+        "choose up to one target artifact, up to one target creature, and up to"
+      ],
+      "name": "Teferi, Who Slows the Sunset",
+      "text_sha256": "sha256:2a968d4cc9a439c77885186f673834248a3bb28994ebf32494f8668afcc6a4f6"
+    },
+    {
+      "all_miss_shapes": [
+        "loyalty_body:?",
+        "loyalty_body:choose"
+      ],
+      "details": [
+        "choose left or right"
+      ],
+      "name": "Teyo, Geometric Tactician",
+      "text_sha256": "sha256:02f81c811527f9d4577d9eee5c686968b76780a8a5b51e3d43fb2fff373a17c5"
+    }
+  ],
+  "review_cards_scanned": 18612,
+  "schema": "factory.targeted-demand/v1",
+  "shape": "loyalty_body:choose",
+  "source": {
+    "parser_sha256": "sha256:2c21358aa570e26e95358c141bc7852c280ab025f46e52329e484869d3df1848",
+    "repository": "/opt/development/test/openmagic",
+    "revision": "6d85a3d649103d8f3a50fb6436ed266c77b0942a"
+  }
+}

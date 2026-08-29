@@ -1,0 +1,71 @@
+{
+  "schema": "factory.ticket-spec/v1",
+  "id": "ticket:map.target-player-draw/v3",
+  "title": "Map targeted player draw to the now-supported player target",
+  "work_type": "map",
+  "lifecycle": "ready_for_observation",
+  "parents": [
+    "ticket:engine.draw-target-lifting/v2"
+  ],
+  "replaces_attempt": {
+    "ticket": "ticket:map.target-player-draw/v2",
+    "reason": "Qwen prepared-direct returned a valid parser hunk but an invalid focused-test API, then failed its one bounded repair output contract."
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "6d85a3d649103d8f3a50fb6436ed266c77b0942a",
+    "clean": true,
+    "parent_overlay": "accepted Engine v2 proposal in the same disposable clone only"
+  },
+  "scope": {
+    "allowed_paths": [
+      "scripts/paragraph/reparse.py",
+      "scripts/paragraph/test_target_player_draw.py"
+    ],
+    "forbidden_paths": [
+      "backend/",
+      "scripts/paragraph/parser.py",
+      "data/"
+    ]
+  },
+  "evidence": [
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "sha256": "sha256:2c21358aa570e26e95358c141bc7852c280ab025f46e52329e484869d3df1848",
+      "anchor": "1609-1618",
+      "fact": "p_draw already maps target opponent and each opponent; target player was deliberately omitted solely because the old Engine could not represent a player target."
+    },
+    {
+      "ticket": "ticket:engine.draw-target-lifting/v2",
+      "receipt": "docs/factory-ng/runs/2026-08-28-engine-draw-target-lifting-v2.json",
+      "fact": "The selected Engine proposal passed focused conversion and execution gates, establishing {'filter': 'player'} as the Map-to-Engine boundary."
+    },
+    {
+      "path": "scripts/paragraph/test_damage_recipient_count.py",
+      "sha256": "sha256:810f90f5e6fcf1e3c2b46d0c3abf85827fcedfec993686d1cf0408ec6b3727bc",
+      "anchor": "1-60",
+      "fact": "Focused tests import reparse after adding their own directory to sys.path and call reparse.O.parse_atom followed by reparse.map_atom."
+    }
+  ],
+  "required_behavior": [
+    "Target player draws N cards. maps to ('draw', {'amount': N}, {'filter': 'player'}).",
+    "Target opponent draws N cards. and Each opponent draws N cards. retain ('draw', {'amount': N, 'target': 'opponent'}, None).",
+    "Each player draws N cards. and That player draws N cards. remain unmapped (None).",
+    "Add a focused unittest through reparse.O.parse_atom and reparse.map_atom with kind='oneshot'."
+  ],
+  "implementation_hint": "Keep the existing opponent branch and add the one target-player return before its final None.",
+  "gates": [
+    "cd scripts/paragraph && python3 -m unittest test_target_player_draw",
+    "git diff --check",
+    "git status --porcelain adds only the two allowed Map paths relative to the accepted Engine child state"
+  ],
+  "execution": {
+    "mode": "isolated_clone_observation_only",
+    "selected_profile": "codex-constrained@1.0.0",
+    "effective_token_target": 200000,
+    "warning_reflection_threshold": 500000,
+    "automatic_stop": false,
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true
+  },
+  "on_failure": "Return a receipt with the raw response, telemetry, and gate output. Do not mutate a real worktree or broaden scope."
+}

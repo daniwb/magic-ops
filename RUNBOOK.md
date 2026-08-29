@@ -84,13 +84,40 @@ pause only). Implementation: magic-ops/scripts/lib-pace-gate.sh :: pace_ok()
 lanes (lp1/ro1). Fail-open only after 30min without usage data (endpoint
 rate-limits under multi-lane polling; the lib caches with 180s TTL).
 
-## Session startup & operator lock (multi-session guardrail)
-Every Claude session MUST at start: run
-magic-ops/scripts/session-health-check.sh and inspect /tmp/orch/operator.lock.
-Lock free/stale(>4h) -> take it, act as operator. Lock held by another live
-session -> OBSERVER MODE: monitors + reporting ONLY, zero mutations (no
-commits, pushes, restarts, ticket ops, deploys). Protocol details: memory
-file session_startup_protocol.md.
+## Session startup & scoped mutation locks
+Every session runs `magic-ops/scripts/session-health-check.sh`. The former
+four-hour `/tmp/orch/operator.lock` is retired: it was advisory, was routinely
+orphaned by monitoring sessions, and blocked isolated Factory NG work without
+protecting a real write. Monitoring and disposable-clone work are lock-free.
+
+Commands that mutate shared state must hold the matching process-scoped lock:
+- integration/local `openmagic` main: `/tmp/orch/openmagic-integration.lock`
+- push/build/restart/live mirror: `/tmp/orch/factory-deploy.lock`
+- dispatcher ticket/lane administration: `/tmp/orch/dispatcher-admin.lock`
+
+Use `scripts/factory-ng-scoped-lock.sh <integration|deploy|dispatcher-admin>
+<command> [args...]`. It uses kernel `flock`; concurrent mutation fails fast,
+and a crashed process releases the lock automatically. Factory scripts take
+their required lock internally. Protocol details: memory file
+`session_startup_protocol.md`.
+
+Factory NG runtime policy lives in `config/factory-ng-policy.json`. Accepted
+new-run candidates are exported as durable patches, then the harness runs a
+reparse/import wave, Go build, focused gates, and the full six-shard suite in
+a disposable clone. A completely green gate fast-forwards local main and
+pushes automatically. `deploy_after_push` is false by default and requires a
+separate deployment decision. Claude/Codex dispatch uses the canonical
+quota-reset-anchored daily thresholds 14/29/43/57/71/86/100%; Qwen local is
+unmetered.
+
+Queue input is explicit and inspectable. Add a new repeatable bounded producer
+to `config/factory-ng-producers.json`, or enqueue one reviewed TicketSpec with
+`python3 scripts/factory-ng-enqueue.py --ticket /path/to/ticket.json`. The
+enqueue command validates lifecycle, worker profile, scope, gates, source SHA,
+and the bound Skill digest before atomically placing it in
+`docs/factory-ng/tickets/`. “Producer set exhausted” on the dashboard means
+all registered one-shot ground-truth classes already have TicketSpecs; it is
+not a worker or scheduler failure.
 
 ## Session monitors (NOT persistent — they die with the Claude session!)
 The interactive session usually runs these watchers via its Monitor tool.
@@ -108,7 +135,8 @@ Worker turn/token accounting: /tmp/disp-<w>-turns.log, /tmp/disp-<w>-tokens,
 last model output: /tmp/disp-<w>-last-result.txt.
 
 ## Dashboards / status
-- localhost:9999/dashboard (tickets, pilestats, buildplan, carddb)
+- localhost:9999/dashboard (Factory NG: card status, NG worker settings,
+  TicketSpec DAG, receipts, integrations, and telemetry; legacy board stays at `/`)
 - Queue: sqlite3 dispatcher.db "select state,count(*) from tickets group by state"
 - DB count: python one-liner over backend/data/carddb/*.json status fields.
 

@@ -1,0 +1,72 @@
+{
+  "schema": "factory.observation-receipt/v1",
+  "ticket": {
+    "id": "ticket:engine.draw-target-lifting/v2",
+    "path": "docs/factory-ng/tickets/engine-draw-target-lifting-v2.json",
+    "sha256": "sha256:9052322521a4020706e010716c39c1b6185af1407fc5646cb87371f7cb818f88"
+  },
+  "mode": "isolated_clone_observation_only",
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "6d85a3d649103d8f3a50fb6436ed266c77b0942a",
+    "original_source_status": "clean",
+    "original_source_mutated": false
+  },
+  "model": {
+    "profile": "codex-constrained@1.0.0",
+    "provider": "openai",
+    "resolved_model": "gpt-5.6-sol",
+    "raw_output": {
+      "path": "docs/factory-ng/runs/2026-08-28-engine-draw-target-lifting-v2.raw.jsonl",
+      "sha256": "sha256:81fde3c084dcfe8044c744a0d624d7da2d11002cb50abf2137973ee7e5194b50"
+    },
+    "telemetry": {
+      "input_tokens": 14962,
+      "output_tokens": 703,
+      "cache_read_tokens": 11008,
+      "cache_write_tokens": {"availability": "unavailable"},
+      "reasoning_tokens": 101,
+      "provider_cost_usd": {"availability": "unavailable"},
+      "elapsed_ms": {"availability": "unavailable"},
+      "effective_tokens": 15665
+    }
+  },
+  "proposal": {
+    "sha256": "sha256:528c11efb8091245e94680a4ef9c6cb1de50b1fcfdabe3c9d38fa1648ec73db5",
+    "applied_only_to": "ephemeral isolated clone",
+    "changed_paths": [
+      "backend/cards/converter.go",
+      "backend/cards/draw_target_lifting_test.go"
+    ]
+  },
+  "gates": [
+    {
+      "id": "patch-apply",
+      "outcome": "passed",
+      "evidence": "existing staged block applier applied one converter replacement and created one cards test"
+    },
+    {
+      "id": "formatting",
+      "outcome": "passed",
+      "evidence": "new test has no gofmt diff; converter gofmt diff is byte-identical to its clean baseline's pre-existing unrelated diff"
+    },
+    {
+      "id": "focused-engine-boundary",
+      "command": "cd backend && go test ./cards -run '^TestDrawSpellTargetLifting$' -count=1",
+      "outcome": "passed",
+      "evidence": "ok magic-backend/cards 0.027s"
+    },
+    {
+      "id": "diff-check",
+      "command": "git diff --check",
+      "outcome": "passed"
+    },
+    {
+      "id": "scope",
+      "outcome": "passed",
+      "evidence": "git status --porcelain in the clone contains exactly the two allowed paths, including the untracked test"
+    }
+  ],
+  "outcome": "accepted_for_dependent_observation",
+  "integration": "none; the clone is disposable and no production source, ticket, commit, deployment, or queue state changed"
+}

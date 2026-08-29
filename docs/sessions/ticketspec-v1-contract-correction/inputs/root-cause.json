@@ -1,0 +1,1 @@
+{"behavior":{"count":2,"kind":"draw_cards","subject":"target_player","timing":"resolve"},"class":"map.assertion.target-player-draw-two","required_behavior_hash":"sha256:58de5816647d1651f68410aa94857bdc6da5aecd2768fe7f67bb51e133a43f35","schema":"magic.root-cause/v1"}

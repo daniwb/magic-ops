@@ -237,5 +237,9 @@ func buildplan(w http.ResponseWriter, r *http.Request) {
 func dashboard(w http.ResponseWriter, r *http.Request) {
 	b, _ := dashFS.ReadFile("dashboard.html")
 	w.Header().Set("Content-Type", "text/html")
+	// dashboard.html is embedded in the dispatcher binary.  Without an
+	// explicit policy, a browser can keep the previous embedded dashboard
+	// after a binary hot-swap and make a successful deployment look unchanged.
+	w.Header().Set("Cache-Control", "no-store")
 	w.Write(b)
 }

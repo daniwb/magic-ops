@@ -1,0 +1,31 @@
+{
+  "schema": "factory.change-provenance/v1",
+  "ticket_id": "ticket:sha256:c121173cb723579602adf98d1893d59a82a4a9134edb7cd4d2b80eb297b6c5fa",
+  "attempt_id": "attempt:sha256:e325a904b5611671e8660aefcdc8c5deb3d6fd0338ce9b3fc1795ad80dd7cb0e",
+  "change_class": "factory",
+  "contract_change_scope": "high_impact",
+  "affected_contract_areas": [
+    "token_cost_accounting"
+  ],
+  "source_revision": "abc123",
+  "patch_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "model": {
+    "profile": "human",
+    "resolved_model": "human",
+    "adapter_version": "n/a"
+  },
+  "evidence_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "skill_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "gate_receipts_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "reviews": [
+    {
+      "decision": "accepted",
+      "reviewer_profile": "codex-sol-review@1",
+      "review_id": "review:sha256:9cb45c44f1e8e5410abad0be23d4296afad691a605d308dee702a94990ee5034",
+      "review_attempt_id": "attempt:sha256:4bce3b5689a34a58c8005aa2bf949edf3ed1bb870bd3fb22d598b9e2d8f81d16",
+      "review_sha256": "sha256:7d5048e19590b5fe18839df768cfb4f2c35a94e30ecea949ebe766d88f847f80"
+    }
+  ],
+  "outcome": "accepted",
+  "model_profile_sha256": "sha256:748bbeca29309cf5b9e6e8258114b22321cc19c375e98c97582bebac10f92fee"
+}

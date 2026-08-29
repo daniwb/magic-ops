@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "factory.change-provenance/v1",
+  "type": "object",
+  "required": ["schema", "ticket_id", "attempt_id", "change_class", "contract_change_scope", "source_revision", "patch_sha256", "model", "model_profile_sha256", "evidence_sha256", "skill_sha256", "gate_receipts_sha256", "reviews", "outcome"],
+  "properties": {
+    "schema": {"const": "factory.change-provenance/v1"},
+    "ticket_id": {"type": "string", "pattern": "^ticket:sha256:[0-9a-f]{64}$"},
+    "root_ids": {"type": "array", "items": {"type": "string", "pattern": "^ticket:sha256:[0-9a-f]{64}$"}, "minItems": 1},
+    "attempt_id": {"type": "string", "pattern": "^attempt:sha256:[0-9a-f]{64}$"},
+    "change_class": {"enum": ["map", "engine", "handler", "refactor", "factory"]},
+    "contract_change_scope": {"enum": ["none", "amendment", "high_impact"]},
+    "affected_contract_areas": {"type": "array", "uniqueItems": true, "items": {"enum": ["ticket_lifecycle", "model_profile", "skill_contract", "gate_contract", "telemetry", "provenance_rca", "cross_project_identity", "acceptance_semantics", "integration_authority", "token_cost_accounting"]}},
+    "reviewed_package_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "source_revision": {"type": "string"},
+    "result_commit": {"type": "string", "minLength": 7},
+    "patch_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "model": {
+      "type": "object",
+      "required": ["profile", "resolved_model", "adapter_version"],
+      "properties": {
+        "profile": {"type": "string"},
+        "resolved_model": {"type": "string"},
+        "adapter_version": {"type": "string"}
+      }
+    },
+    "model_profile_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "evidence_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "skill_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "telemetry": {"type": "object", "required": ["input_tokens", "output_tokens", "cache_read_tokens", "cache_write_tokens", "reasoning_tokens", "provider_cost_usd", "elapsed_ms"], "properties": {"input_tokens": {"type": ["number", "object"]}, "output_tokens": {"type": ["number", "object"]}, "cache_read_tokens": {"type": ["number", "object"]}, "cache_write_tokens": {"type": ["number", "object"]}, "reasoning_tokens": {"type": ["number", "object"]}, "provider_cost_usd": {"type": ["number", "object"]}, "elapsed_ms": {"type": ["number", "object"]}}},
+    "changed_paths": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "scope_measurement": {"type": "object", "required": ["baseline", "post_change"], "properties": {"baseline": {"type": "object"}, "post_change": {"type": "object"}}},
+    "gate_receipts_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "execution_receipt": {"type": "object"},
+    "attestation": {"type": "object", "required": ["key_id", "algorithm", "signature_b64"], "properties": {"key_id": {"const": "factory-harness-review-v1"}, "algorithm": {"const": "ed25519"}, "signature_b64": {"type": "string", "minLength": 1}}},
+    "reviews": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["decision", "reviewer_profile", "review_id", "review_attempt_id", "review_sha256", "review_receipt"],
+        "properties": {
+          "decision": {"enum": ["accepted", "rejected"]},
+          "reviewer_profile": {"type": "string"},
+          "review_id": {"type": "string", "pattern": "^review:sha256:[0-9a-f]{64}$"},
+          "review_attempt_id": {"type": "string", "pattern": "^attempt:sha256:[0-9a-f]{64}$"},
+          "review_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+          "review_receipt": {"type": "object", "required": ["schema", "review_id", "review_attempt_id", "reviewer_profile", "provider", "resolved_model", "package_sha256", "decision", "recorded_by"], "properties": {"schema": {"const": "factory.review-receipt/v1"}, "review_id": {"type": "string", "pattern": "^review:sha256:[0-9a-f]{64}$"}, "review_attempt_id": {"type": "string", "pattern": "^attempt:sha256:[0-9a-f]{64}$"}, "reviewer_profile": {"type": "string"}, "provider": {"type": "string", "minLength": 1}, "resolved_model": {"type": "string", "minLength": 1}, "package_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}, "decision": {"enum": ["accepted", "rejected"]}, "recorded_by": {"const": "factory-harness/v1"}, "raw_review_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}, "acceptance_gate_manifest_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}, "review_subject_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}, "attestation": {"type": "object", "required": ["key_id", "algorithm", "signature_b64"], "properties": {"key_id": {"const": "factory-harness-review-v1"}, "algorithm": {"const": "ed25519"}, "signature_b64": {"type": "string", "minLength": 1}}}}}
+        }
+      }
+    },
+    "outcome": {"enum": ["accepted", "rejected", "parked", "superseded"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"change_class": {"const": "factory"}}, "required": ["change_class"]},
+      "then": {"required": ["affected_contract_areas", "reviewed_package_sha256"], "properties": {"affected_contract_areas": {"minItems": 1}, "contract_change_scope": {"enum": ["amendment", "high_impact"]}}}
+    },
+    {
+      "if": {"properties": {"contract_change_scope": {"const": "amendment"}}, "required": ["contract_change_scope"]},
+      "then": {"properties": {"reviews": {"contains": {"properties": {"decision": {"const": "accepted"}, "reviewer_profile": {"anyOf": [{"allOf": [{"pattern": "(^|[-_])sol([-_@]|$)"}, {"not": {"pattern": "(^|[-_])opus([-_@]|$)"}}]}, {"allOf": [{"pattern": "(^|[-_])opus([-_@]|$)"}, {"not": {"pattern": "(^|[-_])sol([-_@]|$)"}}]}]}}, "required": ["decision", "reviewer_profile"]}}}}
+    },
+    {
+      "if": {"properties": {"contract_change_scope": {"const": "high_impact"}}, "required": ["contract_change_scope"]},
+      "then": {
+        "properties": {
+          "affected_contract_areas": {"contains": {"enum": ["cross_project_identity", "acceptance_semantics", "integration_authority", "token_cost_accounting"]}},
+          "reviews": {
+            "allOf": [
+              {"contains": {"properties": {"decision": {"const": "accepted"}, "reviewer_profile": {"allOf": [{"pattern": "(^|[-_])sol([-_@]|$)"}, {"not": {"pattern": "(^|[-_])opus([-_@]|$)"}}]}}, "required": ["decision", "reviewer_profile"]}},
+              {"contains": {"properties": {"decision": {"const": "accepted"}, "reviewer_profile": {"allOf": [{"pattern": "(^|[-_])opus([-_@]|$)"}, {"not": {"pattern": "(^|[-_])sol([-_@]|$)"}}]}}, "required": ["decision", "reviewer_profile"]}}
+            ]
+          }
+        }
+      }
+    }
+    ,
+    {
+      "if": {"properties": {"outcome": {"const": "accepted"}}, "required": ["outcome"]},
+      "then": {"required": ["root_ids", "result_commit", "telemetry", "changed_paths", "scope_measurement", "execution_receipt", "attestation"], "properties": {"reviews": {"items": {"properties": {"decision": {"const": "accepted"}}, "required": ["decision"]}}, "changed_paths": {"minItems": 1}}}
+    }
+  ],
+  "additionalProperties": true
+}

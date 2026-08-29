@@ -1,0 +1,90 @@
+{
+  "created_at": "2026-08-29T14:45:25Z",
+  "gates": [
+    {
+      "command": "git am --3way /tmp/factory-ng-integrate-6m03t6_p.patch",
+      "detail": "Applying: factory-ng: supervised map observation",
+      "elapsed_ms": 626,
+      "exit_code": 0,
+      "id": "candidate-apply",
+      "outcome": "passed"
+    },
+    {
+      "command": "/usr/bin/python3 scripts/paragraph/reparse.py --flip-batch 300 --tag factory-ng-0829-1435",
+      "detail": "FLIPPED 28 cards (status review -> auto, native v2 records)\nspot-check sample -> corpus/factory-ng-0829-1435_spotcheck.txt",
+      "elapsed_ms": 96340,
+      "exit_code": 0,
+      "id": "reparse-flip",
+      "outcome": "passed"
+    },
+    {
+      "command": "/usr/bin/python3 scripts/paragraph/reparse.py --import-corpus --tag factory-ng-0829-1435",
+      "detail": "IMPORTED 0 new cards (reparse-R3-import)\nIMPORTED 0 new cards as review (reparse-R3-import-review, was skipped ineligible before 2026-08-11)\n  skipped keyword_args   1206\n  skipped layout         687\n  skipped mana           413\n  skipped not_legal      378\n  skipped dfc_ineligible 227\n  skipped pt             150\n  skipped dfc_keyword_args 101\n  skipped type           55\n  skipped dfc_incomplete 36\n  skipped dfc_mana       9\n  skipped basic          6\n  skipped dfc_type       5\n  skipped dfc_pt         2\n  skipped pw_loyalty     1",
+      "elapsed_ms": 19844,
+      "exit_code": 0,
+      "id": "reparse-import",
+      "outcome": "passed"
+    },
+    {
+      "command": "/usr/local/go/bin/go build ./...",
+      "detail": "",
+      "elapsed_ms": 185853,
+      "exit_code": 0,
+      "id": "go-build",
+      "outcome": "passed"
+    },
+    {
+      "command": "/usr/local/go/bin/go test ./cards/ -run TestVocabulary|TestV2|TestShape_|TestCardDBSubtypeScopes -count=1",
+      "detail": "ok  \tmagic-backend/cards\t10.335s",
+      "elapsed_ms": 137042,
+      "exit_code": 0,
+      "id": "focused-go",
+      "outcome": "passed"
+    },
+    {
+      "command": "bash scripts/test-cards-sharded.sh 6",
+      "detail": "ok  \tmagic-backend/cardfns\t3.491s\nSHARDED CARDS SUITE: ok (6 shards)",
+      "elapsed_ms": 162039,
+      "exit_code": 0,
+      "id": "full-sharded-suite",
+      "outcome": "passed"
+    },
+    {
+      "command": "git push origin main",
+      "detail": "To github.com:daniwb/openmagic.git\n   6d85a3d6..08cfc796  main -> main",
+      "elapsed_ms": 4050,
+      "exit_code": 0,
+      "id": "push",
+      "outcome": "passed"
+    }
+  ],
+  "outcome": "pushed_full_production_gate_green",
+  "parents": [
+    "ticket:engine.draw-target-lifting/v2",
+    "ticket:map.target-player-draw/v4",
+    "ticket:map.static-condition-gained-life-pump/v1",
+    "ticket:map.static-condition-drawn-two-keywords/v3",
+    "docs/factory-ng/runs/2026-08-29T131636Z-map-static-condition-drawn-two-keywords-v3-qwen.json"
+  ],
+  "policy": {
+    "automatic": true,
+    "deploy_after_push": false,
+    "push_when_full_gate_green": true
+  },
+  "progress": {
+    "verification": "reparse wave plus complete six-shard production suite",
+    "verified_revision": "08cfc79602aeb087eca184b084bd8f02d20fc25b"
+  },
+  "schema": "factory.integration-receipt/v1",
+  "source": {
+    "base_commit": "8dd5e06545926033d738b0b69ab8f29145275168",
+    "deployed": false,
+    "pushed": true,
+    "result_commit": "08cfc79602aeb087eca184b084bd8f02d20fc25b"
+  },
+  "supersedes": [
+    "docs/factory-ng/runs/2026-08-28-target-player-draw-integration-v2.json",
+    "docs/factory-ng/runs/2026-08-29-map-static-condition-gained-life-pump-integration-v1.json",
+    "docs/factory-ng/runs/2026-08-29T143233Z-map-static-condition-drawn-two-keywords-v3-integration.json"
+  ]
+}

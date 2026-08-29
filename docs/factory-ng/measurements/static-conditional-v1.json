@@ -1,0 +1,4679 @@
+{
+  "member_count": 446,
+  "members": [
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "during your turn, spells you cast from your hand with mana value x or "
+      ],
+      "name": "Abaddon the Despoiler",
+      "text_sha256": "sha256:cfd1cc4c43f854a555b2ee82ef01e0d9e1c0339f9460aa393451785e6ada24b9"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as equipped creature is attacking, it has first strike and mus"
+      ],
+      "name": "Ace's Baseball Bat",
+      "text_sha256": "sha256:cdb25d965c393d83c956833083f464d46992dc3779403a9fbcd30e73071ec29a"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has indestructible as long as it attacked this turn"
+      ],
+      "name": "Agent Frank Horrigan",
+      "text_sha256": "sha256:b56d16441dffd734165d8735fe88fc29fd6b5dfdb483875c7732495177cc9277"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "each untapped creature you control gets +0/+2 as long as it's not atta"
+      ],
+      "name": "Arcades Sabboth",
+      "text_sha256": "sha256:58d17b894517a5bba92247d8d1410ffea42e68969070c63045956f28a465ed88"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you're the monarch, damage doesn't cause you to lose life"
+      ],
+      "name": "Archon of Coronation",
+      "text_sha256": "sha256:6eb273003acff3491bf7df4f77ab7315d794b2220eaaa68ad60e0cdd2e482d4c"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ has a slumber counter on it, it's a land"
+      ],
+      "name": "Arixmethes, Slumbering Isle",
+      "text_sha256": "sha256:363fb87f4d685a401645b2004d3cd8a0fbfe6810a88b570713800d75f9e1c341"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "as long as your devotion to white and black is less than seven, ~ isn'"
+      ],
+      "name": "Athreos, God of Passage",
+      "text_sha256": "sha256:cd2239e689ac1450b81e85642c906d45c4f18bb99b17e7adbfa879964e1b1f45"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as your devotion to white and black is less than seven, ~ isn'"
+      ],
+      "name": "Athreos, Shroud-Veiled",
+      "text_sha256": "sha256:719ad44ecd508d9170352ef843eb3cce727832094f47bf505eca7b2a9b498cf7"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control three or more creatures with different powers, "
+      ],
+      "name": "Augur of Autumn",
+      "text_sha256": "sha256:365273491175c12ac737db24400b2bf21be543cc1536281638bb23ad5e1246fe"
+    },
+    {
+      "all_miss_shapes": [
+        "keyword_unsupported",
+        "static_conditional",
+        "static_unmapped",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "during your turn, you may cast cards exiled with ~ and you may cast th"
+      ],
+      "name": "Azula, Cunning Usurper",
+      "text_sha256": "sha256:a85149fe59254e092281574719e3003706c0da6264dda16431bb16ad6f25fc07"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:venture"
+      ],
+      "details": [
+        "as long as you've completed a dungeon, ~ gets +3/+0 and has flying"
+      ],
+      "name": "A-Cloister Gargoyle",
+      "text_sha256": "sha256:928303d357894f42dee69e0772284d54eca3769d55cd30eaa1f551d801ac29ee"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are four or more card types among cards in your grave"
+      ],
+      "name": "A-Dragon's Rage Channeler",
+      "text_sha256": "sha256:dd963170bf0e5e6ed5fb5094221f325034d7c9e92227d3fb900debc1598aae2a"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is tapped, it's a human citizen with base power and tough"
+      ],
+      "name": "A-Futurist Operative",
+      "text_sha256": "sha256:2bcc33ecd37291c69f046eb78542232a5f4ec466968ca2a123e1bb21514a899f"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:reanimate"
+      ],
+      "details": [
+        "~ has flash as long as there are five or more mana values among cards "
+      ],
+      "name": "A-Graveyard Shift",
+      "text_sha256": "sha256:78bccea29115888cb2f6af3135708617ca32c667c623b89b3063cc7434119c8d"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "as long as it's your turn, each instant and sorcery card in your grave"
+      ],
+      "name": "A-Lier, Disciple of the Drowned",
+      "text_sha256": "sha256:1577dd5138555ac3448c878faa2a921e7631426fa924e6d28ca97f8c3b2fa55d"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:venture"
+      ],
+      "details": [
+        "it gets -5/-5 instead as long as you've completed a dungeon"
+      ],
+      "name": "A-Precipitous Drop",
+      "text_sha256": "sha256:fd5e3add2a74f5d9509c4cb3409e61996a810c47f82536d9af1bc0e74379fb1a"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:grant_eot"
+      ],
+      "details": [
+        "as long as you've put one or more +1/+1 counters on a creature this tu"
+      ],
+      "name": "A-Sigardian Paladin",
+      "text_sha256": "sha256:7af3190663589d7919b271ed6b2d560804235d41e54cf9410ac937dbf4b1cb57"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are five or more mana values among cards in your grav"
+      ],
+      "name": "A-Syndicate Infiltrator",
+      "text_sha256": "sha256:a269892b068fdfe7d1cacff7ee728184f7195aeb75df2831fffd754a550a25a0"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "you may cast that card for as long as it remains exiled, and you may s"
+      ],
+      "name": "Abstruse Appropriation",
+      "text_sha256": "sha256:032a7cd973a4aaae69a7517a3ac8a93d0c1107536919d0da2d63a126ba17cb1e"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as enchanted permanent is a vehicle, it's a creature in additi"
+      ],
+      "name": "Aerial Modification",
+      "text_sha256": "sha256:52ce8ab4f9ee3b894a30d507202079813c531709b41c85d95cfb3dd534261edb"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are four or more permanent cards in your graveyard, ~",
+        "as long as there are eight or more permanent cards in your graveyard, "
+      ],
+      "name": "Akawalli, the Seething Tower",
+      "text_sha256": "sha256:d3f8091bc38df849792cf8161cb68c9f6d1e6e054c9af1995233c5233810d403"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control your commander, ~ gets +2/+2 and creatures you "
+      ],
+      "name": "Angelic Field Marshal",
+      "text_sha256": "sha256:a7f27be26ba5575fa06342b6b6c6a0ff62e55d2aa4ec592d6eb69ce538746a9b"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is in your graveyard and you control a mountain, creature"
+      ],
+      "name": "Anger",
+      "text_sha256": "sha256:816d2bf83b2924ae905610faae7a4a550a9b7ad63071821d2dc4aa5280c7d17f"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as enchanted artifact isn't a creature, it's an artifact creat"
+      ],
+      "name": "Animate Artifact",
+      "text_sha256": "sha256:c2bf43320dd60f3afc19b1a082fb81bb7feb3e7f93b5cc967e574777fe42cf57"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as an opponent has three or more poison counters, ~ has double"
+      ],
+      "name": "Apostle of Invasion",
+      "text_sha256": "sha256:6155387c6e95ba613c1cd54d9ef2866bc3814aeaa433346601c8b09b01162a5f"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:UNCLASSIFIED",
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "as long as ~ is face up during the draft, you can't look at booster pa"
+      ],
+      "name": "Archdemon of Paliano",
+      "text_sha256": "sha256:b4172df50579fd1b725112d9c5dfb9ca3b2090688ed23e77d08d1140baf2182b"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ can't be blocked by creatures with power 2 or greater as long as def"
+      ],
+      "name": "Arctic Foxes",
+      "text_sha256": "sha256:b5aadbaa33e5302d1c5f13b4f3e9b6f1fcbf09ad16a67092b09afcff8478d044"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "enchanted creature has double strike as long as it's an enchantment"
+      ],
+      "name": "Armament of Nyx",
+      "text_sha256": "sha256:c8992c45bd76171b1bd2021a52fdc477cb8708a4da55f78ce4643025f6f916d8"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?",
+        "verb_unmapped:search"
+      ],
+      "details": [
+        "as long as you've discarded a card this turn, you may pay {b/r} to cas"
+      ],
+      "name": "Asmoranomardicadaistinaculdacar",
+      "text_sha256": "sha256:aa6a4b2ae6d4f294d70b02844f487ab83c86a3df25cdba7cc3c9bdc59e6ca2c5"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are five or more mana values among cards in your grav"
+      ],
+      "name": "Aven Heartstabber",
+      "text_sha256": "sha256:26fa2d1077dd3fc114061ddae594d48149fa4566387148c2760ad5a64a999e47"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:UNCLASSIFIED",
+        "spine_L2",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~'s intensity is 3 or more, it has base power and toughness"
+      ],
+      "name": "Awestruck Cygnet",
+      "text_sha256": "sha256:4b99e457e564bc719b6277fc174661231ac9802c04c7c174fc17a02669d5f514"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:pump"
+      ],
+      "details": [
+        "during your turn, each creature assigns combat damage equal to its tou"
+      ],
+      "name": "Baldin, Century Herdmaster",
+      "text_sha256": "sha256:5b7059d3da6e0f9c4fa3d8818c8a8683fe943ccaedbb894209e652b9ded20ba5"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "during your turn, other historic creatures you control have double str"
+      ],
+      "name": "Bayek of Siwa",
+      "text_sha256": "sha256:371f60f59c4386b6c2ee2696f1c820fff9e5b1e4c1c10e7a30720dee38c84a32"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?",
+        "verb_unmapped:create_token"
+      ],
+      "details": [
+        "during your turn, equipped creatures you control have double strike an"
+      ],
+      "name": "Blacksmith's Talent",
+      "text_sha256": "sha256:cf4b66671876eda431f3242dd785414ae99be0701de5b45eb2958403b351f242"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you have 30 or more life and an opponent has 10 or less lif"
+      ],
+      "name": "Blood Baron of Vizkopa",
+      "text_sha256": "sha256:27c32ce1442131054d3ca8fb9785478570cc5b9e4605c92b8f852a7f7fd5153a"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:oneshot_body",
+        "static_conditional"
+      ],
+      "details": [
+        "while attacking, ~ gets +10\u03360\u03360\u0336 power for each f\u0336i\u0336r\u0336e\u0336 red card in y"
+      ],
+      "name": "Bolshack Dragon",
+      "text_sha256": "sha256:6229f68476156e2b59569bf732420f7f4c34f48844b5f37353227c5f5bcca20f"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:create_token"
+      ],
+      "details": [
+        "as long as enchanted permanent is a creature, it gets +1/+1 for each c"
+      ],
+      "name": "Born to Drive",
+      "text_sha256": "sha256:caff6f019ea35623da3c9b24bf3fb654a1b05d107d0613aea8a59d6aa672551a"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control a creature with power 4 or greater, ~ can attac"
+      ],
+      "name": "Bristlepack Sentry",
+      "text_sha256": "sha256:0f3f0e16599e29977c3b4df7f0f7bc97912f5c6d84f64de4acc7f8ea051efff8"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as equipped creature is a human, it has lifelink"
+      ],
+      "name": "Butcher's Cleaver",
+      "text_sha256": "sha256:0f17349059e2a22c8ef510a4582145d1b2c617adcb64489aed4abd8496e09336"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are two or more counters among creatures you control,"
+      ],
+      "name": "Backstreet Bruiser",
+      "text_sha256": "sha256:dd2e33f794bd261fa6b39c7e26cbba1b1ff1e4be6bad2e563d1e002b5121b0e4"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as equipped creature's toughness is greater than its power, it"
+      ],
+      "name": "Bark of Doran",
+      "text_sha256": "sha256:511b55be158502df5ecbff7a34cd080c78a8d43071a64f92b1a7e17c92b5ec93"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +3/+0 as long as there are four or more permanent cards in your"
+      ],
+      "name": "Basking Capybara",
+      "text_sha256": "sha256:7ae6066878fbaafb0b1af0ef21c3ba21fedc49b40c730f4810445e5e74a5cd4b"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you had another creature enter the battlefield under your c"
+      ],
+      "name": "Bellowing Elk",
+      "text_sha256": "sha256:ba5bed503401d95f87d7833c283e0ed440969c1e3cf40e556ceb97503aa14722"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has trample as long as you control a stickered permanent"
+      ],
+      "name": "Big Winner",
+      "text_sha256": "sha256:6b708947bdff7ad71f2b1ea0d547f9e2ef048716e73600b1517dd8798c708d33"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as equipped creature is a human or an angel, it has vigilance"
+      ],
+      "name": "Bladed Bracers",
+      "text_sha256": "sha256:b516d7d7e27dbe203c46f994c3e5dd71db2ab6f1538eb8cab697eb78e1558ddf"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has wither as long as you control a green creature"
+      ],
+      "name": "Blazethorn Scarecrow",
+      "text_sha256": "sha256:b315f05d278ebd73e56b731d1a626ed6cc507cb6898e5325e50badbe14e292b5"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has cascade as long as there are four or more card types among cards"
+      ],
+      "name": "Bloodbraid Marauder",
+      "text_sha256": "sha256:f5c567610cc29a2ab75f94351d1f60a6a651b75144182f225a4f737eb3db7d01"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "enchanted creature gets +2/+2 as long as it's a human"
+      ],
+      "name": "Bonds of Faith",
+      "text_sha256": "sha256:662a483205cfb55ea962444afa6685575534c82db9c10de5a20d0c09500f485a"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as an opponent has three or more poison counters, ~ has deatht"
+      ],
+      "name": "Bonepicker Skirge",
+      "text_sha256": "sha256:1498201bf7b29ad2a074995eaa1e75cd489a8e45bf8a9c78e8e9edcb0795a5ef"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is in your graveyard and you control a forest, creatures "
+      ],
+      "name": "Brawn",
+      "text_sha256": "sha256:175733d38e80d8b373b632ab67ef13b699f20824aca53f16e0c6a628c99c6f9b"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "it gets an additional +0/+2 and has first strike as long as an equipme"
+      ],
+      "name": "Bride's Gown",
+      "text_sha256": "sha256:6002f1eecba4df9e5b25892d1b86d5dad2767cc63adce952c388689e788517ab"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as another creature entered the battlefield under your control"
+      ],
+      "name": "Bristlebane Outrider",
+      "text_sha256": "sha256:94dd6e0cb78b3182ac27c5b6aa63afbf6423b543482f191264716427737ac9b3"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control another creature, prevent all damage that would"
+      ],
+      "name": "Bronze Horse",
+      "text_sha256": "sha256:d3ae8d73f9fcbc75a117864759beca6f72285e15764973d15927169656e7cd26"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "enchanted creature gets +2/+2 as long as it's a detective you control"
+      ],
+      "name": "Burden of Proof",
+      "text_sha256": "sha256:b81920c9a8e3e9601f36521a4fc61ecdfbe8a737fdd5ad82c43a691c733bcfe8"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "as long as a creature card with flying is in a graveyard, ~ has flying"
+      ],
+      "name": "Cairn Wanderer",
+      "text_sha256": "sha256:1e2ba5cc77a48a1bc6c07a9db6c1c1c435379afa9489776ed76276f79c3d11e4"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as enchanted permanent is a creature, it gets -1/-1 and can't "
+      ],
+      "name": "Clawing Torment",
+      "text_sha256": "sha256:c702a53f2b8fd9749b9c2f9f07ba26cbd577b2b7cdf564f3e58d0e811f62d8c8"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is equipped, if a triggered ability of ~ or an equipment "
+      ],
+      "name": "Cloud, Midgar Mercenary",
+      "text_sha256": "sha256:4e52548a5f36b4c237ffe8c2ac057596db09165e4b7219943c2a442083ef7645"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_cost_mod_unmapped"
+      ],
+      "details": [
+        "during your turn, as long as ~ is equipped, it has double strike and i"
+      ],
+      "name": "Cloud, Planet's Champion",
+      "text_sha256": "sha256:a4c5ff6b24a634f8a487a0d05667185884791c9951ad65f5b0777e7a48fa90d1"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:kw_action"
+      ],
+      "details": [
+        "as long as ~ is monstrous, it has trample and can attack as though it "
+      ],
+      "name": "Colossus of Akros",
+      "text_sha256": "sha256:581d1d08854d4be2d6990b84139d4939ee1b003d308aec257b6ae9408a549f00"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as enchanted creature is legendary, it gets +1/+1 and has ward"
+      ],
+      "name": "Combat Research",
+      "text_sha256": "sha256:9f60aa1c185b5a98ae694a84d40efa4846c51519c58fd190c4616af94d5432f0"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_mod_unmapped"
+      ],
+      "details": [
+        "as long as this equipment is attached to a creature, your opponents ca"
+      ],
+      "name": "Conqueror's Flail",
+      "text_sha256": "sha256:88ad21c41904c22a3b213fae26498246aafc01f8a08226a5be32750442f233b1"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as the top card of your library is a goblin card, ~ has all ac"
+      ],
+      "name": "Conspicuous Snoop",
+      "text_sha256": "sha256:3a1628edeea982f1155957238513f5476e0018b0a4954577a7fc402dd4810d79"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "if the gift was promised, you may cast that card for as long as it rem"
+      ],
+      "name": "Cruelclaw's Heist",
+      "text_sha256": "sha256:efcc6138ef2f111b3224103d6508f260d7321d640513843a41858b353c1c6531"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:replacement_as",
+        "spine_L0",
+        "static_conditional"
+      ],
+      "details": [
+        "white creatures get +1/+1 as long as the chosen color is the most comm"
+      ],
+      "name": "Call to Arms",
+      "text_sha256": "sha256:5a235885714975a6140246a46ac04f67e4ca10e7086c94f2eb7044cdd8468062"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ has a shield counter on ~, you and other heroes you contr"
+      ],
+      "name": "Captain America, Super-Soldier",
+      "text_sha256": "sha256:01d1561b317e815ad551217b01efe49236e6c68d504cd32f5c3c5dd1d9a8aea9"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as an opponent has cast a spell this turn, you may cast spells"
+      ],
+      "name": "Captain Mar-Vell, Space-Born",
+      "text_sha256": "sha256:3ff323651411e78612756b54f414b86b2cd322a100daa065cca504abb9d88b14"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +3/+3 as long as you control a creature with three or more leve"
+      ],
+      "name": "Champion's Drake",
+      "text_sha256": "sha256:2950d32caf93ba0152f8f588afe1f3549dd30387f5f8749828a5dcb33a41beca"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are seven or more cards in your graveyard, ~ gets +2/"
+      ],
+      "name": "Childhood Horror",
+      "text_sha256": "sha256:6f3b68b8f19ec14823e168e13f6ee69ed6e9de8b5794e3b6f6f33c8ec7cea2af"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is at the top of your library, you may look at it any tim",
+        "as long as the top card of your library is a creature card, you may lo"
+      ],
+      "name": "Chittering Illuminator",
+      "text_sha256": "sha256:fae99f44f33889da56dae1f4fbf94e8697026a22e8f8b0c3bd42ef250a9700f9"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "during your turn, ~ is a bear with base power and toughness 4/2"
+      ],
+      "name": "Circle of the Moon Druid",
+      "text_sha256": "sha256:1f8ba772fc33cefbf6f35552ec277dee64e79bfbefeb91ad9d450001406f46bb"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:venture"
+      ],
+      "details": [
+        "as long as you've completed a dungeon, ~ gets +3/+0 and has flying"
+      ],
+      "name": "Cloister Gargoyle",
+      "text_sha256": "sha256:59a583afdab2aaf9696f65f6cbc887e43c69c62f038c31c8e6aab34cdf1fb26d"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_subject_unknown_subtype"
+      ],
+      "details": [
+        "enchanted creature gets +3/+3 as long as it's a zombie"
+      ],
+      "name": "Clutch of Undeath",
+      "text_sha256": "sha256:ee004067a1d69872f3fbdeee5518676421b4831e0ee0cb549fa9ad4f712cc8e8"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are five or more growth counters on ~, creatures you "
+      ],
+      "name": "Comforting Counsel",
+      "text_sha256": "sha256:26dbab685c643ec29ec393a07ef7df979a04c36b80b33673744b1423d31411a4"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "nonartifact creatures get +2/+2 as long as they all share a color"
+      ],
+      "name": "Common Cause",
+      "text_sha256": "sha256:efb3ae31fa9da4e542648a8e9eb64825364bef97bd4259f51971263776c93e3c"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has indestructible as long as it entered this turn"
+      ],
+      "name": "Crew Captain",
+      "text_sha256": "sha256:8a7647bca66fb2ce502da558fdf6d667c0b5359f91b16b44109ac3335a083636"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has flying as long as you control a stickered permanent"
+      ],
+      "name": "Croakid Amphibonaut",
+      "text_sha256": "sha256:3adca5e826bb00949ad75c7ba399e73f9c5ce504f01982928314b8a5f856461c"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:put_zone"
+      ],
+      "details": [
+        "as long as the top card of your library is a creature card, creatures "
+      ],
+      "name": "Crown of Convergence",
+      "text_sha256": "sha256:af976089abb0eb448d93e8f597697a5bfb8b94ce265546dbc432e9d76e9843b1"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has shadow as long as you have no cards in hand"
+      ],
+      "name": "Cutthroat il-Dal",
+      "text_sha256": "sha256:d8953304b7bd49a55cb9e5b400ee5e388c1ecdb9cf9bd06338d77f4158afc7d0"
+    },
+    {
+      "all_miss_shapes": [
+        "cost_unmapped",
+        "static_conditional"
+      ],
+      "details": [
+        "during your turn, you may cast creature spells from among cards you ow"
+      ],
+      "name": "Dawnhand Dissident",
+      "text_sha256": "sha256:c355469f64cd51fd30399682aafed31b1496ca884f3867464f821878e19854c4"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ has a counter on it, it can attack as though it didn't ha"
+      ],
+      "name": "Demon Wall",
+      "text_sha256": "sha256:0bd9253d0cfb76d951777e6070f0a8ad7d652a7c7a4585bd882de6ab10bd1c91"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you have the city's blessing, detectives you control can't "
+      ],
+      "name": "Detective of the Month",
+      "text_sha256": "sha256:50cf286a19da07ad106a4a409c3827279a2abd5bd75e327e54a1d14658f7d0e2"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "during your turn, ~ and other knights you control have flying"
+      ],
+      "name": "Dion, Bahamut's Dominant",
+      "text_sha256": "sha256:c8f832043c81fe527dbd5f2702d3216d6e0163882c59d94077e29947e670c13f"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_subject"
+      ],
+      "details": [
+        "as long as another player controls enchanted creature, it can't attack"
+      ],
+      "name": "Dog Umbra",
+      "text_sha256": "sha256:2859a823290de4c021b411db89cac7c46e038e7ceba6dc7e331b35b95d1d192d"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ costs {2} less to cast as long as there are four or more card types "
+      ],
+      "name": "Drag to the Roots",
+      "text_sha256": "sha256:d403de0ae46693ec080e2b5305233a88ea7ae5bff77110c8ffcce0bdec3ffba0"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are four or more card types among cards in your grave"
+      ],
+      "name": "Dragon's Rage Channeler",
+      "text_sha256": "sha256:13dcbf0e834061dc1c5276792b62d454bb146c2380d2fa9c9cd97b2b32a5d82f"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "as long as a card exiled with ~ is a creature card, ~ has the power, t"
+      ],
+      "name": "Duplicant",
+      "text_sha256": "sha256:8cf2f45aaa5463018ed278fa93cc1304922687e2faaaddf4b5ecc71e9999c135"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control exactly one creature, that creature gets +2/+0 "
+      ],
+      "name": "Deadly Wanderings",
+      "text_sha256": "sha256:3dbad2f021c9c2a603794eb59081b443870766f26331c8fa044a1edec3400bed"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "as long as a card exiled with ~ has flying, ~ has flying"
+      ],
+      "name": "Death-Mask Duplicant",
+      "text_sha256": "sha256:410c46111fa122d8c2a1c302af55ce00549e1875e1d339fb672d86aa516f6728"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you attacked with three or more merfolk this turn, merfolk "
+      ],
+      "name": "Deepway Navigator",
+      "text_sha256": "sha256:60f09817743222a79f448a18ea295a9add40da8c9bc84a5ad7f8d4300d264fa3"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +2/+1 as long as you have no cards in hand"
+      ],
+      "name": "Demon's Jester",
+      "text_sha256": "sha256:39ea582c61df01863b909c92bb981b4d8dfa6888edda776afebef45161878834"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:put_rest",
+        "verb_unmapped:reveal"
+      ],
+      "details": [
+        "each vehicle you control gets +1/+1 as long as it's a creature"
+      ],
+      "name": "Depala, Pilot Exemplar",
+      "text_sha256": "sha256:b4fb8238a68cf95c33b0ebe07834278a22d9f0d92d6cc55f749bdf07b24c675d"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has flying as long as there are four or more permanent cards in your"
+      ],
+      "name": "Didact Echo",
+      "text_sha256": "sha256:a71b63885e3debb276839fa1348e63a8d8c38cdc2e1d5ed10b5c769e8c6b75f2"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "for as long as any of those cards remain exiled, at the beginning of e"
+      ],
+      "name": "Dimensional Breach",
+      "text_sha256": "sha256:311774999f6e94bcc486ab7dcd5d91d58888170d42ca5c894c479667b8fa6385"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is paired with another creature, both creatures have prot"
+      ],
+      "name": "Diregraf Escort",
+      "text_sha256": "sha256:0f168c2167801a0bd91338c8d1d9c7334c08c167cde955c59b581a7ce6b04414"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are seven or more cards in your graveyard, ~ gets +2/"
+      ],
+      "name": "Dirty Wererat",
+      "text_sha256": "sha256:0db47a3cf89bb96fa78817cd6c639859ed7148309698fecf5ea74d1ce96b04e1"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control an artifact creature or a plan, ~ has indestruc"
+      ],
+      "name": "Doctor Doom",
+      "text_sha256": "sha256:801f3a27f39b0408d0f281feddd523ec9469f07b3ad027863531b062c5c83fff"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ can't be blocked as long as it's attacking alone"
+      ],
+      "name": "Dream Prowler",
+      "text_sha256": "sha256:bbde19e20330e2619016f32f2e07d4df3e4b44a8421509d248cb6a654d6f542b"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control a creature with power 4 or greater, ~ can attac"
+      ],
+      "name": "Drowsing Tyrannodon",
+      "text_sha256": "sha256:91757cb25eb1ea0c3770284c022dde4351c9fc5b5c65acb0220a044147bbe5f0"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is paired with another creature, each of those creatures "
+      ],
+      "name": "Druid's Familiar",
+      "text_sha256": "sha256:8d754edf08d32219868b74ba4e1f8f36903b2a77c82693f6b1b2d54c7a19295c"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +1/+0 and has trample as long as you control a land creature or"
+      ],
+      "name": "Earth Rumble Wrestlers",
+      "text_sha256": "sha256:341dd3a4cbe8a9cc28b858f4475a9c305b9ea699b0cdfe4ec1ac0756c7dd4c85"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "as long as a card exiled with ~ has flying, equipped creature has flyi"
+      ],
+      "name": "Eater of Virtue",
+      "text_sha256": "sha256:318dd77b5dea932f1609720e3bfcf2c6dcfeb423eb973fcf73411eaf05cc9e71"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +2/+2 as long as there are three or more land cards in your gra"
+      ],
+      "name": "Elvish Reclaimer",
+      "text_sha256": "sha256:3d29541ab1f7a3983347f43d73d0ba2751a9c57659737aaf83d54736895a630e"
+    },
+    {
+      "all_miss_shapes": [
+        "spine_L2",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as your devotion to white and blue is less than seven, ~ isn't"
+      ],
+      "name": "Ephara, God of the Polis",
+      "text_sha256": "sha256:69232e83c7a5c0cdc4a8ab63876cff21c372bf08c2715322988a2738ce27ab1a"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "as long as your devotion to black is less than five, ~ isn't a creatur"
+      ],
+      "name": "Erebos, Bleak-Hearted",
+      "text_sha256": "sha256:cad9cd17d2b5ed7626b1803e7566d4dc38eecd584529e2e555735e03e699ea2a"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as your devotion to black is less than five, ~ isn't a creatur"
+      ],
+      "name": "Erebos, God of the Dead",
+      "text_sha256": "sha256:3e19c487a76acfadc021a14d085c1a1ad70c6fc34ced71bad4f2d32e38e547ff"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "as long as you've lost life this turn, ~ has flying and vigilance"
+      ],
+      "name": "Essence Channeler",
+      "text_sha256": "sha256:c753a84be511bb98e270a29f935430ecfb87e0f435bc4e1792be0116d7d138fb"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has protection from each color as long as you control three or more "
+      ],
+      "name": "Etched Champion",
+      "text_sha256": "sha256:32ee929e157a4398ad3c550f16dd621b089340c5a61043af3c47f1e195eb0ce0"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "during your turn, as long as you've sacrificed a nontoken permanent th"
+      ],
+      "name": "Evendo Brushrazer",
+      "text_sha256": "sha256:25dc430718b40739a35ba9ca749aae6f43848d6e4724856f95d388f2c6e14078"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ has two or more counters on it, it has first strike and i"
+      ],
+      "name": "Ezio, Brash Novice",
+      "text_sha256": "sha256:fa81773a4ebcee77f57dcffb2e280111a68d9b62a98654de0278a952f36f5aa5"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "each land gets +2/+2 as long as it's a creature"
+      ],
+      "name": "Earth Surge",
+      "text_sha256": "sha256:6c02056a6c2958a279e6edc829fcf52bf37d3a119c1d5b0a2cecc325443bc5f0"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are four or more permanent cards in your graveyard, ~"
+      ],
+      "name": "Echo of Dusk",
+      "text_sha256": "sha256:7d63d992f506e5a815fcd63129e4da12811d48fdc3d64f465093c2e0e9b82268"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has haste as long as you control another colorless creature"
+      ],
+      "name": "Eldrazi Aggressor",
+      "text_sha256": "sha256:87740a079b58dbc3658edbc36bffab725ecc894851a1ed20771ae11e1aa9448f"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is paired with another creature, both creatures have hexp"
+      ],
+      "name": "Elgaud Shieldmate",
+      "text_sha256": "sha256:7cbb72b32f32b10bcc3f66b6020abfa988dc88dc5403a9276c2afec30c066987"
+    },
+    {
+      "all_miss_shapes": [
+        "cost_unmapped",
+        "static_conditional"
+      ],
+      "details": [
+        "during your turn, as long as you haven't activated an exhaust ability "
+      ],
+      "name": "Elvish Refueler",
+      "text_sha256": "sha256:eb5178cf6bc13ef8a47b491d8daf89594ca4540b6ad93262429337e610134d2d"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ can block an additional creature each combat as long as you're the m"
+      ],
+      "name": "Entourage of Trest",
+      "text_sha256": "sha256:adf03cdf086d494ea12984d530cceb031001c632c8e712d215ff82750d8d9aeb"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as enchanted creature is a human, it has trample"
+      ],
+      "name": "Equestrian Skill",
+      "text_sha256": "sha256:7754ccac58cbdb1ee3560c55aad6974e05edccd073a4e38d3e59f23183379369"
+    },
+    {
+      "all_miss_shapes": [
+        "spine_L0",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as your opponents control no creatures, ~ has indestructible"
+      ],
+      "name": "Erebos's Titan",
+      "text_sha256": "sha256:44bbba6f7acc4fea3654484ed511293d34d7842b77e7df926412d1ceb5abb2e2"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "as long as an opponent controls a creature with flying not named escap"
+      ],
+      "name": "Escaped Shapeshifter",
+      "text_sha256": "sha256:54e567188f4d95f14a5840b96e9fc4461a14a7436edf91fce40e3d822b4142f3"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control another creature, ~ can't attack or block"
+      ],
+      "name": "Ethrimik, Imagined Fiend",
+      "text_sha256": "sha256:c318d7c89d88ff031c0fa81ee9d27f5779beb4a1ea16e10c850c6413b7582c87"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you've drawn two or more cards this turn, ~ gets +1/+0 and "
+      ],
+      "name": "Evangel of Synthesis",
+      "text_sha256": "sha256:bd94de1c3cba8e3d79741b7573b7a3f600d5486f3bf6928b4aad256e5f832d32"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_subject_unknown_subtype",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "~ has trample as long as it has two or fewer oil counters on it"
+      ],
+      "name": "Evolved Spinoderm",
+      "text_sha256": "sha256:8741e9c49615669d444491b04dd15189c414c9db4319a2a01610e424d2aaa417"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as an opponent has eight or more cards in their graveyard, ~ c"
+      ],
+      "name": "Expedition Lookout",
+      "text_sha256": "sha256:e01bdeeeea3acf2a40ebe1abdec00af918c65df0d2dde340d031158f4151de40"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "you may play them without paying their mana costs for as long as they "
+      ],
+      "name": "Extract Power",
+      "text_sha256": "sha256:b5381ea825c3f834170c23e78501a2722c524829ad55a2f8fff10d659856e1b8"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +2/+0 as long as you've drawn two or more cards this turn"
+      ],
+      "name": "Eyekite",
+      "text_sha256": "sha256:44e0acecb481be477a5b61c2b345235374967b4773103bc025b01c8edcc563a5"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as another aura is attached to enchanted creature, it has firs"
+      ],
+      "name": "Face of Divinity",
+      "text_sha256": "sha256:eb856cc69b2b46f7123f01323f8f112b0e6ebcc133b05558ae420e4f863686d4"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:replacement_would",
+        "static_conditional"
+      ],
+      "details": [
+        "during your turn, you may cast instant and sorcery spells from your gr"
+      ],
+      "name": "Festival of Embers",
+      "text_sha256": "sha256:4b7b00d1479517015956759e26a3c54a7d761b2c253a5cec560051d6fffd1fcb"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has firebending 2 as long as there's a lesson card in your graveyard"
+      ],
+      "name": "Fire Nation Cadets",
+      "text_sha256": "sha256:c2fdc4c00e5a32d91c485424a17dbf227972882873290fb7d8e2b2f3b92dca97"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +1/+1 as long as there's a lesson card in your graveyard"
+      ],
+      "name": "First-Time Flyer",
+      "text_sha256": "sha256:bc02b7491eaf61a3131b56a0f51050123f6b890fd7c08ee4e91417d1117aa7e4"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you've drawn two or more cards this turn, ~ has lifelink an"
+      ],
+      "name": "Foggy Swamp Hunters",
+      "text_sha256": "sha256:18e96872cd37afaac586b2c1df3275ca3dc58be49caa8f9f74bccfe84be24a93"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:alt_cost",
+        "static_conditional"
+      ],
+      "details": [
+        "during your turn, you may activate equip abilities any time you could "
+      ],
+      "name": "Forge Anew",
+      "text_sha256": "sha256:561f1916e95dc37b7555e8af06558d225ebe28b16e6eef953423ecf98df8ca8d"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control a creature with a counter on it, ~ gets +1/+2"
+      ],
+      "name": "Formation Breaker",
+      "text_sha256": "sha256:8e62eb14e76ed44b7639344eaebdfe62d786468a637c47f98ced54dba5d69253"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_cost_mod_unmapped"
+      ],
+      "details": [
+        "as long as you've cast a spell this turn, you may play cards from the "
+      ],
+      "name": "Fortune Teller's Talent",
+      "text_sha256": "sha256:44c4b7154f3848ae218056a6607dce56e1779b7344ac77c2232adf4ff1b87293"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "enchanted creature gets +1/+2 as long as it's white",
+        "enchanted creature has shroud as long as its controller controls anoth"
+      ],
+      "name": "Favorable Destiny",
+      "text_sha256": "sha256:8ef051849d378a057eecc8669cd0bf8d0488508e68399e75dd8b0064e606f773"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is in your graveyard and you control a swamp, creatures y"
+      ],
+      "name": "Filth",
+      "text_sha256": "sha256:603e4a94b74eb06c49d24ae3df4d7458f67687e9b9ce5d25d4bd7c1049bed31b"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control an artifact or enchantment, ~ has flying"
+      ],
+      "name": "Flutterfox",
+      "text_sha256": "sha256:24811f07fd51b0ac454bead38634f87a7ea39df42c89c605a7d9dfd6f36dc378"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "as long as ~ is a creature, it can block an additional creature each c"
+      ],
+      "name": "Foriysian Totem",
+      "text_sha256": "sha256:16dc0924b9dd82b0a7a615563ff499c6f3b1c3c2d56265cc10cba46150916920"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +2/+0 as long as there are four or more permanent cards in your"
+      ],
+      "name": "Frilled Cave-Wurm",
+      "text_sha256": "sha256:6a6af670d8254cf60e284f03efedcd2fdc9228aed01414b850b4246341a1dd04"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "during your turn, prevent all damage that would be dealt to ~"
+      ],
+      "name": "Frodo, Determined Hero",
+      "text_sha256": "sha256:c7e6d1816515c23e340dee1ef87c81d010e8915861393d56f0366d01ae4683d5"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ can't be blocked as long as you've sacrificed an artifact this turn"
+      ],
+      "name": "Furtive Courier",
+      "text_sha256": "sha256:452dbee605e31bbfc3ef548f898cd16c00965f1acb3077f004665bf798e93b4c"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is tapped, it's a human citizen with base power and tough"
+      ],
+      "name": "Futurist Operative",
+      "text_sha256": "sha256:255b0999a54e5d8a650f58cb3c3ef0343c13dae2fa3d50229f26a855dd48908b"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are seven or more cards in your graveyard, ~ gets +2/"
+      ],
+      "name": "Frightcrawler",
+      "text_sha256": "sha256:14fd1a1ecf706f4122e28191d3e79e155c4a73663a048c16270333d77ef0e998"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:alt_cost",
+        "static_conditional",
+        "verb_unmapped:exile",
+        "verb_unmapped:roll_die"
+      ],
+      "details": [
+        "14 | you may cast the exiled card for as long as it remains exiled, an"
+      ],
+      "name": "Gale's Redirection",
+      "text_sha256": "sha256:876eeafe7397d1c45d6f3570d8e6e01f7102c242f7f57176ca56fb6a0a9dc4e0"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:UNCLASSIFIED",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as this equipment has four or more counters on it, equipped cr"
+      ],
+      "name": "Gavel of the Righteous",
+      "text_sha256": "sha256:3726ed7be56c5a1dfb2251f73f44a9b644b6a777a47b85bb547472a1e763c797"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are two or more instant and/or sorcery cards in your "
+      ],
+      "name": "Ghitu Lavarunner",
+      "text_sha256": "sha256:95bccb71bcd5ad2c61baa35d5d35b827640451ebf4ebe692ea9ef0b4170412d4"
+    },
+    {
+      "all_miss_shapes": [
+        "loyalty_body:grant_eot",
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "during your turn, ~ is a 4/4 human soldier creature with indestructibl"
+      ],
+      "name": "Gideon Blackblade",
+      "text_sha256": "sha256:197282424432811821fdb5d18265e5bff9b4f4c3a98cf6cf12180aeb77fc916e"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "during your turn, your opponents can't cast spells or activate abiliti"
+      ],
+      "name": "Grand Abolisher",
+      "text_sha256": "sha256:3d2737d202cf5921baa0ce23e531c55ff88759589da2f2b609e574e9f13b0410"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "you may cast ~ from your graveyard as long as you control a zombie"
+      ],
+      "name": "Gravecrawler",
+      "text_sha256": "sha256:3d9bbbc6f080b63067335db047bd58f7f523070fc449842eab9839e4d30ff4d4"
+    },
+    {
+      "all_miss_shapes": [
+        "loyalty_body:?",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ isn't on the battlefield, it's a 1/1 insect creature in a"
+      ],
+      "name": "Grist, the Hunger Tide",
+      "text_sha256": "sha256:66c9bfe4247ad66a88c6e4ec25fe0d0ada47d9811175011f714d0f57fac092fa"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ costs {2} less to cast as long as you've drawn two or more cards thi"
+      ],
+      "name": "Gwaihir the Windlord",
+      "text_sha256": "sha256:bf6bca49e76898c927c0ef16fd26b47568c5e23d62f3f3d0ae8b0e0f60f5b541"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is paired with another creature, both creatures have reac"
+      ],
+      "name": "Geist Trappers",
+      "text_sha256": "sha256:0f8ce891d0c4bb8e6a422c0c72c387cd50851df4ff4b38d65e9cc05d2ecee7a8"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ can attack as though it didn't have defender as long as there are fo"
+      ],
+      "name": "Geist of the Lonely Vigil",
+      "text_sha256": "sha256:823aba0596a9b1294f129adde495fcd17afba989d006a4298c90ca929978c9bc"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_subject_unknown_subtype"
+      ],
+      "details": [
+        "enchanted creature gets +2/+2 as long as it's a vampire"
+      ],
+      "name": "Gift of Fangs",
+      "text_sha256": "sha256:d62c2de06007e4d58d9de44445cb7dfbe3a0f85a0ba965c7b190414eb6e2432f"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:fight"
+      ],
+      "details": [
+        "~ has indestructible as long as two or more creatures died under your "
+      ],
+      "name": "Gimli, Mournful Avenger",
+      "text_sha256": "sha256:5e518d4bbbf4a5567e08d5c8741b29fc4c775a04e2700151509e9d8fd3077f85"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you've completed a dungeon, ~ has double strike"
+      ],
+      "name": "Gloom Stalker",
+      "text_sha256": "sha256:b42b057c90f68f13f2ce198f5be58f4f883afc682c29aea61d3bf730a506f6fe"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you've drawn two or more cards this turn, ~ gets +0/+2 and "
+      ],
+      "name": "Gnarled Sage",
+      "text_sha256": "sha256:91ec10ad0a27f1228a7ca81a70c5c410241154ae4172242e5b19be9d1559af67"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +2/+0 and has menace as long as you sacrificed a permanent this"
+      ],
+      "name": "Goblin Blast-Runner",
+      "text_sha256": "sha256:16f1a59114bff78e56279082484ae8b61cbf3207149936c05d3d8076b25882a4"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as enchanted land is a basic mountain, ~ creatures get +0/+2"
+      ],
+      "name": "Goblin Caves",
+      "text_sha256": "sha256:8f835294f8b12a0fd64ecf65fd4cded1f8c0fda4a01517f62b48274f25600cc5"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:damage"
+      ],
+      "details": [
+        "as long as enchanted land is a basic mountain, ~ creatures get +1/+0"
+      ],
+      "name": "Goblin Shrine",
+      "text_sha256": "sha256:555301ca268308c4201b2671048f73632fd615ccf430709615e91f613f8500e5"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets -2/-2 as long as black is the most common color among all perma"
+      ],
+      "name": "Goham Djinn",
+      "text_sha256": "sha256:f20141929db66f2fb1446c002fe401534142b4bb6af558b7bb0fac0ab7eb1206"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +4/+4 as long as there are no cards in your graveyard"
+      ],
+      "name": "Gorilla Titan",
+      "text_sha256": "sha256:e3d3940e391d8b95068c8fe23b00a4b825f0770ede7f99f0cfe40a026ea69328"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has vigilance as long as you control a stickered permanent"
+      ],
+      "name": "Grabby Tabby",
+      "text_sha256": "sha256:7cde3d0d696213bbd0c9a8d422742d5ac2f1036528810a4a2cafccf2f2d9e528"
+    },
+    {
+      "all_miss_shapes": [
+        "loyalty_body:?",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ has seven or more loyalty counters on ~, he's a 7/7 drago"
+      ],
+      "name": "Grand Master of Flowers",
+      "text_sha256": "sha256:27b72c038cb1be92e86aa5750a46515f9eeab504db47f21d20ca11b546c32a84"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has flash as long as there are five or more mana values among cards "
+      ],
+      "name": "Graveyard Shift",
+      "text_sha256": "sha256:d233700e25ec61c1783010c8ca9a676c87bf9456cbdb35c660177d14fe7e5779"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +2/+0 as long as you control a commander that's a creature or p"
+      ],
+      "name": "Gray Harbor Merfolk",
+      "text_sha256": "sha256:7e01fd0e805fa1dc8fab26eb927d6ad9d05fa723450c699ce9e4d960f531df89"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control a ~ creature, ~ gets +3/+3 and has flying"
+      ],
+      "name": "Griffin Rider",
+      "text_sha256": "sha256:2a0e0fe744d45d7b6391b859698b1c36eeaa67818e19c9f4b721af4116e45200"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as it's your turn and you control an army, ~ is an artifact cr"
+      ],
+      "name": "Grond, the Gatebreaker",
+      "text_sha256": "sha256:f2086371d74860e294ed8e54b8130209a243be1c96dc624e2a520736ad65afc7"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "it gets an additional +0/+2 and has deathtouch as long as an equipment"
+      ],
+      "name": "Groom's Finery",
+      "text_sha256": "sha256:50ce160126989e1dfe68f7921704bef47e014014b3aded2fed696b55a8e62575"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "as long as ~ is untapped, noncreature artifacts you control can't be e"
+      ],
+      "name": "Guardian Beast",
+      "text_sha256": "sha256:9a18ca3651d979139dd6418504eddd4f29308bba760a667740852ed763d70905"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +3/+3 as long as an opponent has no cards in hand"
+      ],
+      "name": "Guul Draz Specter",
+      "text_sha256": "sha256:d4c3ce1e3f0e5acfaf9124a9f8f5f9e23776bde55510ef9b027791d796907ec9"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "as long as ~ is on the battlefield, you may cast knight spells from yo"
+      ],
+      "name": "Haakon, Stromgald Scourge",
+      "text_sha256": "sha256:3aa717fe3f4f9240e4cc9baa2c261e952bc3ce97d521f30b8014ad88ab585de6"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:reanimate"
+      ],
+      "details": [
+        "~ has indestructible as long as there are four or more historic cards "
+      ],
+      "name": "Havi, the All-Father",
+      "text_sha256": "sha256:b612641ca2d1206f488a7586427467d084bccd174eda5e1e6448fa1d579d028c"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "for each card exiled this way, you may play that card for as long as i"
+      ],
+      "name": "Heartless Conscription",
+      "text_sha256": "sha256:08aab4895486f05688941444f9a783e695513757036bd868b9175bca0b94060e"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as your devotion to white is less than five, ~ isn't a creatur"
+      ],
+      "name": "Heliod, God of the Sun",
+      "text_sha256": "sha256:a2cd532f1c9b2d09431bf41f0d9ef477f3792cccd9cac174a61304a207fe925e"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as your devotion to white is less than five, ~ isn't a creatur"
+      ],
+      "name": "Heliod, Sun-Crowned",
+      "text_sha256": "sha256:553bdaab5eeb659faf31fd7da6228dc6e7ec187b38b418d9ac2b054fc8f0ea57"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:replacement_enters",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are three or more different kinds of counters among c"
+      ],
+      "name": "Hundred-Battle Veteran",
+      "text_sha256": "sha256:2a31d9681fb03c77201a36c67f01c48884122879e5357b59b7e995bdd3ae4ef0"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control another wolf or werewolf, ~ gets +1/+0 and has "
+      ],
+      "name": "Hungry Ridgewolf",
+      "text_sha256": "sha256:b381d58a750d844b4c2d248a4f087eb0718c24fb1576c94cec480529d9aee563"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets -2/-2 as long as red is the most common color among all permane"
+      ],
+      "name": "Halam Djinn",
+      "text_sha256": "sha256:7bc59b2bdd6298565cb76bf45a8cd3c0de56bb175e639a3806b11cd683a57cf1"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is paired with another creature, both creatures have firs"
+      ],
+      "name": "Hanweir Lancer",
+      "text_sha256": "sha256:a587a5fb2213835c86087daa14b8af881838edd4a087ac68c9cd918ff85aaf50"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ can't be blocked as long as you've cast an instant or sorcery spell "
+      ],
+      "name": "Haunting Figment",
+      "text_sha256": "sha256:ec49b3ce1377ad172a3750ef3d2236608f3bfaaffbc5d9818f7443a8cc85d178"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as equipped creature is a human, it gets an additional +1/+1"
+      ],
+      "name": "Heavy Mattock",
+      "text_sha256": "sha256:256b8fcb0ea9c268bffbf130388f787b9e354f2e1a79aca4a8da9fad19be29a7"
+    },
+    {
+      "all_miss_shapes": [
+        "spine_L0",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ has five or more counters on it, it has flying and is an ",
+        "as long as ~ has ten or more counters on it, it has indestructible and"
+      ],
+      "name": "Hero of Bretagard",
+      "text_sha256": "sha256:aeeb76911f880f1bb3b921c43c525a8146544d13b8f62238ee5d6d552f039e57"
+    },
+    {
+      "all_miss_shapes": [
+        "spine_L0",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there is exactly one tide counter on ~, it gets -1/-1",
+        "as long as there are exactly three tide counters on ~, it gets +1/+1"
+      ],
+      "name": "Homarid",
+      "text_sha256": "sha256:8f1599bff952fcf42e9ca0228156522d385f47a8fb391e578d2c3b630e3df817"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control exactly one creature, that creature gets +3/+1 "
+      ],
+      "name": "Homicidal Seclusion",
+      "text_sha256": "sha256:178ba327f6faead27db402e03ea0d0a9dc58d50bffbb936b46582e12126572d3"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ can't be blocked as long as defending player controls the most creat"
+      ],
+      "name": "Hooded Horror",
+      "text_sha256": "sha256:5ffb2b0417dac93f1fded0b2885c91a2032c319d1c62c184b9dcd1aa6412c10e"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as enchanted creature is a human, it has first strike"
+      ],
+      "name": "Hope Against Hope",
+      "text_sha256": "sha256:1056e627889268dfb47dd608e63133e4297e70ca3c91a033377b403bfb960186"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has haste as long as you own a card in exile that has an adventure"
+      ],
+      "name": "Howling Galefang",
+      "text_sha256": "sha256:1ee3741ce9bfb5612947d208c6d3b36e1f62e3100374d998d1cf8542c594f16f"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:kw_action"
+      ],
+      "details": [
+        "as long as ~ is monstrous, it has reach and can block an additional ni"
+      ],
+      "name": "Hundred-Handed One",
+      "text_sha256": "sha256:31297aff0ea0b00494a4144f0a0779f19edc1b1d488b1a049852c1184676d9b3"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control a green or blue permanent, you may cast ~ as th"
+      ],
+      "name": "Hungering Yeti",
+      "text_sha256": "sha256:1e1b46c8e694818b353dc17dd27f4e63aa1ed13ff53ce44c641f001eb8618ad8"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has deathtouch as long as you control at least three other snow perm"
+      ],
+      "name": "Ice-Fang Coatl",
+      "text_sha256": "sha256:749764519a244553caf6d9ee1dc6408e3140c670ed7e1c0e1bb98f8895fdaf31"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ has eight or more +1/+1 counters on it, it's a 0/0 creatu"
+      ],
+      "name": "Idol of False Gods",
+      "text_sha256": "sha256:e68f81185c4e8c145421cc4a4f127d4d49c168b686f744b82de61e0a968ff327"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "for as long as that creature has a duty counter on it, it is goaded, c"
+      ],
+      "name": "Immortal Obligation",
+      "text_sha256": "sha256:06f6055504a88a2cb41fe866d75f7847712a028eab087268c7ffb241b9c7fa6d"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:oneshot_body",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as your devotion to red and white is less than seven, ~ isn't "
+      ],
+      "name": "Iroas, God of Victory",
+      "text_sha256": "sha256:5e8845724d01facdd77b63ef51399c2799f2a77fc3eacac06407dae4cb96f974"
+    },
+    {
+      "all_miss_shapes": [
+        "keyword_unsupported",
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "during your turn, each non-lesson instant and sorcery card in your gra",
+        "during your turn, each lesson card in your graveyard has flashback {1}"
+      ],
+      "name": "Iroh, Grand Lotus",
+      "text_sha256": "sha256:cc4f4b262b2251980503d5e97215fdefdbf6216fc6f5600a1cad882ddff52460"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "~ has ward {4} as long as it's untapped"
+      ],
+      "name": "Iymrith, Desert Doom",
+      "text_sha256": "sha256:945cf4aeba5c443946c535286564ede5c14bb6f8eb22e13712810020286ced15"
+    },
+    {
+      "all_miss_shapes": [
+        "spine_L0",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~'s power is 7 or greater, it can attack as though it didn'"
+      ],
+      "name": "Ichor Aberration",
+      "text_sha256": "sha256:f6aa7b9521097e05a5e8107d9abbe220c2dfba2665e88bf361b41f7537552d89"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_cost_mod_unmapped"
+      ],
+      "details": [
+        "~ can't be blocked as long as it's attacking alone"
+      ],
+      "name": "Imoen, Trickster Friend",
+      "text_sha256": "sha256:4a9d405a2dcb32dc55253044ae3c3e7a9c535ea603f9e74e1220f96715a40fb8"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +2/+0 as long as it isn't attacking or blocking"
+      ],
+      "name": "Intrepid Ace",
+      "text_sha256": "sha256:7f678cd3948db5f7b1118b84b10377c1a0a899fe3ce2834ef595cca0b2d1c341"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +4/+8 as long as a library has twenty or fewer cards in it"
+      ],
+      "name": "Isleback Spawn",
+      "text_sha256": "sha256:38b5f52ca42fa3ff965158afd7b409e3800446c4e4ea6b0cd8209a70fcef5db9"
+    },
+    {
+      "all_miss_shapes": [
+        "restriction_unmapped",
+        "static_conditional"
+      ],
+      "details": [
+        "~ can't be blocked as long as you've drawn two or more cards this turn"
+      ],
+      "name": "June, Bounty Hunter",
+      "text_sha256": "sha256:3ed24c499ce5b3e8cf8d39f725310917f0e4c8e0ba2274bdaf549ec644edc598"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control a jace planeswalker, ~ gets +1/+0 and can't be "
+      ],
+      "name": "Jace's Sentinel",
+      "text_sha256": "sha256:2d472251b4d0f4445a2f86ff822511a8519089a01ac4ba4d14d4f70e4785a9db"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:replacement_as",
+        "spine_L0",
+        "static_conditional"
+      ],
+      "details": [
+        "white creatures get +2/+1 as long as the chosen player controls a nont"
+      ],
+      "name": "Jihad",
+      "text_sha256": "sha256:59c29ed4a39c3faf6e5fa418690bae985a8ee6043396954a80812559f19b6366"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "as long as ~ is untapped, other legendary creatures you control have w"
+      ],
+      "name": "K-9, Mark I",
+      "text_sha256": "sha256:ff06af4755265ff9495f19c0db350dac9bf2b53a52c7d8ec19aae8e10b59e770"
+    },
+    {
+      "all_miss_shapes": [
+        "loyalty_body:?",
+        "loyalty_body:draw",
+        "static_conditional"
+      ],
+      "details": [
+        "during your turn, as long as ~ has one or more loyalty counters on ~, "
+      ],
+      "name": "Kaito, Bane of Nightmares",
+      "text_sha256": "sha256:e1bd8542c4b499137bac17421116e0c4fe2a4cb48009fc5802c62afe8317f1b3"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as your devotion to green and white is less than seven, ~ isn'"
+      ],
+      "name": "Karametra, God of Harvests",
+      "text_sha256": "sha256:f33983611a8902a517fb3f490ae489ae1d9585b92bdb31c1ece6cc73b569b6d5"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are four or more card types among cards exiled with ~"
+      ],
+      "name": "Keen-Eyed Curator",
+      "text_sha256": "sha256:efbf6f06acab8cbde8c842208547ff6940cfd741840e675eac44b3cb34497d1c"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:oneshot_body",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as your devotion to blue and red is less than seven, ~ isn't a"
+      ],
+      "name": "Keranos, God of Storms",
+      "text_sha256": "sha256:2258499f7d8fbde005d812d183b7be89a49e4876e57524de1427091b46cca0b8"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~'s power is even, you may cast noncreature spells as thoug",
+        "as long as ~'s power is odd, you may cast creature spells as though th"
+      ],
+      "name": "Kianne, Corrupted Memory",
+      "text_sha256": "sha256:c23d395b575a685e31670bee83198d62a9ef87e2259437c2be96a853bff6be7d"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "as long as your devotion to red and green is less than seven, ~ isn't "
+      ],
+      "name": "Klothys, God of Destiny",
+      "text_sha256": "sha256:e462d3b67c9eeb0dd0f5bc86ef85bd49e1db12e0dfb133e4a87bbf84035f9073"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +1/+0 as long as any player controls a black permanent"
+      ],
+      "name": "Knight of Grace",
+      "text_sha256": "sha256:e872c50188127fb1ffed93e3c57299f15e7cf26f405650b4b51a41f1b41ec357"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you are way behind, ~ gets +3/+3 and has indestructible"
+      ],
+      "name": "Knight of Lost Causes",
+      "text_sha256": "sha256:136709fe4d1587eec821df82bf81c422905f10d5da7c7db488fc8dfad1eb7e62"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +1/+0 as long as any player controls a white permanent"
+      ],
+      "name": "Knight of Malice",
+      "text_sha256": "sha256:fd5ed22b646ca3f539432ca87034e3dbb845a837a36f11a504bbea153c0187aa"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:replacement_would",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as your devotion to green and blue is less than seven, ~ isn't"
+      ],
+      "name": "Kruphix, God of Horizons",
+      "text_sha256": "sha256:5ff630c618b6c36316ac5c2dc45e9afe734d46bcdd790fc038f235d9d95996f9"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~'s power is 5 or greater, it can attack as though it didn'"
+      ],
+      "name": "Karsus Depthguard",
+      "text_sha256": "sha256:c968fcbf242edd4dfbc5017e2d38d4143c155ad1923881f94b1b118585883703"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has haste as long as no opponent controls a white or blue creature"
+      ],
+      "name": "Kavu Runner",
+      "text_sha256": "sha256:50889f1f2e14b0616736717350a246c592e54f05ab0ab452b6ed898661b88736"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ entered this turn, creatures you control have haste"
+      ],
+      "name": "Keldon Strike Team",
+      "text_sha256": "sha256:38084cd65d71a21ef5f68cdcb34f4664917e91240d980119918e0b727a14ce9d"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are two or more creature cards in your graveyard, ~ g"
+      ],
+      "name": "Killmonger, Scourge of Wakanda",
+      "text_sha256": "sha256:63144d02a42923d5ee1b3d2e9c6dbe7c21d54914d800cf936a4e0d00e8441835"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "enchanted creature can't block as long as there are seven or more card"
+      ],
+      "name": "Kirtar's Desire",
+      "text_sha256": "sha256:dbfa69d7060c5834ce61f280c914fa74dd7db132f3e38f446e05566440a2e00d"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +1/+1 as long as you control another merfolk or an island"
+      ],
+      "name": "Kumena's Speaker",
+      "text_sha256": "sha256:9afa412cfb83c2f9c64655264020311ef6ed275498f2bae0f2796a129d8606ad"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has flying as long as you've cast an instant or sorcery spell this t"
+      ],
+      "name": "Leapfrog",
+      "text_sha256": "sha256:42704d469873790045c88c757584a9d64b3150b770ba66f79ab946419bc8df6f"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is paired with another creature, both creatures have hast"
+      ],
+      "name": "Lightning Mauler",
+      "text_sha256": "sha256:85198409beb72f348224905c1a3b7b9153c0ce6150de73e9854a7784f0fd4dc1"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "players can't play lands as long as ten or more lands are on the battl"
+      ],
+      "name": "Limited Resources",
+      "text_sha256": "sha256:159be41e076c97cf33354942b66a2aca544e42e4d0a312015c9070ce8abb3d28"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:replacement_would",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are no cards in your library, ~ has base power and to"
+      ],
+      "name": "Living Conundrum",
+      "text_sha256": "sha256:87a1f625f9d58295a83498d8161beb62853e0ae694c8c539f127827d2e7f8bc2"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as an artifact entered the battlefield under your control this"
+      ],
+      "name": "Mechan Shieldmate",
+      "text_sha256": "sha256:a1327e2f72b98231fe9b239bae4a300c639cb4088be424702f9d3d547e0df819"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +2/+0 as long as you've drawn two or more cards this turn"
+      ],
+      "name": "Messenger Hawk",
+      "text_sha256": "sha256:ad576cd7c004cc01b3455ffd237509a1ff700289f056dc2e01de3f7b64faae26"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "as long as ~ is tapped, no more than one creature can attack you each "
+      ],
+      "name": "Mirri, Weatherlight Duelist",
+      "text_sha256": "sha256:9c691b1919236cef1feb6e23a288bbcaf06780b973a4c3857a66b8a14990f9a1"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:damage"
+      ],
+      "details": [
+        "as long as your devotion to black and red is less than seven, ~ isn't "
+      ],
+      "name": "Mogis, God of Slaughter",
+      "text_sha256": "sha256:f38830d33bbcd6f8ffbd0a5ad4e2412e6e4097234858b6b4182f7cfd46145264"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you have a full party, prevent all damage that would be dea"
+      ],
+      "name": "Multiclass Baldric",
+      "text_sha256": "sha256:39aa1e735f7f34ac7f9f302038a587acb82c886bdc2daf4ff267adcfb2743459"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?",
+        "verb_unmapped:choose"
+      ],
+      "details": [
+        "as long as there are four or more instant and/or sorcery cards in your"
+      ],
+      "name": "Magmatic Channeler",
+      "text_sha256": "sha256:97ddb4308bfd1833722ed1e8582efe2fbb4e5bb1a0158dc88c59a14545e9fe98"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "~ has indestructible as long as it has defender"
+      ],
+      "name": "Manor Gargoyle",
+      "text_sha256": "sha256:983f7db0832dc5909afe6ee4a50f5038c8f1902439b5c8a25d6b7248aa9e267f"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "you may cast ~ from your graveyard as long as you control a black or g"
+      ],
+      "name": "Marang River Prowler",
+      "text_sha256": "sha256:339fa4be1d0ef4626e953b4a61f43956c01cb40a806e09e86ad06b43468973a9"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:UNCLASSIFIED",
+        "static_conditional"
+      ],
+      "details": [
+        "~ has protection from green and from white as long as there are seven "
+      ],
+      "name": "Masked Gorgon",
+      "text_sha256": "sha256:64a163c09534a2d14ff61a6738483890a54f8614d67735ca212b6f95f6d6bb2b"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "it gets +3/+1 instead as long as an opponent has eight or more cards i"
+      ],
+      "name": "Mind Carver",
+      "text_sha256": "sha256:962d0a9302ba0e89fb3e5263b14a2a44844e6c3e5915b92a23773226e611d91c"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is on the battlefield, it has all activated abilities of "
+      ],
+      "name": "Mirran Safehouse",
+      "text_sha256": "sha256:6ad02935ffae4903a8701ce0d88f17c523172a89a1ee9644bb3236151c15c380"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "as long as you control enchanted creature, it gets +2/+2"
+      ],
+      "name": "Mishra's Domination",
+      "text_sha256": "sha256:28eb9686e93a5bee203da7fc498e7324a9ee9873f7390d1d9e9f56d9520e86bc"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "~ has defender as long as it's a wall"
+      ],
+      "name": "Mistform Wall",
+      "text_sha256": "sha256:dd947124adcdbe55433f9f017fd4a8bf2902db0bcb04babd8dfffe19836a9d97"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:static_grant_quoted",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as the top card of your library is a creature card, ~ gets +3/"
+      ],
+      "name": "Mul Daya Channelers",
+      "text_sha256": "sha256:920d8cd270808df33f9afde0de9efea63325a08abeba6ee25b48bd9d74fe10ae"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +3/+3 as long as there is a land card in your graveyard"
+      ],
+      "name": "Murasa Behemoth",
+      "text_sha256": "sha256:19fd4524c1640f709a3c35753e122bb0de4a1da997547d669cc6ecac42cc41d3"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:cost_declaration",
+        "static_conditional"
+      ],
+      "details": [
+        "~ has flash as long as you control a permanent with flash"
+      ],
+      "name": "Mutual Destruction",
+      "text_sha256": "sha256:4dc66ea8694830be2667759101fac738bca4510379a495eab50023ccba6aa078"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "during your turn, your opponents can't cast spells or activate abiliti"
+      ],
+      "name": "Myrel, Shield of Argive",
+      "text_sha256": "sha256:55493cc49c90e4b5a1db9a4d0439dea295a29ebb56c221e9d5c99fa7d862a49b"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are seven or more cards in your graveyard, ~ gets +1/"
+      ],
+      "name": "Mystic Familiar",
+      "text_sha256": "sha256:46451e585d81d23d086c2585b8657e76751005417c5ce48466449f14e058e42a"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is on the battlefield, it has all activated abilities of "
+      ],
+      "name": "Necrotic Ooze",
+      "text_sha256": "sha256:b7e193d2f925fe1fd5b9c5d07c3385541ee806c52929489c5f99adcfb37d42b3"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "~ can't be blocked as long as defending player has a rad counter"
+      ],
+      "name": "Nightkin Ambusher",
+      "text_sha256": "sha256:48b050bc6cf9291da9b16cdc30002e8e739dc7144387d4a77a2aa3546097cc49"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are seven or more cards in your graveyard, ~ gets +1/"
+      ],
+      "name": "Nightwhorl Hermit",
+      "text_sha256": "sha256:4d077c44b241eb765d5bdacf727c9ee98ee5092d78d0095999454568a9b64ebb"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as your devotion to green is less than five, ~ isn't a creatur"
+      ],
+      "name": "Nylea, God of the Hunt",
+      "text_sha256": "sha256:a4a5ca5715a923ca06a8b82ef9c1ed670adbe5684a1d382cc97227cefb4fb564"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?",
+        "verb_unmapped:reveal"
+      ],
+      "details": [
+        "as long as your devotion to green is less than five, ~ isn't a creatur"
+      ],
+      "name": "Nylea, Keen-Eyed",
+      "text_sha256": "sha256:2ad98046f49d964630436dc6b68c9b1dcc6072efab4bcd961d5afc57e1fccee9"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:venture"
+      ],
+      "details": [
+        "other creatures you control get +1/+1 as long as you've completed a du"
+      ],
+      "name": "Nadaar, Selfless Paladin",
+      "text_sha256": "sha256:9964f648b5dad56645575c8c0fc136a9d91013c2fc3380e461d4ee2875c7974d"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is paired with another creature, both creatures have life"
+      ],
+      "name": "Nearheath Pilgrim",
+      "text_sha256": "sha256:1af177e37d17f035b077f19ffb10f4d92165913d7ffa909561ac371c37cbf1b9"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:tap"
+      ],
+      "details": [
+        "~ has lifelink as long as you have no cards in hand"
+      ],
+      "name": "Necromancer's Familiar",
+      "text_sha256": "sha256:5f28fee0c6cce642291ef1d511a874ce2a54fa70ac15db6c5a21e0c50c31cd37"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has haste as long as an opponent controls a human"
+      ],
+      "name": "Night Revelers",
+      "text_sha256": "sha256:28f1fb156ef1bcf99667be9173d70679cc4bc7264544e7a794536cfa7e6efdb2"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is paired with another creature, both creatures have deat"
+      ],
+      "name": "Nightshade Peddler",
+      "text_sha256": "sha256:3a049bf90ec991591e20e0354ac33b46d5200a0ecdd1309389f9bb904fb4e044"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:UNCLASSIFIED",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control one or more creatures with a name you noted for"
+      ],
+      "name": "Noble Banneret",
+      "text_sha256": "sha256:b1868bd366111d13fd046e176f1f7e851ac781c613cfb51129a2bd27ed770915"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is enchanted or equipped, it can attack as though it didn"
+      ],
+      "name": "Novice Knight",
+      "text_sha256": "sha256:647f3cf1db2c556c159322d0fcd14b43954d5ec93035b4020f960206caa658ce"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_subject_unknown_subtype"
+      ],
+      "details": [
+        "enchanted creature gets +2/+2 as long as it's an enchantment"
+      ],
+      "name": "Nyx Infusion",
+      "text_sha256": "sha256:ef6f2d2b5fecc22e6158fc0fb9a9766396ebcba9d091e8581c1cc3629238d5e4"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has double strike as long as you've committed a crime this turn"
+      ],
+      "name": "Omenport Vigilante",
+      "text_sha256": "sha256:3923d2c63737de1c323c343bddd615e741638cff533fb1102a433849d6b24a47"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:UNCLASSIFIED",
+        "static_conditional"
+      ],
+      "details": [
+        "while an opponent is searching their library, they exile each card the",
+        "you may play those cards for as long as they remain exiled, and you ma"
+      ],
+      "name": "Opposition Agent",
+      "text_sha256": "sha256:4657324301158391f3933ff5c3acf5bcc69f6dd34fb98f328879c5a4fdf3b71f"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "you may look at and play those cards for as long as they remain exiled"
+      ],
+      "name": "Outrageous Robbery",
+      "text_sha256": "sha256:688b2baab3d9425fdbf87b9ca502add11cc29d965aeb3e2080f052d6c40308d7"
+    },
+    {
+      "all_miss_shapes": [
+        "keyword_unsupported",
+        "kind_unsupported:replacement_would",
+        "static_conditional"
+      ],
+      "details": [
+        "~ has flying and indestructible as long as you have six or more unspen"
+      ],
+      "name": "Ozai, the Phoenix King",
+      "text_sha256": "sha256:670f027886cfbb0fd2ee9181411ccdabcff1f5f22ce6b1bbe2be3bfd817fec1d"
+    },
+    {
+      "all_miss_shapes": [
+        "spine_L2",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are five or more soul counters on ~, spirits you cont"
+      ],
+      "name": "Obscura Ascendancy",
+      "text_sha256": "sha256:c4909b94eaf04ac63eb875c69750af295553fe37f0a464eda2a6025cd3aa9272"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ can attack as though it didn't have defender as long as you control "
+      ],
+      "name": "Ogre Jailbreaker",
+      "text_sha256": "sha256:1fc8b582c612ba87b3b8b7bdbd436f44d1aff63666c7010143896f58e5b2b485"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you have more cards in hand than each opponent, ~ gets +3/+"
+      ],
+      "name": "Okina Nightwatch",
+      "text_sha256": "sha256:8d5459f51f91bcff8680d8e32f4926e4b702ba3877842d43a92101b07477f0a5"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "as long as there are seven or more cards in your graveyard, ~ gets +3/"
+      ],
+      "name": "Otarian Juggernaut",
+      "text_sha256": "sha256:01ec9ab176a3624ad8a5c2cb0ad6d7224dda486f494e8661755ef9ab765165c2"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as the top card of your library is a faerie or instant card, y"
+      ],
+      "name": "Oura, the Imitator",
+      "text_sha256": "sha256:536d9eb47f68d6970172631821dd0dca960f688db3e5a33fb5db9e4b24fc314a"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "as long as this equipment is attached to a creature, you don't lose th"
+      ],
+      "name": "Pact Weapon",
+      "text_sha256": "sha256:16c8488fcd5741d9702d5099545cbe4cc08f9819112d5ac07eb13b2194b59137"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "you may play those cards for as long as they remain exiled, and mana o"
+      ],
+      "name": "Petty Larceny",
+      "text_sha256": "sha256:e0c58893f93f3473d7c6fa6cc6f7b1e7a92f040a5938b5bfac89dcff8917027e"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "as long as your devotion to black and green is less than seven, ~ isn'"
+      ],
+      "name": "Pharika, God of Affliction",
+      "text_sha256": "sha256:5441826c12e65d87d6652424c18e2ba741a60175ac9abb7a026c4977e5be0083"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:static_grant_quoted",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as your devotion to blue and black is less than seven, ~ isn't"
+      ],
+      "name": "Phenax, God of Deception",
+      "text_sha256": "sha256:298d57db8814210c536084835c691484ff2077caa7b9a09e3ca455fd2083931a"
+    },
+    {
+      "all_miss_shapes": [
+        "condition_unsupported:happened",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control eight or more permanents named phoenix fleet ai"
+      ],
+      "name": "Phoenix Fleet Airship",
+      "text_sha256": "sha256:1d6b358fcdb5cfdd89410906bd90662cf2b6dcedee01ecd02f54c340e9622042"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "as long as you have 0 or less life, all damage is dealt to you as thou"
+      ],
+      "name": "Phyrexian Unlife",
+      "text_sha256": "sha256:dfbc7e956c11070dcbcac4897de633955427ff87ab73d229039d331514da7e72"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there is a lesson card in your graveyard, ~ can attack as t"
+      ],
+      "name": "Platypus-Bear",
+      "text_sha256": "sha256:555c9c09968ce1dfa5e40e28a98c7d2e5f7b5d6d421e247e377e75d38b376748"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "you may play that card for as long as it remains exiled"
+      ],
+      "name": "Praetor's Grasp",
+      "text_sha256": "sha256:485e57979f20de24186ce6ce346d47d63d96e19d3930af50cd872db2c228642d"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "each of those creatures can't attack you or planeswalkers you control "
+      ],
+      "name": "Promise of Loyalty",
+      "text_sha256": "sha256:4b006b9bf55903ed98b3959d850f426bbc0bef88b11ca594f3990c663768ba6a"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "equipment you control have equip {0} as long as you control three or m"
+      ],
+      "name": "Puresteel Paladin",
+      "text_sha256": "sha256:80c9881a2c130d8e9aaa45e210b5622993dbe0c774f4e7aa6e97406b8a0a0857"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:put_battlefield"
+      ],
+      "details": [
+        "as long as your devotion to red is less than five, ~ isn't a creature"
+      ],
+      "name": "Purphoros, Bronze-Blooded",
+      "text_sha256": "sha256:ec2c44eb0f1849085bc42ad3c969bcb144d7f2e76245bb7beaf9efbdf7e11ec4"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as your devotion to red is less than five, ~ isn't a creature"
+      ],
+      "name": "Purphoros, God of the Forge",
+      "text_sha256": "sha256:7d3e1045e21f8d9f33487bf7b532886a23eefd97e10e7a6f9e938f43753b7d6e"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as your life total is greater than or equal to your starting l"
+      ],
+      "name": "Path of Bravery",
+      "text_sha256": "sha256:f1acc81aa42683c32507f700af83277e409c7f8165bbe50066115d34ddc558e7"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is paired with another creature, both creatures have tram"
+      ],
+      "name": "Pathbreaker Wurm",
+      "text_sha256": "sha256:a3f4c5825f98702f7b9c3cb4afff078dddde30ca089cbd68cab3ab49cf3a29e3"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "during your turn, prevent all damage that would be dealt to you"
+      ],
+      "name": "Personal Sanctuary",
+      "text_sha256": "sha256:85d1d866c69226096210ebe532bfe48d99b98c7386de0c67020c21353b830d81"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_subject_unknown_subtype"
+      ],
+      "details": [
+        "enchanted creature gets +2/+1 as long as it's black"
+      ],
+      "name": "Phyrexian Boon",
+      "text_sha256": "sha256:63e754e425c46ad29e8c7d3940487abb029ea0648dd7187fa712a90ef4db58f3"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "trigger_subject_unknown_subtype"
+      ],
+      "details": [
+        "you may play cards exiled with ~ as long as you attacked this turn"
+      ],
+      "name": "Pick Up the Pace",
+      "text_sha256": "sha256:953d8ac438c20e0dc5db4a7bcf498d55d9effd78128ff9cbf64dc30cf80f607b"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is enchanted, it can attack as though it didn't have defe"
+      ],
+      "name": "Pillar of War",
+      "text_sha256": "sha256:bcd870371bdfc54a0fa8f4166f98b7500aee4c163678ed92478519ae827a06c8"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:venture"
+      ],
+      "details": [
+        "it gets -5/-5 instead as long as you've completed a dungeon"
+      ],
+      "name": "Precipitous Drop",
+      "text_sha256": "sha256:fe581bcd0fb7ca54324292f7fa08d212c8264ed95b4a8ca710399a10979e42a2"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "enchanted creature has intimidate as long as its controller controls n"
+      ],
+      "name": "Predator's Gambit",
+      "text_sha256": "sha256:5c6ae40a52cf07a764fabcefae0d28bd25c9d3c1df013e821fe6af1f3a9019c7"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is untapped, it has protection from artifacts and from ea"
+      ],
+      "name": "Pristine Angel",
+      "text_sha256": "sha256:4c81210162ec26fb7d0732c8076539c20cb6c0ed474627a8e122d5df5b08102e"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "you may cast that card for as long as it remains exiled, and you may s"
+      ],
+      "name": "Psychic Intrusion",
+      "text_sha256": "sha256:685c48761e62e90a619ac01e7b63eb6b19dc3a7a302ec3b605749ca4219abec9"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "you may cast that card for as long as it remains exiled"
+      ],
+      "name": "Psychic Theft",
+      "text_sha256": "sha256:a39de0a75d1e56291cf811037187dce923831e567b71307597224b83cea3bc81"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are seven or more cards in your graveyard, ~ gets +1/"
+      ],
+      "name": "Putrid Imp",
+      "text_sha256": "sha256:a4a032b933174c059691245d613bc164929bd0f118b6901d4737281fa7928b4f"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are four or more quest counters on ~, untap all creat"
+      ],
+      "name": "Quest for Renewal",
+      "text_sha256": "sha256:83eb461431a8ad6376a2cd041b0e3ced042a69f7d976d44b86bf3d2aa47a6f52"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you're the monarch, creatures with power 2 or less can't at"
+      ],
+      "name": "Queen Mother Ramonda",
+      "text_sha256": "sha256:9ffdd2b0b622ad63664fdbba64ef4e8bce481476d3853cdc01f80624cb79858e"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is tapped, you may cast spells as though they had flash"
+      ],
+      "name": "Quicksilver, Speedster",
+      "text_sha256": "sha256:6b17da695f05213a09b5c52dc47498ed93cbd330f773f5cc1fa12439cdd40a19"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +3/+0 as long as there are two or more unlocked doors among roo"
+      ],
+      "name": "Rampaging Soulrager",
+      "text_sha256": "sha256:e8c0bd7d934607a4ec0360c1a56baead8dfb4826b4acf2ea4e104295d40654f7"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "as long as ~ hasn't dealt damage yet, it has hexproof and can't be blo"
+      ],
+      "name": "Ratonhnhak\u00e9\ua789ton",
+      "text_sha256": "sha256:a1d091b25835a5542e59b32b732e7f74e780afb1c046bf1a7bc0c27e604ba894"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "during your turn, each instant and sorcery card in your graveyard has "
+      ],
+      "name": "Return the Past",
+      "text_sha256": "sha256:f9261c8f79e587598f125910f4f9f7c273259e06ef738a533d26032d9a47e3b5"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has double strike as long as you have no cards in hand"
+      ],
+      "name": "Rakdos Pit Dragon",
+      "text_sha256": "sha256:95d714838a6f9486725b307f55733343b7d9d4d809891cc12dfab4f5e703de3e"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets -2/-0 as long as two or more creatures are blocking it"
+      ],
+      "name": "Rampaging Cyclops",
+      "text_sha256": "sha256:f77e98fcba1d1eb853469d6468cfff92ee880315634acc39d3fbc4454b3bc92a"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +1/+1 as long as there is a desert card in your graveyard"
+      ],
+      "name": "Ramunap Hydra",
+      "text_sha256": "sha256:9a1e9a650dde4d610a87190df45d7ec43c749f55a18758834d741a5081585386"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "~ has lifelink and haste as long as an opponent controls no creatures"
+      ],
+      "name": "Rankle, Pitiless Trickster",
+      "text_sha256": "sha256:1a3d8e802a0916a8ce58f9f750fdc0ab413f7c49e81672a3da9bbe6b5190f307"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has persist as long as you control a black creature"
+      ],
+      "name": "Rattleblaze Scarecrow",
+      "text_sha256": "sha256:2a7d754dcdff094c61e4effbdb31ab2e82288ef66699736a46e5a4bfde30ef6d"
+    },
+    {
+      "all_miss_shapes": [
+        "spine_L2",
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "as long as enchanted creature is red, it loses all abilities"
+      ],
+      "name": "Ray of Frost",
+      "text_sha256": "sha256:e911f5a76ccd63c2f33cf756e79428b683c5119ed1fbc8036ca3b9e186c7679e"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:replacement_would",
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "as long as an exiled creature card with a blood counter on it has flyi"
+      ],
+      "name": "Rayami, First of the Fallen",
+      "text_sha256": "sha256:bb93f0e7c57d75ff98d9e8148d2f5da4c5a8e791b3d09c58476e22e23d421f5d"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +3/+2 as long as there are four or more creature cards in your "
+      ],
+      "name": "Reclusive Taxidermist",
+      "text_sha256": "sha256:f5731e0113cbf03734846240cfbfcc160fcdbd50faf4a0be3abe583a2cb62753"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets -2/-2 as long as white is the most common color among all perma"
+      ],
+      "name": "Ruham Djinn",
+      "text_sha256": "sha256:36c5c5fc23cf3967e2c75617f1f3c0ef445ae0abfb5d04fc99788783481cff2d"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ is a 5/5 golem artifact creature as long as you control three or mor"
+      ],
+      "name": "Rusted Relic",
+      "text_sha256": "sha256:dfa484dfae2ba2d22590bfb06c8a901a07412bb90e79831d9d780c9e49f6a3bb"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:cast_free",
+        "verb_unmapped:put_rest"
+      ],
+      "details": [
+        "as long as an artifact creature you control is attacking, prevent all "
+      ],
+      "name": "Sanwell, Avenger Ace",
+      "text_sha256": "sha256:5d1619609aa6dbca2b38388730a5e4e9c5c4a994fa0433b20197ef04ddf7e233"
+    },
+    {
+      "all_miss_shapes": [
+        "cost_unmapped",
+        "static_conditional",
+        "verb_unmapped:kw_action"
+      ],
+      "details": [
+        "as long as ~ has a +1/+1 counter on it, it can attack as though it did"
+      ],
+      "name": "Scuttlegator",
+      "text_sha256": "sha256:5889208290921a24c6267e947850929d0ce61a528f86fcd1d5131039a87d2f45"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:static_grant_quoted",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as enchanted creature is attacking alone, it can't be blocked"
+      ],
+      "name": "Security Bypass",
+      "text_sha256": "sha256:001531c13e310e90605e0a5bdadf5f734bce80d09de5d22168bc12e9a432624b"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as an artifact entered the battlefield under your control this"
+      ],
+      "name": "Sentinel Sarah Lyons",
+      "text_sha256": "sha256:671f8a29ed777d3111e8e97a68ce696e1eb8e1a8927f015759b4fe9eb04b373b"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are seven or more cards in your graveyard, all creatu"
+      ],
+      "name": "Seton's Desire",
+      "text_sha256": "sha256:e6d4c8030c0b057276c94aa0bc37095da7966a24dfc51ef2b080e5e5ec8b54b0"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "you may cast spells from among those cards for as long as they remain "
+      ],
+      "name": "Shadow of the Enemy",
+      "text_sha256": "sha256:4c72bfa8bdd9468964d06e5698dfda1022a900c0568f798ccb7d14fab2659b53"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as this aura entered this turn, enchanted creature has hexproo"
+      ],
+      "name": "Shardmage's Rescue",
+      "text_sha256": "sha256:97ddc2caf1e856999ae27b0dfb6c5bb38665f5de076d3015a2efee278c882ca8"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is attacking, for each creature you control, you may have"
+      ],
+      "name": "Siege Behemoth",
+      "text_sha256": "sha256:22340ae7c55cb5f3cf6bc9186f3037e51ee203101e1260a3955ffa50cdab2b3d"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "you may play the exiled card for as long as it remains exiled, and you"
+      ],
+      "name": "Siphon Insight",
+      "text_sha256": "sha256:d2f2bcc660b82cdf271472997f09d6a8ee41092af109440c12b2cadc8d82861f"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:put_zone"
+      ],
+      "details": [
+        "during your turn, nonland permanent cards in your graveyard have retra"
+      ],
+      "name": "Six",
+      "text_sha256": "sha256:2bbd4ed7eea7afe4830f83c130911d241509cc0ec2bcb5b4a2958a0734864f0a"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as an opponent has three or more poison counters, creatures yo"
+      ],
+      "name": "Skrelv's Hive",
+      "text_sha256": "sha256:1b8d065ac9a345d7a49c50a0ff81a906111f06eef07232a3b94894264cd22646"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +2/+0 as long as you've committed a crime this turn"
+      ],
+      "name": "Slickshot Vault-Buster",
+      "text_sha256": "sha256:2914abec690fae92f1aa5dd761519ffe4562487f557585f011b1e7d11fe2bf5d"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:UNCLASSIFIED",
+        "static_conditional"
+      ],
+      "details": [
+        "during your turn, creatures and planeswalkers you control have lifelin"
+      ],
+      "name": "Sorin, Vengeful Bloodlord",
+      "text_sha256": "sha256:3fc99a433e048efdc0fbbd3d20645cd6dfa6ad117eb2fbbf71021bb34cfe1177"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control five or more enchantments, each other non-aura "
+      ],
+      "name": "Starfield of Nyx",
+      "text_sha256": "sha256:3292d36afbfda0ad35ad41bb953eca51c6f2f665ee22c16fbc4df99c8d82833a"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is untapped, players can't untap more than two permanents"
+      ],
+      "name": "Static Orb",
+      "text_sha256": "sha256:66f9b02b72e4d7d497be346d0a2ae83d354a248e4746d623edfb72e8d34069ed"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:untap"
+      ],
+      "details": [
+        "equipped creature has first strike as long as it's blocking or blocked"
+      ],
+      "name": "Sting, the Glinting Dagger",
+      "text_sha256": "sha256:8195946f22c2d9291bfe7a6591077a4e219212b0379c895d12d6fac2abea1bb2"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has hexproof as long as you haven't cast a spell this turn"
+      ],
+      "name": "Stoic Sphinx",
+      "text_sha256": "sha256:ed4c83d7dca2991e79f35f249acff80473e90821717f340e708eb17e2e0c35e7"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "~ has trample, hexproof, and haste as long as an opponent controls a p"
+      ],
+      "name": "Syr Ginger, the Meal Ender",
+      "text_sha256": "sha256:3c173ba6fb06664b653ac67652540b1aef4616bc23ee370bb2cd824c5b7018b3"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +2/+2 as long as you had another creature enter the battlefield"
+      ],
+      "name": "Saddled Rimestag",
+      "text_sha256": "sha256:9636340899c5294df587fbd823ad8e18ac30605c88bd41b5def4b9d557a2da65"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has lifelink as long as you control a stickered permanent"
+      ],
+      "name": "Sanguine Sipper",
+      "text_sha256": "sha256:553441745981daf0c970d7dcb74d275181459fc0d398f009a3f2e81cfc66e2fe"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as it's your turn and you control four or more mountains, ~ ge"
+      ],
+      "name": "Sardian Cliffstomper",
+      "text_sha256": "sha256:798312c81c85edb2d2fdd54321bcf7a6043005c0a51d69d9485bf7809b534c4b"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has menace as long as you control a stickered permanent"
+      ],
+      "name": "Scared Stiff",
+      "text_sha256": "sha256:438105537ad35a6dc32ede3a15db06085d28c87df63da1696f3e32e75c8a8182"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_subject_unknown_subtype"
+      ],
+      "details": [
+        "enchanted creature gets +0/+2 as long as it's a pirate"
+      ],
+      "name": "Sea Legs",
+      "text_sha256": "sha256:ab5cea7551af6fbe5c9a6e0a058002fe584077bf00016d288f306b59cf2b1be9"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you have more cards in hand than each opponent, ~ gets +2/+"
+      ],
+      "name": "Secretkeeper",
+      "text_sha256": "sha256:637b653def19cbace76cdeb3b8639c2a57cbf082c2a99086bbb7574d7e7981c8"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_subject_unknown_subtype"
+      ],
+      "details": [
+        "enchanted creature gets +1/+2 as long as it's white"
+      ],
+      "name": "Serra's Boon",
+      "text_sha256": "sha256:7e91a459e72904e5241dfcb83dfd8260b956de9304853f1078865d2a6611719b"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as equipped creature is a human, it gets +1/+1"
+      ],
+      "name": "Sharpened Pitchfork",
+      "text_sha256": "sha256:308fb065617870136ca29396eb71427105c42f29bcf2633c65fa98aeafac7150"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "basic lands each player controls have shroud as long as that player co"
+      ],
+      "name": "Sheltering Prayers",
+      "text_sha256": "sha256:a2f8ffac5ebc7bc52ededa9ed1c3727c65817519f29710249a40dc4acf11d348"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as an artifact entered the battlefield under your control this"
+      ],
+      "name": "Shipwreck Sentry",
+      "text_sha256": "sha256:a1327e2f72b98231fe9b239bae4a300c639cb4088be424702f9d3d547e0df819"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?",
+        "verb_unmapped:exile"
+      ],
+      "details": [
+        "as long as another merfolk or an island entered the battlefield under "
+      ],
+      "name": "Shoreline Scout",
+      "text_sha256": "sha256:72231d970baa9e3c28babc3fe55a691529feff7fcafb8018ada93b9df9aaee44"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as enchanted permanent is a creature, it gets -3/-0 and loses "
+      ],
+      "name": "Short Circuit",
+      "text_sha256": "sha256:143734cb129fbff9e1d6c51e3a9a54b5bb94cefa00e35f5d3a2fc8e44022ad1a"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control a desert or there is a desert card in your grav"
+      ],
+      "name": "Sidewinder Naga",
+      "text_sha256": "sha256:c106dc6b8c36cc22dfc1bc4c1b496ed71bbac1224cefbb36588509e5e00930e2"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as enchanted permanent is a vehicle, it's a creature in additi"
+      ],
+      "name": "Siege Modification",
+      "text_sha256": "sha256:60141f6dc9da64cda0df2b6e97007d3cf740c59094f4e217987133c080e4ba9a"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:grant_eot"
+      ],
+      "details": [
+        "as long as you've put one or more +1/+1 counters on a creature this tu"
+      ],
+      "name": "Sigardian Paladin",
+      "text_sha256": "sha256:e86c8d4657a2fa976e2f9fa62c66b0576a00ba579a19c0f3e8352fb6e0f1e7bf"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as equipped creature is a human, it gets an additional +1/+0"
+      ],
+      "name": "Silver-Inlaid Dagger",
+      "text_sha256": "sha256:05a76661bdd76124ca1c6a60c5b2dda25d9c35abe1671625b1df1cd61021eaf7"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is paired with another creature, both creatures have doub"
+      ],
+      "name": "Silverblade Paladin",
+      "text_sha256": "sha256:bfd1df568ba3d60b6ef1dec0bebfe496f935d737b53c441529f82e0b37590021"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as the top card of your library is an artifact or creature car"
+      ],
+      "name": "Skill Borrower",
+      "text_sha256": "sha256:21a385a04a5809c48e66276c6c0552bca415c682ae1bb5f7f1dcf49643920b40"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +1/+1 as long as no opponent controls a white or blue creature"
+      ],
+      "name": "Skittish Kavu",
+      "text_sha256": "sha256:db67a5ecfc765ee4b75ba9032d575c5475dea75f0db6bb18839ef1cc1a5dddc4"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:replacement_enters",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ has a +1/+1 counter on it, it can attack as though it did"
+      ],
+      "name": "Skyclave Sentinel",
+      "text_sha256": "sha256:991f8e9484bcd5ac53397189d66ac05299382e90d37f690ac5e8b8b80954123b"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +1/+2 as long as an opponent controls a nonbasic land"
+      ],
+      "name": "Skyshroud Elite",
+      "text_sha256": "sha256:c60c55e8d08ad73270d7ade7e2afd1f072c49e5e086e81429f1895570757f581"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ can attack as though it didn't have defender as long as you have no "
+      ],
+      "name": "Slithering Shade",
+      "text_sha256": "sha256:fcd88f11fc32aaf6403b894b49417b8976bccb0f3faa7b699b7bbfa45ae8321f"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control a goblin or orc, ~ gets +1/+0"
+      ],
+      "name": "Snarling Warg",
+      "text_sha256": "sha256:683d04531d5162ae7a0fe50d32489cafebbd8e8fff5d68055bc6563d20c3c712"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are five or more mana values among cards in your grav"
+      ],
+      "name": "Snooping Newsie",
+      "text_sha256": "sha256:66b1edcf06b5c5ea2c415d184e149512a598c1ea9be72e4574ccc6acde79aa4f"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "enchanted creature has first strike as long as it's blocking and you c"
+      ],
+      "name": "Snow Devil",
+      "text_sha256": "sha256:1148ef45a27e90c161d7ee572bc4372ae5c6bb5c3e215bd72798d89a914b648f"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "it gets -6/-0 instead as long as its controller has seven or more card"
+      ],
+      "name": "So Tiny",
+      "text_sha256": "sha256:138b4f4ef023d1cd2a093121aa5cc42a196d49f60c32293c56341e803e00568f"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as enchanted creature has vigilance, it assigns combat damage "
+      ],
+      "name": "Solid Footing",
+      "text_sha256": "sha256:a174a22c5a5ea651c483693c90df5936d918d52797d43333a7e2d7b0a0bf876d"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has lifelink as long as you control a desert or there is a desert ca"
+      ],
+      "name": "Solitary Camel",
+      "text_sha256": "sha256:3415ce5e9bfe12138e6e14f1b295679b05fff8f2e050ae4ec7667135cd427ebc"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "as long as you control exactly one creature, that creature has vigilan"
+      ],
+      "name": "Solitary Defiance",
+      "text_sha256": "sha256:2a4ee2b91d41436ee00a3ccb0bf43dffd9939b1b5cab9e182aa58821bd6539ca"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:kw_action"
+      ],
+      "details": [
+        "as long as you've visited an attraction this turn, ~ has indestructibl"
+      ],
+      "name": "Soul Swindler",
+      "text_sha256": "sha256:6e70f71934f624a05b49e9887d95411181558b2f6d266bfbd43f17b7a94d6f70"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is paired with another creature, both creatures have vigi"
+      ],
+      "name": "Spectral Gateguards",
+      "text_sha256": "sha256:faef00678171b8aaae4db56d736a12dbceda3f28af893301f0aae854895c8ebb"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is untapped, noncreature artifacts have shroud"
+      ],
+      "name": "Spectral Guardian",
+      "text_sha256": "sha256:88f380c3a706c83b7888b5dcf3d151ae07b226aae1325a73785220a95364676e"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has double strike as long as there are three or more instant and/or "
+      ],
+      "name": "Spelleater Wolverine",
+      "text_sha256": "sha256:8d6dd83eae57d18a8a7d92916b5bcd66e99ce9b5912b8a745b5aea3837452dfd"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you've drawn two or more cards this turn, ~ has double stri"
+      ],
+      "name": "Spinehorn Minotaur",
+      "text_sha256": "sha256:0419aedcda88a9b1e874af2fc91a5952cc6b42aecaa85d1fb95f3dc30984b9d7"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control three or more artifacts, ~ gets +2/+2 and can a"
+      ],
+      "name": "Spire Serpent",
+      "text_sha256": "sha256:86c283ba7145c6e46e6e4b082f801d90813c5390c94f93ba61bbf490d5afcaf6"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control a permanent of each color, prevent all damage t"
+      ],
+      "name": "Spirit of Resistance",
+      "text_sha256": "sha256:8298601afb10d973d35aaaeb8adbb1e5ea2528a215c066a679eebcb7890bff7b"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:destroy"
+      ],
+      "details": [
+        "as long as there are seven or more cards in your graveyard, all creatu"
+      ],
+      "name": "Stone-Tongue Basilisk",
+      "text_sha256": "sha256:405bd77c57b88703df7a1fc4352145c536835564e942acf940e8014c9916c8dd"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "as long as ~ is untapped, each player chooses artifact, creature, or l"
+      ],
+      "name": "Storage Matrix",
+      "text_sha256": "sha256:acc58e77f03b70203d7a30b989047583010e5e9b17e15bb64368ea2124180a56"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:tap"
+      ],
+      "details": [
+        "as long as enchanted creature isn't legendary, it doesn't untap during"
+      ],
+      "name": "Stunning Strike",
+      "text_sha256": "sha256:ff0f89a790af61e6f7e304fda8520f676fc91fd52866b1a8cb304fa35ccf163e"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets -2/-2 as long as green is the most common color among all perma"
+      ],
+      "name": "Sulam Djinn",
+      "text_sha256": "sha256:a77042390cce40fc6e4f2247cecf0d51d7d0e0fbc0c396585a440d63821df4d4"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:UNCLASSIFIED",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as this equipment is attached to a creature, you may cast crea"
+      ],
+      "name": "Summoning Materia",
+      "text_sha256": "sha256:83a240c1792af21a78d4341347b9b3471a9d3cb609a098bd2a57be477a4e5d3f"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +3/+0 as long as there are ten or more cards in a single gravey"
+      ],
+      "name": "Swimmer in Nightmares",
+      "text_sha256": "sha256:16ea86bbfa0b8ddaaf8ada64be7c604ba701a0e05ff806c9dc6fc037e3ce8bc7"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has first strike as long as another knight entered the battlefield u"
+      ],
+      "name": "Swordsworn Cavalier",
+      "text_sha256": "sha256:2778c2572cd67160fe369a59815d0bfeac62fd0131e29cadb4c5941df041c5e2"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control six or more lands, ~ and land creatures you con"
+      ],
+      "name": "Sylvan Advocate",
+      "text_sha256": "sha256:11ab56335bb2703ee76ded4f6a0a7601f5de0e5c4abe96e8600a32b80725fcda"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are five or more mana values among cards in your grav"
+      ],
+      "name": "Syndicate Infiltrator",
+      "text_sha256": "sha256:368da987b185a435aa97bed1557f63c26905756190f88888225fcdd722845e83"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has flash as long as you've committed a crime this turn"
+      ],
+      "name": "Take for a Ride",
+      "text_sha256": "sha256:cc1ebe584457d1e60f82ebaec24dab8fce1b7af827432f840da58ff5f68941a4"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as it's red, it has trample"
+      ],
+      "name": "Tenza, Godo's Maul",
+      "text_sha256": "sha256:0194c6f39a0b5f48f8dc00aec1f0019034ea16283773f75c22306514bf0196dd"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?",
+        "verb_unmapped:exile",
+        "verb_unmapped:tap"
+      ],
+      "details": [
+        "as long as your devotion to blue is less than five, ~ isn't a creature"
+      ],
+      "name": "Thassa, Deep-Dwelling",
+      "text_sha256": "sha256:dc3fb3b81af9344393150e77e86e8929a39963383bfa7824fc52f910901ae6b7"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as your devotion to blue is less than five, ~ isn't a creature"
+      ],
+      "name": "Thassa, God of the Sea",
+      "text_sha256": "sha256:d787566cb0c929c64eb4550caa4c548e9ff9fbf6cbe28212fc517f1c0b386fcb"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "you may cast ~ from your graveyard as long as you control three or mor"
+      ],
+      "name": "The Indomitable",
+      "text_sha256": "sha256:915aad267384775d2893f11650c95f388919565cbf0314881ab5ec9c505cf5c7"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ attacked this turn, you may play the top card of your lib"
+      ],
+      "name": "The Lunar Whale",
+      "text_sha256": "sha256:8aaf47ddfa393eff18a49c25ac884111f1b322ad3f123dde53241219774852cd"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:static_grant_quoted",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as equipped creature is attacking, it has first strike and mus"
+      ],
+      "name": "The Masamune",
+      "text_sha256": "sha256:b188a28a079d321b634fd4cd353013251ff740a6dbc9e9c6c3887213faa1d4f7"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is attached to a creature, you may play lands and cast sp"
+      ],
+      "name": "The Reality Chip",
+      "text_sha256": "sha256:9946cbb6aeb2b5560b187b20696ba349db358d1255c7846303dac7e35cf502f4"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has haste and ward {10} as long as it was cast"
+      ],
+      "name": "The Tarrasque",
+      "text_sha256": "sha256:4a9f6658ade2b46ddc270ff2fe5447c1f3ceac3cf5f13707fff57935f7267378"
+    },
+    {
+      "all_miss_shapes": [
+        "spine_L0",
+        "static_conditional"
+      ],
+      "details": [
+        "during your turn, you may play cards exiled with ~"
+      ],
+      "name": "The Temporal Anchor",
+      "text_sha256": "sha256:6a5014c38599f1162ac958cf0b9ddd7ab22b60978e311415b6cfc9faf4a3d1bb"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ entered this turn, you may activate her loyalty abilities"
+      ],
+      "name": "The Wandering Emperor",
+      "text_sha256": "sha256:809481eaf6eab29c2d4a4f12f8c5860bf8ba03dcb0d26f01a47e3d8542ec5b30"
+    },
+    {
+      "all_miss_shapes": [
+        "cost_unmapped:mill",
+        "static_conditional",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "as long as there are fewer than eight cards in your graveyard, ~ isn't"
+      ],
+      "name": "The Warring Triad",
+      "text_sha256": "sha256:4d2f2a89d407d0de6229980a0df32d00e3429cf55bce15bda03789769bd46a63"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:damage"
+      ],
+      "details": [
+        "during your turn, if an opponent lost life this turn, you may play lan"
+      ],
+      "name": "Theater of Horrors",
+      "text_sha256": "sha256:7b2237e4f7feb840a5280b482adeac8ae780c5abd08fb82bb7bea6a14a4efc7a"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "equipped creature can't be blocked as long as its power is 3 or less"
+      ],
+      "name": "Thieves' Tools",
+      "text_sha256": "sha256:5239489b6e08a00a9d08e2ac430bd2a5a7cf89d4bcbf10f45e898ccf888fa58f"
+    },
+    {
+      "all_miss_shapes": [
+        "keyword_unsupported",
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "~ has hexproof as long as it entered this turn"
+      ],
+      "name": "Thrasta, Tempest's Roar",
+      "text_sha256": "sha256:8ce5864af7d4bb9fb2bec4c2c5dca9895cb6bbd2b49478e0d1c026c0d8bde482"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is enchanted by exactly one aura, it has base power and t",
+        "as long as ~ is enchanted by exactly two auras, it has base power and ",
+        "as long as ~ is enchanted by three or more auras, it has base power an"
+      ],
+      "name": "Timber Paladin",
+      "text_sha256": "sha256:e6a36e7c9a6f1494e55440d8839aa8efbb97e181137273081d7be77d13723800"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:exile"
+      ],
+      "details": [
+        "during your turn, you may play cards you don't own with stash counters"
+      ],
+      "name": "Tinybones, Bauble Burglar",
+      "text_sha256": "sha256:e402db0028c66996a617a3ff42554ec1e9de0f736fe79d61bfc79648c7cb2159"
+    },
+    {
+      "all_miss_shapes": [
+        "spine_L0",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are four or more lore counters among sagas you contro"
+      ],
+      "name": "Tom Bombadil",
+      "text_sha256": "sha256:ddd370763abbfa0444ae0094d5fa09cfddd56e073f7a0505a4bd3bdf630a7601"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is on the battlefield, it has all activated abilities of "
+      ],
+      "name": "Trazyn the Infinite",
+      "text_sha256": "sha256:308e206d610b509c61969e929732447ca0021304e89a322f9d84d24df0d1a53c"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is untapped, each spell that would cost less than three m"
+      ],
+      "name": "Trinisphere",
+      "text_sha256": "sha256:61c7edf815409873168a5037d6320819088d2a7b99a3261fda670c4b3f46adfa"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "each creature you control can't be blocked as long as defending player"
+      ],
+      "name": "Tanglewalker",
+      "text_sha256": "sha256:49e4ed1ec03c697bd2c0b3f712f16a92494ce1220ac2f856e7944a25160e1875"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "enchanted creature gets an additional +2/+0 as long as you have no car"
+      ],
+      "name": "Taste for Mayhem",
+      "text_sha256": "sha256:155a44c78d8b078e11c82fe0acf147b42b10a108071ad509a24f8b5f0ee27653"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +0/+2 as long as you control a plains, has flying as long as yo"
+      ],
+      "name": "Tek",
+      "text_sha256": "sha256:07b45071493695eeb110b36a081c2f7b3684378674e8a25766a14486012ae1e0"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as a creature has a -1/-1 counter on it, ~ has vigilance and d"
+      ],
+      "name": "Tenacious Hunter",
+      "text_sha256": "sha256:24b1e3ae520a731cea280c6d280ce4c1d9a94161b84516b7cd4dbdb2d32dbf6e"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +2/+0 as long as you gained life this turn"
+      ],
+      "name": "Tenured Concocter",
+      "text_sha256": "sha256:6723edd638cd7c9bed97dc6bebedac6cd82b03f0f87128703120d94a8ca70b87"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "for as long as they remain exiled, you may play one of those cards"
+      ],
+      "name": "Tezzeret's Reckoning",
+      "text_sha256": "sha256:53970998c3e700d0cf19a4b825e974a1620586eb95a175ea482788adc5ae5944"
+    },
+    {
+      "all_miss_shapes": [
+        "event_unsupported:roll_die",
+        "static_conditional"
+      ],
+      "details": [
+        "~ has trample as long as you've rolled three or more dice this turn"
+      ],
+      "name": "The Space Family Goblinson",
+      "text_sha256": "sha256:a78976b72915f131d9f0ea4c055541df22e28dce1e61a5189abf70df5dcbff66"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "creatures you control get +1/+0 and have trample as long as you gained"
+      ],
+      "name": "Thornfist Striker",
+      "text_sha256": "sha256:34c4ccb690c0c0aa3529377d344827b75be71da1a13d80e340e35ce5bb8bb33f"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has wither as long as you control a green creature"
+      ],
+      "name": "Thornwatch Scarecrow",
+      "text_sha256": "sha256:799af743bae552d6a475af74399f3d0bf6de6cad7728c69d94352e0312776d26"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ has three or more +1/+1 counters on it, it can attack as "
+      ],
+      "name": "Thoughtbound Phantasm",
+      "text_sha256": "sha256:8051f4d218195c874b806c3842a80c7803537b32d9ec0a6d33c98e7d7ac38d24"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "you may look at those cards for as long as they remain exiled"
+      ],
+      "name": "Three Wishes",
+      "text_sha256": "sha256:dc05e5fa3fb15bd73912cb12a15cefa872711e5173b80404455247d6aa7419b5"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control your commander, ~ gets +2/+2 and other creature"
+      ],
+      "name": "Thunderfoot Baloth",
+      "text_sha256": "sha256:09a859ab3c4d76eae2c8d75d5e8c8e8adf1c5149a13259e57c443551b748c075"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is untapped, if a creature would deal combat damage to yo"
+      ],
+      "name": "Thunderstaff",
+      "text_sha256": "sha256:85bedc5ae1c230d9159e38ec1c33783e8535b0cc817ac75aff382ffd3dee7258"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:oneshot_body",
+        "spine_L0",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there is exactly one tide counter on ~, all blue creatures ",
+        "as long as there are exactly three tide counters on ~, all blue creatu"
+      ],
+      "name": "Tidal Influence",
+      "text_sha256": "sha256:d91574f5d3edf1c7c267170712719dd46962d96583014cf07db363a4b79a9a4d"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:?"
+      ],
+      "details": [
+        "~ gets +1/+1 as long as an opponent controls an island"
+      ],
+      "name": "Tide Shaper",
+      "text_sha256": "sha256:5294a79dc71f1893a7df79156d795266a04fd7a5802cd76bafd0abf34d99e4bd"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:create_token"
+      ],
+      "details": [
+        "as long as you control four or more creature tokens, creature tokens y"
+      ],
+      "name": "Toby, Beastie Befriender",
+      "text_sha256": "sha256:b24ae2a0022112e33b49b4bdec08d5ebc02818d153220fa683ff1b36819e6e64"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ can't be blocked as long as you've drawn two or more cards this turn"
+      ],
+      "name": "Tome Anima",
+      "text_sha256": "sha256:25ed9050518d7ca5a8f6f9fba04a99cee4b906f430b4891423eab9a3686dcbf3"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you've drawn two or more cards this turn, ~ has deathtouch "
+      ],
+      "name": "Trench Stalker",
+      "text_sha256": "sha256:5a133cab8130590cd74f7ea241236a563a45fd1b3ff7a69ae6e80d929bad8626"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is a creature, it has prowess"
+      ],
+      "name": "Triton Wavebreaker",
+      "text_sha256": "sha256:d5a58d4bd5e04a316b02e67735b4b20530d9950d5c313b0f89eff345f22315fd"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as equipped creature is a human, it gets an additional +1/+0"
+      ],
+      "name": "True-Faith Censer",
+      "text_sha256": "sha256:1e65750645ce8449e866b6cb78b12b0ff9e9e3ec1c846284ffc5fe85acc9e31e"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is paired with another creature, each of those creatures "
+      ],
+      "name": "Trusted Forcemage",
+      "text_sha256": "sha256:357b17d08070c207a9397595d432c23339424de5f9a06e42455482ec6f27fd2c"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "as long as enchanted creature is face down, it can't be turned face up"
+      ],
+      "name": "Unable to Scream",
+      "text_sha256": "sha256:76d3ebff56de4f1abae94fed9e67fbd2d43bfb7c580c487832d2352187639745"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +2/+0 as long as you gained life this turn"
+      ],
+      "name": "Ulna Alley Shopkeep",
+      "text_sha256": "sha256:9a344a65d6099fbc0ddcf78993175959acd8927ea524f0e531cee784fbd41ee8"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are two or more creature cards in your graveyard, ~ g"
+      ],
+      "name": "Undercover Skrull",
+      "text_sha256": "sha256:69c425dc05893dbb8d7d6f6e2805c3592e18944f48a8e66105756af0092d592c"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "~ has flying as long as a card exiled with it has flying"
+      ],
+      "name": "Urborg Scavengers",
+      "text_sha256": "sha256:926fea0f29f666e59f75b3a792f3fbe248bf654ebf13e7bf23ced6fe11e44360"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as an opponent controls more lands than you, you may play land"
+      ],
+      "name": "Verge Rangers",
+      "text_sha256": "sha256:c08e5730badd762888ccc4d4c96410ff2ed20e1c16f28c656bc5fd457fe0ee94"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as there are three or more cards exiled with ~, it gets +3/+3 "
+      ],
+      "name": "Veteran Survivor",
+      "text_sha256": "sha256:ec0f145dd696e15852414862666ab535127891eb8ffaf178edbbf771153767a8"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is in your graveyard and you control a plains, creatures "
+      ],
+      "name": "Valor",
+      "text_sha256": "sha256:2c05b66cf82882407b39b10eb57c6e95de63469a4d27dc0571122c2c6f903835"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as the top card of your library is black, ~ and other vampire "
+      ],
+      "name": "Vampire Nocturnus",
+      "text_sha256": "sha256:c96e1ecdf696b7f7db8ebacc3338abcd6c03cbcd6a8ee83d40f0332cf096e616"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has haste as long as a warrior card is in your graveyard"
+      ],
+      "name": "Vengeful Firebrand",
+      "text_sha256": "sha256:2a63521ed06b6ec8b211dc43542193b3cd7607ac0b5bd2897ba98ce2ad352162"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +3/+3 as long as no opponent controls a creature"
+      ],
+      "name": "Vexing Beetle",
+      "text_sha256": "sha256:09bb5ee0e8a11a7cf98cb7496eda24fcdafcf8bd29f59e841ef4e86bc38776b2"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as an opponent has three or more poison counters and ~ is in y"
+      ],
+      "name": "Viral Spawning",
+      "text_sha256": "sha256:27ba0d74cd0cb406626bd1c4a2bb206e46fd7fda50dbfc7f874d938fa83adf8a"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "static_unmapped"
+      ],
+      "details": [
+        "when you do, tap the copied creature and it doesn't untap during its c"
+      ],
+      "name": "Wall of Stolen Identity",
+      "text_sha256": "sha256:dc5a3d7873ab7228cf881ec712b56e98c34f7715dd9f38c51512b935f00c3398"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ has three or more fire counters on it, it's an artifact c"
+      ],
+      "name": "War Balloon",
+      "text_sha256": "sha256:4cf5ef2aa5d965f657f57c6903e4b3966286bb9d3643c25dd01f183a43cfb102"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has persist as long as you control a black creature"
+      ],
+      "name": "Wingrattle Scarecrow",
+      "text_sha256": "sha256:acd6052aa0238893ec89f93378b29ea984f6acfa5453b73ed59690901e89ebc9"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is untapped, players can't untap more than one land durin"
+      ],
+      "name": "Winter Orb",
+      "text_sha256": "sha256:bc68e328136d1303b85b3ad10df2fb664380d8fe2eaefb6b24941044124d1904"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:p_draw"
+      ],
+      "details": [
+        "as long as there are four or more card types among cards in your grave"
+      ],
+      "name": "Winter, Misanthropic Guide",
+      "text_sha256": "sha256:291d7a42add8c0a7cdb1fa5ad5fc1ad6c1b8a3261e99db1d052a68f90691db3f"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has indestructible as long as it attacked a battle this turn"
+      ],
+      "name": "War Historian",
+      "text_sha256": "sha256:3ccbcd95178146cbc84ade8815b958f03ff449d89e7e49eb499f238d4e991283"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +2/+2 as long as an opponent owns a card in exile"
+      ],
+      "name": "Warden of the Beyond",
+      "text_sha256": "sha256:98001472641c758ec3b4e7f2ab04430bf17d53e8ff5353aab01875ef23fa6dd5"
+    },
+    {
+      "all_miss_shapes": [
+        "cost_unmapped:tap_others",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ has three or more counters on it, it has flying and vigil"
+      ],
+      "name": "Warden of the Inner Sky",
+      "text_sha256": "sha256:055cb77634e6379b2e32aff69d60fe925e8df62bc15c4acf2cefaea426d67ceb"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is attacking, defending player can't cast spells"
+      ],
+      "name": "Wardscale Dragon",
+      "text_sha256": "sha256:8d41daea73891729f134036aaf97c543a8018bf47bafbec473866cbe00f07dbb"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as equipped creature has defender, it can attack as though it "
+      ],
+      "name": "Warmonger's Chariot",
+      "text_sha256": "sha256:57c85e738dbb444367ae2dd4e0cf5f340b70276505930c451f33d26b67658f2a"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:UNCLASSIFIED",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is untapped, all creatures attacking you get -1/-0"
+      ],
+      "name": "Watchdog",
+      "text_sha256": "sha256:d02b6a301315918677913157075b43b6cd9113130fe0d36c09b60b756525e985"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +0/+1 as long as an opponent controls an island"
+      ],
+      "name": "Water Wurm",
+      "text_sha256": "sha256:6e9adf11be63a0fabcbc5fb23f6111c12cc426f2b9aab765a5a962a3357cc13a"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "enchanted creature can't be blocked as long as you control a gate"
+      ],
+      "name": "Way of the Thief",
+      "text_sha256": "sha256:e3eade392fc598f0b32211923b2f162596d676ea6022ad04af01e1538058696a"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has flying as long as an artifact card is in your graveyard"
+      ],
+      "name": "Windwright Mage",
+      "text_sha256": "sha256:75d0b8a79f711005f1b0fde29f772c2214bbf2a56bdaff69b155b55d6759c0d8"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is paired with another creature, both creatures have flyi"
+      ],
+      "name": "Wingcrafter",
+      "text_sha256": "sha256:7bc58c4a7c8b6d1f7995cafc6e037ffdf54cc20b54cefed12cde48a6fe420dfe"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as you control another snow permanent, enchanted creature does"
+      ],
+      "name": "Winter's Rest",
+      "text_sha256": "sha256:52a7d73748c811017018a1d339b4215fd3353171e412095bb5d8ae1b80fe354f"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is paired with another creature, each of those creatures "
+      ],
+      "name": "Wolfir Silverheart",
+      "text_sha256": "sha256:5e914526a41ebda0d868b6671aeb97de1841cca1468a40a55caadd7ebc7d587d"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ is in your graveyard and you control an island, creatures"
+      ],
+      "name": "Wonder",
+      "text_sha256": "sha256:cd13051fc15b9134fb09242eace5640c1bd85c6702d1521ab8cf174ba7519f64"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has trample as long as you control a snow land"
+      ],
+      "name": "Woolly Mammoths",
+      "text_sha256": "sha256:130b5bd6d7b9ab4cac5e04e3688bb325a2ad52af7162e463cd81b4f6097b8f79"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:remove_counter"
+      ],
+      "details": [
+        "as long as ~ has an ice counter on it, prevent all combat damage it wo"
+      ],
+      "name": "Woolly Razorback",
+      "text_sha256": "sha256:b2a4d223a3bb1019c20380970a731fb2031a465d99d41a5a63ef8236a4eaef9b"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets +1/+1 as long as an opponent controls an island"
+      ],
+      "name": "Wu Admiral",
+      "text_sha256": "sha256:d6def4fb28fbd4c07657aede017185aa87f53705927f6304f330153a2a1d8665"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:pump"
+      ],
+      "details": [
+        "as long as your devotion to red and green is less than seven, ~ isn't "
+      ],
+      "name": "Xenagos, God of Revels",
+      "text_sha256": "sha256:37e48bd072aa9222c7538aa1943faf1cba89c5fdf577cbd196bb853935bc9941"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:venture"
+      ],
+      "details": [
+        "~ can't be blocked as long as it's attacking alone"
+      ],
+      "name": "Yuan-Ti Malison",
+      "text_sha256": "sha256:e04389b77e0066ffd732ebae758144612bc52b1a7631d944916266311017ff0d"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:reanimate"
+      ],
+      "details": [
+        "during your turn, ~ and enchantment creatures you control have trample"
+      ],
+      "name": "Yuna, Hope of Spira",
+      "text_sha256": "sha256:ec1180c61db17048e0131097b5484bf2f4cd5c4af58c579c74ba9d5626c0470c"
+    },
+    {
+      "all_miss_shapes": [
+        "kind_unsupported:UNCLASSIFIED",
+        "static_conditional"
+      ],
+      "details": [
+        "as long as ~ has a conqueror counter on ~, nonbasic lands are mountain"
+      ],
+      "name": "Zhao, the Moon Slayer",
+      "text_sha256": "sha256:87abb7a028d19fd8dfe0c8cd7fd2cdf86417a4b43530a5dc532a25e65bcc0f40"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional",
+        "verb_unmapped:bounce"
+      ],
+      "details": [
+        "~ has hexproof as long as it entered this turn"
+      ],
+      "name": "Zurgo and Ojutai",
+      "text_sha256": "sha256:e8bd614f053d5d7959269b3baf18502f6c66a725aba879f1b76851370ad0ef15"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "during your turn, equipped creatures you control have indestructible"
+      ],
+      "name": "Zamriel, Seraph of Steel",
+      "text_sha256": "sha256:de6d32b9e35bcda040d2465e037fa38194bab5f6710945c0df61bac56e3e1f33"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ gets -2/-2 as long as blue is the most common color among all perman"
+      ],
+      "name": "Zanam Djinn",
+      "text_sha256": "sha256:8f412f3d8d960720dff73f5abd0d21290f788197466b750b75ccb9ecf739d891"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "as long as an opponent has three or more poison counters, enchanted cr"
+      ],
+      "name": "Zealot's Conviction",
+      "text_sha256": "sha256:4ccb087c0da8c6b871d9c882477c68abaf2066351904fbbc24cfbfbe89e38ce9"
+    }
+  ],
+  "review_cards_scanned": 18612,
+  "schema": "factory.targeted-demand/v1",
+  "shape": "static_conditional",
+  "source": {
+    "parser_sha256": "sha256:0b113cd5f8faa151a0c5fc1c2c8c15d9c7eb1df530f15560d6c55d2ed3285dbe",
+    "repository": "/opt/development/test/openmagic",
+    "revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7"
+  }
+}

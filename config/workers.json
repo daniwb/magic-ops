@@ -15,6 +15,7 @@
     "engine": "qwen-agentic",
     "model": "./Qwen3.8-27B/Qwen3.8-27B-Q8_0.gguf",
     "base_url": "http://192.168.1.251:8080",
+    "mode": "engine",
     "max_turns": 25,
     "max_tokens": 8000
   },
@@ -22,6 +23,7 @@
     "name": "pipe-ox",
     "engine": "openrouter-agentic",
     "model": "stealth/ox-alpha",
+    "mode": "engine",
     "max_tokens": 8000,
     "reasoning_tokens": 3000,
     "max_turns": 25
@@ -33,5 +35,14 @@
     "max_tokens": 8000,
     "reasoning_tokens": 3000,
     "max_turns": 25
+  },
+  {
+    "name": "pipe-glm52",
+    "engine": "openrouter",
+    "model": "z-ai/glm-5.2:free",
+    "mode": "engine",
+    "max_tokens": 8000,
+    "reasoning_tokens": 3000,
+    "max_need_rounds": 4
   }
 ]

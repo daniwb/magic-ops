@@ -1,0 +1,32 @@
+Workspace writes were blocked by the read-only sandbox. Complete replacement `NEWFILE`:
+
+```python
+import pathlib, sys, unittest; sys.path.insert(0, str(pathlib.Path(__file__).parent)); import reparse
+
+
+def parse(text):
+    verb, args = reparse.O.parse_atom(text)
+    return reparse.map_atom(verb, args, kind="oneshot")
+
+
+class DrawPlayerMappingTest(unittest.TestCase):
+    def test_draw_player_mapping(self):
+        self.assertEqual(
+            parse("Target player draws two cards."),
+            ("draw", {"amount": 2, "filter": "player"}),
+        )
+        self.assertEqual(
+            parse("Target opponent draws two cards."),
+            ("draw", {"amount": 2, "filter": "opponent"}),
+        )
+        self.assertEqual(
+            parse("Each opponent draws two cards."),
+            ("draw", {"amount": 2, "filter": "opponent"}),
+        )
+        self.assertIsNone(parse("Each player draws two cards."))
+        self.assertIsNone(parse("That player draws two cards."))
+
+
+if __name__ == "__main__":
+    unittest.main()
+```

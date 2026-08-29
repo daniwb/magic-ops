@@ -1,0 +1,1 @@
+{"schema":"factory.valid-fixture/v1","description":"Compile twice with unchanged inputs; output bytes and identity must match and immutable history must retain one entry.","command":"python3 compiler/test.py","expected":"byte-identical-equivalent-compiles and no-duplicate-equivalent-history pass"}

@@ -1,0 +1,18 @@
+{
+  "schema": "factory.observation-receipt/v1",
+  "ticket": {"id": "ticket:map.target-player-draw/v2", "path": "docs/factory-ng/tickets/map-target-player-draw-v2.json", "sha256": "sha256:d04cf1b1b2c8c7f4c5217c27f793d762e3eedc2706b26415101a8c8b76a46e62"},
+  "mode": "isolated_clone_observation_only",
+  "source": {"repository": "/opt/development/test/openmagic", "revision": "6d85a3d649103d8f3a50fb6436ed266c77b0942a", "original_source_mutated": false},
+  "model": {"profile": "qwen-prepared-direct@1.0.0", "provider": "local", "resolved_model": "Qwen3.8-27B-Q8_0", "calls": [
+    {"kind": "initial", "raw_output": {"path": "docs/factory-ng/runs/2026-08-28-map-target-player-draw-v2.raw.json", "sha256": "sha256:5e85eb3a2f74aa4834ddf2691a3fb2356d4ab78cdc6eea4a03e305e883e89bdc"}, "telemetry": {"input_tokens": 1573, "uncached_input_tokens": 4, "output_tokens": 449, "cache_read_tokens": 1569, "cache_write_tokens": 0, "reasoning_tokens": 0, "provider_cost_usd": 0, "elapsed_ms": 58974}},
+    {"kind": "one_bounded_repair", "raw_output": {"path": "docs/factory-ng/runs/2026-08-28-map-target-player-draw-v2-repair.raw.json", "sha256": "sha256:8bfc29b4d2e32b98411d3a1dd4dbff8a3ea17a2e93b5f7e48493848930a48721"}, "telemetry": {"input_tokens": 974, "uncached_input_tokens": 974, "output_tokens": 301, "cache_read_tokens": 0, "cache_write_tokens": 0, "reasoning_tokens": 0, "provider_cost_usd": 0, "elapsed_ms": 44476}}
+  ], "aggregate_telemetry": {"input_tokens": 2547, "uncached_input_tokens": 978, "output_tokens": 750, "cache_read_tokens": 1569, "cache_write_tokens": 0, "reasoning_tokens": 0, "provider_cost_usd": 0, "effective_tokens": 3297}},
+  "proposal": {"initial_applied_only_to": "ephemeral isolated clone", "initial_changed_paths": ["scripts/paragraph/reparse.py", "scripts/paragraph/test_target_player_draw.py"]},
+  "gates": [
+    {"id": "patch-apply", "outcome": "passed", "evidence": "initial Qwen response supplied one parser replacement and one test file"},
+    {"id": "focused-map", "command": "cd scripts/paragraph && python3 -m unittest test_target_player_draw", "outcome": "failed", "evidence": "ModuleNotFoundError: No module named 'parser'"},
+    {"id": "bounded-repair-output", "outcome": "failed", "evidence": "repair returned a fenced full file instead of the mandatory SEARCH/REPLACE block"}
+  ],
+  "outcome": "gate_failed; Qwen's semantic parser hunk is retained only as an explicitly named overlay for the next bounded repair, never integrated",
+  "integration": "none"
+}

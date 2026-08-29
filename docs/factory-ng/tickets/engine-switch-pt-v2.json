@@ -1,0 +1,90 @@
+{
+  "schema": "factory.ticket-spec/v1",
+  "id": "ticket:engine.switch-pt/v2",
+  "title": "Execute temporary switch_pt abilities through the accepted Layer 7e foundation",
+  "work_type": "engine",
+  "lifecycle": "ready_for_observation",
+  "parents": [
+    "ticket:factory.evidence.switch-pt/v1",
+    "ticket:engine.pt-switch-layer/v2"
+  ],
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "clean": true
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/switch_pt_execution_test.go"
+    ],
+    "forbidden_paths": [
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/cards/",
+      "backend/cardfns/",
+      "scripts/paragraph/",
+      "backend/data/"
+    ]
+  },
+  "parent_overlay": {
+    "ticket": "ticket:engine.pt-switch-layer/v2",
+    "raw_proposal": "docs/factory-ng/runs/2026-08-28-engine-pt-switch-layer-v2-opus-final.raw.json",
+    "raw_proposal_sha256": "sha256:3b20c752b8361101717a5541a5398f474a0c966d6eaf36d3fcc3461978a11b8b",
+    "apply_mode": "fresh isolated clone only; apply through scripts/map-pipeline-apply.py --allow-game before packet preparation"
+  },
+  "evidence": [
+    {
+      "path": "docs/factory-ng/tickets/engine-switch-pt-v1.json",
+      "sha256": "sha256:3ddf9240db081a82ffc946e2f98ddd137bd938b193509af08b56814e763f064d",
+      "anchor": "required_behavior",
+      "fact": "Ground truth proves only self, target-creature, and each-creature switch_pt scopes."
+    },
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-engine-pt-switch-layer-v2-opus.json",
+      "sha256": "sha256:5b53571c3e7ffe352f059af51c1e1f682e43b283b2575d530622f6cb66b722f2",
+      "anchor": "outcome",
+      "fact": "The Layer 7e SwitchPT representation and behavior tests are accepted for dependent observation, but have not been integrated into source."
+    },
+    {
+      "path": "backend/game/ability_effects.go",
+      "anchor": "850-875, 3905-4094",
+      "fact": "Ability-effect dispatch has neighboring temporary P/T effect paths but no switch_pt case or executor."
+    },
+    {
+      "path": "backend/game/effects.go",
+      "anchor": "34-55, 525-560, 1800-1812",
+      "fact": "The parent overlay supplies the SwitchPT continuous-effect flag, registration, and existing UntilEOT cleanup semantics."
+    }
+  ],
+  "required_behavior": [
+    "Add a switch_pt dispatch case and a narrow executor that registers the parent foundation's SwitchPT effect with UntilEOT true; it must not duplicate P/T layer logic.",
+    "Support exactly the pre-proven self (no targets), target-creature, and each-creature scopes. Ignore noncreature/noncard target entries without changing other permanents.",
+    "Use existing target and battlefield mechanisms; do not add parser, converter, registry, or Map behavior.",
+    "Create at least one TestSwitchPTExecution* behavior test through ExecuteAbilityEffect. It must prove a 2/5 with a +1/+2 temporary effect becomes 7/3, and UntilEOT cleanup restores the normal computed 3/7.",
+    "The child must consume the parent SwitchPT representation; direct SetPower/SetToughness snapshots are forbidden."
+  ],
+  "gates": [
+    "baseline-relative gofmt for ability_effects.go; switch_pt_execution_test.go has no gofmt drift",
+    "cd backend && go test ./game -list '^TestSwitchPTExecution' -count=1 lists at least one test",
+    "cd backend && go test ./game -run '^TestSwitchPTExecution' -count=1",
+    "git diff --check",
+    "git diff --name-only contains the parent-overlay paths plus only the allowed child paths"
+  ],
+  "execution": {
+    "mode": "isolated_clone_with_accepted_parent_overlay",
+    "selected_profile": "claude-staged@1.0.0",
+    "resolved_model": "claude-opus-5",
+    "selection_reason": "The parent has removed the hard layering design problem. This child is now bounded Engine wiring with three ground-truth scopes; run it in the same staged expert adapter so the model sees the accepted parent implementation in a clone, not a hypothetical API.",
+    "effective_token_target": 200000,
+    "warning_reflection_threshold": 500000,
+    "automatic_stop": false,
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true
+  },
+  "on_failure": "Record an immutable receipt. Do not broaden into parsing or Map changes; any missing parent capability is a new child ticket."
+}

@@ -1,0 +1,22 @@
+{
+  "schema": "factory.root-cause-analysis/v1",
+  "incident_id": "inc-001",
+  "provenance_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "primary_cause": "model_profile",
+  "evidence": [
+    "Hidden holdout fails despite correct ticket and evidence pack."
+  ],
+  "model_profile_causal_claim": true,
+  "counterfactual_evidence": [
+    "Independent reproduction with a compliant patch passes the same holdout."
+  ],
+  "counterfactual_basis": {
+    "ticket_and_evidence_sound": true,
+    "detectable_by_declared_gate_or_review": true,
+    "output_violated_contract": true
+  },
+  "corrective_ticket_ids": [
+    "ticket:sha256:a6b471b7ca9f21b1e203b480b2d7c46332fd0e6e8064e37e4d11e5c4666878be"
+  ],
+  "status": "open"
+}

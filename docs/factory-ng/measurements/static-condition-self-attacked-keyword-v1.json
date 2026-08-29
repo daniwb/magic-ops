@@ -1,0 +1,23 @@
+{
+  "member_count": 1,
+  "members": [
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "~ has indestructible as long as it attacked this turn"
+      ],
+      "name": "Agent Frank Horrigan",
+      "text_sha256": "sha256:b56d16441dffd734165d8735fe88fc29fd6b5dfdb483875c7732495177cc9277"
+    }
+  ],
+  "review_cards_scanned": 1,
+  "schema": "factory.targeted-demand/v1",
+  "shape": "static_conditional",
+  "source": {
+    "parser_sha256": "sha256:aafb59b7a8190dc4f7f8243c9ffae9dc64334ba61c8a1964db770b3f80b8ea4d",
+    "repository": "/opt/development/test/openmagic",
+    "revision": "8dd5e06545926033d738b0b69ab8f29145275168"
+  }
+}

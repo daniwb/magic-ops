@@ -1,0 +1,57 @@
+{
+  "schema": "factory.observation-receipt/v1",
+  "ticket": {
+    "id": "ticket:engine.switch-pt/v1",
+    "path": "docs/factory-ng/tickets/engine-switch-pt-v1.json",
+    "sha256": "sha256:3ddf9240db081a82ffc946e2f98ddd137bd938b193509af08b56814e763f064d"
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "model": {
+    "profile": "claude-staged@1.0.0",
+    "profile_path": "docs/factory-ng/model-profiles/v1/claude-staged.json",
+    "profile_sha256": "sha256:1db243c4ee115cc4a2fff55895e6065f6c3940aaeefbbcfc707409654f47652b",
+    "resolved_model": "claude-sonnet-5",
+    "routing_override_reason": "This is the corrected single-turn retry of the same declared Claude adapter: Agent and Skill were explicitly disabled and the prepared packet supplied all code context.",
+    "telemetry": {
+      "input_tokens": null,
+      "output_tokens": null,
+      "cache_read_tokens": null,
+      "cache_write_tokens": null,
+      "reasoning_tokens": null,
+      "provider_cost_usd": null,
+      "elapsed_ms": 90000,
+      "telemetry_status": "unavailable: the CLI emitted no provider payload before the harness time bound; wrapper zeroes are deliberately not reported as provider usage"
+    }
+  },
+  "execution": {
+    "mode": "prepared_one_turn_no_tools",
+    "source_revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "source_tree_changed": false,
+    "termination": "harness stopped the exact Claude process after 90 seconds with no stdout payload"
+  },
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-engine-switch-pt-v4-claude.raw.json",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "description": "Empty provider stdout retained as the direct artifact of the no-response failure."
+    }
+  ],
+  "gates": [
+    {
+      "id": "response-contract",
+      "outcome": "not_run",
+      "evidence": "No provider payload existed to evaluate against the one-turn structured response contract."
+    },
+    {
+      "id": "source-mutation",
+      "outcome": "passed",
+      "evidence": "The adapter was no-tools and the source tree remained clean."
+    }
+  ],
+  "outcome": "infrastructure_failed_no_provider_response",
+  "next_action": "Require a cheap Claude CLI health probe before selecting this adapter. Do not infer Claude model quality or switch_pt implementation quality from this transport failure."
+}

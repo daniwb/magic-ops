@@ -1,0 +1,112 @@
+{
+  "files": [
+    {
+      "bytes": 5520,
+      "path": "docs/factory-ng/model-profile-contract-v1.md",
+      "sha256": "sha256:6ff342613288f7ccf8324e2fa4aab15d8d9ee5f8b4d6095723811c8ef043da97"
+    },
+    {
+      "bytes": 7366,
+      "path": "docs/factory-ng/change-provenance-and-rca-contract-v1.md",
+      "sha256": "sha256:6104a487fdff19b236c2e894fa8b3e9c2db3eb5ef2f435e1d7d17de483406757"
+    },
+    {
+      "bytes": 3040,
+      "path": "docs/factory-ng/schemas/factory.change-provenance-v1.schema.json",
+      "sha256": "sha256:19f8f2e5beb223fb92219afa83b69a4ea23b536408c708e5a43a1a119ce748ba"
+    },
+    {
+      "bytes": 1417,
+      "path": "docs/factory-ng/schemas/factory.root-cause-analysis-v1.schema.json",
+      "sha256": "sha256:24afb9f7e7b027012e8c7fb0dc5c7411947d17f757fec2ffc5bbb89dee610654"
+    },
+    {
+      "bytes": 1680,
+      "path": "docs/factory-ng/schemas/factory.model-profile-v1.schema.json",
+      "sha256": "sha256:cbac95f68f347408352aca4e28dc9406a920b5bfacbbb4e6f8b2837b9c299163"
+    },
+    {
+      "bytes": 847,
+      "path": "docs/factory-ng/schemas/factory.execution-receipt-v1.schema.json",
+      "sha256": "sha256:df2f85d137b570757ebf3daba0c2d08ee55cf159926d4bcfb4a9a9c23e6431d4"
+    },
+    {
+      "bytes": 454,
+      "path": "docs/factory-ng/fixtures/contract-review/valid-rca-model-profile.json",
+      "sha256": "sha256:8b6b30f44385cfc1ab08149b05d363b6f4053dca2a4750b146d45b5492d8c57a"
+    },
+    {
+      "bytes": 243,
+      "path": "docs/factory-ng/fixtures/contract-review/invalid-rca-model-profile-no-counterfactual.json",
+      "sha256": "sha256:536b07a0d35f01bc91093b541a7e7edd982e5076ed2760d518862219035c145c"
+    },
+    {
+      "bytes": 719,
+      "path": "docs/factory-ng/fixtures/contract-review/valid-provenance-high-impact.json",
+      "sha256": "sha256:df3b956e0907f87cf27e9b0e2eb29906e79c24aba009cffe51b9b6a338f1cace"
+    },
+    {
+      "bytes": 613,
+      "path": "docs/factory-ng/fixtures/contract-review/invalid-provenance-high-impact-one-review.json",
+      "sha256": "sha256:b44386b55523044ab580db0ae8f8dde9249ad7a16b64795716f839a587e7bab9"
+    },
+    {
+      "bytes": 617,
+      "path": "docs/factory-ng/fixtures/contract-review/invalid-provenance-high-impact-combined-reviewer.json",
+      "sha256": "sha256:75c03722eb396c10ba050d85d19074d87a0819c6266606d90c6dbc0592cda774"
+    },
+    {
+      "bytes": 225,
+      "path": "docs/factory-ng/fixtures/contract-review/invalid-child-profile-authority-override.json",
+      "sha256": "sha256:1f3510cfc7250e38d7bb06f6c0bc3a94f1ad397c531381b70461862abcc475ee"
+    },
+    {
+      "bytes": 279,
+      "path": "docs/factory-ng/fixtures/contract-review/invalid-profile-no-extends-authority.json",
+      "sha256": "sha256:eff4327bc141c0b4c266ddb954c5ac54732c9d9adbc1ff17684292d45281d5c4"
+    },
+    {
+      "bytes": 353,
+      "path": "docs/factory-ng/fixtures/contract-review/valid-execution-receipt.json",
+      "sha256": "sha256:5e8ee6e5ce5f704b3f3d12b664fef447566b207712445a1d4fe58862970d59a0"
+    },
+    {
+      "bytes": 2338,
+      "path": "scripts/test_factory_ng_contracts.py",
+      "sha256": "sha256:062cf0d09187bb361e5eeaa9f137f162f080a3e3252a26108e8b7d1db5f384f8"
+    },
+    {
+      "bytes": 3062,
+      "path": "scripts/factory-ng-profile-validate.py",
+      "sha256": "sha256:4ecb3d5137b9f952a3894c25f1da8489946ac6f5f2ca89d0c0bb27e6a0d7fd19"
+    },
+    {
+      "bytes": 1078,
+      "path": "docs/factory-ng/model-profiles/v1/staged-baseline.json",
+      "sha256": "sha256:570dd9a969b571cba6c16839010ea96f39eb80434880aff7b26fc2371f408f23"
+    },
+    {
+      "bytes": 1026,
+      "path": "docs/factory-ng/model-profiles/v1/qwen-prepared-local.json",
+      "sha256": "sha256:c7515685579fb33f25e3dd2b107ec5c7649faf6f638985c966199f7220f2ce9d"
+    },
+    {
+      "bytes": 1070,
+      "path": "docs/factory-ng/model-profiles/v1/qwen-prepared-direct.json",
+      "sha256": "sha256:2ec6c96e2083bdedf7028e8cde23349b76e2ceff7b380723e45c3df2cda33603"
+    },
+    {
+      "bytes": 784,
+      "path": "docs/factory-ng/model-profiles/v1/codex-constrained.json",
+      "sha256": "sha256:2b0b2214a9271b21afae88b76a1093017cf5e675a84fc4ed5ff4a24c5d27be81"
+    },
+    {
+      "bytes": 939,
+      "path": "docs/factory-ng/model-profiles/v1/claude-staged.json",
+      "sha256": "sha256:ce37adfc9f5f3691dbd870723035a8210aafb7308ae3c50045ee8acf96915fd9"
+    }
+  ],
+  "package_sha256": "sha256:3031720beb195414bea8939d1e8179cec9f83fbbd7a6e8db2f35efe1f336c5ba",
+  "schema": "factory.contract-review-package/v1",
+  "scope": "high-impact Factory NG governance contract"
+}

@@ -1,0 +1,12 @@
+{
+  "schema": "factory.model-profile/v1",
+  "id": "bad-child",
+  "version": "1.0.0",
+  "extends": "staged-baseline@1.0.0",
+  "adapter": {},
+  "routing": {},
+  "telemetry": {},
+  "authority": {
+    "model_edits_workspace": true
+  }
+}

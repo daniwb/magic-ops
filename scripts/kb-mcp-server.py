@@ -23,7 +23,7 @@ TOOLS = [
             "type": "object",
             "properties": {
                 "query": {"type": "string", "description": "capability you need, e.g. 'grant unearth to graveyard artifacts'"},
-                "kind": {"type": "string", "enum": ["primitive", "helper", "handler"], "description": "optional filter; omit to search everything"},
+                "kind": {"type": "string", "enum": ["primitive", "helper", "handler", "engine"], "description": "optional filter; omit to search everything"},
                 "n": {"type": "integer", "description": "max results, default 5"},
             },
             "required": ["query"],

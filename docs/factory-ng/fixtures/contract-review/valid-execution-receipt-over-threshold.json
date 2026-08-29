@@ -1,0 +1,105 @@
+{
+  "schema": "factory.execution-receipt/v1",
+  "attempt_id": "attempt:sha256:be00f577990cbf3c1c55f63154860ca16a2a5a9cfa9bd70a3decf2be541713c6",
+  "ticket_id": "ticket:sha256:b508140c60455823bfe6e61b3c8f8f128cb60d46a5bf8a14400c92ea2e9fa1b2",
+  "profile": "qwen-prepared-direct@1.0.0",
+  "model": {
+    "provider": "local",
+    "resolved_model": "qwen",
+    "adapter_version": "1.0.0"
+  },
+  "source_revision": "abc123",
+  "evidence_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "skill_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "adapter_command_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "model_calls": [
+    {
+      "id": "call-1",
+      "raw_counters": {
+        "input_tokens": 510000,
+        "output_tokens": 1,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "reasoning_tokens": 0,
+        "provider_cost_usd": {
+          "availability": "unavailable",
+          "reason": "local"
+        },
+        "elapsed_ms": 20
+      }
+    }
+  ],
+  "telemetry": {
+    "input_tokens": 510000,
+    "output_tokens": 1,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "reasoning_tokens": 0,
+    "provider_cost_usd": {
+      "availability": "unavailable",
+      "reason": "local"
+    },
+    "elapsed_ms": 20
+  },
+  "tool_counts": {
+    "tool_calls": 0,
+    "need_requests": 0,
+    "repair_calls": 0
+  },
+  "patch_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "changed_paths": [
+    "scripts/paragraph/reparse.py"
+  ],
+  "scope": {
+    "baseline": {},
+    "post_change": {}
+  },
+  "gates": [
+    {
+      "id": "fixture-gate",
+      "command_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+      "outcome": "passed"
+    }
+  ],
+  "budget_checkpoint": {
+    "calculation": "input_tokens + output_tokens; cache/read-write and reasoning counters retained separately to avoid double-counting",
+    "ordinary_target_effective_tokens": 200000,
+    "warning_reflection_effective_tokens": 500000,
+    "effective_tokens": 510001,
+    "status": "reflection_opened",
+    "reflection_ticket_id": "ticket:sha256:9749c0ca3102c8a1a609eb193af7c66bad40d6056843103f225b642c23a098fb"
+  },
+  "recorded_by": "factory-harness/v1",
+  "attestation": {
+    "key_id": "factory-harness-review-v1",
+    "algorithm": "ed25519",
+    "signature_b64": "sRu52Dm4K4ztL4AXC1/GsVPjK53tj0ViIRuf0g9Hc3A8Wjor2LRqrOYLzMuRrZF7BLWJM6FXCNGxNESRVU1YBw=="
+  },
+  "outcome": "accepted",
+  "root_ids": [
+    "ticket:sha256:fbcaae16932edb3c09406f7c1945561b8f4384ebc7600f7d3765a6640a7f46e0"
+  ],
+  "result_commit": "abc1234",
+  "acceptance_gate_manifest": {
+    "ticket_id": "ticket:sha256:b508140c60455823bfe6e61b3c8f8f128cb60d46a5bf8a14400c92ea2e9fa1b2",
+    "evidence_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+    "skill_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+    "gates": [
+      {
+        "id": "fixture-gate",
+        "command_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124"
+      }
+    ]
+  },
+  "model_profile_sha256": "sha256:db12b731a010832db032bd354f47cac81a710e05f822e484e3e7809df309b35e",
+  "ticket_acceptance_contract": {
+    "schema": "factory.ticket-acceptance/v1",
+    "ticket_id": "ticket:sha256:b508140c60455823bfe6e61b3c8f8f128cb60d46a5bf8a14400c92ea2e9fa1b2",
+    "acceptance_gate_manifest_sha256": "sha256:d9a579c757dc4fca34e12a6154b3864258268065daddac8f757e676838b6c2d1",
+    "attestation": {
+      "key_id": "factory-harness-review-v1",
+      "algorithm": "ed25519",
+      "signature_b64": "Xn8VAcmWR0f2/4mYwx7nNmXfbebBkjDhsC+Z8GM3lPK5Wc3BcAjounLhzOWsPNVSLHSbInYn6+j8iFSAxa/pDA=="
+    }
+  }
+}

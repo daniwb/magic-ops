@@ -1,0 +1,12 @@
+{
+  "schema": "factory.root-cause-analysis/v1",
+  "incident_id": "inc-003",
+  "provenance_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "primary_cause": "harness_or_gate",
+  "evidence": [
+    "A visible test passed."
+  ],
+  "model_profile_causal_claim": true,
+  "corrective_ticket_ids": [],
+  "status": "open"
+}

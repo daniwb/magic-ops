@@ -1,0 +1,56 @@
+{
+  "schema": "factory.observation-receipt/v1",
+  "ticket": {
+    "id": "ticket:engine.switch-pt/v1",
+    "path": "docs/factory-ng/tickets/engine-switch-pt-v1.json",
+    "sha256": "sha256:3ddf9240db081a82ffc946e2f98ddd137bd938b193509af08b56814e763f064d"
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "model": {
+    "profile": "claude-staged@1.0.0",
+    "profile_path": "docs/factory-ng/model-profiles/v1/claude-staged.json",
+    "profile_sha256": "sha256:1db243c4ee115cc4a2fff55895e6065f6c3940aaeefbbcfc707409654f47652b",
+    "resolved_model": "claude-sonnet-5",
+    "routing_override_reason": "A 1.6-second exact-response health probe passed immediately before this unchanged ticket retry; this run isolates the large prepared packet path.",
+    "telemetry": {
+      "input_tokens": null,
+      "output_tokens": null,
+      "cache_read_tokens": null,
+      "cache_write_tokens": null,
+      "reasoning_tokens": null,
+      "provider_cost_usd": null,
+      "elapsed_ms": 120000,
+      "telemetry_status": "unavailable: the CLI emitted no provider payload before the harness time bound"
+    }
+  },
+  "execution": {
+    "mode": "prepared_one_turn_no_tools",
+    "source_revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "source_tree_changed": false,
+    "packet_shape": "full raw excerpts",
+    "termination": "harness stopped the exact Claude process after 120 seconds with no stdout payload"
+  },
+  "gates": [
+    {
+      "id": "adapter-health",
+      "outcome": "passed",
+      "evidence": "The immediately preceding one-turn no-tools probe returned FACTORY_NG_OK in 1.6 seconds."
+    },
+    {
+      "id": "response-contract",
+      "outcome": "not_run",
+      "evidence": "No provider payload existed to evaluate."
+    },
+    {
+      "id": "source-mutation",
+      "outcome": "passed",
+      "evidence": "The adapter was no-tools and the source tree remained clean."
+    }
+  ],
+  "outcome": "infrastructure_failed_packet_timeout",
+  "next_action": "Retry only with a compact, named-interface packet. Do not resend broad source excerpts or interpret this as a model-quality result."
+}

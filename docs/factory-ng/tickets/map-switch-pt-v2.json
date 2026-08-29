@@ -1,0 +1,85 @@
+{
+  "schema": "factory.ticket-spec/v1",
+  "id": "ticket:map.switch-pt/v2",
+  "title": "Map the three proven switch_pt forms to the accepted Engine child",
+  "work_type": "map",
+  "lifecycle": "ready_for_observation",
+  "parents": [
+    "ticket:factory.evidence.switch-pt/v1",
+    "ticket:engine.switch-pt/v2"
+  ],
+  "replaces_attempt": {
+    "ticket": "ticket:map.switch-pt/v1",
+    "reason": "Its declared Engine parent was the rejected switch_pt/v1 foundation. This revision consumes only the accepted Layer-7e and dispatch children."
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "clean": true
+  },
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "scope": {
+    "allowed_paths": [
+      "scripts/paragraph/reparse.py",
+      "scripts/paragraph/test_switch_pt.py"
+    ],
+    "forbidden_paths": [
+      "backend/",
+      "scripts/paragraph/slotparse_oneshot.py",
+      "backend/data/"
+    ]
+  },
+  "evidence": [
+    {
+      "path": "docs/factory-ng/measurements/switch-pt-v1.json",
+      "sha256": "sha256:72392c4fde6102883c8d6bdeeef118079128aaf55178d6c512e3829f62232427",
+      "anchor": "members",
+      "fact": "All 17 measured members have the sole miss shape verb_unmapped:switch_pt; the only proven forms are self, target creature, and each creature."
+    },
+    {
+      "path": "scripts/paragraph/slotparse_oneshot.py",
+      "sha256": "sha256:949f4a41adc75d3f1a47a1332517342fbf71627d658baa775cf32b0bfdc582f4",
+      "anchor": "685-686",
+      "fact": "The parser already emits switch_pt atoms with object self, target creature, or each creature structure; this ticket must not alter parsing."
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "sha256": "sha256:0b113cd5f8faa151a0c5fc1c2c8c15d9c7eb1df530f15560d6c55d2ed3285dbe",
+      "anchor": "1469-1477, 4997-5002",
+      "fact": "map_atom currently has no switch_pt branch. The neighboring map dispatch is the only allowed implementation seam."
+    },
+    {
+      "ticket": "ticket:engine.switch-pt/v2",
+      "receipt": "docs/factory-ng/runs/2026-08-28-engine-switch-pt-v2-opus.json",
+      "sha256": "sha256:5e324594fc27842295b18870455d5fd5997b64d50d188fe1d027a508ba3e5764",
+      "fact": "The accepted Engine child consumes switch_pt with no target for self, a bare creature target for target creature, and value.target=each for each creature. It provides UntilEOT cleanup and must not be reimplemented here."
+    }
+  ],
+  "required_behavior": [
+    "For activated or triggered self forms, map to ('switch_pt', {}, None). Do not map a targetless spell source.",
+    "For a bare target creature form, map to ('switch_pt', {}, {'filter': 'creature'}). Preserve the existing target pipeline; do not add target qualifiers.",
+    "For each creature, map to ('switch_pt', {'target': 'each'}, None), which means every creature under the accepted Engine child.",
+    "Target player, a qualified target, and 'each creature on the battlefield' remain unmapped; they are outside the measured three-form contract.",
+    "Add focused direct map_atom tests for the three positives and an adjacent target-player negative."
+  ],
+  "gates": [
+    "cd scripts/paragraph && python3 -m unittest test_switch_pt",
+    "git diff --check",
+    "git status --porcelain adds or changes only scripts/paragraph/reparse.py and scripts/paragraph/test_switch_pt.py",
+    "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py verb_unmapped:switch_pt reports zero members after the candidate Map patch"
+  ],
+  "execution": {
+    "mode": "isolated_clone_observation_only",
+    "selected_profile": "qwen-prepared-direct@1.0.0",
+    "selection_reason": "This is an evidence-complete, two-file Map wiring change with one exact representation per known scope; it is the intended low-cost Qwen prepared-direct class.",
+    "effective_token_target": 200000,
+    "warning_reflection_threshold": 500000,
+    "automatic_stop": false,
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true
+  },
+  "on_failure": "Record an immutable receipt. Do not change parsing, Engine code, or corpus data; any broader grammar is a separate ticket."
+}

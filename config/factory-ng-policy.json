@@ -1,0 +1,12 @@
+{
+  "schema": "factory-ng-policy/v1",
+  "retry": {
+    "infrastructure_attempts": 3,
+    "backoff_seconds": 300
+  },
+  "integration": {
+    "automatic": true,
+    "push_when_full_gate_green": true,
+    "deploy_after_push": false
+  }
+}

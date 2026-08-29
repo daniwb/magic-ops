@@ -1,0 +1,93 @@
+{
+  "schema": "factory.observation-receipt/v1",
+  "ticket": {
+    "id": "ticket:engine.switch-pt/v1",
+    "path": "docs/factory-ng/tickets/engine-switch-pt-v1.json",
+    "sha256": "sha256:3ddf9240db081a82ffc946e2f98ddd137bd938b193509af08b56814e763f064d"
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "model": {
+    "profile": "claude-staged@1.0.0",
+    "profile_path": "docs/factory-ng/model-profiles/v1/claude-staged.json",
+    "profile_sha256": "sha256:1db243c4ee115cc4a2fff55895e6065f6c3940aaeefbbcfc707409654f47652b",
+    "resolved_model": "claude-sonnet-5",
+    "routing_override_reason": "The final no-tools continuation was allowed to complete after its 180-second reflection warning, then received one bounded repair after the apply harness rejected its first patch.",
+    "telemetry": {
+      "input_tokens": 27787,
+      "output_tokens": 38371,
+      "cache_read_tokens": 41454,
+      "cache_write_tokens": 40361,
+      "reasoning_tokens": 31026,
+      "provider_cost_usd": 0.5811058,
+      "elapsed_ms": 340023,
+      "source": "aggregate of the two successful provider payloads; reasoning tokens are Sonnet outputs identified by the provider as thinking"
+    }
+  },
+  "execution": {
+    "mode": "ticket-spec-index-grounded-staged-no-tools",
+    "source_revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "source_tree_changed": false,
+    "packet": {
+      "builder": "scripts/engine-pipeline-pack.py --ticket-spec ... --no-tools",
+      "final_packet_bytes": 37063,
+      "final_packet_lines": 805,
+      "grounding": "Pinned TicketSpec anchors, existing knowledge-index capability check, and exactly the three named NEED regions."
+    },
+    "calls": [
+      {
+        "kind": "final_after_bounded_need",
+        "outcome": "completed_after_reflection_warning",
+        "elapsed_ms": 239212,
+        "provider_cost_usd": 0.359646,
+        "proposal_apply": "rejected by deterministic patch harness: backend/game/card.go SEARCH text was not an exact match; disposable clone remained unmodified"
+      },
+      {
+        "kind": "single_bounded_repair",
+        "outcome": "completed",
+        "elapsed_ms": 100811,
+        "provider_cost_usd": 0.2214598,
+        "proposal_apply": "applied only in a fresh disposable clone"
+      }
+    ]
+  },
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-engine-switch-pt-v9-claude.raw.json",
+      "sha256": "sha256:279c12c164b10bc6bbb6341f0ede1eb0f75bd08b836a66688485d265d44d6707",
+      "description": "First completed final proposal after the 180-second reflection warning."
+    },
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-engine-switch-pt-v10-claude.raw.json",
+      "sha256": "sha256:21325ed4988b8c74b539ac7b5c02f09bd74f35f8701ba844d3da7857b4fc1aae",
+      "description": "One allowed repair proposal."
+    }
+  ],
+  "gates": [
+    {
+      "id": "apply-harness",
+      "outcome": "passed_on_repair",
+      "evidence": "The v10 patch applied through map-pipeline-apply.py --allow-game in a disposable clone; only the TicketSpec-allowed files changed."
+    },
+    {
+      "id": "proposal-simple-case",
+      "outcome": "passed",
+      "evidence": "The proposal's TestSwitchPT_TargetCreatureSwapsUntilEndOfTurn passes in the clone."
+    },
+    {
+      "id": "ticket-layer-composition",
+      "outcome": "failed",
+      "evidence": "Disposable acceptance test: 2/5 with +1/+2 must become 7/3 after a switch (7e). Proposal produced 8/5 because it snapshots the already-modified values into the existing 7b SetPower/SetToughness mechanism."
+    },
+    {
+      "id": "source-mutation",
+      "outcome": "passed",
+      "evidence": "All proposal application and testing occurred in disposable clones; openmagic remains unchanged."
+    }
+  ],
+  "outcome": "gate_failed_semantic_layering",
+  "next_action": "Do not merge. The TicketSpec has exposed a genuine engine capability gap: continuous-effect support needs an explicit post-additive P/T-switch representation (7e), rather than a new unconstrained retry. Re-scope this as a small engine-foundation ticket when the Factory starts its next controlled cohort."
+}

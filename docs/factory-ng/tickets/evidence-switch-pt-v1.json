@@ -1,0 +1,38 @@
+{
+  "schema": "factory.ticket-spec/v1",
+  "id": "ticket:factory.evidence.switch-pt/v1",
+  "title": "Verify the current switch power/toughness root cause",
+  "work_type": "evidence",
+  "lifecycle": "completed",
+  "parents": ["legacy:3863", "legacy:3971"],
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "parser_sha256": "sha256:0b113cd5f8faa151a0c5fc1c2c8c15d9c7eb1df530f15560d6c55d2ed3285dbe"
+  },
+  "skill": {
+    "name": "verify-premise",
+    "path": "docs/factory-ng/skills/v1/verify-premise/SKILL.md",
+    "sha256": "sha256:c93c7cb675b7f79df069a2c46810e01a1b0d3f1ecb3a9553438b5ed2867d5099"
+  },
+  "scope": {
+    "measurement": "docs/factory-ng/measurements/switch-pt-v1.json",
+    "measurement_sha256": "sha256:72392c4fde6102883c8d6bdeeef118079128aaf55178d6c512e3829f62232427",
+    "review_cards_scanned": 18612,
+    "members": 17,
+    "complete_miss_shape": "verb_unmapped:switch_pt",
+    "variants": ["self", "target creature", "each creature"]
+  },
+  "premise": {
+    "parser_anchor": "scripts/paragraph/slotparse_oneshot.py:685",
+    "parser_result": "all three representatives parse to a switch_pt atom but map_atom returns None",
+    "engine_search": "no switch_pt executor or continuous-effect swap field exists under backend/game/"
+  },
+  "verdict": "NEEDS_PRIMITIVE",
+  "children": ["ticket:engine.switch-pt/v1", "ticket:map.switch-pt/v1"],
+  "gates": [
+    "the source revision, parser SHA, and measurement SHA match this TicketSpec",
+    "all 17 members have exactly verb_unmapped:switch_pt as their miss-shape set",
+    "self, target creature, and each creature parse to switch_pt and map_atom returns None"
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "created_at": "2026-08-29T14:34:21Z",
+  "gates": [
+    {
+      "command": "git am --3way /tmp/factory-ng-integrate-6x_0zbj4.patch",
+      "detail": "Applying: factory-ng: supervised map observation",
+      "elapsed_ms": 599,
+      "exit_code": 0,
+      "id": "candidate-apply",
+      "outcome": "passed"
+    },
+    {
+      "command": "/usr/bin/python3 scripts/paragraph/reparse.py --flip-batch 300 --tag factory-ng-0829-1432",
+      "detail": "FLIPPED 28 cards (status review -> auto, native v2 records)\nspot-check sample -> corpus/factory-ng-0829-1432_spotcheck.txt",
+      "elapsed_ms": 96111,
+      "exit_code": 0,
+      "id": "reparse-flip",
+      "outcome": "passed"
+    },
+    {
+      "command": "/usr/bin/python3 scripts/paragraph/reparse.py --import-corpus --tag factory-ng-0829-1432",
+      "detail": "Traceback (most recent call last):\n  File \"/tmp/factory-ng-integrate-6x_0zbj4/scripts/paragraph/reparse.py\", line 17072, in <module>\n    main()\n  File \"/tmp/factory-ng-integrate-6x_0zbj4/scripts/paragraph/reparse.py\", line 16978, in main\n    import_corpus(args)\n  File \"/tmp/factory-ng-integrate-6x_0zbj4/scripts/paragraph/reparse.py\", line 16765, in import_corpus\n    corpus = load_cards()\n             ^^^^^^^^^^^^\n  File \"/tmp/factory-ng-integrate-6x_0zbj4/scripts/paragraph/classify.py\", line 29, in load_cards\n    data = json.load(gzip.open(CORPUS))['data']\n                     ^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/gzip.py\", line 61, in open\n    binary_file = GzipFile(filename, gz_mode, compresslevel)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/gzip.py\", line 192, in __init__\n    fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/tmp/factory-ng-integrate-6x_0zbj4/scripts/paragraph/../../corpus/AtomicCards.json.gz'",
+      "elapsed_ms": 2216,
+      "exit_code": 1,
+      "id": "reparse-import",
+      "outcome": "failed"
+    }
+  ],
+  "outcome": "full_gate_failed",
+  "parents": [
+    "ticket:engine.draw-target-lifting/v2",
+    "ticket:map.target-player-draw/v4",
+    "ticket:map.static-condition-gained-life-pump/v1",
+    "ticket:map.static-condition-drawn-two-keywords/v3",
+    "docs/factory-ng/runs/2026-08-29T131636Z-map-static-condition-drawn-two-keywords-v3-qwen.json"
+  ],
+  "policy": {
+    "automatic": true,
+    "deploy_after_push": false,
+    "push_when_full_gate_green": true
+  },
+  "progress": {
+    "verification": "reparse wave plus complete six-shard production suite",
+    "verified_revision": "unavailable"
+  },
+  "reason": "reparse-import failed",
+  "schema": "factory.integration-receipt/v1",
+  "source": {
+    "base_commit": "8dd5e06545926033d738b0b69ab8f29145275168",
+    "deployed": false,
+    "pushed": false,
+    "result_commit": "unavailable"
+  },
+  "supersedes": [
+    "docs/factory-ng/runs/2026-08-28-target-player-draw-integration-v2.json",
+    "docs/factory-ng/runs/2026-08-29-map-static-condition-gained-life-pump-integration-v1.json"
+  ]
+}

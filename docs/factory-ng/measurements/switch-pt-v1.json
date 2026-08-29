@@ -1,0 +1,183 @@
+{
+  "member_count": 17,
+  "members": [
+    {
+      "all_miss_shapes": [
+        "verb_unmapped:switch_pt"
+      ],
+      "details": [
+        "switch ~'s power and toughness until end of turn."
+      ],
+      "name": "Aquamoeba",
+      "text_sha256": "sha256:75cb5e7a7f4d01f9df4d69aeeb9b62bbe5d64e73475c267b2d13f0ae0f6fa641"
+    },
+    {
+      "all_miss_shapes": [
+        "verb_unmapped:switch_pt"
+      ],
+      "details": [
+        "switch target creature's power and toughness until end of turn."
+      ],
+      "name": "About Face",
+      "text_sha256": "sha256:6e52135956c37bcc74234d8e3b4801ecd36c4b3664a1fb6a3f1cc7650145828c"
+    },
+    {
+      "all_miss_shapes": [
+        "verb_unmapped:switch_pt"
+      ],
+      "details": [
+        "switch ~'s power and toughness until end of turn."
+      ],
+      "name": "Aeromoeba",
+      "text_sha256": "sha256:94787ca5c3c2e112220257cf58aec121ac78c4e281840e3a498b7d5218676820"
+    },
+    {
+      "all_miss_shapes": [
+        "verb_unmapped:switch_pt"
+      ],
+      "details": [
+        "switch ~'s power and toughness until end of turn."
+      ],
+      "name": "Calcite Snapper",
+      "text_sha256": "sha256:bae9797f7381a7cfcb6bcd04fc9e644ba54d52e1bbe37773c38aac6c53861362"
+    },
+    {
+      "all_miss_shapes": [
+        "verb_unmapped:switch_pt"
+      ],
+      "details": [
+        "switch target creature's power and toughness until end of turn."
+      ],
+      "name": "Crookclaw Transmuter",
+      "text_sha256": "sha256:ce9d179f16fa28377015b3d3fd4995a0c6126fb58a53baf00871d175bbb3e9c5"
+    },
+    {
+      "all_miss_shapes": [
+        "verb_unmapped:switch_pt"
+      ],
+      "details": [
+        "switch target creature's power and toughness until end of turn."
+      ],
+      "name": "Dwarven Thaumaturgist",
+      "text_sha256": "sha256:f957b7b11a10949ab5031012d008ede5b6dacf11772c00f5e02b06ea6e7fd180"
+    },
+    {
+      "all_miss_shapes": [
+        "verb_unmapped:switch_pt"
+      ],
+      "details": [
+        "switch ~'s power and toughness until end of turn."
+      ],
+      "name": "Flatman",
+      "text_sha256": "sha256:34859f8a56262cd1373ae9df9ec315f3e8846dd236a771bee38f904bd88badf0"
+    },
+    {
+      "all_miss_shapes": [
+        "verb_unmapped:switch_pt"
+      ],
+      "details": [
+        "switch ~'s power and toughness until end of turn."
+      ],
+      "name": "Fluxcharger",
+      "text_sha256": "sha256:f4f832bf68e13a94515033231b70a226bc279c04ccc93e787653f9a63ae7edfb"
+    },
+    {
+      "all_miss_shapes": [
+        "verb_unmapped:switch_pt"
+      ],
+      "details": [
+        "switch each creature's power and toughness until end of turn."
+      ],
+      "name": "Mannichi, the Fevered Dream",
+      "text_sha256": "sha256:b5b8e95452ae4444c8fab07cc85eccf455590a8980f4a9dc895f92983cb1140c"
+    },
+    {
+      "all_miss_shapes": [
+        "verb_unmapped:switch_pt"
+      ],
+      "details": [
+        "switch target creature's power and toughness until end of turn."
+      ],
+      "name": "Merfolk Thaumaturgist",
+      "text_sha256": "sha256:f957b7b11a10949ab5031012d008ede5b6dacf11772c00f5e02b06ea6e7fd180"
+    },
+    {
+      "all_miss_shapes": [
+        "verb_unmapped:switch_pt"
+      ],
+      "details": [
+        "switch ~'s power and toughness until end of turn."
+      ],
+      "name": "Myr Quadropod",
+      "text_sha256": "sha256:b5af4383749bd2f934e6d3ba3fbf3d046cd2ee35671c6f6bfa6da6cbbdf9d6da"
+    },
+    {
+      "all_miss_shapes": [
+        "verb_unmapped:switch_pt"
+      ],
+      "details": [
+        "switch ~'s power and toughness until end of turn."
+      ],
+      "name": "Phantasmal Fiend",
+      "text_sha256": "sha256:883e86a8ccbf0947882e3e17821fb837ec1a6fe1e7630b9cdd54ac1f438dc03e"
+    },
+    {
+      "all_miss_shapes": [
+        "verb_unmapped:switch_pt"
+      ],
+      "details": [
+        "switch target creature's power and toughness until end of turn."
+      ],
+      "name": "Strange Inversion",
+      "text_sha256": "sha256:be40d7d250ed88dbd04399507f5ddd27b06b0a1483e484267f78e60d0fb9847a"
+    },
+    {
+      "all_miss_shapes": [
+        "verb_unmapped:switch_pt"
+      ],
+      "details": [
+        "switch target creature's power and toughness until end of turn."
+      ],
+      "name": "Twisted Image",
+      "text_sha256": "sha256:fbdea7910f625380148aa620e80e0635abfae282b4a9700d6beda18da5f59723"
+    },
+    {
+      "all_miss_shapes": [
+        "verb_unmapped:switch_pt"
+      ],
+      "details": [
+        "switch target creature's power and toughness until end of turn."
+      ],
+      "name": "Transmutation",
+      "text_sha256": "sha256:6e52135956c37bcc74234d8e3b4801ecd36c4b3664a1fb6a3f1cc7650145828c"
+    },
+    {
+      "all_miss_shapes": [
+        "verb_unmapped:switch_pt"
+      ],
+      "details": [
+        "switch ~'s power and toughness until end of turn."
+      ],
+      "name": "Turtleshell Changeling",
+      "text_sha256": "sha256:941cd458050b0bd9f50d87a2dd2a5383d22e4bff605567b753678548acafa4d9"
+    },
+    {
+      "all_miss_shapes": [
+        "verb_unmapped:switch_pt"
+      ],
+      "details": [
+        "switch ~'s power and toughness until end of turn."
+      ],
+      "name": "Windreaver",
+      "text_sha256": "sha256:f5bfb1a7d0ac6d27d749ee653f9a4a4c9621b103b8f2f991645a971de91ec0ae"
+    }
+  ],
+  "review_cards_scanned": 18612,
+  "schema": "factory.targeted-demand/v1",
+  "shape": "verb_unmapped:switch_pt",
+  "source": {
+    "parser_sha256": "sha256:0b113cd5f8faa151a0c5fc1c2c8c15d9c7eb1df530f15560d6c55d2ed3285dbe",
+    "repository": "/opt/development/test/openmagic",
+    "revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7"
+  }
+}

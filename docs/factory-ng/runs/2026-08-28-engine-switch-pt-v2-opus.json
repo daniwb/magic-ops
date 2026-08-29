@@ -1,0 +1,124 @@
+{
+  "schema": "factory.observation-receipt/v1",
+  "ticket": {
+    "id": "ticket:engine.switch-pt/v2",
+    "path": "docs/factory-ng/tickets/engine-switch-pt-v2.json",
+    "sha256": "sha256:032aab24e24de11cca640874e38985c1230ffda4bb473fb58a9ba1cbf738ceb8"
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "model": {
+    "profile": "claude-staged@1.0.0",
+    "profile_path": "docs/factory-ng/model-profiles/v1/claude-staged.json",
+    "resolved_model": "claude-opus-5",
+    "telemetry": {
+      "input_tokens": 35915,
+      "output_tokens": 17981,
+      "provider_orchestration_input_tokens": 35907,
+      "provider_orchestration_output_tokens": 64,
+      "opus_input_tokens": 8,
+      "opus_output_tokens": 17917,
+      "cache_read_tokens": 67769,
+      "cache_write_tokens": 47863,
+      "reasoning_tokens": 4838,
+      "provider_cost_usd": 0.9967065,
+      "elapsed_ms": 169960,
+      "source": "Exact aggregate of the four nonempty Claude CLI raw artifacts. The empty retry had no provider payload, tokens, duration, or cost. Raw artifacts retain the per-model breakdown."
+    }
+  },
+  "execution": {
+    "mode": "ticket-spec-index-grounded-staged-no-tools-with-accepted-parent-overlay",
+    "source_revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "source_tree_changed": false,
+    "parent_overlay": "Applied the accepted engine.pt-switch-layer/v2 raw proposal first in each disposable clone.",
+    "packet": {
+      "builder": "scripts/engine-pipeline-pack.py --ticket-spec ... --no-tools",
+      "initial_packet_bytes": 23651,
+      "grounding": "Pinned TicketSpec evidence, a freshly-built SQLite Engine function index, and one bounded NEED response resolved by pipeline-fetch-regions.py."
+    },
+    "calls": [
+      {
+        "kind": "need",
+        "outcome": "completed",
+        "response": "Three bounded regions: ContinuousEffect/UntilEOT cleanup, ability-effect dispatch/target shape, and an ExecuteAbilityEffect behavior-test seam."
+      },
+      {
+        "kind": "initial_proposal",
+        "outcome": "gate_failed_then_repaired",
+        "failure": "The proposal applied both ability_effects.go hunks but its test used an obsolete multi-argument ExecuteAbilityEffect form and omitted the EffectManager argument for P/T reads."
+      },
+      {
+        "kind": "retry_after_empty_provider_payload",
+        "outcome": "no_provider_payload",
+        "note": "Preserved as an empty immutable raw artifact; no automatic unbounded retry was made."
+      },
+      {
+        "kind": "bounded_test_repair",
+        "outcome": "first response malformed_protocol_then_format_repair_accepted",
+        "note": "The strict applier rejected Git-conflict delimiters. A format-only repair supplied one exact SEARCH/REPLACE block; no parser relaxation or silent normalization was used."
+      }
+    ]
+  },
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-engine-switch-pt-v2-opus-need.raw.json",
+      "sha256": "sha256:7a58c754a2ae2c674a03620e81a04a514063ad4f1b6f445026250fbc62be906c"
+    },
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-engine-switch-pt-v2-opus-final.raw.json",
+      "sha256": "sha256:61e859e5ab679460e06d3f54cdd30631648f9dbb21e7cadf43fa181c2be2d006"
+    },
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-engine-switch-pt-v2-opus-final-retry.raw.json",
+      "sha256": "sha256:1cf3fa92a42e7d6a52e688adbab8fd4701d1f9013a1515bb5ec0eb478e3dc863",
+      "description": "Empty provider-payload retry."
+    },
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-engine-switch-pt-v2-opus-repair.raw.json",
+      "sha256": "sha256:118cdbcc1ff3a8e12c361ab96c909c61ade400936668eb268243864376d3a31f",
+      "description": "API-correct but malformed-delimiter repair; rejected by the strict applier."
+    },
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-engine-switch-pt-v2-opus-format-repair.raw.json",
+      "sha256": "sha256:eae302e5b426e32bece9a4473881b4f3f38a96e8bf4e4ed38bfbe207bcca7b41",
+      "description": "Accepted format-only repair."
+    }
+  ],
+  "gates": [
+    {
+      "id": "multi-hunk-apply",
+      "outcome": "passed",
+      "evidence": "The parent overlay applied four SEARCH/REPLACE hunks to effects.go; the child proposal applied two separate SEARCH/REPLACE hunks to ability_effects.go; the test repair replaced its new test file."
+    },
+    {
+      "id": "format-and-diff",
+      "outcome": "passed",
+      "evidence": "gofmt -d for ability_effects.go and switch_pt_execution_test.go produced zero bytes; git diff --check passed."
+    },
+    {
+      "id": "test-discovery-and-behavior",
+      "outcome": "passed",
+      "evidence": "The exact TestSwitchPTExecution selector listed and passed Self, TargetCreature, and EachCreature cases. The self test proves 2/5 plus +1/+2 becomes 7/3 and CleanupEndOfTurnEffects restores 3/7."
+    },
+    {
+      "id": "scope",
+      "outcome": "passed",
+      "evidence": "Combined clone paths are exactly the accepted parent overlay (effects.go, card.go, switch_pt_layer_test.go) plus the child paths (ability_effects.go, switch_pt_execution_test.go)."
+    },
+    {
+      "id": "broader-game-baseline",
+      "outcome": "passed_baseline_relative",
+      "evidence": "The full ./game package has the same 25 known failures in clean source and candidate; no candidate-only failure was introduced."
+    },
+    {
+      "id": "source-mutation",
+      "outcome": "passed",
+      "evidence": "All work ran in disposable clones; openmagic remains untouched, unpushed, and undeployed."
+    }
+  ],
+  "outcome": "accepted_for_dependent_observation",
+  "next_action": "Create the separate Map ticket that lowers eligible switch_pt oracle shapes to this accepted Engine child. Do not integrate, push, deploy, or mutate live tickets automatically."
+}

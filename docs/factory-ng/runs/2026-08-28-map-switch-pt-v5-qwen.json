@@ -1,0 +1,72 @@
+{
+  "schema": "factory.observation-receipt/v1",
+  "ticket": {
+    "id": "ticket:map.switch-pt/v5",
+    "path": "docs/factory-ng/tickets/map-switch-pt-v5.json",
+    "sha256": "sha256:5a5a541e62154db3d06c95e10cfe3266fd89b038a6fec834a480b2720be843fb"
+  },
+  "model": {
+    "profile": "qwen-prepared-direct@1.0.2",
+    "profile_path": "docs/factory-ng/model-profiles/v1/qwen-prepared-direct-1.0.2.json",
+    "resolved_model": "./Qwen3.8-27B/Qwen3.8-27B-Q8_0.gguf",
+    "telemetry": {
+      "input_tokens": 2836,
+      "output_tokens": 731,
+      "cache_read_tokens": 404,
+      "cache_write_tokens": 0,
+      "reasoning_tokens": null,
+      "provider_cost_usd": null,
+      "source": "SSE usage events: initial proposal 2586/650/202 and one bounded repair 250/81/202 (input/output/cache-read)."
+    }
+  },
+  "execution": {
+    "mode": "isolated_clone_observation_only",
+    "source_tree_changed": false,
+    "calls": [
+      {
+        "kind": "initial_proposal",
+        "outcome": "canonical_and_applied_in_clone",
+        "proposal_paths": ["scripts/paragraph/reparse.py", "scripts/paragraph/test_switch_pt.py"]
+      },
+      {
+        "kind": "one_bounded_repair",
+        "outcome": "canonical_and_applied_in_clone",
+        "evidence": "The target-player probe has target={subtype:Player,filter:creature}; repair narrowed the Map branch to an exactly bare creature filter."
+      },
+      {
+        "kind": "parent_overlay_composition",
+        "outcome": "failed_registry_bridge_missing",
+        "evidence": "After applying both accepted Engine overlays, reparse.REGISTERED still lacks switch_pt because neither parent was allowed to add a backend/cards registry entry. The pinned 17-member remeasurement remains 14 misses."
+      }
+    ]
+  },
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-map-switch-pt-v5-qwen.raw.txt",
+      "sha256": "sha256:f7838bc9aa2392e9cfa51c09d8fcd057ed84da8c305395d30e2eca19308bb7e3"
+    },
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-map-switch-pt-v5-qwen-repair.raw.txt",
+      "sha256": "sha256:0306867d418a4b9851bebfe7a92bb99a60c54a78fcb75d05627c60ec9fe5f1e5"
+    }
+  ],
+  "gates": [
+    {
+      "id": "focused-map-test-after-repair",
+      "outcome": "passed",
+      "evidence": "All six direct map_atom tests pass: activated/triggered self, spell-self negative, target creature, each creature, and target-player negative."
+    },
+    {
+      "id": "adjacent-qualified-target-negative",
+      "outcome": "passed",
+      "evidence": "target player and target artifact creature both remain unmapped."
+    },
+    {
+      "id": "pinned-composed-remeasurement",
+      "outcome": "failed",
+      "evidence": "The clone's accepted Engine overlays do not register switch_pt in backend/cards, so reparse refuses the effect and 14 of 17 pinned review members remain misses."
+    }
+  ],
+  "outcome": "gate_failed_missing_engine_registry_bridge",
+  "next_action": "Run ticket:engine.switch-pt-registry-bridge/v1 in an isolated clone with the accepted parent overlays. Then issue a fresh Map TicketSpec that proves target promotion and spell EffectAtom-sequence emission end to end. Do not integrate this Map overlay."
+}

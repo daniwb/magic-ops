@@ -1,0 +1,1 @@
+{"admission":"status=canonical and normal-game-oracle-faces-candidate-v1 included","assertion":"exact complete line Target player draws two cards.","relation_policy":"not_required","schema":"magic.map-candidate-policy/v1"}

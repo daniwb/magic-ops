@@ -1,0 +1,202 @@
+{
+  "accepted": true,
+  "apply": {
+    "argv": [
+      "python3",
+      "/opt/development/magic-ops/scripts/map-pipeline-apply.py"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "applied: scripts/paragraph/reparse.py\napplied: backend/cards/converter.go\n",
+    "wall_seconds": 0.114
+  },
+  "calls": [
+    {
+      "answer": "I need to see the exact `TargetFilter`/target tuple shape used by the `p_gain_life` `target player` branch and the `SpellEffect`/`Target` struct fields, plus the focused test file region, to emit an exact patch.\n\nNEED: scripts/paragraph/reparse.py p_gain_life\nNEED: backend/cards/converter.go SpellEffect\nNEED: backend/cards/converter.go p_gain_life",
+      "call": {
+        "argv": [
+          "python3",
+          "/opt/development/magic-ops/scripts/qwen-prepared-call.py",
+          "--model",
+          "./Qwen3.8-27B/Qwen3.8-27B-Q8_0.gguf",
+          "--max-tokens",
+          "2000"
+        ],
+        "exit_code": 0,
+        "stderr": "tokens: in=1988 out=90 cache_r=0 cache_w=0\n",
+        "stdout": "I need to see the exact `TargetFilter`/target tuple shape used by the `p_gain_life` `target player` branch and the `SpellEffect`/`Target` struct fields, plus the focused test file region, to emit an exact patch.\n\nNEED: scripts/paragraph/reparse.py p_gain_life\nNEED: backend/cards/converter.go SpellEffect\nNEED: backend/cards/converter.go p_gain_life",
+        "wall_seconds": 22.351
+      },
+      "kind": "initial",
+      "need_fetch": {
+        "argv": [
+          "python3",
+          "/opt/development/magic-ops/scripts/pipeline-fetch-regions.py"
+        ],
+        "exit_code": 0,
+        "stderr": "",
+        "stdout": "### scripts/paragraph/reparse.py:1548-1737\n 1548         if n is None: return None\n 1549         return ('life_gain', {'amount': n}, None)\n 1550     if verb == 'lose_life':\n 1551         n = _amt(args.get('amount'))\n 1552         if n is None or args.get('per'): return None\n 1553         who = args.get('who', 'you')\n 1554         tgt = 'you' if 'you' in who else 'opponent' if 'opponent' in who else None\n 1555         if who.startswith('each player'): tgt = 'each_player'\n 1556         if tgt is None: return None\n 1557         return ('life_loss', {'amount': n, 'target': tgt}, None)\n 1558     if verb == 'p_gain_life':\n 1559         # subject-first \"target player/each opponent/that player gains/loses\n 1560         # N life\". \"that player\" is a referent to a prior clause's chosen\n 1561         # player \u2014 not evaluable here, never mapped (contract: honest\n 1562         # referent rejection). \"target player\" with a fixed (non-expr)\n 1563         # amount has no prior clause to resolve against \u2014 it's a real MTG\n 1564         # target in its own right, so it reuses drain_player's\n 1565         # {'filter': 'player'} targeting tuple instead of the you/opponent-\n 1566         # scoped 'target' arg used below.\n 1567         n = _amt(args.get('amount'))\n 1568         who = (args.get('who') or '').strip()\n 1569         direction = args.get('dir')\n 1570         amount_expr = (args.get('amount_expr') or '').strip()\n 1571         if direction == 'gains' and not amount_expr:\n 1572             # ticket #3853: fixed-amount \"each opponent gains N life\" /\n 1573             # \"target opponent gains N life\" / \"each player gains N life\" \u2014\n 1574             # same you/opponent-agnostic scoping life_loss's 'target' arg\n 1575             # already carries; no new vocabulary, just the gains direction.\n 1576             if n is None:\n 1577                 return None\n 1578             if who in ('each opponent', 'target opponent'):\n 1579                 return ('life_gain', {'amount': n, 'target': 'opponent'}, None)\n 1580             if who == 'each player':\n 1581                 return ('life_gain', {'amount': n, 'target': 'each_player'}, None)\n 1582             return None\n 1583         if direction != 'loses':\n 1584             return None  # 'gains' has no you/opponent-agnostic executor path\n 1585         if who == 'target player' and not amount_expr:\n 1586             if n is None:\n 1587                 return None\n 1588             return ('life_loss', {'amount': n}, {'filter': 'player'})\n 1589         if who in ('each opponent', 'target opponent'):\n 1590             target = 'opponent'\n 1591         elif who == 'each player':\n 1592             target = 'each_player'\n 1593         else:\n 1594             return None\n 1595         # task-2410 (verb_unmapped:?): \"loses life equal to X\" / \"loses x\n 1596         # life, where x is [the number of] X\" \u2014 same closed count-spec\n 1597         # vocabulary mill's per_phrase tail resolves through (_who_count_\n 1598         # phrase); a pronoun count (\"their hand\") only resolves for the\n 1599         # single-opponent whos, a caster-relative count (\"you control\")\n 1600         # resolves for any who since it doesn't depend on the losing player.\n 1601         if amount_expr:\n 1602             spec = _who_count_phrase(amount_expr, who)\n 1603             if spec is None:\n 1604                 return None\n 1605             return ('life_loss', {'amount_count': spec, 'target': target}, None)\n 1606         if n is None:\n 1607             return None\n 1608         return ('life_loss', {'amount': n, 'target': target}, None)\n 1609     if verb == 'p_draw':\n 1610         # executeDrawEffect only reads effectValue.target \"opponent\" vs.\n 1611         # default controller \u2014 \"each player\"/\"target player\"/\"that player\"\n 1612         # aren't representable without real per-player targeting.\n 1613         n = _amt(args.get('amount'))\n 1614         who = (args.get('who') or '').strip()\n 1615         if n is None: return None\n 1616         if who in ('each opponent', 'target opponent'):\n 1617             return ('draw', {'amount': n, 'target': 'opponent'}, None)\n 1618         return None\n 1619     if verb == 'p_discard':\n 1620         # executeDiscardEffect's no-target default lets the discarding\n 1621         # player choose which cards, so \"at random\" would misrepresent that\n 1622         # branch \u2014 skip it there. The each_player branch (task-2485,\n 1623         # verb_unmapped:p_discard) auto-selects per player instead of\n 1624         # opening a choice, so it CAN honor \"at random\" safely.\n 1625         n = _amt(args.get('amount'))\n 1626         who = (args.get('who') or '').strip()\n 1627         if n is None: return None\n 1628         if who == 'each player':\n 1629             v = {'amount': n, 'target': 'each_player'}\n 1630             if args.get('random'): v['random'] = True\n 1631             return ('discard', v, None)\n 1632         if args.get('random'): return None\n 1633         if who in ('each opponent', 'target opponent', 'target player'):\n 1634             return ('discard', {'amount': n}, None)\n 1635         return None\n 1636     if verb == 'p_exile_top':\n 1637         # task-2410 (verb_unmapped:?): \"target opponent/each opponent/each\n 1638         # player exiles the top N cards of their library\" \u2014 reuses the\n 1639         # exile_library_top primitive (task-2363), whose executor only\n 1640         # understands 'each_opponent'/'each_player'/self-default 'who'\n 1641         # values; 'target player'/'that player' can't route there safely\n 1642         # (the default falls back to the ABILITY'S OWN controller, wrong\n 1643         # when the targeted player isn't you) so those stay honest misses.\n 1644         who = (args.get('who') or '').strip()\n 1645         n = _amt(args.get('n'))\n 1646         if n is None:\n 1647             return None\n 1648         if who in ('each opponent', 'target opponent'):\n 1649             return ('exile_library_top', {'amount': n, 'who': 'each_opponent'}, None)\n 1650         if who == 'each player':\n 1651             return ('exile_library_top', {'amount': n, 'who': 'each_player'}, None)\n 1652         return None\n 1653     if verb == 'p_discard_hand':\n 1654         # task-2410 (verb_unmapped:?): \"target opponent/each opponent\n 1655         # discards their hand\" \u2014 the same amount_count:{count:hand} spec the\n 1656         # bare 'discard' verb's own hand-handling uses (task-1992), just\n 1657         # scoped to the opponent (executeDiscardEffect's no-target default)\n 1658         # instead of self. 'each player'/'that player' stay honest misses:\n 1659         # executeDiscardEffect has no each-player branch and 'that player' is\n 1660         # a referent (mirrors p_discard/p_sacrifice's identical gate).\n 1661         who = (args.get('who') or '').strip()\n 1662         if who not in ('each opponent', 'target opponent'):\n 1663             return None\n 1664         return ('discard', {'amount_count': {'count': 'hand', 'whose': 'opponent'}}, None)\n 1665     if verb == 'discard':\n 1666         # bare (subject-elided) \"discard[s] a/N card(s)\" / \"discard your\n 1667         # hand\" \u2014 the ability's OWN controller discards, e.g. \"Draw a card,\n 1668         # then discard a card.\" (task-1992). \"at random\" (task-2386) routes\n 1669         # through executeDiscardEffect's random branch, which picks without\n 1670         # the discarding player's input (Burning Inquiry, Cool but Rude,\n 1671         # Zurzoth, Chaos Rider). \"that many\"/\"x\" amounts stay unmapped via\n 1672         # _amt's honest None (referent, not bound here).\n 1673         if args.get('what') == 'hand':\n 1674             return ('discard', {'amount_count': {'count': 'hand', 'whose': 'you'},\n 1675                                  'target': 'you'}, None)\n 1676         n = _amt(args.get('amount'))\n 1677         if n is None: return None\n 1678         v = {'amount': n, 'target': 'you'}\n 1679         if args.get('random'): v['random'] = True\n 1680         return ('discard', v, None)\n 1681     if verb == 'p_sacrifice':\n 1682         # task-2001 (verb_unmapped:p_sacrifice): \"[target/each opponent]\n 1683         # sacrifices N [filter] permanents of their choice\" \u2014 the edict family.\n 1684         # task-2396: executeEdictSacrifice grew a player-scoped round (APNAP\n 1685         # order, chained PendingChoice per player), so \"each player\" now maps\n 1686         # too. Filter via matchesPermanentFilter (creature / permanent /\n 1687         # nonland_permanent / creature_or_vehicle / creature_or_planeswalker /\n 1688         # artifact_or_creature_or_land / nontoken_creature /\n 1689         # nonvampire_creature / untapped_land / attacking_creature /\n 1690         # non<Subtype>_creature); other negations, \"greatest power\", and\n 1691         # fraction (half / a tenth) selectors have no executor representation\n 1692         # -> None. \"that many\" count is a referent -> None. A trailing\n 1693         # qualifier after \"of their choice\" (\"that shares a card type\",\n 1694         # \"unless they pay ...\") is a referent/alt-cost the executor can't\n 1695         # express -> None (see _edict_spec).\n 1696         #\n 1697         # task-2456: \"target player\" is a REAL target (any player, chosen at\n 1698         # cast/activation time \u2014 same TargetType(\"player\") pipeline\n 1699         # life_loss/damage's bare `{'filter': 'player'}` target spec already\n 1700         # rides, converter.go's generic atom.Target.Filter -> TargetType cast\n 1701         # needs no per-effect wiring). Emitted with NO 'target' scope word in\n 1702         # value \u2014 executeEdictSacrifice reads the resolved Target instead\n 1703         # (see game/edict_sacrifice.go). \"that player\" stays unmapped here\n 1704         # (handled separately, only for 'each'/\"each player's\"-scoped\n 1705         # triggers, by the triggered-referent post-pass below \u2014 see its\n 1706         # comment for why \"your\"/\"each opponent's\" stay honest misses).\n 1707         who = (args.get('who') or '').strip()\n 1708         if who in ('each opponent', 'target opponent'):\n 1709             target = 'opponent'\n 1710         elif who == 'each player':\n 1711             target = 'each_player'\n 1712         elif who == 'target player':\n 1713             f, n = _edict_spec(args.get('obj') or '')\n 1714             if f is None or n is None:\n 1715                 return None\n 1716             return ('edict_sacrifice', {'filter': f, 'n': n}, {'filter': 'player'})\n 1717         else:\n 1718             return None\n 1719         f, n = _edict_spec(args.get('obj') or '')\n 1720         if f is None or n is None:\n 1721             return None\n 1722         return ('edict_sacrifice', {'target': target, 'filter': f, 'n': n}, None)\n 1723     if verb == 'sacrifice':\n 1724         # task-2374 (verb_unmapped:sacrifice): \"[you] sacrifice a/another/N\n 1725         # [filter] permanent(s)\" \u2014 the ability's own controller chooses.\n 1726         # Scoped to the bare/elided subject (who=='target/you', meaning\n 1727         # \"you\"): referent subjects (\"that player\") can't be resolved here,\n 1728         # so anything but 'target/you'/'each player'/'each opponent' stays\n 1729         # unmapped.\n 1730         who = (args.get('who') or '').strip()\n 1731         # task-2432 (verb_unmapped:sacrifice): \"each opponent/each player\n 1732         # sacrifices N [filter]\" WITHOUT a trailing \"of their choice\" (e.g.\n 1733         # Eradicator Valkyrie's \"Each opponent sacrifices a creature or\n 1734         # planeswalker.\") is the SAME edict shape p_sacrifice/_edict_spec\n 1735         # already maps \u2014 sacrificing is always the permanent's controller's\n 1736         # own choice per rule 701.20a regardless of whether the card text\n 1737         # spells that out, so the \"of their choice\" tail isn't required\n\n### backend/cards/converter.go:2090-2279\n 2090 \t\t}\n 2091 \t}\n 2092 \n 2093 \treturn activated\n 2094 }\n 2095 \n 2096 // liftSecondaryLifeGainEffect scans def.Abilities for a secondary spell ability\n 2097 // of type \"life_gain\" and, if found, stores its amount in eff.GainLifeAmount.\n 2098 // Called after GetSpellEffect to pick up combined damage+life effects (e.g.\n 2099 // Lightning Helix: deals 3 damage to any target and you gain 3 life).\n 2100 func (def *CardDefinition) liftSecondaryLifeGainEffect(eff *game.SpellEffect) {\n 2101 \tif eff == nil {\n 2102 \t\treturn\n 2103 \t}\n 2104 \tspellCount := 0\n 2105 \tfor _, ab := range def.Abilities {\n 2106 \t\tif ab.Type != \"spell\" || ab.Effect == \"surveil\" {\n 2107 \t\t\tcontinue\n 2108 \t\t}\n 2109 \t\tspellCount++\n 2110 \t\tif spellCount > 1 && ab.Effect == \"life_gain\" {\n 2111 \t\t\teff.GainLifeAmount = numToInt(ab.Value[\"amount\"])\n 2112 \t\t\treturn\n 2113 \t\t}\n 2114 \t}\n 2115 }\n 2116 \n 2117 // liftSecondaryEndTurnEffect scans def.Abilities for a second (or later)\n 2118 // spell ability of type \"end_turn\" and, if found, sets eff.EndsTurn (and\n 2119 // EndsTurnCondition, e.g. Day's Undoing's \"your_turn\" gate). Called after\n 2120 // GetSpellEffect to pick up a trailing \"End the turn.\" on a card whose\n 2121 // primary effect is something else (Ultima: destroy all artifacts and\n 2122 // creatures, then end the turn; Day's Undoing: shuffle+draw, then\n 2123 // conditionally end the turn). A standalone \"End the turn.\" (Time Stop) is\n 2124 // already handled directly by buildMainSpellEffect's \"end_turn\" case, so\n 2125 // this only fires when the primary effect matched an EARLIER ability.\n 2126 func (def *CardDefinition) liftSecondaryEndTurnEffect(eff *game.SpellEffect) {\n 2127 \tif eff == nil {\n 2128 \t\treturn\n 2129 \t}\n 2130 \tspellCount := 0\n 2131 \tfor _, ab := range def.Abilities {\n 2132 \t\tif ab.Type != \"spell\" || ab.Effect == \"surveil\" {\n 2133 \t\t\tcontinue\n 2134 \t\t}\n 2135 \t\tspellCount++\n 2136 \t\tif spellCount > 1 && ab.Effect == \"end_turn\" {\n 2137 \t\t\teff.EndsTurn = true\n 2138 \t\t\tif cond, ok := ab.Value[\"condition\"].(string); ok {\n 2139 \t\t\t\teff.EndsTurnCondition = cond\n 2140 \t\t\t}\n 2141 \t\t\treturn\n 2142 \t\t}\n 2143 \t}\n 2144 }\n 2145 \n 2146 // liftSecondaryTokenEffect scans def.Abilities for a second spell ability of\n 2147 // type \"create_token\" and, if found, copies its value map into\n 2148 // eff.CreateTokenEffect. Called after GetSpellEffect to pick up trailing\n 2149 // token-creation effects (e.g. Malevolent Rumble's Eldrazi Spawn).\n 2150 func (def *CardDefinition) liftSecondaryTokenEffect(eff *game.SpellEffect) {\n 2151 \tif eff == nil {\n 2152 \t\treturn\n 2153 \t}\n 2154 \tspellCount := 0\n 2155 \tfor _, ab := range def.Abilities {\n 2156 \t\tif ab.Type != \"spell\" || ab.Effect == \"surveil\" {\n 2157 \t\t\tcontinue\n 2158 \t\t}\n 2159 \t\tspellCount++\n 2160 \t\tif spellCount > 1 && (ab.Effect == \"create_token\" || ab.Effect == \"token\") {\n 2161 \t\t\teff.CreateTokenEffect = copyValueMap(ab.Value)\n 2162 \t\t\treturn\n 2163 \t\t}\n 2164 \t}\n 2165 }\n 2166 \n 2167 // GetSpellEffect extracts the spell effect from abilities (for instants/sorceries).\n 2168 // Surveil and gain_energy abilities are skipped in the main loop \u2014 surveil is\n 2169 // lifted onto card.SurveilN in attachAbilities, and gain_energy is collected\n 2170 // as a pre-effect and stored in SpellEffect.GainEnergyAmount.\n 2171 func (def *CardDefinition) GetSpellEffect() *game.SpellEffect {\n 2172 \t// Collect any spell-type gain_energy pre-effect (e.g. Galvanic Discharge).\n 2173 \tgainEnergyAmount := 0\n 2174 \tfor _, a := range def.Abilities {\n 2175 \t\tif a.Type == \"spell\" && a.Effect == \"gain_energy\" {\n 2176 \t\t\tif n := numToInt(a.Value[\"amount\"]); n > 0 {\n 2177 \t\t\t\tgainEnergyAmount = n\n 2178 \t\t\t}\n 2179 \t\t}\n 2180 \t}\n 2181 \n 2182 \teff := def.buildMainSpellEffect()\n 2183 \tif eff != nil && gainEnergyAmount > 0 {\n 2184 \t\teff.GainEnergyAmount = gainEnergyAmount\n 2185 \t}\n 2186 \treturn eff\n 2187 }\n 2188 \n 2189 // buildMainSpellEffect is the inner implementation of GetSpellEffect \u2014 it\n 2190 // finds the primary spell effect, skipping gain_energy (handled separately)\n 2191 // and surveil (lifted via attachAbilities).\n 2192 func (def *CardDefinition) buildMainSpellEffect() *game.SpellEffect {\n 2193 \tfor _, ability := range def.Abilities {\n 2194 \t\tif ability.Type == \"spell\" {\n 2195 \t\t\tif ability.Effect == \"surveil\" || ability.Effect == \"gain_energy\" {\n 2196 \t\t\t\tcontinue\n 2197 \t\t\t}\n 2198 \t\t\tswitch ability.Effect {\n 2199 \t\t\tcase \"damage\":\n 2200 \t\t\t\tamount := 0\n 2201 \t\t\t\tif v, ok := ability.Value[\"amount\"]; ok {\n 2202 \t\t\t\t\tif f, ok := v.(float64); ok {\n 2203 \t\t\t\t\t\tamount = int(f)\n 2204 \t\t\t\t\t} else if i, ok := v.(int); ok {\n 2205 \t\t\t\t\t\tamount = i\n 2206 \t\t\t\t\t}\n 2207 \t\t\t\t}\n 2208 \t\t\t\teff := &game.SpellEffect{Type: \"damage\", Amount: amount}\n 2209 \t\t\t\tif from, ok := ability.Value[\"amount_from\"].(string); ok {\n 2210 \t\t\t\t\teff.AmountFrom = from\n 2211 \t\t\t\t}\n 2212 \t\t\t\tif v, ok := ability.Value[\"amount_bonus\"]; ok {\n 2213 \t\t\t\t\tswitch n := v.(type) {\n 2214 \t\t\t\t\tcase int:\n 2215 \t\t\t\t\t\teff.AmountBonus = n\n 2216 \t\t\t\t\tcase float64:\n 2217 \t\t\t\t\t\teff.AmountBonus = int(n)\n 2218 \t\t\t\t\t}\n 2219 \t\t\t\t}\n 2220 \t\t\t\tif v, ok := ability.Value[\"delirium_amount\"]; ok {\n 2221 \t\t\t\t\teff.DeliriumAmount = numToInt(v)\n 2222 \t\t\t\t}\n 2223 \t\t\t\t// Mass damage (\"~ deals N damage to each creature[ and each\n 2224 \t\t\t\t// player].\"/\"...to each player.\") mirrors \"destroy\"/\"exile\"'s\n 2225 \t\t\t\t// All/Filter/Controller shape (task-1982) \u2014 game/gamestate.go\n 2226 \t\t\t\t// resolveMassDamage reads them the same way resolveMassDestroy\n 2227 \t\t\t\t// does for Wrath of God; EachPlayer is damage's own extra flag\n 2228 \t\t\t\t// (see game/card.go SpellEffect.EachPlayer doc).\n 2229 \t\t\t\tif v, ok := ability.Value[\"all\"].(bool); ok && v {\n 2230 \t\t\t\t\teff.All = v\n 2231 \t\t\t\t}\n 2232 \t\t\t\tif v, ok := ability.Value[\"each_player\"].(bool); ok && v {\n 2233 \t\t\t\t\teff.EachPlayer = v\n 2234 \t\t\t\t}\n 2235 \t\t\t\tif ability.Affects != nil {\n 2236 \t\t\t\t\teff.Filter = ability.Affects.Filter\n 2237 \t\t\t\t\teff.Controller = ability.Affects.Controller\n 2238 \t\t\t\t}\n 2239 \t\t\t\tif ability.Target != nil && ability.Target.Filter != \"\" {\n 2240 \t\t\t\t\teff.SpellTargetType = game.TargetType(ability.Target.Filter)\n 2241 \t\t\t\t}\n 2242 \t\t\t\treturn eff\n 2243 \t\t\tcase \"draw\":\n 2244 \t\t\t\tamount := 1\n 2245 \t\t\t\tif v, ok := ability.Value[\"amount\"]; ok {\n 2246 \t\t\t\t\tif f, ok := v.(float64); ok {\n 2247 \t\t\t\t\t\tamount = int(f)\n 2248 \t\t\t\t\t} else if i, ok := v.(int); ok {\n 2249 \t\t\t\t\t\tamount = i\n 2250 \t\t\t\t\t}\n 2251 \t\t\t\t}\n 2252 \t\t\t\treturn &game.SpellEffect{Type: \"draw\", Amount: amount}\n 2253 \t\t\tcase \"return_from_graveyard\":\n 2254 \t\t\t\t// Zombify family (schema-v2 3c round 7). Filter and\n 2255 \t\t\t\t// destination ride the SpellEffect; resolution goes through\n 2256 \t\t\t\t// the generalized executor.\n 2257 \t\t\t\teff := &game.SpellEffect{Type: \"return_from_graveyard\"}\n 2258 \t\t\t\tif v, ok := ability.Value[\"card_type\"].(string); ok {\n 2259 \t\t\t\t\teff.Filter = v\n 2260 \t\t\t\t}\n 2261 \t\t\t\tif v, ok := ability.Value[\"destination\"].(string); ok && v != \"\" {\n 2262 \t\t\t\t\teff.Destination = v\n 2263 \t\t\t\t} else if v, ok := ability.Value[\"to\"].(string); ok && v != \"\" {\n 2264 \t\t\t\t\teff.Destination = v\n 2265 \t\t\t\t} else {\n 2266 \t\t\t\t\teff.Destination = \"hand\"\n 2267 \t\t\t\t}\n 2268 \t\t\t\t// Graveyard-zone targets are NOT lifted into SpellTargetType:\n 2269 \t\t\t\t// cast-time validation only knows battlefield objects, so a\n 2270 \t\t\t\t// zone target would make the spell uncastable. Auto-select\n 2271 \t\t\t\t// convention until zone-aware targeting exists (re-parse\n 2272 \t\t\t\t// backlog).\n 2273 \t\t\t\tif ability.Target != nil && ability.Target.Filter != \"\" && ability.Target.Zone != \"graveyard\" {\n 2274 \t\t\t\t\teff.SpellTargetType = game.TargetType(ability.Target.Filter)\n 2275 \t\t\t\t}\n 2276 \t\t\t\treturn eff\n 2277 \t\t\tcase \"scry\":\n 2278 \t\t\t\t// \"Scry N.\" (schema-v2 3c round 6)\n 2279 \t\t\t\tn := numToInt(ability.Value[\"amount\"])\n\n### backend/cards/converter.go:1-120 (head; no requested symbol found in file)\n    1 // Package cards - Card Conversion\n    2 // Converts CardDefinitions to game.Card instances\n    3 package cards\n    4 \n    5 import (\n    6 \t\"fmt\"\n    7 \t\"strings\"\n    8 \n    9 \t\"magic-backend/game\"\n   10 )\n   11 \n   12 // ToGameCard converts a CardDefinition to a game.Card\n   13 func (def *CardDefinition) ToGameCard(owner int) (*game.Card, error) {\n   14 \tvar cardType game.CardType\n   15 \tswitch def.Type {\n   16 \tcase \"Land\":\n   17 \t\tcardType = game.TypeLand\n   18 \tcase \"Creature\":\n   19 \t\tcardType = game.TypeCreature\n   20 \tcase \"Instant\":\n   21 \t\tcardType = game.TypeInstant\n   22 \tcase \"Sorcery\":\n   23 \t\tcardType = game.TypeSorcery\n   24 \tcase \"Artifact\":\n   25 \t\tcardType = game.TypeArtifact\n   26 \tcase \"Enchantment\":\n   27 \t\tcardType = game.TypeEnchantment\n   28 \tcase \"Planeswalker\":\n   29 \t\tcardType = game.TypePlaneswalker\n   30 \tdefault:\n   31 \t\treturn nil, fmt.Errorf(\"unknown card type: %s\", def.Type)\n   32 \t}\n   33 \n   34 \t// Create the card based on type\n   35 \tvar card *game.Card\n   36 \tif def.Type == \"Land\" {\n   37 \t\tcard = game.NewLand(def.Name, def.LandType, owner)\n   38 \t} else if def.Type == \"Creature\" {\n   39 \t\tpower := 0\n   40 \t\ttoughness := 0\n   41 \t\tif def.Power != nil {\n   42 \t\t\tpower = *def.Power\n   43 \t\t}\n   44 \t\tif def.Toughness != nil {\n   45 \t\t\ttoughness = *def.Toughness\n   46 \t\t}\n   47 \t\tcard = game.NewCreature(def.Name, def.ManaCost, power, toughness, owner)\n   48 \t} else if def.Type == \"Instant\" {\n   49 \t\t// Check for spell effect in abilities\n   50 \t\tspellEffect := def.GetSpellEffect()\n   51 \t\tdef.liftSecondaryTokenEffect(spellEffect)\n   52 \t\tdef.liftSecondaryLifeGainEffect(spellEffect)\n   53 \t\tdef.liftSecondaryEndTurnEffect(spellEffect)\n   54 \t\tif spellEffect != nil {\n   55 \t\t\tcard = game.NewInstant(def.Name, def.ManaCost, spellEffect, owner)\n   56 \t\t} else {\n   57 \t\t\tcard = game.NewCard(def.Name, cardType, def.ManaCost, owner)\n   58 \t\t}\n   59 \t} else if def.Type == \"Sorcery\" {\n   60 \t\t// Check for spell effect in abilities\n   61 \t\tspellEffect := def.GetSpellEffect()\n   62 \t\tdef.liftSecondaryTokenEffect(spellEffect)\n   63 \t\tdef.liftSecondaryLifeGainEffect(spellEffect)\n   64 \t\tdef.liftSecondaryEndTurnEffect(spellEffect)\n   65 \t\tif spellEffect != nil {\n   66 \t\t\tcard = game.NewSorcery(def.Name, def.ManaCost, spellEffect, owner)\n   67 \t\t} else {\n   68 \t\t\tcard = game.NewCard(def.Name, cardType, def.ManaCost, owner)\n   69 \t\t}\n   70 \t} else {\n   71 \t\tcard = game.NewCard(def.Name, cardType, def.ManaCost, owner)\n   72 \t}\n   73 \n   74 \t// Set additional properties\n   75 \tcard.SubTypes = def.SubTypes\n   76 \tcard.Types = append([]string(nil), def.Types...)\n   77 \tcard.Colors = def.Colors\n   78 \tcard.ColorIdentity = def.ColorIdentityOf()\n   79 \tcard.IsBasic = def.IsBasic\n   80 \tcard.Keywords = def.Keywords\n   81 \t// Rebound (Rule 702.87a/87b, [VOCAB] keyword_args import-gate): the\n   82 \t// printed keyword must set Card.ReboundData itself \u2014 gamestate.go's\n   83 \t// post-resolution routing only exiles-then-recasts via\n   84 \t// card.ReboundData.HasRebound, which previously only came from a\n   85 \t// one-shot grant (cardfns.GrantReboundToCastSpell), never from this\n   86 \t// bare keyword. Without this, a card whose ONLY rebound source is the\n   87 \t// printed keyword would parse but silently go to the graveyard like any\n   88 \t// other spell.\n   89 \tif card.HasKeyword(game.Rebound) {\n   90 \t\tcard.ReboundData = &game.ReboundData{HasRebound: true}\n   91 \t}\n   92 \tcard.Protection = append([]game.ProtectionQuality(nil), def.Protection...)\n   93 \tcard.HexproofFrom = append([]game.HexproofColorQuality(nil), def.HexproofFrom...)\n   94 \tcard.Text = def.Text\n   95 \tcard.Legendary = def.Legendary\n   96 \n   97 \t// Initialise loyalty counters for planeswalkers (Rule 306.5b).\n   98 \tif def.Type == \"Planeswalker\" && def.StartingLoyalty > 0 {\n   99 \t\tcard.Counters.Loyalty = def.StartingLoyalty\n  100 \t}\n  101 \n  102 \t// Convert and attach abilities from DSL\n  103 \tdef.attachAbilities(card)\n  104 \n  105 \t// cant_be_blocked_by_relative_power_self primitive (ticket #3452,\n  106 \t// REPARSE-MAP static_unmapped / \"Creatures with power less than ~'s\n  107 \t// power can't block it\" family, e.g. Aura Gnarlid, Battering Wurm):\n  108 \t// cardfns/DenProtector.go proves this restriction already works end to\n  109 \t// end through cardfns.RestrictBlockersTo, but only as a bespoke\n  110 \t// per-card CardHandler keyed by exact card name \u2014 precisely because no\n  111 \t// registered primitive expressed the clause. This bridges the SAME\n  112 \t// mechanism onto the DSL: a static ability atom naming this effect\n  113 \t// registers an equivalent closure into game.CardHandlers for THIS\n  114 \t// card's own name, so any carddb entry can carry the clause without a\n  115 \t// hand-written CardHandler of its own.\n  116 \tfor _, ab := range def.Abilities {\n  117 \t\tif ab.Type != \"static\" {\n  118 \t\t\tcontinue\n  119 \t\t}\n  120 \t\tfor _, atom := range ab.Effects {\n\n",
+        "wall_seconds": 0.239
+      },
+      "usage": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 0,
+        "input_tokens": 1988,
+        "output_tokens": 90,
+        "reasoning_output_tokens": 0,
+        "uncached_input_tokens": 1988
+      }
+    },
+    {
+      "answer": "```text\n<<<FILE scripts/paragraph/reparse.py\n<<<SEARCH\n    if verb == 'p_draw':\n        # executeDrawEffect only reads effectValue.target \"opponent\" vs.\n        # default controller \u2014 \"each player\"/\"target player\"/\"that player\"\n        # aren't representable without real per-player targeting.\n        n = _amt(args.get('amount'))\n        who = (args.get('who') or '').strip()\n        if n is None: return None\n        if who in ('each opponent', 'target opponent'):\n            return ('draw', {'amount': n, 'target': 'opponent'}, None)\n        return None\n===REPLACE\n    if verb == 'p_draw':\n        # executeDrawEffect reads effectValue.target \"opponent\" vs. default\n        # controller. \"target player\" is a real target (like p_gain_life's\n        # \"target player loses N life\"), represented by the bare\n        # {'filter': 'player'} target tuple. \"each player\" and \"that player\"\n        # aren't representable and remain honest misses.\n        n = _amt(args.get('amount'))\n        who = (args.get('who') or '').strip()\n        if n is None: return None\n        if who in ('each opponent', 'target opponent'):\n            return ('draw', {'amount': n, 'target': 'opponent'}, None)\n        if who == 'target player':\n            return ('draw', {'amount': n}, {'filter': 'player'})\n        return None\n>>>END\n<<<FILE backend/cards/converter.go\n<<<SEARCH\n\t\t\tcase \"draw\":\n\t\t\t\tamount := 1\n\t\t\t\tif v, ok := ability.Value[\"amount\"]; ok {\n\t\t\t\t\tif f, ok := v.(float64); ok {\n\t\t\t\t\t\tamount = int(f)\n\t\t\t\t\t} else if i, ok := v.(int); ok {\n\t\t\t\t\t\tamount = i\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\treturn &game.SpellEffect{Type: \"draw\", Amount: amount}\n===REPLACE\n\t\t\tcase \"draw\":\n\t\t\t\tamount := 1\n\t\t\t\tif v, ok := ability.Value[\"amount\"]; ok {\n\t\t\t\t\tif f, ok := v.(float64); ok {\n\t\t\t\t\t\tamount = int(f)\n\t\t\t\t\t} else if i, ok := v.(int); ok {\n\t\t\t\t\t\tamount = i\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\teff := &game.SpellEffect{Type: \"draw\", Amount: amount}\n\t\t\t\tif ability.Target != nil && ability.Target.Filter != \"\" {\n\t\t\t\t\teff.SpellTargetType = game.TargetType(ability.Target.Filter)\n\t\t\t\t}\n\t\t\t\treturn eff\n>>>END\n```",
+      "call": {
+        "argv": [
+          "python3",
+          "/opt/development/magic-ops/scripts/qwen-prepared-call.py",
+          "--model",
+          "./Qwen3.8-27B/Qwen3.8-27B-Q8_0.gguf",
+          "--max-tokens",
+          "2000"
+        ],
+        "exit_code": 0,
+        "stderr": "tokens: in=8797 out=596 cache_r=1728 cache_w=0\n",
+        "stdout": "```text\n<<<FILE scripts/paragraph/reparse.py\n<<<SEARCH\n    if verb == 'p_draw':\n        # executeDrawEffect only reads effectValue.target \"opponent\" vs.\n        # default controller \u2014 \"each player\"/\"target player\"/\"that player\"\n        # aren't representable without real per-player targeting.\n        n = _amt(args.get('amount'))\n        who = (args.get('who') or '').strip()\n        if n is None: return None\n        if who in ('each opponent', 'target opponent'):\n            return ('draw', {'amount': n, 'target': 'opponent'}, None)\n        return None\n===REPLACE\n    if verb == 'p_draw':\n        # executeDrawEffect reads effectValue.target \"opponent\" vs. default\n        # controller. \"target player\" is a real target (like p_gain_life's\n        # \"target player loses N life\"), represented by the bare\n        # {'filter': 'player'} target tuple. \"each player\" and \"that player\"\n        # aren't representable and remain honest misses.\n        n = _amt(args.get('amount'))\n        who = (args.get('who') or '').strip()\n        if n is None: return None\n        if who in ('each opponent', 'target opponent'):\n            return ('draw', {'amount': n, 'target': 'opponent'}, None)\n        if who == 'target player':\n            return ('draw', {'amount': n}, {'filter': 'player'})\n        return None\n>>>END\n<<<FILE backend/cards/converter.go\n<<<SEARCH\n\t\t\tcase \"draw\":\n\t\t\t\tamount := 1\n\t\t\t\tif v, ok := ability.Value[\"amount\"]; ok {\n\t\t\t\t\tif f, ok := v.(float64); ok {\n\t\t\t\t\t\tamount = int(f)\n\t\t\t\t\t} else if i, ok := v.(int); ok {\n\t\t\t\t\t\tamount = i\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\treturn &game.SpellEffect{Type: \"draw\", Amount: amount}\n===REPLACE\n\t\t\tcase \"draw\":\n\t\t\t\tamount := 1\n\t\t\t\tif v, ok := ability.Value[\"amount\"]; ok {\n\t\t\t\t\tif f, ok := v.(float64); ok {\n\t\t\t\t\t\tamount = int(f)\n\t\t\t\t\t} else if i, ok := v.(int); ok {\n\t\t\t\t\t\tamount = i\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\teff := &game.SpellEffect{Type: \"draw\", Amount: amount}\n\t\t\t\tif ability.Target != nil && ability.Target.Filter != \"\" {\n\t\t\t\t\teff.SpellTargetType = game.TargetType(ability.Target.Filter)\n\t\t\t\t}\n\t\t\t\treturn eff\n>>>END\n```",
+        "wall_seconds": 110.462
+      },
+      "kind": "need_response",
+      "usage": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 1728,
+        "input_tokens": 10525,
+        "output_tokens": 596,
+        "reasoning_output_tokens": 0,
+        "uncached_input_tokens": 8797
+      }
+    }
+  ],
+  "changed_paths": [
+    "backend/cards/converter.go",
+    "scripts/paragraph/reparse.py"
+  ],
+  "cost_usd": 0.0,
+  "diff_check": {
+    "argv": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "",
+    "wall_seconds": 0.334
+  },
+  "gates": {
+    "cards_regression": {
+      "argv": [
+        "go",
+        "test",
+        "./cards",
+        "-count=1"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "ok  \tmagic-backend/cards\t49.394s\n",
+      "wall_seconds": 57.846
+    },
+    "engine_boundary": {
+      "argv": [
+        "go",
+        "test",
+        "./cards",
+        "-run",
+        "^TestBenchmarkExternalTargetPlayerDraw$",
+        "-count=1"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "ok  \tmagic-backend/cards\t0.024s\n",
+      "wall_seconds": 165.194
+    },
+    "map_external": {
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.paragraph.zz_benchmark_external_test"
+      ],
+      "exit_code": 0,
+      "stderr": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.049s\n\nOK\n",
+      "stdout": "",
+      "wall_seconds": 0.93
+    },
+    "parser_regression": {
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/paragraph",
+        "-p",
+        "test_*.py"
+      ],
+      "exit_code": 0,
+      "stderr": ".../tmp/factory-ng-profile-v2-qwen-local-direct/scripts/paragraph/reparse.py:12784: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-profile-v2-qwen-local-direct/scripts/paragraph/../../backend/data/carddb/p.json' mode='r' encoding='UTF-8'>\n  db = json.load(open(path))\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n.\n----------------------------------------------------------------------\nRan 4 tests in 0.139s\n\nOK\n",
+      "stdout": "",
+      "wall_seconds": 0.56
+    }
+  },
+  "model": {
+    "engine": "qwen-prepared",
+    "id": "qwen-local-direct",
+    "model": "./Qwen3.8-27B/Qwen3.8-27B-Q8_0.gguf",
+    "profile": "qwen-prepared-direct@1.0.0",
+    "provider": "local",
+    "rates_per_million": {
+      "cached_input": 0,
+      "input": 0,
+      "output": 0
+    }
+  },
+  "quality_score": 100,
+  "repair": null,
+  "schema": "factory.model-benchmark-run/v2",
+  "scope_ok": true,
+  "scores": {
+    "engine_boundary": 35,
+    "map_behavior": 35,
+    "regressions": 15,
+    "scope": 15
+  },
+  "setup": {
+    "argv": [
+      "git",
+      "worktree",
+      "add",
+      "--detach",
+      "/tmp/factory-ng-profile-v2-qwen-local-direct",
+      "6d85a3d649103d8f3a50fb6436ed266c77b0942a"
+    ],
+    "exit_code": 0,
+    "stderr": "Preparing worktree (detached HEAD 6d85a3d6)\nUpdating files:   6% (778/11311)\nUpdating files:   7% (792/11311)\nUpdating files:   8% (905/11311)\nUpdating files:   9% (1018/11311)\nUpdating files:  10% (1132/11311)\nUpdating files:  11% (1245/11311)\nUpdating files:  12% (1358/11311)\nUpdating files:  13% (1471/11311)\nUpdating files:  14% (1584/11311)\nUpdating files:  15% (1697/11311)\nUpdating files:  16% (1810/11311)\nUpdating files:  17% (1923/11311)\nUpdating files:  18% (2036/11311)\nUpdating files:  19% (2150/11311)\nUpdating files:  20% (2263/11311)\nUpdating files:  21% (2376/11311)\nUpdating files:  22% (2489/11311)\nUpdating files:  23% (2602/11311)\nUpdating files:  24% (2715/11311)\nUpdating files:  25% (2828/11311)\nUpdating files:  26% (2941/11311)\nUpdating files:  27% (3054/11311)\nUpdating files:  28% (3168/11311)\nUpdating files:  29% (3281/11311)\nUpdating files:  30% (3394/11311)\nUpdating files:  31% (3507/11311)\nUpdating files:  32% (3620/11311)\nUpdating files:  33% (3733/11311)\nUpdating files:  34% (3846/11311)\nUpdating files:  35% (3959/11311)\nUpdating files:  36% (4072/11311)\nUpdating files:  37% (4186/11311)\nUpdating files:  38% (4299/11311)\nUpdating files:  39% (4412/11311)\nUpdating files:  40% (4525/11311)\nUpdating files:  41% (4638/11311)\nUpdating files:  42% (4751/11311)\nUpdating files:  43% (4864/11311)\nUpdating files:  44% (4977/11311)\nUpdating files:  45% (5090/11311)\nUpdating files:  46% (5204/11311)\nUpdating files:  47% (5317/11311)\nUpdating files:  48% (5430/11311)\nUpdating files:  49% (5543/11311)\nUpdating files:  50% (5656/11311)\nUpdating files:  51% (5769/11311)\nUpdating files:  52% (5882/11311)\nUpdating files:  53% (5995/11311)\nUpdating files:  54% (6108/11311)\nUpdating files:  55% (6222/11311)\nUpdating files:  56% (6335/11311)\nUpdating files:  57% (6448/11311)\nUpdating files:  58% (6561/11311)\nUpdating files:  59% (6674/11311)\nUpdating files:  59% (6769/11311)\nUpdating files:  60% (6787/11311)\nUpdating files:  61% (6900/11311)\nUpdating files:  62% (7013/11311)\nUpdating files:  63% (7126/11311)\nUpdating files:  64% (7240/11311)\nUpdating files:  65% (7353/11311)\nUpdating files:  66% (7466/11311)\nUpdating files:  67% (7579/11311)\nUpdating files:  68% (7692/11311)\nUpdating files:  69% (7805/11311)\nUpdating files:  70% (7918/11311)\nUpdating files:  71% (8031/11311)\nUpdating files:  72% (8144/11311)\nUpdating files:  73% (8258/11311)\nUpdating files:  74% (8371/11311)\nUpdating files:  75% (8484/11311)\nUpdating files:  76% (8597/11311)\nUpdating files:  77% (8710/11311)\nUpdating files:  78% (8823/11311)\nUpdating files:  79% (8936/11311)\nUpdating files:  80% (9049/11311)\nUpdating files:  81% (9162/11311)\nUpdating files:  82% (9276/11311)\nUpdating files:  83% (9389/11311)\nUpdating files:  84% (9502/11311)\nUpdating files:  85% (9615/11311)\nUpdating files:  86% (9728/11311)\nUpdating files:  87% (9841/11311)\nUpdating files:  88% (9954/11311)\nUpdating files:  89% (10067/11311)\nUpdating files:  90% (10180/11311)\nUpdating files:  91% (10294/11311)\nUpdating files:  92% (10407/11311)\nUpdating files:  93% (10520/11311)\nUpdating files:  94% (10633/11311)\nUpdating files:  95% (10746/11311)\nUpdating files:  95% (10837/11311)\nUpdating files:  96% (10859/11311)\nUpdating files:  97% (10972/11311)\nUpdating files:  98% (11085/11311)\nUpdating files:  99% (11198/11311)\nUpdating files:  99% (11216/11311)\nUpdating files:  99% (11271/11311)\nUpdating files: 100% (11311/11311)\nUpdating files: 100% (11311/11311), done.\n",
+    "stdout": "HEAD is now at 6d85a3d6 cardfns: Blazing Archon handler \u2014 flying + can't-be-attacked-except-by-flying/reach restriction\n",
+    "wall_seconds": 5.206
+  },
+  "status": "COMPLETE",
+  "ticket": {
+    "acceptance_contract": "harness-owned-map-converter-engine-boundary/v1",
+    "evidence_sha256": "4592556efaf285cd2e46bbe3291b3fa5a11882982ac59e84825a7c176095fbe3",
+    "id": "benchmark.map.target-player-draw/v2",
+    "source_revision": "6d85a3d649103d8f3a50fb6436ed266c77b0942a",
+    "work_type": "map"
+  },
+  "total_wall_seconds": 132.813,
+  "usage": {
+    "cache_write_input_tokens": 0,
+    "cached_input_tokens": 1728,
+    "input_tokens": 12513,
+    "output_tokens": 686,
+    "reasoning_output_tokens": 0,
+    "uncached_input_tokens": 10785
+  }
+}

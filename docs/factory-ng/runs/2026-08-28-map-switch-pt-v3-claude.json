@@ -1,0 +1,19 @@
+{
+  "schema": "factory.observation-receipt/v1",
+  "ticket": {
+    "id": "ticket:map.switch-pt/v3",
+    "path": "docs/factory-ng/tickets/map-switch-pt-v3.json",
+    "sha256": "sha256:cf7cf8e8deafdbe45da832d6b910c4ef28b45260549ecb9fc9c9679082db29c9"
+  },
+  "model": {
+    "profile": "claude-staged@1.0.0",
+    "resolved_model": "claude-sonnet-5",
+    "telemetry": {"input_tokens": 0, "output_tokens": 0, "cache_read_tokens": 0, "cache_write_tokens": 0}
+  },
+  "execution": {"source_tree_changed": false, "failure": "Claude CLI session limit; reset advertised for 00:00 UTC."},
+  "raw_artifacts": [
+    {"path": "docs/factory-ng/runs/2026-08-28-map-switch-pt-v3-claude.raw.json", "sha256": "sha256:5f4b73cf003d63d55aa7911e2f694adb406a72667d58e40958e5464907c78738"}
+  ],
+  "outcome": "infrastructure_failed_session_quota",
+  "next_action": "Use a compatible adapter after availability returns; preserve the Map contract and source boundary."
+}

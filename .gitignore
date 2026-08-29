@@ -11,6 +11,7 @@
 *.db-journal
 # Kompilierte Binaries
 services/dispatcher/v4/dispatcher-v4
+services/dispatcher/v4/.dispatcher-v4.bak-*
 dispatcher-v4
 *.exe
 bin/

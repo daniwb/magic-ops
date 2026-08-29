@@ -1,0 +1,32 @@
+```
+SEARCH:
+        if o.get('object'):
+            if o['object'].get('filter') == 'self':
+                return ('switch_pt', {}, None)
+            return None
+REPLACE:
+        if o.get('object'):
+            if o['object'].get('filter') == 'self':
+                if kind in ('activated', 'triggered'):
+                    return ('switch_pt', {}, None)
+                return None
+            return None
+```
+
+```
+SEARCH:
+    def test_target_player_unmapped(self):
+        self.assertIsNone(
+            self.map_switch_pt("Switch target player's power and toughness until end of turn.", "activated")
+        )
+REPLACE:
+    def test_target_player_unmapped(self):
+        self.assertIsNone(
+            self.map_switch_pt("Switch target player's power and toughness until end of turn.", "activated")
+        )
+
+    def test_self_oneshot_unmapped(self):
+        self.assertIsNone(
+            self.map_switch_pt("Switch this creature's power and toughness until end of turn.", "spell_oneshot")
+        )
+```

@@ -1,0 +1,85 @@
+{
+  "evidence": [
+    {
+      "fact": "Six pinned static keyword/pump cards share the exact drawn-two condition.",
+      "path": "docs/factory-ng/measurements/static-condition-drawn-two-keywords-v1.json"
+    },
+    {
+      "anchor": "483-540",
+      "fact": "The existing happened/you_drew_cards runtime condition uses the turn counter and amount.",
+      "path": "backend/game/condition.go",
+      "sha256": "sha256:0c0f8b766324ff3c97c66fe7f8863438a58cb4612c3193a1302c32629f186a1b"
+    },
+    {
+      "anchor": "10652-10941",
+      "fact": "parse_static_condition is the narrow Map seam.",
+      "path": "scripts/paragraph/reparse.py",
+      "sha256": "sha256:aafb59b7a8190dc4f7f8243c9ffae9dc64334ba61c8a1964db770b3f80b8ea4d"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "parser_probes": [
+      {
+        "function": "parse_static_condition",
+        "text": "you've drawn two or more cards this turn"
+      },
+      {
+        "function": "parse_static_condition",
+        "text": "you've drawn one card this turn"
+      },
+      {
+        "function": "parse_static_condition",
+        "text": "an opponent has drawn two or more cards this turn"
+      }
+    ],
+    "selected_profile": "qwen-prepared-direct@1.0.2",
+    "selection_reason": "A six-card, one-tuple parser-only change with a proven runtime representation fits the validated prepared Qwen Map profile.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "cd scripts/paragraph && python3 -m unittest test_static_condition_drawn_two",
+    "git diff --check",
+    "git status --porcelain adds or changes only scripts/paragraph/reparse.py and scripts/paragraph/test_static_condition_drawn_two.py",
+    "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/static-condition-drawn-two-keywords-v1.json reports zero remaining pinned members"
+  ],
+  "id": "ticket:map.static-condition-drawn-two-keywords/v1",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Record a receipt; a missing draw-history behavior is a separate Engine TicketSpec.",
+  "parents": [
+    "ticket:factory.evidence.static-conditional/v1"
+  ],
+  "required_behavior": [
+    "Map exactly `you've drawn two or more cards this turn` to {kind: happened, what: you_drew_cards, amount: 2}.",
+    "The six pinned cards no longer have a static_conditional miss.",
+    "Do not generalize other draw quantities, windows, actors, or effects.",
+    "Do not edit Engine, converter, corpus data, or use card-name special cases."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "scripts/paragraph/reparse.py",
+      "scripts/paragraph/test_static_condition_drawn_two.py"
+    ],
+    "forbidden_paths": [
+      "backend/",
+      "backend/data/",
+      "scripts/paragraph/slotparse_oneshot.py"
+    ]
+  },
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "source": {
+    "clean": true,
+    "repository": "/opt/development/test/openmagic",
+    "revision": "8dd5e06545926033d738b0b69ab8f29145275168"
+  },
+  "title": "Map the exact drawn-two-cards static keyword condition",
+  "work_type": "map"
+}

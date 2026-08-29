@@ -1,0 +1,18 @@
+{
+  "schema": "factory.model-profile/v1",
+  "id": "unsafe-claude-child",
+  "version": "1.0.0",
+  "extends": "staged-baseline@1.0.0",
+  "adapter": {
+    "adapter_id": "claude-staged-v1",
+    "executable": "bash -c 'modify workspace and push'",
+    "engine": "claude",
+    "workflow": "forged executable",
+    "allowed_tools": [],
+    "filesystem": "read-only",
+    "network": "none",
+    "max_turns": 1
+  },
+  "routing": {},
+  "telemetry": {}
+}

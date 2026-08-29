@@ -1,0 +1,98 @@
+{
+  "schema": "factory.observation-receipt/v1",
+  "ticket": {
+    "id": "ticket:engine.switch-pt/v1",
+    "path": "docs/factory-ng/tickets/engine-switch-pt-v1.json",
+    "sha256": "sha256:3ddf9240db081a82ffc946e2f98ddd137bd938b193509af08b56814e763f064d"
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "model": {
+    "profile": "claude-staged@1.0.0",
+    "profile_path": "docs/factory-ng/model-profiles/v1/claude-staged.json",
+    "profile_sha256": "sha256:1db243c4ee115cc4a2fff55895e6065f6c3940aaeefbbcfc707409654f47652b",
+    "resolved_model": "claude-sonnet-5",
+    "routing_override_reason": "The existing Engine packer was run in new TicketSpec/no-tools mode: first a bounded request for missing named interfaces, then exactly one final continuation.",
+    "initial_call_telemetry": {
+      "input_tokens": 5501,
+      "output_tokens": 4692,
+      "cache_read_tokens": 23725,
+      "cache_write_tokens": 6666,
+      "reasoning_tokens": 4532,
+      "provider_cost_usd": 0.083767,
+      "elapsed_ms": 48705,
+      "source": "provider modelUsage aggregate for the successful NEED call"
+    },
+    "telemetry": {
+      "input_tokens": null,
+      "output_tokens": null,
+      "cache_read_tokens": null,
+      "cache_write_tokens": null,
+      "reasoning_tokens": null,
+      "provider_cost_usd": null,
+      "elapsed_ms": 228705,
+      "telemetry_status": "aggregate unavailable: the second call emitted no provider payload before its 180-second harness bound"
+    }
+  },
+  "execution": {
+    "mode": "ticket-spec-index-grounded-staged-no-tools",
+    "source_revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "source_tree_changed": false,
+    "packet": {
+      "builder": "scripts/engine-pipeline-pack.py --ticket-spec ... --no-tools",
+      "initial_packet_bytes": 13834,
+      "initial_packet_lines": 297,
+      "grounding": "TicketSpec anchors plus the existing knowledge-index capability check; no broad raw source dump"
+    },
+    "calls": [
+      {
+        "kind": "need",
+        "outcome": "completed",
+        "response": [
+          "NEED: backend/game/ability_effects.go executePumpEffect",
+          "NEED: backend/game/effects.go Register RemoveUntilEOT",
+          "NEED: backend/game/ability_effects.go:1-30"
+        ]
+      },
+      {
+        "kind": "final_after_bounded_need",
+        "outcome": "no_provider_payload_before_harness_timeout",
+        "timeout_seconds": 180
+      }
+    ]
+  },
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-engine-switch-pt-v8-claude.raw.json",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "description": "Empty final-call stdout retained as the direct timeout artifact."
+    }
+  ],
+  "gates": [
+    {
+      "id": "ticket-spec-packet",
+      "outcome": "passed",
+      "evidence": "The existing Engine packer accepted the TicketSpec and emitted the bounded 13,834-byte packet from its pinned evidence anchors."
+    },
+    {
+      "id": "bounded-need",
+      "outcome": "passed",
+      "evidence": "The first call returned exactly three precise named interface requests, and the harness served only those regions."
+    },
+    {
+      "id": "final-response-contract",
+      "outcome": "not_run",
+      "evidence": "The final continuation had no provider payload."
+    },
+    {
+      "id": "source-mutation",
+      "outcome": "passed",
+      "evidence": "The no-tools adapter left the source worktree clean."
+    }
+  ],
+  "outcome": "infrastructure_failed_after_bounded_need",
+  "next_action": "Retain this index-grounded packet/NEED flow. Before another hard Engine implementation retry, make the final Claude continuation transport reliable; do not broaden the ticket or treat the timeout as a semantic verdict."
+}

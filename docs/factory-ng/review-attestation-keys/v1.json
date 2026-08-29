@@ -1,0 +1,6 @@
+{
+  "schema": "factory.review-attestation-keys/v1",
+  "keys": [
+    {"id": "factory-harness-review-v1", "algorithm": "ed25519", "public_key_path": "docs/factory-ng/review-attestation-keys/factory-harness-review-v1.pub.pem"}
+  ]
+}

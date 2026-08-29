@@ -1,0 +1,47 @@
+{
+  "schema": "factory.integration-receipt/v1",
+  "supersedes": "docs/factory-ng/runs/2026-08-28-target-player-draw-integration-v1.json",
+  "parents": [
+    "ticket:engine.draw-target-lifting/v2",
+    "ticket:map.target-player-draw/v4"
+  ],
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "base_revision": "6d85a3d649103d8f3a50fb6436ed266c77b0942a",
+    "result_commit": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "pushed": false,
+    "deployed": false
+  },
+  "changed_paths": [
+    "backend/cards/converter.go",
+    "backend/cards/draw_target_lifting_test.go",
+    "scripts/paragraph/reparse.py",
+    "scripts/paragraph/test_target_player_draw.py"
+  ],
+  "gates": [
+    {
+      "id": "focused-map-source",
+      "command": "cd scripts/paragraph && python3 -m unittest test_target_player_draw",
+      "outcome": "passed",
+      "evidence": "Ran 5 tests in 0.046s; OK after commit."
+    },
+    {
+      "id": "focused-engine-source",
+      "command": "cd backend && go test ./cards -run '^TestDrawSpellTargetLifting$' -count=1",
+      "outcome": "passed",
+      "evidence": "Passed in the source worktree on the committed revision at 2026-08-28T21:11Z."
+    },
+    {
+      "id": "scope",
+      "outcome": "passed",
+      "evidence": "The commit contains exactly the four accepted Map/Engine paths."
+    },
+    {
+      "id": "diff-check",
+      "outcome": "passed",
+      "evidence": "git diff --cached --check passed before commit."
+    }
+  ],
+  "outcome": "committed_locally_fully_gated_not_pushed_or_deployed",
+  "next_action": "An explicit user decision is still required before push or deployment."
+}

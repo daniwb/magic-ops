@@ -1,0 +1,30 @@
+{
+  "schema": "factory.model-profile/v1",
+  "id": "staged-baseline",
+  "version": "1.0.0",
+  "purpose": "The proven Map/Engine pipeline shape: deterministic evidence, constrained model output, harness-owned apply and gates.",
+  "input_contract": {
+    "ticket": "TicketSpec v1",
+    "evidence_bundle": "immutable, digest recorded",
+    "skill": "pinned by digest",
+    "rendering": "structured text packet"
+  },
+  "output_contract": {
+    "patch": "SEARCH/REPLACE or NEWFILE blocks accepted by scripts/map-pipeline-apply.py",
+    "decision": ["NEEDS_PRIMITIVE", "SEMANTIC_GAP", "AMBIGUOUS", "MISMATCH"],
+    "need": "at most one bounded NEED request before a patch/decision"
+  },
+  "authority": {
+    "model_edits_workspace": false,
+    "harness_applies_patch": true,
+    "harness_owns_tests_and_gates": true,
+    "commit_push_deploy": false
+  },
+  "budget_policy": {
+    "ordinary_target_effective_tokens": 200000,
+    "warning_reflection_effective_tokens": 500000,
+    "warning_is_hard_stop": false,
+    "max_patch_calls": 2
+  },
+  "receipt": "factory.execution-receipt/v1"
+}

@@ -1,0 +1,72 @@
+<<<FILE scripts/paragraph/reparse.py
+<<<SEARCH
+    if verb == 'investigate':
+        return ('investigate', {}, None)
+    if verb == 'pump':
+        o = args.get('obj') or {}
+===REPLACE
+    if verb == 'investigate':
+        return ('investigate', {}, None)
+    if verb == 'switch_pt':
+        o = args.get('obj') or {}
+        if o.get('object'):
+            if o['object'].get('filter') == 'self':
+                return ('switch_pt', {}, None)
+            return None
+        if o.get('target'):
+            t = o['target']
+            if t.get('filter') == 'creature' and not t.get('subtype'):
+                return ('switch_pt', {}, {'filter': 'creature'})
+            return None
+        if o.get('each'):
+            e = o['each']
+            if e.get('filter') == 'creature':
+                return ('switch_pt', {'target': 'each'}, None)
+            return None
+        return None
+    if verb == 'pump':
+        o = args.get('obj') or {}
+>>>END
+<<<NEWFILE scripts/paragraph/test_switch_pt.py
+import pathlib
+import sys
+import unittest
+
+
+sys.path.insert(0, str(pathlib.Path(__file__).parent))
+import reparse  # noqa: E402
+
+
+class SwitchPtTest(unittest.TestCase):
+    def map_switch_pt(self, text, kind):
+        verb, args = reparse.O.parse_atom(text)
+        self.assertEqual(verb, "switch_pt")
+        return reparse.map_atom(verb, args, kind=kind)
+
+    def test_self_activated(self):
+        self.assertEqual(
+            self.map_switch_pt("Switch this creature's power and toughness until end of turn.", "activated"),
+            ("switch_pt", {}, None),
+        )
+
+    def test_target_creature_oneshot(self):
+        self.assertEqual(
+            self.map_switch_pt("Switch target creature's power and toughness until end of turn.", "spell_oneshot"),
+            ("switch_pt", {}, {"filter": "creature"}),
+        )
+
+    def test_each_creature_activated(self):
+        self.assertEqual(
+            self.map_switch_pt("Switch each creature's power and toughness until end of turn.", "activated"),
+            ("switch_pt", {"target": "each"}, None),
+        )
+
+    def test_target_player_unmapped(self):
+        self.assertIsNone(
+            self.map_switch_pt("Switch target player's power and toughness until end of turn.", "activated")
+        )
+
+
+if __name__ == "__main__":
+    unittest.main()
+>>>END

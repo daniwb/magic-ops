@@ -1,0 +1,1 @@
+BLOCKER docs/sessions/golden-map-target-player-draw/attempt.json:1 — claims Engine focused and `./cards` regression passed, but no Engine/cards gate receipts are present; existing receipts predate the Engine child patch and only cover the old `./game` overlay.

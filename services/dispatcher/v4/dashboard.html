@@ -3,274 +3,158 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Magefield Reparse Fleet — live</title>
+<title>Magic Factory NG</title>
 <style>
-  :root {
-    --bg: #F4F6F5; --panel: #FFFFFF; --ink: #20272B; --muted: #5E6D6A;
-    --line: #DCE3E0; --accent: #2F8577; --accent-soft: #E3F0ED;
-    --good: #4C9A56; --warn: #B07E2E; --crit: #B85C4A;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #161B1E; --panel: #1D2529; --ink: #DEE5E2; --muted: #8FA09B;
-      --line: #2C3639; --accent: #4FB3A2; --accent-soft: #1F3833;
-      --good: #6FBE78; --warn: #D3A254; --crit: #D08069;
-    }
-  }
-  body {
-    background: var(--bg); color: var(--ink);
-    font: 15px/1.5 "Avenir Next", "Segoe UI", system-ui, sans-serif;
-    margin: 0; padding: 24px clamp(16px, 4vw, 48px) 48px;
-  }
-  .mono { font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, monospace; font-variant-numeric: tabular-nums; }
-  header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 20px; margin-bottom: 18px; }
-  h1 { font-size: 1.4rem; font-weight: 650; margin: 0; }
-  .live { display: inline-flex; align-items: center; gap: 6px; background: var(--accent-soft); color: var(--accent);
-    font-size: 0.78rem; font-weight: 600; padding: 3px 10px; border-radius: 3px; }
-  .live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
-  a { color: var(--accent); }
-  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 22px; }
-  .kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 12px 16px 10px; }
-  .kpi .label { font-size: 0.66rem; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-  .kpi .value { font-size: 1.6rem; font-weight: 650; }
-  .kpi.accent .value { color: var(--accent); }
-  .kpi.warn .value { color: var(--warn); }
-  section { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 16px 20px; margin-bottom: 16px; }
-  h2 { font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
-  .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
-  .controls input[type="search"] { flex: 1 1 220px; max-width: 340px; padding: 7px 12px; font: inherit;
-    color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 5px; }
-  .controls input[type="search"]:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
-  .chip { border: 1px solid var(--line); background: var(--bg); color: var(--muted); font: inherit;
-    font-size: 0.8rem; font-weight: 600; padding: 5px 12px; border-radius: 99px; cursor: pointer; }
-  .chip[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
-  .count { margin-left: auto; color: var(--muted); font-size: 0.82rem; }
-  .cardtablewrap { overflow: auto; max-height: 440px; border: 1px solid var(--line); border-radius: 5px; }
-  table.cards { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
-  table.cards th { text-align: left; font-size: 0.66rem; letter-spacing: 0.07em; text-transform: uppercase;
-    color: var(--muted); padding: 8px 12px; position: sticky; top: 0; background: var(--panel); border-bottom: 1px solid var(--line); }
-  table.cards td { padding: 5px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
-  .tier { display: inline-block; padding: 0 8px; border-radius: 3px; font-size: 0.72rem; font-weight: 650; }
-  .tier.full { background: color-mix(in srgb, var(--good) 15%, transparent); color: var(--good); }
-  .tier.part { background: color-mix(in srgb, var(--warn) 15%, transparent); color: var(--warn); }
-  .v2flag { color: var(--accent); font-weight: 700; }
-  .more button { font: inherit; font-size: 0.82rem; font-weight: 600; color: var(--accent); background: none;
-    border: 1px solid var(--accent); border-radius: 5px; padding: 6px 14px; cursor: pointer; margin-top: 10px; }
-  .rows { display: flex; flex-direction: column; gap: 8px; font-size: 0.86rem; }
-  .row { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dashed var(--line); padding-bottom: 7px; }
-  .row:last-child { border-bottom: none; }
-  .row .k { color: var(--muted); }
-  .row .v { font-weight: 600; }
-  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media (max-width: 800px) { .grid2 { grid-template-columns: 1fr; } }
+  :root { --bg:#10151b; --panel:#18212a; --ink:#e8eef3; --muted:#9aa9b5; --line:#293847;
+    --accent:#58b6a2; --good:#68c67b; --warn:#e7b75f; --bad:#e47b72; --blue:#78a9ff; }
+  * { box-sizing:border-box } body { margin:0; background:var(--bg); color:var(--ink);
+    font:14px/1.45 Inter,ui-sans-serif,system-ui,sans-serif; }
+  header { display:flex; align-items:baseline; gap:12px; padding:17px clamp(16px,4vw,46px);
+    border-bottom:1px solid var(--line); position:sticky; top:0; background:color-mix(in srgb,var(--bg) 94%,transparent); backdrop-filter:blur(8px); z-index:2; }
+  h1 { margin:0; font-size:18px } h2 { margin:0 0 12px; color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.09em }
+  main { max-width:1450px; margin:0 auto; padding:20px clamp(16px,4vw,46px) 48px; }
+  .live { color:var(--accent); font-size:12px; font-weight:650 } .live::before { content:'●'; margin-right:6px; }
+  .muted { color:var(--muted) } .mono { font:12px ui-monospace,SFMono-Regular,Menlo,monospace; font-variant-numeric:tabular-nums; }
+  .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:11px; margin-bottom:16px; }
+  .kpi,section { background:var(--panel); border:1px solid var(--line); border-radius:9px; }
+  .kpi { padding:13px 15px } .kpi .n { font-size:25px; font-weight:700; margin-top:2px }
+  .kpi .l { color:var(--muted); font-size:10px; letter-spacing:.08em; text-transform:uppercase }
+  .kpi .hint { color:var(--muted); font-size:11px; min-height:16px } .accent .n { color:var(--accent) } .warn .n { color:var(--warn) }
+  section { padding:16px 18px; margin-bottom:16px } .grid { display:grid; grid-template-columns:1.15fr .85fr; gap:16px }
+  @media(max-width:850px){ .grid { grid-template-columns:1fr } header { position:static } }
+  .worker { display:grid; grid-template-columns:minmax(125px,.7fr) minmax(200px,1fr) minmax(180px,1fr) auto; align-items:center; gap:10px;
+    border-top:1px solid var(--line); padding:11px 0; }
+  .worker:first-of-type { border-top:0; padding-top:0 } @media(max-width:750px){ .worker { grid-template-columns:1fr; gap:7px } }
+  .worker-name { font-weight:700 } .worker-work { color:var(--muted); font-size:12px; margin-top:2px }
+  select,input { width:100%; color:var(--ink); background:#101820; border:1px solid var(--line); border-radius:6px; padding:7px 8px; font:12px ui-monospace,SFMono-Regular,Menlo,monospace; }
+  button { color:var(--ink); background:#22313d; border:1px solid #3a5263; border-radius:6px; cursor:pointer; padding:7px 10px; font:600 12px system-ui,sans-serif; }
+  button:hover { border-color:var(--accent); color:var(--accent) } button:disabled { opacity:.45; cursor:wait }
+  .toggle { display:flex; align-items:center; gap:7px; white-space:nowrap; font-size:12px } .toggle input { width:auto; accent-color:var(--accent) }
+  table { width:100%; border-collapse:collapse; font-size:12px } th { color:var(--muted); font-size:10px; letter-spacing:.06em; text-transform:uppercase; text-align:left; padding:0 7px 7px; }
+  td { border-top:1px solid var(--line); padding:7px; vertical-align:top } .right { text-align:right } .scroll { max-height:360px; overflow:auto }
+  .pill { display:inline-block; padding:1px 7px; border:1px solid var(--line); border-radius:999px; color:var(--muted); font-size:10px; white-space:nowrap }
+  .accepted { color:var(--good) } .failed { color:var(--bad) } .warning { color:var(--warn) }
+  .bar { display:flex; height:17px; overflow:hidden; border-radius:5px; background:#111923; margin:8px 0 5px; } .bar div { min-width:2px }
+  .legend { display:flex; gap:14px; flex-wrap:wrap; color:var(--muted); font-size:12px } .legend i { width:9px; height:9px; display:inline-block; border-radius:2px; margin-right:5px }
+  .error { color:var(--bad) } a { color:var(--accent) }
+  .factory-state { display:flex; align-items:center; gap:13px; } .run-symbol { width:38px; height:38px; display:grid; place-items:center; border:1px solid var(--line); border-radius:50%; color:var(--muted); font-size:17px; }
+  .run-symbol.running { border-color:var(--good); color:var(--good); box-shadow:0 0 14px color-mix(in srgb,var(--good) 24%,transparent); }
+  details { max-width:720px } summary { cursor:pointer; color:var(--accent) } pre { white-space:pre-wrap; overflow-wrap:anywhere; color:var(--muted); font:11px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace; margin:9px 0 0; }
 </style>
 </head>
 <body>
 <header>
-  <h1>Magefield Reparse Fleet</h1>
-  <span class="live">live — dispatcher :9999</span>
-  <span class="mono" id="stamp" style="color:var(--muted);font-size:0.82rem"></span>
-  <a href="/" style="margin-left:auto;font-size:0.82rem">ticket board →</a>
+  <h1>Magic Factory NG</h1><span class="live">receipt-derived</span>
+  <span id="stamp" class="muted mono"></span>
+  <a href="/" style="margin-left:auto;font-size:12px">legacy board →</a>
 </header>
-
-<div class="kpis">
-  <div class="kpi accent"><div class="label">Playable cards</div><div class="value mono" id="k-total">…</div></div>
-  <div class="kpi"><div class="label">Fully implemented</div><div class="value mono" id="k-full">…</div></div>
-  <div class="kpi warn"><div class="label">Partial (review)</div><div class="value mono" id="k-part">…</div></div>
-  <div class="kpi"><div class="label">Native v2 records</div><div class="value mono" id="k-v2">…</div></div>
-  <div class="kpi"><div class="label">Tasks open</div><div class="value mono" id="k-todo">…</div></div>
-  <div class="kpi"><div class="label">Tasks done</div><div class="value mono" id="k-done">…</div></div>
-  <div class="kpi warn"><div class="label">Unclassified</div><div class="value mono" id="k-unclass">…</div><div class="hint">classifier-round trigger</div></div>
-  <div class="kpi warn"><div class="label">Session-gated misses</div><div class="value mono" id="k-gated">…</div><div class="hint">engine rounds needed</div></div>
-  <div class="kpi good"><div class="label">Flip frontier (1 / 2 / 3+ misses)</div><div class="value mono" id="k-frontier">…</div><div class="hint" id="k-frontier-top">1-miss cards flip on their next landing</div></div>
-  <div class="kpi"><div class="label">Total misses</div><div class="value mono" id="k-misses">…</div><div class="hint">review pile, all shapes</div></div>
-</div>
-
-<section>
-  <h2>Card database</h2>
-  <div class="controls">
-    <input id="q" type="search" placeholder="Search cards…" aria-label="Search cards">
-    <button class="chip" data-f="all" aria-pressed="true">All</button>
-    <button class="chip" data-f="full" aria-pressed="false">Full</button>
-    <button class="chip" data-f="part" aria-pressed="false">Partial</button>
-    <button class="chip" data-f="v2" aria-pressed="false">v2-native</button>
-    <span class="count mono" id="count"></span>
+<main>
+  <div class="kpis">
+    <div class="kpi accent"><div class="l">Corpus source cards</div><div class="n mono" id="corpus">—</div><div class="hint" id="classified"></div></div>
+    <div class="kpi accent"><div class="l">Imported cards</div><div class="n mono" id="imported">—</div><div class="hint" id="importedDelta"></div></div>
+    <div class="kpi"><div class="l">OK / auto records</div><div class="n mono" id="auto">—</div><div class="hint" id="autoDelta"></div></div>
+    <div class="kpi warn"><div class="l">Review records</div><div class="n mono" id="review">—</div><div class="hint" id="reviewDelta"></div></div>
+    <div class="kpi"><div class="l">Factory TicketSpecs</div><div class="n mono" id="tickets">—</div><div class="hint" id="ticketsHint"></div></div>
+    <div class="kpi"><div class="l">Accepted observations</div><div class="n mono" id="accepted">—</div><div class="hint" id="attemptsHint"></div></div>
+    <div class="kpi"><div class="l">Explicit integrations</div><div class="n mono" id="integrations">—</div><div class="hint">local only unless marked pushed</div></div>
   </div>
-  <div class="cardtablewrap">
-    <table class="cards">
-      <thead><tr><th>Card</th><th>Cost</th><th>Type</th><th>Tier</th><th>v2</th></tr></thead>
-      <tbody id="rows"></tbody>
-    </table>
-  </div>
-  <p class="more"><button id="more" hidden>Show more</button></p>
-</section>
 
-<section>
-  <h2>Corpus — where every card stands</h2>
-  <div id="corpusbar" style="display:flex;height:26px;border-radius:5px;overflow:hidden;font-size:0.7rem;color:#fff;margin-bottom:6px"></div>
-  <div id="corpuslegend" style="display:flex;gap:16px;flex-wrap:wrap;font-size:0.78rem;color:var(--muted)"></div>
-</section>
-
-<section>
-  <h2>Build plan — what must be done (deterministic, exact yields)</h2>
-  <p class="h2note">coverage_planner.py set-cover over all blocked cards. Streams:
-  <b style="color:var(--accent)">session</b> (kinds/engine) ·
-  <b style="color:var(--good)">fleet</b> (mapping rules) ·
-  <b style="color:var(--warn)">catch-all</b> (decomposes into sub-families).</p>
-  <div class="tablewrap" style="max-height:340px;overflow:auto">
-  <table class="cards"><thead><tr><th>#</th><th>Build item</th><th>Unlocks</th><th></th></tr></thead>
-  <tbody id="planrows"></tbody></table>
-  </div>
-</section>
-
-<div class="grid2">
   <section>
-    <h2>Fleet</h2>
-    <div class="rows" id="fleet"></div>
+    <h2>Factory run</h2>
+    <div class="factory-state"><div class="run-symbol" id="runSymbol">▶</div><div style="flex:1"><div id="runState" style="font-weight:700">Loading Factory NG status…</div><div id="runMessage" class="muted" style="font-size:12px"></div></div><div style="display:flex;gap:7px"><button id="startFactory" onclick="factoryControl('start')">▶ Start factory</button><button id="stopFactory" onclick="factoryControl('stop')">■ Stop</button></div></div>
+    <div id="activeWork" class="muted" style="font-size:12px;margin-top:12px">Loading active work…</div>
+    <div id="lastJob" class="muted" style="font-size:12px;margin-top:7px">Loading latest job…</div>
   </section>
-  <section>
-    <h2>Queue states</h2>
-    <div class="rows" id="states"></div>
-  </section>
-</div>
 
+  <section>
+    <h2>Card record status</h2>
+    <div class="bar" id="cardBar"></div><div class="legend" id="cardLegend"></div>
+    <div class="muted" style="font-size:11px;margin-top:9px">“OK / auto” and “review” are the current <span class="mono">carddb</span> statuses. The 24-hour figures are status deltas from the dashboard’s own 15-minute snapshots.</div>
+  </section>
+
+  <section>
+    <h2>NG workers — settings for the next supervised cycle</h2>
+    <div id="workers"><span class="muted">Loading worker configuration…</span></div>
+    <p class="muted" style="font-size:11px;margin:12px 0 0">Enabled workers are eligible for a newly produced, compatible TicketSpec. Metered workers dispatch only below their weekly pace threshold. Accepted candidates enter the configured harness-owned full production gate; green gates push automatically, while live deployment remains separate.</p>
+  </section>
+
+  <div class="grid">
+    <section>
+      <h2>Ticket DAG and factory lifecycle</h2>
+      <div class="scroll"><table><thead><tr><th>Ticket</th><th>Type</th><th>Factory state</th><th>Worker</th><th>Parents</th><th>Receipt</th></tr></thead><tbody id="ticketRows"></tbody></table></div>
+    </section>
+    <section>
+      <h2>Integrations</h2>
+      <div class="scroll"><table><thead><tr><th>Parents</th><th>Outcome</th><th>Commit</th></tr></thead><tbody id="integrationRows"></tbody></table></div>
+    </section>
+  </div>
+
+  <section>
+    <h2>Factory job details</h2>
+    <div class="scroll"><table><thead><tr><th>Ticket</th><th>State / worker</th><th>Timing</th><th>Outcome and evidence</th></tr></thead><tbody id="jobRows"></tbody></table></div>
+  </section>
+
+  <section>
+    <h2>Attempts and model telemetry</h2>
+    <div class="scroll"><table><thead><tr><th>Ticket</th><th>Outcome</th><th>Profile / model</th><th class="right">Input</th><th class="right">Output</th><th class="right">Cache read</th><th class="right">Cache write</th><th class="right">Reasoning</th><th class="right">Cost</th></tr></thead><tbody id="attemptRows"></tbody></table></div>
+  </section>
+</main>
 <script>
-  let CARDS = [], filter = 'all', shown = 0, matches = [];
-  const PAGE = 300;
-  const rowsEl = document.getElementById('rows'), countEl = document.getElementById('count'),
-        moreBtn = document.getElementById('more'), q = document.getElementById('q');
-  const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
-  const fmt = n => n.toLocaleString('en-US');
-  function recompute() {
-    const needle = q.value.trim().toLowerCase();
-    matches = CARDS.filter(c => {
-      if (filter === 'full' && c[1] === 'r') return false;
-      if (filter === 'part' && c[1] !== 'r') return false;
-      if (filter === 'v2'   && !c[4]) return false;
-      return !needle || c[0].toLowerCase().includes(needle);
-    });
-    shown = 0; rowsEl.innerHTML = '';
-    countEl.textContent = fmt(matches.length) + ' cards';
-    renderMore();
-  }
-  function renderMore() {
-    const html = [];
-    for (let i = shown; i < Math.min(shown + PAGE, matches.length); i++) {
-      const c = matches[i];
-      html.push('<tr><td>' + esc(c[0]) + '</td><td class="mono">' + esc(c[2]) +
-        '</td><td>' + esc(c[3]) + '</td><td><span class="tier ' +
-        (c[1] === 'r' ? 'part">partial' : 'full">full') + '</span></td><td>' +
-        (c[4] ? '<span class="v2flag">v2</span>' : '') + '</td></tr>');
-    }
-    rowsEl.insertAdjacentHTML('beforeend', html.join(''));
-    shown = Math.min(shown + PAGE, matches.length);
-    moreBtn.hidden = shown >= matches.length;
-    moreBtn.textContent = 'Show ' + Math.min(PAGE, matches.length - shown) + ' more (' + fmt(matches.length - shown) + ' left)';
-  }
-  q.addEventListener('input', recompute);
-  moreBtn.addEventListener('click', renderMore);
-  document.querySelectorAll('.chip').forEach(b => b.addEventListener('click', () => {
-    document.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', 'false'));
-    b.setAttribute('aria-pressed', 'true');
-    filter = b.dataset.f; recompute();
-  }));
-
-  async function loadCards() {
-    const r = await fetch('/carddb'); CARDS = await r.json();
-    let full = 0, part = 0, v2 = 0;
-    for (const c of CARDS) { if (c[1] === 'r') part++; else full++; if (c[4]) v2++; }
-    document.getElementById('k-total').textContent = fmt(CARDS.length);
-    document.getElementById('k-full').textContent = fmt(full);
-    document.getElementById('k-part').textContent = fmt(part);
-    document.getElementById('k-v2').textContent = fmt(v2);
-    document.getElementById('stamp').textContent = 'data: ' + new Date().toLocaleString();
-    recompute();
-  }
-  async function loadPile() {
-    try {
-      const r = await fetch('/pilestats'); const s = await r.json();
-      if (s.unclassified !== undefined) document.getElementById('k-unclass').textContent = fmt(s.unclassified);
-      if (s.session_gated !== undefined) document.getElementById('k-gated').textContent = fmt(s.session_gated);
-      if (s.total_misses !== undefined) document.getElementById('k-misses').textContent = fmt(s.total_misses);
-      if (s.frontier_1 !== undefined) {
-        const el = document.getElementById('k-frontier');
-        if (el) el.textContent = fmt(s.frontier_1) + ' / ' + fmt(s.frontier_2) + ' / ' + fmt(s.frontier_3plus);
-        const tops = [];
-        for (let i = 1; i <= 5; i++) {
-          if (s['frontier_top' + i] !== undefined) tops.push(esc(s['frontier_top' + i + '_name']) + ' (' + fmt(s['frontier_top' + i]) + ')');
-        }
-        const tl = document.getElementById('k-frontier-top');
-        if (tl && tops.length) tl.innerHTML = tops.join(' · ');
-      }
-    } catch (e) {}
-  }
-  async function loadStats() {
-    try {
-      const r = await fetch('/stats'); const s = await r.json();
-      const st = s.states || {};
-      document.getElementById('k-todo').textContent = fmt((st.todo||0) + (st.working||0));
-      document.getElementById('k-done').textContent = fmt(st.done||0);
-      const fleet = document.getElementById('fleet');
-      const workers = (s.workers||[]) .map(w => '<div class="row"><span class="k">' + esc(w.worker||w.id||'worker') +
-        '</span><span class="v">#' + esc(w.ticket_id||w.id||'') + ' ' + esc((w.title||'').slice(0,40)) +
-        (w.state && w.state !== 'working' ? ' <em>(' + esc(w.state) + ')</em>' : '') + '</span></div>').join('');
-      fleet.innerHTML = (workers || '<div class="row"><span class="k">workers</span><span class="v">idle</span></div>') +
-        '<div class="row"><span class="k">fixed 24h / 7d</span><span class="v mono">' + fmt(s.fixed_24h||0) + ' / ' + fmt(s.fixed_7d||0) + '</span></div>' +
-        '<div class="row"><span class="k">backlog remaining</span><span class="v mono">' + fmt(s.backlog_remaining||0) + '</span></div>' +
-        (s.misses_total >= 0 ? '<div class="row"><span class="k">corpus misses</span><span class="v mono">' + fmt(s.misses_total) +
-          ' (' + (s.misses_drop_24h > 0 ? '▼' + fmt(s.misses_drop_24h) : '±0') + '/24h, ' + fmt(s.misses_cards||0) + ' cards)</span></div>' : '');
-      const states = document.getElementById('states');
-      states.innerHTML = Object.keys(st).sort().map(k =>
-        '<div class="row"><span class="k">' + esc(k) + '</span><span class="v mono">' + fmt(st[k]) + '</span></div>').join('');
-    } catch (e) { /* dispatcher restarting — keep last view */ }
-  }
-  async function loadPlan() {
-    try {
-      const r = await fetch('/buildplan'); const plan = await r.json();
-      if (!plan.length) return;
-      const max = Math.max(...plan.map(p => p.marginal_unlock));
-      let cum = 0;
-      const total = plan.reduce((a,p)=>a+p.marginal_unlock,0);
-      document.getElementById('planrows').innerHTML = plan.map(p => {
-        cum += p.marginal_unlock;
-        const it = p.item;
-        const cls = it.startsWith('kind_') || it.startsWith('spine') || it.includes('referent') ? 'var(--accent)'
-                  : (it === 'verb_unmapped:?' || it.includes('UNCLASSIFIED') || it === 'static_unmapped' || it === 'keyword_unsupported') ? 'var(--warn)'
-                  : 'var(--good)';
-        const w = Math.max(2, Math.round(p.marginal_unlock / max * 100));
-        return '<tr><td class="mono">' + p.rank + '</td><td style="color:' + cls + '">' + esc(it) +
-          '</td><td class="mono">+' + fmt(p.marginal_unlock) + ' (cum ' + fmt(cum) + ')</td>' +
-          '<td style="min-width:120px"><div style="height:8px;border-radius:2px;width:' + w + '%;background:' + cls + '"></div></td></tr>';
-      }).join('');
-    } catch (e) {}
-  }
-  function paintCorpus(full, review, corpusBlocked, handlerFloor) {
-    const segs = [
-      ['Fully implemented', full, 'var(--good)'],
-      ['Review (playable, partial)', review, 'var(--warn)'],
-      ['Not yet imported (mappable)', corpusBlocked, '#7a8fa6'],
-      ['Handler floor (~13.7%)', handlerFloor, 'var(--crit)'],
-    ];
-    const total = segs.reduce((a,s)=>a+s[1],0);
-    document.getElementById('corpusbar').innerHTML = segs.map(s =>
-      '<div style="width:' + (s[1]/total*100) + '%;background:' + s[2] + ';display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden">' + (s[1]/total>0.07 ? fmt(s[1]) : '') + '</div>').join('');
-    document.getElementById('corpuslegend').innerHTML = segs.map(s =>
-      '<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:' + s[2] + ';margin-right:5px"></span>' + s[0] + ': <b>' + fmt(s[1]) + '</b></span>').join('');
-  }
-  async function loadCorpusBar() {
-    try {
-      const r = await fetch('/carddb'); const cards = await r.json();
-      let full=0, rev=0;
-      for (const c of cards) { if (c[1]==='r') rev++; else full++; }
-      const CORPUS_TOTAL = 33859, HANDLER_FLOOR = Math.round(33859*0.137);
-      const blocked = Math.max(0, CORPUS_TOTAL - full - rev - HANDLER_FLOOR);
-      paintCorpus(full, rev, blocked, HANDLER_FLOOR);
-    } catch (e) {}
-  }
-  loadCards(); loadStats(); loadPile(); loadPlan(); loadCorpusBar();
-  setInterval(loadPile, 300000);
-  setInterval(loadStats, 15000);
-  setInterval(loadCards, 120000);
+const $ = s => document.querySelector(s), fmt = n => Number(n||0).toLocaleString(), esc = s => String(s??'—').replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const n = x => x === undefined || x === null ? '—' : fmt(x);
+function outcomeClass(v){ return v.startsWith('accepted')?'accepted':v.includes('failed')?'failed':v.startsWith('warning')?'warning':'' }
+function delta(v, label){ if(v === undefined) return 'history begins with this view'; return (v>0?'+':'')+fmt(v)+' '+label+' / 24h'; }
+async function loadCards(){
+  const data = await fetch('/factory-ng/cards').then(r=>r.json()); const c=data.current, d=data.change_24h;
+  $('#corpus').textContent=fmt(c.corpus_total); $('#classified').textContent=fmt(c.corpus_classified)+' classified';
+  $('#imported').textContent=fmt(c.imported); $('#auto').textContent=fmt(c.auto); $('#review').textContent=fmt(c.review);
+  $('#importedDelta').textContent=delta(d?.imported,'imported'); $('#autoDelta').textContent=delta(d?.auto,'OK'); $('#reviewDelta').textContent=delta(d?.review,'review');
+  const segs=[['auto / OK',c.auto,'var(--good)'],['review',c.review,'var(--warn)'],['manual',c.manual,'var(--blue)']];
+  $('#cardBar').innerHTML=segs.map(x=>`<div style="width:${x[1]/Math.max(1,c.imported)*100}%;background:${x[2]}"></div>`).join('');
+  $('#cardLegend').innerHTML=segs.map(x=>`<span><i style="background:${x[2]}"></i>${x[0]}: <b class="mono">${fmt(x[1])}</b></span>`).join('');
+}
+async function loadRunStatus(){
+  const s=await fetch('/factory-ng/status').then(r=>r.json()), active=s.active||[], running=s.state==='running';
+  $('#runSymbol').textContent=s.symbol||'▶'; $('#runSymbol').classList.toggle('running',running);
+  $('#runState').textContent=running?'Factory running':'Factory idle'; $('#runMessage').textContent=s.message||'';
+  $('#startFactory').disabled=running; $('#stopFactory').disabled=!running;
+  const phase=s.phase ? ' · '+esc(s.phase.replaceAll('_',' ')) : '';
+  $('#activeWork').innerHTML=active.length ? '<b>Currently running:</b> '+active.map(x=>esc(x.ticket_id||x.id||x)).join(', ')+phase : 'Currently running: none · '+fmt(s.enabled_workers)+' worker profile(s) enabled'+phase+'.';
+}
+async function factoryControl(action){
+  const button=action==='start'?$('#startFactory'):$('#stopFactory'); button.disabled=true;
+  try { const r=await fetch('/factory-ng/control?action='+action,{method:'POST'}); if(!r.ok) throw new Error(await r.text()); await loadRunStatus(); }
+  catch(e) { alert('Factory '+action+' failed: '+e.message); await loadRunStatus(); }
+}
+async function loadWorkers(){
+  const data = await fetch('/factory-ng/workers').then(r=>r.json()), profiles=data.profiles||[];
+  $('#workers').innerHTML=(data.workers||[]).map(w=>`<div class="worker" data-id="${esc(w.id)}">
+    <div><div class="worker-name">${esc(w.label)}</div><div class="worker-work">${esc(w.work)} · usage: ${esc(w.usage_policy||'unmetered')}</div></div>
+    <select aria-label="${esc(w.label)} profile">${profiles.map(p=>`<option value="${esc(p.id)}" ${p.id===w.profile?'selected':''}>${esc(p.id)} · ${esc(p.engine)}</option>`).join('')}</select>
+    <input value="${esc(w.model)}" aria-label="${esc(w.label)} model" maxlength="160">
+    <div style="display:flex;gap:8px;align-items:center"><label class="toggle"><input type="checkbox" ${w.enabled?'checked':''}> enabled</label><button onclick="saveWorker(this)">Save</button></div>
+  </div>`).join('');
+}
+async function saveWorker(button){
+  const row=button.closest('.worker'), [profile,model]=row.querySelectorAll('select,input[type=text],input:not([type])'), enabled=row.querySelector('input[type=checkbox]').checked;
+  button.disabled=true; const original=button.textContent; button.textContent='Saving…';
+  try { const r=await fetch('/factory-ng/workers',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:row.dataset.id,enabled,profile:profile.value,model:model.value})}); if(!r.ok) throw new Error(await r.text()); button.textContent='Saved'; setTimeout(()=>button.textContent=original,900); }
+  catch(e){ button.textContent='Error'; alert('Worker setting was not saved: '+e.message); setTimeout(()=>button.textContent=original,1600); }
+  finally { button.disabled=false; }
+}
+async function loadFactory(){
+  const data=await fetch('/factory-ng/data').then(r=>r.json()), a=data.attempts||[], t=data.tickets||[], i=data.integrations||[], jobs=data.jobs||[];
+  $('#tickets').textContent=fmt(t.length); $('#ticketsHint').textContent=fmt(a.length)+' observation receipts'; $('#accepted').textContent=fmt(a.filter(x=>x.outcome.startsWith('accepted')).length); $('#attemptsHint').textContent=fmt(a.length)+' recorded attempts'; $('#integrations').textContent=fmt(i.length);
+  const byTicket={}; a.forEach(x=>byTicket[x.ticket_id]=x); const jobByTicket={}; jobs.forEach(x=>jobByTicket[x.ticket_id]=x); const receiptByPath={}; a.forEach(x=>receiptByPath[x.receipt_path]=x);
+  $('#ticketRows').innerHTML=t.sort((a,b)=>a.id.localeCompare(b.id)).map(x=>{const r=byTicket[x.id], j=jobByTicket[x.id]; return `<tr><td class="mono">${esc(x.id)}</td><td>${esc(x.work_type)}</td><td><span class="pill ${j?.state==='working'?'warning':j?.state==='completed'?'accepted':j?.state==='failed'?'failed':''}">${esc(j?.state||'not queued')}</span></td><td>${esc(j?.worker||'—')}</td><td class="mono">${esc((x.parents||[]).join(', ')||'—')}</td><td>${esc(j?.receipt||r?.ticket_binding||'no receipt')}</td></tr>`}).join('') || '<tr><td colspan="6" class="muted">No TicketSpecs found.</td></tr>';
+  $('#integrationRows').innerHTML=i.map(x=>`<tr><td class="mono">${esc((x.parents||[]).join(', ')||'—')}</td><td class="${outcomeClass(x.outcome)}">${esc(x.outcome)}</td><td class="mono">${esc(x.result_commit)}</td></tr>`).join('') || '<tr><td colspan="3" class="muted">No explicit integrations.</td></tr>';
+  const sortedJobs=[...jobs].sort((a,b)=>(b.updated_at||'').localeCompare(a.updated_at||'')), latest=sortedJobs[0];
+  $('#lastJob').innerHTML=latest ? `<b>Latest job:</b> <span class="${latest.state==='completed'?'accepted':latest.state==='failed'?'failed':'warning'}">${esc(latest.state)}</span> · ${esc(latest.ticket_id)} · ${esc(latest.worker||'no worker')} · updated ${esc(latest.updated_at)}` : 'No Factory jobs have been created yet.';
+  $('#jobRows').innerHTML=sortedJobs.map(j=>{const r=receiptByPath[j.receipt]||byTicket[j.ticket_id]||{}, gates=r.gates||[]; const gateText=gates.map(g=>`${g.id}: ${g.outcome}${g.detail?'\n'+g.detail:''}`).join('\n\n'); const extra=[j.reason,r.next_action,r.candidate_commit&&'candidate commit: '+r.candidate_commit].filter(Boolean).join('\n'); const detail=[gateText,extra].filter(Boolean).join('\n\n'); const timing=[j.started_at&&'started '+j.started_at,j.finished_at&&'finished '+j.finished_at].filter(Boolean).join('\n'); return `<tr><td class="mono">${esc(j.ticket_id)}</td><td><span class="pill ${j.state==='working'?'warning':j.state==='completed'?'accepted':j.state==='failed'?'failed':''}">${esc(j.state)}</span><br><span class="muted">${esc(j.worker||'—')} · ${esc(j.model||j.profile||'—')}</span></td><td class="mono muted">${esc(timing||j.updated_at||'—')}</td><td><div class="${outcomeClass(j.outcome||'')}">${esc(j.outcome||'—')}</div><div class="mono muted">${esc(j.receipt||'no receipt yet')}</div>${detail?`<details><summary>Show gates / reason</summary><pre>${esc(detail)}</pre></details>`:''}</td></tr>`}).join('') || '<tr><td colspan="4" class="muted">No Factory jobs found.</td></tr>';
+  $('#attemptRows').innerHTML=a.map(x=>{const z=x.telemetry||{}; return `<tr><td class="mono">${esc(x.ticket_id)}</td><td class="${outcomeClass(x.outcome)}">${esc(x.outcome)}</td><td>${esc(x.profile)}<br><span class="muted mono">${esc(x.resolved_model)}</span></td><td class="right mono">${n(z.input_tokens)}</td><td class="right mono">${n(z.output_tokens)}</td><td class="right mono">${n(z.cache_read_tokens)}</td><td class="right mono">${n(z.cache_write_tokens)}</td><td class="right mono">${n(z.reasoning_tokens)}</td><td class="right mono">${z.provider_cost_usd===undefined?'—':'$'+Number(z.provider_cost_usd).toFixed(4)}</td></tr>`}).join('') || '<tr><td colspan="9" class="muted">No observation receipts.</td></tr>';
+}
+async function refresh(){ try { await Promise.all([loadCards(),loadRunStatus(),loadWorkers(),loadFactory()]); $('#stamp').textContent='updated '+new Date().toLocaleString(); } catch(e) { $('#stamp').innerHTML='<span class="error">data unavailable</span>'; console.error(e); } }
+refresh(); setInterval(refresh,60000);
 </script>
 </body>
 </html>

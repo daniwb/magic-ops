@@ -1,0 +1,42 @@
+{
+  "schema": "factory.integration-receipt/v1",
+  "parents": ["ticket:map.static-condition-gained-life-pump/v1"],
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "base_revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "result_commit": "8dd5e06545926033d738b0b69ab8f29145275168",
+    "pushed": false,
+    "deployed": false
+  },
+  "changed_paths": [
+    "scripts/paragraph/reparse.py",
+    "scripts/paragraph/test_static_condition_gained_life.py"
+  ],
+  "gates": [
+    {
+      "id": "focused-map-source",
+      "command": "python3 -m unittest scripts.paragraph.test_static_condition_gained_life",
+      "outcome": "passed",
+      "evidence": "Ran 3 tests; exact controller phrase maps to happened/you_gained_life while opponent and quantity variants remain unmapped."
+    },
+    {
+      "id": "pinned-remeasurement-source",
+      "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/static-condition-gained-life-pump-v1.json",
+      "outcome": "passed",
+      "evidence": "All two pinned static_conditional members remeasure to zero and are individually eligible."
+    },
+    {
+      "id": "scope",
+      "outcome": "passed",
+      "evidence": "git status --porcelain before commit named exactly the parser file and its focused test; the committed diff has the same two paths."
+    },
+    {
+      "id": "diff-check",
+      "command": "git diff --check",
+      "outcome": "passed",
+      "evidence": "Passed before commit."
+    }
+  ],
+  "outcome": "committed_locally_fully_gated_not_pushed_or_deployed",
+  "next_action": "Run the deterministic producer again for the next atomic candidate. Push or deployment still requires explicit user approval."
+}

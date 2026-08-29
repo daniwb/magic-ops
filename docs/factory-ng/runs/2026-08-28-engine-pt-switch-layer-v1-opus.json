@@ -1,0 +1,113 @@
+{
+  "schema": "factory.observation-receipt/v1",
+  "ticket": {
+    "id": "ticket:engine.pt-switch-layer/v1",
+    "path": "docs/factory-ng/tickets/engine-pt-switch-layer-v1.json",
+    "sha256": "sha256:8c37e7b2274ae377182a0ddc27190ec1377625029bb5888747dd5e9fb672a2ba"
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "model": {
+    "profile": "claude-staged@1.0.0",
+    "profile_path": "docs/factory-ng/model-profiles/v1/claude-staged.json",
+    "resolved_model": "claude-opus-5",
+    "routing_override_reason": "Bounded semantic Engine foundation; the Codex adapter is unavailable on this host before code inspection.",
+    "telemetry": {
+      "input_tokens": 22124,
+      "output_tokens": 14920,
+      "cache_read_tokens": 46264,
+      "cache_write_tokens": 33606,
+      "reasoning_tokens": 8750,
+      "provider_cost_usd": 0.75346,
+      "elapsed_ms": 158698,
+      "source": "aggregate of Opus plus Claude routing-assistant provider usage over the NEED, final, and one repair calls"
+    }
+  },
+  "execution": {
+    "mode": "ticket-spec-index-grounded-staged-no-tools",
+    "source_revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "source_tree_changed": false,
+    "packet": {
+      "builder": "scripts/engine-pipeline-pack.py --ticket-spec ... --no-tools",
+      "initial_packet_bytes": 14792,
+      "need_response_bytes": 22861,
+      "grounding": "Pinned TicketSpec anchors, a temporary freshly-built SQLite function index (1,057 Engine symbols), and exactly three named Engine regions."
+    },
+    "calls": [
+      {
+        "kind": "need",
+        "outcome": "completed",
+        "response": [
+          "NEED: effectAffectsCard",
+          "NEED: NewEffectManager",
+          "NEED: backend/game/effects.go:48-140"
+        ],
+        "elapsed_ms": 43847,
+        "provider_cost_usd": 0.180581
+      },
+      {
+        "kind": "final_after_bounded_need",
+        "outcome": "completed",
+        "elapsed_ms": 109445,
+        "provider_cost_usd": 0.505649,
+        "proposal_apply": "Initially exposed an applier bug: multiple SEARCH/REPLACE pairs under one FILE wrapper silently kept only the first pair. After the deterministic harness was fixed and regression-tested, the original proposal applied in full to a fresh clone."
+      },
+      {
+        "kind": "one_focused_repair",
+        "outcome": "not_used_for_acceptance",
+        "elapsed_ms": 5406,
+        "provider_cost_usd": 0.06723,
+        "evidence": "The repair attempted an unqualified effectAffectsCard call and did not compile. It became unnecessary once the harness correctly applied the original multi-hunk proposal."
+      }
+    ]
+  },
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-engine-pt-switch-layer-v1-opus-need.raw.json",
+      "sha256": "sha256:006a2767d7bf124a86f94bfab5f2d9b528cb9e632f6a611483a8f0fa4c8a1df0",
+      "description": "Precise bounded NEED response."
+    },
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-engine-pt-switch-layer-v1-opus-final.raw.json",
+      "sha256": "sha256:739e9699a22a4bad31da7f0b744b28026a4fcc5a061bca7cbcd9955988b84dcb",
+      "description": "Original multi-hunk Opus proposal."
+    },
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-engine-pt-switch-layer-v1-opus-repair.raw.json",
+      "sha256": "sha256:da9d70a2527772826a2ff318c5d819e33398b0dd42e45246bbde493c48820044",
+      "description": "One focused repair, retained for complete telemetry but not used after the harness correction."
+    }
+  ],
+  "gates": [
+    {
+      "id": "multi-hunk-apply",
+      "outcome": "passed",
+      "evidence": "The corrected applier applied all four effects.go hunks, card.go, and the test file in a fresh disposable clone; its new regression test covers multiple pairs under one FILE wrapper."
+    },
+    {
+      "id": "focused-layer-behavior",
+      "outcome": "passed",
+      "evidence": "cd backend && go test ./game -run '^TestSwitchPT' -count=1 passed. The two tests prove 7b/7c/7d then 7e ordering, odd/even switch parity, scope, and inactive-condition restoration."
+    },
+    {
+      "id": "ticket-named-test-selector",
+      "outcome": "failed",
+      "evidence": "go test ./game -list '^TestSwitchPowerToughnessLayer7E$' emitted no test. The TicketSpec's exact selector therefore would pass without executing the proposal's correctly-behaved TestSwitchPT* tests."
+    },
+    {
+      "id": "baseline-relative-formatting",
+      "outcome": "passed",
+      "evidence": "effects.go has zero gofmt drift in baseline and candidate; card.go has the same 107-line pre-existing gofmt drift in both."
+    },
+    {
+      "id": "scope-and-source-mutation",
+      "outcome": "passed",
+      "evidence": "The clone changed only backend/game/effects.go, backend/game/card.go, and backend/game/switch_pt_layer_test.go; openmagic remained clean."
+    }
+  ],
+  "outcome": "gate_failed_contract_selector",
+  "next_action": "Keep the implementation evidence, but do not integrate it. Issue a fresh TicketSpec revision with a behavior-based focused test selector and run a new observation; do not silently weaken the recorded v1 contract or replay this proposal as an accepted v2 run."
+}

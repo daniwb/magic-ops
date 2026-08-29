@@ -1,0 +1,917 @@
+{
+  "schema": "factory.refactor-inventory/v0",
+  "source_root": "/opt/development/test/openmagic",
+  "inputs": [
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "sha256": "sha256:2c21358aa570e26e95358c141bc7852c280ab025f46e52329e484869d3df1848"
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "sha256": "sha256:262d1ae4ae0f1a8d0bcc647be6f3e37978d5e5fb8b3b9cfcff08b48fd44400e0"
+    }
+  ],
+  "symbols": [
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "registered_effects",
+      "line": 85
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_amt",
+      "line": 103
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_title_word",
+      "line": 160
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_title_name",
+      "line": 170
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_token_color_subtype",
+      "line": 185
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_search_filter_cmp",
+      "line": 259
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_search_filter_dynamic_count",
+      "line": 297
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_search_filter",
+      "line": 312
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_search_destination",
+      "line": 405
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_merge_search_shuffle_top",
+      "line": 449
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_merge_search_reveal_hand",
+      "line": 486
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_parse_mana_type_phrase",
+      "line": 544
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_parse_mana_type_or_list",
+      "line": 595
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_strip_spell_tail",
+      "line": 619
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_strip_ability_tail",
+      "line": 626
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_parse_mana_spend_restriction",
+      "line": 640
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_merge_addmana_restriction",
+      "line": 707
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_apply_mana_restrict",
+      "line": 740
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_parse_return_battlefield_tail",
+      "line": 772
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_merge_choose_color_addmana",
+      "line": 800
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_reveal_choose_dest",
+      "line": 892
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_split_reveal_filter_list",
+      "line": 948
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_reveal_choose_filter_part_ok",
+      "line": 955
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_reveal_choose_filter_ok",
+      "line": 976
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_merge_reveal_choose",
+      "line": 990
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_merge_reveal_if_type",
+      "line": 1102
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_merge_look_ifyoudo_reveal_put",
+      "line": 1174
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_gain_control_bundle",
+      "line": 1288
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_gain_control_bundle_prefix",
+      "line": 1304
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_untap_raw_ambiguous",
+      "line": 1427
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_recover_each_controller",
+      "line": 1452
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "map_atom",
+      "line": 1469
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_put_counters_referent_atom",
+      "line": 5793
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_put_counters_per_count",
+      "line": 5841
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_damage_x_count",
+      "line": 5901
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_pop_rider_mass_damage",
+      "line": 5941
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_for_each_group_spec",
+      "line": 5980
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_for_each_bound_inner_atom",
+      "line": 6019
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_map_for_each",
+      "line": 6031
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_try_and_split",
+      "line": 6061
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_atom_dict",
+      "line": 6114
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "parse_mana_pips",
+      "line": 6125
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "strip_named_cost_label",
+      "line": 6171
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "build_tap_other_type",
+      "line": 6196
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "build_activated_cost",
+      "line": 6238
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "parse_count_phrase",
+      "line": 6392
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_who_count_phrase",
+      "line": 6761
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_mill_tail_count",
+      "line": 6776
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_token_count_phrase",
+      "line": 6816
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_subtype_is_creature_only",
+      "line": 6889
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_draw_per_count_spec",
+      "line": 6949
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_etb_count_self_safe",
+      "line": 7024
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_addmana_count_spec",
+      "line": 7062
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_parse_targeted_mode",
+      "line": 7181
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "parse_modal_block",
+      "line": 7221
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "extract_modal_blocks",
+      "line": 7289
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_roll_row_range",
+      "line": 7381
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_parse_roll_row",
+      "line": 7394
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_build_roll_table_block",
+      "line": 7461
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "extract_roll_table_blocks",
+      "line": 7529
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_roll_result_body",
+      "line": 7599
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_ref_from_clause",
+      "line": 7692
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_dual_roll_consumer_atom",
+      "line": 7702
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_dual_roll_choose_body",
+      "line": 7739
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "subtype_vocab",
+      "line": 7822
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "canon_subtype",
+      "line": 7850
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_put_bf_card_type",
+      "line": 7862
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "clean_subject",
+      "line": 7919
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "resolve_sacrifice_type_word",
+      "line": 8104
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_edict_body_spec",
+      "line": 8154
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_edict_spec",
+      "line": 8213
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "parse_sacrifice_filter",
+      "line": 8235
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "resolve_sac_effect_type_word",
+      "line": 8291
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_sac_effect_phrase",
+      "line": 8308
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_sacrifice_effect_spec",
+      "line": 8324
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_split_kw_list",
+      "line": 8436
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_grant_eot_recipient",
+      "line": 8459
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_grant_eot_group",
+      "line": 8550
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_grant_eot_pump",
+      "line": 8607
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_is_bare_pay_gate_atom",
+      "line": 8682
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_may_pay_gate",
+      "line": 8689
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_mass_type_union",
+      "line": 8740
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_mass_reanimate_card_type",
+      "line": 8785
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_target_type_union",
+      "line": 8814
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_mass_destroy_spell",
+      "line": 8848
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_negated_creature_combo",
+      "line": 8959
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_subtype_mass_union",
+      "line": 8983
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_target_counter_bucket",
+      "line": 9006
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_resolve_mass_permanent_filter",
+      "line": 9030
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_mass_exile_spell",
+      "line": 9113
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_mass_bounce_spell",
+      "line": 9135
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_mass_damage_spell",
+      "line": 9164
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_exile_top_may_play",
+      "line": 9245
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_dig_reveal_choose",
+      "line": 9356
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_dig_reveal_until",
+      "line": 9426
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "try_pump_battlefield",
+      "line": 9461
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_for_each_count_spec",
+      "line": 9494
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "try_pump_count_spec",
+      "line": 9578
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "try_pump_counter",
+      "line": 9606
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_pump_attached_anchor_ok",
+      "line": 9653
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "try_pump_attached",
+      "line": 9658
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "try_set_base_pt",
+      "line": 9727
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_where_x_count_spec",
+      "line": 9790
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "try_pump_where_x",
+      "line": 9849
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_try_cant_split",
+      "line": 9917
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_cast_flash_affects",
+      "line": 10112
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_exile_self_return_transformed_body",
+      "line": 10173
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_exile_self_return_body",
+      "line": 10193
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_exile_self_return_transformed_triggered_body",
+      "line": 10232
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_cast_as_flash_this_turn",
+      "line": 10244
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_cant_cast_affects",
+      "line": 10283
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_library_top_cast_type_spec",
+      "line": 10320
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_library_top_cast_keyword_spec",
+      "line": 10338
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_cond_count",
+      "line": 10362
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "subtype_is_land",
+      "line": 10377
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "parse_control_filter",
+      "line": 10392
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "parse_static_condition",
+      "line": 10649
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "split_static_condition",
+      "line": 10930
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_resolve_cond_it",
+      "line": 10946
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_parse_pt_keyword_clause",
+      "line": 10968
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_self_cost_reduce_spec",
+      "line": 11405
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "emit_static",
+      "line": 11474
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_split_type_list",
+      "line": 11970
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_split_or_list",
+      "line": 11982
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_subtype_words",
+      "line": 12002
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "emit_cost_mod",
+      "line": 12021
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_activation_cond_reject",
+      "line": 12214
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_if_cond_atom",
+      "line": 12317
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_extract_ability_cost_reduction",
+      "line": 12431
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_try_keyword_cost_reduction",
+      "line": 12485
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_parse_grant_recipients",
+      "line": 12540
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_parse_grant_triggered_body",
+      "line": 12683
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_grant_body_targets_clean",
+      "line": 12738
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_parse_grant_activated_body",
+      "line": 12758
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "load_card",
+      "line": 12776
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_emit_triggered",
+      "line": 12783
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_abword_conditional_spell",
+      "line": 12858
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_extra_turn_spell_body",
+      "line": 12905
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_defront_duration",
+      "line": 12944
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_altcost_num",
+      "line": 12986
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_altcost_core_clause",
+      "line": 13039
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_altcost_strip_condition",
+      "line": 13109
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "_parse_alt_cost_paragraph",
+      "line": 13164
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "reparse_card",
+      "line": 13188
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "full_mana_map",
+      "line": 16043
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "parse_keyword_item",
+      "line": 16117
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "import_corpus",
+      "line": 16747
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "symbol": "main",
+      "line": 16953
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "ToGameCard",
+      "line": 13
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "buildFaceState",
+      "line": 266
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "ReattachAbilities",
+      "line": 307
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "attachAbilities",
+      "line": 318
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "AbilityToSagaChapter",
+      "line": 1304
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "AbilityToLoyalty",
+      "line": 1341
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "applyKeywordCost",
+      "line": 1376
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "colorNameToCode",
+      "line": 1742
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "manaCostFromValue",
+      "line": 1759
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "altCostSpecFromValue",
+      "line": 1782
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "numToInt",
+      "line": 1836
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "copyValueMap",
+      "line": 1849
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "parseEtbCounterSpec",
+      "line": 1863
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "AbilityToActivated",
+      "line": 1885
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "liftSecondaryLifeGainEffect",
+      "line": 2100
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "liftSecondaryEndTurnEffect",
+      "line": 2126
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "liftSecondaryTokenEffect",
+      "line": 2150
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "GetSpellEffect",
+      "line": 2171
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "buildMainSpellEffect",
+      "line": 2192
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "GetStaticAbilities",
+      "line": 2653
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "RegisterStaticEffects",
+      "line": 2664
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "GetTriggeredAbilities",
+      "line": 2674
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "RegisterTriggeredAbilities",
+      "line": 2685
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "AbilityToTriggered",
+      "line": 2695
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "spellControllerTargetType",
+      "line": 3121
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "qualifiedTriggerTargetSupported",
+      "line": 3144
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "mapTriggerToEventType",
+      "line": 3177
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "AbilityToEffect",
+      "line": 3249
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "intFromValue",
+      "line": 3502
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "extractPowerModSource",
+      "line": 3516
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "atomModesToSpecs",
+      "line": 3569
+    },
+    {
+      "path": "backend/cards/converter.go",
+      "symbol": "valueStrings",
+      "line": 3606
+    }
+  ],
+  "converter_case_count": 129
+}

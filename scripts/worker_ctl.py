@@ -28,6 +28,8 @@ class WorkerConfig:
     name: str
     engine: str  # claude | codex | qwen-agentic | openrouter | openrouter-agentic
     model: str
+    mode: str = "map"  # map (pipeline-lane.sh, claims REPARSE-MAP tickets) |
+                        # engine (engine-lane.sh, drains open capabilities directly)
     base_url: str = ""
     max_tokens: int = 8000
     reasoning_tokens: int = 3000
@@ -108,9 +110,9 @@ def tmux_window_exists(session: str, name: str) -> bool:
 
 def cmd_list(args):
     workers = load_workers()
-    print(f"{'name':<12} {'engine':<18} {'model':<40}")
+    print(f"{'name':<12} {'mode':<8} {'engine':<18} {'model':<40}")
     for cfg in workers.values():
-        print(f"{cfg.name:<12} {cfg.engine:<18} {cfg.model:<40}")
+        print(f"{cfg.name:<12} {cfg.mode:<8} {cfg.engine:<18} {cfg.model:<40}")
 
 
 def cmd_start(args):
@@ -126,10 +128,11 @@ def cmd_start(args):
 
     env_prefix = " ".join(f"{k}={_sh_quote(v)}" for k, v in env.items())
     log = log_path(cfg.name)
+    lane_script = "engine-lane.sh" if cfg.mode == "engine" else "pipeline-lane.sh"
     loop = (
         f"mkdir -p {ORCH} /tmp/work; "
         f"while true; do "
-        f"{env_prefix} bash {OPS}/scripts/pipeline-lane.sh {cfg.name} >> {log} 2>&1; "
+        f"{env_prefix} bash {OPS}/scripts/{lane_script} {cfg.name} >> {log} 2>&1; "
         f'echo "[$(date -Is)] {cfg.name} exit, restart 30s" >> {log}; '
         f"sleep 30; done; exec bash"
     )

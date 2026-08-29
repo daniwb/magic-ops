@@ -1,0 +1,40 @@
+{
+  "schema": "factory.ticket-spec/v1",
+  "id": "ticket:map.switch-pt/v1",
+  "title": "Map the proven switch_pt grammar into the Engine capability",
+  "work_type": "map",
+  "lifecycle": "blocked_by_dependency",
+  "parents": ["ticket:factory.evidence.switch-pt/v1", "ticket:engine.switch-pt/v1"],
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "clean": true
+  },
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "scope": {
+    "allowed_paths": ["scripts/paragraph/reparse.py", "scripts/paragraph/test_switch_pt.py"],
+    "forbidden_paths": ["backend/", "scripts/paragraph/slotparse_oneshot.py", "data/"]
+  },
+  "required_behavior": [
+    "After the Engine ticket is accepted, map the existing switch_pt atom for self, target creature, and each creature into its one Engine representation.",
+    "The focused test covers one representative of each scope and an adjacent non-match.",
+    "The complete 17-member measurement is re-run and partitioned before closure."
+  ],
+  "gates": [
+    "cd scripts/paragraph && python3 -m unittest test_switch_pt",
+    "git diff --check",
+    "the remeasurement eliminates only the proven switch_pt scope"
+  ],
+  "execution": {
+    "mode": "isolated_clone_observation_only",
+    "selected_profile": "qwen-prepared-direct@1.0.0",
+    "effective_token_target": 200000,
+    "warning_reflection_threshold": 500000,
+    "automatic_stop": false,
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true
+  }
+}

@@ -5,6 +5,7 @@ Indexes (SQLite FTS5, rebuilt on start and via /reindex):
   primitive  sections of scripts/skills/primitive-catalog.md + regEffect()
              entries from backend/cards/registry_*.go
   helper     documented funcs from backend/cardfns/lib_*.go
+  engine     function signatures and leading docs from backend/game/*.go
   handler    header comment of every per-card handler in backend/cardfns/
              (card name, oracle text, implementation notes incl.
              MISSING_PRIMITIVE markers -> park signals)
@@ -19,6 +20,7 @@ Endpoints (plain text, model-friendly):
              converter case labels; MISSING -> map worker parks fail-fast)
 """
 import http.server, os, re, sqlite3, urllib.parse
+from pathlib import Path
 
 REPO = os.environ.get('KB_REPO', '/opt/development/test/openmagic')
 DB = os.environ.get('KB_DB', '/tmp/orch/knowledge.db')
@@ -45,7 +47,7 @@ def build_index():
     cat = os.path.join(REPO, 'scripts/skills/primitive-catalog.md')
     if os.path.exists(cat):
         section, title = [], 'intro'
-        for line in open(cat, encoding='utf-8', errors='replace'):
+        for line in Path(cat).read_text(encoding='utf-8', errors='replace').splitlines(keepends=True):
             if line.startswith('## ') or line.startswith('### '):
                 if section and len(''.join(section)) > 40:
                     db.execute('INSERT INTO docs VALUES (?,?,?,?)',
@@ -61,7 +63,7 @@ def build_index():
 
     import glob
     for f in glob.glob(os.path.join(REPO, 'backend/cards/registry_*.go')):
-        src = open(f, encoding='utf-8', errors='replace').read()
+        src = Path(f).read_text(encoding='utf-8', errors='replace')
         rel = os.path.relpath(f, REPO)
         for m in re.finditer(r'regEffect\("([^"]+)"', src):
             body = src[m.start():m.start() + 1500]
@@ -69,12 +71,31 @@ def build_index():
             n['primitive'] += 1
 
     for f in glob.glob(os.path.join(REPO, 'backend/cardfns/lib_*.go')):
-        src = open(f, encoding='utf-8', errors='replace').read()
+        src = Path(f).read_text(encoding='utf-8', errors='replace')
         rel = os.path.relpath(f, REPO)
         for m in re.finditer(r'((?:^//.*\n)+)^func (\w+)', src, re.M):
             db.execute('INSERT INTO docs VALUES (?,?,?,?)',
                        ('helper', m.group(2), m.group(1)[:2000], rel))
             n['helper'] += 1
+
+    # Engine tickets used to have no indexable symbol surface, forcing workers
+    # to dump or explore broad backend/game files. Keep this deliberately
+    # compact: symbol name, its leading Go doc, and its signature are enough to
+    # find the right seam; the prepared-ticket step can then request only that
+    # named interface's source excerpt.
+    for f in glob.glob(os.path.join(REPO, 'backend/game/*.go')):
+        if f.endswith('_test.go'):
+            continue
+        src = Path(f).read_text(encoding='utf-8', errors='replace')
+        rel = os.path.relpath(f, REPO)
+        for m in re.finditer(
+            r'(?m)^((?://[^\n]*\n)*)func\s+(?:\([^\n)]*\)\s+)?([A-Za-z_]\w*)\s*\([^\n]*\)', src
+        ):
+            comment, name = m.group(1), m.group(2)
+            signature = src[m.start() + len(comment):src.find('\n', m.start() + len(comment))]
+            db.execute('INSERT INTO docs VALUES (?,?,?,?)',
+                       ('engine', name, (comment + signature)[:2000], rel))
+            n['engine'] = n.get('engine', 0) + 1
 
     for f in glob.glob(os.path.join(REPO, 'backend/cardfns/*.go')):
         base = os.path.basename(f)
@@ -82,7 +103,7 @@ def build_index():
             continue
         rel = os.path.relpath(f, REPO)
         header = []
-        for line in open(f, encoding='utf-8', errors='replace'):
+        for line in Path(f).read_text(encoding='utf-8', errors='replace').splitlines(keepends=True):
             if line.startswith('func '):
                 break
             if line.startswith('//'):
@@ -101,12 +122,12 @@ def build_index():
     caps = {'event': set(), 'case': set()}
     ev = os.path.join(REPO, 'backend/game/events.go')
     if os.path.exists(ev):
-        src = open(ev, encoding='utf-8', errors='replace').read()
+        src = Path(ev).read_text(encoding='utf-8', errors='replace')
         caps['event'] = set(re.findall(r'Event\w+\s+EventType\s*=\s*"([a-z_]+)"', src))
     for base in ('backend/cards/converter.go', 'backend/cards/v2.go'):
         f = os.path.join(REPO, base)
         if os.path.exists(f):
-            src = open(f, encoding='utf-8', errors='replace').read()
+            src = Path(f).read_text(encoding='utf-8', errors='replace')
             caps['case'] |= set(re.findall(r'case "([a-z_]+)"', src))
     global CAPS
     CAPS = caps

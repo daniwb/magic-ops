@@ -1,0 +1,28 @@
+{
+  "schema": "factory.model-profile/v1",
+  "id": "qwen-prepared-direct",
+  "version": "1.0.0",
+  "extends": "staged-baseline@1.0.0",
+  "adapter": {
+    "adapter_id": "qwen-prepared-direct-v1",
+    "executable": "scripts/qwen-prepared-call.py",
+    "engine": "qwen-prepared",
+    "workflow": "no-tools completion from a prepared packet; at most one bounded NEED response or one focused repair, then harness-owned apply/gates",
+    "allowed_tools": [],
+    "filesystem": "read-only",
+    "network": "none",
+    "thinking": "disabled by adapter",
+    "max_completion_tokens": 2000,
+    "max_model_calls": 2
+  },
+  "routing": {
+    "best_for": ["small evidence-complete Map patch", "deterministic wiring", "constrained local repair"],
+    "do_not_use_when": ["the ticket needs repository discovery", "the packet has unresolved design alternatives", "cross-layer capability design is required"],
+    "escalate_to": "qwen-prepared-local@1.0.0 or a stronger remote profile"
+  },
+  "telemetry": {
+    "source": "adapter stderr token records",
+    "measured": ["input", "output", "cache_read", "cache_write", "elapsed"],
+    "unavailable": ["provider_cost", "reasoning"]
+  }
+}

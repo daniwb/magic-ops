@@ -1,0 +1,19 @@
+{
+  "schema": "factory.execution-receipt/v1",
+  "ticket_id": "ticket:sha256:2bea7bc0eb471117412dd15884fbb6cbac960727638cb70ec1c25a93c1f4a08e",
+  "profile": "qwen-prepared-direct@1.0.0",
+  "source_revision": "abc123",
+  "evidence_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "skill_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "model_calls": [
+    {
+      "id": "call-1"
+    }
+  ],
+  "telemetry": {
+    "input_tokens": 10,
+    "output_tokens": 2
+  },
+  "outcome": "accepted",
+  "model_profile_sha256": "sha256:db12b731a010832db032bd354f47cac81a710e05f822e484e3e7809df309b35e"
+}

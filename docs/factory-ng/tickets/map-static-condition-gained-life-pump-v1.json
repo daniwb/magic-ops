@@ -1,0 +1,74 @@
+{
+  "schema": "factory.ticket-spec/v1",
+  "id": "ticket:map.static-condition-gained-life-pump/v1",
+  "title": "Map the exact gained-life-this-turn static pump condition",
+  "work_type": "map",
+  "lifecycle": "ready_for_observation",
+  "parents": ["ticket:factory.evidence.static-conditional/v1"],
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "clean": true
+  },
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "scope": {
+    "allowed_paths": [
+      "scripts/paragraph/reparse.py",
+      "scripts/paragraph/test_static_condition_gained_life.py"
+    ],
+    "forbidden_paths": [
+      "backend/",
+      "backend/data/",
+      "scripts/paragraph/slotparse_oneshot.py"
+    ]
+  },
+  "evidence": [
+    {
+      "path": "docs/factory-ng/measurements/static-condition-gained-life-pump-v1.json",
+      "fact": "Exactly two pinned, sole static_conditional misses share the same Oracle sentence."
+    },
+    {
+      "path": "backend/game/condition.go",
+      "sha256": "sha256:0c0f8b766324ff3c97c66fe7f8863438a58cb4612c3193a1302c32629f186a1b",
+      "anchor": "494-511",
+      "fact": "The existing happened/you_gained_life condition reads LifeGainedThisTurn; this ticket requires no Engine behavior."
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "sha256": "sha256:0b113cd5f8faa151a0c5fc1c2c8c15d9c7eb1df530f15560d6c55d2ed3285dbe",
+      "anchor": "10652-10931",
+      "fact": "parse_static_condition is the narrow Map seam; it already attaches a parsed condition to a static pump."
+    }
+  ],
+  "required_behavior": [
+    "Map exactly `you gained life this turn` to {kind: happened, what: you_gained_life}.",
+    "The two pinned +2/+0 self-pump cards parse with that condition and no static_conditional miss.",
+    "Do not generalize to other life-gain wording, other actors, quantities, or other static effects.",
+    "Do not edit Engine, converter, corpus data, or use card-name special cases."
+  ],
+  "gates": [
+    "cd scripts/paragraph && python3 -m unittest test_static_condition_gained_life",
+    "git diff --check",
+    "git status --porcelain adds or changes only scripts/paragraph/reparse.py and scripts/paragraph/test_static_condition_gained_life.py",
+    "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/static-condition-gained-life-pump-v1.json reports zero remaining pinned members"
+  ],
+  "execution": {
+    "mode": "isolated_clone_observation_only",
+    "selected_profile": "qwen-prepared-direct@1.0.2",
+    "selection_reason": "A two-card, one-sentence parser-only change with a proven runtime representation is the validated local Qwen direct Map profile.",
+    "parser_probes": [
+      {"function": "parse_static_condition", "text": "you gained life this turn"},
+      {"function": "parse_static_condition", "text": "an opponent gained life this turn"},
+      {"function": "parse_static_condition", "text": "you gained 2 life this turn"}
+    ],
+    "effective_token_target": 200000,
+    "warning_reflection_threshold": 500000,
+    "automatic_stop": false,
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true
+  },
+  "on_failure": "Record a receipt. A need to change the runtime condition vocabulary is a separate Engine TicketSpec."
+}

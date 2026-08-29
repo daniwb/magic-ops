@@ -1,0 +1,58 @@
+{
+  "schema": "factory.observation-receipt/v1",
+  "ticket": {
+    "id": "ticket:engine.switch-pt/v1",
+    "path": "docs/factory-ng/tickets/engine-switch-pt-v1.json",
+    "sha256": "sha256:3ddf9240db081a82ffc946e2f98ddd137bd938b193509af08b56814e763f064d"
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "model": {
+    "profile": "qwen-prepared-direct@1.0.0",
+    "profile_path": "docs/factory-ng/model-profiles/v1/qwen-prepared-direct.json",
+    "profile_sha256": "sha256:db12b731a010832db032bd354f47cac81a710e05f822e484e3e7809df309b35e",
+    "resolved_model": "Qwen3.8-27B-Q8_0",
+    "routing_override_reason": "After the Sol adapter failed before code access and the Claude adapter exceeded its warning without a verdict, Qwen was deliberately used for its compatible cheap capability-decision route, not for hard Engine implementation.",
+    "telemetry": {
+      "input_tokens": 8462,
+      "output_tokens": 9,
+      "cache_read_tokens": 121,
+      "cache_write_tokens": 0,
+      "reasoning_tokens": 0,
+      "provider_cost_usd": 0,
+      "telemetry_status": "adapter-reported"
+    }
+  },
+  "execution": {
+    "mode": "prepared_direct_no_tools",
+    "source_revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "source_tree_changed": false
+  },
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-engine-switch-pt-v3-qwen.raw.txt",
+      "sha256": "sha256:34b4e86505a91770e3799c8ff2085ab0e8901e29570eca59b9ace33fbfb53c3e"
+    },
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-engine-switch-pt-v3-qwen.telemetry.txt",
+      "sha256": "sha256:29822efd3599493a5d6b2fc8c3bf8a126282897c7c9dc7781a18e7039c466ae8"
+    }
+  ],
+  "gates": [
+    {
+      "id": "response-contract",
+      "outcome": "passed",
+      "evidence": "The only response was the permitted structured verdict: NEEDS_PRIMITIVE."
+    },
+    {
+      "id": "source-mutation",
+      "outcome": "passed",
+      "evidence": "The no-tools adapter had no source-write capability and the source tree remained clean."
+    }
+  ],
+  "outcome": "parked_needs_primitive",
+  "next_action": "Retain Qwen prepared-direct for Engine premise/capability decisions. Route the actual switch_pt implementation only to a genuinely bounded expert implementation adapter."
+}

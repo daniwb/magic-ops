@@ -1,0 +1,45 @@
+<<<FILE scripts/paragraph/reparse.py
+<<<SEARCH
+    m = TURN_RE.match(text)
+    if m:
+        return {'kind': 'turn', 'whose': 'yours' if m.group(1) == 'your turn' else 'opponents'}
+===REPLACE
+    m = TURN_RE.match(text)
+    if m:
+        return {'kind': 'turn', 'whose': 'yours' if m.group(1) == 'your turn' else 'opponents'}
+
+    # ticket:map.static-condition-gained-life-pump/v1
+    if text == 'you gained life this turn':
+        return {'kind': 'happened', 'what': 'you_gained_life'}
+>>>END
+<<<NEWFILE scripts/paragraph/test_static_condition_gained_life.py
+import pathlib
+import sys
+import unittest
+
+
+sys.path.insert(0, str(pathlib.Path(__file__).parent))
+import reparse  # noqa: E402
+
+
+class StaticConditionGainedLifeTest(unittest.TestCase):
+    def test_you_gained_life_this_turn(self):
+        self.assertEqual(
+            reparse.parse_static_condition("you gained life this turn"),
+            {"kind": "happened", "what": "you_gained_life"},
+        )
+
+    def test_an_opponent_gained_life_this_turn_is_unmapped(self):
+        self.assertIsNone(
+            reparse.parse_static_condition("an opponent gained life this turn")
+        )
+
+    def test_you_gained_2_life_this_turn_is_unmapped(self):
+        self.assertIsNone(
+            reparse.parse_static_condition("you gained 2 life this turn")
+        )
+
+
+if __name__ == "__main__":
+    unittest.main()
+>>>END

@@ -1,0 +1,39 @@
+{
+  "schema": "factory.ticket-spec/v1",
+  "id": "ticket:factory.evidence.static-conditional/v1",
+  "title": "Reject the current static_conditional label as a mixed worker scope",
+  "work_type": "evidence",
+  "lifecycle": "split_required",
+  "parents": ["legacy:5310"],
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "parser_sha256": "sha256:0b113cd5f8faa151a0c5fc1c2c8c15d9c7eb1df530f15560d6c55d2ed3285dbe"
+  },
+  "skill": {
+    "name": "verify-premise",
+    "path": "docs/factory-ng/skills/v1/verify-premise/SKILL.md",
+    "sha256": "sha256:c93c7cb675b7f79df069a2c46810e01a1b0d3f1ecb3a9553438b5ed2867d5099"
+  },
+  "scope": {
+    "measurement": "docs/factory-ng/measurements/static-conditional-v1.json",
+    "measurement_sha256": "sha256:0f67be0022140ca177f3217b58e446a062396a0baafaee17b96c07e54864588b",
+    "review_cards_scanned": 18612,
+    "members": 446,
+    "sole_shape_members": 279,
+    "multi_shape_members": 167,
+    "distinct_matching_details": 410,
+    "largest_exact_detail_cluster": 4
+  },
+  "verdict": "SPLIT_REQUIRED",
+  "required_behavior": [
+    "Do not create a Map or Engine worker ticket from the static_conditional label alone.",
+    "A successor must have one independently testable semantic condition/effect family, an exact member manifest, and a bounded allowed-path set."
+  ],
+  "gates": [
+    "measurement source revision and parser SHA match this TicketSpec",
+    "the measurement reports 446 members, 410 distinct details, and no exact detail cluster larger than four",
+    "no source, dispatcher, or live-ticket mutation occurs"
+  ],
+  "on_failure": "Re-run the deterministic measurement; do not route this broad label to a model."
+}

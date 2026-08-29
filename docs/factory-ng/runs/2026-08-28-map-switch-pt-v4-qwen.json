@@ -1,0 +1,78 @@
+{
+  "schema": "factory.observation-receipt/v1",
+  "ticket": {
+    "id": "ticket:map.switch-pt/v4",
+    "path": "docs/factory-ng/tickets/map-switch-pt-v4.json",
+    "sha256": "sha256:828285dafca364359f526a61c55669c0f9eef521b208132c01161d3482e4bc92"
+  },
+  "model": {
+    "profile": "qwen-prepared-direct@1.0.1",
+    "profile_path": "docs/factory-ng/model-profiles/v1/qwen-prepared-direct-1.0.1.json",
+    "resolved_model": "./Qwen3.8-27B/Qwen3.8-27B-Q8_0.gguf",
+    "telemetry": {
+      "input_tokens": 3559,
+      "output_tokens": 827,
+      "cache_read_tokens": 242,
+      "cache_write_tokens": 0,
+      "reasoning_tokens": null,
+      "provider_cost_usd": null,
+      "source": "SSE usage events from the repaired local llama.cpp adapter: initial proposal 2476/587/121 and repair 1083/240/121 (input/output/cache-read)."
+    }
+  },
+  "execution": {
+    "mode": "isolated_clone_observation_only",
+    "source_tree_changed": false,
+    "adapter_observation": "The prior non-streaming adapter was proved to lose a completed llama.cpp response body. SSE transport returned both visible completions and exact usage with thinking disabled.",
+    "calls": [
+      {
+        "kind": "initial_proposal",
+        "outcome": "applied_and_focused_tests_passed",
+        "proposal_paths": ["scripts/paragraph/reparse.py", "scripts/paragraph/test_switch_pt.py"]
+      },
+      {
+        "kind": "contract_boundary",
+        "outcome": "failed",
+        "evidence": "The candidate maps the self form for kind='spell_oneshot', but the TicketSpec permits self only for activated/triggered abilities."
+      },
+      {
+        "kind": "one_bounded_repair",
+        "outcome": "malformed_protocol",
+        "evidence": "Qwen proposed the correct kind guard and test, but emitted Markdown SEARCH:/REPLACE: snippets rather than strict machine-applicable edit blocks. The harness did not normalize or apply them."
+      }
+    ]
+  },
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-map-switch-pt-v4-qwen.raw.txt",
+      "sha256": "sha256:025d6fde4bcd977eec89b94e4f0e46f7c1bbeb099a817b6cb3922e108e09aae9"
+    },
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-map-switch-pt-v4-qwen-repair.raw.txt",
+      "sha256": "sha256:ab713f111c0a97ee6194355f6c41d8c2125906c9307d4a2b18e8f34226af3f23"
+    }
+  ],
+  "gates": [
+    {
+      "id": "focused-map-test",
+      "outcome": "passed",
+      "evidence": "The proposal's four requested direct map_atom tests passed in the disposable clone."
+    },
+    {
+      "id": "scope-and-diff",
+      "outcome": "passed",
+      "evidence": "git diff --check passed and the clone changed only reparse.py plus the new test file."
+    },
+    {
+      "id": "required-spell-self-negative",
+      "outcome": "failed",
+      "evidence": "A direct candidate check showed spell_oneshot self -> ('switch_pt', {}, None), not None."
+    },
+    {
+      "id": "repair-protocol",
+      "outcome": "failed",
+      "evidence": "The sole bounded repair was logically correct but not valid SEARCH/REPLACE protocol."
+    }
+  ],
+  "outcome": "gate_failed_contract_boundary_and_repair_protocol",
+  "next_action": "Issue a fresh Map TicketSpec to a compatible adapter with the exact failing boundary and strict format exemplar. Do not integrate the initial overlay."
+}

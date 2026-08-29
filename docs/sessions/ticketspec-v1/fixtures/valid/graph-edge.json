@@ -1,0 +1,1 @@
+{"dependency_policy":"target_must_complete","edge_type":"blocked_by","from":"ticket:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","schema":"factory.graph-edge/v1","to":"ticket:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}

@@ -1,0 +1,77 @@
+{
+  "schema": "factory.ticket-spec/v1",
+  "id": "ticket:engine.pt-switch-layer/v1",
+  "title": "Add a reusable post-additive Layer 7e P/T-switch effect representation",
+  "work_type": "engine",
+  "lifecycle": "ready_for_observation",
+  "parents": [
+    "ticket:factory.evidence.switch-pt/v1",
+    "ticket:engine.switch-pt/v1"
+  ],
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "clean": true
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "scope": {
+    "allowed_paths": [
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/switch_pt_layer_test.go"
+    ],
+    "forbidden_paths": [
+      "backend/cards/",
+      "backend/cardfns/",
+      "scripts/paragraph/",
+      "backend/data/",
+      "backend/game/ability_effects.go"
+    ]
+  },
+  "evidence": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-engine-switch-pt-v9-claude.json",
+      "sha256": "sha256:2f52b3bb4c804a12682d6ea9a822525ca85cbbd846637300d59a9e07902adafc",
+      "anchor": "gates.ticket-layer-composition",
+      "fact": "A previous proposal passed a simple swap but failed 2/5 +1/+2: it produced 8/5 by snapshotting in Layer 7b; the required result is 7/3 after a post-additive switch."
+    },
+    {
+      "path": "backend/game/effects.go",
+      "anchor": "12-47, 499-505, 525-554, 1028-1064",
+      "fact": "ContinuousEffect models 7b setters and 7c additive modifiers, but no switch field or Layer 7e default/query exists."
+    },
+    {
+      "path": "backend/game/card.go",
+      "anchor": "3066-3116",
+      "fact": "The independent getters currently calculate base/7b, then 7c, then 7d counters, and need one shared post-7d swap decision without recursive getter calls."
+    }
+  ],
+  "required_behavior": [
+    "Introduce one opt-in ContinuousEffect representation for switching power and toughness, with default Layer 7e semantics; existing effects remain behaviorally unchanged.",
+    "For an affected creature, calculate 7b setters, 7c bonuses, and 7d counters before applying the switch. Do not snapshot current P/T into SetPower or SetToughness.",
+    "The two public getters must agree on a single pair of post-layer values and must not recursively call each other.",
+    "Matching is scoped through the existing effect-affects-card logic. Two simultaneous switch effects cancel; removal or UntilEOT cleanup restores the unswitched values.",
+    "This foundation does not add parser output, Map conversion, or a switch_pt ability-dispatch case; those remain in the dependent ticket."
+  ],
+  "gates": [
+    "gofmt -d backend/game/effects.go backend/game/card.go backend/game/switch_pt_layer_test.go produces no output",
+    "cd backend && go test ./game -run '^TestSwitchPowerToughnessLayer7E$' -count=1",
+    "git diff --check",
+    "git diff --name-only contains only the allowed paths"
+  ],
+  "execution": {
+    "mode": "isolated_clone_observation_only",
+    "selected_profile": "claude-staged@1.0.0",
+    "resolved_model": "claude-opus-5",
+    "selection_reason": "This is a compact but semantic Engine foundation with a discriminating runtime invariant. It is deliberately routed to the staged expert profile, not the local capability-decision profile; the Codex adapter remains unavailable on this host because its bwrap setup fails before code inspection.",
+    "effective_token_target": 200000,
+    "warning_reflection_threshold": 500000,
+    "automatic_stop": false,
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true
+  },
+  "on_failure": "Return an immutable receipt with raw telemetry and either NEEDS_PRIMITIVE, REFACTOR_FIRST, SPLIT_REQUIRED, or one constrained proposal. Do not expand into parser, conversion, or ability dispatch work."
+}

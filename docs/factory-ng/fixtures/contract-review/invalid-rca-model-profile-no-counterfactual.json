@@ -1,0 +1,11 @@
+{
+  "schema": "factory.root-cause-analysis/v1",
+  "incident_id": "inc-002",
+  "provenance_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "primary_cause": "model_profile",
+  "evidence": [
+    "A visible test passed."
+  ],
+  "corrective_ticket_ids": [],
+  "status": "open"
+}

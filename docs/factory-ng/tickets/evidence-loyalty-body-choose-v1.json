@@ -1,0 +1,25 @@
+{
+  "schema": "factory.ticket-spec/v1",
+  "id": "ticket:factory.evidence.loyalty-body-choose/v1",
+  "title": "Measure and split the legacy loyalty-body choose sweep",
+  "work_type": "evidence",
+  "lifecycle": "completed",
+  "parents": ["legacy:3967"],
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "6d85a3d649103d8f3a50fb6436ed266c77b0942a",
+    "parser_sha256": "sha256:2c21358aa570e26e95358c141bc7852c280ab025f46e52329e484869d3df1848"
+  },
+  "evidence": {
+    "path": "docs/factory-ng/targeted-demand-loyalty-body-choose-v1.json",
+    "sha256": "sha256:312de7410df2fd6d26ca18e02009f66430034b78c2a15648b4c4ab435cf9b0e2",
+    "review_cards_scanned": 18612,
+    "member_count": 14
+  },
+  "result": {
+    "verdict": "SPLIT_REQUIRED",
+    "reason": "One legacy miss label covers modal choice, card-name choice, target selection, and left/right minigame forms. A single Map or Engine contract would misrepresent required behavior and adjacent negatives.",
+    "next_action": "Producer must create separate atomic root-cause candidates from the member inventory; none is ready for a worker."
+  },
+  "execution": {"mode": "read_only_deterministic", "model_required": false}
+}

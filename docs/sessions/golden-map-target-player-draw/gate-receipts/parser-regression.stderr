@@ -1,0 +1,8 @@
+.../tmp/factory-ng-golden-map-target-player-draw/scripts/paragraph/reparse.py:12784: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-golden-map-target-player-draw/scripts/paragraph/../../backend/data/carddb/p.json' mode='r' encoding='UTF-8'>
+  db = json.load(open(path))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+......
+----------------------------------------------------------------------
+Ran 9 tests in 0.179s
+
+OK

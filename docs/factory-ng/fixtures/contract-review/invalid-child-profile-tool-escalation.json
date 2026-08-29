@@ -1,0 +1,18 @@
+{
+  "schema": "factory.model-profile/v1",
+  "id": "bad-tool-child",
+  "version": "1.0.0",
+  "extends": "staged-baseline@1.0.0",
+  "adapter": {
+    "adapter_id": "claude-staged-v1",
+    "executable": "claude -p",
+    "allowed_tools": [
+      "read_file",
+      "shell"
+    ],
+    "filesystem": "read-only",
+    "network": "none"
+  },
+  "routing": {},
+  "telemetry": {}
+}

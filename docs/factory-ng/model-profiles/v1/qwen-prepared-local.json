@@ -1,0 +1,27 @@
+{
+  "schema": "factory.model-profile/v1",
+  "id": "qwen-prepared-local",
+  "version": "1.0.0",
+  "extends": "staged-baseline@1.0.0",
+  "adapter": {
+    "adapter_id": "qwen-prepared-local-v1",
+    "executable": "scripts/qwen-agentic-call.py",
+    "engine": "qwen-agentic",
+    "workflow": "prepared local tool loop; exact evidence is supplied before any repository read",
+    "allowed_tools": ["read_file", "grep", "list_dir"],
+    "filesystem": "read-only",
+    "network": "none",
+    "max_turns": 25,
+    "thinking": "disabled by adapter",
+    "output_markers": ["<<<", "@@@"]
+  },
+  "routing": {
+    "best_for": ["classification", "evidence review", "small well-evidenced Map patch", "bounded local repair"],
+    "escalate_when": ["evidence requests reveal a cross-layer design decision", "gate failure persists after one focused repair", "ticket needs Engine work"]
+  },
+  "telemetry": {
+    "source": "adapter stderr token records",
+    "measured": ["input", "output", "cache_read", "cache_write", "elapsed"],
+    "unavailable": ["provider_cost", "reasoning"]
+  }
+}

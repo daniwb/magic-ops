@@ -1,0 +1,20 @@
+{
+  "schema": "factory.root-cause-analysis/v1",
+  "incident_id": "inc-004",
+  "provenance_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "primary_cause": "model_profile",
+  "evidence": [
+    "A visible test passed."
+  ],
+  "model_profile_causal_claim": true,
+  "counterfactual_evidence": [
+    ""
+  ],
+  "counterfactual_basis": {
+    "ticket_and_evidence_sound": true,
+    "detectable_by_declared_gate_or_review": true,
+    "output_violated_contract": true
+  },
+  "corrective_ticket_ids": [],
+  "status": "open"
+}

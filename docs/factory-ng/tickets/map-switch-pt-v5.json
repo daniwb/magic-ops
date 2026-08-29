@@ -1,0 +1,61 @@
+{
+  "schema": "factory.ticket-spec/v1",
+  "id": "ticket:map.switch-pt/v5",
+  "title": "Map the three proven switch_pt forms to the accepted Engine child",
+  "work_type": "map",
+  "lifecycle": "ready_for_observation",
+  "parents": ["ticket:factory.evidence.switch-pt/v1", "ticket:engine.switch-pt/v2"],
+  "replaces_attempt": {
+    "ticket": "ticket:map.switch-pt/v4",
+    "ticket_sha256": "sha256:828285dafca364359f526a61c55669c0f9eef521b208132c01161d3482e4bc92",
+    "reason": "v4's initial Qwen patch crossed the targetless spell boundary; its repair had correct intent but omitted a file header. v5 preserves the semantic scope, adds that exact spell-negative test, uses the explicit-format Qwen profile, and uses a fast pinned-member remeasurement in the isolated clone."
+  },
+  "source": {"repository": "/opt/development/test/openmagic", "revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7", "clean": true},
+  "skill": {"name": "implement-map-class", "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md", "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"},
+  "scope": {
+    "allowed_paths": ["scripts/paragraph/reparse.py", "scripts/paragraph/test_switch_pt.py"],
+    "forbidden_paths": ["backend/", "scripts/paragraph/slotparse_oneshot.py", "backend/data/"]
+  },
+  "evidence": [
+    {
+      "path": "docs/factory-ng/measurements/switch-pt-v1.json",
+      "sha256": "sha256:72392c4fde6102883c8d6bdeeef118079128aaf55178d6c512e3829f62232427",
+      "fact": "The pinned ground truth contains 17 sole switch_pt misses and exactly self, bare target creature, and each creature positive forms, with target player as an adjacent negative."
+    },
+    {
+      "ticket": "ticket:engine.switch-pt/v2",
+      "receipt": "docs/factory-ng/runs/2026-08-28-engine-switch-pt-v2-opus.json",
+      "sha256": "sha256:5e324594fc27842295b18870455d5fd5997b64d50d188fe1d027a508ba3e5764",
+      "fact": "The accepted Engine child consumes self as no target, target creature as a bare creature target, and each creature as value.target=each."
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "sha256": "sha256:0b113cd5f8faa151a0c5fc1c2c8c15d9c7eb1df530f15560d6c55d2ed3285dbe",
+      "anchor": "1469-1477, 4997-5002",
+      "fact": "map_atom is the sole implementation seam; exact parser probes are supplied by the Map packet so the no-tools worker need not guess nested obj shapes."
+    }
+  ],
+  "required_behavior": [
+    "For activated or triggered self forms, map to ('switch_pt', {}, None). A targetless spell source remains unmapped.",
+    "For a bare target creature form, map to ('switch_pt', {}, {'filter': 'creature'}).",
+    "For each creature, map to ('switch_pt', {'target': 'each'}, None).",
+    "Target player, qualified targets, and 'each creature on the battlefield' remain unmapped.",
+    "Add focused direct map_atom tests for the three positives, targetless spell-self negative, and target-player negative."
+  ],
+  "gates": [
+    "cd scripts/paragraph && python3 -m unittest test_switch_pt",
+    "git diff --check",
+    "git status --porcelain adds or changes only scripts/paragraph/reparse.py and scripts/paragraph/test_switch_pt.py",
+    "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/switch-pt-v1.json reports zero remaining pinned members"
+  ],
+  "execution": {
+    "mode": "isolated_clone_observation_only",
+    "selected_profile": "qwen-prepared-direct@1.0.2",
+    "selection_reason": "This is a small evidence-complete Map wiring change. v1.0.2 gives the model an exact machine-parser response protocol; its narrowly allowed recovery path cannot infer paths or bypass ordinary apply/gates.",
+    "effective_token_target": 200000,
+    "warning_reflection_threshold": 500000,
+    "automatic_stop": false,
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true
+  },
+  "on_failure": "Record an immutable receipt. Do not change parsing, Engine code, or corpus data; any broader grammar is a separate ticket."
+}

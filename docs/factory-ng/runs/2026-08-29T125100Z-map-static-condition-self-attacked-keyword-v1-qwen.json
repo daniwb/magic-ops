@@ -1,0 +1,82 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-map-static-condition-self-attacked-keyword-v1-jamoln1a",
+    "candidate_commit": "7c755798c19cf5198274a1844d704e6f7b08c2c6",
+    "mode": "isolated_clone_observation_only",
+    "model_exit_code": 0,
+    "packet_sha256": "sha256:9f1febf01ed32dc58154939c8fcff4c821852d8ae8a1ee6e5c83bec3a6e8c9c8",
+    "source_revision": "8dd5e06545926033d738b0b69ab8f29145275168",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "command": "scripts/map-pipeline-apply.py",
+      "detail": "applied: scripts/paragraph/reparse.py\ncreated: scripts/paragraph/test_static_condition_self_attacked.py",
+      "id": "patch-apply",
+      "outcome": "passed"
+    },
+    {
+      "command": "cd scripts/paragraph && python3 -m unittest test_static_condition_self_attacked",
+      "detail": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.002s\n\nOK",
+      "id": "focused-parser-contract",
+      "outcome": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "detail": "",
+      "id": "diff-check",
+      "outcome": "passed"
+    },
+    {
+      "command": "ticket allowed_paths only",
+      "detail": "changed=scripts/paragraph/reparse.py",
+      "id": "scope",
+      "outcome": "passed"
+    },
+    {
+      "command": "factory-ng-targeted-demand.py --members-from pinned measurement",
+      "detail": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/static-condition-self-attacked-keyword-v1.json\",\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"static_conditional\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:b242378408c1f0ca9aa2a280dfe9411e6f5d206ef2a51221a64dc6515839bf37\",\n    \"repository\": \"/tmp/factory-ng-map-static-condition-self-attacked-keyword-v1-jamoln1a\",\n    \"revision\": \"8dd5e06545926033d738b0b69ab8f29145275168\"\n  }\n}",
+      "id": "pinned-remeasurement",
+      "outcome": "passed"
+    }
+  ],
+  "model": {
+    "profile": "qwen-prepared-direct@1.0.2",
+    "resolved_model": "Qwen3.8-27B-Q8_0",
+    "telemetry": {
+      "cache_read_tokens": 202,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 94645,
+      "input_tokens": 6970,
+      "output_tokens": 527,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local provider does not report cost"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "local adapter disables thinking"
+      }
+    },
+    "worker": "qwen-local"
+  },
+  "next_action": "Explicitly decide whether to integrate an accepted clone patch; Factory NG never integrates automatically.",
+  "outcome": "accepted_for_dependent_observation",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-29T125100Z-map-static-condition-self-attacked-keyword-v1-qwen.raw.txt",
+      "sha256": "sha256:b3fb900c38c4cd2e8fd5ffd4ccbf59ebfbb57089035bdb73e29b5e737704b796"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "ticket": {
+    "id": "ticket:map.static-condition-self-attacked-keyword/v1",
+    "path": "docs/factory-ng/tickets/map-static-condition-self-attacked-keyword-v1.json",
+    "sha256": "sha256:cd4325ac6f9dfdd9b39c98a34f6defa5260ddca67e18f9cb10e905b97f675326"
+  }
+}

@@ -1,0 +1,169 @@
+{
+  "changed_paths": [
+    "backend/cards/converter.go",
+    "magic-backend",
+    "backend/cards/shape_target_player_draws_test.go"
+  ],
+  "cost_usd": 0.0012129999999999999,
+  "diff_check": {
+    "argv": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "",
+    "wall_seconds": 0.134
+  },
+  "gates": {
+    "cards_regression": {
+      "argv": [
+        "go",
+        "test",
+        "./cards",
+        "-count=1"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "ok  \tmagic-backend/cards\t48.370s\n",
+      "wall_seconds": 175.895
+    },
+    "engine_external": {
+      "argv": [
+        "go",
+        "test",
+        "./cards",
+        "-run",
+        "^TestBenchmarkExternalTargetPlayerDraw$",
+        "-count=1"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "ok  \tmagic-backend/cards\t0.024s\n",
+      "wall_seconds": 132.5
+    },
+    "map_external": {
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "scripts.paragraph.zz_benchmark_external_test"
+      ],
+      "exit_code": 1,
+      "stderr": ".F\n======================================================================\nFAIL: test_positive (scripts.paragraph.zz_benchmark_external_test.ExternalTargetPlayerDraw.test_positive)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/factory-ng-benchmark-claude-sonnet/scripts/paragraph/zz_benchmark_external_test.py\", line 10, in test_positive\n    self.assertEqual(self.mapped('Target player draws two cards.'),\nAssertionError: None != ('draw', {'amount': 2}, {'filter': 'player'})\n\n----------------------------------------------------------------------\nRan 2 tests in 0.051s\n\nFAILED (failures=1)\n",
+      "stdout": "",
+      "wall_seconds": 0.997
+    },
+    "parser_regression": {
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/paragraph",
+        "-p",
+        "test_*.py"
+      ],
+      "exit_code": 0,
+      "stderr": ".../tmp/factory-ng-benchmark-claude-sonnet/scripts/paragraph/reparse.py:12780: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-benchmark-claude-sonnet/scripts/paragraph/../../backend/data/carddb/p.json' mode='r' encoding='UTF-8'>\n  db = json.load(open(path))\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n.\n----------------------------------------------------------------------\nRan 4 tests in 0.136s\n\nOK\n",
+      "stdout": "",
+      "wall_seconds": 0.555
+    }
+  },
+  "model": {
+    "engine": "claude",
+    "id": "claude-sonnet",
+    "model": "sonnet",
+    "provider": "anthropic",
+    "rates_per_million": {
+      "cache_write": 3.75,
+      "cached_input": 0.3,
+      "input": 3.0,
+      "output": 15.0
+    }
+  },
+  "model_call": {
+    "argv": [
+      "claude",
+      "-p",
+      "--output-format",
+      "json",
+      "--model",
+      "sonnet",
+      "--max-turns",
+      "25",
+      "--max-budget-usd",
+      "5",
+      "--permission-mode",
+      "bypassPermissions",
+      "--no-session-persistence",
+      "# Factory NG benchmark ticket\n\nImplement support for the exact Oracle assertion:\n\n`Target player draws two cards.`\n\nWork from the current repository. Repair the complete production path from the\nparagraph parser through `CardDefinition.ToGameCard`, cast-time targeting, and\nEngine resolution. Do not special-case card names or this exact amount.\n\nRequirements:\n\n- `target player` emits a chosen-player target;\n- existing `target opponent` and `each opponent` behavior is unchanged;\n- unsupported `each player` and referential `that player` remain honest misses;\n- the converted draw spell requires a player target and the chosen player\u2014not\n  automatically the controller\u2014draws the cards;\n- populate libraries in behavior tests;\n- do not modify `backend/game`, `backend/cardfns`, generated corpus files, or\n  unrelated code;\n- add focused tests and run relevant regressions;\n- keep the change generic and minimal.\n\nYou may inspect and edit the repository. Finish with a concise summary of files\nchanged and tests run. Do not commit, push, deploy, or touch external ticket\nstate.\n"
+    ],
+    "exit_code": 1,
+    "stderr": "",
+    "stdout": "{\"is_error\":true,\"duration_api_ms\":448940,\"num_turns\":26,\"stop_reason\":\"tool_use\",\"session_id\":\"6faa91b0-3f07-4964-9ebc-d2e697da5878\",\"total_cost_usd\":1.8931737,\"usage\":{\"input_tokens\":50,\"cache_creation_input_tokens\":52139,\"cache_read_input_tokens\":1433333,\"output_tokens\":8211,\"output_tokens_details\":{\"thinking_tokens\":717},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":52139,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"not_available\",\"iterations\":[{\"input_tokens\":2,\"output_tokens\":450,\"cache_read_input_tokens\":73408,\"cache_creation_input_tokens\":3163,\"cache_creation\":{\"ephemeral_5m_input_tokens\":0,\"ephemeral_1h_input_tokens\":3163},\"type\":\"message\"}],\"speed\":\"standard\"},\"modelUsage\":{\"claude-haiku-4-5-20251001\":{\"inputTokens\":1143,\"outputTokens\":14,\"cacheReadInputTokens\":0,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.0012129999999999999,\"contextWindow\":200000,\"maxOutputTokens\":32000,\"canonicalModel\":\"claude-haiku-4-5\",\"provider\":\"firstParty\"},\"claude-sonnet-5\":{\"inputTokens\":152,\"outputTokens\":38916,\"cacheReadInputTokens\":5025316,\"cacheCreationInputTokens\":167690,\"webSearchRequests\":0,\"costUSD\":1.8919607,\"contextWindow\":1000000,\"maxOutputTokens\":64000,\"canonicalModel\":\"claude-sonnet-5\",\"provider\":\"firstParty\"}},\"permission_denials\":[],\"terminal_reason\":\"max_turns\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":1,\"requested\":{\"background\":0,\"foreground\":1,\"unset\":0},\"started_in_background\":0,\"max_depth\":1,\"spawned_by_subagents\":0,\"completed\":1,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{\"Explore\":1}},\"subtype\":\"error_max_turns\",\"errors\":[\"Reached maximum number of turns (25)\"],\"type\":\"result\",\"duration_ms\":589263,\"uuid\":\"f44329b5-a8a7-48aa-b989-d13286f7ad23\",\"queued_turn_count\":0}\n",
+    "wall_seconds": 597.978
+  },
+  "quality_score": 50,
+  "schema": "factory.model-benchmark-run/v1",
+  "scope_ok": false,
+  "scores": {
+    "engine_boundary": 35,
+    "map_behavior": 0,
+    "regressions": 15,
+    "scope": 0
+  },
+  "setup": {
+    "argv": [
+      "git",
+      "worktree",
+      "add",
+      "--detach",
+      "/tmp/factory-ng-benchmark-claude-sonnet",
+      "6d85a3d649103d8f3a50fb6436ed266c77b0942a"
+    ],
+    "exit_code": 0,
+    "stderr": "Preparing worktree (detached HEAD 6d85a3d6)\nUpdating files:  10% (1160/11311)\nUpdating files:  11% (1245/11311)\nUpdating files:  12% (1358/11311)\nUpdating files:  13% (1471/11311)\nUpdating files:  14% (1584/11311)\nUpdating files:  15% (1697/11311)\nUpdating files:  16% (1810/11311)\nUpdating files:  17% (1923/11311)\nUpdating files:  18% (2036/11311)\nUpdating files:  19% (2150/11311)\nUpdating files:  20% (2263/11311)\nUpdating files:  21% (2376/11311)\nUpdating files:  22% (2489/11311)\nUpdating files:  23% (2602/11311)\nUpdating files:  24% (2715/11311)\nUpdating files:  25% (2828/11311)\nUpdating files:  26% (2941/11311)\nUpdating files:  27% (3054/11311)\nUpdating files:  28% (3168/11311)\nUpdating files:  29% (3281/11311)\nUpdating files:  30% (3394/11311)\nUpdating files:  31% (3507/11311)\nUpdating files:  32% (3620/11311)\nUpdating files:  33% (3733/11311)\nUpdating files:  34% (3846/11311)\nUpdating files:  35% (3959/11311)\nUpdating files:  36% (4072/11311)\nUpdating files:  37% (4186/11311)\nUpdating files:  38% (4299/11311)\nUpdating files:  39% (4412/11311)\nUpdating files:  40% (4525/11311)\nUpdating files:  41% (4638/11311)\nUpdating files:  42% (4751/11311)\nUpdating files:  43% (4864/11311)\nUpdating files:  44% (4977/11311)\nUpdating files:  45% (5090/11311)\nUpdating files:  46% (5204/11311)\nUpdating files:  47% (5317/11311)\nUpdating files:  48% (5430/11311)\nUpdating files:  49% (5543/11311)\nUpdating files:  50% (5656/11311)\nUpdating files:  51% (5769/11311)\nUpdating files:  52% (5882/11311)\nUpdating files:  53% (5995/11311)\nUpdating files:  54% (6108/11311)\nUpdating files:  55% (6222/11311)\nUpdating files:  56% (6335/11311)\nUpdating files:  57% (6448/11311)\nUpdating files:  58% (6561/11311)\nUpdating files:  59% (6674/11311)\nUpdating files:  60% (6787/11311)\nUpdating files:  61% (6900/11311)\nUpdating files:  62% (7013/11311)\nUpdating files:  63% (7126/11311)\nUpdating files:  63% (7194/11311)\nUpdating files:  64% (7240/11311)\nUpdating files:  65% (7353/11311)\nUpdating files:  66% (7466/11311)\nUpdating files:  67% (7579/11311)\nUpdating files:  68% (7692/11311)\nUpdating files:  69% (7805/11311)\nUpdating files:  70% (7918/11311)\nUpdating files:  71% (8031/11311)\nUpdating files:  72% (8144/11311)\nUpdating files:  73% (8258/11311)\nUpdating files:  74% (8371/11311)\nUpdating files:  75% (8484/11311)\nUpdating files:  76% (8597/11311)\nUpdating files:  77% (8710/11311)\nUpdating files:  78% (8823/11311)\nUpdating files:  79% (8936/11311)\nUpdating files:  80% (9049/11311)\nUpdating files:  81% (9162/11311)\nUpdating files:  82% (9276/11311)\nUpdating files:  83% (9389/11311)\nUpdating files:  84% (9502/11311)\nUpdating files:  85% (9615/11311)\nUpdating files:  86% (9728/11311)\nUpdating files:  87% (9841/11311)\nUpdating files:  88% (9954/11311)\nUpdating files:  89% (10067/11311)\nUpdating files:  90% (10180/11311)\nUpdating files:  91% (10294/11311)\nUpdating files:  92% (10407/11311)\nUpdating files:  93% (10520/11311)\nUpdating files:  94% (10633/11311)\nUpdating files:  95% (10746/11311)\nUpdating files:  95% (10845/11311)\nUpdating files:  96% (10859/11311)\nUpdating files:  97% (10972/11311)\nUpdating files:  98% (11085/11311)\nUpdating files:  99% (11198/11311)\nUpdating files:  99% (11221/11311)\nUpdating files: 100% (11311/11311)\nUpdating files: 100% (11311/11311), done.\n",
+    "stdout": "HEAD is now at 6d85a3d6 cardfns: Blazing Archon handler \u2014 flying + can't-be-attacked-except-by-flying/reach restriction\n",
+    "wall_seconds": 4.986
+  },
+  "silent_wrong": false,
+  "status": "COMPLETE",
+  "total_wall_seconds": 908.124,
+  "usage": {
+    "cache_write_input_tokens": 0,
+    "cached_input_tokens": 0,
+    "input_tokens": 1143,
+    "output_tokens": 14,
+    "provider_cost_usd": 0.0012129999999999999,
+    "reasoning_output_tokens": 717,
+    "resolved_model": {
+      "claude-haiku-4-5-20251001": {
+        "cacheCreationInputTokens": 0,
+        "cacheReadInputTokens": 0,
+        "canonicalModel": "claude-haiku-4-5",
+        "contextWindow": 200000,
+        "costUSD": 0.0012129999999999999,
+        "inputTokens": 1143,
+        "maxOutputTokens": 32000,
+        "outputTokens": 14,
+        "provider": "firstParty",
+        "webSearchRequests": 0
+      },
+      "claude-sonnet-5": {
+        "cacheCreationInputTokens": 167690,
+        "cacheReadInputTokens": 5025316,
+        "canonicalModel": "claude-sonnet-5",
+        "contextWindow": 1000000,
+        "costUSD": 1.8919607,
+        "inputTokens": 152,
+        "maxOutputTokens": 64000,
+        "outputTokens": 38916,
+        "provider": "firstParty",
+        "webSearchRequests": 0
+      }
+    }
+  }
+}

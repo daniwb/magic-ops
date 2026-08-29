@@ -1,0 +1,72 @@
+{
+  "schema": "factory.ticket-spec/v1",
+  "id": "ticket:map.switch-pt/v3",
+  "title": "Map the three proven switch_pt forms to the accepted Engine child",
+  "work_type": "map",
+  "lifecycle": "ready_for_observation",
+  "parents": [
+    "ticket:factory.evidence.switch-pt/v1",
+    "ticket:engine.switch-pt/v2"
+  ],
+  "replaces_attempt": {
+    "ticket": "ticket:map.switch-pt/v2",
+    "reason": "Qwen prepared-direct returned no payload twice despite a healthy endpoint probe. The semantic contract is unchanged; only the compatible execution adapter changes."
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "clean": true
+  },
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "scope": {
+    "allowed_paths": ["scripts/paragraph/reparse.py", "scripts/paragraph/test_switch_pt.py"],
+    "forbidden_paths": ["backend/", "scripts/paragraph/slotparse_oneshot.py", "backend/data/"]
+  },
+  "evidence": [
+    {
+      "path": "docs/factory-ng/tickets/map-switch-pt-v2.json",
+      "sha256": "sha256:1a4b0874877ac51a14a6a327c531177c516e0cafe1a13225f32ddd67be8b4e82",
+      "anchor": "required_behavior",
+      "fact": "The v2 TicketSpec pins the full 17-member measurement, parser seam, accepted Engine representation, three positive Map tuples, and target-player negative boundary."
+    },
+    {
+      "ticket": "ticket:engine.switch-pt/v2",
+      "receipt": "docs/factory-ng/runs/2026-08-28-engine-switch-pt-v2-opus.json",
+      "sha256": "sha256:5e324594fc27842295b18870455d5fd5997b64d50d188fe1d027a508ba3e5764",
+      "fact": "The accepted Engine child consumes switch_pt with self, bare target creature, and value.target=each only."
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "sha256": "sha256:0b113cd5f8faa151a0c5fc1c2c8c15d9c7eb1df530f15560d6c55d2ed3285dbe",
+      "anchor": "1469-1477, 4997-5002",
+      "fact": "map_atom is the only implementation seam; parsing is already proven."
+    }
+  ],
+  "required_behavior": [
+    "For activated or triggered self forms, map to ('switch_pt', {}, None). Do not map a targetless spell source.",
+    "For a bare target creature form, map to ('switch_pt', {}, {'filter': 'creature'}).",
+    "For each creature, map to ('switch_pt', {'target': 'each'}, None).",
+    "Target player, qualified targets, and 'each creature on the battlefield' remain unmapped.",
+    "Add focused direct map_atom tests for the three positives and target-player negative."
+  ],
+  "gates": [
+    "cd scripts/paragraph && python3 -m unittest test_switch_pt",
+    "git diff --check",
+    "git status --porcelain adds or changes only scripts/paragraph/reparse.py and scripts/paragraph/test_switch_pt.py",
+    "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py verb_unmapped:switch_pt reports zero members after the candidate Map patch"
+  ],
+  "execution": {
+    "mode": "isolated_clone_observation_only",
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "Qwen was unavailable for the complete prepared packet. This is the same small Map contract, routed once to the existing staged remote fallback.",
+    "effective_token_target": 200000,
+    "warning_reflection_threshold": 500000,
+    "automatic_stop": false,
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true
+  },
+  "on_failure": "Record an immutable receipt. Do not change parsing, Engine code, or corpus data; any broader grammar is a separate ticket."
+}

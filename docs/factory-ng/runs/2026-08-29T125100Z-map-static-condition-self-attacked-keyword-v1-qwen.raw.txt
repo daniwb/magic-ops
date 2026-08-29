@@ -1,0 +1,51 @@
+The ticket requires mapping the exact phrase `it attacked this turn` to `{'kind': 'happened', 'what': 'self_attacked_this_turn'}` in `parse_static_condition`. It also requires creating a test file `scripts/paragraph/test_static_condition_self_attacked.py` to verify this behavior and ensure other similar phrases (like `you attacked this turn` or `it attacked last turn`) remain unmapped (None).
+
+I will add the specific check in `scripts/paragraph/reparse.py` right before the final `return None` in `parse_static_condition`, and create the test file.
+
+<<<FILE scripts/paragraph/reparse.py
+<<<SEARCH
+    if re.match(r"^you'?re the monarch$", text):
+        return {'kind': 'named', 'name': 'monarch'}
+    if re.match(r"^you have the city'?s blessing$", text):
+        return {'kind': 'named', 'name': 'citys_blessing'}
+
+    return None
+===REPLACE
+    if re.match(r"^you'?re the monarch$", text):
+        return {'kind': 'named', 'name': 'monarch'}
+    if re.match(r"^you have the city'?s blessing$", text):
+        return {'kind': 'named', 'name': 'citys_blessing'}
+
+    # ticket:map.static-condition-self-attacked-keyword/v1
+    if text == 'it attacked this turn':
+        return {'kind': 'happened', 'what': 'self_attacked_this_turn'}
+
+    return None
+>>>END
+<<<NEWFILE scripts/paragraph/test_static_condition_self_attacked.py
+import pathlib
+import sys
+import unittest
+
+
+sys.path.insert(0, str(pathlib.Path(__file__).parent))
+import reparse  # noqa: E402
+
+
+class StaticConditionSelfAttackedTest(unittest.TestCase):
+    def test_it_attacked_this_turn(self):
+        self.assertEqual(
+            reparse.parse_static_condition("it attacked this turn"),
+            {"kind": "happened", "what": "self_attacked_this_turn"},
+        )
+
+    def test_you_attacked_this_turn_is_unmapped(self):
+        self.assertIsNone(reparse.parse_static_condition("you attacked this turn"))
+
+    def test_it_attacked_last_turn_is_unmapped(self):
+        self.assertIsNone(reparse.parse_static_condition("it attacked last turn"))
+
+
+if __name__ == "__main__":
+    unittest.main()
+>>>END

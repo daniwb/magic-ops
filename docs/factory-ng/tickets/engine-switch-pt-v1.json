@@ -1,0 +1,68 @@
+{
+  "schema": "factory.ticket-spec/v1",
+  "id": "ticket:engine.switch-pt/v1",
+  "title": "Execute temporary power/toughness switching for a bounded switch_pt atom",
+  "work_type": "engine",
+  "lifecycle": "ready_for_observation",
+  "parents": ["ticket:factory.evidence.switch-pt/v1"],
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "clean": true
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "scope": {
+    "allowed_paths": [
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/ability_effects.go",
+      "backend/game/switch_pt_test.go"
+    ],
+    "forbidden_paths": ["backend/cards/", "backend/cardfns/", "scripts/paragraph/", "backend/data/"]
+  },
+  "evidence_ticket": "ticket:factory.evidence.switch-pt/v1",
+  "evidence": [
+    {
+      "path": "backend/game/effects.go",
+      "anchor": "12-47, 542-548, 1028-1063",
+      "fact": "Continuous effects model Layer 7b setting but have no temporary P/T-swap representation."
+    },
+    {
+      "path": "backend/game/ability_effects.go",
+      "anchor": "19, 858-872",
+      "fact": "Ability-effect dispatch has pump variants but no switch_pt case."
+    },
+    {
+      "path": "backend/game/card.go",
+      "anchor": "3084-3114",
+      "fact": "Power and toughness are independently read through the effect manager; the capability must preserve layering and end-of-turn expiry."
+    }
+  ],
+  "required_behavior": [
+    "A switch_pt ability swaps a creature's current power and toughness until end of turn without mutating its printed base values.",
+    "It supports exactly the pre-proven self, target-creature, and each-creature scopes.",
+    "It composes with existing Layer 7b and additive modifiers and expires through the existing end-of-turn cleanup path.",
+    "The discriminating test proves the target's 2/5 becomes 5/2, an unaffected creature remains unchanged, and cleanup restores 2/5."
+  ],
+  "gates": [
+    "gofmt -d backend/game/effects.go backend/game/card.go backend/game/ability_effects.go backend/game/switch_pt_test.go produces no output",
+    "cd backend && go test ./game -run '^TestSwitchPowerToughnessUntilEOT$' -count=1",
+    "git diff --check",
+    "git diff --name-only contains only the allowed paths"
+  ],
+  "execution": {
+    "mode": "isolated_clone_observation_only",
+    "selected_profile": "codex-constrained@1.0.0",
+    "resolved_model": "gpt-5.6-sol",
+    "selection_reason": "This is bounded Engine work with a concrete Layer-7 execution invariant; Sol is used for the semantic implementation, not Qwen's cheap capability-decision route.",
+    "effective_token_target": 200000,
+    "warning_reflection_threshold": 500000,
+    "automatic_stop": false,
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true
+  },
+  "on_failure": "Return an immutable receipt with raw telemetry and either NEEDS_PRIMITIVE, REFACTOR_FIRST, SPLIT_REQUIRED, or one constrained proposal. Do not broaden to unrelated P/T mechanics."
+}

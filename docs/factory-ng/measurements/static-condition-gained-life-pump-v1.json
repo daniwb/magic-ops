@@ -1,0 +1,25 @@
+{
+  "member_count": 2,
+  "members": [
+    {
+      "all_miss_shapes": ["static_conditional"],
+      "details": ["this creature gets +2/+0 as long as you gained life this turn."],
+      "name": "Tenured Concocter",
+      "text_sha256": "sha256:6723edd638cd7c9bed97dc6bebedac6cd82b03f0f87128703120d94a8ca70b87"
+    },
+    {
+      "all_miss_shapes": ["static_conditional"],
+      "details": ["this creature gets +2/+0 as long as you gained life this turn."],
+      "name": "Ulna Alley Shopkeep",
+      "text_sha256": "sha256:9a344a65d6099fbc0ddcf78993175959acd8927ea524f0e531cee784fbd41ee8"
+    }
+  ],
+  "review_cards_scanned": 2,
+  "schema": "factory.targeted-demand/v1",
+  "shape": "static_conditional",
+  "source": {
+    "parser_sha256": "sha256:0b113cd5f8faa151a0c5fc1c2c8c15d9c7eb1df530f15560d6c55d2ed3285dbe",
+    "repository": "/opt/development/test/openmagic",
+    "revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7"
+  }
+}

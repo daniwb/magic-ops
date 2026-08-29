@@ -1,0 +1,32 @@
+{
+  "schema": "factory-ng-workers/v1",
+  "workers": [
+    {
+      "id": "qwen-local",
+      "label": "Qwen local",
+      "enabled": true,
+      "profile": "qwen-prepared-direct@1.0.2",
+      "model": "Qwen3.8-27B-Q8_0",
+      "usage_policy": "unmetered",
+      "work": "small evidence-complete Map work"
+    },
+    {
+      "id": "claude",
+      "label": "Claude",
+      "enabled": true,
+      "profile": "claude-staged@1.0.0",
+      "model": "claude-sonnet-5",
+      "usage_policy": "claude-weekly",
+      "work": "well-evidenced Map and Engine work"
+    },
+    {
+      "id": "codex",
+      "label": "Codex",
+      "enabled": true,
+      "profile": "codex-constrained@1.0.0",
+      "model": "gpt-5.6-luna",
+      "usage_policy": "codex-weekly",
+      "work": "well-evidenced Map/Engine work and focused repair"
+    }
+  ]
+}

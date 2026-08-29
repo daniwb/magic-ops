@@ -1,0 +1,72 @@
+diff --git a/scripts/paragraph/reparse.py b/scripts/paragraph/reparse.py
+index fcf66bca..29b12c00 100644
+--- a/scripts/paragraph/reparse.py
++++ b/scripts/paragraph/reparse.py
+@@ -1607,12 +1607,16 @@ def map_atom(verb, args, allow_multi_search=False, kind=None):
+             return None
+         return ('life_loss', {'amount': n, 'target': target}, None)
+     if verb == 'p_draw':
+-        # executeDrawEffect only reads effectValue.target "opponent" vs.
+-        # default controller — "each player"/"target player"/"that player"
+-        # aren't representable without real per-player targeting.
++        # A chosen "target player" uses the generic player TargetSpec.  The
++        # converter already preserves player targets and executeDrawEffect
++        # consumes the resolved StackObject target before falling back to the
++        # controller.  Keep plural/referent subjects on their existing paths:
++        # they are not equivalent to one chosen player target.
+         n = _amt(args.get('amount'))
+         who = (args.get('who') or '').strip()
+         if n is None: return None
++        if who == 'target player':
++            return ('draw', {'amount': n}, {'filter': 'player'})
+         if who in ('each opponent', 'target opponent'):
+             return ('draw', {'amount': n, 'target': 'opponent'}, None)
+         return None
+diff --git a/scripts/paragraph/test_ticketspec_target_player_draw.py b/scripts/paragraph/test_ticketspec_target_player_draw.py
+new file mode 100644
+index 00000000..36aae003
+--- /dev/null
++++ b/scripts/paragraph/test_ticketspec_target_player_draw.py
+@@ -0,0 +1,42 @@
++import pathlib
++import sys
++import unittest
++
++
++sys.path.insert(0, str(pathlib.Path(__file__).parent))
++import reparse  # noqa: E402
++
++
++class TicketSpecTargetPlayerDrawTest(unittest.TestCase):
++    def map_draw(self, text):
++        verb, args = reparse.O.parse_atom(text)
++        self.assertEqual(verb, "p_draw")
++        return reparse.map_atom(verb, args, kind="oneshot")
++
++    def test_target_player_uses_real_player_target(self):
++        self.assertEqual(
++            self.map_draw("Target player draws two cards."),
++            ("draw", {"amount": 2}, {"filter": "player"}),
++        )
++
++    def test_target_opponent_retains_existing_scope(self):
++        self.assertEqual(
++            self.map_draw("Target opponent draws two cards."),
++            ("draw", {"amount": 2, "target": "opponent"}, None),
++        )
++
++    def test_each_opponent_retains_existing_scope(self):
++        self.assertEqual(
++            self.map_draw("Each opponent draws two cards."),
++            ("draw", {"amount": 2, "target": "opponent"}, None),
++        )
++
++    def test_each_player_is_not_collapsed_to_one_target(self):
++        self.assertIsNone(self.map_draw("Each player draws two cards."))
++
++    def test_that_player_remains_an_unbound_referent(self):
++        self.assertIsNone(self.map_draw("That player draws two cards."))
++
++
++if __name__ == "__main__":
++    unittest.main()

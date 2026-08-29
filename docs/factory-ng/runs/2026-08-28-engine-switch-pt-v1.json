@@ -1,0 +1,54 @@
+{
+  "schema": "factory.observation-receipt/v1",
+  "ticket": {
+    "id": "ticket:engine.switch-pt/v1",
+    "path": "docs/factory-ng/tickets/engine-switch-pt-v1.json",
+    "sha256": "sha256:3ddf9240db081a82ffc946e2f98ddd137bd938b193509af08b56814e763f064d"
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "model": {
+    "profile": "codex-constrained@1.0.0",
+    "profile_path": "docs/factory-ng/model-profiles/v1/codex-constrained.json",
+    "profile_sha256": "sha256:943cf989ed5cde418cc9d375d86aac0cc3846ba8a808e05247c824dfcdf63088",
+    "resolved_model": "gpt-5.6-sol",
+    "telemetry": {
+      "input_tokens": 124396,
+      "output_tokens": 1452,
+      "cache_read_tokens": 88576,
+      "cache_write_tokens": 0,
+      "reasoning_tokens": 852,
+      "provider_cost_usd": null,
+      "telemetry_status": "provider_measured"
+    }
+  },
+  "execution": {
+    "mode": "isolated_clone_observation_only",
+    "worktree": "temporary disposable clone",
+    "source_revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "source_tree_changed": false,
+    "clone_tree_changed": false
+  },
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-engine-switch-pt-v1.raw.jsonl",
+      "sha256": "sha256:58c09df8c018da4020ac273c3fa2dde14289b40aef82ccd9a451830271647e9f"
+    },
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-engine-switch-pt-v1.last.txt",
+      "sha256": "sha256:742130dfb062645505fda2118807cde4222e7c245e74bf090dcde5c5121059b5"
+    }
+  ],
+  "gates": [
+    {
+      "id": "proposal-readiness",
+      "outcome": "infrastructure_failed",
+      "evidence": "Every repository command was rejected before execution by bwrap: loopback: Failed RTM_NEWADDR: Operation not permitted."
+    }
+  ],
+  "outcome": "infrastructure_failed_before_proposal",
+  "next_action": "Reroute this otherwise untouched ticket through a different declared model adapter; do not classify the failure as a capability or model-quality result."
+}

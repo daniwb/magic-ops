@@ -1,0 +1,29 @@
+{
+  "schema": "factory.integration-receipt/v1",
+  "parents": [
+    "ticket:engine.draw-target-lifting/v2",
+    "ticket:map.target-player-draw/v4"
+  ],
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "base_revision": "6d85a3d649103d8f3a50fb6436ed266c77b0942a",
+    "result_commit": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "pushed": false,
+    "deployed": false
+  },
+  "changed_paths": [
+    "backend/cards/converter.go",
+    "backend/cards/draw_target_lifting_test.go",
+    "scripts/paragraph/reparse.py",
+    "scripts/paragraph/test_target_player_draw.py"
+  ],
+  "gates": [
+    {"id": "focused-map-source", "command": "cd scripts/paragraph && python3 -m unittest test_target_player_draw", "outcome": "passed", "evidence": "Ran 5 tests in 0.046s; OK after commit"},
+    {"id": "focused-engine-equivalent", "command": "cd backend && go test ./cards -run '^TestDrawSpellTargetLifting$' -count=1", "outcome": "passed_preintegration", "evidence": "passed in the disposable clone; all four integrated files were byte-identical to that gate-passing clone immediately before commit"},
+    {"id": "focused-engine-source-retry", "outcome": "infrastructure_stalled", "evidence": "the Go compiler blocked in futex even with a private GOCACHE; no assertion failure or source diagnostic was emitted"},
+    {"id": "scope", "outcome": "passed", "evidence": "the commit contains exactly the four accepted Map/Engine paths"},
+    {"id": "diff-check", "outcome": "passed", "evidence": "git diff --cached --check passed before commit"}
+  ],
+  "outcome": "committed_locally_not_pushed_or_deployed",
+  "next_action": "rerun the focused Engine source gate when the shared Go compiler is healthy, then decide push/deploy explicitly"
+}

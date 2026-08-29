@@ -1,0 +1,31 @@
+{
+  "schema": "factory.change-provenance/v1",
+  "ticket_id": "ticket:sha256:130db75996e82189e858d3eaa2e6eb9b769dd8b75b5e1ef2cc412dbaa54e3b45",
+  "attempt_id": "attempt:sha256:f5553b73b1681bc9a696fd4684a9e323aefd8dcfa0d755952007f92187f587a8",
+  "change_class": "factory",
+  "contract_change_scope": "high_impact",
+  "affected_contract_areas": [
+    "token_cost_accounting"
+  ],
+  "source_revision": "abc123",
+  "patch_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "model": {
+    "profile": "human",
+    "resolved_model": "human",
+    "adapter_version": "n/a"
+  },
+  "evidence_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "skill_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "gate_receipts_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "reviews": [
+    {
+      "decision": "accepted",
+      "reviewer_profile": "sol-opus-review@1",
+      "review_id": "review:sha256:058bd1de78f6107c9acafa2bc0ba842954867a78ec1359b825735b7ea244cf77",
+      "review_attempt_id": "attempt:sha256:d5603e7d57d299fcf7d2a5fb24abe3f6e59b515727fe06e986b2b0d43ca5c57f",
+      "review_sha256": "sha256:de8e94bcac942316465cac5eff6336afe37c51b615731d7122cefda2ffca9399"
+    }
+  ],
+  "outcome": "accepted",
+  "model_profile_sha256": "sha256:748bbeca29309cf5b9e6e8258114b22321cc19c375e98c97582bebac10f92fee"
+}

@@ -1,0 +1,82 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-map-static-condition-drawn-two-keywords-v1-gmzghmih",
+    "candidate_commit": "8dd5e06545926033d738b0b69ab8f29145275168",
+    "mode": "isolated_clone_observation_only",
+    "model_exit_code": 0,
+    "packet_sha256": "sha256:ce388b784e2958112688c9b34cca4cd3b51d887fc24ac17e94872632a30178e3",
+    "source_revision": "8dd5e06545926033d738b0b69ab8f29145275168",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "command": "scripts/map-pipeline-apply.py",
+      "detail": "applied: scripts/paragraph/reparse.py\ncreated: scripts/paragraph/test_static_condition_drawn_two.py",
+      "id": "patch-apply",
+      "outcome": "passed"
+    },
+    {
+      "command": "cd scripts/paragraph && python3 -m unittest test_static_condition_self_attacked",
+      "detail": "E\n======================================================================\nERROR: test_static_condition_self_attacked (unittest.loader._FailedTest.test_static_condition_self_attacked)\n----------------------------------------------------------------------\nImportError: Failed to import test module: test_static_condition_self_attacked\nTraceback (most recent call last):\n  File \"/usr/lib/python3.12/unittest/loader.py\", line 137, in loadTestsFromName\n    module = __import__(module_name)\n             ^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named 'test_static_condition_self_attacked'\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nFAILED (errors=1)",
+      "id": "focused-parser-contract",
+      "outcome": "failed"
+    },
+    {
+      "command": "git diff --check",
+      "detail": "",
+      "id": "diff-check",
+      "outcome": "passed"
+    },
+    {
+      "command": "ticket allowed_paths only",
+      "detail": "changed=scripts/paragraph/reparse.py",
+      "id": "scope",
+      "outcome": "passed"
+    },
+    {
+      "command": "factory-ng-targeted-demand.py --members-from pinned measurement",
+      "detail": "{\n  \"member_count\": 1,\n  \"members\": [\n    {\n      \"all_miss_shapes\": [\n        \"static_conditional\"\n      ],\n      \"details\": [\n        \"~ has indestructible as long as it attacked this turn\"\n      ],\n      \"name\": \"Agent Frank Horrigan\",\n      \"text_sha256\": \"sha256:b56d16441dffd734165d8735fe88fc29fd6b5dfdb483875c7732495177cc9277\"\n    }\n  ],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/static-condition-self-attacked-keyword-v1.json\",\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"static_conditional\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:234c92c55bb9ea00a873a19a1ae7c6d2a1a2d253bff14acf51e4de1e12c13700\",\n    \"repository\": \"/tmp/factory-ng-map-static-condition-drawn-two-keywords-v1-gmzghmih\",\n    \"revision\": \"8dd5e06545926033d738b0b69ab8f29145275168\"\n  }\n}",
+      "id": "pinned-remeasurement",
+      "outcome": "failed"
+    }
+  ],
+  "model": {
+    "profile": "qwen-prepared-direct@1.0.2",
+    "resolved_model": "Qwen3.8-27B-Q8_0",
+    "telemetry": {
+      "cache_read_tokens": 202,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 77077,
+      "input_tokens": 6963,
+      "output_tokens": 393,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local provider does not report cost"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "local adapter disables thinking"
+      }
+    },
+    "worker": "qwen-local"
+  },
+  "next_action": "Explicitly decide whether to integrate an accepted clone patch; Factory NG never integrates automatically.",
+  "outcome": "gate_failed",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-29T130919Z-map-static-condition-drawn-two-keywords-v1-qwen.raw.txt",
+      "sha256": "sha256:96899b9c9b8fb581b8583c23eb24dabc66494f2ca3a2446c84e77a3e4c73277a"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "ticket": {
+    "id": "ticket:map.static-condition-drawn-two-keywords/v1",
+    "path": "docs/factory-ng/tickets/map-static-condition-drawn-two-keywords-v1.json",
+    "sha256": "sha256:d1ac372c3aad9917b7f59d19879e508862ad158d73bbb3634df6f7b778990237"
+  }
+}

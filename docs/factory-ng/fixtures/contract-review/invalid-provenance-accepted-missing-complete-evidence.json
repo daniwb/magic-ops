@@ -1,0 +1,43 @@
+{
+  "schema": "factory.change-provenance/v1",
+  "ticket_id": "ticket:sha256:cf6dae8ecd01ac041b151a430fb04b7d25215091bb67428bcc52349963506418",
+  "attempt_id": "attempt:sha256:b9e0066d0d57fbc845c1c5e9662489aec049651a2f777d3d176d381d60e3f3a8",
+  "change_class": "factory",
+  "contract_change_scope": "amendment",
+  "affected_contract_areas": [
+    "model_profile"
+  ],
+  "reviewed_package_sha256": "sha256:7ce46af1a52f756b09bf3140b72b8321127dd05f6f027dc65defb509e7e48590",
+  "source_revision": "abc123",
+  "patch_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "model": {
+    "profile": "human",
+    "resolved_model": "human",
+    "adapter_version": "n/a"
+  },
+  "evidence_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "skill_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "gate_receipts_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "reviews": [
+    {
+      "decision": "accepted",
+      "reviewer_profile": "codex-sol-review@1",
+      "review_id": "review:sha256:9cb45c44f1e8e5410abad0be23d4296afad691a605d308dee702a94990ee5034",
+      "review_attempt_id": "attempt:sha256:4bce3b5689a34a58c8005aa2bf949edf3ed1bb870bd3fb22d598b9e2d8f81d16",
+      "review_sha256": "sha256:199c7fa539eb0754824c28de0455703fcbe62c513044e7144bb428fa43ba4613",
+      "review_receipt": {
+        "schema": "factory.review-receipt/v1",
+        "review_id": "review:sha256:9cb45c44f1e8e5410abad0be23d4296afad691a605d308dee702a94990ee5034",
+        "review_attempt_id": "attempt:sha256:4bce3b5689a34a58c8005aa2bf949edf3ed1bb870bd3fb22d598b9e2d8f81d16",
+        "reviewer_profile": "codex-sol-review@1",
+        "provider": "openai",
+        "resolved_model": "gpt-5.6-sol",
+        "package_sha256": "sha256:7ce46af1a52f756b09bf3140b72b8321127dd05f6f027dc65defb509e7e48590",
+        "decision": "accepted",
+        "recorded_by": "factory-harness/v1"
+      }
+    }
+  ],
+  "outcome": "accepted",
+  "model_profile_sha256": "sha256:748bbeca29309cf5b9e6e8258114b22321cc19c375e98c97582bebac10f92fee"
+}

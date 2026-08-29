@@ -1,0 +1,90 @@
+{
+  "schema": "factory-ng.corpus-contract-session/v1",
+  "status": "complete",
+  "generated_at": "2026-08-27T00:00:00Z",
+  "session_brief": "/opt/development/magic-ops/docs/sessions/corpus-contract-brief.md",
+  "repositories": {
+    "magic": {
+      "path": "/opt/development/magic-new",
+      "sha": "cccfbef6b4e3e397e4fe70d5aff44fd9c6d410dd",
+      "dirty_worktree_observed": true
+    },
+    "magic_ops": {
+      "path": "/opt/development/magic-ops",
+      "sha": "df264369d5246b4b1b8d7575a9b1cd1b885efd4a",
+      "dirty_worktree_observed": true
+    }
+  },
+  "corpus": {
+    "path": "/opt/development/magic-new/corpus/AtomicCards.json.gz",
+    "upstream": "MTGJSON",
+    "upstream_version": "5.3.0+20260809",
+    "upstream_date": "2026-08-09",
+    "raw_sha256": "6a0235edf58fdd6947a84a4d5f8f27aeea899b179e46a14fd6356df368afbcfd",
+    "atomic_name_count": 35013,
+    "existing_classifier_filter_face_count": 34049,
+    "existing_classifier_filter_unique_name_count": 33219,
+    "population_policy_status": "unresolved",
+    "semantic_manifest_hash_status": "exploratory_not_contractual",
+    "exploratory_semantic_manifest_sha256": "23016d4dce2260c92b49bd622ad2e95f81952eced6a4f7348fcdbb2d2d84cb25",
+    "note": "The exploratory hash used a field projection before the preferred identifiers.scryfallOracleId+side identity was selected; architecture review must not treat it as the v1 snapshot ID."
+  },
+  "representation_snapshot": {
+    "path": "/opt/development/magic-new/backend/data/carddb",
+    "json_file_count": 30,
+    "record_count": 30102,
+    "sorted_file_sha256_list_sha256": "69b27883561e2b41f62db6b8cb5e47816a2fd4c6fb33747ea95a35f3436eb350"
+  },
+  "artifact_hashes": {
+    "report.md": "2a687b03ac249a1cd7c30a14aa7de2f6154caacc990035de7067a868e8afd933",
+    "contract.md": "5d9e684384e865e96ecde79f38af94e0665bb76eeb61918d9028d1d260b215ab",
+    "metrics.md": "f8fc23a2cd1f20ca0b3707e5830154d0c56a1cd2cf0add30921b174ee16976bc",
+    "ticket-examples.md": "63afe7cbb983f1fae10d2c2ab53c62a808460a659bbd5706dfe6947b239718f0",
+    "open-questions.md": "98a7768e7204ff1ce77247ab33b88673f3ad5f89fb36170042056b420f823e5d"
+  },
+  "artifact_hash_policy": "SHA-256 of exact artifact bytes; manifest.json excluded to avoid a self-referential hash",
+  "files_consulted": [
+    "/opt/development/magic-ops/docs/sessions/corpus-contract-brief.md",
+    "/opt/development/magic-ops/AGENTS.md",
+    "/opt/development/magic-ops/docs/factory-ng-plan.md",
+    "/opt/development/magic-ops/docs/factory-redesign.md",
+    "/opt/development/magic-ops/docs/experiments/phase-rs-001.md",
+    "/opt/development/magic-new/MEMORY.md",
+    "/opt/development/magic-new/docs/STATUS.md",
+    "/opt/development/magic-new/docs/paragraph-schema-v2.md",
+    "/opt/development/magic-new/docs/carddb-schema.md",
+    "/opt/development/magic-new/docs/carddb-schema-full.md",
+    "/opt/development/magic-new/docs/operating-model.md",
+    "/opt/development/magic-new/docs/review.md",
+    "/opt/development/magic-new/docs/corpus-first-vocabulary-plan.md",
+    "/opt/development/magic-new/docs/phase-rs-cross-reference-plan.md",
+    "/opt/development/magic-new/docs/phase-rs-factory-analysis.md",
+    "/opt/development/magic-new/scripts/paragraph/classify.py",
+    "/opt/development/magic-new/scripts/paragraph/coverage_planner.py",
+    "/opt/development/magic-new/scripts/primitive_inventory.py",
+    "/opt/development/magic-new/scripts/scan_silent_static.py",
+    "/opt/development/magic-new/scripts/playtest_all.py",
+    "/opt/development/magic-new/backend/tools/report/main.go",
+    "/opt/development/magic-new/backend/tools/snapshot/main.go",
+    "/opt/development/magic-new/corpus/swallow-audit-report.md",
+    "/opt/development/magic-new/corpus/build-plan.md",
+    "/opt/development/magic-new/corpus/primitive-inventory-report.md"
+  ],
+  "important_commands": [
+    "git -C /opt/development/magic-new rev-parse HEAD",
+    "git -C /opt/development/magic-ops rev-parse HEAD",
+    "sha256sum corpus/AtomicCards.json.gz corpus/Keywords.json",
+    "gzip -cd corpus/AtomicCards.json.gz | jq -r '.meta, (.data|length)'",
+    "PYTHONDONTWRITEBYTECODE=1 python3 -c '<load AtomicCards; apply classify.py SKIP_LAYOUTS/SKIP_TYPES/isFunny filter; count faces/names; hash canonical exploratory projection>'",
+    "PYTHONDONTWRITEBYTECODE=1 python3 -c '<inspect AtomicCards identifiers, faceName, side, and multi-face distributions>'",
+    "cd backend && find data/carddb -maxdepth 1 -type f -name '*.json' -print0 | sort -z | xargs -0 sha256sum | sha256sum",
+    "cd backend && PYTHONDONTWRITEBYTECODE=1 python3 -c '<reproduce backend/tools/report classification over data/carddb>'",
+    "bash scripts/session-health-check.sh"
+  ],
+  "startup_notes": [
+    "Canonical memory path required by magic-ops AGENTS.md was permission-denied; repository-local /opt/development/magic-new/MEMORY.md was read as a fallback and was unrelated historical handler memory.",
+    "Health check was diagnostic only. Operator lock was not taken and monitors/services/tickets/workers were not mutated.",
+    "A broad rg evidence search was bounded but produced truncated output; final claims rely on named files consulted directly.",
+    "go run ./tools/report did not finish in the bounded command window; its classification was reproduced directly from JSON according to backend/tools/report/main.go."
+  ]
+}

@@ -1,0 +1,60 @@
+<<<FILE scripts/paragraph/reparse.py
+<<<SEARCH
+    if verb == 'investigate':
+        return ('investigate', {}, None)
+    if verb == 'pump':
+===REPLACE
+    if verb == 'investigate':
+        return ('investigate', {}, None)
+    if verb == 'switch_pt':
+        o = args.get('obj') or {}
+        if o.get('kind') == 'self':
+            return ('switch_pt', {}, None)
+        if o.get('kind') == 'target' and o.get('filter') == 'creature':
+            return ('switch_pt', {}, {'filter': 'creature'})
+        if o.get('kind') == 'each' and o.get('filter') == 'creature':
+            return ('switch_pt', {'target': 'each'}, None)
+        return None
+    if verb == 'pump':
+>>>END
+<<<NEWFILE scripts/paragraph/test_switch_pt.py
+import pathlib
+import sys
+import unittest
+
+
+sys.path.insert(0, str(pathlib.Path(__file__).parent))
+import reparse  # noqa: E402
+
+
+class SwitchPtTest(unittest.TestCase):
+    def map_switch_pt(self, text):
+        verb, args = reparse.O.parse_atom(text)
+        self.assertEqual(verb, "switch_pt")
+        return reparse.map_atom(verb, args, kind="oneshot")
+
+    def test_self_switch_pt(self):
+        self.assertEqual(
+            self.map_switch_pt("Switch this creature's power and toughness."),
+            ("switch_pt", {}, None),
+        )
+
+    def test_target_creature_switch_pt(self):
+        self.assertEqual(
+            self.map_switch_pt("Switch target creature's power and toughness."),
+            ("switch_pt", {}, {"filter": "creature"}),
+        )
+
+    def test_each_creature_switch_pt(self):
+        self.assertEqual(
+            self.map_switch_pt("Switch each creature's power and toughness."),
+            ("switch_pt", {"target": "each"}, None),
+        )
+
+    def test_target_player_switch_pt_is_unmapped(self):
+        self.assertIsNone(self.map_switch_pt("Switch target player's power and toughness."))
+
+
+if __name__ == "__main__":
+    unittest.main()
+>>>END

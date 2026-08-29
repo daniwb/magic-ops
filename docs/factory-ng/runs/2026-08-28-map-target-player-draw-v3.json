@@ -1,0 +1,10 @@
+{
+  "schema": "factory.observation-receipt/v1",
+  "ticket": {"id": "ticket:map.target-player-draw/v3", "path": "docs/factory-ng/tickets/map-target-player-draw-v3.json", "sha256": "sha256:ae532499a1323d59104637c68d291588752344125f5f12a512044507977f1136"},
+  "mode": "isolated_clone_observation_only",
+  "source": {"repository": "/opt/development/test/openmagic", "revision": "6d85a3d649103d8f3a50fb6436ed266c77b0942a", "original_source_mutated": false},
+  "model": {"profile": "codex-constrained@1.0.0", "provider": "openai", "resolved_model": "gpt-5.6-sol", "raw_output": {"path": "docs/factory-ng/runs/2026-08-28-map-target-player-draw-v3.raw.jsonl", "sha256": "sha256:abd78d6832572842c7dd43f079690fee84a95913e5be702042e467dcac4fc759"}, "telemetry": {"availability": "unavailable; sandbox startup failed before a model completion"}},
+  "gates": [{"id": "profile-startup", "outcome": "failed", "evidence": "bwrap: loopback: Failed RTM_NEWADDR: Operation not permitted"}],
+  "outcome": "infrastructure_failed_before_proposal",
+  "integration": "none"
+}

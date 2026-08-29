@@ -1,0 +1,94 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-map-static-condition-drawn-two-keywords-v2-vmcczhg8",
+    "candidate_commit": "8dd5e06545926033d738b0b69ab8f29145275168",
+    "mode": "isolated_clone_observation_only",
+    "model_exit_code": 0,
+    "packet_sha256": "sha256:67aea24838dd69dbd201f58737510775adde3025d7813b7bc56eaf25be07359f",
+    "source_revision": "8dd5e06545926033d738b0b69ab8f29145275168",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "command": "scripts/map-pipeline-apply.py",
+      "detail": "applied: scripts/paragraph/reparse.py\ncreated: scripts/paragraph/test_static_condition_drawn_two.py",
+      "id": "patch-apply",
+      "outcome": "passed"
+    },
+    {
+      "command": "cd scripts/paragraph && python3 -m unittest test_static_condition_drawn_two",
+      "detail": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.002s\n\nOK",
+      "id": "ticket-gate-0",
+      "outcome": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "detail": "",
+      "id": "ticket-gate-1",
+      "outcome": "passed"
+    },
+    {
+      "command": "git status --porcelain adds or changes only scripts/paragraph/reparse.py and scripts/paragraph/test_static_condition_drawn_two.py",
+      "detail": "M scripts/paragraph/reparse.py\n?? scripts/paragraph/test_static_condition_drawn_two.py",
+      "id": "ticket-gate-2",
+      "outcome": "passed"
+    },
+    {
+      "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/static-condition-drawn-two-keywords-v2.json reports zero remaining pinned members",
+      "detail": "usage: factory-ng-targeted-demand.py [-h] [--repo REPO]\n                                     [--members-from MEMBERS_FROM] [--summary]\n                                     [shape]\nfactory-ng-targeted-demand.py: error: unrecognized arguments: zero remaining pinned members",
+      "id": "ticket-gate-3",
+      "outcome": "failed"
+    },
+    {
+      "command": "git diff --check",
+      "detail": "",
+      "id": "diff-check",
+      "outcome": "passed"
+    },
+    {
+      "command": "ticket allowed_paths only",
+      "detail": "changed=scripts/paragraph/reparse.py,scripts/paragraph/test_static_condition_drawn_two.py",
+      "id": "scope",
+      "outcome": "passed"
+    }
+  ],
+  "model": {
+    "profile": "qwen-prepared-direct@1.0.2",
+    "resolved_model": "Qwen3.8-27B-Q8_0",
+    "telemetry": {
+      "cache_read_tokens": 202,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 78236,
+      "input_tokens": 6984,
+      "output_tokens": 402,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local provider does not report cost"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "local adapter disables thinking"
+      }
+    },
+    "worker": "qwen-local"
+  },
+  "next_action": "Explicitly decide whether to integrate an accepted clone patch; Factory NG never integrates automatically.",
+  "outcome": "gate_failed",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-29T131257Z-map-static-condition-drawn-two-keywords-v2-qwen.raw.txt",
+      "sha256": "sha256:dd14f023d3105c622e5125fc108394df5d76434e8107dce1c6e0c61e09e3e008"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "ticket": {
+    "id": "ticket:map.static-condition-drawn-two-keywords/v2",
+    "path": "docs/factory-ng/tickets/map-static-condition-drawn-two-keywords-v2.json",
+    "sha256": "sha256:8d1802dc2ba05e801b8b7848b48b22cf466cab4fbe7deeb7ed718afd740a3af7"
+  }
+}

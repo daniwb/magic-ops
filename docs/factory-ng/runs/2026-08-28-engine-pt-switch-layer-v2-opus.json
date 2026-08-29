@@ -1,0 +1,106 @@
+{
+  "schema": "factory.observation-receipt/v1",
+  "ticket": {
+    "id": "ticket:engine.pt-switch-layer/v2",
+    "path": "docs/factory-ng/tickets/engine-pt-switch-layer-v2.json",
+    "sha256": "sha256:4a93e9b2dd5f69565b18891ed649d9fc75e6847b4b45d4096bd0b16493b3c92d"
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "model": {
+    "profile": "claude-staged@1.0.0",
+    "profile_path": "docs/factory-ng/model-profiles/v1/claude-staged.json",
+    "resolved_model": "claude-opus-5",
+    "routing_override_reason": "The v1 semantic foundation was sound but had an empty test selector. The corrected v2 is the same compact Engine task, routed to the staged expert profile with an executable behavior-test contract.",
+    "telemetry": {
+      "input_tokens": 21325,
+      "output_tokens": 17954,
+      "cache_read_tokens": 32103,
+      "cache_write_tokens": 29805,
+      "reasoning_tokens": 12541,
+      "provider_cost_usd": 0.7837125,
+      "elapsed_ms": 203829,
+      "source": "aggregate of Opus plus Claude routing-assistant provider usage over the successful NEED and final calls"
+    }
+  },
+  "execution": {
+    "mode": "ticket-spec-index-grounded-staged-no-tools",
+    "source_revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "source_tree_changed": false,
+    "packet": {
+      "builder": "scripts/engine-pipeline-pack.py --ticket-spec ... --no-tools",
+      "initial_packet_bytes": 16862,
+      "need_response_bytes": 22221,
+      "grounding": "Pinned TicketSpec anchors, a temporary freshly-built SQLite function index, and exactly three named Engine regions."
+    },
+    "calls": [
+      {
+        "kind": "need",
+        "outcome": "completed",
+        "response": [
+          "NEED: backend/game/effects.go — EffectManager struct fields, NewEffectManager constructor, and the effect-removal / UntilEOT cleanup entry points",
+          "NEED: backend/game/effects.go — effectAffectsCard plus the ContinuousEffect scoping fields",
+          "NEED: backend/game/card.go — NewCreature constructor and GameState EffectManager access"
+        ],
+        "elapsed_ms": 52767,
+        "provider_cost_usd": 0.233885
+      },
+      {
+        "kind": "final_after_bounded_need",
+        "outcome": "completed",
+        "elapsed_ms": 151062,
+        "provider_cost_usd": 0.5498275,
+        "proposal_apply": "Applied all multi-hunk effects.go changes, card.go, and the required test file in a fresh disposable clone."
+      }
+    ]
+  },
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-engine-pt-switch-layer-v2-opus-need.raw.json",
+      "sha256": "sha256:3686c727114851d60b4acb682ae953bf71821f66d19b444784e00264b6b8a0ad",
+      "description": "Precise bounded NEED response."
+    },
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-engine-pt-switch-layer-v2-opus-final.raw.json",
+      "sha256": "sha256:3b20c752b8361101717a5541a5398f474a0c966d6eaf36d3fcc3461978a11b8b",
+      "description": "Accepted observation proposal."
+    }
+  ],
+  "gates": [
+    {
+      "id": "baseline-relative-formatting",
+      "outcome": "passed",
+      "evidence": "effects.go has no gofmt drift in the candidate; card.go's gofmt diff is byte-identical to the clean baseline's pre-existing 107-line drift."
+    },
+    {
+      "id": "test-discovery",
+      "outcome": "passed",
+      "evidence": "cd backend && go test ./game -list '^TestSwitchPT' -count=1 listed TestSwitchPTPostAdditiveBonus, TestSwitchPTTwoSwitchesCancel, and TestSwitchPTAppliesAfterSetPT."
+    },
+    {
+      "id": "focused-layer-behavior",
+      "outcome": "passed",
+      "evidence": "cd backend && go test ./game -run '^TestSwitchPT' -count=1 passed. The tests cover post-7c switching, 7b then 7c then switch ordering, odd/even parity, and UntilEOT removal."
+    },
+    {
+      "id": "scope-and-diff",
+      "outcome": "passed",
+      "evidence": "git diff --check passed; clone changes are exactly backend/game/effects.go, backend/game/card.go, and backend/game/switch_pt_layer_test.go."
+    },
+    {
+      "id": "broader-game-baseline",
+      "outcome": "passed_baseline_relative",
+      "evidence": "The full ./game package has 25 existing failures in both clean baseline and candidate; neither failure set differs."
+    },
+    {
+      "id": "source-mutation",
+      "outcome": "passed",
+      "evidence": "All apply/test work occurred in a disposable clone; openmagic remains clean."
+    }
+  ],
+  "outcome": "accepted_for_dependent_observation",
+  "next_action": "Use this accepted Engine foundation as the explicit parent for a fresh bounded switch_pt ability-dispatch child. Do not integrate or deploy automatically."
+}

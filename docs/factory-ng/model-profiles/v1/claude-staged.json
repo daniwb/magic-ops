@@ -1,0 +1,26 @@
+{
+  "schema": "factory.model-profile/v1",
+  "id": "claude-staged",
+  "version": "1.0.0",
+  "extends": "staged-baseline@1.0.0",
+  "adapter": {
+    "adapter_id": "claude-staged-v1",
+    "executable": "claude -p",
+    "engine": "claude",
+    "workflow": "old pipeline-compatible read-only block-output call",
+    "allowed_tools": [],
+    "filesystem": "read-only",
+    "network": "none",
+    "max_turns": 5,
+    "repair": "one focused retry only after a harness failure"
+  },
+  "routing": {
+    "best_for": ["well-evidenced Map/Engine implementation", "structured semantic decision"],
+    "escalate_when": ["the ticket genuinely requires an approved exploration profile"]
+  },
+  "telemetry": {
+    "source": "Claude JSON modelUsage aggregate",
+    "measured": ["input", "output", "cache_read", "cache_write", "provider_cost", "elapsed"],
+    "note": "nested provider model usage must be aggregated; top-level final-turn usage is insufficient"
+  }
+}

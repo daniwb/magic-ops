@@ -1,0 +1,8 @@
+<<<FILE scripts/paragraph/reparse.py
+<<<SEARCH
+        if o.get('target', {}).get('filter') == 'creature':
+            return ('switch_pt', {}, {'filter': 'creature'})
+===REPLACE
+        if o.get('target', {}) == {'filter': 'creature'}:
+            return ('switch_pt', {}, {'filter': 'creature'})
+>>>END

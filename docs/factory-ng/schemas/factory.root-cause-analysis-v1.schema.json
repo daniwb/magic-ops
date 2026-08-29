@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "factory.root-cause-analysis/v1",
+  "type": "object",
+  "required": ["schema", "incident_id", "provenance_sha256", "primary_cause", "evidence", "corrective_ticket_ids", "status"],
+  "properties": {
+    "schema": {"const": "factory.root-cause-analysis/v1"},
+    "incident_id": {"type": "string"},
+    "provenance_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "primary_cause": {"enum": ["product_semantics", "ticket_contract", "evidence_or_index", "skill", "model_profile", "harness_or_gate", "review", "integration_or_environment"]},
+    "contributing_causes": {"type": "array", "uniqueItems": true, "items": {"enum": ["product_semantics", "ticket_contract", "evidence_or_index", "skill", "model_profile", "harness_or_gate", "review", "integration_or_environment"]}},
+    "evidence": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "model_profile_causal_claim": {"type": "boolean"},
+    "counterfactual_evidence": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "counterfactual_basis": {
+      "type": "object",
+      "required": ["ticket_and_evidence_sound", "detectable_by_declared_gate_or_review", "output_violated_contract"],
+      "properties": {
+        "ticket_and_evidence_sound": {"const": true},
+        "detectable_by_declared_gate_or_review": {"const": true},
+        "output_violated_contract": {"const": true}
+      },
+      "additionalProperties": false
+    },
+    "corrective_ticket_ids": {"type": "array", "items": {"type": "string"}},
+    "status": {"enum": ["open", "accepted", "corrected", "residual"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"primary_cause": {"const": "model_profile"}}, "required": ["primary_cause"]},
+      "then": {"properties": {"model_profile_causal_claim": {"const": true}, "counterfactual_evidence": {"minItems": 1}}, "required": ["model_profile_causal_claim", "counterfactual_evidence"]}
+    },
+    {
+      "if": {"properties": {"contributing_causes": {"contains": {"const": "model_profile"}}}, "required": ["contributing_causes"]},
+      "then": {"properties": {"model_profile_causal_claim": {"const": true}, "counterfactual_evidence": {"minItems": 1}}, "required": ["model_profile_causal_claim", "counterfactual_evidence"]}
+    },
+    {
+      "if": {"properties": {"model_profile_causal_claim": {"const": true}}, "required": ["model_profile_causal_claim"]},
+      "then": {
+        "properties": {
+          "counterfactual_evidence": {"minItems": 1},
+          "counterfactual_basis": {}
+        },
+        "required": ["counterfactual_evidence", "counterfactual_basis"],
+        "anyOf": [
+          {"properties": {"primary_cause": {"const": "model_profile"}}, "required": ["primary_cause"]},
+          {"properties": {"contributing_causes": {"contains": {"const": "model_profile"}}}, "required": ["contributing_causes"]}
+        ]
+      }
+    }
+  ],
+  "additionalProperties": true
+}

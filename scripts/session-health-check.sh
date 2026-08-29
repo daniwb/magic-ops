@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 # session-health-check.sh — run at the START of every Claude session.
-# Prints factory status + operator-lock state. Read-only, always safe.
-LOCK=/tmp/orch/operator.lock
-echo "== OPERATOR LOCK"
-if [ -f "$LOCK" ]; then
-  AGE=$(( $(date +%s) - $(stat -c %Y "$LOCK") ))
-  echo "held: $(cat "$LOCK") (renewed ${AGE}s ago)"
-  [ "$AGE" -gt 14400 ] && echo "STALE (>4h) — may be taken over"
-else
-  echo "free — this session may take it (echo <session-id> > $LOCK)"
-fi
+# Prints factory status + scoped mutation-lock state. Read-only, always safe.
+echo "== SCOPED MUTATION LOCKS"
+for NAME in openmagic-integration factory-deploy dispatcher-admin; do
+  LOCK="/tmp/orch/$NAME.lock"
+  if flock -n "$LOCK" true 2>/dev/null; then
+    echo "$NAME: free"
+  else
+    echo "$NAME: held"
+  fi
+done
 echo "== TMUX LANES (expect: disp r1 ro1 shim [rl1] [litellm])"
 tmux list-windows -t dispatcher -F '#{window_name}' 2>/dev/null | tr '\n' ' '; echo
 echo "== DISPATCHER"

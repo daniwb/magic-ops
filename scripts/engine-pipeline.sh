@@ -6,15 +6,40 @@
 # suite. FRAMEWORK-sized demands park for a manual engine round.
 #
 # Usage: engine-pipeline.sh TICKET_ID [--push]
+#    or: engine-pipeline.sh --ticket-spec FILE [--parent-overlay RAW]... [--push]
 #   PIPE_MODEL / PIPE_BASE_URL as in map-pipeline.sh
 # Exit: 0 gate-green (pushed with --push), 4 park (FRAMEWORK/AMBIGUOUS),
 #       2 exhausted (escalate to manual round), other = infra error.
 set -uo pipefail
-TICKET="${1:?ticket id}"; shift || true
-PUSH=0; [ "${1:-}" = "--push" ] && PUSH=1
+TICKET_SPEC=""
+PARENT_OVERLAYS=()
+PUSH=0
+if [ "${1:-}" = "--ticket-spec" ]; then
+  TICKET_SPEC="${2:?--ticket-spec requires a file}"
+  shift 2
+  TICKET=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["id"].replace("ticket:", "").replace("/", "-"))' "$TICKET_SPEC")
+else
+  TICKET="${1:?ticket id}"
+  shift
+fi
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --push) PUSH=1; shift;;
+    --parent-overlay) PARENT_OVERLAYS+=("${2:?--parent-overlay requires a raw result file}"); shift 2;;
+    *) echo "unknown engine-pipeline option: $1" >&2; exit 64;;
+  esac
+done
+if [ -n "$TICKET_SPEC" ]; then
+  TICKET_SPEC=$(realpath "$TICKET_SPEC") || exit 64
+  for i in "${!PARENT_OVERLAYS[@]}"; do
+    PARENT_OVERLAYS[$i]=$(realpath "${PARENT_OVERLAYS[$i]}") || exit 64
+  done
+fi
 OPS="${OPS:-/opt/development/magic-ops}"
 REPO="${REPO:-/opt/development/test/openmagic}"
 CAPABILITY_ID="${CAPABILITY_ID:-0}"
+DISPATCHER_ATTEMPTS="${DISPATCHER_ATTEMPTS:-1}"
+[ -n "$TICKET_SPEC" ] && DISPATCHER_ATTEMPTS=0
 BRANCH="reparse/engine-task-$TICKET"
 [ "$CAPABILITY_ID" != 0 ] && BRANCH="reparse/capability-$CAPABILITY_ID"
 CLONE="${CLONE:-/tmp/work/engine-pipe-clone}"
@@ -24,6 +49,11 @@ export GOCACHE=/opt/development/.gocache-magic
 LOG="/tmp/orch/engine-pipeline-$TICKET.log"
 : > "$LOG"
 log() { printf '[%s] epipe-%s: %s\n' "$(date +%H:%M:%S)" "$TICKET" "$*" | tee -a "$LOG"; }
+# Set PIPE_RAW_ARTIFACT_DIR for an observation run.  The staged core assigns
+# one immutable response path per model call; without it, the legacy
+# /tmp/orch/*-raw-last.json diagnostic behavior is unchanged.
+RAW_ARTIFACT_DIR="${PIPE_RAW_ARTIFACT_DIR:-}"
+MODEL_CALL_INDEX=0
 ATTEMPT_ID=""
 finish_attempt() {
   local rc="$1" outcome failure tok
@@ -32,6 +62,7 @@ finish_attempt() {
     0) outcome=green; failure="";; 4) outcome=parked; failure=framework_or_ambiguous;;
     2) outcome=failed; failure=gate_exhausted;; 5) outcome=failed; failure=context_exhausted;;
     *) outcome=failed; failure=infra;; esac
+  [ "$DISPATCHER_ATTEMPTS" = 1 ] || return 0
   tok=$(command grep -a 'tokens:' "$LOG" 2>/dev/null | python3 -c '
 import re,sys
 s={"in":0,"out":0,"cache_r":0,"cache_w":0}
@@ -47,14 +78,34 @@ print("%d %d %d %d"%(s["in"],s["out"],s["cache_r"],s["cache_w"]))' 2>/dev/null)
 trap 'rc=$?; finish_attempt "$rc"' EXIT
 
 rm -rf "$CLONE"
-git clone -q "file://$REPO" "$CLONE" || exit 1
+# NG observations use a disposable clone; avoid filesystem hard-link behavior
+# that can stall against an active shared source checkout.
+git clone -q --no-hardlinks "$REPO" "$CLONE" || exit 1
 cd "$CLONE" || exit 1
 git remote set-url origin "$(cd "$REPO" && git remote get-url origin)"
-git fetch -q origin main && git checkout -qb "epipe-$TICKET" origin/main
+if [ -n "$TICKET_SPEC" ]; then
+  SOURCE_REV=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["source"]["revision"])' "$TICKET_SPEC")
+  git checkout -qb "epipe-$TICKET" "$SOURCE_REV"
+else
+  git fetch -q origin main && git checkout -qb "epipe-$TICKET" origin/main
+fi
+for overlay in "${PARENT_OVERLAYS[@]}"; do
+  jq -r '.result // empty' "$overlay" | python3 "$OPS/scripts/map-pipeline-apply.py" --allow-game | tee -a "$LOG" || exit 1
+done
+if ! git diff --quiet; then
+  git add -A
+  git -c user.name='Factory NG overlay' -c user.email='factory-ng@local' \
+    commit -qm 'factory-ng: accepted parent overlays (observation only)'
+fi
+BASE_REF=HEAD
 
 PACK="/tmp/orch/engine-pipeline-$TICKET-pack.md"
-PACK_ARGS=("$TICKET" --repo "$CLONE")
-[ "$CAPABILITY_ID" != 0 ] && PACK_ARGS+=(--capability "$CAPABILITY_ID")
+if [ -n "$TICKET_SPEC" ]; then
+  PACK_ARGS=(--ticket-spec "$TICKET_SPEC" --repo "$CLONE" --no-tools)
+else
+  PACK_ARGS=("$TICKET" --repo "$CLONE")
+  [ "$CAPABILITY_ID" != 0 ] && PACK_ARGS+=(--capability "$CAPABILITY_ID")
+fi
 if ! python3 "$OPS/scripts/engine-pipeline-pack.py" "${PACK_ARGS[@]}" > "$PACK" 2>>"$LOG"; then
   log "pack failed (ticket has no missing_prim?)"; exit 1
 fi
@@ -62,11 +113,13 @@ log "pack built: $(wc -c < "$PACK") bytes"
 OPS_SHA=$(git -C "$OPS" rev-parse HEAD 2>/dev/null || true)
 REPO_SHA=$(git rev-parse HEAD 2>/dev/null || true)
 PACK_SHA=$(sha256sum "$PACK" | awk '{print $1}')
-ATTEMPT_ID=$(jq -n --argjson ticket "$TICKET" --argjson capability "$CAPABILITY_ID" \
-  --arg worker "${PIPE_WORKER_ID:-}" --arg model "$MODEL" --arg ops "$OPS_SHA" --arg repo "$REPO_SHA" --arg pack "$PACK_SHA" \
-  '{ticket_id:$ticket,capability_id:$capability,worker_id:$worker,pipeline:"engine",model:$model,ops_sha:$ops,repo_sha:$repo,pack_sha:$pack}' \
-  | curl -s -m 10 -X POST "${DISPATCHER:-http://127.0.0.1:9999}/attempt/start" -H 'Content-Type: application/json' -d @- \
-  | jq -r '.id // empty' 2>/dev/null)
+if [ "$DISPATCHER_ATTEMPTS" = 1 ]; then
+  ATTEMPT_ID=$(jq -n --argjson ticket "$TICKET" --argjson capability "$CAPABILITY_ID" \
+    --arg worker "${PIPE_WORKER_ID:-}" --arg model "$MODEL" --arg ops "$OPS_SHA" --arg repo "$REPO_SHA" --arg pack "$PACK_SHA" \
+    '{ticket_id:$ticket,capability_id:$capability,worker_id:$worker,pipeline:"engine",model:$model,ops_sha:$ops,repo_sha:$repo,pack_sha:$pack}' \
+    | curl -s -m 10 -X POST "${DISPATCHER:-http://127.0.0.1:9999}/attempt/start" -H 'Content-Type: application/json' -d @- \
+    | jq -r '.id // empty' 2>/dev/null)
+fi
 
 model_call() {
   # 2026-08-21: consolidated into scripts/model_call.py, same as
@@ -77,7 +130,13 @@ model_call() {
   # silently drifting apart the way the old bash branches had (codex
   # timeout 900s vs 1200s, claude --max-turns 5 vs 10, NEED-round cap
   # configurable vs hardcoded).
-  TICKET="$TICKET" python3 "$OPS/scripts/model_call.py" \
+  MODEL_CALL_INDEX=$((MODEL_CALL_INDEX + 1))
+  local raw_artifact=()
+  if [ -n "$RAW_ARTIFACT_DIR" ]; then
+    mkdir -p "$RAW_ARTIFACT_DIR"
+    raw_artifact=(PIPE_RAW_ARTIFACT="$RAW_ARTIFACT_DIR/$TICKET-call-$MODEL_CALL_INDEX.raw.json")
+  fi
+  env "${raw_artifact[@]}" TICKET="$TICKET" python3 "$OPS/scripts/model_call.py" \
     --engine "${PIPE_ENGINE:-claude}" --model "$MODEL" --tier engine \
     2>>"$LOG"
   return
@@ -249,12 +308,27 @@ print(json.dumps(body))")
 # 2026-08-08: three test-only commits landed as "primitives", every
 # circle-close then failed because nothing new existed to map).
 has_nontest_code() {
-  git diff --cached --name-only origin/main | command grep -v '_test\.go$' | command grep -q '\.\(go\|py\)$'
+  git diff --cached --name-only "$BASE_REF" | command grep -v '_test\.go$' | command grep -q '\.\(go\|py\)$'
+}
+
+ng_scope_ok() {
+  [ -z "$TICKET_SPEC" ] && return 0
+  local allowed changed path
+  allowed=$(jq -r '.scope.allowed_paths[]' "$TICKET_SPEC")
+  changed=$(git diff --cached --name-only "$BASE_REF")
+  while IFS= read -r path; do
+    [ -z "$path" ] && continue
+    if ! printf '%s\n' "$allowed" | command grep -Fxq "$path"; then
+      NG_SCOPE_ERROR="TicketSpec scope rejects changed path: $path"
+      return 1
+    fi
+  done <<< "$changed"
+  return 0
 }
 
 run_bugfix_gate() { # green -> commit+push+0
   git add -A
-  if git diff --cached --diff-filter=AM origin/main -- '*_test.go' | command grep -q '^+func Test' \
+  if git diff --cached --diff-filter=AM "$BASE_REF" -- '*_test.go' | command grep -q '^+func Test' \
      && has_nontest_code \
      && BUILD_OUT=$(cd backend && "$GO" build ./... 2>&1) \
      && TEST_OUT=$(cd backend && timeout 600 "$GO" test ./cards/ ./game/ -run 'TestVocabulary|TestV2|TestShape_|TestCardDBSubtypeScopes|TestCombat' -count=1 2>&1) \
@@ -291,7 +365,8 @@ while [ $attempt -le 2 ]; do
     fi
     NEED_USED=$(( ${NEED_USED:-0} + 1 ))
     log "model requested regions (round $NEED_USED): $(printf '%s' "$OUT" | command grep '^NEED:' | tr '\n' ' ')"
-    ADD=$(printf '%s' "$OUT" | python3 "$OPS/scripts/pipeline-fetch-regions.py")
+    ADD=$(printf '%s' "$OUT" | python3 "$OPS/scripts/pipeline-fetch-regions.py" \
+      --roots backend/game,backend/cards)
     NEEDF="/tmp/orch/engine-pipeline-$TICKET-need.md"
     if [ "$NEED_USED" = 1 ]; then
       { cat "$PACK"; echo; echo "## REQUESTED CODE REGIONS"; printf '%s\n' "$ADD"; } > "$NEEDF"
@@ -311,12 +386,15 @@ while [ $attempt -le 2 ]; do
   else
     log "applied; gating (build + tests + new-test check + sharded suite)"
     git add -A
-    if ! git diff --cached --diff-filter=AM origin/main -- '*_test.go' | command grep -q '^+func Test'; then
+    if ! git diff --cached --diff-filter=AM "$BASE_REF" -- '*_test.go' | command grep -q '^+func Test'; then
       GATE_TAIL="Gate: no NEW test function (+func Test...) in your diff — a behavior test in a new _test.go file is REQUIRED."
       log "gate: missing new test func"
     elif ! has_nontest_code; then
       GATE_TAIL="Gate: your diff contains ONLY test files — a primitive needs real engine/emitter code (registry entry, executor, emitter), not just a test asserting current behavior."
       log "gate: test-only diff rejected"
+    elif ! ng_scope_ok; then
+      GATE_TAIL="Gate: ${NG_SCOPE_ERROR:-TicketSpec scope rejected the candidate}"
+      log "gate: ticket scope rejected candidate"
     elif BUILD_OUT=$(cd backend && "$GO" build ./... 2>&1) \
        && TEST_OUT=$(cd backend && timeout 600 "$GO" test ./cards/ ./game/ -run 'TestVocabulary|TestV2|TestShape_|TestCardDBSubtypeScopes|TestCombat' -count=1 2>&1) \
        && SUITE_OUT=$(bash scripts/test-cards-sharded.sh 6 2>&1); then
@@ -342,7 +420,7 @@ $(printf '%s\n%s\n%s' "${BUILD_OUT:-}" "${TEST_OUT:-}" "${SUITE_OUT:-}" | comman
           echo "# BUGFIX ROUND $bfx — your patch failed the gate"
           echo; echo "Current state of YOUR changed files (already applied):"
           git add -A
-          for f in $(git diff --cached --name-only origin/main | head -8); do
+          for f in $(git diff --cached --name-only "$BASE_REF" | head -8); do
             echo; echo "### $f"; sed -n '1,400p' "$f"
           done
           echo; echo "## GATE ERROR"; echo "$GATE_TAIL"

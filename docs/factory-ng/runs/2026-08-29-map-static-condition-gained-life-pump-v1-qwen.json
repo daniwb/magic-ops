@@ -1,0 +1,84 @@
+{
+  "schema": "factory.observation-receipt/v1",
+  "ticket": {
+    "id": "ticket:map.static-condition-gained-life-pump/v1",
+    "path": "docs/factory-ng/tickets/map-static-condition-gained-life-pump-v1.json",
+    "sha256": "sha256:f5f1f43fb728fe72188b98ddd9be21a0dd926e85eac134b3a8350d66cf56f3e8"
+  },
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "model": {
+    "profile": "qwen-prepared-direct@1.0.2",
+    "profile_path": "docs/factory-ng/model-profiles/v1/qwen-prepared-direct-1.0.2.json",
+    "resolved_model": "./Qwen3.8-27B/Qwen3.8-27B-Q8_0.gguf",
+    "telemetry": {
+      "input_tokens": 6584,
+      "output_tokens": 374,
+      "cache_read_tokens": 202,
+      "cache_write_tokens": 0,
+      "reasoning_tokens": {"availability": "unavailable"},
+      "provider_cost_usd": {"availability": "unavailable"},
+      "elapsed_ms": {"availability": "unavailable"},
+      "source": "The prepared-direct adapter's SSE usage record; effective tokens are 6,958. The local provider does not supply reasoning, cost, or elapsed counters."
+    }
+  },
+  "execution": {
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "source_tree_changed": false,
+    "packet": {
+      "builder": "scripts/map-ticket-spec-pack.py --ticket-spec ...",
+      "adapter_correction": "The packet read the TicketSpec's declared parse_static_condition probes rather than unrelated switch_pt probes.",
+      "observed_probes": {
+        "you gained life this turn": null,
+        "an opponent gained life this turn": null,
+        "you gained 2 life this turn": null
+      }
+    },
+    "calls": [
+      {
+        "kind": "initial_proposal",
+        "outcome": "canonical_and_applied_in_clone",
+        "proposal_paths": [
+          "scripts/paragraph/reparse.py",
+          "scripts/paragraph/test_static_condition_gained_life.py"
+        ]
+      }
+    ],
+    "candidate_commit": "d9e5318d92007f2f4f4a2f527f3baeed6b1c05d2",
+    "candidate_clone": "/tmp/factory-ng-gained-life-run"
+  },
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-29-map-static-condition-gained-life-pump-v1-qwen.raw.txt",
+      "sha256": "sha256:d822c3cf828a6cbc024d2146a0a2ed4cf69728c580484f9593e702fc57349267"
+    }
+  ],
+  "gates": [
+    {
+      "id": "focused-parser-contract",
+      "outcome": "passed",
+      "evidence": "The three focused tests pass: exact controller gained-life phrase maps to happened/you_gained_life; opponent and quantity variants remain unmapped."
+    },
+    {
+      "id": "scope-and-diff",
+      "outcome": "passed",
+      "evidence": "git diff --check passed and the candidate commit changes exactly scripts/paragraph/reparse.py and scripts/paragraph/test_static_condition_gained_life.py."
+    },
+    {
+      "id": "pinned-remeasurement",
+      "outcome": "passed",
+      "evidence": "factory-ng-targeted-demand.py remeasured the two pinned static_conditional members with member_count 0; both cards are eligible and emit a conditional +2/+0 pump."
+    },
+    {
+      "id": "source-mutation",
+      "outcome": "passed",
+      "evidence": "The canonical openmagic checkout stayed clean; no branch was pushed and nothing was deployed."
+    }
+  ],
+  "outcome": "accepted_for_dependent_observation",
+  "next_action": "This is the first newly produced atomic supervised queue result. Present this accepted clone patch for a separate explicit integration decision; do not auto-merge or broaden its condition grammar."
+}

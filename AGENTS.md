@@ -9,12 +9,15 @@ holds the infrastructure (dispatcher, worker harness, shims, crons).
    and follow its index (session-startup protocol, operating model, lane
    configs). Everything below is a bootstrap summary, not a replacement.
 2. Run `bash scripts/session-health-check.sh` (from this repo).
-3. Check `/tmp/orch/operator.lock`:
-   - free or stale (>4h) → take it (`echo "<session-id> ($(date -Is))" > /tmp/orch/operator.lock`), act as operator.
-   - held fresh by another session → **OBSERVER MODE**: monitors and
-     reporting only; NO commits, pushes, restarts, ticket ops, deploys.
-4. Re-arm session monitors (tail -f the /tmp/orch/reparse-*.log files,
+3. Re-arm session monitors (tail -f the /tmp/orch/reparse-*.log files,
    filtered to results; probe merge cleanliness on every pushed branch).
+
+The old four-hour `/tmp/orch/operator.lock` is retired. Monitoring, analysis,
+ticket production, and isolated-clone workers do not take a global session
+lock. Shared mutations must use the process-held scoped locks documented in
+`RUNBOOK.md`: integration, deployment, and dispatcher administration are
+serialized independently and the kernel releases each lock when its command
+exits.
 
 ## Emergencies
 Read `RUNBOOK.md` in this repo — every component, restart command, and

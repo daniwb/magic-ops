@@ -1,0 +1,45 @@
+<<<FILE scripts/paragraph/reparse.py
+<<<SEARCH
+    # ticket:map.static-condition-gained-life-pump/v1
+    if text == 'you gained life this turn':
+        return {'kind': 'happened', 'what': 'you_gained_life'}
+===REPLACE
+    # ticket:map.static-condition-gained-life-pump/v1
+    if text == 'you gained life this turn':
+        return {'kind': 'happened', 'what': 'you_gained_life'}
+
+    # ticket:map.static-condition-drawn-two-keywords/v3
+    if text == 'you\'ve drawn two or more cards this turn':
+        return {'kind': 'happened', 'what': 'you_drew_cards', 'amount': 2}
+>>>END
+<<<NEWFILE scripts/paragraph/test_static_condition_drawn_two.py
+import pathlib
+import sys
+import unittest
+
+
+sys.path.insert(0, str(pathlib.Path(__file__).parent))
+import reparse  # noqa: E402
+
+
+class StaticConditionDrawnTwoTest(unittest.TestCase):
+    def test_you_drew_two_or_more(self):
+        self.assertEqual(
+            reparse.parse_static_condition("you've drawn two or more cards this turn"),
+            {'kind': 'happened', 'what': 'you_drew_cards', 'amount': 2},
+        )
+
+    def test_you_drew_one_is_unmapped(self):
+        self.assertIsNone(
+            reparse.parse_static_condition("you've drawn one card this turn"),
+        )
+
+    def test_opponent_drew_two_is_unmapped(self):
+        self.assertIsNone(
+            reparse.parse_static_condition("an opponent has drawn two or more cards this turn"),
+        )
+
+
+if __name__ == "__main__":
+    unittest.main()
+>>>END

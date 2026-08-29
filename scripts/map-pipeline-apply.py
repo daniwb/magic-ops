@@ -23,8 +23,23 @@ mv = re.search(r'\bVERDICT:\s*([A-Z_]+)', out)
 # polluted ticket 2772 with missing_prim "one-line".
 if mv and (re.search(r'\bVERDICT:\s*[A-Z_]+\|', out) or '<snake_case_name' in out or 'REASON: <one line>' in out):
     mv = None
-blocks = re.findall(r'<<<FILE (.+?)\n<<<SEARCH\n(.*?)\n===REPLACE\n(.*?)\n>>>END',
-                    out, re.S)
+blocks = []
+# A single file commonly needs several unrelated edits (for example a new
+# field, its registration default, and a query method). Keep one FILE header
+# as the model-facing grouping and extract every SEARCH/REPLACE pair inside
+# that group. The old regex captured only the first pair, silently dropping
+# later valid hunks.
+file_headers = list(re.finditer(r'^<<<FILE (.+?)\n', out, re.M))
+for i, header in enumerate(file_headers):
+    end = file_headers[i + 1].start() if i + 1 < len(file_headers) else len(out)
+    section = out[header.end():end]
+    path = header.group(1)
+    pairs = re.findall(r'<<<SEARCH\n(.*?)\n===REPLACE\n(.*?)\n>>>END', section, re.S)
+    if not pairs:
+        # Preserve the existing error path for malformed output.
+        blocks.append((path, '', ''))
+    else:
+        blocks.extend((path, search, replace) for search, replace in pairs)
 newfiles = re.findall(r'<<<NEWFILE (.+?)\n(.*?)\n>>>END', out, re.S)
 # Alternate @@@ markers: llama-server's peg-native/harmony parser 500s on
 # outputs containing <<< sequences (local gpt-oss lane, 2026-08-07), so

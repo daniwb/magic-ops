@@ -25,6 +25,7 @@ kill_orphans() {
   pkill -9 -f 'dispatcher-worker-ollama' 2>/dev/null || true
   pkill -9 -f 'dispatcher-primitive-builder' 2>/dev/null || true
   pkill -9 -f 'dispatcher-orchestrator' 2>/dev/null || true
+  pkill -9 -f 'scripts/factory-ng-controller.py' 2>/dev/null || true
   pkill -9 -f 'claude -p --model' 2>/dev/null || true
   pkill -9 -x dispatcher-v4 2>/dev/null || true
 }
@@ -63,5 +64,11 @@ if [ "${FABLE_WORKERS:-1}" = "1" ]; then
     "while true; do TIER=engine bash '$WORKER' 'rf1' '/tmp/work/disp-rf1' >> /tmp/orch/reparse-rf1.log 2>&1; echo \"[\$(date -Is)] rf1 exit, restart 15s\" >> /tmp/orch/reparse-rf1.log; sleep 15; done"
 fi
 
-echo "Reparse-Fabrik läuft: dispatcher (:9999, BACKLOG=$(basename "$BACKLOG")) + $N Worker + Fable-Engine-Worker rf1."
+# Factory NG control loop. It produces bounded ground-truth TicketSpecs,
+# applies per-provider weekly pacing before dispatch, and integrates accepted
+# durable patches only through its full production gate policy.
+tmux new-window -t "$SESSION:" -n factory-ng \
+  "while true; do cd /opt/development/magic-ops && python3 scripts/factory-ng-controller.py --interval 15 --producer-interval 300 >> /tmp/orch/factory-ng.log 2>&1; echo \"[\$(date -Is)] factory-ng exit, restart 15s\" >> /tmp/orch/factory-ng.log; sleep 15; done"
+
+echo "Reparse-Fabrik läuft: dispatcher (:9999, BACKLOG=$(basename "$BACKLOG")) + $N Worker + Fable-Engine-Worker rf1 + Factory NG."
 echo "  Attach: tmux attach -t $SESSION   Logs: tail -f /tmp/orch/reparse-r1.log"

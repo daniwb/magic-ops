@@ -1,0 +1,9 @@
+{
+  "schema": "factory.binding-skills/v1",
+  "skills": [
+    {
+      "path": "docs/sessions/ticketspec-v1-repair/skills/implement-map-class/SKILL.md",
+      "sha256": "sha256:4c7cc11521119d9226fe63282d1f52b7e81598d5a24cb77005d45df51c6564e0"
+    }
+  ]
+}

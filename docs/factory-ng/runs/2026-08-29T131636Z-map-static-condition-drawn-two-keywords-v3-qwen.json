@@ -1,0 +1,94 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-map-static-condition-drawn-two-keywords-v3-54ait4nd",
+    "candidate_commit": "75a0e91164cbcfca023fc42dd6d9eea1e11a4699",
+    "mode": "isolated_clone_observation_only",
+    "model_exit_code": 0,
+    "packet_sha256": "sha256:6ce2e3c092a649fcf3ab26cfa8dfe481435e8dc7fcdeaa5015bab1a0b29274cd",
+    "source_revision": "8dd5e06545926033d738b0b69ab8f29145275168",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "command": "scripts/map-pipeline-apply.py",
+      "detail": "applied: scripts/paragraph/reparse.py\ncreated: scripts/paragraph/test_static_condition_drawn_two.py",
+      "id": "patch-apply",
+      "outcome": "passed"
+    },
+    {
+      "command": "cd scripts/paragraph && python3 -m unittest test_static_condition_drawn_two",
+      "detail": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.002s\n\nOK",
+      "id": "ticket-gate-0",
+      "outcome": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "detail": "",
+      "id": "ticket-gate-1",
+      "outcome": "passed"
+    },
+    {
+      "command": "git status --porcelain adds or changes only scripts/paragraph/reparse.py and scripts/paragraph/test_static_condition_drawn_two.py",
+      "detail": "M scripts/paragraph/reparse.py\n?? scripts/paragraph/test_static_condition_drawn_two.py",
+      "id": "ticket-gate-2",
+      "outcome": "passed"
+    },
+    {
+      "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/static-condition-drawn-two-keywords-v3.json",
+      "detail": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 6,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/static-condition-drawn-two-keywords-v3.json\",\n  \"review_cards_scanned\": 6,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"static_conditional\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:bb4d7380b1d5cdb693eaad1c827d73c3edb291ff796d61b8fe5c3f6837042f7e\",\n    \"repository\": \"/tmp/factory-ng-map-static-condition-drawn-two-keywords-v3-54ait4nd\",\n    \"revision\": \"8dd5e06545926033d738b0b69ab8f29145275168\"\n  }\n}",
+      "id": "ticket-gate-3",
+      "outcome": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "detail": "",
+      "id": "diff-check",
+      "outcome": "passed"
+    },
+    {
+      "command": "ticket allowed_paths only",
+      "detail": "changed=scripts/paragraph/reparse.py,scripts/paragraph/test_static_condition_drawn_two.py",
+      "id": "scope",
+      "outcome": "passed"
+    }
+  ],
+  "model": {
+    "profile": "qwen-prepared-direct@1.0.2",
+    "resolved_model": "Qwen3.8-27B-Q8_0",
+    "telemetry": {
+      "cache_read_tokens": 202,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 77202,
+      "input_tokens": 6979,
+      "output_tokens": 394,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local provider does not report cost"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "local adapter disables thinking"
+      }
+    },
+    "worker": "qwen-local"
+  },
+  "next_action": "Explicitly decide whether to integrate an accepted clone patch; Factory NG never integrates automatically.",
+  "outcome": "accepted_for_dependent_observation",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-29T131636Z-map-static-condition-drawn-two-keywords-v3-qwen.raw.txt",
+      "sha256": "sha256:e285cc39dbfa8e31bf48e7aec2cc54428e4f8b696a988acbf432cbb50205a2f0"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "ticket": {
+    "id": "ticket:map.static-condition-drawn-two-keywords/v3",
+    "path": "docs/factory-ng/tickets/map-static-condition-drawn-two-keywords-v3.json",
+    "sha256": "sha256:edcad9a39d4601e279231fcf47c05f2ef28bf2867ae7c6976fc47275fdcb0b4f"
+  }
+}

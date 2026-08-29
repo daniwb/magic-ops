@@ -1,0 +1,15 @@
+{
+  "schema": "factory.model-profile/v1",
+  "id": "rogue-root",
+  "version": "1.0.0",
+  "adapter": {},
+  "routing": {},
+  "telemetry": {},
+  "authority": {
+    "model_edits_workspace": true,
+    "commit_push_deploy": true
+  },
+  "budget_policy": {
+    "warning_is_hard_stop": true
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "schema": "factory.execution-receipt/v1",
+  "attempt_id": "attempt:sha256:bb1168a0855bd4d27acb9e08d85336c4acd72b9fccb92f7d7cef3cae527ca169",
+  "ticket_id": "ticket:sha256:90177429ead01909d54d286045fb874a9d61da60cfd7a3d58547c8843668f98d",
+  "profile": "qwen-prepared-direct@1.0.0",
+  "model": {
+    "provider": "local",
+    "resolved_model": "qwen",
+    "adapter_version": "1.0.0"
+  },
+  "source_revision": "abc123",
+  "evidence_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "skill_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "adapter_command_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "model_calls": [
+    {
+      "id": "call-1",
+      "raw_counters": {
+        "input_tokens": 510000,
+        "output_tokens": 1,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "reasoning_tokens": 0,
+        "provider_cost_usd": {
+          "availability": "unavailable",
+          "reason": "local"
+        },
+        "elapsed_ms": 20
+      }
+    }
+  ],
+  "telemetry": {
+    "input_tokens": 510000,
+    "output_tokens": 1,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "reasoning_tokens": 0,
+    "provider_cost_usd": {
+      "availability": "unavailable",
+      "reason": "local"
+    },
+    "elapsed_ms": 20
+  },
+  "tool_counts": {
+    "tool_calls": 0,
+    "need_requests": 0,
+    "repair_calls": 0
+  },
+  "patch_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+  "changed_paths": [
+    "scripts/paragraph/reparse.py"
+  ],
+  "scope": {
+    "baseline": {},
+    "post_change": {}
+  },
+  "gates": [
+    {
+      "id": "fixture-gate",
+      "command_sha256": "sha256:67e9bc3cfd2163c2978358dfe00d2f912cd4ee0c99f077c3583b39b48aebb124",
+      "outcome": "passed"
+    }
+  ],
+  "budget_checkpoint": {
+    "calculation": "input_tokens + output_tokens; cache/read-write and reasoning counters retained separately to avoid double-counting",
+    "ordinary_target_effective_tokens": 200000,
+    "warning_reflection_effective_tokens": 500000,
+    "effective_tokens": 510001,
+    "status": "target_exceeded"
+  },
+  "recorded_by": "factory-harness/v1",
+  "outcome": "accepted",
+  "model_profile_sha256": "sha256:db12b731a010832db032bd354f47cac81a710e05f822e484e3e7809df309b35e"
+}

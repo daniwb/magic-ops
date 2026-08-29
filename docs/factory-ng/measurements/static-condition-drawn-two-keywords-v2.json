@@ -1,0 +1,73 @@
+{
+  "member_count": 6,
+  "members": [
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "you've drawn two or more cards this turn"
+      ],
+      "name": "Foggy Swamp Hunters",
+      "text_sha256": "sha256:18e96872cd37afaac586b2c1df3275ca3dc58be49caa8f9f74bccfe84be24a93"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "you've drawn two or more cards this turn"
+      ],
+      "name": "Spinehorn Minotaur",
+      "text_sha256": "sha256:0419aedcda88a9b1e874af2fc91a5952cc6b42aecaa85d1fb95f3dc30984b9d7"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "you've drawn two or more cards this turn"
+      ],
+      "name": "Trench Stalker",
+      "text_sha256": "sha256:5a133cab8130590cd74f7ea241236a563a45fd1b3ff7a69ae6e80d929bad8626"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "you've drawn two or more cards this turn"
+      ],
+      "name": "Gnarled Sage",
+      "text_sha256": "sha256:91ec10ad0a27f1228a7ca81a70c5c410241154ae4172242e5b19be9d1559af67"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "you've drawn two or more cards this turn"
+      ],
+      "name": "Evangel of Synthesis",
+      "text_sha256": "sha256:bd94de1c3cba8e3d79741b7573b7a3f600d5486f3bf6928b4aad256e5f832d32"
+    },
+    {
+      "all_miss_shapes": [
+        "static_conditional"
+      ],
+      "details": [
+        "you've drawn two or more cards this turn"
+      ],
+      "name": "Eyekite",
+      "text_sha256": "sha256:44e0acecb481be477a5b61c2b345235374967b4773103bc025b01c8edcc563a5"
+    }
+  ],
+  "review_cards_scanned": 6,
+  "schema": "factory.targeted-demand/v1",
+  "shape": "static_conditional",
+  "source": {
+    "parser_sha256": "sha256:aafb59b7a8190dc4f7f8243c9ffae9dc64334ba61c8a1964db770b3f80b8ea4d",
+    "repository": "/opt/development/test/openmagic",
+    "revision": "8dd5e06545926033d738b0b69ab8f29145275168"
+  }
+}

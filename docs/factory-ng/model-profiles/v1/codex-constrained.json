@@ -1,0 +1,27 @@
+{
+  "schema": "factory.model-profile/v1",
+  "id": "codex-constrained",
+  "version": "1.0.0",
+  "extends": "staged-baseline@1.0.0",
+  "adapter": {
+    "adapter_id": "codex-constrained-v1",
+    "executable": "codex exec",
+    "engine": "codex",
+    "workflow": "read-only native coding session with block-only final output",
+    "sandbox": "read-only",
+    "allowed_tools": ["read_file", "grep", "list_dir"],
+    "filesystem": "read-only",
+    "network": "none",
+    "max_turns": 1,
+    "repair": "one focused retry only after a harness failure"
+  },
+  "routing": {
+    "best_for": ["well-evidenced Map/Engine implementation", "focused gate repair"],
+    "escalate_when": ["ticket contract demands broader architecture work"]
+  },
+  "telemetry": {
+    "source": "Codex JSON turn.completed usage",
+    "measured": ["input", "output", "cache_read", "cache_write", "reasoning", "elapsed"],
+    "cost": "versioned local pricing policy"
+  }
+}

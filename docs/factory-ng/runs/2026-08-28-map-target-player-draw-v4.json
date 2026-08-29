@@ -1,0 +1,19 @@
+{
+  "schema": "factory.observation-receipt/v1",
+  "ticket": {"id": "ticket:map.target-player-draw/v4", "path": "docs/factory-ng/tickets/map-target-player-draw-v4.json", "sha256": "sha256:516671c9986f69cb995ad3440d401caaa3160f9ee23e3bc8f62ed39cf960b276"},
+  "mode": "isolated_clone_observation_only",
+  "source": {"repository": "/opt/development/test/openmagic", "revision": "6d85a3d649103d8f3a50fb6436ed266c77b0942a", "original_source_mutated": false, "accepted_parent_overlay": "Engine v2", "bounded_repair_overlay": "Qwen v2's already-applied semantic p_draw hunk"},
+  "model": {"profile": "claude-staged@1.0.0", "provider": "anthropic", "resolved_model": "claude-sonnet-5", "raw_output": {"path": "docs/factory-ng/runs/2026-08-28-map-target-player-draw-v4.raw.json", "sha256": "sha256:5077952c6f925059e41e520e3fab1b19b72a0468d8c74a9f819c8a1d72bb58e8"}, "telemetry": {"input_tokens": 2918, "output_tokens": 5194, "cache_read_tokens": 17729, "cache_write_tokens": 9005, "reasoning_tokens": 4164, "provider_cost_usd": 0.0943658, "elapsed_ms": 44708, "effective_tokens": 8112, "resolved_model_usage": {"claude-haiku-4-5": {"input": 2916, "output": 12}, "claude-sonnet-5": {"input": 2, "output": 5182, "cache_read": 17729, "cache_write": 9005}}}},
+  "proposal": {"applied_only_to": "ephemeral isolated clone", "repair_composition": "Claude replaced the failed focused test and updated the explanatory p_draw comment; the actual target-player return was the prior, gate-exposed Qwen v2 hunk.", "map_delta_paths": ["scripts/paragraph/reparse.py", "scripts/paragraph/test_target_player_draw.py"]},
+  "gates": [
+    {"id": "patch-apply", "outcome": "passed", "evidence": "existing staged block applier applied one parser replacement and overwrote the failed test in the clone"},
+    {"id": "focused-map", "command": "cd scripts/paragraph && python3 -m unittest test_target_player_draw", "outcome": "passed", "evidence": "Ran 5 tests in 0.047s; OK"},
+    {"id": "map-two-card-boundary", "command": "python3 -c map exact assertion", "outcome": "passed", "evidence": "Target player draws two cards. -> ('draw', {'amount': 2}, {'filter': 'player'})"},
+    {"id": "engine-boundary", "command": "cd backend && go test ./cards -run '^TestDrawSpellTargetLifting$' -count=1", "outcome": "passed", "evidence": "ok magic-backend/cards 0.024s; it converts the same filter=player tuple and proves only player 1 draws two cards"},
+    {"id": "diff-check", "command": "git diff --check", "outcome": "passed"},
+    {"id": "scope", "outcome": "passed", "evidence": "relative to the accepted Engine child state, exactly scripts/paragraph/reparse.py and scripts/paragraph/test_target_player_draw.py were added or changed; cumulative clone status contains only those plus the two accepted Engine paths"},
+    {"id": "broad-golden-harness", "outcome": "not_used_for_acceptance", "evidence": "its separate Go subprocess stopped making progress in futex wait although the identical focused Engine boundary gate passed; it was stopped and its two temporary zz_benchmark files were removed"}
+  ],
+  "outcome": "accepted_for_dependent_observation",
+  "integration": "none; no production source, live ticket, commit, deployment, or queue state changed"
+}
