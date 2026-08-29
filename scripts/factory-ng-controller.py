@@ -370,9 +370,14 @@ def dispatch_integration(jobs, results):
         return
 
 
+last_producer_results = []
+
+
 def run_once(produce=True):
-    results, queued = [], []
+    global last_producer_results
+    results, queued = list(last_producer_results), []
     if produce:
+        results = []
         for producer_id, command in producers():
             write_status(state="running", phase="producing_ticket", active=[{"kind": "producer", "id": producer_id}],
                          queued=queued, results=results, message="Checking deterministic ticket producers.")
@@ -398,6 +403,7 @@ def run_once(produce=True):
             if status == "queued" and ticket_id:
                 queued.append(ticket_id)
             log("producer=%s status=%s ticket=%s" % (producer_id, status, ticket_id or "-"))
+        last_producer_results = list(results)
     jobs = dispatch_one(results, queued)
     dispatch_integration(jobs, results)
     active = [{"kind": "integration" if job.get("state") == "integrating" else "worker",
