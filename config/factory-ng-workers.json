@@ -39,14 +39,14 @@
     {
       "id": "claude-2",
       "label": "Claude (secondary)",
-      "enabled": false,
+      "enabled": true,
       "profile": "claude-staged@1.0.0",
       "routing_mode": "engine",
       "model": "claude-sonnet-5",
       "usage_policy": "claude-weekly",
       "weekly_gate_mode": "paced",
       "weekly_gate_pct": 95,
-      "work": "second concurrent claude-staged lease reserved for Engine work, so Engine dispatch no longer serializes behind the primary worker's Map-first priority"
+      "work": "re-enabled 2026-09-05: engine-pipeline-pack.py now verifies evidence anchors against live source (fix 1418caf), which closed most of the lack-of-evidence gap that originally took this lease offline on 2026-09-04 -- re-running as a cheap staged-first Engine lease alongside the claude agentic worker"
     },
     {
       "id": "claude-3",
