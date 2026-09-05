@@ -37,11 +37,15 @@ if a.ticket_spec:
     title = spec['title']
     descr = ''
     prim = spec['id'].split('/')[-2].split('.')[-1].replace('-', '_')
-    capability_spec = {
-        'required_behavior': '\n'.join(spec.get('required_behavior', [])),
-        'allowed_paths': spec.get('scope', {}).get('allowed_paths', []),
-        'evidence': spec.get('evidence', []),
-    }
+    capability_spec = dict(spec.get('capability') or {})
+    if not capability_spec:
+        capability_spec = {
+            'required_behavior': '\n'.join(spec.get('required_behavior', [])),
+            'source_misses': [],
+            'negative_examples': [],
+        }
+    capability_spec['allowed_paths'] = spec.get('scope', {}).get('allowed_paths', [])
+    capability_spec['evidence'] = spec.get('evidence', [])
 else:
     c = sqlite3.connect(a.db)
     row = c.execute('select title, descr, missing_prim from tickets where id=?', (a.ticket,)).fetchone()
@@ -109,9 +113,63 @@ for n in examples:
     card_sections.append('### %s\nOracle text:\n%s\nCurrent misses: %s' %
                          (n, r.get('text', '?'), misses))
 
+# Code regions: resolve any executor/handler function NAMED in the capability
+# text against the LIVE source first. TicketSpec evidence anchors and the
+# token-scored fallback below are frequently wrong (a keyword match landing in
+# a file header/import comment, or a hardcoded default region) -- a function
+# actually named in required_behavior/reason is unambiguous and a single grep
+# away, so verify it against the current clone before trusting anything else.
+def _resolve_named_function(repo_root, identifier):
+    pattern = re.compile(r'(?m)^func\s*(?:\([^)]*\)\s*)?' + re.escape(identifier) + r'\s*\(')
+    for rel_dir in ('backend/game', 'backend/cards'):
+        for f in sorted(glob.glob(os.path.join(repo_root, rel_dir, '*.go'))):
+            if f.endswith('_test.go'):
+                continue
+            try:
+                text = Path(f).read_text(encoding='utf-8', errors='replace')
+            except OSError:
+                continue
+            m = pattern.search(text)
+            if not m:
+                continue
+            file_lines = text.splitlines()
+            func_line = text.count('\n', 0, m.start())
+            start = func_line
+            while start > 0 and file_lines[start - 1].lstrip().startswith('//'):
+                start -= 1
+            end = func_line + 1
+            while end < len(file_lines) and not file_lines[end].startswith('func '):
+                end += 1
+            end = min(end, func_line + 150)
+            return os.path.relpath(f, repo_root), start, end
+    return None
+
+text_pool = reason
+if capability_spec:
+    text_pool += ' ' + str(capability_spec.get('required_behavior', ''))
+named_idents = re.findall(r'\b(execute[A-Z]\w+|handle[A-Z]\w+|apply[A-Z]\w+|resolve[A-Z]\w+)\b', text_pool)
+named_idents += re.findall(r'`([A-Za-z_][A-Za-z0-9_.]{4,})`', text_pool)
+named_idents = list(dict.fromkeys(named_idents))[:6]
+
+code_sections, budget = [], 420
+for ident in named_idents:
+    if budget <= 0:
+        break
+    hit = _resolve_named_function(a.repo, ident)
+    if not hit:
+        continue
+    rel_path, start, end = hit
+    file_lines = Path(os.path.join(a.repo, rel_path)).read_text(encoding='utf-8', errors='replace').splitlines()
+    take = min(end - start, budget)
+    if take <= 0:
+        continue
+    code_sections.append('### %s:%d-%d (verified: named function %s)\n%s' % (
+        rel_path, start + 1, start + take, ident,
+        '\n'.join('%5d %s' % (i + 1, file_lines[i]) for i in range(start, start + take))))
+    budget -= take
+
 # Code regions: an NG TicketSpec supplies verified anchors. Legacy tickets use
 # the established demand-token search below.
-code_sections, budget = [], 420
 if spec:
     for evidence in spec.get('evidence', []):
         path = evidence.get('path', '')
@@ -139,7 +197,7 @@ FILES = ['backend/game/ability_effects.go', 'backend/game/gamestate.go',
          'backend/game/targeting.go', 'backend/cards/converter.go',
          'backend/cards/registry.go', 'backend/cards/v2.go']
 scored = []
-for f in ([] if spec else FILES):
+for f in FILES:
     if not os.path.exists(f):
         continue
     lines = open(f, encoding='utf-8', errors='replace').read().splitlines()
