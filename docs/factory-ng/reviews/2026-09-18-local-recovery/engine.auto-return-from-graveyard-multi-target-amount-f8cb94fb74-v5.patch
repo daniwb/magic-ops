@@ -1,0 +1,203 @@
+From 12f32675856f02839bc94ced7ea8bd544ff98ce7 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Thu, 17 Sep 2026 00:56:38 +0000
+Subject: [PATCH] factory-ng: focused batch proposal
+
+---
+ backend/cards/converter.go                  | 24 +++++-
+ backend/cards/factory_ng_f8cb94fb74_test.go | 84 +++++++++++++++++++++
+ backend/game/ability_effects.go             | 31 ++++++++
+ 3 files changed, 137 insertions(+), 2 deletions(-)
+ create mode 100644 backend/cards/factory_ng_f8cb94fb74_test.go
+
+diff --git a/backend/cards/converter.go b/backend/cards/converter.go
+index f4acc9672..9e2d5be51 100644
+--- a/backend/cards/converter.go
++++ b/backend/cards/converter.go
+@@ -269,6 +269,15 @@ func (def *CardDefinition) ToGameCard(owner int) (*game.Card, error) {
+ 					}
+ 					effectValue["link_created_to_source"] = true
+ 				}
++				if effect == "return_from_graveyard" && atom.Target != nil &&
++					atom.Target.Zone == "graveyard" && atom.Target.Filter == "land" &&
++					effectValue["destination"] == "battlefield" && effectValue["tapped"] == true {
++					if _, exists := effectValue["amount"]; !exists {
++						if count := numToInt(effectValue["count"]); count > 1 {
++							effectValue["amount"] = count
++						}
++					}
++				}
+ 				// "If this spell was bargained, that creature also gains
+ 				// [keywords] until end of turn." Reuse the existing
+ 				// sequence-referent grant: the prior atom owns the target,
+@@ -594,7 +603,9 @@ func (def *CardDefinition) ToGameCard(owner int) (*game.Card, error) {
+ 					filter.MinTargets, filter.MaxTargets = 0, 0
+ 					if atom.Target.Filter == "creature" && atom.Target.Keyword == game.Flying {
+ 						spec.TargetType = game.TargetType("flying_creature")
+-					} else if atom.Target.Zone == "graveyard" && atom.Target.Filter == "creature" {
++					} else if atom.Target.Zone == "graveyard" && (atom.Target.Filter == "creature" ||
++						(effect == "return_from_graveyard" && atom.Target.Filter == "land" &&
++							effectValue["destination"] == "battlefield" && effectValue["tapped"] == true)) {
+ 						spec.TargetType = game.TargetGraveyardCard
+ 					} else if atom.Target.Zone == "graveyard" && atom.Target.Filter == "instant_or_sorcery_card" {
+ 						spec.TargetType = game.TargetType("instant_or_sorcery_card_graveyard")
+@@ -650,6 +661,13 @@ func (def *CardDefinition) ToGameCard(owner int) (*game.Card, error) {
+ 						}
+ 						n++
+ 						minTargets, maxTargets = a.Target.MinTargets, a.Target.MaxTargets
++						if CanonicalEffect(a.Effect) == "return_from_graveyard" &&
++							a.Target.Zone == "graveyard" && a.Target.Filter == "land" &&
++							a.Value["destination"] == "battlefield" && a.Value["tapped"] == true {
++							if count := numToInt(a.Value["count"]); count > 1 {
++								minTargets, maxTargets = 0, count
++							}
++						}
+ 						if a.Value["any_number"] == true {
+ 							anyNumberTargets = true
+ 						}
+@@ -657,7 +675,9 @@ func (def *CardDefinition) ToGameCard(owner int) (*game.Card, error) {
+ 						filter.MinTargets, filter.MaxTargets = 0, 0
+ 						if a.Target.Filter == "creature" && a.Target.Keyword == game.Flying {
+ 							tf = game.TargetType("flying_creature")
+-						} else if a.Target.Zone == "graveyard" && a.Target.Filter == "creature" {
++						} else if a.Target.Zone == "graveyard" && (a.Target.Filter == "creature" ||
++							(CanonicalEffect(a.Effect) == "return_from_graveyard" && a.Target.Filter == "land" &&
++								a.Value["destination"] == "battlefield" && a.Value["tapped"] == true)) {
+ 							tf = game.TargetGraveyardCard
+ 						} else if filter == (TargetFilter{Filter: "creature", Blocking: true}) {
+ 							tf = game.TargetBlockingCreature
+diff --git a/backend/cards/factory_ng_f8cb94fb74_test.go b/backend/cards/factory_ng_f8cb94fb74_test.go
+new file mode 100644
+index 000000000..2cfaa3385
+--- /dev/null
++++ b/backend/cards/factory_ng_f8cb94fb74_test.go
+@@ -0,0 +1,84 @@
++package cards
++
++import (
++	"testing"
++
++	"magic-backend/game"
++)
++
++func TestFactoryNGReturnFromGraveyardMultiTargetAmount(t *testing.T) {
++	def := &CardDefinition{
++		Name:   "Factory Pull Through the Weft",
++		Type:   "Instant",
++		Types:  []string{"Instant"},
++		Status: StatusManual,
++		Abilities: []AbilityDSL{{
++			Type: "spell",
++			Effects: []EffectAtom{{
++				Effect: "return_from_graveyard",
++				Value: map[string]interface{}{
++					"card_type":   "land",
++					"count":       2,
++					"destination": "battlefield",
++					"tapped":      true,
++				},
++				Target: &TargetFilter{
++					Filter: "land",
++					Zone:   "graveyard",
++				},
++			}},
++		}},
++	}
++	spell, err := def.ToGameCard(0)
++	if err != nil {
++		t.Fatalf("ToGameCard: %v", err)
++	}
++	if len(spell.SpellEffectSequence) != 1 {
++		t.Fatalf("SpellEffectSequence length = %d, want 1", len(spell.SpellEffectSequence))
++	}
++	if got := spell.SpellEffectSequence[0].EffectValue["amount"]; got != 2 {
++		t.Fatalf("converted amount = %v, want 2", got)
++	}
++
++	gs := game.NewGame("P0", "P1", false)
++	landA := game.NewLand("Factory Weft Forest", "Forest", 0)
++	landA.Owner, landA.Controller = 0, 0
++	landB := game.NewLand("Factory Weft Island", "Island", 0)
++	landB.Owner, landB.Controller = 0, 0
++	untargeted := game.NewLand("Factory Weft Plains", "Plains", 0)
++	untargeted.Owner, untargeted.Controller = 0, 0
++	nonland := game.NewCreature("Factory Weft Creature", game.ManaCost{}, 1, 1, 0)
++	nonland.Owner, nonland.Controller = 0, 0
++	gs.Players[0].Graveyard.AddCard(landA)
++	gs.Players[0].Graveyard.AddCard(landB)
++	gs.Players[0].Graveyard.AddCard(untargeted)
++	gs.Players[0].Graveyard.AddCard(nonland)
++	gs.Players[0].Hand.AddCard(spell)
++
++	targets := []game.Target{
++		{IsCard: true, CardID: landA.ID, PlayerIdx: 0},
++		{IsCard: true, CardID: landB.ID, PlayerIdx: 0},
++	}
++	if err := gs.CastSpellWithTargets(0, spell.ID, targets); err != nil {
++		t.Fatalf("CastSpellWithTargets: %v", err)
++	}
++	if err := gs.ResolveTopOfStack(); err != nil {
++		t.Fatalf("ResolveTopOfStack: %v", err)
++	}
++
++	for _, land := range []*game.Card{landA, landB} {
++		battlefieldLand, err := gs.Battlefield.GetCard(land.ID)
++		if err != nil {
++			t.Fatalf("%s was not returned: %v", land.Name, err)
++		}
++		if !battlefieldLand.Tapped {
++			t.Fatalf("%s entered untapped", land.Name)
++		}
++	}
++	if _, err := gs.Players[0].Graveyard.GetCard(untargeted.ID); err != nil {
++		t.Fatalf("untargeted land left graveyard: %v", err)
++	}
++	if _, err := gs.Players[0].Graveyard.GetCard(nonland.ID); err != nil {
++		t.Fatalf("nonland card left graveyard: %v", err)
++	}
++}
+diff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go
+index fd735a305..2f6f874f5 100644
+--- a/backend/game/ability_effects.go
++++ b/backend/game/ability_effects.go
+@@ -22595,6 +22595,37 @@ func (gs *GameState) executeReturnFromGraveyard(controller int, source *Card, ef
+ 		return nil
+ 	}
+ 
++	// "Return up to N target land cards from your graveyard to the
++	// battlefield tapped" has independently optional selected targets.
++	if amount := getIntValue(effectValue, "amount", 0); src == "graveyard" &&
++		dest == "battlefield" && tapped && amount > 1 &&
++		getStringValue(effectValue, "card_type", "") == "land" {
++		returned := 0
++		for _, target := range targets {
++			if returned >= amount {
++				break
++			}
++			if !target.IsCard || target.CardID == "" {
++				continue
++			}
++			for _, p := range gs.Players {
++				card, err := p.Graveyard.GetCard(target.CardID)
++				if err != nil || card == nil {
++					continue
++				}
++				if card.Type != TypeLand {
++					break
++				}
++				if moved, err := p.Graveyard.RemoveCard(target.CardID); err == nil {
++					deliver(moved)
++					returned++
++				}
++				break
++			}
++		}
++		return nil
++	}
++
+ 	// Explicit target wins.
+ 	if len(targets) > 0 && targets[0].IsCard && targets[0].CardID != "" {
+ 		if src == "hand" {
+-- 
+2.55.0
+

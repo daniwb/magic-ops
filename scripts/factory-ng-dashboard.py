@@ -6,8 +6,10 @@ It reads TicketSpec JSON and observation receipts only, so every displayed
 number links back to a durable artifact under docs/factory-ng/.
 """
 import argparse
+import datetime
 import hashlib
 import json
+import re
 from pathlib import Path
 
 
@@ -27,6 +29,17 @@ def load_json(path):
 
 def digest(path):
     return "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def artifact_created_at(path, value):
+    """Return the immutable artifact time in the same form for every receipt."""
+    if value.get("created_at"):
+        return value["created_at"]
+    match = re.match(r"(\d{4}-\d{2}-\d{2}T\d{6}Z)-", path.name)
+    if match:
+        parsed = datetime.datetime.strptime(match.group(1), "%Y-%m-%dT%H%M%SZ")
+        return parsed.replace(tzinfo=datetime.timezone.utc).isoformat().replace("+00:00", "Z")
+    return datetime.datetime.fromtimestamp(path.stat().st_mtime, datetime.timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 def ticket_specs():
@@ -66,6 +79,7 @@ def receipts():
             binding = "valid" if digest(ticket_path) == ticket.get("sha256") else "mismatch"
         rows.append({
             "receipt_path": str(path.relative_to(ROOT)), "ticket_id": ticket.get("id"),
+            "created_at": artifact_created_at(path, value),
             "ticket_binding": binding, "outcome": value.get("outcome", "unknown"),
             "profile": model.get("profile", "unknown"),
             "resolved_model": model.get("resolved_model", "unknown"),
@@ -91,6 +105,7 @@ def integrations():
         source = value.get("source", {})
         rows.append({
             "receipt_path": str(path.relative_to(ROOT)),
+            "created_at": artifact_created_at(path, value),
             "parents": value.get("parents", []),
             "outcome": value.get("outcome", "unknown"),
             "result_commit": source.get("result_commit", "—"),

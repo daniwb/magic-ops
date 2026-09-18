@@ -1,35 +1,44 @@
 #!/usr/bin/env bash
-# session-health-check.sh — run at the START of every Claude session.
-# Prints factory status + scoped mutation-lock state. Read-only, always safe.
-echo "== SCOPED MUTATION LOCKS"
-for NAME in openmagic-integration factory-deploy dispatcher-admin; do
-  LOCK="/tmp/orch/$NAME.lock"
-  if flock -n "$LOCK" true 2>/dev/null; then
-    echo "$NAME: free"
+# Read-only Factory NG startup check. Full Git operation state matters.
+set -uo pipefail
+OPS="${FACTORY_NG_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+cd "$OPS" || exit 1
+export FACTORY_NG_SOURCE="${FACTORY_NG_SOURCE:-$OPS/../test/openmagic}"
+export PYTHONPATH="$OPS/../../pydeps${PYTHONPATH:+:$PYTHONPATH}"
+health=0
+integration_owned=0
+echo '== SCOPED MUTATION LOCKS'
+for name in openmagic-integration factory-deploy dispatcher-admin; do
+  if flock -n "/tmp/orch/$name.lock" true 2>/dev/null; then
+    echo "$name: free"
   else
-    echo "$NAME: held"
+    echo "$name: held"
+    [ "$name" != openmagic-integration ] || integration_owned=1
   fi
 done
-echo "== TMUX LANES (expect: disp r1 ro1 shim [rl1] [litellm])"
-tmux list-windows -t dispatcher -F '#{window_name}' 2>/dev/null | tr '\n' ' '; echo
-echo "== DISPATCHER"
-curl -s -m 10 localhost:9999/pilestats || curl -s -m 10 localhost:9999/pilestats || echo "DOWN (2 tries)"
-echo; echo "== SERVICE"
-systemctl is-active magic-backend
-echo "== INTEGRATOR (last 3)"
-tail -3 /opt/development/magic-new/.bugfixer-logs/integrator-lite.log 2>/dev/null
-echo "== TREE (dirty is OK ONLY while the integrator cron is mid-run — check next line)"
-pgrep -cf "integrator-lite.sh" >/dev/null 2>&1 && echo "  integrator currently running: $(pgrep -cf integrator-lite.sh)"
-git -C /opt/development/test/openmagic status --porcelain | grep -v '^??' | head -3 || true
-echo "== UNMERGED BRANCHES"
-cd /opt/development/test/openmagic && git fetch -qp origin 2>/dev/null; U=0
-for ref in $(git for-each-ref --format='%(refname:short)' refs/remotes/origin/reparse/ 2>/dev/null); do
-  [ "$(git rev-list --count origin/main..$ref 2>/dev/null)" != 0 ] && U=$((U+1)) && echo "  $ref"
-done; echo "  total unmerged: $U"
-echo "== QUEUE"
-python3 -c "
-import sqlite3
-db=sqlite3.connect('file:/opt/development/magic-ops/services/dispatcher/v4/dispatcher.db?mode=ro',uri=True)
-for r in db.execute(\"select state,count(*) from tickets where state in ('todo','claimed','blocked','vocab') group by state\"): print(' ', r)" 2>/dev/null
-echo "== DISK"
-df -h / | tail -1
+echo '== FACTORY NG'
+curl -fsS --max-time 15 http://localhost:9999/factory-ng/status \
+  | jq '{state,phase,updated_at,queue,message}' || health=1
+echo '== WATCHDOG'
+jq '{checked_at,healthy,moving,problems,cards}' state/factory-ng-watchdog.json || health=1
+echo '== SUPERVISED LANES'
+tmux list-windows -t dispatcher -F '#{window_name}' || health=1
+echo '== ENABLED PROFILE CONTRACTS'
+python3 scripts/factory-ng-profile-validate.py --enabled-workers || health=1
+echo '== CANONICAL SOURCE'
+if [ "$integration_owned" = 1 ]; then
+  echo 'Integration owns the source; check readiness again after it completes.'
+else
+  PYTHONPATH=scripts python3 -c 'from factory_ng_safety import source_problem; from factory_ng_paths import SOURCE; import sys; problem=source_problem(SOURCE); print(problem or "clean; no unfinished Git operation"); sys.exit(bool(problem))' || health=1
+fi
+echo '== CARD KNOWLEDGE'
+curl -fsS --max-time 10 http://127.0.0.1:4103/health || health=1
+echo '== LIVE SERVICE'
+if systemctl is-active --quiet magic-backend; then
+  echo 'magic-backend systemd service active'
+else
+  curl -fsS --max-time 10 http://127.0.0.1:8090/api/health || health=1
+fi
+echo '== DISK'
+df -h /
+exit "$health"

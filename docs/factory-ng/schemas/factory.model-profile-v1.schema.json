@@ -2,69 +2,382 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "factory.model-profile/v1",
   "type": "object",
-  "required": ["schema", "id", "version"],
+  "required": [
+    "schema",
+    "id",
+    "version"
+  ],
   "properties": {
-    "schema": {"const": "factory.model-profile/v1"},
-    "id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
-    "version": {"type": "string"},
-    "extends": {"type": "string"},
-    "adapter": {"type": "object"},
-    "routing": {"type": "object"},
-    "telemetry": {"type": "object"},
-    "authority": {"type": "object"},
-    "budget_policy": {"type": "object"}
+    "schema": {
+      "const": "factory.model-profile/v1"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "version": {
+      "type": "string"
+    },
+    "extends": {
+      "type": "string"
+    },
+    "adapter": {
+      "type": "object"
+    },
+    "routing": {
+      "type": "object"
+    },
+    "telemetry": {
+      "type": "object"
+    },
+    "authority": {
+      "type": "object"
+    },
+    "budget_policy": {
+      "type": "object"
+    }
   },
   "allOf": [
     {
-      "if": {"properties": {"id": {"const": "staged-baseline"}}, "required": ["id"]},
+      "if": {
+        "properties": {
+          "id": {
+            "const": "staged-baseline"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
       "then": {
-        "required": ["input_contract", "output_contract", "authority", "budget_policy", "receipt"],
-        "not": {"required": ["extends"]},
+        "required": [
+          "input_contract",
+          "output_contract",
+          "authority",
+          "budget_policy",
+          "receipt"
+        ],
+        "not": {
+          "required": [
+            "extends"
+          ]
+        },
         "properties": {
           "authority": {
-            "required": ["model_edits_workspace", "harness_applies_patch", "harness_owns_tests_and_gates", "commit_push_deploy"],
+            "required": [
+              "model_edits_workspace",
+              "harness_applies_patch",
+              "harness_owns_tests_and_gates",
+              "commit_push_deploy"
+            ],
             "properties": {
-              "model_edits_workspace": {"const": false},
-              "harness_applies_patch": {"const": true},
-              "harness_owns_tests_and_gates": {"const": true},
-              "commit_push_deploy": {"const": false}
+              "model_edits_workspace": {
+                "const": false
+              },
+              "harness_applies_patch": {
+                "const": true
+              },
+              "harness_owns_tests_and_gates": {
+                "const": true
+              },
+              "commit_push_deploy": {
+                "const": false
+              }
             }
           },
           "budget_policy": {
-            "required": ["warning_is_hard_stop"],
-            "properties": {"warning_is_hard_stop": {"const": false}}
+            "required": [
+              "warning_is_hard_stop"
+            ],
+            "properties": {
+              "warning_is_hard_stop": {
+                "const": false
+              }
+            }
           }
         }
       },
       "else": {
-        "required": ["extends", "adapter", "routing", "telemetry"],
-        "not": {"anyOf": [{"required": ["authority"]}, {"required": ["budget_policy"]}]},
+        "required": [
+          "extends",
+          "adapter",
+          "routing",
+          "telemetry"
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "authority"
+              ]
+            },
+            {
+              "required": [
+                "budget_policy"
+              ]
+            }
+          ]
+        },
         "properties": {
           "adapter": {
             "type": "object",
-            "required": ["adapter_id", "executable", "allowed_tools", "filesystem", "network"],
+            "required": [
+              "adapter_id",
+              "executable",
+              "allowed_tools",
+              "filesystem",
+              "network"
+            ],
             "properties": {
-              "adapter_id": {"enum": ["qwen-prepared-local-v1", "qwen-prepared-direct-v1", "codex-constrained-v1", "claude-staged-v1"]},
-              "executable": {"type": "string", "minLength": 1},
-              "engine": {"type": "string"},
-              "workflow": {"type": "string"},
-              "allowed_tools": {"type": "array", "items": {"enum": ["read_file", "grep", "list_dir"]}, "uniqueItems": true},
-              "filesystem": {"const": "read-only"},
-              "network": {"const": "none"},
-              "sandbox": {"const": "read-only"},
-              "max_turns": {"type": "integer", "minimum": 1},
-              "max_completion_tokens": {"type": "integer", "minimum": 1},
-              "max_model_calls": {"type": "integer", "minimum": 1},
-              "thinking": {"type": "string"},
-              "output_markers": {"type": "array", "items": {"type": "string"}},
-              "repair": {"type": "string"}
+              "adapter_id": {
+                "enum": [
+                  "qwen-prepared-local-v1",
+                  "qwen-prepared-direct-v1",
+                  "codex-constrained-v1",
+                  "claude-staged-v1",
+                  "claude-agentic-v1",
+                  "claude-agentic-test-v1",
+                  "minimax-prepared-direct-v1",
+                  "codex-constrained-host-v1"
+                ]
+              },
+              "executable": {
+                "type": "string",
+                "minLength": 1
+              },
+              "engine": {
+                "type": "string"
+              },
+              "workflow": {
+                "type": "string"
+              },
+              "allowed_tools": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "read_file",
+                    "grep",
+                    "list_dir"
+                  ]
+                },
+                "uniqueItems": true
+              },
+              "filesystem": {
+                "type": "string"
+              },
+              "network": {
+                "type": "string"
+              },
+              "sandbox": {
+                "type": "string"
+              },
+              "max_turns": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "max_completion_tokens": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "max_model_calls": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "thinking": {
+                "type": "string"
+              },
+              "output_markers": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "repair": {
+                "type": "string"
+              }
             },
             "additionalProperties": false,
             "allOf": [
-            {"if": {"properties": {"adapter_id": {"const": "qwen-prepared-local-v1"}}}, "then": {"properties": {"executable": {"const": "scripts/qwen-agentic-call.py"}, "engine": {"const": "qwen-agentic"}}}},
-            {"if": {"properties": {"adapter_id": {"const": "qwen-prepared-direct-v1"}}}, "then": {"properties": {"executable": {"const": "scripts/qwen-prepared-call.py"}, "engine": {"const": "qwen-prepared"}}}},
-            {"if": {"properties": {"adapter_id": {"const": "codex-constrained-v1"}}}, "then": {"properties": {"executable": {"const": "codex exec"}, "engine": {"const": "codex"}}}},
-            {"if": {"properties": {"adapter_id": {"const": "claude-staged-v1"}}}, "then": {"properties": {"executable": {"const": "claude -p"}, "engine": {"const": "claude"}}}}
+              {
+                "if": {
+                  "properties": {
+                    "adapter_id": {
+                      "const": "minimax-prepared-direct-v1"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "executable": {
+                      "const": "scripts/model_call.py --engine openrouter"
+                    },
+                    "engine": {
+                      "const": "openrouter"
+                    },
+                    "allowed_tools": {
+                      "const": []
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "adapter_id": {
+                      "const": "qwen-prepared-local-v1"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "executable": {
+                      "const": "scripts/qwen-agentic-call.py"
+                    },
+                    "engine": {
+                      "const": "qwen-agentic"
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "adapter_id": {
+                      "const": "qwen-prepared-direct-v1"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "executable": {
+                      "const": "scripts/qwen-prepared-call.py"
+                    },
+                    "engine": {
+                      "const": "qwen-prepared"
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "adapter_id": {
+                      "const": "codex-constrained-v1"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "executable": {
+                      "const": "codex exec"
+                    },
+                    "engine": {
+                      "const": "codex"
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "adapter_id": {
+                      "const": "claude-staged-v1"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "executable": {
+                      "const": "claude -p"
+                    },
+                    "engine": {
+                      "const": "claude"
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "adapter_id": {
+                      "const": "claude-agentic-v1"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "executable": {
+                      "const": "claude -p"
+                    },
+                    "engine": {
+                      "const": "claude-agentic"
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "adapter_id": {
+                      "const": "claude-agentic-test-v1"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "executable": {
+                      "const": "claude -p"
+                    },
+                    "engine": {
+                      "const": "claude-agentic-test"
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "adapter_id": {
+                      "const": "codex-constrained-host-v1"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "sandbox"
+                  ],
+                  "properties": {
+                    "executable": {
+                      "const": "codex exec"
+                    },
+                    "engine": {
+                      "const": "codex"
+                    },
+                    "filesystem": {
+                      "const": "host-access"
+                    },
+                    "network": {
+                      "const": "host-access"
+                    },
+                    "sandbox": {
+                      "const": "disabled"
+                    }
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "filesystem": {
+                      "const": "read-only"
+                    },
+                    "network": {
+                      "const": "none"
+                    },
+                    "sandbox": {
+                      "const": "read-only"
+                    }
+                  }
+                }
+              }
             ]
           }
         }

@@ -1,0 +1,29 @@
+{
+  "schema": "factory.model-profile/v1",
+  "id": "qwen-prepared-local",
+  "version": "1.0.1",
+  "extends": "staged-baseline@1.0.0",
+  "adapter": {
+    "adapter_id": "qwen-prepared-local-v1",
+    "executable": "scripts/qwen-agentic-call.py",
+    "engine": "qwen-agentic",
+    "workflow": "prepared local read-only tool loop for bounded Engine implementation; the harness alone applies edits and owns every gate",
+    "allowed_tools": ["read_file", "grep", "list_dir"],
+    "filesystem": "read-only",
+    "network": "none",
+    "max_turns": 25,
+    "max_completion_tokens": 16000,
+    "thinking": "disabled by adapter",
+    "output_markers": ["<<<", "@@@"]
+  },
+  "routing": {
+    "best_for": ["small evidence-backed Engine primitive", "existing Engine executor extension", "bounded Engine repair with a new behavior test"],
+    "do_not_use_when": ["the ticket requires a new event framework", "the change is cross-cutting or architecture-sized", "the required behavior is ambiguous"],
+    "qualification": "Promoted from the previously gated qwen-agentic Engine path after put_counters dynamic-amount implementation reached the full production gate with dynamic resolution, honest no-op behavior, and a three-case test."
+  },
+  "telemetry": {
+    "source": "adapter stderr token records",
+    "measured": ["input", "output", "cache_read", "cache_write", "elapsed"],
+    "unavailable": ["provider_cost", "reasoning"]
+  }
+}

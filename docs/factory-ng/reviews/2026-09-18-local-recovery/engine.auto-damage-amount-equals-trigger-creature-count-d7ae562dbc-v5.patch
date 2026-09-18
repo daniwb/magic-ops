@@ -1,0 +1,193 @@
+From 7aa426d0ea29556f35108086bdb9470c5f3c5767 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Thu, 17 Sep 2026 05:06:31 +0000
+Subject: [PATCH] factory-ng: focused batch proposal
+
+---
+ backend/cards/converter.go                  | 18 +++++
+ backend/cards/factory_ng_d7ae562dbc_test.go | 77 +++++++++++++++++++++
+ backend/game/ability_effects.go             |  3 +
+ backend/game/gamestate.go                   | 25 ++++++-
+ 4 files changed, 122 insertions(+), 1 deletion(-)
+ create mode 100644 backend/cards/factory_ng_d7ae562dbc_test.go
+
+diff --git a/backend/cards/converter.go b/backend/cards/converter.go
+index 590ed3871..4b051df7d 100644
+--- a/backend/cards/converter.go
++++ b/backend/cards/converter.go
+@@ -4676,6 +4676,24 @@ func AbilityToTriggered(ability AbilityDSL, source *game.Card, index int) *game.
+ 				effectValue["source_subtype"] = atom.Affects.Subtype
+ 				effectValue["source_other"] = atom.Affects.Other
+ 			}
++			if effect == "damage" && atom.Target == nil && atom.Affects != nil &&
++				atom.Affects.Filter == "creature" && atom.Affects.Attacking {
++				if effectValue == nil {
++					effectValue = map[string]interface{}{}
++				}
++				effectValue["all"] = true
++				effectValue["filter"] = "creature"
++				effectValue["controller"] = atom.Affects.Controller
++				effectValue["attacking"] = true
++				if ability.TriggerV2 != nil && ability.TriggerV2.Event == "attacks" &&
++					ability.TriggerV2.Modifier == "one_or_more" {
++					if count, ok := effectValue["amount_count"].(map[string]interface{}); ok &&
++						count["count"] == "battlefield" && count["filter"] == "creature" &&
++						count["attacking"] == true {
++						effectValue["trigger_once_per_attack_declaration"] = true
++					}
++				}
++			}
+ 			spec := game.EffectAtomSpec{
+ 				Effect:      effect,
+ 				EffectValue: effectValue,
+diff --git a/backend/cards/factory_ng_d7ae562dbc_test.go b/backend/cards/factory_ng_d7ae562dbc_test.go
+new file mode 100644
+index 000000000..4eaf3cbff
+--- /dev/null
++++ b/backend/cards/factory_ng_d7ae562dbc_test.go
+@@ -0,0 +1,77 @@
++package cards
++
++import (
++	"testing"
++
++	"magic-backend/game"
++)
++
++func TestFactoryNGDamageAmountEqualsTriggerCreatureCount(t *testing.T) {
++	def := &CardDefinition{
++		Name:  "Factory Lightmine Field",
++		Type:  "Enchantment",
++		Types: []string{"Enchantment"},
++		Abilities: []AbilityDSL{{
++			Type: "triggered",
++			TriggerV2: &TriggerSpec{
++				Event:    "attacks",
++				Subject:  &TargetFilter{Filter: "creature", Controller: "opponent"},
++				Modifier: "one_or_more",
++			},
++			Effects: []EffectAtom{{
++				Effect:  "damage",
++				Affects: &TargetFilter{Filter: "creature", Attacking: true},
++				Value: map[string]interface{}{
++					"amount_count": map[string]interface{}{
++						"count":     "battlefield",
++						"filter":    "creature",
++						"attacking": true,
++					},
++				},
++			}},
++		}},
++		Status: StatusManual,
++	}
++
++	source, err := def.ToGameCard(0)
++	if err != nil {
++		t.Fatalf("ToGameCard: %v", err)
++	}
++
++	gs := game.NewGame("P0", "P1", false)
++	gs.Battlefield.AddCard(source)
++	gs.RegisterCardAbilities(source)
++
++	attackerA := game.NewCreature("Factory Attacker A", game.ManaCost{}, 3, 3, 1)
++	attackerB := game.NewCreature("Factory Attacker B", game.ManaCost{}, 3, 3, 1)
++	bystander := game.NewCreature("Factory Bystander", game.ManaCost{}, 3, 3, 1)
++	for _, card := range []*game.Card{attackerA, attackerB, bystander} {
++		card.Owner, card.Controller = 1, 1
++		card.SummoningSick = false
++		gs.Battlefield.AddCard(card)
++	}
++
++	gs.ActivePlayerIdx = 1
++	gs.PhaseManager.CurrentPhase = game.Phase{Type: game.PhaseCombat, Step: game.StepDeclareAttackers}
++	if err := gs.DeclareAttackers(1, []string{attackerA.ID, attackerB.ID}); err != nil {
++		t.Fatalf("DeclareAttackers: %v", err)
++	}
++	if gs.Stack.IsEmpty() {
++		t.Fatal("one-or-more attack trigger did not reach the stack")
++	}
++	if err := gs.ResolveTopOfStack(); err != nil {
++		t.Fatalf("ResolveTopOfStack: %v", err)
++	}
++
++	for _, attacker := range []*game.Card{attackerA, attackerB} {
++		if attacker.Damage != 2 {
++			t.Fatalf("%s marked damage = %d, want 2 for the two attacking creatures", attacker.Name, attacker.Damage)
++		}
++	}
++	if bystander.Damage != 0 {
++		t.Fatalf("nonattacking creature marked damage = %d, want 0", bystander.Damage)
++	}
++	if !gs.Stack.IsEmpty() {
++		t.Fatal("one-or-more attack trigger was placed on the stack more than once")
++	}
++}
+diff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go
+index d615385bc..e6e426600 100644
+--- a/backend/game/ability_effects.go
++++ b/backend/game/ability_effects.go
+@@ -16221,6 +16221,9 @@ func (gs *GameState) executeDamageEffect(controller int, source *Card, effectVal
+ 			if scope == "opponent" && card.Controller == controller {
+ 				continue
+ 			}
++			if attacking, _ := effectValue["attacking"].(bool); attacking && !card.Attacking {
++				continue
++			}
+ 			if !matchesPermanentFilter(card, filter) {
+ 				continue
+ 			}
+diff --git a/backend/game/gamestate.go b/backend/game/gamestate.go
+index 7fa1c6595..94a1ae59d 100644
+--- a/backend/game/gamestate.go
++++ b/backend/game/gamestate.go
+@@ -7160,6 +7160,16 @@ func (gs *GameState) DeclareAttackers(playerIdx int, attackerIDs []string) error
+ 		gs.Players[playerIdx].AttackedThisTurn = true
+ 	}
+ 	defendingPlayerIdx := 1 - playerIdx
++	triggerOncePerAttackDeclaration := func(ability *TriggeredAbility) bool {
++		for _, atom := range ability.EffectSequence {
++			if once, _ := atom.EffectValue["trigger_once_per_attack_declaration"].(bool); once {
++				return true
++			}
++		}
++		return false
++	}
++	groupAbilities := []*TriggeredAbility{}
++	groupEvents := map[*TriggeredAbility]*Event{}
+ 	for _, attacker := range attackers {
+ 		err := DeclareAttacker(attacker, gs.CombatState)
+ 		if err != nil {
+@@ -7175,8 +7185,16 @@ func (gs *GameState) DeclareAttackers(playerIdx int, attackerIDs []string) error
+ 
+ 		// Fire "attacks" event for each attacker (Rule 508.1)
+ 		if gs.EventBus != nil {
+-			triggered := gs.EventBus.Publish(CreateAttacksEvent(attacker, playerIdx, defendingPlayerIdx))
++			event := CreateAttacksEvent(attacker, playerIdx, defendingPlayerIdx)
++			triggered := gs.EventBus.Publish(event)
+ 			for _, ability := range triggered {
++				if triggerOncePerAttackDeclaration(ability) {
++					if _, seen := groupEvents[ability]; !seen {
++						groupAbilities = append(groupAbilities, ability)
++						groupEvents[ability] = event
++					}
++					continue
++				}
+ 				gs.PutTriggeredAbilityOnStack(ability)
+ 			}
+ 
+@@ -7191,6 +7209,11 @@ func (gs *GameState) DeclareAttackers(playerIdx int, attackerIDs []string) error
+ 		}
+ 	}
+ 
++	// Reuse the matching events; publishing again would fire legacy handlers twice.
++	for _, ability := range groupAbilities {
++		gs.PutTriggeredAbilityOnStackWithEvent(ability, groupEvents[ability])
++	}
++
+ 	// Mark attackers as declared
+ 	gs.CombatState.AttackersDeclared = true
+ 
+-- 
+2.55.0
+

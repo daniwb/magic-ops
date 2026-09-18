@@ -1,0 +1,138 @@
+From b269a4c37b46a499dec99c2c6a703783aacbccd7 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Thu, 17 Sep 2026 05:39:42 +0000
+Subject: [PATCH] factory-ng: focused batch proposal
+
+---
+ backend/cards/converter.go                  |  4 ++
+ backend/cards/factory_ng_20443676d0_test.go | 65 +++++++++++++++++++++
+ backend/game/targeting.go                   | 19 ++++++
+ 3 files changed, 88 insertions(+)
+ create mode 100644 backend/cards/factory_ng_20443676d0_test.go
+
+diff --git a/backend/cards/converter.go b/backend/cards/converter.go
+index 9e2d5be51..13ccfb39e 100644
+--- a/backend/cards/converter.go
++++ b/backend/cards/converter.go
+@@ -3305,6 +3305,10 @@ func (def *CardDefinition) buildMainSpellEffect() *game.SpellEffect {
+ 				if ability.Affects != nil && ability.Affects.Controller == "you" {
+ 					effectType := "damage_by_chosen_source_power_to_target"
+ 					targetType := game.TargetCreature
++					if ability.Target != nil && ability.Target.Filter == "creature" &&
++						ability.Target.Controller == "" && ability.Target.Keyword == "" {
++						targetType = game.TargetCreatureYouCtlAndCreatureSlots
++					}
+ 					if ability.Target != nil && ability.Target.Filter == "creature_or_planeswalker" {
+ 						targetType = game.TargetCreatureOrPW
+ 					} else if ability.Target != nil && ability.Target.Filter == "creature_or_planeswalker_or_battle" {
+diff --git a/backend/cards/factory_ng_20443676d0_test.go b/backend/cards/factory_ng_20443676d0_test.go
+new file mode 100644
+index 000000000..c23205256
+--- /dev/null
++++ b/backend/cards/factory_ng_20443676d0_test.go
+@@ -0,0 +1,65 @@
++package cards
++
++import (
++	"testing"
++
++	"magic-backend/game"
++)
++
++func TestFactoryNGSpellTwoTargetRoleFilters_20443676d0(t *testing.T) {
++	def := &CardDefinition{
++		Name:  "Fall of the Hammer Shape",
++		Type:  "Instant",
++		Types: []string{"Instant"},
++		Abilities: []AbilityDSL{{
++			Type:    "spell",
++			Effect:  "damage_by",
++			Affects: &TargetFilter{Filter: "creature", Controller: "you"},
++			Target:  &TargetFilter{Filter: "creature"},
++		}},
++		Status: StatusManual,
++	}
++	spell, err := def.ToGameCard(0)
++	if err != nil {
++		t.Fatalf("ToGameCard: %v", err)
++	}
++	if spell.SpellEffect == nil ||
++		spell.SpellEffect.SpellTargetType != game.TargetCreatureYouCtlAndCreatureSlots ||
++		spell.SpellEffect.MinTargets != 2 || spell.SpellEffect.MaxTargets != 2 {
++		t.Fatalf("two target roles were not preserved: %+v", spell.SpellEffect)
++	}
++
++	gs := game.NewGame("P0", "P1", false)
++	source := game.NewCreature("Caster's Source", game.ManaCost{}, 3, 3, 0)
++	opponentSource := game.NewCreature("Opponent Source", game.ManaCost{}, 4, 4, 1)
++	recipient := game.NewCreature("Recipient", game.ManaCost{}, 1, 10, 1)
++	gs.Battlefield.AddCard(source)
++	gs.Battlefield.AddCard(opponentSource)
++	gs.Battlefield.AddCard(recipient)
++	gs.Players[0].Hand.AddCard(spell)
++
++	if err := gs.CastSpellWithTargets(0, spell.ID, []game.Target{
++		{Type: game.TargetCreatureYouCtl, IsCard: true, CardID: opponentSource.ID},
++		{Type: game.TargetCreature, IsCard: true, CardID: recipient.ID},
++	}); err == nil {
++		t.Fatal("opponent-controlled source was accepted")
++	}
++
++	if err := gs.CastSpellWithTargets(0, spell.ID, []game.Target{
++		{Type: game.TargetCreatureYouCtl, IsCard: true, CardID: source.ID},
++		{Type: game.TargetCreature, IsCard: true, CardID: recipient.ID},
++	}); err != nil {
++		t.Fatalf("CastSpellWithTargets: %v", err)
++	}
++
++	*source.BasePower = 5
++	if err := gs.ResolveTopOfStack(); err != nil {
++		t.Fatalf("ResolveTopOfStack: %v", err)
++	}
++	if recipient.Damage != 5 {
++		t.Fatalf("recipient damage = %d, want source's live power 5", recipient.Damage)
++	}
++	if source.Damage != 0 {
++		t.Fatalf("source took %d damage; effect must be one-way", source.Damage)
++	}
++}
+diff --git a/backend/game/targeting.go b/backend/game/targeting.go
+index 5cad748cc..5e4a29e66 100644
+--- a/backend/game/targeting.go
++++ b/backend/game/targeting.go
+@@ -212,6 +212,7 @@ const (
+ 	TargetFightCreatureYouCtlAndOppCtlSlots           TargetType = "fight_creature_you_ctrl_and_creature_opp_ctrl_slots"
+ 	TargetAnyAndCreatureSlots                         TargetType = "any_and_creature_slots"
+ 	TargetArtifactOrEnchantmentAndCreatureYouCtlSlots TargetType = "artifact_or_enchantment_and_creature_you_ctrl_slots"
++	TargetCreatureYouCtlAndCreatureSlots              TargetType = "creature_you_ctrl_and_creature_slots"
+ )
+ 
+ // Target represents a chosen target for a spell or ability
+@@ -787,6 +788,24 @@ func IsValidTarget(target Target, req TargetRequirement, gs *GameState, controll
+ 		}
+ 		return CanBeTargetedBy(card, controllerIdx, gs.EffectManager)
+ 
++	case TargetCreatureYouCtlAndCreatureSlots:
++		if !target.IsCard {
++			return false
++		}
++		card, err := gs.Battlefield.GetCard(target.CardID)
++		if err != nil || !card.IsCreature() {
++			return false
++		}
++		switch target.Type {
++		case TargetCreatureYouCtl:
++			return card.Controller == controllerIdx &&
++				CanBeTargetedBy(card, controllerIdx, gs.EffectManager)
++		case TargetCreature:
++			return CanBeTargetedBy(card, controllerIdx, gs.EffectManager)
++		default:
++			return false
++		}
++
+ 	case TargetAnyAndCreatureSlots:
+ 		switch target.Type {
+ 		case TargetAny:
+-- 
+2.55.0
+

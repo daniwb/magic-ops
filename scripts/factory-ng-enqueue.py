@@ -37,7 +37,10 @@ def main():
     if value["lifecycle"] != "ready_for_observation" or value["work_type"] not in ("map", "engine"):
         return fail("ticket must be ready_for_observation Map or Engine work")
     profile = value.get("execution", {}).get("selected_profile")
-    known = {item.get("profile") for item in json.loads(WORKERS.read_text()).get("workers", [])}
+    known = set()
+    for item in json.loads(WORKERS.read_text()).get("workers", []):
+        known.add(item.get("profile"))
+        known.update(item.get("alternate_profiles") or [])
     if profile not in known:
         return fail("selected_profile is not configured in Factory NG")
     allowed = value.get("scope", {}).get("allowed_paths")

@@ -1,0 +1,214 @@
+From e66e8457b9a27b388dbd03f961b75cc0d307a3a9 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Thu, 17 Sep 2026 05:04:06 +0000
+Subject: [PATCH] factory-ng: focused batch proposal
+
+---
+ backend/cards/converter.go                  | 44 +++++++++++-
+ backend/cards/factory_ng_4efc529ec4_test.go | 75 +++++++++++++++++++++
+ 2 files changed, 118 insertions(+), 1 deletion(-)
+ create mode 100644 backend/cards/factory_ng_4efc529ec4_test.go
+
+diff --git a/backend/cards/converter.go b/backend/cards/converter.go
+index f25c0e749..c03940abb 100644
+--- a/backend/cards/converter.go
++++ b/backend/cards/converter.go
+@@ -2615,6 +2615,19 @@ func targetCountEffectValue(value map[string]interface{}, target *TargetFilter)
+ 	return out
+ }
+ 
++func sourcePowerDamageToFlyingCreature(effect string, target *TargetFilter) bool {
++	return effect == "damage_by_power" &&
++		target != nil && target.Filter == "creature" && target.Keyword == game.Flying
++}
++
++func sourcePowerDamageEffectValue(value map[string]interface{}) map[string]interface{} {
++	if value == nil {
++		value = map[string]interface{}{}
++	}
++	value["amount_count"] = map[string]interface{}{"count": "source_power"}
++	return value
++}
++
+ // parseEtbCounterSpec extracts an EtbCounterSpec from the DSL Value map.
+ // Amount can be a number ("enters with 3 +1/+1 counters") or a variable
+ // ("X" / "storm_count").
+@@ -2648,6 +2661,10 @@ func AbilityToActivated(ability AbilityDSL, source *game.Card, index int) *game.
+ 	effect := ability.Effect
+ 	effectValue := targetCountEffectValue(ability.Value, ability.Target)
+ 	effect, effectValue = normalizeTokenCopyExceptions(effect, effectValue)
++	if sourcePowerDamageToFlyingCreature(effect, ability.Target) {
++		effect = "damage"
++		effectValue = sourcePowerDamageEffectValue(effectValue)
++	}
+ 	if effect == "sacrifice_self" {
+ 		if unlessSacrifice, ok := effectValue["unless_sacrifice"].(string); ok && unlessSacrifice != "" {
+ 			effect = "sacrifice"
+@@ -2745,6 +2762,10 @@ func AbilityToActivated(ability AbilityDSL, source *game.Card, index int) *game.
+ 		for ai, atom := range ability.Effects {
+ 			effect := CanonicalEffect(atom.Effect)
+ 			effectValue := targetCountEffectValue(atom.Value, atom.Target)
++			if sourcePowerDamageToFlyingCreature(effect, atom.Target) {
++				effect = "damage"
++				effectValue = sourcePowerDamageEffectValue(effectValue)
++			}
+ 			if tokenCopyLinksCreatedTokens(ability.Effects, ai) {
+ 				if effectValue == nil {
+ 					effectValue = map[string]interface{}{}
+@@ -2832,6 +2853,8 @@ func AbilityToActivated(ability AbilityDSL, source *game.Card, index int) *game.
+ 				filter.MinTargets, filter.MaxTargets = 0, 0
+ 				if atom.Target.Zone == "graveyard" && atom.Target.Filter == "creature" {
+ 					spec.TargetType = game.TargetGraveyardCard
++				} else if sourcePowerDamageToFlyingCreature(effect, atom.Target) {
++					spec.TargetType = game.TargetType("flying_creature")
+ 				} else if filter == (TargetFilter{Filter: atom.Target.Filter}) {
+ 					spec.TargetType = game.TargetType(atom.Target.Filter)
+ 				} else if qualifiedTriggerTargetSupported(atom.Target) {
+@@ -3030,6 +3053,9 @@ func AbilityToActivated(ability AbilityDSL, source *game.Card, index int) *game.
+ 		if dualTargetFight, _ := activated.EffectValue["dual_target_fight_you_vs_opponent"].(bool); dualTargetFight {
+ 			targetType = string(game.TargetCreatureYouCtlAndOppCtlSlots)
+ 		}
++		if sourcePowerDamageToFlyingCreature(ability.Effect, ability.Target) {
++			targetType = "flying_creature"
++		}
+ 		if effect == "untap" && ability.Target.Filter == "creature" &&
+ 			ability.Target.Attacking && ability.Target.Keyword != "" {
+ 			if activated.EffectValue == nil {
+@@ -4040,6 +4066,10 @@ func AbilityToTriggered(ability AbilityDSL, source *game.Card, index int) *game.
+ 	effect := ability.Effect
+ 	effectValue := copyValueMap(ability.Value)
+ 	effect, effectValue = normalizeTokenCopyExceptions(effect, effectValue)
++	if sourcePowerDamageToFlyingCreature(effect, ability.Target) {
++		effect = "damage"
++		effectValue = sourcePowerDamageEffectValue(effectValue)
++	}
+ 	if effectValue == nil {
+ 		effectValue = map[string]interface{}{}
+ 	}
+@@ -4565,6 +4595,9 @@ func AbilityToTriggered(ability AbilityDSL, source *game.Card, index int) *game.
+ 				}
+ 				effectValue["target_ref"] = "event_subject"
+ 			}
++			if sourcePowerDamageToFlyingCreature(effect, atom.Target) {
++				effect = "damage"
++			}
+ 			if effect == "tap" && atom.Target == nil && ai > 0 &&
+ 				CanonicalEffect(ability.Effects[ai-1].Effect) == "damage" &&
+ 				ability.Effects[ai-1].Value["all"] == true {
+@@ -4585,6 +4618,9 @@ func AbilityToTriggered(ability AbilityDSL, source *game.Card, index int) *game.
+ 				}
+ 				previous.EffectValue["record_referent_targets"] = true
+ 			}
++			if sourcePowerDamageToFlyingCreature(CanonicalEffect(atom.Effect), atom.Target) {
++				effectValue = sourcePowerDamageEffectValue(effectValue)
++			}
+ 			if tokenCopyLinksCreatedTokens(ability.Effects, ai) {
+ 				if effectValue == nil {
+ 					effectValue = map[string]interface{}{}
+@@ -4685,6 +4721,8 @@ func AbilityToTriggered(ability AbilityDSL, source *game.Card, index int) *game.
+ 			if atom.Target != nil && atom.Target.Filter != "" {
+ 				if atom.Target.Zone == "graveyard" && atom.Target.Filter == "creature" {
+ 					spec.TargetType = game.TargetGraveyardCard
++				} else if sourcePowerDamageToFlyingCreature(effect, atom.Target) {
++					spec.TargetType = game.TargetType("flying_creature")
+ 				} else if *atom.Target == (TargetFilter{Filter: atom.Target.Filter}) {
+ 					spec.TargetType = game.TargetType(atom.Target.Filter)
+ 				} else if qualifiedTriggerTargetSupported(atom.Target) {
+@@ -4889,8 +4927,12 @@ func AbilityToTriggered(ability AbilityDSL, source *game.Card, index int) *game.
+ 
+ 	// Set target if specified
+ 	if ability.Target != nil {
++		targetType := ability.Target.Filter
++		if sourcePowerDamageToFlyingCreature(ability.Effect, ability.Target) {
++			targetType = "flying_creature"
++		}
+ 		triggered.Target = &game.TriggerTargetFilter{
+-			Type:       ability.Target.Filter,
++			Type:       targetType,
+ 			Controller: ability.Target.Controller,
+ 			Subtype:    ability.Target.Subtype,
+ 			Attacking:  ability.Target.Attacking,
+diff --git a/backend/cards/factory_ng_4efc529ec4_test.go b/backend/cards/factory_ng_4efc529ec4_test.go
+new file mode 100644
+index 000000000..ddfe35dea
+--- /dev/null
++++ b/backend/cards/factory_ng_4efc529ec4_test.go
+@@ -0,0 +1,75 @@
++package cards
++
++import (
++	"testing"
++
++	"magic-backend/game"
++)
++
++func TestFactoryNGDamageEqualToSourcePowerToFlyingCreature(t *testing.T) {
++	def := &CardDefinition{
++		Name:      "Factory Jagged-Scar Archers",
++		Type:      "Creature",
++		Types:     []string{"Creature"},
++		Power:     intPtr(3),
++		Toughness: intPtr(3),
++		Abilities: []AbilityDSL{{
++			Type:   "activated",
++			Effect: "damage_by_power",
++			Cost:   &AbilityCost{},
++			Target: &TargetFilter{Filter: "creature", Keyword: game.Flying},
++		}},
++		Status: StatusManual,
++	}
++	source, err := def.ToGameCard(0)
++	if err != nil {
++		t.Fatalf("ToGameCard: %v", err)
++	}
++	if len(source.ActivatedAbilities) != 1 {
++		t.Fatalf("activated abilities = %d, want 1", len(source.ActivatedAbilities))
++	}
++	ability := source.ActivatedAbilities[0]
++	if ability.Effect != "damage" {
++		t.Fatalf("effect = %q, want damage", ability.Effect)
++	}
++	if ability.Target == nil || ability.Target.Type != "flying_creature" {
++		t.Fatalf("target filter = %#v, want flying_creature", ability.Target)
++	}
++	if count, ok := ability.EffectValue["amount_count"].(map[string]interface{}); !ok || count["count"] != "source_power" {
++		t.Fatalf("amount_count = %#v, want source_power", ability.EffectValue["amount_count"])
++	}
++
++	gs := game.NewGame("P0", "P1", false)
++	source.Owner, source.Controller = 0, 0
++	gs.Battlefield.AddCard(source)
++	gs.RegisterCardAbilities(source)
++
++	flyer := game.NewCreature("Factory Flyer", game.ManaCost{}, 1, 7, 1)
++	flyer.Keywords = append(flyer.Keywords, game.Flying)
++	gs.Battlefield.AddCard(flyer)
++
++	ground := game.NewCreature("Factory Ground Creature", game.ManaCost{}, 1, 7, 1)
++	gs.Battlefield.AddCard(ground)
++
++	requirement := game.TargetRequirement{Type: game.TargetType(ability.Target.Type)}
++	if !game.IsValidTarget(game.Target{IsCard: true, CardID: flyer.ID}, requirement, gs, 0) {
++		t.Fatal("flying creature was not a legal target")
++	}
++	if game.IsValidTarget(game.Target{IsCard: true, CardID: ground.ID}, requirement, gs, 0) {
++		t.Fatal("non-flying creature was accepted as a legal target")
++	}
++
++	if err := gs.ActivateAbility(0, source.ID, 0, []game.Target{{IsCard: true, CardID: flyer.ID}}); err != nil {
++		t.Fatalf("ActivateAbility: %v", err)
++	}
++	source.Counters.PlusOnePlusOne = 2
++	if err := gs.ResolveTopOfStack(); err != nil {
++		t.Fatalf("ResolveTopOfStack: %v", err)
++	}
++	if got, want := flyer.Damage, 5; got != want {
++		t.Fatalf("flying target damage = %d, want %d from source's current power", got, want)
++	}
++	if ground.Damage != 0 {
++		t.Fatalf("non-flying creature received damage: %d", ground.Damage)
++	}
++}
+-- 
+2.55.0
+

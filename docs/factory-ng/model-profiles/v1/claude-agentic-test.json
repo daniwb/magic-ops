@@ -1,0 +1,28 @@
+{
+  "schema": "factory.model-profile/v1",
+  "id": "claude-agentic-test",
+  "version": "1.0.0",
+  "extends": "staged-baseline@1.0.0",
+  "adapter": {
+    "adapter_id": "claude-agentic-test-v1",
+    "executable": "claude -p",
+    "engine": "claude-agentic-test",
+    "workflow": "Same Claude Code headless read-only tool loop as claude-agentic (Read/Grep/Glob plus the FTS5 card-knowledge index), with one addition: a PreToolUse hook (scripts/shunt-bulk-read.py, wired in only via scripts/claude-agentic-test-settings.json) shunts any Read over 350 lines to a summarizer instead of returning the raw file, to test the token-reduction pattern from Spotify's 'Portal cut my Claude Code token usage by 90%' post. Two SHUNT_BACKEND options, both measured 2026-09-05 on the same 1154-line file: 'llama-server' (default) hits the unmetered Qwen3.8-27B box already registered as factory-ng's 'qwen-local' worker (192.168.1.251:8080) — ~145s, CPU-bound; 'openrouter' hits minimax/minimax-m3:free, the same free-tier model factory-ng's 'minimax-m3-free' worker uses, through the same shared scripts/openrouter_cooldown.py state so the shunt never races real ticket dispatch for the same free-tier budget — ~6s, but shares that worker's rate-limit ceiling and needs OPENROUTER_API_KEY (magic-ops/.env). Deliberately does not use the pre-factory-ng dispatcher's ollama-triage.sh box or its LOCAL_GPU_OFF kill switch — those belong to a separate, older system; factory-ng's own worker `enabled` flag and controller pause state already gate this profile. Fails open on any error, including its own timeout or an active openrouter cooldown.",
+    "allowed_tools": ["read_file", "grep", "list_dir"],
+    "filesystem": "read-only",
+    "network": "none",
+    "max_turns": 60,
+    "output_markers": ["<<<", "@@@"]
+  },
+  "routing": {
+    "best_for": ["side-by-side token/cost comparison against claude-agentic on the same ticket, to measure whether the bulk-read shunt changes acceptance rate or repair count"],
+    "do_not_use_when": ["wider promotion beyond the controlled comparison tranche — this profile is not yet promotion-eligible per docs/factory-ng/model-profile-contract-v1.md (needs two independently frozen, production-shaped tickets passed before routing consideration beyond this test)"],
+    "qualification": "Controlled rollout 2026-09-05: token-reduction test sibling of claude-agentic@1.0.0, enabled in config/factory-ng-workers.json at a 5% weekly-gate tranche specifically to gather comparison receipts against claude-agentic; not yet promotion-eligible for the full tranche."
+  },
+  "telemetry": {
+    "source": "Claude JSON modelUsage aggregate",
+    "measured": ["input", "output", "cache_read", "cache_write", "elapsed"],
+    "unavailable": ["provider_cost", "reasoning"],
+    "note": "nested provider model usage is aggregated across every agentic turn; compare against claude-agentic receipts on matched tickets to attribute any input-token delta to the read shunt"
+  }
+}

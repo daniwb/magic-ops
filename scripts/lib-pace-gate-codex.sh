@@ -21,10 +21,18 @@ set -uo pipefail
 
 PACE_TARGET_PCT="${PACE_TARGET_PCT:-100}"
 PACE_HARD_SECONDARY="${PACE_HARD_SECONDARY:-95}"
+CODEX_PACE_MODE="${CODEX_PACE_MODE:-daily-tranche}"
+CODEX_HARD_PRIMARY="${CODEX_HARD_PRIMARY:-95}"
 CODEX_USAGE_CACHE="${CODEX_USAGE_CACHE:-/tmp/codex-usage-gate.json}"
 CODEX_USAGE_GATE_TTL="${CODEX_USAGE_GATE_TTL:-180}"
 CODEX_PACE_OFF_FILE="${CODEX_PACE_OFF_FILE:-/tmp/orch/codex-pace-off-until}"
 CODEX_USAGE_FETCH="${CODEX_USAGE_FETCH:-/opt/development/magic-ops/scripts/codex-usage-fetch.py}"
+WEEKLY_GATE_MODE="${WEEKLY_GATE_MODE:-${CODEX_PACE_MODE:+legacy}}"
+WEEKLY_GATE_PCT="${WEEKLY_GATE_PCT:-$CODEX_HARD_PRIMARY}"
+if [ "$WEEKLY_GATE_MODE" = "legacy" ]; then
+  [ "$CODEX_PACE_MODE" = "capacity" ] && WEEKLY_GATE_MODE="fixed" || WEEKLY_GATE_MODE="paced"
+fi
+[ -n "$WEEKLY_GATE_MODE" ] || WEEKLY_GATE_MODE="paced"
 
 _cpace_refresh_usage() {
   local now age
@@ -58,8 +66,10 @@ _cpace_day_bounds() { # $1=reset-ts $2=window-seconds
   elapsed=$(( now - ws )); [ "$elapsed" -lt 0 ] && elapsed=0
   days=$(( wsec / 86400 )); [ "$days" -lt 1 ] && days=1
   _CP_DAY=$(( elapsed / 86400 + 1 )); [ "$_CP_DAY" -gt "$days" ] && _CP_DAY=$days
-  _CP_ALLOWED=$(( (_CP_DAY * PACE_TARGET_PCT * 10 / days + 5) / 10 ))
-  [ "$_CP_ALLOWED" -gt "$PACE_TARGET_PCT" ] && _CP_ALLOWED=$PACE_TARGET_PCT
+  local target=$PACE_TARGET_PCT
+  [ "$WEEKLY_GATE_PCT" -lt "$target" ] && target=$WEEKLY_GATE_PCT
+  _CP_ALLOWED=$(( (_CP_DAY * target * 10 / days + 5) / 10 ))
+  [ "$_CP_ALLOWED" -gt "$target" ] && _CP_ALLOWED=$target
   _CP_NEXTDAY=$(( ws + _CP_DAY * 86400 ))
   [ "$_CP_NEXTDAY" -gt "$rts" ] && _CP_NEXTDAY=$rts
 }
@@ -71,12 +81,20 @@ pace_ok_codex() {
   mkdir -p "$(dirname "$CODEX_PACE_OFF_FILE")" 2>/dev/null || true
 
   off=$(cat "$CODEX_PACE_OFF_FILE" 2>/dev/null || echo 0); off=${off:-0}
-  if [ "$off" -gt 0 ] 2>/dev/null && [ "$now" -lt "$off" ]; then return 1; fi
-  [ "$off" -gt 0 ] 2>/dev/null && rm -f "$CODEX_PACE_OFF_FILE"
+  if [ "$WEEKLY_GATE_MODE" = "paced" ]; then
+    if [ "$off" -gt 0 ] 2>/dev/null && [ "$now" -lt "$off" ]; then return 1; fi
+    [ "$off" -gt 0 ] 2>/dev/null && rm -f "$CODEX_PACE_OFF_FILE"
+  fi
 
   _CP_U=0; _CP_R=0; _CP_SEC_U=""; _CP_BLIND=0
   _cpace_refresh_usage
   [ "${_CP_BLIND:-0}" = 1 ] && return 0
+
+  [ "$WEEKLY_GATE_MODE" = "none" ] && return 0
+  if [ "$WEEKLY_GATE_MODE" = "fixed" ]; then
+    [ "${_CP_U:-0}" -ge "$WEEKLY_GATE_PCT" ] 2>/dev/null && return 1
+    return 0
+  fi
 
   # flat hard ceiling on a secondary window, if this plan reports one
   if [ -n "${_CP_SEC_U:-}" ] && [ "${_CP_SEC_U}" -ge "$PACE_HARD_SECONDARY" ] 2>/dev/null; then
@@ -108,7 +126,19 @@ pace_status_codex() {
     _cpace_day_bounds "${_CP_R}" "$wsec"
     allowed=$_CP_ALLOWED; day=$_CP_DAY; nextday=$_CP_NEXTDAY
   fi
-  echo "primary=${_CP_U:-?}% secondary=${_CP_SEC_U:-n/a}% | Tag ${day} -> erlaubt ${allowed}% (Ziel ${PACE_TARGET_PCT}%)"
+  echo "primary=${_CP_U:-?}% secondary=${_CP_SEC_U:-n/a}% | weekly-mode=${WEEKLY_GATE_MODE} fixed=${WEEKLY_GATE_PCT}% | Tag ${day} -> erlaubt ${allowed}%"
+  if [ "$WEEKLY_GATE_MODE" = "none" ]; then
+    echo "-> laeuft (weekly gate disabled)"
+    return
+  fi
+  if [ "$WEEKLY_GATE_MODE" = "fixed" ]; then
+    if [ "${_CP_U:-0}" -ge "$WEEKLY_GATE_PCT" ] 2>/dev/null; then
+      echo "FIXED-WEEKLY-PAUSE at ${_CP_U}% (ceiling ${WEEKLY_GATE_PCT}%)"
+    else
+      echo "-> laeuft (fixed weekly ceiling ${WEEKLY_GATE_PCT}%)"
+    fi
+    return
+  fi
   [ "$nextday" -gt 0 ] 2>/dev/null && \
     echo "naechste Stufe: $(date -d @"$nextday" '+%F %H:%M %Z' 2>/dev/null)"
   if [ "$off" -gt 0 ] 2>/dev/null && [ "$now" -lt "$off" ]; then

@@ -1,0 +1,187 @@
+From e9761177abb9d43dd18dcfaa282105218236a1b9 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Wed, 16 Sep 2026 16:50:37 +0000
+Subject: [PATCH] factory-ng: focused batch proposal
+
+---
+ backend/cards/factory_ng_7e9017ab8c_test.go   | 112 ++++++++++++++++++
+ .../cards/registry_factory_ng_7e9017ab8c.go   |   8 ++
+ backend/game/ability_effects.go               |  21 ++++
+ 3 files changed, 141 insertions(+)
+ create mode 100644 backend/cards/factory_ng_7e9017ab8c_test.go
+ create mode 100644 backend/cards/registry_factory_ng_7e9017ab8c.go
+
+diff --git a/backend/cards/factory_ng_7e9017ab8c_test.go b/backend/cards/factory_ng_7e9017ab8c_test.go
+new file mode 100644
+index 000000000..081efa9b7
+--- /dev/null
++++ b/backend/cards/factory_ng_7e9017ab8c_test.go
+@@ -0,0 +1,112 @@
++package cards
++
++import (
++	"testing"
++
++	"magic-backend/game"
++)
++
++func TestFactoryNGTapOrUntapAttachedChoice_7e9017ab8c(t *testing.T) {
++	choiceDef := &CardDefinition{
++		Name:     "Factory Choice Equipment",
++		Type:     "Artifact",
++		Types:    []string{"Artifact"},
++		SubTypes: []string{"Equipment"},
++		Abilities: []AbilityDSL{{
++			Type:   "activated",
++			Effect: "tap_or_untap_attached_choice",
++			Cost:   &AbilityCost{},
++		}},
++		Status: StatusManual,
++	}
++	equipment, err := choiceDef.ToGameCard(0)
++	if err != nil {
++		t.Fatalf("ToGameCard(choice): %v", err)
++	}
++
++	plainTapDef := &CardDefinition{
++		Name:     "Factory Plain Tap Equipment",
++		Type:     "Artifact",
++		Types:    []string{"Artifact"},
++		SubTypes: []string{"Equipment"},
++		Abilities: []AbilityDSL{{
++			Type:   "activated",
++			Effect: "tap",
++			Value:  map[string]interface{}{"target_attached": true},
++			Cost:   &AbilityCost{},
++		}},
++		Status: StatusManual,
++	}
++	plainTap, err := plainTapDef.ToGameCard(0)
++	if err != nil {
++		t.Fatalf("ToGameCard(plain tap): %v", err)
++	}
++
++	gs := game.NewGame("P0", "P1", false)
++	equipped := game.NewCreature("Equipped Creature", game.ManaCost{}, 2, 2, 0)
++	equipped.Owner, equipped.Controller = 0, 0
++	equipped.Tapped = true
++	other := game.NewCreature("Unattached Creature", game.ManaCost{}, 2, 2, 0)
++	other.Owner, other.Controller = 0, 0
++	gs.Battlefield.AddCard(equipped)
++	gs.Battlefield.AddCard(other)
++	gs.Battlefield.AddCard(equipment)
++	gs.Battlefield.AddCard(plainTap)
++	if err := equipment.AttachTo(equipped); err != nil {
++		t.Fatalf("attach choice equipment: %v", err)
++	}
++	if err := plainTap.AttachTo(equipped); err != nil {
++		t.Fatalf("attach plain-tap equipment: %v", err)
++	}
++	gs.RegisterCardAbilities(equipment)
++	gs.RegisterCardAbilities(plainTap)
++
++	if err := gs.ActivateAbility(0, equipment.ID, 0, nil); err != nil {
++		t.Fatalf("activate untap choice: %v", err)
++	}
++	if err := gs.ResolveTopOfStack(); err != nil {
++		t.Fatalf("resolve untap choice: %v", err)
++	}
++	if gs.PendingOptionChoice == nil {
++		t.Fatal("expected tap-or-untap choice at resolution")
++	}
++	if !equipped.Tapped {
++		t.Fatal("equipped creature changed before the controller chose an outcome")
++	}
++	if err := gs.ResolveOptionChoice(0, "untap"); err != nil {
++		t.Fatalf("choose untap: %v", err)
++	}
++	if equipped.Tapped {
++		t.Fatal("untap choice did not untap the equipped creature")
++	}
++	if other.Tapped {
++		t.Fatal("choice affected an unattached creature")
++	}
++
++	if err := gs.ActivateAbility(0, equipment.ID, 0, nil); err != nil {
++		t.Fatalf("activate tap choice: %v", err)
++	}
++	if err := gs.ResolveTopOfStack(); err != nil {
++		t.Fatalf("resolve tap choice: %v", err)
++	}
++	if err := gs.ResolveOptionChoice(0, "tap"); err != nil {
++		t.Fatalf("choose tap: %v", err)
++	}
++	if !equipped.Tapped {
++		t.Fatal("tap choice did not tap the equipped creature")
++	}
++
++	equipped.Untap()
++	if err := gs.ActivateAbility(0, plainTap.ID, 0, nil); err != nil {
++		t.Fatalf("activate plain attached tap: %v", err)
++	}
++	if err := gs.ResolveTopOfStack(); err != nil {
++		t.Fatalf("resolve plain attached tap: %v", err)
++	}
++	if !equipped.Tapped {
++		t.Fatal("plain attached tap no longer directly tapped the equipped creature")
++	}
++	if gs.PendingOptionChoice != nil {
++		t.Fatal("plain attached tap incorrectly opened a tap-or-untap choice")
++	}
++}
+diff --git a/backend/cards/registry_factory_ng_7e9017ab8c.go b/backend/cards/registry_factory_ng_7e9017ab8c.go
+new file mode 100644
+index 000000000..3c7e0a7af
+--- /dev/null
++++ b/backend/cards/registry_factory_ng_7e9017ab8c.go
+@@ -0,0 +1,8 @@
++package cards
++
++func init() {
++	regEffect("tap_or_untap_attached_choice", Primitive{
++		Executor:  "game/ability_effects.go ExecuteAbilityEffect case tap_or_untap_attached_choice -> executeTapOrUntapAttachedChoice",
++		ShapeTest: "TestFactoryNGTapOrUntapAttachedChoice_7e9017ab8c",
++	})
++}
+diff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go
+index 2f6f874f5..d615385bc 100644
+--- a/backend/game/ability_effects.go
++++ b/backend/game/ability_effects.go
+@@ -14127,6 +14127,8 @@ func (gs *GameState) ExecuteAbilityEffect(stackObj *StackObject) error {
+ 		return gs.executeUntapEffect(source, effectValue, targets)
+ 	case "untap_up_to_literal_count":
+ 		return gs.executeUntapUpToLiteralCountEffect(controller, source, effectValue)
++	case "tap_or_untap_attached_choice":
++		return gs.executeTapOrUntapAttachedChoice(controller, source)
+ 	case "tap_or_untap_target_choice":
+ 		// choose_tap_or_untap_target primitive (ticket
+ 		// engine.auto-choose-tap-or-untap-target-79d61adb7e, Mind Over Matter
+@@ -20516,6 +20518,25 @@ func (gs *GameState) executeTapAllEffect(controller int, source *Card, effectVal
+ 	return nil
+ }
+ 
++// executeTapOrUntapAttachedChoice implements "You may tap or untap equipped
++// creature." The attached permanent is determined as the Equipment ability
++// resolves, then its controller chooses the tap-state outcome.
++func (gs *GameState) executeTapOrUntapAttachedChoice(controller int, source *Card) error {
++	if source == nil {
++		return nil
++	}
++	target := source.GetAttachedCard(gs.Battlefield)
++	if target == nil {
++		return nil
++	}
++	targetID := target.ID
++	gs.StartOptionChoice(controller, []string{"tap", "untap"}, source.Name,
++		func(gs *GameState, chosen string) {
++			gs.applyTapOrUntapToCardIDs([]string{targetID}, chosen)
++		})
++	return nil
++}
++
+ // executeUntapEffect - "Untap target permanent" or the permanent attached to
+ // source when target_attached is set and no target was chosen.
+ func (gs *GameState) executeRemoveFromCombatAndUntapEffect(source *Card, targets []Target) error {
+-- 
+2.55.0
+

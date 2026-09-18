@@ -6,6 +6,8 @@ import os
 import re
 import sys
 from pathlib import Path
+from factory_ng_knowledge import resolve_candidate
+from factory_ng_symbols import render as render_symbol
 
 
 def excerpt(repo, path, anchor, budget):
@@ -28,17 +30,53 @@ def excerpt(repo, path, anchor, budget):
 parser = argparse.ArgumentParser()
 parser.add_argument("--ticket-spec", required=True, type=Path)
 parser.add_argument("--repo", default="/opt/development/test/openmagic")
+parser.add_argument("--read-only-tools", action="store_true",
+                    help="render the registered Codex local read-only tool contract")
 args = parser.parse_args()
 spec = json.loads(args.ticket_spec.read_text())
 if spec.get("schema") != "factory.ticket-spec/v1" or spec.get("work_type") != "map":
     raise SystemExit("--ticket-spec must be a Map factory.ticket-spec/v1")
 
-regions, remaining = [], 340
+from factory_ng_map_context import trace_card, map_regions, upstream_regions, prepared_ticket_view
+sys.path.insert(0, str(Path(args.repo) / 'scripts/paragraph'))
+import reparse
+card_probes = {}
+trace_calls = []
+for probe in spec.get('execution', {}).get('parser_probes', []):
+    if probe.get('function') == 'reparse_card':
+        card = reparse.load_card(probe['card'])
+        if card is None:
+            raise SystemExit('TicketSpec parser probe card not found: ' + probe['card'])
+        result, calls = trace_card(reparse, card)
+        card_probes[probe['card']] = (result, calls)
+        trace_calls.extend(calls)
+regions, remaining = map_regions(args.repo, trace_calls) if trace_calls else ([], 340)
+upstream, _ = upstream_regions(args.repo, trace_calls)
+regions.extend(upstream)
 for item in spec.get("evidence", []):
     path = item.get("path", "")
     if path.startswith("scripts/"):
         part, remaining = excerpt(args.repo, path, item.get("anchor", ""), remaining)
         regions.extend(part)
+
+# Read-only Engine context survives the dependency handoff. Resolve symbols in
+# this checkout rather than trusting an old ticket's copied line numbers.
+runtime_regions, runtime_budget = [], 280
+for item in spec.get("evidence", []):
+    candidate = item.get("symbol")
+    if not candidate or runtime_budget <= 0: continue
+    row = resolve_candidate(args.repo, candidate, caller='map-dependency-handoff', budget=min(140, runtime_budget))
+    if row['status'] == 'resolved':
+        runtime_regions.append(render_symbol(row))
+        runtime_budget -= row['supplied_end'] - row['start'] + 1
+regions.extend(runtime_regions)
+
+# A bounded context repair retains the worker's unanswered questions. Resolve
+# them against this clone, never paste historical source into a new attempt.
+context_requests = spec.get('execution', {}).get('context_requests', [])
+if context_requests:
+    from factory_ng_context import requested_context
+    regions.append(requested_context('\n'.join('NEED: ' + request for request in context_requests[:3]), args.repo, spec))
 
 template = Path(args.repo) / "scripts/paragraph/test_target_player_draw.py"
 if template.exists() and remaining:
@@ -63,29 +101,56 @@ probes = spec.get("execution", {}).get("parser_probes") or [
 probe_lines = []
 for probe in probes:
     function = probe.get("function", "map_atom")
-    text = probe["text"]
     if function == "map_atom":
+        text = probe["text"]
         kind = probe["kind"]
         verb, atom_args = reparse.O.parse_atom(text)
         current = reparse.map_atom(verb, atom_args, kind=kind) if verb else None
         probe_lines.append("map_atom(%r, kind=%r) -> verb=%r args=%r current=%r" %
                            (text, kind, verb, atom_args, current))
     elif function == "parse_static_condition":
+        text = probe["text"]
         probe_lines.append("parse_static_condition(%r) -> %r" %
                            (text, reparse.parse_static_condition(text)))
+    elif function == "reparse_card":
+        card_name = probe["card"]
+        card = reparse.load_card(card_name)
+        if card is None:
+            raise SystemExit("TicketSpec parser probe card not found: %s" % card_name)
+        probe_lines.append("Oracle text for %r -> %r" % (card_name, card.get("text", "")))
+        result, calls = card_probes[card_name]
+        probe_lines.append("reparse_card(load_card(%r)) -> %s" %
+                           (card_name, json.dumps(result, sort_keys=True)))
+        probe_lines.append('Actual parser handoffs during this card parse (map_atom arguments and failed trigger spine):\n' +
+                           json.dumps(calls, indent=2, sort_keys=True))
     else:
         raise SystemExit("unsupported TicketSpec parser probe: %s" % function)
 
-print("""# FACTORY NG MAP TASK — prepared direct, no tools
+missing_allowed = [path for path in spec.get("scope", {}).get("allowed_paths", [])
+                   if not (Path(args.repo) / path).exists()]
+
+tool_contract = ("Local read-only source tools are available in this isolated checkout. "
+                 "Use targeted reads/searches (about ten calls) to resolve missing or truncated evidence. "
+                 "Do not edit files, run tests, use the network, commit, or integrate; the harness owns those actions. "
+                 "Return only the block protocol or a bounded verdict in your final answer."
+                 if args.read_only_tools else
+                 "No repository tools are available. Use the supplied evidence and the bounded NEED mechanism.")
+print("""# FACTORY NG MAP TASK — prepared evidence
+
+## Source access
+{tool_contract}
 
 Ticket: {id}
 Title: {title}
 
 The TicketSpec below is authoritative. Stay within its allowed paths and emit
-only the exact block protocol. The accepted Engine parent already exists only
-as an observation overlay; do not edit backend/ and do not change parsing.
+only the exact block protocol. Do not assume an Engine overlay unless the
+TicketSpec names one; do not edit backend/ or corpus data. Engine source below
+is read-only evidence for the mapping. Reuse the integrated representation;
+a new NEEDS_PRIMITIVE must identify behavior it still cannot perform. Parser
+eligibility alone does not verify that the complete card uses that behavior.
 
-## TicketSpec
+## TicketSpec (historical lookup logs summarized; contract fields unchanged)
 {ticket}
 
 ## Exact source excerpts
@@ -94,8 +159,20 @@ as an observation overlay; do not edit backend/ and do not change parsing.
 ## Exact parser probes from this source revision
 {probes}
 
+## Required new paths
+{missing}
+Every path listed above does not exist in this clone and MUST use
+`<<<NEWFILE path`, never `<<<FILE` with SEARCH/REPLACE.
+
 ## OUTPUT FORMAT
-Return either `VERDICT: ...` with a one-line reason, or only edit blocks:
+Return either a structured verdict or only edit blocks. `NEEDS_PRIMITIVE` is
+legal only for one atomic missing behavior shared by the ticket scope:
+VERDICT: NEEDS_PRIMITIVE|SEMANTIC_GAP|AMBIGUOUS|NOT_A_SHAPE
+For NEEDS_PRIMITIVE add exactly one single-line JSON object and one reason:
+CAPABILITY_JSON: {{"key":"lowercase_snake_case","summary":"short description","specification":{{"required_behavior":"one precise atomic behavior","source_misses":[{{"card":"exact card name","paragraph":"exact Oracle paragraph","required_behavior":"same precise atomic behavior"}}],"negative_examples":["adjacent behavior that must not change"],"expected_unlock":0}}}}
+REASON: one line
+
+Otherwise return only edit blocks:
 <<<FILE path/relative/to/repo
 <<<SEARCH
 exact existing lines
@@ -106,8 +183,11 @@ replacement lines
 full file content
 >>>END
 
-Do not use Markdown fences, Git conflict markers, prose, or tool calls.
-""".format(id=spec["id"], title=spec["title"],
-             ticket=json.dumps(spec, indent=2, sort_keys=True),
+Do not put Markdown fences, Git conflict markers, prose, or tool calls in the final answer.
+Keep each SEARCH region to the smallest unique 3-12 exact lines; never copy a
+whole evidence excerpt into SEARCH.
+""".format(id=spec["id"], title=spec["title"], tool_contract=tool_contract,
+             ticket=json.dumps(prepared_ticket_view(spec), indent=2, sort_keys=True),
              regions="\n\n".join(regions) or "(No excerpts found.)",
-             probes="\n".join(probe_lines)))
+             probes="\n".join(probe_lines),
+             missing="\n".join(missing_allowed) or "(none)"))
