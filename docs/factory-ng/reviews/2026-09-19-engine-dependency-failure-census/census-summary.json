@@ -1,0 +1,72 @@
+{
+  "blocked_map_jobs_total": 735,
+  "distinct_engine_parents": 735,
+  "explicit_ambiguous_verdict_count": 311,
+  "gate_failed_profiles": {
+    "claude-agentic@1.0.0": 21,
+    "claude-staged@1.0.0": 68,
+    "codex-constrained@1.0.0": 2,
+    "codex-constrained@1.1.0": 176,
+    "qwen-prepared-local@1.0.1": 27
+  },
+  "gate_failed_retry_generation": {
+    "None": 294
+  },
+  "gate_failed_total": 294,
+  "generated_from": "/data/magic-stack/development/magic-ops/state/factory-ng-jobs.json",
+  "named_seam_files": {
+    "backend/cards/converter.go": 22,
+    "backend/cards/patterns_spells.go": 3,
+    "backend/cards/registry.go": 5,
+    "backend/cards/registry_fight_referent.go": 1,
+    "backend/cards/types.go": 1,
+    "backend/game/ability_effects.go": 40,
+    "backend/game/activated_abilities.go": 10,
+    "backend/game/advanced_abilities.go": 1,
+    "backend/game/card.go": 7,
+    "backend/game/combat.go": 1,
+    "backend/game/condition.go": 1,
+    "backend/game/control_effects.go": 1,
+    "backend/game/copy_creature_spell_token_nonlegendary.go": 1,
+    "backend/game/copy_effect.go": 1,
+    "backend/game/dynamic_amount.go": 4,
+    "backend/game/edict_sacrifice.go": 1,
+    "backend/game/effect_sequence.go": 5,
+    "backend/game/effects.go": 1,
+    "backend/game/events.go": 2,
+    "backend/game/gamestate.go": 18,
+    "backend/game/gamestate_cast.go": 1,
+    "backend/game/gamestate_choice.go": 8,
+    "backend/game/gamestate_tap_or_untap_choice.go": 1,
+    "backend/game/gamestate_trigger_target.go": 4,
+    "backend/game/gamestate_unless_pay.go": 1,
+    "backend/game/lib_dynamic_x_amount.go": 1,
+    "backend/game/lib_spell_target_selection.go": 2,
+    "backend/game/replacement.go": 4,
+    "backend/game/targeting.go": 3
+  },
+  "no_verdict_in_output_count": 75,
+  "parents_by_state": {
+    "awaiting_verification": 2,
+    "completed": 1,
+    "failed": 335,
+    "parked": 396,
+    "working": 1
+  },
+  "parents_by_state_and_outcome": {
+    "awaiting_verification/None": 2,
+    "completed/pushed_full_production_gate_green": 1,
+    "failed/gate_failed": 294,
+    "failed/infrastructure_failed": 9,
+    "failed/infrastructure_failed_model_protocol": 6,
+    "failed/infrastructure_failed_provider_capacity": 7,
+    "failed/preparation_failed": 18,
+    "failed/source_unavailable": 1,
+    "parked/infrastructure_failed_model_protocol": 2,
+    "parked/parked": 394,
+    "working/None": 1
+  },
+  "repair_lane_allowed_profile": "qwen-prepared-direct@1.0.2",
+  "repair_lane_eligible_count": 0,
+  "scope_excluded_signal_count": 48
+}

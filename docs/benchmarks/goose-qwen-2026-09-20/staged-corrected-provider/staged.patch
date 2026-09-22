@@ -1,0 +1,154 @@
+diff --git a/backend/cards/registry_factory_ng_7b6fc522b0.go b/backend/cards/registry_factory_ng_7b6fc522b0.go
+new file mode 100644
+index 000000000..b0d5cc40d
+--- /dev/null
++++ b/backend/cards/registry_factory_ng_7b6fc522b0.go
+@@ -0,0 +1,8 @@
++package cards
++
++func init() {
++	regEffect("freeze_until_next_untap_7b6fc522b0", Primitive{
++		Executor:  "game/ability_effects.go case freeze_until_next_untap_7b6fc522b0 -> Card.SkipNextUntap (exert flag, Rule 701.39; consumed+cleared by Zone.UntapAll)",
++		ShapeTest: "TestFactoryNGFreezeUntilNextUntap_7b6fc522b0",
++	})
++}
+diff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go
+index 217a03ac8..d6aab0fb0 100644
+--- a/backend/game/ability_effects.go
++++ b/backend/game/ability_effects.go
+@@ -8849,6 +8849,19 @@ func (gs *GameState) ExecuteAbilityEffect(stackObj *StackObject) error {
+ 		}
+ 		return nil
+ 	}
++	if effect == "freeze_until_next_untap_7b6fc522b0" {
++		for _, tgt := range targets {
++			if !tgt.IsCard {
++				continue
++			}
++			card, err := gs.Battlefield.GetCard(tgt.CardID)
++			if err != nil || card == nil {
++				continue
++			}
++			card.SkipNextUntap = true
++		}
++		return nil
++	}
+ 	// tap_referent_doesnt_untap primitive (ticket engine.auto-prevent-untap-
+ 	// until-next-untap, REPARSE-MAP verb_unmapped:tap / "tap that creature
+ 	// and it doesn't untap during its controller's next untap step" family
+diff --git a/backend/game/factory_ng_7b6fc522b0_test.go b/backend/game/factory_ng_7b6fc522b0_test.go
+new file mode 100644
+index 000000000..cabf02b37
+--- /dev/null
++++ b/backend/game/factory_ng_7b6fc522b0_test.go
+@@ -0,0 +1,110 @@
++package game
++
++import "testing"
++
++func TestFactoryNGFreezeUntilNextUntap_7b6fc522b0(t *testing.T) {
++	gs := NewGame("P0", "P1", false)
++
++	source := NewCreature("Freeze Until Next Untap Source", ManaCost{}, 1, 1, 1)
++	source.Owner, source.Controller = 0, 0
++	gs.Battlefield.AddCard(source)
++
++	target := NewCreature("Freeze Until Next Untap Target", ManaCost{}, 2, 2, 2)
++	target.Owner, target.Controller = 1, 1
++	target.Tapped = true
++	gs.Battlefield.AddCard(target)
++
++	sibling := NewCreature("Freeze Until Next Untap Sibling", ManaCost{}, 2, 2, 2)
++	sibling.Owner, sibling.Controller = 1, 1
++	sibling.Tapped = true
++	gs.Battlefield.AddCard(sibling)
++
++	repeatTarget := NewCreature("Freeze Until Next Untap Repeat Target", ManaCost{}, 2, 2, 2)
++	repeatTarget.Owner, repeatTarget.Controller = 1, 1
++	repeatTarget.Tapped = true
++	gs.Battlefield.AddCard(repeatTarget)
++
++	plainTap := NewCreature("Freeze Until Next Untap Plain Tap", ManaCost{}, 2, 2, 2)
++	plainTap.Owner, plainTap.Controller = 0, 0
++	gs.Battlefield.AddCard(plainTap)
++
++	plainTapTapped := false
++	for _, name := range []string{"tap", "tap_target", "tap_target_creatures"} {
++		plainTap.Tapped = false
++		plainTap.SkipNextUntap = false
++		stackObj := &StackObject{
++			IsAbility:   true,
++			Text:        name,
++			Controller:  0,
++			Card:        source,
++			EffectValue: map[string]interface{}{},
++			Targets:     []Target{{Type: TargetCreature, CardID: plainTap.ID, IsCard: true}},
++		}
++		if err := gs.ExecuteAbilityEffect(stackObj); err == nil && plainTap.Tapped && !plainTap.SkipNextUntap {
++			plainTapTapped = true
++			break
++		}
++	}
++	if !plainTapTapped {
++		t.Fatalf("expected a plain tap effect to tap without setting SkipNextUntap")
++	}
++
++	gs.Battlefield.UntapAll(plainTap.Controller)
++	if plainTap.Tapped {
++		t.Fatalf("plain tap target should untap normally because it carries no freeze marker")
++	}
++	if plainTap.SkipNextUntap {
++		t.Fatalf("plain tap target unexpectedly has a freeze marker")
++	}
++
++	applyFreeze := func(card *Card) {
++		stackObj := &StackObject{
++			IsAbility:   true,
++			Text:        "freeze_until_next_untap_7b6fc522b0",
++			Controller:  0,
++			Card:        source,
++			EffectValue: map[string]interface{}{},
++			Targets:     []Target{{Type: TargetCreature, CardID: card.ID, IsCard: true}},
++		}
++		if err := gs.ExecuteAbilityEffect(stackObj); err != nil {
++			t.Fatalf("ExecuteAbilityEffect freeze %s: %v", card.Name, err)
++		}
++		if !card.SkipNextUntap {
++			t.Fatalf("expected %s to be marked SkipNextUntap", card.Name)
++		}
++	}
++
++	applyFreeze(target)
++	applyFreeze(repeatTarget)
++	applyFreeze(repeatTarget)
++
++	if !repeatTarget.SkipNextUntap {
++		t.Fatalf("second freeze request unexpectedly cleared the marker")
++	}
++
++	gs.Battlefield.UntapAll(target.Controller)
++
++	if !target.Tapped {
++		t.Fatalf("target should have stayed tapped through its controller's skipped untap step")
++	}
++	if target.SkipNextUntap {
++		t.Fatalf("freeze marker should be cleared after the untap step")
++	}
++	if !repeatTarget.Tapped {
++		t.Fatalf("repeatedly frozen target should have stayed tapped through the same skipped untap step")
++	}
++	if repeatTarget.SkipNextUntap {
++		t.Fatalf("repeated freeze marker should be cleared after one untap step, not extended")
++	}
++	if sibling.Tapped {
++		t.Fatalf("sibling should have untapped normally")
++	}
++
++	gs.Battlefield.UntapAll(target.Controller)
++	if target.Tapped {
++		t.Fatalf("target should untap on a later untap step")
++	}
++	if repeatTarget.Tapped {
++		t.Fatalf("repeatedly frozen target should not remain frozen for a second untap step")
++	}
++}

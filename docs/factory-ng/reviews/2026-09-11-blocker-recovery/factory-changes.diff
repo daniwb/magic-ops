@@ -1,0 +1,154 @@
+--- docs/factory-ng/reviews/2026-09-11-blocker-recovery/before/scripts/factory-ng-targeted-demand.py
++++ scripts/factory-ng-targeted-demand.py
+@@ -6,6 +6,7 @@
+ import subprocess
+ import sys
+ from pathlib import Path
++from factory_ng_vocabulary import vocabulary, emitted_effects
+ 
+ 
+ ROOT = Path(__file__).resolve().parents[1]
+@@ -71,6 +72,9 @@
+     except (OSError, ValueError, json.JSONDecodeError) as exc:
+         parser.error(str(exc))
+     members, scanned, summary, unresolved = [], 0, {}, []
++    # Check the actual emitted representation, before a full corpus import/build.
++    # Source extraction observes init-file registrations as well as the literal.
++    known_effects = None
+     for path in sorted(Path(reparse.CARDDB).glob("*.json")):
+         if path.name.startswith("_"):
+             continue
+@@ -87,6 +91,14 @@
+             if expected_members is not None and text_hash != expected_members[name]:
+                 parser.error("pinned member text changed: %s" % name)
+             result = reparse.reparse_card(card)
++            if expected_members is not None:
++                effects = set(emitted_effects(result.get('abilities')))
++                if effects and known_effects is None:
++                    known_effects = set(vocabulary(source)['registered'])
++                missing_effects = sorted(effects - (known_effects or set()))
++                if missing_effects:
++                    parser.error('pinned member %s emits unregistered effects: %s' %
++                                 (name, ', '.join(missing_effects)))
+             if expected_members is not None and not result.get('eligible'):
+                 unresolved.append({'name': name, 'misses': result.get('misses', [])})
+             all_shapes = sorted({kind for kind, _ in result["misses"]})
+--- docs/factory-ng/reviews/2026-09-11-blocker-recovery/before/scripts/factory-ng-controller.py
++++ scripts/factory-ng-controller.py
+@@ -19,7 +19,7 @@
+ from pathlib import Path
+ import openrouter_cooldown
+ from factory_ng_safety import source_problem
+-from factory_ng_recovery import annotate_repair_blockers, INTEGRATION_REPAIR_MARKER
++from factory_ng_recovery import annotate_repair_blockers, annotate_dependency_blockers, INTEGRATION_REPAIR_MARKER
+ 
+ 
+ OPS = Path(__file__).resolve().parents[1]
+@@ -663,10 +663,11 @@
+         if job.get("state") != "queued" or job.get('superseded_by'):
+             continue
+         profiles = job.get("compatible_profiles") or [job.get("profile")]
++        failed_profiles = set(job.get('failed_profiles') or [])
+         can_run = int(job.get("retry_after_epoch", 0)) <= current and any(
+             worker_supports_job(worker, job) and
+             availability.get(profile, {}).get(worker.get("id") or profile, {}).get("allowed", False)
+-            for profile in profiles
++            for profile in profiles if profile not in failed_profiles
+             for worker in by_profile.get(profile, [])
+         )
+         (runnable if can_run else deferred).append(job["ticket_id"])
+@@ -809,6 +810,10 @@
+             # each "failed"->"queued" flip means it never actually clears.
+             job["state"] = "failed"
+             job["waiting_reason"] = "profile retry budget exhausted after its internal bounded repair"
++        elif (job.get('state') == 'queued' and job.get('compatible_profiles') and
++              set(job['compatible_profiles']).issubset(set(job.get('failed_profiles') or []))):
++            job['state'] = 'failed'
++            job['waiting_reason'] = 'all compatible profiles exhausted their bounded protocol attempt; a reviewed repair is required'
+         elif job.get("state") == "queued" and profile not in by_profile:
+             job["waiting_reason"] = "selected worker is disabled or not configured"
+         elif job.get("state") == "queued":
+@@ -820,6 +825,7 @@
+         if ticket_id in ticket_index:
+             park_legacy_context_failure(OPS, job, ticket_index[ticket_id], ticket_index)
+     annotate_repair_blockers(jobs['jobs'], ticket_index)
++    annotate_dependency_blockers(jobs['jobs'], ticket_index)
+     save_jobs(jobs)
+     return jobs, by_profile
+ 
+--- docs/factory-ng/reviews/2026-09-11-blocker-recovery/before/scripts/factory-ng-run-engine-ticket.py
++++ scripts/factory-ng-run-engine-ticket.py
+@@ -8,6 +8,7 @@
+ import argparse, hashlib, importlib.util, json, os, re, shutil, subprocess, sys, tempfile, time
+ from pathlib import Path
+ from factory_ng_receipts import write_receipt
++from factory_ng_vocabulary import engine_registration_gate
+ from factory_ng_context import requested_context, preparation_problems, failure_detail, source_path, render_regions
+ from factory_ng_knowledge import lookup_context, capability_assessment
+ from factory_ng_investigation import evidence_gap, investigation_prompt, validate_evidence, EVIDENCE_INSTRUCTIONS
+@@ -208,6 +209,10 @@
+               'detail': 'changed=' + ','.join(changed)}]
+     if not scope_ok:
+         return gates, changed
++    if ticket.get('work_type') == 'engine' and 'backend/game/ability_effects.go' in changed:
++        gates.append(engine_registration_gate(ticket, clone))
++        if gates[-1]['outcome'] == 'failed':
++            return gates, changed
+     for index, command in enumerate(ticket.get('gates', [])):
+         result = ticket_gate(command, clone, ticket)
+         gates.append({'id': 'ticket-gate-%d' % index, 'command': command,
+@@ -357,6 +362,11 @@
+                              '\n'.join('- ' + rule for rule in ticket.get('required_behavior', [])))
+         if args.profile == 'claude-staged@1.0.0':
+             packet['stdout'] += '\n' + EVIDENCE_INSTRUCTIONS
++        packet['stdout'] += ('\n## Vocabulary handoff\n'
++            'Every new public ExecuteAbilityEffect case must be registered with regEffect in an '
++            'allowed registry_*.go file, with executor and runtime test metadata. The registry '
++            'literal is frozen. Parser-emitted effects must already be registered. '
++            'The harness checks this before acceptance, in addition to every original gate.\n')
+         packet_artifact.write_text(packet['stdout'])
+         model_timeout=1900 if args.profile in CLAUDE_AGENTIC_LIKE_PROFILES else 1260
+         env=model_env(raw)
+--- docs/factory-ng/reviews/2026-09-11-blocker-recovery/before/scripts/factory_ng_recovery.py
++++ scripts/factory_ng_recovery.py
+@@ -2,6 +2,40 @@
+ 
+ MAP_REPAIR_LIMIT = 2
+ INTEGRATION_REPAIR_MARKER = ':integration-repair-v1'
++
++
++def annotate_dependency_blockers(jobs, tickets):
++    """Describe current child states without changing lifecycle or retry budgets."""
++    children = {}
++    for key, ticket in tickets.items():
++        if ticket.get('work_type') != 'engine':
++            continue
++        for parent in ticket.get('parents', []):
++            children.setdefault(parent, set()).add(key)
++    for key, job in jobs.items():
++        old = job.pop('dependency_blocker', None)
++        if old and job.get('waiting_reason') == old.get('reason'):
++            job.pop('waiting_reason', None)
++        if job.get('state') != 'blocked' or job.get('superseded_by'):
++            continue
++        current = {}
++        for child in children.get(key, ()):
++            visited = set()
++            while child not in visited and jobs.get(child, {}).get('superseded_by'):
++                visited.add(child)
++                child = jobs[child]['superseded_by']
++            current[child] = jobs.get(child, {}).get('state', 'not_enqueued')
++        states = set(current.values())
++        if states & {'queued', 'working', 'awaiting_integration', 'integrating'}:
++            reason = 'Engine dependency is queued, running, or awaiting integration'
++        elif 'completed' in states:
++            reason = 'Engine dependency completed; waiting for bounded Map resume admission'
++        elif current:
++            reason = 'Engine dependency has no active successor: ' + ', '.join(sorted(states))
++        else:
++            reason = 'Validated capability demand is waiting for Engine ticket admission'
++        job['dependency_blocker'] = {'reason': reason, 'children': current}
++        job['waiting_reason'] = reason
+ 
+ 
+ def engine_repair_used(chain):

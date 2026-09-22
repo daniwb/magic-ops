@@ -1,0 +1,1343 @@
+{
+  "evidence": [
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "anchor": "1882-2021",
+      "sha256": "sha256:6ebde73cbd4d04b6fa85b9a19ad72aa247edfa2c0d6b1e76494f57246e307f03",
+      "fact": "Current exact bounce branch; inspect the complete-card probe before editing."
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "anchor": "5301-5440",
+      "sha256": "sha256:6ebde73cbd4d04b6fa85b9a19ad72aa247edfa2c0d6b1e76494f57246e307f03",
+      "fact": "Current exact bounce branch; inspect the complete-card probe before editing."
+    },
+    {
+      "fact": "The blocked member was revalidated after its Engine dependency integrated.",
+      "path": "docs/factory-ng/measurements/dependency-resume-a751641e63.json"
+    },
+    {
+      "fact": "The existing bounce primitive is registered with executor cards/converter.go case \"bounce\" -> SpellEffect + game resolution; game/ability_effects.go case \"bounce\" (triggered); value.to (task 2423) selects library_top/library_bottom instead of the default hand via game/ability_effects.go executeBounceEffectTo and shape test TestShape_Spell_BounceTargetCreature; TestShape_Spell_BounceTargetCreatureToLibraryTop / TestShape_Spell_BounceTargetCreatureToLibraryBottom.",
+      "path": "backend/cards/registry.go"
+    },
+    {
+      "anchor": "631-750",
+      "fact": "Verified declaration game.DamageTargetFromSource in source revision 1593438ed4c508f8f81a33a4b3661fb0126ec4fa; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"bounce\" AND \"filter\" AND \"damaged\" AND \"player\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "bounce",
+            "filter",
+            "damaged",
+            "player"
+          ],
+          "query": "bounce_filter_controller_damaged_player",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "bounce_filter_controller_damaged_player",
+            "request_id": "0189a760c77f45299699ecb84b50b9ad",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "0189a760c77f45299699ecb84b50b9ad",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"bounce\" AND \"filter\" AND \"damaged\" AND \"player\"",
+            "\"bounce\" AND \"filter\" AND \"damaged\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "bounce",
+            "filter",
+            "damaged",
+            "player"
+          ],
+          "query": "bounce_filter_controller_damaged_player",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "bounce_filter_controller_damaged_player",
+            "request_id": "4661eb4ef2a34f9cb917b28b74049074",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "4661eb4ef2a34f9cb917b28b74049074",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "DamageTargetFromSource applies damage to a target from a specific source card",
+              "doc": "DamageTargetFromSource applies damage to a target from a specific source card\nRule 702.16: Protection prevents damage (the \"D\" in DEBT)\n",
+              "end": 754,
+              "kind": "engine",
+              "name": "DamageTargetFromSource",
+              "package": "game",
+              "path": "backend/game/targeting.go",
+              "qualified": "game.DamageTargetFromSource",
+              "receiver": "",
+              "signature": "func DamageTargetFromSource(target Target, amount int, source *Card, gs *GameState) error",
+              "start": 631,
+              "symbol_id": "backend/game/targeting.go::game.DamageTargetFromSource",
+              "symbol_kind": "function",
+              "title": "DamageTargetFromSource"
+            }
+          ],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "damage",
+            "target",
+            "from",
+            "source"
+          ],
+          "query": "DamageTargetFromSource",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "DamageTargetFromSource",
+            "request_id": "642db2485c75409196704a030074957e",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "642db2485c75409196704a030074957e",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "executeDamageEffect - \"Deal N damage to target\"",
+              "doc": "executeDamageEffect - \"Deal N damage to target\"\n",
+              "end": 8787,
+              "kind": "engine",
+              "name": "executeDamageEffect",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeDamageEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeDamageEffect(controller int, source *Card, effectValue map[string]interface{}, targets []Target) error",
+              "start": 8571,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeDamageEffect",
+              "symbol_kind": "function",
+              "title": "executeDamageEffect"
+            }
+          ],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "execute",
+            "damage"
+          ],
+          "query": "executeDamageEffect",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "executeDamageEffect",
+            "request_id": "68ed3597217d4417a3ba6771d8506bc0",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "68ed3597217d4417a3ba6771d8506bc0",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "Player-damage observers use actual post-prevention damage, including infect,",
+              "doc": "Player-damage observers use actual post-prevention damage, including infect,\nindependently of life loss. Combat-only observers retain their old event.\n",
+              "end": 16,
+              "kind": "engine",
+              "name": "emitPlayerDamaged",
+              "package": "game",
+              "path": "backend/game/lib_player_damage_event.go",
+              "qualified": "game.GameState.emitPlayerDamaged",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) emitPlayerDamaged(source *Card, player, amount int, combat bool)",
+              "start": 5,
+              "symbol_id": "backend/game/lib_player_damage_event.go::game.GameState.emitPlayerDamaged",
+              "symbol_kind": "function",
+              "title": "emitPlayerDamaged"
+            }
+          ],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "emit",
+            "player",
+            "damaged"
+          ],
+          "query": "emitPlayerDamaged",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "emitPlayerDamaged",
+            "request_id": "f771992fd6f24a04a07376a5ec6d6616",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "f771992fd6f24a04a07376a5ec6d6616",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "applySpellEffectCore#case:bounce",
+              "doc": "",
+              "end": 3963,
+              "kind": "engine",
+              "name": "bounce",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.applySpellEffectCore#case:bounce",
+              "receiver": "GameState",
+              "signature": "applySpellEffectCore#case:bounce",
+              "start": 3956,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.applySpellEffectCore#case:bounce",
+              "symbol_kind": "case",
+              "title": "bounce"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:bounce",
+              "doc": "",
+              "end": 5491,
+              "kind": "engine",
+              "name": "bounce",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:bounce",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:bounce",
+              "start": 5454,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:bounce",
+              "symbol_kind": "case",
+              "title": "bounce"
+            },
+            {
+              "description": "ResolvePendingChoice#case:bounce",
+              "doc": "",
+              "end": 211,
+              "kind": "engine",
+              "name": "bounce",
+              "package": "game",
+              "path": "backend/game/gamestate_choice.go",
+              "qualified": "game.GameState.ResolvePendingChoice#case:bounce",
+              "receiver": "GameState",
+              "signature": "ResolvePendingChoice#case:bounce",
+              "start": 201,
+              "symbol_id": "backend/game/gamestate_choice.go::game.GameState.ResolvePendingChoice#case:bounce",
+              "symbol_kind": "case",
+              "title": "bounce"
+            }
+          ],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "bounce"
+          ],
+          "query": "bounce",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "bounce",
+            "request_id": "acbbe45d5fc94f44bdaed62f481dce2f",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "acbbe45d5fc94f44bdaed62f481dce2f",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/targeting.go",
+      "sha256": "sha256:bf472548db70d3435471ddb24d272d3e42213a43be636c7a178ad02e1f3a157a",
+      "symbol": {
+        "description": "DamageTargetFromSource applies damage to a target from a specific source card",
+        "discovery_role": "requirement_symbol",
+        "doc": "DamageTargetFromSource applies damage to a target from a specific source card\nRule 702.16: Protection prevents damage (the \"D\" in DEBT)\n",
+        "end": 754,
+        "kind": "engine",
+        "name": "DamageTargetFromSource",
+        "package": "game",
+        "path": "backend/game/targeting.go",
+        "qualified": "game.DamageTargetFromSource",
+        "receiver": "",
+        "request_id": "642db2485c75409196704a030074957e",
+        "signature": "func DamageTargetFromSource(target Target, amount int, source *Card, gs *GameState) error",
+        "start": 631,
+        "symbol_id": "backend/game/targeting.go::game.DamageTargetFromSource",
+        "symbol_kind": "function",
+        "title": "DamageTargetFromSource"
+      }
+    },
+    {
+      "anchor": "8571-8690",
+      "fact": "Verified declaration game.GameState.executeDamageEffect in source revision 1593438ed4c508f8f81a33a4b3661fb0126ec4fa; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"bounce\" AND \"filter\" AND \"damaged\" AND \"player\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "bounce",
+            "filter",
+            "damaged",
+            "player"
+          ],
+          "query": "bounce_filter_controller_damaged_player",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "bounce_filter_controller_damaged_player",
+            "request_id": "0189a760c77f45299699ecb84b50b9ad",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "0189a760c77f45299699ecb84b50b9ad",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"bounce\" AND \"filter\" AND \"damaged\" AND \"player\"",
+            "\"bounce\" AND \"filter\" AND \"damaged\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "bounce",
+            "filter",
+            "damaged",
+            "player"
+          ],
+          "query": "bounce_filter_controller_damaged_player",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "bounce_filter_controller_damaged_player",
+            "request_id": "4661eb4ef2a34f9cb917b28b74049074",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "4661eb4ef2a34f9cb917b28b74049074",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "DamageTargetFromSource applies damage to a target from a specific source card",
+              "doc": "DamageTargetFromSource applies damage to a target from a specific source card\nRule 702.16: Protection prevents damage (the \"D\" in DEBT)\n",
+              "end": 754,
+              "kind": "engine",
+              "name": "DamageTargetFromSource",
+              "package": "game",
+              "path": "backend/game/targeting.go",
+              "qualified": "game.DamageTargetFromSource",
+              "receiver": "",
+              "signature": "func DamageTargetFromSource(target Target, amount int, source *Card, gs *GameState) error",
+              "start": 631,
+              "symbol_id": "backend/game/targeting.go::game.DamageTargetFromSource",
+              "symbol_kind": "function",
+              "title": "DamageTargetFromSource"
+            }
+          ],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "damage",
+            "target",
+            "from",
+            "source"
+          ],
+          "query": "DamageTargetFromSource",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "DamageTargetFromSource",
+            "request_id": "642db2485c75409196704a030074957e",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "642db2485c75409196704a030074957e",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "executeDamageEffect - \"Deal N damage to target\"",
+              "doc": "executeDamageEffect - \"Deal N damage to target\"\n",
+              "end": 8787,
+              "kind": "engine",
+              "name": "executeDamageEffect",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeDamageEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeDamageEffect(controller int, source *Card, effectValue map[string]interface{}, targets []Target) error",
+              "start": 8571,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeDamageEffect",
+              "symbol_kind": "function",
+              "title": "executeDamageEffect"
+            }
+          ],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "execute",
+            "damage"
+          ],
+          "query": "executeDamageEffect",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "executeDamageEffect",
+            "request_id": "68ed3597217d4417a3ba6771d8506bc0",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "68ed3597217d4417a3ba6771d8506bc0",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "Player-damage observers use actual post-prevention damage, including infect,",
+              "doc": "Player-damage observers use actual post-prevention damage, including infect,\nindependently of life loss. Combat-only observers retain their old event.\n",
+              "end": 16,
+              "kind": "engine",
+              "name": "emitPlayerDamaged",
+              "package": "game",
+              "path": "backend/game/lib_player_damage_event.go",
+              "qualified": "game.GameState.emitPlayerDamaged",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) emitPlayerDamaged(source *Card, player, amount int, combat bool)",
+              "start": 5,
+              "symbol_id": "backend/game/lib_player_damage_event.go::game.GameState.emitPlayerDamaged",
+              "symbol_kind": "function",
+              "title": "emitPlayerDamaged"
+            }
+          ],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "emit",
+            "player",
+            "damaged"
+          ],
+          "query": "emitPlayerDamaged",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "emitPlayerDamaged",
+            "request_id": "f771992fd6f24a04a07376a5ec6d6616",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "f771992fd6f24a04a07376a5ec6d6616",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "applySpellEffectCore#case:bounce",
+              "doc": "",
+              "end": 3963,
+              "kind": "engine",
+              "name": "bounce",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.applySpellEffectCore#case:bounce",
+              "receiver": "GameState",
+              "signature": "applySpellEffectCore#case:bounce",
+              "start": 3956,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.applySpellEffectCore#case:bounce",
+              "symbol_kind": "case",
+              "title": "bounce"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:bounce",
+              "doc": "",
+              "end": 5491,
+              "kind": "engine",
+              "name": "bounce",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:bounce",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:bounce",
+              "start": 5454,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:bounce",
+              "symbol_kind": "case",
+              "title": "bounce"
+            },
+            {
+              "description": "ResolvePendingChoice#case:bounce",
+              "doc": "",
+              "end": 211,
+              "kind": "engine",
+              "name": "bounce",
+              "package": "game",
+              "path": "backend/game/gamestate_choice.go",
+              "qualified": "game.GameState.ResolvePendingChoice#case:bounce",
+              "receiver": "GameState",
+              "signature": "ResolvePendingChoice#case:bounce",
+              "start": 201,
+              "symbol_id": "backend/game/gamestate_choice.go::game.GameState.ResolvePendingChoice#case:bounce",
+              "symbol_kind": "case",
+              "title": "bounce"
+            }
+          ],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "bounce"
+          ],
+          "query": "bounce",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "bounce",
+            "request_id": "acbbe45d5fc94f44bdaed62f481dce2f",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "acbbe45d5fc94f44bdaed62f481dce2f",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:1dfc9423c3f694153cd5a8b5c7943292834070822f39d56148dbf37b275f3320",
+      "symbol": {
+        "description": "executeDamageEffect - \"Deal N damage to target\"",
+        "discovery_role": "requirement_symbol",
+        "doc": "executeDamageEffect - \"Deal N damage to target\"\n",
+        "end": 8787,
+        "kind": "engine",
+        "name": "executeDamageEffect",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.executeDamageEffect",
+        "receiver": "GameState",
+        "request_id": "68ed3597217d4417a3ba6771d8506bc0",
+        "signature": "func (gs *GameState) executeDamageEffect(controller int, source *Card, effectValue map[string]interface{}, targets []Target) error",
+        "start": 8571,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.executeDamageEffect",
+        "symbol_kind": "function",
+        "title": "executeDamageEffect"
+      }
+    },
+    {
+      "anchor": "5-16",
+      "fact": "Verified declaration game.GameState.emitPlayerDamaged in source revision 1593438ed4c508f8f81a33a4b3661fb0126ec4fa; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"bounce\" AND \"filter\" AND \"damaged\" AND \"player\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "bounce",
+            "filter",
+            "damaged",
+            "player"
+          ],
+          "query": "bounce_filter_controller_damaged_player",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "bounce_filter_controller_damaged_player",
+            "request_id": "0189a760c77f45299699ecb84b50b9ad",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "0189a760c77f45299699ecb84b50b9ad",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"bounce\" AND \"filter\" AND \"damaged\" AND \"player\"",
+            "\"bounce\" AND \"filter\" AND \"damaged\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "bounce",
+            "filter",
+            "damaged",
+            "player"
+          ],
+          "query": "bounce_filter_controller_damaged_player",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "bounce_filter_controller_damaged_player",
+            "request_id": "4661eb4ef2a34f9cb917b28b74049074",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "4661eb4ef2a34f9cb917b28b74049074",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "DamageTargetFromSource applies damage to a target from a specific source card",
+              "doc": "DamageTargetFromSource applies damage to a target from a specific source card\nRule 702.16: Protection prevents damage (the \"D\" in DEBT)\n",
+              "end": 754,
+              "kind": "engine",
+              "name": "DamageTargetFromSource",
+              "package": "game",
+              "path": "backend/game/targeting.go",
+              "qualified": "game.DamageTargetFromSource",
+              "receiver": "",
+              "signature": "func DamageTargetFromSource(target Target, amount int, source *Card, gs *GameState) error",
+              "start": 631,
+              "symbol_id": "backend/game/targeting.go::game.DamageTargetFromSource",
+              "symbol_kind": "function",
+              "title": "DamageTargetFromSource"
+            }
+          ],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "damage",
+            "target",
+            "from",
+            "source"
+          ],
+          "query": "DamageTargetFromSource",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "DamageTargetFromSource",
+            "request_id": "642db2485c75409196704a030074957e",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "642db2485c75409196704a030074957e",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "executeDamageEffect - \"Deal N damage to target\"",
+              "doc": "executeDamageEffect - \"Deal N damage to target\"\n",
+              "end": 8787,
+              "kind": "engine",
+              "name": "executeDamageEffect",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeDamageEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeDamageEffect(controller int, source *Card, effectValue map[string]interface{}, targets []Target) error",
+              "start": 8571,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeDamageEffect",
+              "symbol_kind": "function",
+              "title": "executeDamageEffect"
+            }
+          ],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "execute",
+            "damage"
+          ],
+          "query": "executeDamageEffect",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "executeDamageEffect",
+            "request_id": "68ed3597217d4417a3ba6771d8506bc0",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "68ed3597217d4417a3ba6771d8506bc0",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "Player-damage observers use actual post-prevention damage, including infect,",
+              "doc": "Player-damage observers use actual post-prevention damage, including infect,\nindependently of life loss. Combat-only observers retain their old event.\n",
+              "end": 16,
+              "kind": "engine",
+              "name": "emitPlayerDamaged",
+              "package": "game",
+              "path": "backend/game/lib_player_damage_event.go",
+              "qualified": "game.GameState.emitPlayerDamaged",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) emitPlayerDamaged(source *Card, player, amount int, combat bool)",
+              "start": 5,
+              "symbol_id": "backend/game/lib_player_damage_event.go::game.GameState.emitPlayerDamaged",
+              "symbol_kind": "function",
+              "title": "emitPlayerDamaged"
+            }
+          ],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "emit",
+            "player",
+            "damaged"
+          ],
+          "query": "emitPlayerDamaged",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "emitPlayerDamaged",
+            "request_id": "f771992fd6f24a04a07376a5ec6d6616",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "f771992fd6f24a04a07376a5ec6d6616",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "applySpellEffectCore#case:bounce",
+              "doc": "",
+              "end": 3963,
+              "kind": "engine",
+              "name": "bounce",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.applySpellEffectCore#case:bounce",
+              "receiver": "GameState",
+              "signature": "applySpellEffectCore#case:bounce",
+              "start": 3956,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.applySpellEffectCore#case:bounce",
+              "symbol_kind": "case",
+              "title": "bounce"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:bounce",
+              "doc": "",
+              "end": 5491,
+              "kind": "engine",
+              "name": "bounce",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:bounce",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:bounce",
+              "start": 5454,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:bounce",
+              "symbol_kind": "case",
+              "title": "bounce"
+            },
+            {
+              "description": "ResolvePendingChoice#case:bounce",
+              "doc": "",
+              "end": 211,
+              "kind": "engine",
+              "name": "bounce",
+              "package": "game",
+              "path": "backend/game/gamestate_choice.go",
+              "qualified": "game.GameState.ResolvePendingChoice#case:bounce",
+              "receiver": "GameState",
+              "signature": "ResolvePendingChoice#case:bounce",
+              "start": 201,
+              "symbol_id": "backend/game/gamestate_choice.go::game.GameState.ResolvePendingChoice#case:bounce",
+              "symbol_kind": "case",
+              "title": "bounce"
+            }
+          ],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "bounce"
+          ],
+          "query": "bounce",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "bounce",
+            "request_id": "acbbe45d5fc94f44bdaed62f481dce2f",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "acbbe45d5fc94f44bdaed62f481dce2f",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/lib_player_damage_event.go",
+      "sha256": "sha256:cb3c87381a4675f22d0ae59d89a593cf48f948da905ab08624361030186407a9",
+      "symbol": {
+        "description": "Player-damage observers use actual post-prevention damage, including infect,",
+        "discovery_role": "requirement_symbol",
+        "doc": "Player-damage observers use actual post-prevention damage, including infect,\nindependently of life loss. Combat-only observers retain their old event.\n",
+        "end": 16,
+        "kind": "engine",
+        "name": "emitPlayerDamaged",
+        "package": "game",
+        "path": "backend/game/lib_player_damage_event.go",
+        "qualified": "game.GameState.emitPlayerDamaged",
+        "receiver": "GameState",
+        "request_id": "f771992fd6f24a04a07376a5ec6d6616",
+        "signature": "func (gs *GameState) emitPlayerDamaged(source *Card, player, amount int, combat bool)",
+        "start": 5,
+        "symbol_id": "backend/game/lib_player_damage_event.go::game.GameState.emitPlayerDamaged",
+        "symbol_kind": "function",
+        "title": "emitPlayerDamaged"
+      }
+    },
+    {
+      "anchor": "3956-3963",
+      "fact": "Verified declaration game.GameState.applySpellEffectCore#case:bounce in source revision 1593438ed4c508f8f81a33a4b3661fb0126ec4fa; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"bounce\" AND \"filter\" AND \"damaged\" AND \"player\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "bounce",
+            "filter",
+            "damaged",
+            "player"
+          ],
+          "query": "bounce_filter_controller_damaged_player",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "bounce_filter_controller_damaged_player",
+            "request_id": "0189a760c77f45299699ecb84b50b9ad",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "0189a760c77f45299699ecb84b50b9ad",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"bounce\" AND \"filter\" AND \"damaged\" AND \"player\"",
+            "\"bounce\" AND \"filter\" AND \"damaged\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "bounce",
+            "filter",
+            "damaged",
+            "player"
+          ],
+          "query": "bounce_filter_controller_damaged_player",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "bounce_filter_controller_damaged_player",
+            "request_id": "4661eb4ef2a34f9cb917b28b74049074",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "4661eb4ef2a34f9cb917b28b74049074",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "DamageTargetFromSource applies damage to a target from a specific source card",
+              "doc": "DamageTargetFromSource applies damage to a target from a specific source card\nRule 702.16: Protection prevents damage (the \"D\" in DEBT)\n",
+              "end": 754,
+              "kind": "engine",
+              "name": "DamageTargetFromSource",
+              "package": "game",
+              "path": "backend/game/targeting.go",
+              "qualified": "game.DamageTargetFromSource",
+              "receiver": "",
+              "signature": "func DamageTargetFromSource(target Target, amount int, source *Card, gs *GameState) error",
+              "start": 631,
+              "symbol_id": "backend/game/targeting.go::game.DamageTargetFromSource",
+              "symbol_kind": "function",
+              "title": "DamageTargetFromSource"
+            }
+          ],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "damage",
+            "target",
+            "from",
+            "source"
+          ],
+          "query": "DamageTargetFromSource",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "DamageTargetFromSource",
+            "request_id": "642db2485c75409196704a030074957e",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "642db2485c75409196704a030074957e",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "executeDamageEffect - \"Deal N damage to target\"",
+              "doc": "executeDamageEffect - \"Deal N damage to target\"\n",
+              "end": 8787,
+              "kind": "engine",
+              "name": "executeDamageEffect",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeDamageEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeDamageEffect(controller int, source *Card, effectValue map[string]interface{}, targets []Target) error",
+              "start": 8571,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeDamageEffect",
+              "symbol_kind": "function",
+              "title": "executeDamageEffect"
+            }
+          ],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "execute",
+            "damage"
+          ],
+          "query": "executeDamageEffect",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "executeDamageEffect",
+            "request_id": "68ed3597217d4417a3ba6771d8506bc0",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "68ed3597217d4417a3ba6771d8506bc0",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "Player-damage observers use actual post-prevention damage, including infect,",
+              "doc": "Player-damage observers use actual post-prevention damage, including infect,\nindependently of life loss. Combat-only observers retain their old event.\n",
+              "end": 16,
+              "kind": "engine",
+              "name": "emitPlayerDamaged",
+              "package": "game",
+              "path": "backend/game/lib_player_damage_event.go",
+              "qualified": "game.GameState.emitPlayerDamaged",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) emitPlayerDamaged(source *Card, player, amount int, combat bool)",
+              "start": 5,
+              "symbol_id": "backend/game/lib_player_damage_event.go::game.GameState.emitPlayerDamaged",
+              "symbol_kind": "function",
+              "title": "emitPlayerDamaged"
+            }
+          ],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "emit",
+            "player",
+            "damaged"
+          ],
+          "query": "emitPlayerDamaged",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "emitPlayerDamaged",
+            "request_id": "f771992fd6f24a04a07376a5ec6d6616",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "f771992fd6f24a04a07376a5ec6d6616",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "applySpellEffectCore#case:bounce",
+              "doc": "",
+              "end": 3963,
+              "kind": "engine",
+              "name": "bounce",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.applySpellEffectCore#case:bounce",
+              "receiver": "GameState",
+              "signature": "applySpellEffectCore#case:bounce",
+              "start": 3956,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.applySpellEffectCore#case:bounce",
+              "symbol_kind": "case",
+              "title": "bounce"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:bounce",
+              "doc": "",
+              "end": 5491,
+              "kind": "engine",
+              "name": "bounce",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:bounce",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:bounce",
+              "start": 5454,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:bounce",
+              "symbol_kind": "case",
+              "title": "bounce"
+            },
+            {
+              "description": "ResolvePendingChoice#case:bounce",
+              "doc": "",
+              "end": 211,
+              "kind": "engine",
+              "name": "bounce",
+              "package": "game",
+              "path": "backend/game/gamestate_choice.go",
+              "qualified": "game.GameState.ResolvePendingChoice#case:bounce",
+              "receiver": "GameState",
+              "signature": "ResolvePendingChoice#case:bounce",
+              "start": 201,
+              "symbol_id": "backend/game/gamestate_choice.go::game.GameState.ResolvePendingChoice#case:bounce",
+              "symbol_kind": "case",
+              "title": "bounce"
+            }
+          ],
+          "current_source_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:37:42Z",
+          "indexed_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+          "normalized_words": [
+            "bounce"
+          ],
+          "query": "bounce",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "bounce",
+            "request_id": "acbbe45d5fc94f44bdaed62f481dce2f",
+            "ticket": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+          },
+          "request_id": "acbbe45d5fc94f44bdaed62f481dce2f",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/gamestate.go",
+      "sha256": "sha256:7a65b6839c6a192f55e61bcba79ca3c957b7f88fa6991ac6993d36363757657d",
+      "symbol": {
+        "description": "applySpellEffectCore#case:bounce",
+        "discovery_role": "operation_only",
+        "doc": "",
+        "end": 3963,
+        "kind": "engine",
+        "name": "bounce",
+        "package": "game",
+        "path": "backend/game/gamestate.go",
+        "qualified": "game.GameState.applySpellEffectCore#case:bounce",
+        "receiver": "GameState",
+        "request_id": "acbbe45d5fc94f44bdaed62f481dce2f",
+        "signature": "applySpellEffectCore#case:bounce",
+        "start": 3956,
+        "symbol_id": "backend/game/gamestate.go::game.GameState.applySpellEffectCore#case:bounce",
+        "symbol_kind": "case",
+        "title": "bounce"
+      }
+    },
+    {
+      "fact": "The required atomic Engine capability passed full integration gates. Runtime contract: DamageTargetFromSource and executeDamageEffect publish actual post-prevention noncombat player damage through emitPlayerDamaged; combat uses the same new player_damaged event at the point damage is applied. Existing combat-only events and monarch behavior retain their meaning. Native trigger_v2={event:player_damaged,subject:{filter:enchanted}} observes only its attached creature dealing damage to a player. qualifiedTriggerTargetSupported accepts target.controller=defending_player, which resolves to the actually damaged player for this event. Reuse a bounce atom with target={filter:creature,controller:defending_player}. The selected creature returns to its owner, and control/target legality is rechecked at resolution. Prevented damage, unrelated life loss and unrelated sources do not trigger it.",
+      "ticket": "ticket:engine.auto-bounce-filter-controller-damaged-player-a0c40565d9/v2"
+    },
+    {
+      "path": "docs/factory-ng/runs/2026-09-08T195944Z-map-plan-bounce-sigil-of-sleep-a3b32a7cef-v2-claude.json",
+      "fact": "Context-only failure retained; fresh source answers are required. Current pinned-card audit: [{\"card\": \"Sigil of Sleep\", \"eligible\": false, \"misses\": [[\"spine_L2\", \"whenever enchanted creature deals damage to a player\"]], \"oracle_text\": \"Enchant creature\\nWhenever enchanted creature deals damage to a player, return target creature that player controls to its owner's hand.\", \"status\": \"review\"}]"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "parser_probes": [
+      {
+        "card": "Sigil of Sleep",
+        "function": "reparse_card"
+      }
+    ],
+    "profile_policy": "exact",
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "One bounded successor for a proven missing-source failure, with the original questions resolved against current source.",
+    "warning_reflection_threshold": 500000,
+    "context_requests": [
+      "scripts/paragraph/reparse.py \u2014 the `map_atom` branch for `verb == 'bounce'` (target/value shape, `to` handling for library_top/library_bottom) so any bounce atom I emit matches the existing convention exactly.",
+      "scripts/paragraph/reparse.py \u2014 the spine_L2 trigger-clause parser that currently misses \"whenever enchanted creature deals damage to a player\" (where the `[\"spine_L2\", ...]` miss list is produced), plus wherever `trigger_v2` dicts are already assembled for other auras, so I can see the exact key spelling for `event`, `subject.filter: enchanted`, and any existing `target.controller` values (e.g. `defending_player` vs `damaged_player`) rather than guessing the schema.",
+      "scripts/paragraph/reparse.py \u2014 any existing card mapping that already uses a `player_damaged` trigger event or a `subject: {filter: 'enchanted'}` shape (even for a different effect than bounce), to confirm I'm reusing an established pattern rather than inventing new vocabulary, per the ticket's \"reuse the integrated representation\" requirement."
+    ]
+  },
+  "gates": [
+    "cd scripts/paragraph && python3 -m unittest test_factory_ng_a3b32a7cef",
+    "git diff --check",
+    "git status --porcelain adds or changes only scripts/paragraph/reparse.py and scripts/paragraph/test_factory_ng_a3b32a7cef.py",
+    "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/dependency-resume-a751641e63.json reports zero remaining pinned members"
+  ],
+  "id": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v3",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Compile any new validated atomic dependency automatically; otherwise retain the terminal verdict and advance discovery.",
+  "parents": [
+    "plan:verb_unmapped:bounce",
+    "ticket:engine.auto-bounce-filter-controller-damaged-player-a0c40565d9/v2",
+    "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+  ],
+  "production": {
+    "key": "staged-five-card-2026-09-08:map:sigil",
+    "producer": "build-plan-integration-recovery",
+    "retry_reason": "context_repair",
+    "trial_card": "Sigil of Sleep",
+    "trial_id": "staged-five-card-2026-09-08",
+    "integration_repair_generation": 1,
+    "context_repair_version": "python-handoff-v2"
+  },
+  "required_behavior": [
+    "Map the exact current verb_unmapped:bounce miss on Sigil of Sleep through the already-registered bounce primitive without losing any Oracle semantics.",
+    "The pinned card loses this miss and retains no new or silently swallowed miss.",
+    "Add a focused positive test plus an adjacent negative that must remain unmapped.",
+    "If the exact amount, recipient, filter, referent, or duration cannot execute through existing runtime behavior, return NEEDS_PRIMITIVE with one atomic CAPABILITY_JSON instead of a partial Map patch.",
+    "Do not edit Engine, converter, corpus data, or use a card-name special case.",
+    "The Engine dependency landing is not proof this card is fixed. Verify the complete Oracle mapping against its runtime representation, including every ability, even if parsing is already eligible.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Combat and noncombat damage from enchanted creature trigger exactly once for actual positive damage.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Prevented damage and unrelated life loss do not trigger.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Creature damage does not trigger this player-damage ability.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Targets belong to actually damaged player, even if that player is also aura controller.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Stolen creature returns to its owner; controller changes or other target illegality before resolution are rechecked.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Combat-only effects, including monarch, remain combat-only.",
+    "Complete-card acceptance obligation (later runtime verification is separate): No duplicate emission across combat and generic damage paths.",
+    "The prior observation is historical evidence, not proof that its patch is still correct. Preserve every current valid mapping. Do not restore an obsolete negative assertion for a shape now implemented.",
+    "Keep every original gate command and allowed path. Add or repair the named positive and adjacent-negative tests on this revision; assert all Oracle clauses, counts, choices, controller restrictions and durations, not just eligibility or one removed miss.",
+    "A pinned card already marked auto must still be reparsed and tested. If the implementation is already correct, return only meaningful regression-test changes; do not duplicate parser branches.",
+    "If the miss moved to spell_seq_targeted or a required runtime behavior is absent, return a validated atomic NEEDS_PRIMITIVE demand. Do not hide the new miss, drop a clause, or force status auto."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "scripts/paragraph/reparse.py",
+      "scripts/paragraph/test_factory_ng_a3b32a7cef.py"
+    ],
+    "forbidden_paths": [
+      "backend/",
+      "backend/data/",
+      "scripts/paragraph/slotparse_oneshot.py"
+    ]
+  },
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "source": {
+    "repository": "/tmp/factory-context-review-mgg49evj/source",
+    "revision": "52dfe55712586b109e57f8725010e70336de546a",
+    "clean": true
+  },
+  "supersedes": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2",
+  "title": "Repair failed integration: Staged card trial: Sigil of Sleep",
+  "work_type": "map"
+}

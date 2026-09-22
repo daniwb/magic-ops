@@ -1,0 +1,40 @@
+{
+  "files": [
+    {
+      "path": "scripts/factory_ng_knowledge.py",
+      "sha256": "sha256:c96fa849ad01b1fcbece59b862dfecf2943de47d243bc71ddcfd22c765b15974"
+    },
+    {
+      "path": "scripts/factory-ng-produce-capability-dependency.py",
+      "sha256": "sha256:7e3700982acf5e8e10462943418344e65748f713242ca1a674cc27df269e2c21"
+    },
+    {
+      "path": "scripts/engine-pipeline-pack.py",
+      "sha256": "sha256:78f40f43acb0815bcd74ea27dce206050c3aeecf58c0afdaa80d17f66554ff7d"
+    },
+    {
+      "path": "scripts/factory-ng-run-engine-ticket.py",
+      "sha256": "sha256:a792f0504acbf05c82c9891493c8ee6a7b079826ce267b849c5158cc577ca658"
+    },
+    {
+      "path": "scripts/map-ticket-spec-pack.py",
+      "sha256": "sha256:5f3106a9ed576b3c6d67dbe8b7a486dec7de2c07e0cac64a3c81da27afdc5f8e"
+    },
+    {
+      "path": "scripts/test_factory_ng_knowledge.py",
+      "sha256": "sha256:05bf428abba0061e97323806473bd321e4c9e6d73a203dd75e9118a4c2eb7e7e"
+    },
+    {
+      "path": "scripts/test_factory_ng_control.py",
+      "sha256": "sha256:f35215986114e5ba692d3633267dc3dc473b2f15b0274cdafe9932fac6b32825"
+    },
+    {
+      "path": "scripts/test_factory_ng_reliability.py",
+      "sha256": "sha256:ffe7f8129ff4134abbccfb3dce76f92dfce7cc2be203eca5787b9bd6b0537d8a"
+    },
+    {
+      "path": "scripts/factory-ng-controller.py",
+      "sha256": "sha256:3429332f2065c2c75beaa20252d73b7b575e9a3950b7b57d2741791b110dcb09"
+    }
+  ]
+}

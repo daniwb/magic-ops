@@ -56,6 +56,6 @@ if [ "$changed" != $'backend/cards/registry_switch_pt.go\nbackend/cards/shape_sw
   log "outcome=scope_failed changed=$(printf '%s' "$changed" | tr '\n' ',')"
   exit 3
 fi
-(cd backend && go build ./...)
-(cd backend && go test ./cards ./game -run 'TestVocabulary|TestShape_SwitchPT|TestSwitchPTExecution' -count=1)
+(cd backend && /opt/development/magic-ops/scripts/go-cache-run.sh build ./...)
+(cd backend && /opt/development/magic-ops/scripts/go-cache-run.sh test ./cards ./game -run 'TestVocabulary|TestShape_SwitchPT|TestSwitchPTExecution' -count=1)
 log "outcome=proposal_gates_passed clone=$CLONE raw=$RAW reply=$TEXT"

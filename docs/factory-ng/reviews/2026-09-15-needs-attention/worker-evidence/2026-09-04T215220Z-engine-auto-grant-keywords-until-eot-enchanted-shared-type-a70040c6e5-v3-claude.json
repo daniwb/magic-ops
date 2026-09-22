@@ -1,0 +1,67 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-engine-auto-grant-keywords-until-eot-enchanted-shared-type-a70040c6e5-v3-wwno0p46",
+    "candidate_commit": "aedeb6cbf0c59565d901fa9ccd5d8d6321c17b10",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "d4000ccd6b2e95c850eefa1fb1327690f23be476",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "detail": "resolved 3 bounded source request(s)",
+      "id": "need-continuation",
+      "outcome": "passed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "claude-staged@1.0.0",
+    "resolved_model": "claude-sonnet-5",
+    "telemetry": {
+      "cache_read_tokens": 28454,
+      "cache_write_tokens": 43133,
+      "elapsed_ms": 373689,
+      "input_tokens": 2,
+      "need_continuation_attempted": true,
+      "output_tokens": 33407,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      }
+    },
+    "worker": "claude-2"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed_model_protocol",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-04T215220Z-engine-auto-grant-keywords-until-eot-enchanted-shared-type-a70040c6e5-v3-claude.raw.json",
+      "sha256": "sha256:1815e165b194a43efeefa675f2ac39d3221f763279b6f0894d26c62846c35ff7"
+    },
+    {
+      "kind": "need_continuation",
+      "path": "docs/factory-ng/runs/2026-09-04T215220Z-engine-auto-grant-keywords-until-eot-enchanted-shared-type-a70040c6e5-v3-claude.continuation.raw.json",
+      "sha256": "sha256:cf08cdf98928dee2df4b6dabfb9b0a7f5bc6f2f9b9782d189398e332147fdd8e"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-grant-keywords-until-eot-enchanted-shared-type-a70040c6e5/v3",
+    "path": "docs/factory-ng/tickets/engine-auto-grant-keywords-until-eot-enchanted-shared-type-a70040c6e5-v3.json",
+    "sha256": "sha256:0b5fabcbc48f6c5b05070389e731544a1818704e8bbf9330cf3efe6106cc06fa"
+  }
+}

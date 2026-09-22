@@ -1,0 +1,83 @@
+{
+  "checked_at": "2026-09-20T17:14:43Z",
+  "recoveries": [
+    {
+      "ticket_id": "ticket:engine.auto-for-each-controlled-permanent-create-modified-co-174d10e200/v1",
+      "observation_receipt": "docs/factory-ng/runs/2026-09-20T164239Z-engine-auto-for-each-controlled-permanent-create-modified-co-174d10e200-v1-goose-qwen-staged.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-20T165035Z-engine-auto-for-each-controlled-permanent-create-modified-co-174d10e200-v1-1789923035395384618-integration.json",
+      "source": {
+        "base_commit": "94643f36111d61a85d7ea6d9fd8971f2da832d84",
+        "deployed": false,
+        "pushed": true,
+        "result_commit": "774c9a86b88f19a1fc491553db2f514e1e371708"
+      },
+      "telemetry": {
+        "bounded_repair_attempted": true,
+        "cache_read_tokens": 768,
+        "cache_write_tokens": 0,
+        "elapsed_ms": 1575421,
+        "gate_repair_attempted": true,
+        "input_tokens": 29491,
+        "model_calls": 3,
+        "need_continuation_attempted": true,
+        "output_tokens": 46636,
+        "provider_cost_usd": {
+          "availability": "unavailable",
+          "reason": "local adapter has no versioned pricing record"
+        },
+        "reasoning_tokens": {
+          "availability": "unavailable",
+          "reason": "adapter aggregates reasoning into output when applicable"
+        },
+        "stage_times": {
+          "attempt_wall_ms": 472589,
+          "candidate_gate_ms": 45285,
+          "compilation_ms": {
+            "availability": "unavailable",
+            "reason": "go test includes package compilation; not separately timed"
+          },
+          "model_ms": 1575421
+        }
+      }
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-up-to-one-per-color-from-graveyard-to-han-f8b782a10e/v1",
+      "observation_receipt": "docs/factory-ng/runs/2026-09-20T165035Z-engine-auto-return-up-to-one-per-color-from-graveyard-to-han-f8b782a10e-v1-goose-qwen-staged.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-20T165435Z-engine-auto-return-up-to-one-per-color-from-graveyard-to-han-f8b782a10e-v1-1789923275212170682-integration.json",
+      "source": {
+        "base_commit": "774c9a86b88f19a1fc491553db2f514e1e371708",
+        "deployed": false,
+        "pushed": true,
+        "result_commit": "e86bd86304eee1864b03db7bc44e26b63e95dab6"
+      },
+      "telemetry": {
+        "bounded_repair_attempted": true,
+        "cache_read_tokens": 768,
+        "cache_write_tokens": 0,
+        "elapsed_ms": 1474705,
+        "gate_repair_attempted": true,
+        "input_tokens": 127556,
+        "model_calls": 3,
+        "need_continuation_attempted": true,
+        "output_tokens": 44933,
+        "provider_cost_usd": {
+          "availability": "unavailable",
+          "reason": "local adapter has no versioned pricing record"
+        },
+        "reasoning_tokens": {
+          "availability": "unavailable",
+          "reason": "adapter aggregates reasoning into output when applicable"
+        },
+        "stage_times": {
+          "attempt_wall_ms": 225810,
+          "candidate_gate_ms": 54166,
+          "compilation_ms": {
+            "availability": "unavailable",
+            "reason": "go test includes package compilation; not separately timed"
+          },
+          "model_ms": 1474705
+        }
+      }
+    }
+  ]
+}

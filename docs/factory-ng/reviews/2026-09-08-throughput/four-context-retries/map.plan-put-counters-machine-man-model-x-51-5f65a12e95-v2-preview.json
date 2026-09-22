@@ -1,0 +1,105 @@
+{
+  "evidence": [
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "anchor": "6478-6617",
+      "sha256": "sha256:fceea0027749cb7b025f75c37bb301f2ff5db104266b79023b2157a64f731533",
+      "fact": "Current exact put_counters branch; inspect the complete-card probe before editing."
+    },
+    {
+      "fact": "Machine Man, Model X-51 is a current sole verb_unmapped:put_counters miss with pinned Oracle text.",
+      "path": "docs/factory-ng/measurements/build-plan-5f65a12e95-v1.json"
+    },
+    {
+      "fact": "The existing put_counters primitive is registered with executor game/ability_effects.go executePutCounterEffect (+each-shape, +explicit-target modal round 2, target_trigger_source, target_attached task-1979) + game/gamestate.go spell case \"put_counter\" and shape test TestShape_ETB_PutCountersEach / TestShape_Spell_PutCounterTargetCreature / TestShape_Modal_TargetedModes / TestShape_ETB_PutCounterAttached.",
+      "path": "backend/cards/registry.go"
+    },
+    {
+      "path": "docs/factory-ng/runs/2026-09-02T063441Z-map-plan-put-counters-machine-man-model-x-51-5f65a12e95-v1-claude.json",
+      "fact": "Context-only failure retained; fresh source answers are required. Current pinned-card audit: [{\"card\": \"Machine Man, Model X-51\", \"eligible\": true, \"misses\": [], \"oracle_text\": \"Whenever you cast a noncreature spell, put a +1/+1 counter on Machine Man and he gains flying until end of turn.\", \"status\": \"auto\"}]"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "qwen-prepared-direct@1.0.2",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "parser_probes": [
+      {
+        "card": "Machine Man, Model X-51",
+        "function": "reparse_card"
+      }
+    ],
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "One bounded successor for a proven missing-source failure, with the original questions resolved against current source.",
+    "warning_reflection_threshold": 500000,
+    "context_requests": [
+      "scripts/paragraph/reparse.py \u2014 the complete body of the `verb == 'put_counters'` branch inside `map_atom` (not included in the given excerpt, which stops at `verb == 'damage'`), including how it parses amount/counter-type/recipient phrases (e.g. self-reference `~`, `it`, `that creature`) and any related helper (`_amt`, counter-type normalization). Also need: (a) the code that splits/dispatches compound \"X and Y\" ability text into multiple `map_atom` calls (to know whether \"put a +1/+1 counter on ~\" and \"he gains flying until end of turn\" are parsed as one verb call or two, and whether a trailing `grant_eot`-style clause after `put_counters` is currently swallowed or preserved), and (b) one existing `scripts/paragraph/test_factory_ng_*.py` file from a prior put_counters or similar mapped ticket, to match the expected test harness format (imports, fixture/loader calls, assertion style) required by gate `python3 -m unittest test_factory_ng_5f65a12e95`."
+    ]
+  },
+  "gates": [
+    "cd scripts/paragraph && python3 -m unittest test_factory_ng_5f65a12e95",
+    "git diff --check",
+    "git status --porcelain adds or changes only scripts/paragraph/reparse.py and scripts/paragraph/test_factory_ng_5f65a12e95.py",
+    "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-5f65a12e95-v1.json reports zero remaining pinned members"
+  ],
+  "id": "ticket:map.plan-put-counters-machine-man-model-x-51-5f65a12e95/v2",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Record a structured verdict. NEEDS_PRIMITIVE creates one Engine dependency; invalid or mixed premises are terminal and discovery advances to another candidate.",
+  "parents": [
+    "plan:verb_unmapped:put_counters",
+    "ticket:map.plan-put-counters-machine-man-model-x-51-5f65a12e95/v1"
+  ],
+  "production": {
+    "key": "build-plan:verb_unmapped:put_counters:sha256:402a53ad5cd9da1682dbe56e95cbc7b4fb18a6f21e9e852a42550a062bf05ef2",
+    "plan_rank": 19,
+    "predicted_class_unlock": 196,
+    "producer": "build-plan-integration-recovery",
+    "retry_generation": 0,
+    "integration_repair_generation": 1,
+    "retry_reason": "context_repair",
+    "context_repair_version": "python-handoff-v2"
+  },
+  "required_behavior": [
+    "Map the exact current verb_unmapped:put_counters miss on Machine Man, Model X-51 through the already-registered put_counters primitive without losing any Oracle semantics.",
+    "The pinned card loses this miss and retains no new or silently swallowed miss.",
+    "Add a focused positive test plus an adjacent negative that must remain unmapped.",
+    "If the exact amount, recipient, filter, referent, or duration cannot execute through existing runtime behavior, return NEEDS_PRIMITIVE with one atomic CAPABILITY_JSON instead of a partial Map patch.",
+    "Do not edit Engine, converter, corpus data, or use a card-name special case.",
+    "The prior observation is historical evidence, not proof that its patch is still correct. Preserve every current valid mapping. Do not restore an obsolete negative assertion for a shape now implemented.",
+    "Keep every original gate command and allowed path. Add or repair the named positive and adjacent-negative tests on this revision; assert all Oracle clauses, counts, choices, controller restrictions and durations, not just eligibility or one removed miss.",
+    "A pinned card already marked auto must still be reparsed and tested. If the implementation is already correct, return only meaningful regression-test changes; do not duplicate parser branches.",
+    "If the miss moved to spell_seq_targeted or a required runtime behavior is absent, return a validated atomic NEEDS_PRIMITIVE demand. Do not hide the new miss, drop a clause, or force status auto."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "scripts/paragraph/reparse.py",
+      "scripts/paragraph/test_factory_ng_5f65a12e95.py"
+    ],
+    "forbidden_paths": [
+      "backend/",
+      "backend/data/",
+      "scripts/paragraph/slotparse_oneshot.py"
+    ]
+  },
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "source": {
+    "repository": "/tmp/factory-four-context-bbklt5l6/source",
+    "revision": "54609c76ee6064d1b7081e26461618744c3e926a",
+    "clean": true
+  },
+  "title": "Repair failed integration: Map one proven verb_unmapped:put_counters class member: Machine Man, Model X-51",
+  "work_type": "map",
+  "supersedes": "ticket:map.plan-put-counters-machine-man-model-x-51-5f65a12e95/v1"
+}

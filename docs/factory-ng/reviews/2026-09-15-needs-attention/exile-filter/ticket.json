@@ -1,0 +1,152 @@
+{
+  "capability": {
+    "expected_unlock": 1,
+    "negative_examples": [
+      "Exile target creature",
+      "Exile target enchantment"
+    ],
+    "required_behavior": "Exile a target that is a Spirit, a creature with the Disturb keyword, or an Enchantment.",
+    "source_misses": [
+      {
+        "card": "Thraben Exorcism",
+        "oracle_text_sha256": "b0b14c6f5315c22cbab72d19e5af27b9e4d1ba36197b2eee2ec35069e75ed945",
+        "paragraph": "Exile target Spirit, creature with disturb, or enchantment.",
+        "required_behavior": "Exile a target that is a Spirit, a creature with the Disturb keyword, or an Enchantment."
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "key": "exile_complex_filter",
+        "specification": {
+          "expected_unlock": 1,
+          "negative_examples": [
+            "Exile target creature",
+            "Exile target enchantment"
+          ],
+          "required_behavior": "Exile a target that is a Spirit, a creature with the Disturb keyword, or an Enchantment.",
+          "source_misses": [
+            {
+              "card": "Thraben Exorcism",
+              "oracle_text_sha256": "b0b14c6f5315c22cbab72d19e5af27b9e4d1ba36197b2eee2ec35069e75ed945",
+              "paragraph": "Exile target Spirit, creature with disturb, or enchantment.",
+              "required_behavior": "Exile a target that is a Spirit, a creature with the Disturb keyword, or an Enchantment."
+            }
+          ]
+        },
+        "summary": "Exile target with complex filter: Spirit, creature with disturb, or enchantment"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-07T142055Z-map-plan-exile-thraben-exorcism-041c06c982-v2-qwen.json"
+    },
+    {
+      "anchor": "77-142",
+      "fact": "Card-knowledge index match (engine): channelExileTarget is the nearest indexed seam for this capability.",
+      "path": "backend/game/channel.go",
+      "sha256": "sha256:9dc53940dd7b49c576fec8253e759f20fbada14edb87f42781b015851d0afbbb"
+    },
+    {
+      "anchor": "875-940",
+      "fact": "Card-knowledge index match (engine): resolveAttackingCreatureWithoutKeywordFilter is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:0aa95b8a320b0e203a4c99cb7c54345690bef1494cf7ff63fc395eed9913fd06"
+    },
+    {
+      "anchor": "1706-1771",
+      "fact": "Card-knowledge index match (engine): executeExileEffect is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:0aa95b8a320b0e203a4c99cb7c54345690bef1494cf7ff63fc395eed9913fd06"
+    },
+    {
+      "anchor": "9599-9664",
+      "fact": "Card-knowledge index match (engine): matchesUntapAllFilter is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:0aa95b8a320b0e203a4c99cb7c54345690bef1494cf7ff63fc395eed9913fd06"
+    },
+    {
+      "fact": "The previous candidate compiled/ran and failed this exact gate: ticket-gate-0: ; ticket-gate-1: ic-backend/game [build failed]\\n\"}\n{\"Time\":\"2026-09-07T14:48:24.490349563Z\",\"Action\":\"fail\",\"Package\":\"magic-backend/game\",\"Elapsed\":0,\"FailedBuild\":\"magic-backend/game [magic-backend/game.test]\"}\n{\"Time\":\"2026-09-07T14:51:49.151154052Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T14:51:49.173938817Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T14:51:49.174034284Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T14:51:49.175997915Z\",\"Action\":\"output\",\"Pac; ticket-gate-2: FAIL\tmagic-backend/game [build failed]\nok  \tmagic-backend/cards\t59.098s\nFAIL\n# magic-backend/game [magic-backend/game.test]\ngame/factory_ng_6e01106bce_test.go:44:39: too many arguments in call to gs.ExecuteAbilityEffect\n\thave (number, string, map[string]interface{}, []Target, nil)\n\twant (*StackObject)\ngame/factory_ng_6e01106bce_test.go:81:39: too many arguments in call to gs.ExecuteAbilityEffect\n\thave (number, string, map[string]interface{}, []Target, nil)\n\twant (*StackObject). Fix only this defect; do not restructure unrelated code or revisit already-passing behavior.",
+      "path": "docs/factory-ng/runs/2026-09-07T143433Z-engine-auto-exile-complex-filter-6e01106bce-v1-qwen-agentic.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "One bounded gate-failure repair: the prior candidate was substantively close but failed a specific behavior or build gate.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGExileComplexFilter$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.operator-exile-filter-recovery-sep15/v1",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Retain the terminal receipt and continue independent discovery; do not request manual source transcription.",
+  "parents": [
+    "ticket:engine.auto-exile-complex-filter-6e01106bce/v2"
+  ],
+  "production": {
+    "integration_recovery_parent": "ticket:map.plan-exile-thraben-exorcism-041c06c982/v2",
+    "key": "capability:exile_complex_filter:sha256:6e01106bce487c50dc0a57da0258ff76927aa86743a782dcfc0024ac80db18c7:gate-repair-v1",
+    "producer": "capability-dependencies",
+    "retry_reason": "semantic_gate_repair"
+  },
+  "required_behavior": [
+    "Exile a target that is a Spirit, a creature with the Disturb keyword, or an Enchantment.",
+    "Preserve these adjacent behaviors: Exile target creature; Exile target enchantment",
+    "Add a discriminating behavior test named TestFactoryNGExileComplexFilter; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_6e01106bce_test.go",
+      "backend/cards/factory_ng_6e01106bce_test.go",
+      "backend/cards/registry_factory_ng_6e01106bce.go",
+      "backend/cards/shape_exile_complex_filter_test.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "c2968cf14b5e49efb8d23528c25d95abc80bd8dd",
+    "clean": true
+  },
+  "title": "Recognize disturb creature identity in compound exile target filters",
+  "work_type": "engine",
+  "operator_recovery": {
+    "authorization": "User requested fixing all needs-attention tickets.",
+    "original_ticket": "docs/factory-ng/tickets/engine-auto-exile-complex-filter-6e01106bce-v2.json",
+    "original_ticket_sha256": "sha256:a7c7ef0ad2b16259b792adda22f710dd64c2e210746a1405b1b9ad1132e54223",
+    "additional_provider_runs": 0,
+    "counter_resets": false,
+    "scope_addition_reason": "New public cast/resolve shape tests retain exact original gate and full tests. Existing union filter and exile executor reused. Parsed disturb keyword identity is retained without adding unsupported graveyard casting."
+  }
+}

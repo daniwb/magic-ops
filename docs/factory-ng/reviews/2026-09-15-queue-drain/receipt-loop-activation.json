@@ -1,0 +1,8 @@
+{
+  "at": "2026-09-15T17:09:31.682475+00:00",
+  "terminated_pids": [
+    447192,
+    452994
+  ],
+  "change": "Preserve consumed verification receipt across integration; watchdog loads current observer"
+}

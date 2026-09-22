@@ -1,0 +1,170 @@
+{
+  "source_revision": "c48186393d5ac2b7b8e9f6a0447db6e0e9ebbe80",
+  "measured_at": "2026-09-14T05:39:25.280112+00:00",
+  "remaining_candidate_count": 209,
+  "note": "Remaining one-family repair candidates during live recovery, after excluding dedicated recovery ownership. Candidate inventory, not completed-card yield.",
+  "rows": [
+    {
+      "kind": "repair",
+      "misses": 1,
+      "shape": "verb_unmapped:damage",
+      "count": 35,
+      "examples": [
+        "Borrowing the East Wind",
+        "Burning Palm Efreet",
+        "Chaotic Backlash",
+        "Cinderheart Giant"
+      ]
+    },
+    {
+      "kind": "repair",
+      "misses": 1,
+      "shape": "verb_unmapped:grant_eot",
+      "count": 31,
+      "examples": [
+        "Blind with Anger",
+        "Canopy Dragon",
+        "Corporeal Projection",
+        "Devoted Caretaker"
+      ]
+    },
+    {
+      "kind": "repair",
+      "misses": 1,
+      "shape": "verb_unmapped:pump",
+      "count": 30,
+      "examples": [
+        "Bile Blight",
+        "Bloodcurdling Scream",
+        "Chupacabra Echo",
+        "Crowd of True Believers"
+      ]
+    },
+    {
+      "kind": "repair",
+      "misses": 1,
+      "shape": "verb_unmapped:destroy",
+      "count": 23,
+      "examples": [
+        "Break the Ice",
+        "Ceremonial Guard",
+        "Crazed Armodon",
+        "Dauthi Cutthroat"
+      ]
+    },
+    {
+      "kind": "repair",
+      "misses": 1,
+      "shape": "verb_unmapped:put_counters",
+      "count": 21,
+      "examples": [
+        "Coiling Stalker",
+        "Draining Whelk",
+        "Erithizon",
+        "Flowstone Sculpture"
+      ]
+    },
+    {
+      "kind": "repair",
+      "misses": 1,
+      "shape": "verb_unmapped:counter",
+      "count": 18,
+      "examples": [
+        "Dispersal Shield",
+        "Douse",
+        "Dovin's Veto",
+        "Ertai's Trickery"
+      ]
+    },
+    {
+      "kind": "repair",
+      "misses": 1,
+      "shape": "verb_unmapped:tap",
+      "count": 16,
+      "examples": [
+        "Civil Servant",
+        "Downpour",
+        "Gravelgill Scoundrel",
+        "Homarid Warrior"
+      ]
+    },
+    {
+      "kind": "repair",
+      "misses": 1,
+      "shape": "verb_unmapped:exile",
+      "count": 13,
+      "examples": [
+        "Decompose",
+        "Gerrard, Weatherlight Hero",
+        "Glare of Heresy",
+        "Go Blank"
+      ]
+    },
+    {
+      "kind": "repair",
+      "misses": 1,
+      "shape": "verb_unmapped:bounce",
+      "count": 6,
+      "examples": [
+        "Echoing Truth",
+        "Hanabi Blast",
+        "Peel from Reality",
+        "Restore the Peace"
+      ]
+    },
+    {
+      "kind": "repair",
+      "misses": 1,
+      "shape": "verb_unmapped:gain_control",
+      "count": 5,
+      "examples": [
+        "Giant's Grasp",
+        "Mass Manipulation",
+        "Rangers of Ithilien",
+        "Roil Elemental"
+      ]
+    },
+    {
+      "kind": "repair",
+      "misses": 1,
+      "shape": "verb_unmapped:untap",
+      "count": 5,
+      "examples": [
+        "Gustcloak Savior",
+        "Hellkite Charger",
+        "Palinchron",
+        "Riptide Chronologist"
+      ]
+    },
+    {
+      "kind": "repair",
+      "misses": 1,
+      "shape": "verb_unmapped:sacrifice",
+      "count": 3,
+      "examples": [
+        "Deep Spawn",
+        "Political Triumph",
+        "Salt Road Skirmish"
+      ]
+    },
+    {
+      "kind": "repair",
+      "misses": 1,
+      "shape": "verb_unmapped:copy",
+      "count": 2,
+      "examples": [
+        "Rings of Brighthearth",
+        "Tzaangor Shaman"
+      ]
+    },
+    {
+      "kind": "repair",
+      "misses": 1,
+      "shape": "verb_unmapped:reanimate",
+      "count": 1,
+      "examples": [
+        "Zoraline, Cosmos Caller"
+      ]
+    }
+  ]
+}

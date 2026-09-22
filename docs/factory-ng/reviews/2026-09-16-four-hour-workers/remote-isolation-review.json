@@ -1,0 +1,216 @@
+{
+  "at": "2026-09-16T19:54:46.179037+00:00",
+  "finding": "A failed multi-member composition was incorrectly treated as a failed standalone remote check. Restore deterministic individual remote eligibility only; no new model attempt or changed patch.",
+  "tickets": [
+    {
+      "ticket_id": "ticket:engine.auto-add-stun-counter-to-target-ee8fe19b4f/v3",
+      "before": {
+        "state": "awaiting_verification",
+        "proposal": "docs/factory-ng/candidates/proposal-cebbf591f02c42e4b2830798e989aaea.json",
+        "attempts": 1,
+        "failed_profiles": null,
+        "verification_isolate": true,
+        "verification_remote_failed": true,
+        "result_path": "state/factory-ng-job-output/engine-auto-activated-linked-referent-ce14cd2f0c-v3-verification-ryzen-395-2.json",
+        "worker": "codex-3",
+        "dispatch_profile": "codex-constrained@1.1.0",
+        "model": "gpt-5.6-terra"
+      },
+      "verified_result": {
+        "proposal": "docs/factory-ng/candidates/proposal-cebbf591f02c42e4b2830798e989aaea.json",
+        "result_path": "state/factory-ng-job-output/engine-auto-activated-linked-referent-ce14cd2f0c-v3-verification-ryzen-395-2.json",
+        "result_sha256": "sha256:2c95367377a5d3bad94cd04a0973afe448caaabc3d5e82bc5dc56db442ab6e21",
+        "recovered_at": "preview"
+      }
+    },
+    {
+      "ticket_id": "ticket:engine.auto-amount-count-chosen-color-permanents-controlled--318f73e158/v4",
+      "before": {
+        "state": "awaiting_verification",
+        "proposal": "docs/factory-ng/candidates/proposal-0c189f4ccb2c43198dc888516646ffc3.json",
+        "attempts": 1,
+        "failed_profiles": null,
+        "verification_isolate": true,
+        "verification_remote_failed": true,
+        "result_path": "state/factory-ng-job-output/engine-auto-activated-linked-referent-ce14cd2f0c-v3-verification-ryzen-395-2.json",
+        "worker": "codex-4",
+        "dispatch_profile": "codex-constrained@1.1.0",
+        "model": "gpt-5.6-terra"
+      },
+      "verified_result": {
+        "proposal": "docs/factory-ng/candidates/proposal-0c189f4ccb2c43198dc888516646ffc3.json",
+        "result_path": "state/factory-ng-job-output/engine-auto-activated-linked-referent-ce14cd2f0c-v3-verification-ryzen-395-2.json",
+        "result_sha256": "sha256:2c95367377a5d3bad94cd04a0973afe448caaabc3d5e82bc5dc56db442ab6e21",
+        "recovered_at": "preview"
+      }
+    },
+    {
+      "ticket_id": "ticket:engine.auto-amount-count-triggering-damage-dealt-5a4f9abe83/v4",
+      "before": {
+        "state": "awaiting_verification",
+        "proposal": "docs/factory-ng/candidates/proposal-4eaeede7c1764748bd536f9b3133d96c.json",
+        "attempts": 1,
+        "failed_profiles": null,
+        "verification_isolate": true,
+        "verification_remote_failed": true,
+        "result_path": "state/factory-ng-job-output/engine-auto-amount-count-triggering-damage-dealt-5a4f9abe83-v4-verification-ryzen-395-1.json",
+        "worker": "claude",
+        "dispatch_profile": "claude-staged@1.0.0",
+        "model": "claude-sonnet-5"
+      },
+      "verified_result": {
+        "proposal": "docs/factory-ng/candidates/proposal-4eaeede7c1764748bd536f9b3133d96c.json",
+        "result_path": "state/factory-ng-job-output/engine-auto-amount-count-triggering-damage-dealt-5a4f9abe83-v4-verification-ryzen-395-1.json",
+        "result_sha256": "sha256:a1e7a1764b48475da50248638c88c9954f5b2c8e5f2dfe5d261c9a5b891f449a",
+        "recovered_at": "preview"
+      }
+    },
+    {
+      "ticket_id": "ticket:engine.auto-bind-auto-returned-card-as-sequence-damage-sourc-d9c54f289d/v3",
+      "before": {
+        "state": "awaiting_verification",
+        "proposal": "docs/factory-ng/candidates/proposal-9157a3b9a5f940a28cd96263dfa5a61e.json",
+        "attempts": 1,
+        "failed_profiles": null,
+        "verification_isolate": true,
+        "verification_remote_failed": true,
+        "result_path": "state/factory-ng-job-output/engine-auto-bind-auto-returned-card-as-sequence-damage-sourc-d9c54f289d-v3-verification-ryzen-395-2.json",
+        "worker": "codex-4",
+        "dispatch_profile": "codex-constrained@1.1.0",
+        "model": "gpt-5.6-terra"
+      },
+      "verified_result": {
+        "proposal": "docs/factory-ng/candidates/proposal-9157a3b9a5f940a28cd96263dfa5a61e.json",
+        "result_path": "state/factory-ng-job-output/engine-auto-bind-auto-returned-card-as-sequence-damage-sourc-d9c54f289d-v3-verification-ryzen-395-2.json",
+        "result_sha256": "sha256:b99bd6e123c2fe19ce1625ae2fa72942485ba7b3dc1281246b180760c9fb279a",
+        "recovered_at": "preview"
+      }
+    },
+    {
+      "ticket_id": "ticket:engine.auto-blocking-creature-target-filter-8e3b517eca/v3",
+      "before": {
+        "state": "awaiting_verification",
+        "proposal": "docs/factory-ng/candidates/proposal-5f8a7a13663c4b219ea56b69322bbc5c.json",
+        "attempts": 1,
+        "failed_profiles": null,
+        "verification_isolate": true,
+        "verification_remote_failed": true,
+        "result_path": "state/factory-ng-job-output/engine-auto-bind-auto-returned-card-as-sequence-damage-sourc-d9c54f289d-v3-verification-ryzen-395-2.json",
+        "worker": "codex-3",
+        "dispatch_profile": "codex-constrained@1.1.0",
+        "model": "gpt-5.6-terra"
+      },
+      "verified_result": {
+        "proposal": "docs/factory-ng/candidates/proposal-5f8a7a13663c4b219ea56b69322bbc5c.json",
+        "result_path": "state/factory-ng-job-output/engine-auto-bind-auto-returned-card-as-sequence-damage-sourc-d9c54f289d-v3-verification-ryzen-395-2.json",
+        "result_sha256": "sha256:b99bd6e123c2fe19ce1625ae2fa72942485ba7b3dc1281246b180760c9fb279a",
+        "recovered_at": "preview"
+      }
+    },
+    {
+      "ticket_id": "ticket:engine.auto-bounce-attached-and-its-auras-dispatch-f2f4ade41d/v3",
+      "before": {
+        "state": "awaiting_verification",
+        "proposal": "docs/factory-ng/candidates/proposal-af35e6a760804ba69083d93fd161b125.json",
+        "attempts": 1,
+        "failed_profiles": null,
+        "verification_isolate": true,
+        "verification_remote_failed": true,
+        "result_path": "state/factory-ng-job-output/engine-auto-bind-auto-returned-card-as-sequence-damage-sourc-d9c54f289d-v3-verification-ryzen-395-2.json",
+        "worker": "codex-4",
+        "dispatch_profile": "codex-constrained@1.1.0",
+        "model": "gpt-5.6-terra"
+      },
+      "verified_result": {
+        "proposal": "docs/factory-ng/candidates/proposal-af35e6a760804ba69083d93fd161b125.json",
+        "result_path": "state/factory-ng-job-output/engine-auto-bind-auto-returned-card-as-sequence-damage-sourc-d9c54f289d-v3-verification-ryzen-395-2.json",
+        "result_sha256": "sha256:b99bd6e123c2fe19ce1625ae2fa72942485ba7b3dc1281246b180760c9fb279a",
+        "recovered_at": "preview"
+      }
+    },
+    {
+      "ticket_id": "ticket:engine.auto-bounce-cards-from-graveyard-to-hand-49633d7255/v3",
+      "before": {
+        "state": "awaiting_verification",
+        "proposal": "docs/factory-ng/candidates/proposal-fb10d48cabd14da1910418fb36564311.json",
+        "attempts": 1,
+        "failed_profiles": null,
+        "verification_isolate": true,
+        "verification_remote_failed": true,
+        "result_path": "state/factory-ng-job-output/engine-auto-bounce-cards-from-graveyard-to-hand-49633d7255-v3-verification-ryzen-395-1.json",
+        "worker": "codex-3",
+        "dispatch_profile": "codex-constrained@1.1.0",
+        "model": "gpt-5.6-terra"
+      },
+      "verified_result": {
+        "proposal": "docs/factory-ng/candidates/proposal-fb10d48cabd14da1910418fb36564311.json",
+        "result_path": "state/factory-ng-job-output/engine-auto-bounce-cards-from-graveyard-to-hand-49633d7255-v3-verification-ryzen-395-1.json",
+        "result_sha256": "sha256:9a8ab9dae5db02fb22645f3ce47528b03d27ee83fc9b5bb53d2252d8535c3f1a",
+        "recovered_at": "preview"
+      }
+    },
+    {
+      "ticket_id": "ticket:engine.auto-bounce-nonhistoric-nonland-permanent-2e74a03231/v3",
+      "before": {
+        "state": "awaiting_verification",
+        "proposal": "docs/factory-ng/candidates/proposal-8c0a53d0fcee4b7e90b6170a9dcb8504.json",
+        "attempts": 1,
+        "failed_profiles": null,
+        "verification_isolate": true,
+        "verification_remote_failed": true,
+        "result_path": "state/factory-ng-job-output/engine-auto-bounce-cards-from-graveyard-to-hand-49633d7255-v3-verification-ryzen-395-1.json",
+        "worker": "claude-2",
+        "dispatch_profile": "claude-staged@1.0.0",
+        "model": "claude-sonnet-5"
+      },
+      "verified_result": {
+        "proposal": "docs/factory-ng/candidates/proposal-8c0a53d0fcee4b7e90b6170a9dcb8504.json",
+        "result_path": "state/factory-ng-job-output/engine-auto-bounce-cards-from-graveyard-to-hand-49633d7255-v3-verification-ryzen-395-1.json",
+        "result_sha256": "sha256:9a8ab9dae5db02fb22645f3ce47528b03d27ee83fc9b5bb53d2252d8535c3f1a",
+        "recovered_at": "preview"
+      }
+    },
+    {
+      "ticket_id": "ticket:engine.auto-bounce-same-name-as-target-5bbab98fd4/v3",
+      "before": {
+        "state": "awaiting_verification",
+        "proposal": "docs/factory-ng/candidates/proposal-964ff746569c4e429c3f349d57791953.json",
+        "attempts": 1,
+        "failed_profiles": null,
+        "verification_isolate": true,
+        "verification_remote_failed": true,
+        "result_path": "state/factory-ng-job-output/engine-auto-bounce-same-name-as-target-5bbab98fd4-v3-verification-ryzen-395-2.json",
+        "worker": "codex-3",
+        "dispatch_profile": "codex-constrained@1.1.0",
+        "model": "gpt-5.6-terra"
+      },
+      "verified_result": {
+        "proposal": "docs/factory-ng/candidates/proposal-964ff746569c4e429c3f349d57791953.json",
+        "result_path": "state/factory-ng-job-output/engine-auto-bounce-same-name-as-target-5bbab98fd4-v3-verification-ryzen-395-2.json",
+        "result_sha256": "sha256:c76cd859eec40ad1fcb9e4f277ff9ca12653d053f1c9844b0662f9ab10b8e8c2",
+        "recovered_at": "preview"
+      }
+    },
+    {
+      "ticket_id": "ticket:engine.auto-bounce-target-lesser-mana-value-than-event-card-877d99129b/v3",
+      "before": {
+        "state": "awaiting_verification",
+        "proposal": "docs/factory-ng/candidates/proposal-d811387df6424e9691f4f8081600dda2.json",
+        "attempts": 1,
+        "failed_profiles": null,
+        "verification_isolate": true,
+        "verification_remote_failed": true,
+        "result_path": "state/factory-ng-job-output/engine-auto-bounce-same-name-as-target-5bbab98fd4-v3-verification-ryzen-395-2.json",
+        "worker": "claude-2",
+        "dispatch_profile": "claude-staged@1.0.0",
+        "model": "claude-sonnet-5"
+      },
+      "verified_result": {
+        "proposal": "docs/factory-ng/candidates/proposal-d811387df6424e9691f4f8081600dda2.json",
+        "result_path": "state/factory-ng-job-output/engine-auto-bounce-same-name-as-target-5bbab98fd4-v3-verification-ryzen-395-2.json",
+        "result_sha256": "sha256:c76cd859eec40ad1fcb9e4f277ff9ca12653d053f1c9844b0662f9ab10b8e8c2",
+        "recovered_at": "preview"
+      }
+    }
+  ]
+}

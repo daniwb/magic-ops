@@ -1,0 +1,154 @@
+{
+  "at": "2026-09-16T23:20:34.699074+00:00",
+  "window": {
+    "start": "2026-09-16T19:02:46Z",
+    "end": "2026-09-16T23:44:56.854616Z",
+    "baseline_states": {
+      "failed": 1341,
+      "completed": 1461,
+      "parked": 402,
+      "integration_failed": 3,
+      "blocked": 921
+    },
+    "workers": [
+      "codex",
+      "codex-2",
+      "codex-3",
+      "codex-4"
+    ],
+    "requested_end": "2026-09-16T23:02:46Z",
+    "stability_start": "2026-09-16T19:44:56.854616Z",
+    "stability_baseline_states": {
+      "failed": 1316,
+      "completed": 1467,
+      "integrating": 1,
+      "parked": 403,
+      "awaiting_verification": 7,
+      "working": 9,
+      "queued": 1,
+      "awaiting_integration": 1,
+      "integration_failed": 3,
+      "blocked": 920
+    }
+  },
+  "states": {
+    "failed": 1221,
+    "completed": 1550,
+    "parked": 421,
+    "integration_failed": 13,
+    "working": 5,
+    "integrating": 3,
+    "awaiting_verification": 8,
+    "awaiting_integration": 1,
+    "blocked": 907
+  },
+  "model_leases": {
+    "codex": [
+      {
+        "ticket": "ticket:engine.auto-grant-dynamic-keyword-eot-4c8621edfa/v4",
+        "alive": true,
+        "repair": false
+      }
+    ],
+    "codex-2": [],
+    "codex-3": [
+      {
+        "ticket": "ticket:engine.auto-delay-effect-until-end-of-combat-e23ae95575/v4",
+        "alive": true,
+        "repair": true
+      }
+    ],
+    "codex-4": []
+  },
+  "recent_occupancy": [
+    {
+      "at": "2026-09-16T23:10:37.162174+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T23:11:07.601478+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T23:11:38.024298+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T23:12:08.511210+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T23:12:39.005153+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T23:13:09.530952+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T23:13:40.005277+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T23:14:10.469711+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T23:14:40.966799+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T23:15:11.400059+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T23:15:41.824676+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T23:16:12.313278+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T23:16:42.738849+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T23:17:13.187810+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T23:17:43.612452+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T23:18:14.066702+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T23:18:44.583675+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T23:19:15.073058+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T23:19:45.486586+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T23:20:15.929709+00:00",
+      "occupied": 2
+    }
+  ],
+  "window_sample_counts": {
+    "4": 96,
+    "3": 114,
+    "2": 111,
+    "1": 97,
+    "0": 7
+  },
+  "net_completed_since_request": 89,
+  "queued": []
+}

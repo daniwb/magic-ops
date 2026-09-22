@@ -1,0 +1,1 @@
+Candidate v1 passed but MUST NOT be integrated: review identified possible duplicate counters with handwritten card handlers. v2 in bloodthirst-v2/ preserves RegisterCardAbilities handler precedence and adds a public-cast regression. Original Rabble-Rouser Map remains open.

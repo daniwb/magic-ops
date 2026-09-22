@@ -1,0 +1,27 @@
+{
+  "model": "halogen-qwen3.8-flash-next",
+  "provider": "strix_halo",
+  "goose_version": "1.51.0",
+  "engine": "openai",
+  "thinking": "provider default enabled",
+  "max_tokens_per_request": 6000,
+  "temperature": 0.2,
+  "max_turns": 10,
+  "prompt_tool_budget": 9,
+  "timeout_seconds": 1200,
+  "tools": [
+    "find_capability",
+    "similar_handlers",
+    "check_capability",
+    "read_source"
+  ],
+  "production_changed": false,
+  "scope": "Read-only discovery tests in disposable clones; no implementation or gate bypass",
+  "integration_notes": [
+    "Use --no-profile and only the explicit card-knowledge stdio extension.",
+    "Run Goose with the isolated checkout as cwd: read_source resolves there.",
+    "Use the current repository absolute server path; the older Claude MCP config refers to absent /opt/development paths.",
+    "Search metadata is indexed; read_source reads actual checkout declarations.",
+    "All token totals aggregate every model request; reasoning is included in output."
+  ]
+}

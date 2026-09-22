@@ -1,0 +1,212 @@
+[
+  {
+    "ticket_id": "ticket:engine.auto-ability-pump-filter-all-23b3b60c38/v4",
+    "attempts": 3,
+    "started_at": "2026-09-16T09:06:03Z",
+    "receipt": "docs/factory-ng/runs/2026-09-16T090604Z-engine-auto-ability-pump-filter-all-23b3b60c38-v4-codex.json",
+    "ticket_sha256": "sha256:8001d4c3451a333f6f7c3490a589471556abd59a984dc820b4399e9973dd8b5c",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-four-hour-workers/engine.auto-ability-pump-filter-all-23b3b60c38-v4-capacity.json",
+    "evidence_sha256": "sha256:9f7ab3e979ee3acfed9fcf86fae4551adbe9d3b21a59e6f0c3b649c4cb7978b8",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "required_model": "gpt-5.6-terra",
+    "reason": "Explicit Luna capacity rejection before any patch; one reviewed attempt on working Terra model with unchanged contract and gates."
+  },
+  {
+    "ticket_id": "ticket:engine.auto-damage-amount-chroma-red-mana-symbols-dafa42ca0a/v2",
+    "attempts": 3,
+    "started_at": "2026-09-16T09:15:19Z",
+    "receipt": "docs/factory-ng/runs/2026-09-16T091520Z-engine-auto-damage-amount-chroma-red-mana-symbols-dafa42ca0a-v2-codex.json",
+    "ticket_sha256": "sha256:ef3b5f37dc0b96e7e561fb134876b97ea56c6135977a79c69af0d701a88ed325",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-four-hour-workers/engine.auto-damage-amount-chroma-red-mana-symbols-dafa42ca0a-v2-capacity.json",
+    "evidence_sha256": "sha256:ac3a88ab3960b78a65485668fa395e775bf60162cee4cb42b713dbed09de8dfa",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "required_model": "gpt-5.6-terra",
+    "reason": "Explicit Luna capacity rejection before any patch; one reviewed attempt on working Terra model with unchanged contract and gates."
+  },
+  {
+    "ticket_id": "ticket:engine.auto-damage-amount-equals-trigger-creature-count-d7ae562dbc/v4",
+    "attempts": 3,
+    "started_at": "2026-09-16T09:13:17Z",
+    "receipt": "docs/factory-ng/runs/2026-09-16T091318Z-engine-auto-damage-amount-equals-trigger-creature-count-d7ae562dbc-v4-codex.json",
+    "ticket_sha256": "sha256:a0150e77607c11646e8b727e2c4f230c3ab42178bd5cb33eeb75141b8dddbc84",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-four-hour-workers/engine.auto-damage-amount-equals-trigger-creature-count-d7ae562dbc-v4-capacity.json",
+    "evidence_sha256": "sha256:51206e16ac0163ef2ceb281dd97924d2bc848f9f769758c5bcf3a2e94aa3b808",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "required_model": "gpt-5.6-terra",
+    "reason": "Explicit Luna capacity rejection before any patch; one reviewed attempt on working Terra model with unchanged contract and gates."
+  },
+  {
+    "ticket_id": "ticket:engine.auto-destroy-target-creature-that-dealt-damage-this-t-2dd7f03acd/v4",
+    "attempts": 3,
+    "started_at": "2026-09-16T08:50:28Z",
+    "receipt": "docs/factory-ng/runs/2026-09-16T085029Z-engine-auto-destroy-target-creature-that-dealt-damage-this-t-2dd7f03acd-v4-codex.json",
+    "ticket_sha256": "sha256:48b077d06efc6b73be55a57558dcae9e432aca69653f84b7b350f083fc5e2da1",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-four-hour-workers/engine.auto-destroy-target-creature-that-dealt-damage-this-t-2dd7f03acd-v4-capacity.json",
+    "evidence_sha256": "sha256:2f124fc1b517f905988ac6272804aaee8f16b12ebddef76939469775dfe38d97",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "required_model": "gpt-5.6-terra",
+    "reason": "Explicit Luna capacity rejection before any patch; one reviewed attempt on working Terra model with unchanged contract and gates."
+  },
+  {
+    "ticket_id": "ticket:engine.auto-filter-creature-with-tap-activated-ability-839a37bf06/v3",
+    "attempts": 3,
+    "started_at": "2026-09-16T08:53:42Z",
+    "receipt": "docs/factory-ng/runs/2026-09-16T085343Z-engine-auto-filter-creature-with-tap-activated-ability-839a37bf06-v3-codex.json",
+    "ticket_sha256": "sha256:12e7e72f8143aef55c54e7a879a608b6560935597cf7dfb9ee06fd1f3505a0ca",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-four-hour-workers/engine.auto-filter-creature-with-tap-activated-ability-839a37bf06-v3-capacity.json",
+    "evidence_sha256": "sha256:8ab2dbffac670960b51c56ee3113be6a9c8633bb0e104c69b691763ece7b5caa",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "required_model": "gpt-5.6-terra",
+    "reason": "Explicit Luna capacity rejection before any patch; one reviewed attempt on working Terra model with unchanged contract and gates."
+  },
+  {
+    "ticket_id": "ticket:engine.auto-pump-all-other-creatures-no-target-f3ef75632a/v4",
+    "attempts": 3,
+    "started_at": "2026-09-16T09:08:28Z",
+    "receipt": "docs/factory-ng/runs/2026-09-16T090829Z-engine-auto-pump-all-other-creatures-no-target-f3ef75632a-v4-codex.json",
+    "ticket_sha256": "sha256:b45de710bc59b673591dfd489752875c1ca5013b98a8a183c23c58219d60e71c",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-four-hour-workers/engine.auto-pump-all-other-creatures-no-target-f3ef75632a-v4-capacity.json",
+    "evidence_sha256": "sha256:33be3c7bcca66d5d28cc829ad9d2a5eccf98c1a9080c4c20fce21cfa51622f28",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "required_model": "gpt-5.6-terra",
+    "reason": "Explicit Luna capacity rejection before any patch; one reviewed attempt on working Terra model with unchanged contract and gates."
+  },
+  {
+    "ticket_id": "ticket:engine.auto-register-exile-target-cards-single-graveyard-4fd0722a8e/v1",
+    "attempts": 3,
+    "started_at": "2026-09-16T08:57:07Z",
+    "receipt": "docs/factory-ng/runs/2026-09-16T085708Z-engine-auto-register-exile-target-cards-single-graveyard-4fd0722a8e-v1-codex.json",
+    "ticket_sha256": "sha256:25bb71d52eecc628f5aa7a9990488e6cc2c54a87a5111f341772341c9081892f",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-four-hour-workers/engine.auto-register-exile-target-cards-single-graveyard-4fd0722a8e-v1-capacity.json",
+    "evidence_sha256": "sha256:076cca2217dd5702374b7cda197a8abc09fa7ae2e7c7290cf0d5b55b4e1d6ce9",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "required_model": "gpt-5.6-terra",
+    "reason": "Explicit Luna capacity rejection before any patch; one reviewed attempt on working Terra model with unchanged contract and gates."
+  },
+  {
+    "ticket_id": "ticket:engine.auto-remove-all-source-counters-taps-source-36749b0465/v1",
+    "attempts": 3,
+    "started_at": "2026-09-16T08:56:10Z",
+    "receipt": "docs/factory-ng/runs/2026-09-16T085610Z-engine-auto-remove-all-source-counters-taps-source-36749b0465-v1-codex.json",
+    "ticket_sha256": "sha256:51e85fcccb215644a93be9a505c69ffbb96f2dc19da4acf147ba1768c454c9b5",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-four-hour-workers/engine.auto-remove-all-source-counters-taps-source-36749b0465-v1-capacity.json",
+    "evidence_sha256": "sha256:043a058f79629c5582ca833c53f0359afda5d3c7a691d9eea2aaf035aca12f85",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "required_model": "gpt-5.6-terra",
+    "reason": "Explicit Luna capacity rejection before any patch; one reviewed attempt on working Terra model with unchanged contract and gates."
+  },
+  {
+    "ticket_id": "ticket:engine.auto-search-dynamic-mana-value-cap-a5b3c243f2/v3",
+    "attempts": 3,
+    "started_at": "2026-09-16T08:50:51Z",
+    "receipt": "docs/factory-ng/runs/2026-09-16T085051Z-engine-auto-search-dynamic-mana-value-cap-a5b3c243f2-v3-codex.json",
+    "ticket_sha256": "sha256:0668319cc2f731c1dd291e4b36ccf61500d7cf6fd8ca66c0567206ef1301e350",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-four-hour-workers/engine.auto-search-dynamic-mana-value-cap-a5b3c243f2-v3-capacity.json",
+    "evidence_sha256": "sha256:a7db34366bec1aba79f24984640d2721c9b218fa3f807e539a5315adabde2b1a",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "required_model": "gpt-5.6-terra",
+    "reason": "Explicit Luna capacity rejection before any patch; one reviewed attempt on working Terra model with unchanged contract and gates."
+  },
+  {
+    "ticket_id": "ticket:engine.auto-source-referent-pump-until-eot-8b8ac7ccb7/v3",
+    "attempts": 3,
+    "started_at": "2026-09-16T08:51:35Z",
+    "receipt": "docs/factory-ng/runs/2026-09-16T085136Z-engine-auto-source-referent-pump-until-eot-8b8ac7ccb7-v3-codex.json",
+    "ticket_sha256": "sha256:5ec4eac6754392afb6029bdc90184bc004f017aba6725a2d7db6f8f5993405d5",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-four-hour-workers/engine.auto-source-referent-pump-until-eot-8b8ac7ccb7-v3-capacity.json",
+    "evidence_sha256": "sha256:dc27eb903a750d7c82fe8b9c10063e235d66630437952bc500018ccfcf052de3",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "required_model": "gpt-5.6-terra",
+    "reason": "Explicit Luna capacity rejection before any patch; one reviewed attempt on working Terra model with unchanged contract and gates."
+  },
+  {
+    "ticket_id": "ticket:engine.auto-spell-exile-target-filter-subtype-or-keyword-or--568a57939f/v1",
+    "attempts": 3,
+    "started_at": "2026-09-16T08:59:21Z",
+    "receipt": "docs/factory-ng/runs/2026-09-16T085922Z-engine-auto-spell-exile-target-filter-subtype-or-keyword-or--568a57939f-v1-codex.json",
+    "ticket_sha256": "sha256:4e4d22a8175f14aa687ef51962cd6e633980a788f191bb00c53f60e3f84bf3b3",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-four-hour-workers/engine.auto-spell-exile-target-filter-subtype-or-keyword-or--568a57939f-v1-capacity.json",
+    "evidence_sha256": "sha256:a2103d447d5605e291459febf0a3e02fff8c7198b9925dd7eb79d36d990d7238",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "required_model": "gpt-5.6-terra",
+    "reason": "Explicit Luna capacity rejection before any patch; one reviewed attempt on working Terra model with unchanged contract and gates."
+  },
+  {
+    "ticket_id": "ticket:map.plan-pump-great-oak-guardian-3d7a9a79ac/v3",
+    "attempts": 3,
+    "started_at": "2026-09-16T08:55:42Z",
+    "receipt": "docs/factory-ng/runs/2026-09-16T085542Z-map-plan-pump-great-oak-guardian-3d7a9a79ac-v3-codex.json",
+    "ticket_sha256": "sha256:42bc021bda3fcc3aed0fef90c9df082a4e8428efaa49a26c9a7f265be438ab36",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-four-hour-workers/map.plan-pump-great-oak-guardian-3d7a9a79ac-v3-capacity.json",
+    "evidence_sha256": "sha256:2cadd1466793eb5852f08bac393c34bd57b0ad51c07c3d77ab1803d8fb80582e",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "required_model": "gpt-5.6-terra",
+    "reason": "Explicit Luna capacity rejection before any patch; one reviewed attempt on working Terra model with unchanged contract and gates."
+  },
+  {
+    "ticket_id": "ticket:map.plan-pump-warped-physique-bfe918e4b4/v4",
+    "attempts": 3,
+    "started_at": "2026-09-16T09:03:30Z",
+    "receipt": "docs/factory-ng/runs/2026-09-16T090331Z-map-plan-pump-warped-physique-bfe918e4b4-v4-codex.json",
+    "ticket_sha256": "sha256:8ce24b48f268c337ba8e86b343d2fe04efe365ef7b78ded8742efa5aa1560eb8",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-four-hour-workers/map.plan-pump-warped-physique-bfe918e4b4-v4-capacity.json",
+    "evidence_sha256": "sha256:b5e7214aca04a06556bf13d1c155b1933a720653102385ffa804382198f2048f",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "required_model": "gpt-5.6-terra",
+    "reason": "Explicit Luna capacity rejection before any patch; one reviewed attempt on working Terra model with unchanged contract and gates."
+  },
+  {
+    "ticket_id": "ticket:map.plan-pump-wick-s-patrol-efe6841c5e/v4",
+    "attempts": 3,
+    "started_at": "2026-09-16T08:58:36Z",
+    "receipt": "docs/factory-ng/runs/2026-09-16T085837Z-map-plan-pump-wick-s-patrol-efe6841c5e-v4-codex.json",
+    "ticket_sha256": "sha256:e50bcb1875c8a9f44843afacdf6d85497d59378fe027a4418a8653a894028ae1",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-four-hour-workers/map.plan-pump-wick-s-patrol-efe6841c5e-v4-capacity.json",
+    "evidence_sha256": "sha256:349d9e1a206751d83312edb01f33baeb0c831dc7874c44664eab250337ed98b5",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "required_model": "gpt-5.6-terra",
+    "reason": "Explicit Luna capacity rejection before any patch; one reviewed attempt on working Terra model with unchanged contract and gates."
+  },
+  {
+    "ticket_id": "ticket:map.plan-reanimate-magnetic-snuffler-484850ab84/v2",
+    "attempts": 3,
+    "started_at": "2026-09-16T08:57:51Z",
+    "receipt": "docs/factory-ng/runs/2026-09-16T085751Z-map-plan-reanimate-magnetic-snuffler-484850ab84-v2-codex.json",
+    "ticket_sha256": "sha256:b3f205d86fb9b3cc9c6849c4b2028d87d0ea8ebb04df924d5ed670d60c1cba5a",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-four-hour-workers/map.plan-reanimate-magnetic-snuffler-484850ab84-v2-capacity.json",
+    "evidence_sha256": "sha256:6d263746e8fa2e66649316e643d370f1f132660e542937626e00941d70c353b1",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "required_model": "gpt-5.6-terra",
+    "reason": "Explicit Luna capacity rejection before any patch; one reviewed attempt on working Terra model with unchanged contract and gates."
+  }
+]

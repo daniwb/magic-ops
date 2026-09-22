@@ -212,6 +212,20 @@ def usage_qwen(stderr):
     return totals
 
 
+def usage_model_call(stderr):
+    """Parse model_call.py counters, where `in` already includes cache hits."""
+    totals = {'input_tokens': 0, 'cached_input_tokens': 0,
+              'cache_write_input_tokens': 0, 'output_tokens': 0,
+              'reasoning_output_tokens': 0}
+    for inn, out, cache_r, cache_w in re.findall(
+            r'tokens: in=(\d+) out=(\d+) cache_r=(\d+) cache_w=(\d+)', stderr):
+        totals['input_tokens'] += int(inn)
+        totals['output_tokens'] += int(out)
+        totals['cached_input_tokens'] += int(cache_r)
+        totals['cache_write_input_tokens'] += int(cache_w)
+    return totals
+
+
 def add_usage(left, right):
     out = {}
     for key in ('input_tokens', 'cached_input_tokens', 'cache_write_input_tokens',
@@ -239,7 +253,16 @@ def call_model(model, prompt, worktree):
                      worktree, stdin=prompt)
         return result, result['stdout'], usage_qwen(result['stderr'])
     if engine == 'codex':
-        result = run(['codex', 'exec', '--ephemeral', '--json', '--sandbox', 'read-only',
+        # Match the production constrained adapter: local read-only coding
+        # tools remain available, while command egress, web search, apps,
+        # browsers, plugins, and user-configured MCP servers do not.
+        result = run(['codex', 'exec', '--ephemeral', '--json', '--ignore-user-config',
+                      '--sandbox', 'read-only', '-c', 'web_search="disabled"',
+                      '--disable', 'apps', '--disable', 'browser_use',
+                      '--disable', 'browser_use_external', '--disable', 'computer_use',
+                      '--disable', 'image_generation', '--disable', 'plugins',
+                      '--disable', 'remote_plugin',
+                      '--disable', 'skill_mcp_dependency_install',
                       '--model', model['model'], prompt], worktree)
         return result, answer_codex(result['stdout']), usage_codex(result['stdout'])
     if engine == 'claude':
@@ -255,8 +278,30 @@ def call_model(model, prompt, worktree):
         except json.JSONDecodeError:
             text = ''
         return result, text, usage_claude(result['stdout'])
+    if engine == 'openrouter':
+        result = run(['python3', str(OPS / 'scripts/model_call.py'),
+                      '--engine', 'openrouter', '--model', model['model'], '--tier', 'map'],
+                     worktree, stdin=prompt)
+        return result, result['stdout'], usage_model_call(result['stderr'])
+    if engine == 'openrouter-agentic':
+        result = run(['python3', str(OPS / 'scripts/openrouter-agentic-call.py'),
+                      '--repo', str(worktree), '--model', model['model'],
+                      '--max-turns', str(model.get('max_turns', 25)),
+                      '--max-tokens', str(model.get('max_tokens', 16000)),
+                      '--reasoning-tokens', str(model.get('reasoning_tokens', 3000))],
+                     worktree, stdin=prompt)
+        return result, result['stdout'], usage_qwen(result['stderr'])
+    if engine == 'nemotron-structured':
+        result = run(['python3', str(OPS / 'scripts/nemotron-structured-call.py'),
+                      '--repo', str(worktree), '--model', model['model'],
+                      '--allowed-path', 'scripts/paragraph/reparse.py',
+                      '--allowed-path', 'backend/cards/converter.go',
+                      '--required-path', 'scripts/paragraph/reparse.py',
+                      '--required-path', 'backend/cards/converter.go',
+                      '--max-tokens', '3500'], worktree, stdin=prompt)
+        return result, result['stdout'], usage_qwen(result['stderr'])
     result = run(['python3', str(OPS / 'scripts/qwen-agentic-call.py'), '--repo', str(worktree),
-                  '--model', model['model'], '--max-turns', '25', '--max-tokens', '8000'],
+                  '--model', model['model'], '--max-turns', '25', '--max-tokens', '16000'],
                  worktree, stdin=prompt)
     return result, result['stdout'], usage_qwen(result['stderr'])
 
@@ -293,6 +338,15 @@ def model_prompt(model, packet):
     elif profile == 'qwen-prepared-local':
         prefix = ('You are the prepared-local implementation profile. The packet already contains the exact decision and code regions. '
                   'Use read-only tools only if a literal SEARCH block needs confirmation; do not browse broadly. ')
+    elif profile == 'openrouter-prepared-direct':
+        prefix = ('You are the OpenRouter prepared-direct implementation profile. All required facts and exact code regions are in the packet. '
+                  'Do not ask for repository access or use tool-call syntax. ')
+    elif profile == 'openrouter-prepared-agentic':
+        prefix = ('You are the OpenRouter prepared-agentic implementation profile. The packet contains the exact decision and starting regions. '
+                  'Use read-only tools only to confirm literal source for the minimal patch; do not browse broadly. ')
+    elif profile == 'nemotron-structured-edit':
+        prefix = ('You are the Nemotron structured-edit implementation profile. The packet contains the exact decision and starting regions. '
+                  'Use the bounded read_range phase only for literal confirmation, then submit the complete minimal edit through the forced tool. ')
     else:
         prefix = ('You are the constrained staged implementation profile. The packet contains all required evidence. ')
     return prefix + 'Return a minimal product patch using the declared block format; do not describe a hypothetical patch.\n\n' + packet
@@ -330,8 +384,19 @@ def run_one(model, dry_run=False):
             calls[-1]['need_fetch'] = fetched
             prompt += '\n\n## Bounded NEED response\n' + fetched['stdout'] + '\nNow return the final patch or verdict.\n'
         answer = calls[-1]['answer'] if calls else ''
-        apply = run(['python3', str(OPS / 'scripts/map-pipeline-apply.py')], worktree, 60, answer)
         record['calls'] = calls
+        if (calls and not answer.strip() and
+                total_usage.get('input_tokens', 0) == 0 and
+                total_usage.get('output_tokens', 0) == 0):
+            record.update({
+                'status': 'INFRASTRUCTURE_FAILURE',
+                'usage': total_usage,
+                'cost_usd': 0.0,
+                'failure': 'model call failed before the provider accepted any tokens',
+                'total_wall_seconds': round(sum(c['call']['wall_seconds'] for c in calls), 3),
+            })
+            return record
+        apply = run(['python3', str(OPS / 'scripts/map-pipeline-apply.py')], worktree, 60, answer)
         record['apply'] = apply
         repair = None
         if apply['exit_code'] == 4:
@@ -362,7 +427,20 @@ def run_one(model, dry_run=False):
         gates, diff, changed, scope_ok, passed = gate_suite(worktree)
         if not passed and repair is None:
             failed = {name: gate['stderr'][-4000:] for name, gate in gates.items() if gate['exit_code'] != 0}
-            repair_prompt = model_prompt(model, packet) + '\n\n## Harness result after your first patch\n' + json.dumps({'failed_gates': failed, 'diff_check': diff['stderr'], 'changed_paths': changed}, indent=2) + '\nReturn one corrective patch block only.'
+            current_diff = run([
+                'git', 'diff', '--', 'scripts/paragraph/reparse.py',
+                'backend/cards/converter.go',
+            ], worktree, 60)
+            repair_prompt = (model_prompt(model, packet) +
+                             '\n\n## Harness result after your first patch\n' +
+                             json.dumps({'failed_gates': failed,
+                                         'diff_check': diff['stderr'],
+                                         'changed_paths': changed}, indent=2) +
+                             '\n## Current applied product diff\n```diff\n' +
+                             current_diff['stdout'] +
+                             '\n```\nThe first patch remains applied. SEARCH text in the corrective patch must '
+                             'match the current post-patch source shown by this diff, not the baseline. '
+                             'Return only the minimal delta needed to correct the failed gates.')
             repair_call, repair_answer, repair_usage = call_model(model, repair_prompt, worktree)
             total_usage = add_usage(total_usage, repair_usage)
             repair_apply = run(['python3', str(OPS / 'scripts/map-pipeline-apply.py')], worktree, 60, repair_answer)

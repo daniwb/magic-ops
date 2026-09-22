@@ -1,0 +1,51 @@
+{
+  "gates": [
+    {
+      "id": "scope",
+      "outcome": "passed",
+      "detail": "changed=backend/cardfns/register.go,backend/game/gamestate.go,backend/game/lib_player_damage_event.go,backend/cards/shape_staged_trial_sigil_test.go,backend/game/shape_actual_combat_notifications_test.go"
+    },
+    {
+      "id": "ticket-gate-0",
+      "command": "cd backend && go test ./game -run '^TestShape_ActualCombatNotifications$' -count=1",
+      "outcome": "passed",
+      "elapsed_ms": 186743,
+      "detail": "=== RUN   TestShape_ActualCombatNotifications\n2026/09/15 21:11:25 \ud83d\udde1\ufe0f  gs.DeclareAttackers called player=0 ids=[Combat_source-1-01f0410a] step=declare_attackers active=0\n2026/09/15 21:11:25    \u21b3 accepted 1 attacker(s)\n2026/09/15 21:11:25 \ud83d\udde1\ufe0f  gs.DeclareAttackers called player=0 ids=[Combat_source-2-fa4bca41] step=declare_attackers active=0\n2026/09/15 21:11:25    \u21b3 accepted 1 attacker(s)\n--- PASS: TestShape_ActualCombatNotifications (0.00s)\nPASS\nok  \tmagic-backend/game\t0.024s\nNamed test gate: 1 test(s) passed for '^TestShape_ActualCombatNotifications$'"
+    },
+    {
+      "id": "ticket-gate-1",
+      "command": "cd backend && go test ./cards -run '^TestShape_StagedTrial_sigil$' -count=1",
+      "outcome": "passed",
+      "elapsed_ms": 353231,
+      "detail": "/target_gained_shroud (0.00s)\n=== RUN   TestShape_StagedTrial_sigil/opponent_damaged/combat\n2026/09/15 21:17:19 \ud83d\udde1\ufe0f  gs.DeclareAttackers called player=0 ids=[Enchanted_dealer-53-e6792114] step=declare_attackers active=0\n2026/09/15 21:17:19    \u21b3 accepted 1 attacker(s)\n--- PASS: TestShape_StagedTrial_sigil/opponent_damaged/combat (0.00s)\n=== RUN   TestShape_StagedTrial_sigil/opponent_damaged/combat_direct\n2026/09/15 21:17:19 \ud83d\udde1\ufe0f  gs.DeclareAttackers called player=0 ids=[Enchanted_dealer-57-393061d5] step=declare_attackers active=0\n2026/09/15 21:17:19    \u21b3 accepted 1 attacker(s)\n--- PASS: TestShape_StagedTrial_sigil/opponent_damaged/combat_direct (0.00s)\n=== RUN   TestShape_StagedTrial_sigil/opponent_damaged/combat_direct_prevented\n2026/09/15 21:17:19 \ud83d\udde1\ufe0f  gs.DeclareAttackers called player=0 ids=[Enchanted_dealer-61-5506063e] step=declare_attackers active=0\n2026/09/15 21:17:19    \u21b3 accepted 1 attacker(s)\n--- PASS: TestShape_StagedTrial_sigil/opponent_damaged/combat_direct_prevented (0.00s)\n=== RUN   TestShape_StagedTrial_sigil/opponent_damaged/noncombat\n--- PASS: TestShape_StagedTrial_sigil/opponent_damaged/noncombat (0.00s)\n=== RUN   TestShape_StagedTrial_sigil/opponent_damaged/combat_prevented\n2026/09/15 21:17:19 \ud83d\udde1\ufe0f  gs.DeclareAttackers called player=0 ids=[Enchanted_dealer-69-33cdc64e] step=declare_attackers active=0\n2026/09/15 21:17:19    \u21b3 accepted 1 attacker(s)\n--- PASS: TestShape_StagedTrial_sigil/opponent_damaged/combat_prevented (0.00s)\n=== RUN   TestShape_StagedTrial_sigil/opponent_damaged/noncombat_prevented\n--- PASS: TestShape_StagedTrial_sigil/opponent_damaged/noncombat_prevented (0.00s)\n=== RUN   TestShape_StagedTrial_sigil/opponent_damaged/combat_zero\n2026/09/15 21:17:19 \ud83d\udde1\ufe0f  gs.DeclareAttackers called player=0 ids=[Enchanted_dealer-77-35403300] step=declare_attackers active=0\n2026/09/15 21:17:19    \u21b3 accepted 1 attacker(s)\n--- PASS: TestShape_StagedTrial_sigil/opponent_damaged/combat_zero (0.00s)\n=== RUN   TestShape_StagedTrial_sigil/opponent_damaged/noncombat_zero\n--- PASS: TestShape_StagedTrial_sigil/opponent_damaged/noncombat_zero (0.00s)\n=== RUN   TestShape_StagedTrial_sigil/opponent_damaged/life_loss\n--- PASS: TestShape_StagedTrial_sigil/opponent_damaged/life_loss (0.00s)\n=== RUN   TestShape_StagedTrial_sigil/opponent_damaged/creature_damage\n--- PASS: TestShape_StagedTrial_sigil/opponent_damaged/creature_damage (0.00s)\n=== RUN   TestShape_StagedTrial_sigil/opponent_damaged/unenchanted_dealer\n--- PASS: TestShape_StagedTrial_sigil/opponent_damaged/unenchanted_dealer (0.00s)\n=== RUN   TestShape_StagedTrial_sigil/opponent_damaged/controller_changed\n--- PASS: TestShape_StagedTrial_sigil/opponent_damaged/controller_changed (0.00s)\n=== RUN   TestShape_StagedTrial_sigil/opponent_damaged/target_gained_shroud\n--- PASS: TestShape_StagedTrial_sigil/opponent_damaged/target_gained_shroud (0.00s)\n--- PASS: TestShape_StagedTrial_sigil (1.04s)\nPASS\nok  \tmagic-backend/cards\t1.073s\nNamed test gate: 27 test(s) passed for '^TestShape_StagedTrial_sigil$'"
+    },
+    {
+      "id": "ticket-gate-2",
+      "command": "cd backend && go test ./game ./cards",
+      "outcome": "passed",
+      "elapsed_ms": 252701,
+      "detail": "ok  \tmagic-backend/game\t0.491s\nok  \tmagic-backend/cards\t187.594s"
+    },
+    {
+      "id": "ticket-gate-3",
+      "command": "test -z \"$(gofmt -l backend/cards/shape_staged_trial_sigil_test.go)\"",
+      "outcome": "passed",
+      "elapsed_ms": 58,
+      "detail": ""
+    },
+    {
+      "id": "ticket-gate-4",
+      "command": "git diff --check",
+      "outcome": "passed",
+      "elapsed_ms": 338,
+      "detail": ""
+    }
+  ],
+  "changed": [
+    "backend/cardfns/register.go",
+    "backend/game/gamestate.go",
+    "backend/game/lib_player_damage_event.go",
+    "backend/cards/shape_staged_trial_sigil_test.go",
+    "backend/game/shape_actual_combat_notifications_test.go"
+  ]
+}

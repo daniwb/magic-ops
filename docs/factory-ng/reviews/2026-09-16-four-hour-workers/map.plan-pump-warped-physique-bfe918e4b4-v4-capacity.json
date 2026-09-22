@@ -1,0 +1,10 @@
+{
+  "ticket_id": "ticket:map.plan-pump-warped-physique-bfe918e4b4/v4",
+  "receipt": "docs/factory-ng/runs/2026-09-16T090331Z-map-plan-pump-warped-physique-bfe918e4b4-v4-codex.json",
+  "receipt_sha256": "sha256:c5b8f02fd822c2aa05e5f70916329f0311611bcc4b30510f1acf969124a36523",
+  "raw_artifact": {
+    "path": "docs/factory-ng/runs/2026-09-16T090331Z-map-plan-pump-warped-physique-bfe918e4b4-v4-codex.raw.json",
+    "sha256": "sha256:973351331ce5f2f70bca2b2bced26bd089ff9e1b367dd2f5f6eb013af6f738da"
+  },
+  "finding": "Explicit Luna capacity rejection before any patch; Terra configured and functioning since previous recovery. One attempt, original scope and all gates required."
+}

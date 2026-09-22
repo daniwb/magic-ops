@@ -1,0 +1,12 @@
+[
+  {
+    "ticket_id": "ticket:engine.operator-structural-collapse-recovery-sep15/v1",
+    "ticket_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/structural-collapse/ticket.json",
+    "proposal": "docs/factory-ng/candidates/proposal-645e83ff9c40422c8db841ab36df05be.json",
+    "identity": {
+      "worker": "operator",
+      "model": "operator-correction-no-worker-provider-run",
+      "profile": "codex-constrained@1.1.0"
+    }
+  }
+]

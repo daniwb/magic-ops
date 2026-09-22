@@ -1,0 +1,104 @@
+{
+  "capability": {
+    "expected_unlock": 1,
+    "negative_examples": [
+      "A plain 'tap target creature' (no 'up to', exactly one) atom must keep requiring exactly one target as today",
+      "A caster must not be able to legally select a 4th target on Tidal Surge even though the current cast-time check only validates each supplied target individually"
+    ],
+    "required_behavior": "validateSpellTargetSelection enforces a declared inclusive target count before casting spends resources. ToGameCard preserves target.min_targets=0 and target.max_targets=3 into the SpellEffect stub for one targeted spell-sequence atom. Tidal Surge permits 0..3 distinct legal nonflying_creature targets; Sea Gods Scorn uses the same bounds with creature_or_enchantment and existing bounce. Reject four targets, duplicates and illegal types before mutation. All existing casting paths that validate SpellTargetType use the same check. Revalidate bounded target legality at resolution, skipping illegal members and fizzling when all chosen targets become illegal. Ordinary required-target spells remain required; no-bounds legacy multi-target contracts are unchanged.",
+    "source_misses": [
+      {
+        "card": "Tidal Surge",
+        "oracle_text_sha256": "3b9b1b56150980269211c739cb9d82b9450f6019ad06bd1667137e3b79cc4d98",
+        "paragraph": "Tap up to three target creatures without flying.",
+        "required_behavior": "casting Tidal Surge must let the caster choose 0 to 3 legal nonflying_creature targets (never more than 3), then tap exactly the chosen creatures via the already-proven tap_target_creatures executor"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "fact": "Immutable predecessor. This successor corrects its implementation premise and scope using the behavior audit.",
+      "path": "docs/factory-ng/tickets/engine-auto-spell-seq-atom-up-to-n-target-cap-554092e021-v3.json"
+    },
+    {
+      "fact": "Source and public-path evidence for this correction; old nearest-match line anchors are not carried forward.",
+      "path": "docs/factory-ng/reviews/2026-09-08-throughput/fts5-miss-audit.md"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "Operator-authorized audited repair; preserve model-neutral contract and ordinary integration gates.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "cd backend && go test ./game ./cards -run '^TestShape_AuditedTargetCount' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.auto-spell-seq-atom-up-to-n-target-cap-554092e021/v4",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Retain failed gate evidence; repair the demonstrated defect without weakening acceptance.",
+  "parents": [
+    "ticket:map.plan-tap-tidal-surge-6e2c99a204/v4",
+    "ticket:engine.auto-spell-seq-atom-up-to-n-target-cap-554092e021/v1",
+    "ticket:engine.auto-spell-seq-atom-up-to-n-target-cap-554092e021/v2",
+    "ticket:engine.auto-spell-seq-atom-up-to-n-target-cap-554092e021/v3"
+  ],
+  "production": {
+    "integration_recovery_parent": "ticket:map.plan-tap-tidal-surge-6e2c99a204/v4",
+    "key": "capability:spell_seq_atom_up_to_n_target_cap:sha256:554092e02171b0c80122c22e018d0560b070770ffc77e969d6a1f27e411c1883:gate-repair-v1:evidence-refresh-v1:audited-correction-20260908",
+    "producer": "capability-dependencies",
+    "retry_reason": "operator_audited_contract_correction"
+  },
+  "required_behavior": [
+    "validateSpellTargetSelection enforces a declared inclusive target count before casting spends resources. ToGameCard preserves target.min_targets=0 and target.max_targets=3 into the SpellEffect stub for one targeted spell-sequence atom. Tidal Surge permits 0..3 distinct legal nonflying_creature targets; Sea Gods Scorn uses the same bounds with creature_or_enchantment and existing bounce. Reject four targets, duplicates and illegal types before mutation. All existing casting paths that validate SpellTargetType use the same check. Revalidate bounded target legality at resolution, skipping illegal members and fizzling when all chosen targets become illegal. Ordinary required-target spells remain required; no-bounds legacy multi-target contracts are unchanged.",
+    "Add the public-path regression tests selected by ^TestShape_AuditedTargetCount. No parser/card-name exceptions. Full integration gates and dependent Map verification remain required."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/cards/types.go",
+      "backend/cards/converter.go",
+      "backend/cards/shape_audited_target_count_test.go",
+      "backend/game/card.go",
+      "backend/game/lib_spell_target_selection.go",
+      "backend/game/gamestate_cast.go",
+      "backend/game/additional_cost_blight.go",
+      "backend/game/additional_cost_exile_counter_removal.go",
+      "backend/game/additional_cost_sacrifice.go",
+      "backend/game/cast_from_exile.go",
+      "backend/game/cast_from_library.go",
+      "backend/game/cast_prototype.go",
+      "backend/game/hybrid_mana.go",
+      "backend/game/phyrexian_mana.go",
+      "backend/game/gamestate.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "clean": true,
+    "repository": "/opt/development/test/openmagic",
+    "revision": "6642351731e0c336cd220a861dd14fc212e7d192"
+  },
+  "supersedes": "ticket:engine.auto-spell-seq-atom-up-to-n-target-cap-554092e021/v3",
+  "title": "Audited correction: Preserve zero-to-N spell target bounds through casting",
+  "work_type": "engine"
+}

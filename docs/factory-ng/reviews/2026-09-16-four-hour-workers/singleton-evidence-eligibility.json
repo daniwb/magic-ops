@@ -1,0 +1,52 @@
+[
+  {
+    "ticket": "ticket:engine.auto-conditional-discarded-card-power-damage-c9b4bae1a6/v3",
+    "kind": "test",
+    "worker": "codex-3"
+  },
+  {
+    "ticket": "ticket:engine.auto-conditional-put-counters-on-attached-color-da83525c4d/v4",
+    "kind": "test",
+    "worker": "codex-3"
+  },
+  {
+    "ticket": "ticket:engine.auto-copy-spell-as-artifact-token-cd2b069ce2/v3",
+    "kind": "test",
+    "worker": "codex"
+  },
+  {
+    "ticket": "ticket:engine.auto-copy-target-ability-you-ctl-artifact-source-8f5f743d55/v4",
+    "kind": "test",
+    "worker": "codex-3"
+  },
+  {
+    "ticket": "ticket:engine.auto-count-named-battlefield-permanents-310cdbb906/v3",
+    "kind": "test",
+    "worker": "codex-2"
+  },
+  {
+    "ticket": "ticket:engine.auto-count-named-creatures-controlled-9b848e9f72/v3",
+    "kind": "compile",
+    "worker": "codex"
+  },
+  {
+    "ticket": "ticket:engine.auto-counter-target-spell-color-filter-67b64430fb/v3",
+    "kind": "test",
+    "worker": "codex-2"
+  },
+  {
+    "ticket": "ticket:engine.auto-create-custom-token-by-graveyard-card-types-a81c51d943/v5",
+    "kind": "compile",
+    "worker": "codex-2"
+  },
+  {
+    "ticket": "ticket:engine.auto-create-tokens-from-exiled-card-toughness-0500112401/v3",
+    "kind": "compile",
+    "worker": "codex"
+  },
+  {
+    "ticket": "ticket:engine.auto-damage-amount-graveyard-name-match-count-e5076d7d4a/v4",
+    "kind": "test",
+    "worker": "codex"
+  }
+]

@@ -1,0 +1,56 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-engine-auto-damage-equal-to-source-power-to-flying-creature-4efc529ec4-v2-d334gj1u",
+    "candidate_commit": "aedeb6cbf0c59565d901fa9ccd5d8d6321c17b10",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "91ccce27aa07a441f0e2099157f0b32bf33b7491",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "qwen-prepared-local@1.0.1",
+    "resolved_model": "Qwen3.8-27B-Q8_0",
+    "telemetry": {
+      "cache_read_tokens": 610560,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 522411,
+      "input_tokens": 44983,
+      "output_tokens": 1915,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      }
+    },
+    "worker": "qwen-local"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-04T214025Z-engine-auto-damage-equal-to-source-power-to-flying-creature-4efc529ec4-v2-qwen-agentic.raw.json",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-damage-equal-to-source-power-to-flying-creature-4efc529ec4/v2",
+    "path": "docs/factory-ng/tickets/engine-auto-damage-equal-to-source-power-to-flying-creature-4efc529ec4-v2.json",
+    "sha256": "sha256:a14eb34eef8292dc29064d4d73bdef9017532b51427b8d0438f001dbd1442d69"
+  }
+}

@@ -1,0 +1,740 @@
+From 5860494673056a1c37c088929b93df66a09e8ce3 Mon Sep 17 00:00:00 2001
+From: Factory NG Operator <factory-ng@local>
+Date: Tue, 8 Sep 2026 16:20:50 +0000
+Subject: [PATCH] fix: preserve spell target bounds across casting paths
+
+---
+ backend/cards/converter.go                    | 14 ++-
+ .../cards/shape_audited_target_count_test.go  | 88 +++++++++++++++++++
+ backend/cards/types.go                        | 73 +++++++--------
+ backend/game/additional_cost_blight.go        | 12 +--
+ .../additional_cost_exile_counter_removal.go  | 12 +--
+ backend/game/additional_cost_sacrifice.go     | 24 +----
+ backend/game/card.go                          | 47 +++++-----
+ backend/game/cast_from_exile.go               | 12 +--
+ backend/game/cast_from_library.go             | 12 +--
+ backend/game/cast_prototype.go                | 12 +--
+ backend/game/gamestate.go                     | 12 ++-
+ backend/game/gamestate_cast.go                | 36 ++------
+ backend/game/hybrid_mana.go                   | 12 +--
+ backend/game/lib_spell_target_selection.go    | 42 +++++++++
+ backend/game/phyrexian_mana.go                | 12 +--
+ 15 files changed, 238 insertions(+), 182 deletions(-)
+ create mode 100644 backend/cards/shape_audited_target_count_test.go
+ create mode 100644 backend/game/lib_spell_target_selection.go
+
+diff --git a/backend/cards/converter.go b/backend/cards/converter.go
+index 664807c69..01661532d 100644
+--- a/backend/cards/converter.go
++++ b/backend/cards/converter.go
+@@ -209,9 +209,11 @@ func (def *CardDefinition) ToGameCard(owner int) (*game.Card, error) {
+ 				// TargetCreatureOppCtl TargetType the struct path's
+ 				// "pump_until_eot"/"token_copy" cases above already trust.
+ 				if atom.Target != nil && atom.Target.Filter != "" {
+-					if *atom.Target == (TargetFilter{Filter: atom.Target.Filter}) {
++					filter := *atom.Target
++					filter.MinTargets, filter.MaxTargets = 0, 0
++					if filter == (TargetFilter{Filter: atom.Target.Filter}) {
+ 						spec.TargetType = game.TargetType(atom.Target.Filter)
+-					} else if ct := spellControllerTargetType(atom.Target); ct != "" {
++					} else if ct := spellControllerTargetType(&filter); ct != "" {
+ 						spec.TargetType = ct
+ 					} else {
+ 						spec.TargetType = game.TargetType("unsupported_target_filter")
+@@ -230,11 +232,15 @@ func (def *CardDefinition) ToGameCard(owner int) (*game.Card, error) {
+ 			// walker hands topObj.Targets to every atom executor.
+ 			if card.SpellEffect == nil {
+ 				var tf game.TargetType
++				var minTargets, maxTargets int
+ 				n := 0
+ 				for _, a := range ab.Effects {
+ 					if a.Target != nil && a.Target.Filter != "" {
+ 						n++
+-						if ct := spellControllerTargetType(a.Target); ct != "" {
++						minTargets, maxTargets = a.Target.MinTargets, a.Target.MaxTargets
++						filter := *a.Target
++						filter.MinTargets, filter.MaxTargets = 0, 0
++						if ct := spellControllerTargetType(&filter); ct != "" {
+ 							tf = ct
+ 						} else {
+ 							tf = game.TargetType(a.Target.Filter)
+@@ -242,7 +248,7 @@ func (def *CardDefinition) ToGameCard(owner int) (*game.Card, error) {
+ 					}
+ 				}
+ 				if n == 1 {
+-					card.SpellEffect = &game.SpellEffect{Type: "seq_target_stub", SpellTargetType: tf}
++					card.SpellEffect = &game.SpellEffect{Type: "seq_target_stub", SpellTargetType: tf, MinTargets: minTargets, MaxTargets: maxTargets}
+ 				}
+ 			}
+ 		}
+diff --git a/backend/cards/shape_audited_target_count_test.go b/backend/cards/shape_audited_target_count_test.go
+new file mode 100644
+index 000000000..1f9dcc522
+--- /dev/null
++++ b/backend/cards/shape_audited_target_count_test.go
+@@ -0,0 +1,88 @@
++package cards
++
++import (
++	"encoding/json"
++	"magic-backend/game"
++	"testing"
++)
++
++func TestShape_AuditedTargetCountConversionAndCasting(t *testing.T) {
++	for _, n := range []int{0, 1, 3, 4} {
++		for _, alt := range []bool{false, true} {
++			gs := game.NewGame("P0", "P1", false)
++			gs.PrioritySystem.GivePriority(0)
++			// Exercise the JSON schema boundary, converter and actual cast API.
++			var def CardDefinition
++			if err := json.Unmarshal([]byte(`{"name":"Bounded tap","type":"Instant","abilities":[{"type":"spell","effects":[{"effect":"tap_target_creatures","target":{"filter":"nonflying_creature","min_targets":0,"max_targets":3}}]}]}`), &def); err != nil {
++				t.Fatal(err)
++			}
++			spell, err := def.ToGameCard(0)
++			if err != nil {
++				t.Fatal(err)
++			}
++			if spell.SpellEffect == nil || spell.SpellEffect.MaxTargets != 3 || spell.SpellEffectSequence[0].TargetType != "nonflying_creature" {
++				t.Fatal("bounds or type lost in conversion")
++			}
++			gs.Players[0].Hand.AddCard(spell)
++			var targets []game.Target
++			var creatures []*game.Card
++			for i := 0; i < n; i++ {
++				c := game.NewCreature("target", game.ManaCost{}, 2, 2, 1)
++				gs.Battlefield.AddCard(c)
++				creatures = append(creatures, c)
++				targets = append(targets, game.Target{IsCard: true, CardID: c.ID})
++			}
++			grantor := game.NewCreature("grantor", game.ManaCost{}, 2, 2, 0)
++			grantor.AltCostZeroColorlessFromHand = true
++			grantor.AltCostZeroOncePerTurn = true
++			grantor.AltCostZeroUsedTurn = -1
++			gs.Battlefield.AddCard(grantor)
++			if alt {
++				err = gs.CastSpellWithGrantedAltCostZero(0, spell.ID, grantor.ID, targets)
++			} else {
++				err = gs.CastSpellWithTargets(0, spell.ID, targets)
++			}
++			if n == 4 {
++				if err == nil {
++					t.Fatal("accepted four targets")
++				}
++				if !gs.Players[0].Hand.HasCard(spell.ID) || !gs.Stack.IsEmpty() || grantor.AltCostZeroUsedTurn != -1 {
++					t.Fatal("invalid cast mutated state")
++				}
++				continue
++			}
++			if err != nil {
++				t.Fatalf("n=%d alt=%v: %v", n, alt, err)
++			}
++			// A target that gains flying after casting must be skipped.
++			if n == 3 {
++				creatures[0].Keywords = append(creatures[0].Keywords, game.Flying)
++			}
++			if err := gs.ResolveTopOfStack(); err != nil {
++				t.Fatal(err)
++			}
++			for i, c := range creatures {
++				if c.Tapped != (n != 3 || i != 0) {
++					t.Fatal("resolved wrong selection")
++				}
++			}
++		}
++	}
++}
++
++func TestShape_AuditedTargetCountRejectsDuplicateAndKeepsLegacyRequiredTarget(t *testing.T) {
++	gs := game.NewGame("P0", "P1", false)
++	gs.PrioritySystem.GivePriority(0)
++	c := game.NewCreature("target", game.ManaCost{}, 2, 2, 1)
++	gs.Battlefield.AddCard(c)
++	spell := game.NewInstant("bounded", game.ManaCost{}, &game.SpellEffect{Type: "seq_target_stub", SpellTargetType: game.TargetCreature, MaxTargets: 3}, 0)
++	gs.Players[0].Hand.AddCard(spell)
++	target := game.Target{IsCard: true, CardID: c.ID}
++	if err := gs.CastSpellWithTargets(0, spell.ID, []game.Target{target, target}); err == nil {
++		t.Fatal("duplicate target accepted")
++	}
++	spell.SpellEffect.MaxTargets = 0
++	if err := gs.CastSpellWithTargets(0, spell.ID, nil); err == nil {
++		t.Fatal("legacy required target became optional")
++	}
++}
+diff --git a/backend/cards/types.go b/backend/cards/types.go
+index df4ce67f8..6fd31ae39 100644
+--- a/backend/cards/types.go
++++ b/backend/cards/types.go
+@@ -103,6 +103,9 @@ type AbilityCost struct {
+ 
+ // TargetFilter defines what a spell/ability affects or targets
+ type TargetFilter struct {
++	// MaxTargets > 0 enables a declared inclusive target-count range.
++	MinTargets int    `json:"min_targets,omitempty"`
++	MaxTargets int    `json:"max_targets,omitempty"`
+ 	Filter     string `json:"filter,omitempty"`     // creature, permanent, player, spell
+ 	Subtype    string `json:"subtype,omitempty"`    // Vampire, Zombie, etc.
+ 	Color      string `json:"color,omitempty"`      // W, U, B, R, G
+@@ -119,12 +122,12 @@ type TargetFilter struct {
+ 	// task-2421). Only the grant_nested_triggered/grant_nested_activated
+ 	// converter branches read it (onto GrantRecipientFilter.Attached);
+ 	// other TargetFilter consumers never see it emitted.
+-	Attached   bool   `json:"attached,omitempty"`
+-	Other      bool   `json:"other,omitempty"`      // exclude self
+-	Zone       string `json:"zone,omitempty"`       // battlefield, hand, graveyard
+-	Attacking  bool   `json:"attacking,omitempty"`  // must be attacking
+-	Blocking   bool   `json:"blocking,omitempty"`   // must be blocking
+-	Token      bool   `json:"token,omitempty"`      // only tokens
++	Attached  bool   `json:"attached,omitempty"`
++	Other     bool   `json:"other,omitempty"`     // exclude self
++	Zone      string `json:"zone,omitempty"`      // battlefield, hand, graveyard
++	Attacking bool   `json:"attacking,omitempty"` // must be attacking
++	Blocking  bool   `json:"blocking,omitempty"`  // must be blocking
++	Token     bool   `json:"token,omitempty"`     // only tokens
+ 	// Negative gates (task 2008, affects-slot only — AbilityToEffect maps
+ 	// them onto ContinuousEffect.AffectsExcludeSubtype/AffectsNontoken):
+ 	// "each other non-Human creature you control" / "nontoken creature".
+@@ -148,11 +151,11 @@ type TargetFilter struct {
+ 	// static-subject qualifiers with no pre-existing field — "modified
+ 	// creatures you control", "tapped/untapped creatures you control",
+ 	// "multicolored creature", "commander creatures you control".
+-	Modified     bool         `json:"modified,omitempty"`
+-	Tapped       bool         `json:"tapped,omitempty"`
+-	Untapped     bool         `json:"untapped,omitempty"`
+-	Multicolored bool         `json:"multicolored,omitempty"`
+-	Commander    bool         `json:"commander,omitempty"`
++	Modified     bool `json:"modified,omitempty"`
++	Tapped       bool `json:"tapped,omitempty"`
++	Untapped     bool `json:"untapped,omitempty"`
++	Multicolored bool `json:"multicolored,omitempty"`
++	Commander    bool `json:"commander,omitempty"`
+ 	// Snow (task-2455, trigger_subject_unknown_subtype): "another snow
+ 	// permanent you control enters" (Marit Lage's Slumber class). Only the
+ 	// TRIGGER subject path (converter.go's v2 Subject branch -> events.go
+@@ -160,10 +163,10 @@ type TargetFilter struct {
+ 	// plain printed-supertype check (like Legendary), so wiring the
+ 	// affects-slot too would be equally safe, just not needed by any
+ 	// review-pile card yet.
+-	Snow bool `json:"snow,omitempty"`
+-	Counter        string       `json:"counter,omitempty"`          // must have a counter of this type ("+1/+1")
+-	Keyword        game.Keyword `json:"keyword,omitempty"`          // must have this keyword (e.g. game.Flying)
+-	DamagedThisTurn bool        `json:"damaged_this_turn,omitempty"` // must have been dealt damage this turn
++	Snow            bool         `json:"snow,omitempty"`
++	Counter         string       `json:"counter,omitempty"`           // must have a counter of this type ("+1/+1")
++	Keyword         game.Keyword `json:"keyword,omitempty"`           // must have this keyword (e.g. game.Flying)
++	DamagedThisTurn bool         `json:"damaged_this_turn,omitempty"` // must have been dealt damage this turn
+ 	// Mana-value gates on a cast_spell trigger's spell filter ("a colorless
+ 	// spell with mana value 7 or greater" — Sanctum of Ugin class,
+ 	// task-2005). Only AbilityToTriggered's spec.Spell branch reads these.
+@@ -212,31 +215,31 @@ func (s *SuperQualifier) UnmarshalJSON(b []byte) error {
+ // CardDefinition represents a card definition from JSON or manual input
+ type CardDefinition struct {
+ 	// Basic card data
+-	Name       string                   `json:"name"`
+-	Type       string                   `json:"type"`
+-	Types      []string                 `json:"types,omitempty"` // all printed primary types (e.g. ["Artifact","Creature"])
+-	SubTypes   []string                 `json:"sub_types"`
+-	Legendary  bool                     `json:"legendary,omitempty"` // Rule 205.4d - Legendary supertype
+-	ManaCost   game.ManaCost            `json:"mana_cost"`
+-	Colors     []game.Color             `json:"colors"`
++	Name      string        `json:"name"`
++	Type      string        `json:"type"`
++	Types     []string      `json:"types,omitempty"` // all printed primary types (e.g. ["Artifact","Creature"])
++	SubTypes  []string      `json:"sub_types"`
++	Legendary bool          `json:"legendary,omitempty"` // Rule 205.4d - Legendary supertype
++	ManaCost  game.ManaCost `json:"mana_cost"`
++	Colors    []game.Color  `json:"colors"`
+ 	// ColorIdentity is the Commander color identity (Rule 903.4): all mana
+ 	// symbols in the cost and rules text. Imported from Scryfall's
+ 	// color_identity; ColorIdentityOf() computes it as a fallback.
+-	ColorIdentity []game.Color          `json:"color_identity,omitempty"`
++	ColorIdentity []game.Color `json:"color_identity,omitempty"`
+ 	// IsBasic marks the "Basic" land supertype (exempt from the singleton rule).
+-	IsBasic    bool                     `json:"is_basic,omitempty"`
++	IsBasic bool `json:"is_basic,omitempty"`
+ 	// Commander-pairing signals (Rule 903.3b–d), for two-commander decks.
+-	HasPartner        bool   `json:"has_partner,omitempty"`        // generic "Partner"
+-	PartnerWith       string `json:"partner_with,omitempty"`       // "Partner with [Name]" — only that pair
+-	ChoosesBackground bool   `json:"chooses_background,omitempty"` // "Choose a Background"
+-	IsBackground      bool   `json:"is_background,omitempty"`      // Background enchantment subtype
+-	Power      *int                     `json:"power,omitempty"`
+-	Toughness  *int                     `json:"toughness,omitempty"`
+-	Keywords   []game.Keyword           `json:"keywords"`
+-	Protection []game.ProtectionQuality `json:"protection,omitempty"`
+-	HexproofFrom []game.HexproofColorQuality `json:"hexproof_from,omitempty"`
+-	Text       string                   `json:"text"`
+-	LandType   string                   `json:"land_type,omitempty"`
++	HasPartner        bool                        `json:"has_partner,omitempty"`        // generic "Partner"
++	PartnerWith       string                      `json:"partner_with,omitempty"`       // "Partner with [Name]" — only that pair
++	ChoosesBackground bool                        `json:"chooses_background,omitempty"` // "Choose a Background"
++	IsBackground      bool                        `json:"is_background,omitempty"`      // Background enchantment subtype
++	Power             *int                        `json:"power,omitempty"`
++	Toughness         *int                        `json:"toughness,omitempty"`
++	Keywords          []game.Keyword              `json:"keywords"`
++	Protection        []game.ProtectionQuality    `json:"protection,omitempty"`
++	HexproofFrom      []game.HexproofColorQuality `json:"hexproof_from,omitempty"`
++	Text              string                      `json:"text"`
++	LandType          string                      `json:"land_type,omitempty"`
+ 
+ 	// External IDs
+ 	ScryfallID string `json:"scryfall_id,omitempty"`
+diff --git a/backend/game/additional_cost_blight.go b/backend/game/additional_cost_blight.go
+index 3529640d5..8350e9681 100644
+--- a/backend/game/additional_cost_blight.go
++++ b/backend/game/additional_cost_blight.go
+@@ -96,16 +96,8 @@ func (gs *GameState) CastWithBlight(playerIdx int, cardID string, blightedCreatu
+ 		}
+ 	}
+ 
+-	if card.SpellEffect != nil && card.SpellEffect.SpellTargetType != "" {
+-		if len(targets) == 0 {
+-			return fmt.Errorf("%s: this spell requires a target", card.Name)
+-		}
+-		req := TargetRequirement{Type: card.SpellEffect.SpellTargetType}
+-		for _, t := range targets {
+-			if !IsValidTarget(t, req, gs, playerIdx) {
+-				return fmt.Errorf("%s: invalid target — must target %s", card.Name, card.SpellEffect.SpellTargetType)
+-			}
+-		}
++	if err := gs.validateSpellTargetSelection(card, playerIdx, targets); err != nil {
++		return err
+ 	}
+ 
+ 	if !gs.DebugMode && !player.ManaPool.CanPay(card.ManaCost) {
+diff --git a/backend/game/additional_cost_exile_counter_removal.go b/backend/game/additional_cost_exile_counter_removal.go
+index b0cf0d3fd..9580c9df2 100644
+--- a/backend/game/additional_cost_exile_counter_removal.go
++++ b/backend/game/additional_cost_exile_counter_removal.go
+@@ -106,16 +106,8 @@ func (gs *GameState) CastFromExileWithCounterRemovalCost(playerIdx int, cardID s
+ 	}
+ 
+ 	// Rule 601.2c — targets.
+-	if card.SpellEffect != nil && card.SpellEffect.SpellTargetType != "" {
+-		if len(targets) == 0 {
+-			return fmt.Errorf("%s: this spell requires a target", card.Name)
+-		}
+-		req := TargetRequirement{Type: card.SpellEffect.SpellTargetType}
+-		for _, t := range targets {
+-			if !IsValidTarget(t, req, gs, playerIdx) {
+-				return fmt.Errorf("%s: invalid target — must target %s", card.Name, card.SpellEffect.SpellTargetType)
+-			}
+-		}
++	if err := gs.validateSpellTargetSelection(card, playerIdx, targets); err != nil {
++		return err
+ 	}
+ 
+ 	// Rule 601.2f/2g — mana cost, honouring the same grant rules as
+diff --git a/backend/game/additional_cost_sacrifice.go b/backend/game/additional_cost_sacrifice.go
+index 9c0f54430..1d018425f 100644
+--- a/backend/game/additional_cost_sacrifice.go
++++ b/backend/game/additional_cost_sacrifice.go
+@@ -64,16 +64,8 @@ func (gs *GameState) CastWithSacrifice(playerIdx int, cardID string, sacrificeID
+ 	}
+ 
+ 	// Validate targeted spells have at least one target.
+-	if card.SpellEffect != nil && card.SpellEffect.SpellTargetType != "" {
+-		if len(targets) == 0 {
+-			return fmt.Errorf("%s: this spell requires a target", card.Name)
+-		}
+-		req := TargetRequirement{Type: card.SpellEffect.SpellTargetType}
+-		for _, t := range targets {
+-			if !IsValidTarget(t, req, gs, playerIdx) {
+-				return fmt.Errorf("%s: invalid target — must target %s", card.Name, card.SpellEffect.SpellTargetType)
+-			}
+-		}
++	if err := gs.validateSpellTargetSelection(card, playerIdx, targets); err != nil {
++		return err
+ 	}
+ 
+ 	// Mana affordability check (skip in debug).
+@@ -226,16 +218,8 @@ func (gs *GameState) CastWithSacrificeMultiple(playerIdx int, cardID string, sac
+ 	}
+ 
+ 	// Validate targeted spells have at least one target.
+-	if card.SpellEffect != nil && card.SpellEffect.SpellTargetType != "" {
+-		if len(targets) == 0 {
+-			return fmt.Errorf("%s: this spell requires a target", card.Name)
+-		}
+-		req := TargetRequirement{Type: card.SpellEffect.SpellTargetType}
+-		for _, t := range targets {
+-			if !IsValidTarget(t, req, gs, playerIdx) {
+-				return fmt.Errorf("%s: invalid target — must target %s", card.Name, card.SpellEffect.SpellTargetType)
+-			}
+-		}
++	if err := gs.validateSpellTargetSelection(card, playerIdx, targets); err != nil {
++		return err
+ 	}
+ 
+ 	// Mana affordability check (skip in debug).
+diff --git a/backend/game/card.go b/backend/game/card.go
+index 793de9f47..6d24b3f98 100644
+--- a/backend/game/card.go
++++ b/backend/game/card.go
+@@ -507,15 +507,15 @@ type Card struct {
+ 	PairedWithID string `json:"paired_with_id,omitempty"`
+ 
+ 	// Land-specific
+-	LandType                 string `json:"land_type,omitempty"`                   // "Plains", "Island", "Mountain", etc.
+-	HasPlayedLand            bool   `json:"has_played_land"`                       // Track if land was played this turn
+-	EtbChooseCreatureType    bool   `json:"etb_choose_creature_type,omitempty"`    // True if player must choose a creature type on ETB
++	LandType              string `json:"land_type,omitempty"`                // "Plains", "Island", "Mountain", etc.
++	HasPlayedLand         bool   `json:"has_played_land"`                    // Track if land was played this turn
++	EtbChooseCreatureType bool   `json:"etb_choose_creature_type,omitempty"` // True if player must choose a creature type on ETB
+ 	// EtbChooseColor — "As this permanent enters, choose a color." The choice
+ 	// arrives through the same cast payOption channel as
+ 	// EtbChooseCreatureType (scratch-binding round 2026-08-02, [VOCAB] #1961);
+ 	// the chosen color lands in ChosenColor for "of the chosen color" readers
+ 	// (add_mana color=="chosen").
+-	EtbChooseColor bool `json:"etb_choose_color,omitempty"`
++	EtbChooseColor           bool   `json:"etb_choose_color,omitempty"`
+ 	ChosenCreatureType       string `json:"chosen_creature_type,omitempty"`        // Creature type chosen when Cavern-style land/creature entered
+ 	BecomeChosenCreatureType bool   `json:"become_chosen_creature_type,omitempty"` // True if this creature is the chosen type (Metallic Mimic)
+ 
+@@ -526,8 +526,8 @@ type Card struct {
+ 	SpellEffectSequence []EffectAtomSpec `json:"spell_effect_sequence,omitempty"`
+ 
+ 	// Abilities (from DSL)
+-	TriggeredAbilities []*TriggeredAbility `json:"-"`                           // Registered when entering battlefield
+-	ActivatedAbilities []*ActivatedAbility `json:"-"`                           // Available when on battlefield
++	TriggeredAbilities []*TriggeredAbility `json:"-"` // Registered when entering battlefield
++	ActivatedAbilities []*ActivatedAbility `json:"-"` // Available when on battlefield
+ 
+ 	// StaticContinuousEffects holds this card's static abilities as
+ 	// ContinuousEffects, precomputed at CardDefinition→Card conversion time
+@@ -552,7 +552,7 @@ type Card struct {
+ 	// \"{cost}: ...\"" static grants. Same conversion-to-registration
+ 	// handoff, same json:"-" (rebuilt from the record on conversion).
+ 	FilteredNestedActivatedGrantSpecs []*FilteredNestedActivatedGrantSpec `json:"-"`
+-	LoyaltyAbilities   []*LoyaltyAbility   `json:"loyalty_abilities,omitempty"` // Planeswalker loyalty abilities (Rule 306.5)
++	LoyaltyAbilities                  []*LoyaltyAbility                   `json:"loyalty_abilities,omitempty"` // Planeswalker loyalty abilities (Rule 306.5)
+ 	// Saga framework (Rule 714, saga round 2026-08-06):
+ 	SagaChapters []*SagaChapterAbility `json:"saga_chapters,omitempty"`
+ 	FinalChapter int                   `json:"final_chapter,omitempty"` // 0 = not a Saga; max chapter number
+@@ -1209,9 +1209,9 @@ type Card struct {
+ 	// hand-wired CostReductionFns entry for the same card, same precedent
+ 	// as the AffinityType/SpellCostReductionSpec guards above.
+ 	ConditionalSelfSpellCostReduce struct {
+-		Condition      string `json:"condition,omitempty"`
++		Condition        string `json:"condition,omitempty"`
+ 		ConditionSubtype string `json:"condition_subtype,omitempty"`
+-		Reduction      int    `json:"reduction,omitempty"`
++		Reduction        int    `json:"reduction,omitempty"`
+ 	} `json:"conditional_self_spell_cost_reduce,omitempty"`
+ 
+ 	// StriveCostPerExtraTarget — Strive (Rule 702.94) / Officious
+@@ -1412,9 +1412,9 @@ type Card struct {
+ 	// EventSpellCast handler (owned to this card's battlefield lifetime) for
+ 	// whichever of these is set when the card enters play; see
+ 	// registerCantBeCounteredGrant (gamestate.go).
+-	GrantsSpellsUncounterable                   bool   `json:"grants_spells_uncounterable,omitempty"`
++	GrantsSpellsUncounterable                    bool   `json:"grants_spells_uncounterable,omitempty"`
+ 	GrantsCreatureEnchantmentSpellsUncounterable bool   `json:"grants_creature_enchantment_spells_uncounterable,omitempty"`
+-	GrantsAllSpellsUncounterable                bool   `json:"grants_all_spells_uncounterable,omitempty"`
++	GrantsAllSpellsUncounterable                 bool   `json:"grants_all_spells_uncounterable,omitempty"`
+ 	GrantsSubtypeSpellsUncounterable             string `json:"grants_subtype_spells_uncounterable,omitempty"`
+ 
+ 	// GoadedUntilTurn — goad (Rule 701.38): while TurnCount <= this value the
+@@ -2323,12 +2323,12 @@ type FaceState struct {
+ 	Text          string    `json:"text,omitempty"`
+ 	LandType      string    `json:"land_type,omitempty"`
+ 
+-	TriggeredAbilities []*TriggeredAbility `json:"-"`
+-	ActivatedAbilities []*ActivatedAbility `json:"-"`
+-	EtbCounters        []EtbCounterSpec    `json:"etb_counters,omitempty"`
+-	LoyaltyAbilities   []*LoyaltyAbility   `json:"loyalty_abilities,omitempty"` // Planeswalker loyalty abilities
++	TriggeredAbilities []*TriggeredAbility   `json:"-"`
++	ActivatedAbilities []*ActivatedAbility   `json:"-"`
++	EtbCounters        []EtbCounterSpec      `json:"etb_counters,omitempty"`
++	LoyaltyAbilities   []*LoyaltyAbility     `json:"loyalty_abilities,omitempty"` // Planeswalker loyalty abilities
+ 	SagaChapters       []*SagaChapterAbility `json:"saga_chapters,omitempty"`
+-	FinalChapter       int                 `json:"final_chapter,omitempty"`
++	FinalChapter       int                   `json:"final_chapter,omitempty"`
+ 
+ 	// StartingLoyalty is the printed starting loyalty for planeswalker faces.
+ 	// Used to initialise Counters.Loyalty when the face is first cast or when
+@@ -2419,8 +2419,11 @@ type EtbConditionSpec struct {
+ 
+ // SpellEffect defines what an instant or sorcery does when it resolves
+ type SpellEffect struct {
+-	Type   string `json:"type"`   // "damage", "destroy", "draw", "life_gain", "life_loss", "counter", "search", "reveal_choose", "bounce"
+-	Amount int    `json:"amount"` // For damage, life, draw effects, count for reveal_choose
++	// MaxTargets > 0 enables a declared inclusive target-count range.
++	MinTargets int    `json:"min_targets,omitempty"`
++	MaxTargets int    `json:"max_targets,omitempty"`
++	Type       string `json:"type"`   // "damage", "destroy", "draw", "life_gain", "life_loss", "counter", "search", "reveal_choose", "bounce"
++	Amount     int    `json:"amount"` // For damage, life, draw effects, count for reveal_choose
+ 	// All=true means the effect hits every battlefield permanent matching
+ 	// Filter (under Controller scope) instead of explicit targets — used by
+ 	// "Return all artifacts you control to their owner's hand" (Retract).
+@@ -2454,9 +2457,9 @@ type SpellEffect struct {
+ 	// revealed card is "the rest" (routes to Rest). Mutually exclusive with
+ 	// Amount — "reveal cards from the top of your library until you reveal a
+ 	// <filter> card" (Evolutionary Leap, Atla Palani, Yuna's Whistle, ...).
+-	UntilFilter string `json:"until_filter,omitempty"`
+-	CounterType string `json:"counter_type,omitempty"` // For put_counter: which counter ("+1/+1", "charge", ...)
+-	Keywords    []string `json:"keywords,omitempty"`   // For grant_keywords_until_eot: which keywords to grant
++	UntilFilter string   `json:"until_filter,omitempty"`
++	CounterType string   `json:"counter_type,omitempty"` // For put_counter: which counter ("+1/+1", "charge", ...)
++	Keywords    []string `json:"keywords,omitempty"`     // For grant_keywords_until_eot: which keywords to grant
+ 	// DeliriumFilter, if non-empty, replaces Filter when the controller has
+ 	// delirium (four or more card types among cards in their graveyard) at
+ 	// resolution. Used by Traverse the Ulvenwald: the base search is for a
+@@ -2475,7 +2478,7 @@ type SpellEffect struct {
+ 	// Destination; only on the LAST pick do the remaining revealed cards
+ 	// sweep to Rest (gamestate_tutor.go ResolveTutorChoice reveal multi-pick
+ 	// branch) — sweeping earlier would leave later picks with no candidates.
+-	PickCount      int    `json:"pick_count,omitempty"`
++	PickCount int `json:"pick_count,omitempty"`
+ 	// CreateTokenEffect, if non-nil, is executed after the primary spell
+ 	// effect resolves. Used for spells that additionally create a token
+ 	// (e.g. Malevolent Rumble: reveal_choose + create Eldrazi Spawn).
+diff --git a/backend/game/cast_from_exile.go b/backend/game/cast_from_exile.go
+index 6c5241805..40907be71 100644
+--- a/backend/game/cast_from_exile.go
++++ b/backend/game/cast_from_exile.go
+@@ -152,16 +152,8 @@ func (gs *GameState) CastSpellFromExileWithTargets(playerIdx int, cardID string,
+ 	}
+ 
+ 	// Rule 601.2c — targets.
+-	if card.SpellEffect != nil && card.SpellEffect.SpellTargetType != "" {
+-		if len(targets) == 0 {
+-			return fmt.Errorf("%s: this spell requires a target", card.Name)
+-		}
+-		req := TargetRequirement{Type: card.SpellEffect.SpellTargetType}
+-		for _, t := range targets {
+-			if !IsValidTarget(t, req, gs, playerIdx) {
+-				return fmt.Errorf("%s: invalid target — must target %s", card.Name, card.SpellEffect.SpellTargetType)
+-			}
+-		}
++	if err := gs.validateSpellTargetSelection(card, playerIdx, targets); err != nil {
++		return err
+ 	}
+ 
+ 	// Rule 601.2f/2g — cost. "Spend mana as though any color" collapses every
+diff --git a/backend/game/cast_from_library.go b/backend/game/cast_from_library.go
+index a09e3892a..b87c49948 100644
+--- a/backend/game/cast_from_library.go
++++ b/backend/game/cast_from_library.go
+@@ -111,16 +111,8 @@ func (gs *GameState) CastSpellFromLibraryWithTargets(playerIdx int, cardID strin
+ 	}
+ 
+ 	// Rule 601.2c — targets.
+-	if card.SpellEffect != nil && card.SpellEffect.SpellTargetType != "" {
+-		if len(targets) == 0 {
+-			return fmt.Errorf("%s: this spell requires a target", card.Name)
+-		}
+-		req := TargetRequirement{Type: card.SpellEffect.SpellTargetType}
+-		for _, t := range targets {
+-			if !IsValidTarget(t, req, gs, playerIdx) {
+-				return fmt.Errorf("%s: invalid target — must target %s", card.Name, card.SpellEffect.SpellTargetType)
+-			}
+-		}
++	if err := gs.validateSpellTargetSelection(card, playerIdx, targets); err != nil {
++		return err
+ 	}
+ 
+ 	cost := card.ManaCost
+diff --git a/backend/game/cast_prototype.go b/backend/game/cast_prototype.go
+index 2d86d5e7e..e01200537 100644
+--- a/backend/game/cast_prototype.go
++++ b/backend/game/cast_prototype.go
+@@ -56,16 +56,8 @@ func (gs *GameState) CastSpellWithPrototype(playerIdx int, cardID string, modeIn
+ 	}
+ 
+ 	// Rule 601.2c — target validation, same as CastSpellWithTargets/AltCost.
+-	if card.SpellEffect != nil && card.SpellEffect.SpellTargetType != "" {
+-		if len(targets) == 0 {
+-			return fmt.Errorf("%s: this spell requires a target", card.Name)
+-		}
+-		req := TargetRequirement{Type: card.SpellEffect.SpellTargetType}
+-		for _, t := range targets {
+-			if !IsValidTarget(t, req, gs, playerIdx) {
+-				return fmt.Errorf("%s: invalid target — must target %s", card.Name, card.SpellEffect.SpellTargetType)
+-			}
+-		}
++	if err := gs.validateSpellTargetSelection(card, playerIdx, targets); err != nil {
++		return err
+ 	}
+ 
+ 	// Rule 601.2b/601.2f — determine the total cost: start from the
+diff --git a/backend/game/gamestate.go b/backend/game/gamestate.go
+index d66419ffc..a1c3f1e17 100644
+--- a/backend/game/gamestate.go
++++ b/backend/game/gamestate.go
+@@ -3092,7 +3092,17 @@ func (gs *GameState) ResolveTopOfStack() error {
+ 	controllerGraveyard := gs.GetPlayer(topObj.Controller).Graveyard
+ 
+ 	// Rule 608.2b - Check if targets are still legal
+-	if len(topObj.Targets) > 0 {
++	hadTargets := len(topObj.Targets) > 0
++	if effect := topObj.Card.SpellEffect; effect != nil && effect.MaxTargets > 0 && len(topObj.Targets) > 0 {
++		legal := make([]Target, 0, len(topObj.Targets))
++		for _, target := range topObj.Targets {
++			if IsValidTarget(target, TargetRequirement{Type: effect.SpellTargetType}, gs, topObj.Controller) {
++				legal = append(legal, target)
++			}
++		}
++		topObj.Targets = legal
++	}
++	if hadTargets {
+ 		allTargetsInvalid := true
+ 		for _, target := range topObj.Targets {
+ 			if target.IsCard {
+diff --git a/backend/game/gamestate_cast.go b/backend/game/gamestate_cast.go
+index b4cc4fddb..6a62739d7 100644
+--- a/backend/game/gamestate_cast.go
++++ b/backend/game/gamestate_cast.go
+@@ -313,16 +313,8 @@ func (gs *GameState) CastSpellWithAltCost(playerIdx int, cardID string, costChoi
+ 
+ 	// Rule 601.2c — targeted spells require at least one target even when
+ 	// paying an alternative cost.
+-	if card.SpellEffect != nil && card.SpellEffect.SpellTargetType != "" {
+-		if len(targets) == 0 {
+-			return fmt.Errorf("%s: this spell requires a target", card.Name)
+-		}
+-		req := TargetRequirement{Type: card.SpellEffect.SpellTargetType}
+-		for _, t := range targets {
+-			if !IsValidTarget(t, req, gs, playerIdx) {
+-				return fmt.Errorf("%s: invalid target — must target %s", card.Name, card.SpellEffect.SpellTargetType)
+-			}
+-		}
++	if err := gs.validateSpellTargetSelection(card, playerIdx, targets); err != nil {
++		return err
+ 	}
+ 
+ 	// Remove from hand
+@@ -423,16 +415,8 @@ func (gs *GameState) CastSpellWithGrantedAltCostZero(playerIdx int, cardID, gran
+ 
+ 	// Rule 601.2c — targeted spells require at least one target even when
+ 	// paying an alternative cost.
+-	if card.SpellEffect != nil && card.SpellEffect.SpellTargetType != "" {
+-		if len(targets) == 0 {
+-			return fmt.Errorf("%s: this spell requires a target", card.Name)
+-		}
+-		req := TargetRequirement{Type: card.SpellEffect.SpellTargetType}
+-		for _, t := range targets {
+-			if !IsValidTarget(t, req, gs, playerIdx) {
+-				return fmt.Errorf("%s: invalid target — must target %s", card.Name, card.SpellEffect.SpellTargetType)
+-			}
+-		}
++	if err := gs.validateSpellTargetSelection(card, playerIdx, targets); err != nil {
++		return err
+ 	}
+ 
+ 	card, err = player.Hand.RemoveCard(cardID)
+@@ -485,16 +469,8 @@ func (gs *GameState) CastSpellWithTargets(playerIdx int, cardID string, targets
+ 	}
+ 
+ 	// Rule 601.2c — validate that targets match the spell's target type restriction.
+-	if card.SpellEffect != nil && card.SpellEffect.SpellTargetType != "" {
+-		if len(targets) == 0 {
+-			return fmt.Errorf("%s: this spell requires a target", card.Name)
+-		}
+-		req := TargetRequirement{Type: card.SpellEffect.SpellTargetType}
+-		for _, t := range targets {
+-			if !IsValidTarget(t, req, gs, playerIdx) {
+-				return fmt.Errorf("%s: invalid target — must target %s", card.Name, card.SpellEffect.SpellTargetType)
+-			}
+-		}
++	if err := gs.validateSpellTargetSelection(card, playerIdx, targets); err != nil {
++		return err
+ 	}
+ 
+ 	// Rule 601.2b — check if the player can pay the mana cost (skip in debug).
+diff --git a/backend/game/hybrid_mana.go b/backend/game/hybrid_mana.go
+index c4a86b038..1c4061ebf 100644
+--- a/backend/game/hybrid_mana.go
++++ b/backend/game/hybrid_mana.go
+@@ -108,16 +108,8 @@ func (gs *GameState) CastWithHybridMana(playerIdx int, cardID string, choices []
+ 	}
+ 
+ 	// Rule 601.2c — validate targets match the spell's target restriction.
+-	if card.SpellEffect != nil && card.SpellEffect.SpellTargetType != "" {
+-		if len(targets) == 0 {
+-			return fmt.Errorf("%s: this spell requires a target", card.Name)
+-		}
+-		req := TargetRequirement{Type: card.SpellEffect.SpellTargetType}
+-		for _, t := range targets {
+-			if !IsValidTarget(t, req, gs, playerIdx) {
+-				return fmt.Errorf("%s: invalid target — must target %s", card.Name, card.SpellEffect.SpellTargetType)
+-			}
+-		}
++	if err := gs.validateSpellTargetSelection(card, playerIdx, targets); err != nil {
++		return err
+ 	}
+ 
+ 	effCost, err := foldHybridCost(card.ManaCost, card.ManaCost.Hybrid, choices)
+diff --git a/backend/game/lib_spell_target_selection.go b/backend/game/lib_spell_target_selection.go
+new file mode 100644
+index 000000000..c48de95f2
+--- /dev/null
++++ b/backend/game/lib_spell_target_selection.go
+@@ -0,0 +1,42 @@
++package game
++
++import "fmt"
++
++// Validate the declaration before a casting path spends resources. Legacy
++// effects without explicit bounds retain their existing cardinality behavior.
++func (gs *GameState) validateSpellTargetSelection(card *Card, controller int, targets []Target) error {
++	effect := card.SpellEffect
++	if effect == nil || effect.SpellTargetType == "" {
++		return nil
++	}
++	if effect.MaxTargets != 0 || effect.MinTargets != 0 {
++		if effect.MinTargets < 0 || effect.MaxTargets < 1 || effect.MinTargets > effect.MaxTargets {
++			return fmt.Errorf("%s: invalid target-count requirement", card.Name)
++		}
++		if len(targets) < effect.MinTargets || len(targets) > effect.MaxTargets {
++			return fmt.Errorf("%s: choose %d to %d targets", card.Name, effect.MinTargets, effect.MaxTargets)
++		}
++		seen := map[string]bool{}
++		for _, target := range targets {
++			key := fmt.Sprintf("player:%d", target.PlayerIdx)
++			if target.IsCard {
++				key = "card:" + target.CardID
++			}
++			if target.StackID != "" {
++				key = "stack:" + target.StackID
++			}
++			if seen[key] {
++				return fmt.Errorf("%s: duplicate target", card.Name)
++			}
++			seen[key] = true
++		}
++	} else if len(targets) == 0 {
++		return fmt.Errorf("%s: this spell requires a target", card.Name)
++	}
++	for _, target := range targets {
++		if !IsValidTarget(target, TargetRequirement{Type: effect.SpellTargetType}, gs, controller) {
++			return fmt.Errorf("%s: invalid target — must target %s", card.Name, effect.SpellTargetType)
++		}
++	}
++	return nil
++}
+diff --git a/backend/game/phyrexian_mana.go b/backend/game/phyrexian_mana.go
+index ce5f56985..92ad8404a 100644
+--- a/backend/game/phyrexian_mana.go
++++ b/backend/game/phyrexian_mana.go
+@@ -79,16 +79,8 @@ func (gs *GameState) CastWithPhyrexianMana(playerIdx int, cardID string, choices
+ 	}
+ 
+ 	// Rule 601.2c — validate targets match the spell's target restriction.
+-	if card.SpellEffect != nil && card.SpellEffect.SpellTargetType != "" {
+-		if len(targets) == 0 {
+-			return fmt.Errorf("%s: this spell requires a target", card.Name)
+-		}
+-		req := TargetRequirement{Type: card.SpellEffect.SpellTargetType}
+-		for _, t := range targets {
+-			if !IsValidTarget(t, req, gs, playerIdx) {
+-				return fmt.Errorf("%s: invalid target — must target %s", card.Name, card.SpellEffect.SpellTargetType)
+-			}
+-		}
++	if err := gs.validateSpellTargetSelection(card, playerIdx, targets); err != nil {
++		return err
+ 	}
+ 
+ 	// Fold each Phyrexian pip into either the mana side (as its chosen
+-- 
+2.43.0
+

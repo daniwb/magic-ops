@@ -1,0 +1,16 @@
+{
+  "at": "2026-09-08T21:33:51.333836+00:00",
+  "batch": "four-context-retries-2026-09-08",
+  "selected": [
+    "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v2",
+    "ticket:map.plan-put-counters-machine-man-model-x-51-5f65a12e95/v1",
+    "ticket:map.plan-pump-barge-in-a96db2c352/v1",
+    "ticket:map.plan-pump-thorntooth-witch-5b8aaa9b51/v1"
+  ],
+  "max_active": 2,
+  "profile": "claude-staged@1.0.0",
+  "controller_reloaded_from_pid": 3093467,
+  "tests_passed": 111,
+  "worker_config_changed": false,
+  "deployment": false
+}

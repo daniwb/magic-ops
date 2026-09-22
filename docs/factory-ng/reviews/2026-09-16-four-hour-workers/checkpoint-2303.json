@@ -1,0 +1,169 @@
+{
+  "at": "2026-09-16T23:02:44.942608+00:00",
+  "window": {
+    "start": "2026-09-16T19:02:46Z",
+    "end": "2026-09-16T23:44:56.854616Z",
+    "baseline_states": {
+      "failed": 1341,
+      "completed": 1461,
+      "parked": 402,
+      "integration_failed": 3,
+      "blocked": 921
+    },
+    "workers": [
+      "codex",
+      "codex-2",
+      "codex-3",
+      "codex-4"
+    ],
+    "requested_end": "2026-09-16T23:02:46Z",
+    "stability_start": "2026-09-16T19:44:56.854616Z",
+    "stability_baseline_states": {
+      "failed": 1316,
+      "completed": 1467,
+      "integrating": 1,
+      "parked": 403,
+      "awaiting_verification": 7,
+      "working": 9,
+      "queued": 1,
+      "awaiting_integration": 1,
+      "integration_failed": 3,
+      "blocked": 920
+    }
+  },
+  "states": {
+    "failed": 1233,
+    "completed": 1535,
+    "parked": 420,
+    "integration_failed": 11,
+    "integrating": 3,
+    "working": 9,
+    "awaiting_verification": 9,
+    "awaiting_integration": 1,
+    "queued": 1,
+    "blocked": 907
+  },
+  "model_leases": {
+    "codex": [
+      {
+        "ticket": "ticket:engine.auto-exile-by-mana-value-f99d570d8b/v4",
+        "alive": true,
+        "repair": false
+      }
+    ],
+    "codex-2": [
+      {
+        "ticket": "ticket:engine.auto-damage-from-sequence-referent-to-source-f78d16e401/v4",
+        "alive": true,
+        "repair": true
+      }
+    ],
+    "codex-3": [
+      {
+        "ticket": "ticket:engine.auto-energy-arc-shared-any-number-target-set-3a3ecff6d5/v3",
+        "alive": true,
+        "repair": false
+      }
+    ],
+    "codex-4": [
+      {
+        "ticket": "ticket:engine.auto-exile-created-token-at-end-of-combat-c561ff752a/v3",
+        "alive": true,
+        "repair": false
+      }
+    ]
+  },
+  "recent_occupancy": [
+    {
+      "at": "2026-09-16T22:52:50.557450+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T22:53:21.000001+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:53:51.454368+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:54:21.884249+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T22:54:52.298760+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T22:55:22.727428+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:55:53.251112+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:56:23.771670+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T22:56:54.180988+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:57:24.634262+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T22:57:55.053843+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T22:58:25.472593+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T22:58:55.919972+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:59:26.361366+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:59:56.822354+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T23:00:27.223227+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T23:00:57.686316+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T23:01:28.156288+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T23:01:58.594280+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T23:02:29.029618+00:00",
+      "occupied": 4
+    }
+  ],
+  "window_sample_counts": {
+    "4": 88,
+    "3": 107,
+    "2": 97,
+    "1": 91,
+    "0": 7
+  },
+  "net_completed_since_request": 74,
+  "queued": [
+    "ticket:engine.auto-exile-creature-unless-keyword-only-dc154f319f/v3"
+  ]
+}

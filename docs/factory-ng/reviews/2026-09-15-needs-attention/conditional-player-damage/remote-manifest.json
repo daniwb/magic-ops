@@ -1,0 +1,12 @@
+[
+  {
+    "ticket_id": "ticket:engine.operator-conditional-player-damage-recovery-sep15/v1",
+    "ticket_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/conditional-player-damage/ticket.json",
+    "proposal": "docs/factory-ng/candidates/proposal-2a731155c7094d938829ade099778188.json",
+    "identity": {
+      "worker": "operator",
+      "model": "operator-correction-no-worker-provider-run",
+      "profile": "codex-constrained@1.1.0"
+    }
+  }
+]

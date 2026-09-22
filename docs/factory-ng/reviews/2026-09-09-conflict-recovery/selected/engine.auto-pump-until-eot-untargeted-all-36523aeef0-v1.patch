@@ -1,0 +1,121 @@
+From a481a9721432bedfa274a578b6b483cc9568ea23 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Tue, 8 Sep 2026 18:07:13 +0000
+Subject: [PATCH] factory-ng: supervised engine observation
+
+---
+ backend/game/ability_effects.go            | 15 +++--
+ backend/game/factory_ng_36523aeef0_test.go | 74 ++++++++++++++++++++++
+ 2 files changed, 83 insertions(+), 6 deletions(-)
+ create mode 100644 backend/game/factory_ng_36523aeef0_test.go
+
+diff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go
+index 93721fdbe..839919e5e 100644
+--- a/backend/game/ability_effects.go
++++ b/backend/game/ability_effects.go
+@@ -5707,13 +5707,16 @@ func (gs *GameState) ExecuteAbilityEffect(stackObj *StackObject) error {
+ 		// SOURCE instead of the printed target (the ~180 shipped activated/
+ 		// triggered records whose per-atom target never survives conversion
+ 		// keep their current inert behavior until target promotion exists
+-		// for them).
++		// for them). UNTARGETED-ALL EXCEPTION (ticket
++		// engine.auto-pump-until-eot-untargeted-all-36523aeef0, Tip the
++		// Scales class: "all creatures get -X/-X until end of turn"): that
++		// shape carries no target at all by design, so it's let through to
++		// executePumpEffect's own effectValue["all"] mass-filter branch
++		// instead of tripping the no-target guard above.
+ 		if len(targets) == 0 {
+-			// group_filter atoms (e.g. "each creature blocking it") are a
+-			// legitimate no-target shape of pump_until_eot — let them
+-			// through to executePumpEffect's group_filter branch above
+-			// instead of no-op'ing.
+-			if gf, _ := effectValue["group_filter"].(string); gf == "" {
++			group, _ := effectValue["group_filter"].(string)
++			all, _ := effectValue["all"].(bool)
++			if group == "" && !all {
+ 				return nil
+ 			}
+ 		}
+diff --git a/backend/game/factory_ng_36523aeef0_test.go b/backend/game/factory_ng_36523aeef0_test.go
+new file mode 100644
+index 000000000..98110099a
+--- /dev/null
++++ b/backend/game/factory_ng_36523aeef0_test.go
+@@ -0,0 +1,74 @@
++package game
++
++import "testing"
++
++// ticket engine.auto-pump-until-eot-untargeted-all-36523aeef0 (Tip the
++// Scales class): "When you do, all creatures get -X/-X until end of turn"
++// carries no target at all, so it must reach executePumpEffect's existing
++// effectValue["all"] mass-filter branch instead of tripping the
++// pump_until_eot no-target guard. Exercised through the same
++// GameState.ExecuteAbilityEffect(stackObj) entry point stack resolution
++// uses in production.
++func TestFactoryNGPumpUntilEotUntargetedAll(t *testing.T) {
++	gs := NewGame("P0", "P1", false)
++
++	mine := NewCreature("Factory NG Mine Beast", ManaCost{}, 3, 3, 0)
++	mine.Owner, mine.Controller = 0, 0
++	gs.Battlefield.AddCard(mine)
++
++	theirs := NewCreature("Factory NG Their Beast", ManaCost{}, 2, 2, 1)
++	theirs.Owner, theirs.Controller = 1, 1
++	gs.Battlefield.AddCard(theirs)
++
++	source := NewCreature("Factory NG Sac Fodder", ManaCost{}, 1, 1, 2)
++
++	countEffects := func() int { return len(gs.EffectManager.effects) }
++	before := countEffects()
++
++	untargetedAll := &StackObject{
++		IsAbility:  true,
++		Text:       "pump_until_eot",
++		Controller: 0,
++		Card:       source,
++		EffectValue: map[string]interface{}{
++			"all":        true,
++			"controller": "all",
++			"power":      -2,
++			"toughness":  -2,
++		},
++	}
++	if err := gs.ExecuteAbilityEffect(untargetedAll); err != nil {
++		t.Fatalf("ExecuteAbilityEffect (untargeted all): %v", err)
++	}
++
++	affected := map[string]bool{}
++	for _, eff := range gs.EffectManager.effects[before:] {
++		if eff.UntilEOT && eff.PowerMod == -2 && eff.ToughnessMod == -2 {
++			affected[eff.AffectsSpecific] = true
++		}
++	}
++	if !affected[mine.ID] {
++		t.Fatalf("untargeted pump_until_eot with all=true did not affect controller's own creature")
++	}
++	if !affected[theirs.ID] {
++		t.Fatalf("untargeted pump_until_eot with all=true did not affect opponent's creature")
++	}
++
++	// Negative example: single-target pump_until_eot with no target
++	// supplied and no "all" flag stays a no-op (unchanged behavior for the
++	// printed-targeted form).
++	before2 := countEffects()
++	noTarget := &StackObject{
++		IsAbility:   true,
++		Text:        "pump_until_eot",
++		Controller:  0,
++		Card:        source,
++		EffectValue: map[string]interface{}{"power": -1, "toughness": -1},
++	}
++	if err := gs.ExecuteAbilityEffect(noTarget); err != nil {
++		t.Fatalf("ExecuteAbilityEffect (no target, no all): %v", err)
++	}
++	if countEffects() != before2 {
++		t.Fatalf("targeted pump_until_eot with no target and no all=true should remain a no-op")
++	}
++}
+-- 
+2.43.0
+

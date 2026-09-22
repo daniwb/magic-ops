@@ -1,0 +1,39 @@
+{
+  "checked_at": "2026-09-15T08:56:17Z",
+  "gates": [
+    {
+      "pid": 4021982,
+      "tickets": [
+        "ticket:engine.auto-created-token-sequence-referent-88a1d43021/v2",
+        "ticket:engine.auto-grant-ability-until-eot-26df41cb52/v2",
+        "ticket:engine.auto-grant-activated-ability-to-filtered-permanents-u-ec28b20e76/v2",
+        "ticket:engine.auto-grant-keyword-permanent-choice-modal-3da7dea30d/v2",
+        "ticket:engine.auto-prevent-combat-damage-to-and-from-self-this-turn-c8889ab527/v1",
+        "ticket:engine.auto-spell-self-return-to-hand-on-resolve-794dd61c7b/v2",
+        "ticket:map.plan-destroy-nature-s-ruin-11fde3e717/v2"
+      ],
+      "state": "integrating",
+      "verification_batch": false,
+      "affinity": [
+        "Cpus_allowed_list:\t12,19"
+      ],
+      "alive": true
+    },
+    {
+      "pid": 4055307,
+      "tickets": [
+        "ticket:engine.auto-counter-all-other-spells-nontargeted-1e302db346/v2",
+        "ticket:engine.auto-damage-event-subject-controller-019bae4df2/v1",
+        "ticket:engine.auto-destroy-trigger-referent-end-of-combat-404f754b58/v3",
+        "ticket:engine.auto-grant-additional-combat-phase-5185933e2b/v1",
+        "ticket:engine.auto-untap-choose-up-to-n-c3975cd2cb/v1"
+      ],
+      "state": "working",
+      "verification_batch": true,
+      "affinity": [
+        "Cpus_allowed_list:\t12,19"
+      ],
+      "alive": true
+    }
+  ]
+}

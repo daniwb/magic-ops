@@ -1,0 +1,57 @@
+```json
+{
+  "findings": [
+    {
+      "symbol_id": "backend/game/ability_effects.go::game.GameState.executeDrawEffect",
+      "path": "backend/game/ability_effects.go",
+      "source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+      "start_line": 16301,
+      "behavior": "Engine effect handler for \"Draw N cards\" on an executed (activated/triggered) ability. Reads amount from effectValue[\"amount\"] (default 1, clamped at 0). Branching: (a) effectValue[\"target\"] == \"each_player\" loops all gs.Players calling DrawCardsWithEvent; (b) otherwise scans the ability's Targets for a non-card, player-type target (t.IsCard == false, 0 <= PlayerIdx < len(Players)) and draws for that player — the in-code comment attributes this to the draw_target_player primitive / \"target player\"/\"that player\" family (Lore Weaver, Xira Arien, Archivist of Gondor) and notes ActivatedAbility.Target is already wired into stackObj.Targets; (c) falls back to the controller, or 1-controller when target == \"opponent\". All paths delegate to gs.DrawCardsWithEvent."
+    },
+    {
+      "symbol_id": "backend/game/gamestate.go::game.GameState.DrawCardsWithEvent",
+      "path": "backend/game/gamestate.go",
+      "source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+      "start_line": 8993,
+      "behavior": "Count loop: calls gs.DrawCardWithEvent(playerIdx) count times, aborting and returning the first error. Verified callee of executeDrawEffect."
+    },
+    {
+      "symbol_id": "backend/game/gamestate.go::game.GameState.DrawCardWithEvent",
+      "path": "backend/game/gamestate.go",
+      "source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+      "start_line": 8931,
+      "behavior": "Canonical single-card draw entry point. Resolves the player; if ReplacementManager has a draw replacement for that player, it short-circuits to effect.DrawReplacementFn (replacement-effect layer, e.g. library-search replacement). Otherwise peeks Library.LookAtTop(1) to identify the card, calls player.DrawCard() to actually move it, then publishes CreateDrawEvent(drawnCard, playerIdx) on the EventBus and pushes each resulting triggered ability onto the stack."
+    },
+    {
+      "symbol_id": "backend/game/player.go::game.Player.DrawCard",
+      "path": "backend/game/player.go",
+      "source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+      "start_line": 1982,
+      "behavior": "The library -> hand mover. Takes the card from p.Library via Zone.DrawCard(); on failure returns \"player %d tried to draw from empty library\" (comment cites Rule 104.3c re: drawing more cards than remain); on success calls p.Hand.AddCard(card). No event firing at this layer — events live in DrawCardWithEvent."
+    },
+    {
+      "symbol_id": "backend/game/zone.go::game.Zone.DrawCard",
+      "path": "backend/game/zone.go",
+      "source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+      "start_line": 201,
+      "behavior": "Lowest-level library removal: guards z.Type == ZoneLibrary and non-empty, then removes and returns z.Cards[0] (top of library, index 0) by reslicing z.Cards = z.Cards[1:]. Comment cites Rule 121. Note it only removes from the library; the hand insertion is done by Player.DrawCard."
+    }
+  ],
+  "negative_search": {
+    "query": "factory_probe_nonexistent_9ec77a_function",
+    "result": "not_found",
+    "strategy": "normalized_all_terms",
+    "indexed_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+    "what_it_establishes": "Only that this exact token produced no row in the card-knowledge index under a normalized all-terms lookup at revision f8d04f3. Consistent with the name being a synthetic probe that exists nowhere.",
+    "what_it_does_not_establish": "It does not prove the identifier is absent from the pinned checkout: the index is a curated subset (indexed handlers/helpers/engine symbols), not a full symbol table, and lookup is word-normalized rather than a literal grep — an unindexed private function, a string constant, a generated/templated symbol, a differently-spelled or renamed equivalent, or code added after the indexed revision would all miss. It also does not establish that the underlying engine capability is missing; the tool itself returns \"This does not establish a missing engine capability.\" Confirming true absence would require a literal grep/read of the pinned checkout, which was out of scope here."
+  },
+  "limitations": [
+    "Indexed revision and read_source revision agree (both f8d04f3ce658cafd9fc05a92edd2960e016e36d9) for every symbol read, so no index/checkout drift was observed in this session.",
+    "UNVERIFIED: the switch/dispatch inside game.GameState.ExecuteAbilityEffect that routes an effect to executeDrawEffect. I read only its signature via exact_symbol lookup and the separate index entry for case:put_counter_and_draw_card; the actual 'draw_card' case label and how effectValue is decoded were not read.",
+    "UNVERIFIED callees: Player.Hand.AddCard, Zone.LookAtTop, ReplacementManager.GetDrawReplacement / DrawReplacementFn, CreateDrawEvent, EventBus.Publish, PutTriggeredAbilityOnEventStack/PutTriggeredAbilityOnStack, and getIntValue. Their behavior is inferred from names and call sites only.",
+    "Zone.DrawCard removes the card from the library but performs no hand insertion; the 'move from library to hand' behavior is split across Player.DrawCard (Zone.DrawCard + Hand.AddCard). Neither Zone.DrawCard nor Player.DrawCard fires draw events, so callers that bypass DrawCardWithEvent would move a card without triggering draw triggers.",
+    "Search was behavior-word based and returned many additional draw-adjacent symbols not inspected (game.Player.DrawCards, game.GameState.DrawWithMiracleCheck, game.GameState.handleTrackCardsDrawn, cardfns.ReplaceDrawWithLibrarySearch, handler SylvanLibrary, evalDynamicAmountBase#case:cards_drawn_this_turn). These are alternative/specialized paths, not evidence against the chain above.",
+    "Tool calls used: 9 of 9; no files were edited and no tests were run, per instructions."
+  ]
+}
+```

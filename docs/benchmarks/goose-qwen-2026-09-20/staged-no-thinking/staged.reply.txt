@@ -1,0 +1,300 @@
+Based on the ticket requirements and source evidence, the core behavior is to implement a "freeze until next untap" primitive. While `Card.SkipNextUntap` exists, the ticket requires a specific named effect `auto_freeze_until_next_untap` that satisfies the contract:
+1.  Marks a target permanent so it doesn't untap during the next untap step.
+2.  Clears the marker after that step.
+3.  Does NOT carry "plain tap" behavior (negative example 1).
+4.  Does NOT extend duration on second application (negative example 2).
+
+The existing `skip_next_untap_step` effect satisfies the mechanics (using `Card.SkipNextUntap`), but the harness requires a new *discriminating* test and registration for the specific capability `auto_freeze_until_next_untap` to distinguish it from plain taps and ensure the "freeze" semantics are explicitly tested via the public `ExecuteAbilityEffect` path.
+
+I will:
+1.  Add the `auto_freeze_until_next_untap` case to `backend/game/ability_effects.go`.
+2.  Register it in a new registry file `backend/cards/registry_factory_ng_7b6fc522b0.go`.
+3.  Create the required test file `backend/game/factory_ng_7b6fc522b0_test.go` covering the contract.
+
+<<<NEWFILE backend/game/ability_effects.go
+// This file exists. I will append the new case. Since I cannot append directly with SEARCH/REPLACE easily without a large anchor, I will use the unique anchor from the end of the `tap_referent_doesnt_untap` block or similar.
+// Looking at the provided source, `tap_referent_doesnt_untap` ends around line 8870.
+// I will target the end of the `tap_referent_doesnt_untap` block to insert the new primitive.
+<<<FILE backend/game/ability_effects.go
+<<<SEARCH
+	if effect == "tap_referent_doesnt_untap" {
+		for _, tgt := range targets {
+			if !tgt.IsCard {
+				continue
+			}
+			card, err := gs.Battlefield.GetCard(tgt.CardID)
+			if err != nil || card == nil {
+				continue
+			}
+			card.Tap()
+			if gs.EventBus != nil {
+				gs.ProcessTriggeredAbilities(NewEvent(EventTapped).WithSource(card).WithPlayer(card.Controller))
+				gs.ProcessTriggeredAbilities(NewEvent(EventBecomesTapped).WithSource(card).WithPlayer(card.Controller))
+			}
+			card.SkipNextUntap = true
+		}
+		return nil
+	}
+===REPLACE
+	if effect == "tap_referent_doesnt_untap" {
+		for _, tgt := range targets {
+			if !tgt.IsCard {
+				continue
+			}
+			card, err := gs.Battlefield.GetCard(tgt.CardID)
+			if err != nil || card == nil {
+				continue
+			}
+			card.Tap()
+			if gs.EventBus != nil {
+				gs.ProcessTriggeredAbilities(NewEvent(EventTapped).WithSource(card).WithPlayer(card.Controller))
+				gs.ProcessTriggeredAbilities(NewEvent(EventBecomesTapped).WithSource(card).WithPlayer(card.Controller))
+			}
+			card.SkipNextUntap = true
+		}
+		return nil
+	}
+	// auto_freeze_until_next_untap primitive (ticket engine.auto-freeze-until-next-untap-7b6fc522b0/v1):
+	// Marks the target permanent to skip its controller's next untap step.
+	// Distinct from plain 'tap' effects: it does NOT tap the permanent, it only sets the skip flag.
+	// Distinct from repeated freezes: setting SkipNextUntap multiple times has no additional effect
+	// (it remains true, consumed once by UntapAll).
+	if effect == "auto_freeze_until_next_untap" {
+		for _, tgt := range targets {
+			if !tgt.IsCard {
+				continue
+			}
+			card, err := gs.Battlefield.GetCard(tgt.CardID)
+			if err != nil || card == nil {
+				continue
+			}
+			// Do not tap. Just mark for skip.
+			card.SkipNextUntap = true
+		}
+		return nil
+	}
+>>>END
+
+<<<NEWFILE backend/cards/registry_factory_ng_7b6fc522b0.go
+package cards
+
+func init() {
+	regEffect("auto_freeze_until_next_untap", Primitive{
+		Executor:  "game/ability_effects.go case \"auto_freeze_until_next_untap\" -> Card.SkipNextUntap (Rule 701.39 machinery, consumed by Zone.UntapAll)",
+		ShapeTest: "TestFactoryNGFreezeUntilNextUntap_7b6fc522b0",
+	})
+}
+>>>END
+
+<<<NEWFILE backend/game/factory_ng_7b6fc522b0_test.go
+package game
+
+import (
+	"testing"
+)
+
+// TestFactoryNGFreezeUntilNextUntap_7b6fc522b0 verifies the auto_freeze_until_next_untap primitive.
+// Contract:
+// 1. Target permanent is marked SkipNextUntap.
+// 2. During controller's next untap step, it stays tapped (if it was) or doesn't untap (if it was untapped, it stays untapped but the flag prevents the 'untap' action/logic from clearing it? No, SkipNextUntap prevents the state change to Untapped. If it was Untapped, it stays Untapped. If it was Tapped, it stays Tapped.)
+//    Correction: The requirement is "does not untap". If a card is already untapped, "not untapping" is a no-op state-wise, but the flag is set. The consumer `Zone.UntapAll` checks the flag. If set, it skips the `card.Untap()` call.
+// 3. Marker is cleared after that step.
+// 4. Plain tap does not have this behavior.
+// 5. Double freeze does not extend beyond next untap.
+
+func TestFactoryNGFreezeUntilNextUntap_7b6fc522b0(t *testing.T) {
+	gs := NewGame("P0", "P1", false)
+
+	// Setup: Source card for the ability
+	source := NewCreature("Freeze Source", ManaCost{}, 1, 1, 0)
+	source.Owner, source.Controller = 0, 0
+	gs.Battlefield.AddCard(source)
+
+	// Target 1: A tapped creature that should stay tapped
+	targetTapped := NewCreature("Target Tapped", ManaCost{}, 2, 2, 1)
+	targetTapped.Owner, targetTapped.Controller = 1, 1
+	targetTapped.Tapped = true
+	gs.Battlefield.AddCard(targetTapped)
+
+	// Target 2: An untapped creature that should stay untapped (but flag is set)
+	targetUntapped := NewCreature("Target Untapped", ManaCost{}, 2, 2, 1)
+	targetUntapped.Owner, targetUntapped.Controller = 1, 1
+	targetUntapped.Tapped = false
+	gs.Battlefield.AddCard(targetUntapped)
+
+	// Sibling: Untapped creature, no freeze, should stay untapped (or if tapped, untap)
+	sibling := NewCreature("Sibling", ManaCost{}, 2, 2, 1)
+	sibling.Owner, sibling.Controller = 1, 1
+	sibling.Tapped = true
+	gs.Battlefield.AddCard(sibling)
+
+	// 1. Execute auto_freeze_until_next_untap on targetTapped and targetUntapped
+	stackObj := &StackObject{
+		IsAbility:   true,
+		Text:        "auto_freeze_until_next_untap",
+		Controller:  0,
+		Card:        source,
+		EffectValue: map[string]interface{}{},
+		Targets: []Target{
+			{Type: TargetCreature, CardID: targetTapped.ID, IsCard: true},
+			{Type: TargetCreature, CardID: targetUntapped.ID, IsCard: true},
+		},
+	}
+
+	if err := gs.ExecuteAbilityEffect(stackObj); err != nil {
+		t.Fatalf("ExecuteAbilityEffect failed: %v", err)
+	}
+
+	// Verify markers are set
+	if !targetTapped.SkipNextUntap {
+		t.Errorf("targetTapped should have SkipNextUntap set")
+	}
+	if !targetUntapped.SkipNextUntap {
+		t.Errorf("targetUntapped should have SkipNextUntap set")
+	}
+	if sibling.SkipNextUntap {
+		t.Errorf("sibling should not have SkipNextUntap set")
+	}
+
+	// 2. Execute Untap Step for Controller 1
+	if err := ExecuteUntapStep(gs.Players[1], gs.Battlefield); err != nil {
+		t.Fatalf("ExecuteUntapStep failed: %v", err)
+	}
+
+	// Verify states after untap step
+	// targetTapped was Tapped + Skip -> Should remain Tapped
+	if !targetTapped.Tapped {
+		t.Errorf("targetTapped should have remained Tapped")
+	}
+	// targetUntapped was Untapped + Skip -> Should remain Untapped (Untap() not called)
+	if targetUntapped.Tapped {
+		t.Errorf("targetUntapped should have remained Untapped")
+	}
+	// sibling was Tapped + No Skip -> Should be Untapped
+	if sibling.Tapped {
+		t.Errorf("sibling should have untapped")
+	}
+
+	// Verify markers are cleared
+	if targetTapped.SkipNextUntap {
+		t.Errorf("targetTapped SkipNextUntap should be cleared")
+	}
+	if targetUntapped.SkipNextUntap {
+		t.Errorf("targetUntapped SkipNextUntap should be cleared")
+	}
+
+	// 3. Next Untap Step (without new freeze)
+	// Reset states for next round
+	targetTapped.Tapped = true
+	targetUntapped.Tapped = true
+	sibling.Tapped = true
+
+	if err := ExecuteUntapStep(gs.Players[1], gs.Battlefield); err != nil {
+		t.Fatalf("ExecuteUntapStep (2nd) failed: %v", err)
+	}
+
+	// All should untap now
+	if targetTapped.Tapped {
+		t.Errorf("targetTapped should have untapped in 2nd step")
+	}
+	if targetUntapped.Tapped {
+		t.Errorf("targetUntapped should have untapped in 2nd step")
+	}
+	if sibling.Tapped {
+		t.Errorf("sibling should have untapped in 2nd step")
+	}
+
+	// 4. Negative Example: Plain Tap effect should NOT have freeze behavior
+	// We simulate a plain tap by using the 'tap' effect if registered, or just manual state check.
+	// The requirement says "A plain tap effect... must not carry the duration-bound freeze behavior."
+	// We can verify this by checking that executing a 'tap' effect does not set SkipNextUntap.
+	// Note: 'tap' is likely already registered.
+	targetTapped.Tapped = false
+	targetTapped.SkipNextUntap = false
+
+	stackTap := &StackObject{
+		IsAbility:   true,
+		Text:        "tap",
+		Controller:  0,
+		Card:        source,
+		EffectValue: map[string]interface{}{},
+		Targets:     []Target{{Type: TargetCreature, CardID: targetTapped.ID, IsCard: true}},
+	}
+
+	// If 'tap' is not registered in this isolated context, this might fail or no-op.
+	// However, the contract says it must not carry freeze.
+	// Let's assume 'tap' exists. If it doesn't, we can skip this specific check or use a dummy.
+	// Given the environment, 'tap' is a core primitive.
+	if err := gs.ExecuteAbilityEffect(stackTap); err != nil {
+		t.Fatalf("ExecuteAbilityEffect (tap) failed: %v", err)
+	}
+
+	if !targetTapped.Tapped {
+		t.Errorf("Plain tap should have tapped the card")
+	}
+	if targetTapped.SkipNextUntap {
+		t.Errorf("Plain tap should NOT have set SkipNextUntap")
+	}
+
+	// 5. Negative Example: Double freeze does not extend duration
+	// Apply freeze twice to a tapped card
+	targetTapped.Tapped = true
+	targetTapped.SkipNextUntap = false
+
+	stackFreeze1 := &StackObject{
+		IsAbility:   true,
+		Text:        "auto_freeze_until_next_untap",
+		Controller:  0,
+		Card:        source,
+		EffectValue: map[string]interface{}{},
+		Targets:     []Target{{Type: TargetCreature, CardID: targetTapped.ID, IsCard: true}},
+	}
+	if err := gs.ExecuteAbilityEffect(stackFreeze1); err != nil {
+		t.Fatalf("Freeze 1 failed: %v", err)
+	}
+	if !targetTapped.SkipNextUntap {
+		t.Errorf("Freeze 1 should have set SkipNextUntap")
+	}
+
+	stackFreeze2 := &StackObject{
+		IsAbility:   true,
+		Text:        "auto_freeze_until_next_untap",
+		Controller:  0,
+		Card:        source,
+		EffectValue: map[string]interface{}{},
+		Targets:     []Target{{Type: TargetCreature, CardID: targetTapped.ID, IsCard: true}},
+	}
+	if err := gs.ExecuteAbilityEffect(stackFreeze2); err != nil {
+		t.Fatalf("Freeze 2 failed: %v", err)
+	}
+	// Still just true, no counter or extension
+	if !targetTapped.SkipNextUntap {
+		t.Errorf("Freeze 2 should have maintained SkipNextUntap")
+	}
+
+	// Execute Untap Step
+	if err := ExecuteUntapStep(gs.Players[1], gs.Battlefield); err != nil {
+		t.Fatalf("ExecuteUntapStep (3rd) failed: %v", err)
+	}
+
+	// Should remain tapped
+	if !targetTapped.Tapped {
+		t.Errorf("Double-frozen card should have remained tapped")
+	}
+	// Marker cleared
+	if targetTapped.SkipNextUntap {
+		t.Errorf("Marker should be cleared after one step")
+	}
+
+	// Next step it untaps
+	targetTapped.Tapped = true
+	if err := ExecuteUntapStep(gs.Players[1], gs.Battlefield); err != nil {
+		t.Fatalf("ExecuteUntapStep (4th) failed: %v", err)
+	}
+	if targetTapped.Tapped {
+		t.Errorf("Card should have untapped in the step after the freeze step")
+	}
+}
+>>>END
+
+EXPECT: The patch implements the `auto_freeze_until_next_untap` primitive in `ability_effects.go`, registers it in `registry_factory_ng_7b6fc522b0.go`, and provides a comprehensive test `TestFactoryNGFreezeUntilNextUntap_7b6fc522b0` that validates the freeze, clearance, and negative cases against plain taps and double application.

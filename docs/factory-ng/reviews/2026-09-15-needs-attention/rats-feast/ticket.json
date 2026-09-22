@@ -1,0 +1,926 @@
+{
+  "evidence": [
+    {
+      "anchor": "1789-1928",
+      "fact": "Current exact exile branch; inspect the complete-card probe before editing.",
+      "path": "scripts/paragraph/reparse.py",
+      "sha256": "sha256:33ce8bf6f6c827fcf0b33b8d7f363de376dedffabbfce93d9821d566403bd6d9"
+    },
+    {
+      "anchor": "6157-6296",
+      "fact": "Current exact exile branch; inspect the complete-card probe before editing.",
+      "path": "scripts/paragraph/reparse.py",
+      "sha256": "sha256:33ce8bf6f6c827fcf0b33b8d7f363de376dedffabbfce93d9821d566403bd6d9"
+    },
+    {
+      "fact": "The blocked member was revalidated after its Engine dependency integrated.",
+      "path": "docs/factory-ng/measurements/dependency-resume-4b3b2e23d1.json"
+    },
+    {
+      "fact": "The existing exile primitive is registered with executor game/ability_effects.go case \"exile\" -> executeExileEffect (battlefield targets; effect-cleanup + unregister) and shape test TestShape_Activated_ExileTarget.",
+      "path": "backend/cards/registry.go"
+    },
+    {
+      "anchor": "2671-2690",
+      "fact": "Verified declaration game.GameState.executeExileTargetCardsFromEventPlayerGraveyardEffect in source revision ba76f30c1ea6a4b2ab17ff66ccb4e49a6db6c3d7; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [
+            {
+              "description": "executeExileTargetCardsFromEventPlayerGraveyardEffect implements the",
+              "doc": "executeExileTargetCardsFromEventPlayerGraveyardEffect implements the\nauto_exile_cards_from_specific_player_graveyard_d4263a7f1f primitive\n(ticket engine.auto-exile-cards-from-specific-player-graveyard-d4263a7f1f,\nSkullsnatcher class: \"Whenever this creature deals combat damage to a\nplayer, exile up to two target cards from that player's graveyard.\").\nUnlike executeExileTargetCardsSingleGraveyardEffect above, which locks\nonto whichever graveyard holds the FIRST resolvable target (an\nundirected \"a single graveyard\" reading), this shape's Oracle text names\na SPECIFIC player's graveyard \u2014 the one identified dynamically by the\ntrigger context (the combat-damage recipient), carried on\nStackObject.EventPlayer/HasEventPlayer exactly like the existing\ntarget_ref==\"event_player\" rewrite (above) uses for player-typed\ntargets. Since the targets here are CARDS rather than the player\nitself, that generic rewrite doesn't apply; this executor instead reads\nEventPlayer directly and exiles only the targeted cards that are\nactually in THAT player's graveyard, skipping any target that isn't\nthere (fizzled elsewhere, or stale from a different graveyard) exactly\nlike a vanished target (Rule 608.2b). No stamped event player: no-op.\n",
+              "end": 2690,
+              "kind": "engine",
+              "name": "executeExileTargetCardsFromEventPlayerGraveyardEffect",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeExileTargetCardsFromEventPlayerGraveyardEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeExileTargetCardsFromEventPlayerGraveyardEffect(stackObj *StackObject, targets []Target) error",
+              "start": 2671,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeExileTargetCardsFromEventPlayerGraveyardEffect",
+              "symbol_kind": "function",
+              "title": "executeExileTargetCardsFromEventPlayerGraveyardEffect"
+            },
+            {
+              "description": "executeExileFromGraveyardTargetEffect implements the",
+              "doc": "executeExileFromGraveyardTargetEffect implements the\nexile_target_from_graveyard primitive (ticket\nengine.auto-exile-from-graveyard-3fefe932a6, Scour the Desert class):\n\"Exile target creature card from your graveyard.\" Unlike\nexecuteExileFromGraveyardEffect's amount-based auto-select (no target,\nfront-of-graveyard order) and executeExileEffect's battlefield-target\nremoval, this moves a single player-CHOSEN graveyard card to exile.\neffectValue[\"whose\"] selects which player's graveyard holds the legal\ntarget \u2014 \"you\" (default, the ability's controller) or \"opponent\" (first\nother player), mirroring executeExileFromGraveyardEffect's own \"whose\"\nconvention. An optional effectValue[\"filter\"] (matchesPermanentFilter's\nvocabulary, e.g. \"creature\") narrows what may be exiled. Mirrors\nexecuteReturnCardFromGraveyardSubsetToHand's GetCard/filter/RemoveCard\nidiom, just moving to Exile instead of Hand. No target, no matching\nplayer, an absent card, or a filter mismatch is a no-op \u2014 never an error\n(Rule 601.2c-style illegal/absent target tolerance).\n",
+              "end": 1613,
+              "kind": "engine",
+              "name": "executeExileFromGraveyardTargetEffect",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeExileFromGraveyardTargetEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeExileFromGraveyardTargetEffect(controller int, effectValue map[string]interface{}, targets []Target) error",
+              "start": 1579,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeExileFromGraveyardTargetEffect",
+              "symbol_kind": "function",
+              "title": "executeExileFromGraveyardTargetEffect"
+            },
+            {
+              "description": "executeExileTargetCardsSingleGraveyardEffect implements the",
+              "doc": "executeExileTargetCardsSingleGraveyardEffect implements the\nexile_target_cards_single_graveyard primitive (ticket\nengine.auto-exile-graveyard-card-target-ca4c0bd5ac, REPARSE-MAP\nverb_unmapped:exile / \"Exile up to two target cards from a single\ngraveyard\" family \u2014 Famished Ghoul class): unlike\nexile_target_cards_from_graveyard below, whose targets are already\nconstrained to one player by the Oracle text itself (Lochmere Serpent's\n\"an opponent's graveyard\"), this shape's Oracle text imposes the\nsingle-graveyard constraint on the CHOSEN SET of targets: all of them\nmust come from the same graveyard, whichever one that is. The executor\nenforces this at resolution time: it locks onto whichever graveyard\nholds the FIRST resolvable target, then only exiles targets also found\nin that same player's graveyard \u2014 a target sitting in a different\ngraveyard is skipped rather than exiled, exactly as if it had been an\nillegal target. Battlefield permanents are never consulted here\n(executeExileEffect's battlefield resolution is unaffected). A vanished\ntarget (Rule 608.2b) is skipped like any other; if none of the targets\nresolve to a graveyard at all, this is a no-op.\n",
+              "end": 2651,
+              "kind": "engine",
+              "name": "executeExileTargetCardsSingleGraveyardEffect",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeExileTargetCardsSingleGraveyardEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeExileTargetCardsSingleGraveyardEffect(targets []Target) error",
+              "start": 2617,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeExileTargetCardsSingleGraveyardEffect",
+              "symbol_kind": "function",
+              "title": "executeExileTargetCardsSingleGraveyardEffect"
+            },
+            {
+              "description": "CastWithEscape casts a card from the graveyard using its Escape cost.",
+              "doc": "CastWithEscape casts a card from the graveyard using its Escape cost.\nchosenExileIDs are the OTHER graveyard cards to exile as part of the\ncost \u2014 must be exactly EscapeExile cards, not the spell itself.\n",
+              "end": 99,
+              "kind": "engine",
+              "name": "CastWithEscape",
+              "package": "game",
+              "path": "backend/game/escape.go",
+              "qualified": "game.GameState.CastWithEscape",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) CastWithEscape(playerIdx int, cardID string, chosenExileIDs []string, targets []Target) error",
+              "start": 18,
+              "symbol_id": "backend/game/escape.go::game.GameState.CastWithEscape",
+              "symbol_kind": "function",
+              "title": "CastWithEscape"
+            }
+          ],
+          "current_source_revision": "ba76f30c1ea6a4b2ab17ff66ccb4e49a6db6c3d7",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"exile\" AND \"target\" AND \"card\" AND \"from\" AND \"graveyard\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T00:40:13Z",
+          "indexed_revision": "ba76f30c1ea6a4b2ab17ff66ccb4e49a6db6c3d7",
+          "normalized_words": [
+            "exile",
+            "target",
+            "card",
+            "from",
+            "graveyard"
+          ],
+          "query": "exile_target_cards_from_graveyard",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "exile_target_cards_from_graveyard",
+            "request_id": "5867a9c7857e4044a2155b0c579ee42e",
+            "ticket": "ticket:map.plan-exile-rats-feast-5a756bbff8/v2"
+          },
+          "request_id": "5867a9c7857e4044a2155b0c579ee42e",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "applySpellEffectCore#case:exile",
+              "doc": "",
+              "end": 4074,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.applySpellEffectCore#case:exile",
+              "receiver": "GameState",
+              "signature": "applySpellEffectCore#case:exile",
+              "start": 4071,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.applySpellEffectCore#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            },
+            {
+              "description": "routeCardTo#case:exile",
+              "doc": "",
+              "end": 566,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/gamestate_tutor.go",
+              "qualified": "game.GameState.routeCardTo#case:exile",
+              "receiver": "GameState",
+              "signature": "routeCardTo#case:exile",
+              "start": 565,
+              "symbol_id": "backend/game/gamestate_tutor.go::game.GameState.routeCardTo#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            },
+            {
+              "description": "evaluateConditionRaw#case:exile",
+              "doc": "",
+              "end": 631,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/condition.go",
+              "qualified": "game.GameState.evaluateConditionRaw#case:exile",
+              "receiver": "GameState",
+              "signature": "evaluateConditionRaw#case:exile",
+              "start": 630,
+              "symbol_id": "backend/game/condition.go::game.GameState.evaluateConditionRaw#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            }
+          ],
+          "current_source_revision": "ba76f30c1ea6a4b2ab17ff66ccb4e49a6db6c3d7",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T00:40:13Z",
+          "indexed_revision": "ba76f30c1ea6a4b2ab17ff66ccb4e49a6db6c3d7",
+          "normalized_words": [
+            "exile"
+          ],
+          "query": "exile",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "exile",
+            "request_id": "cd614475a93e4350ade2baf3b6a63262",
+            "ticket": "ticket:map.plan-exile-rats-feast-5a756bbff8/v2"
+          },
+          "request_id": "cd614475a93e4350ade2baf3b6a63262",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:dd2e798cdfb25dbaf3928d30ce02f412e9cd5f37e5902f48024f33cb1d7c7c2c",
+      "symbol": {
+        "description": "executeExileTargetCardsFromEventPlayerGraveyardEffect implements the",
+        "discovery_role": "capability_label",
+        "doc": "executeExileTargetCardsFromEventPlayerGraveyardEffect implements the\nauto_exile_cards_from_specific_player_graveyard_d4263a7f1f primitive\n(ticket engine.auto-exile-cards-from-specific-player-graveyard-d4263a7f1f,\nSkullsnatcher class: \"Whenever this creature deals combat damage to a\nplayer, exile up to two target cards from that player's graveyard.\").\nUnlike executeExileTargetCardsSingleGraveyardEffect above, which locks\nonto whichever graveyard holds the FIRST resolvable target (an\nundirected \"a single graveyard\" reading), this shape's Oracle text names\na SPECIFIC player's graveyard \u2014 the one identified dynamically by the\ntrigger context (the combat-damage recipient), carried on\nStackObject.EventPlayer/HasEventPlayer exactly like the existing\ntarget_ref==\"event_player\" rewrite (above) uses for player-typed\ntargets. Since the targets here are CARDS rather than the player\nitself, that generic rewrite doesn't apply; this executor instead reads\nEventPlayer directly and exiles only the targeted cards that are\nactually in THAT player's graveyard, skipping any target that isn't\nthere (fizzled elsewhere, or stale from a different graveyard) exactly\nlike a vanished target (Rule 608.2b). No stamped event player: no-op.\n",
+        "end": 2690,
+        "kind": "engine",
+        "name": "executeExileTargetCardsFromEventPlayerGraveyardEffect",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.executeExileTargetCardsFromEventPlayerGraveyardEffect",
+        "receiver": "GameState",
+        "request_id": "5867a9c7857e4044a2155b0c579ee42e",
+        "signature": "func (gs *GameState) executeExileTargetCardsFromEventPlayerGraveyardEffect(stackObj *StackObject, targets []Target) error",
+        "start": 2671,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.executeExileTargetCardsFromEventPlayerGraveyardEffect",
+        "symbol_kind": "function",
+        "title": "executeExileTargetCardsFromEventPlayerGraveyardEffect"
+      }
+    },
+    {
+      "anchor": "4071-4074",
+      "fact": "Verified declaration game.GameState.applySpellEffectCore#case:exile in source revision ba76f30c1ea6a4b2ab17ff66ccb4e49a6db6c3d7; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [
+            {
+              "description": "executeExileTargetCardsFromEventPlayerGraveyardEffect implements the",
+              "doc": "executeExileTargetCardsFromEventPlayerGraveyardEffect implements the\nauto_exile_cards_from_specific_player_graveyard_d4263a7f1f primitive\n(ticket engine.auto-exile-cards-from-specific-player-graveyard-d4263a7f1f,\nSkullsnatcher class: \"Whenever this creature deals combat damage to a\nplayer, exile up to two target cards from that player's graveyard.\").\nUnlike executeExileTargetCardsSingleGraveyardEffect above, which locks\nonto whichever graveyard holds the FIRST resolvable target (an\nundirected \"a single graveyard\" reading), this shape's Oracle text names\na SPECIFIC player's graveyard \u2014 the one identified dynamically by the\ntrigger context (the combat-damage recipient), carried on\nStackObject.EventPlayer/HasEventPlayer exactly like the existing\ntarget_ref==\"event_player\" rewrite (above) uses for player-typed\ntargets. Since the targets here are CARDS rather than the player\nitself, that generic rewrite doesn't apply; this executor instead reads\nEventPlayer directly and exiles only the targeted cards that are\nactually in THAT player's graveyard, skipping any target that isn't\nthere (fizzled elsewhere, or stale from a different graveyard) exactly\nlike a vanished target (Rule 608.2b). No stamped event player: no-op.\n",
+              "end": 2690,
+              "kind": "engine",
+              "name": "executeExileTargetCardsFromEventPlayerGraveyardEffect",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeExileTargetCardsFromEventPlayerGraveyardEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeExileTargetCardsFromEventPlayerGraveyardEffect(stackObj *StackObject, targets []Target) error",
+              "start": 2671,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeExileTargetCardsFromEventPlayerGraveyardEffect",
+              "symbol_kind": "function",
+              "title": "executeExileTargetCardsFromEventPlayerGraveyardEffect"
+            },
+            {
+              "description": "executeExileFromGraveyardTargetEffect implements the",
+              "doc": "executeExileFromGraveyardTargetEffect implements the\nexile_target_from_graveyard primitive (ticket\nengine.auto-exile-from-graveyard-3fefe932a6, Scour the Desert class):\n\"Exile target creature card from your graveyard.\" Unlike\nexecuteExileFromGraveyardEffect's amount-based auto-select (no target,\nfront-of-graveyard order) and executeExileEffect's battlefield-target\nremoval, this moves a single player-CHOSEN graveyard card to exile.\neffectValue[\"whose\"] selects which player's graveyard holds the legal\ntarget \u2014 \"you\" (default, the ability's controller) or \"opponent\" (first\nother player), mirroring executeExileFromGraveyardEffect's own \"whose\"\nconvention. An optional effectValue[\"filter\"] (matchesPermanentFilter's\nvocabulary, e.g. \"creature\") narrows what may be exiled. Mirrors\nexecuteReturnCardFromGraveyardSubsetToHand's GetCard/filter/RemoveCard\nidiom, just moving to Exile instead of Hand. No target, no matching\nplayer, an absent card, or a filter mismatch is a no-op \u2014 never an error\n(Rule 601.2c-style illegal/absent target tolerance).\n",
+              "end": 1613,
+              "kind": "engine",
+              "name": "executeExileFromGraveyardTargetEffect",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeExileFromGraveyardTargetEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeExileFromGraveyardTargetEffect(controller int, effectValue map[string]interface{}, targets []Target) error",
+              "start": 1579,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeExileFromGraveyardTargetEffect",
+              "symbol_kind": "function",
+              "title": "executeExileFromGraveyardTargetEffect"
+            },
+            {
+              "description": "executeExileTargetCardsSingleGraveyardEffect implements the",
+              "doc": "executeExileTargetCardsSingleGraveyardEffect implements the\nexile_target_cards_single_graveyard primitive (ticket\nengine.auto-exile-graveyard-card-target-ca4c0bd5ac, REPARSE-MAP\nverb_unmapped:exile / \"Exile up to two target cards from a single\ngraveyard\" family \u2014 Famished Ghoul class): unlike\nexile_target_cards_from_graveyard below, whose targets are already\nconstrained to one player by the Oracle text itself (Lochmere Serpent's\n\"an opponent's graveyard\"), this shape's Oracle text imposes the\nsingle-graveyard constraint on the CHOSEN SET of targets: all of them\nmust come from the same graveyard, whichever one that is. The executor\nenforces this at resolution time: it locks onto whichever graveyard\nholds the FIRST resolvable target, then only exiles targets also found\nin that same player's graveyard \u2014 a target sitting in a different\ngraveyard is skipped rather than exiled, exactly as if it had been an\nillegal target. Battlefield permanents are never consulted here\n(executeExileEffect's battlefield resolution is unaffected). A vanished\ntarget (Rule 608.2b) is skipped like any other; if none of the targets\nresolve to a graveyard at all, this is a no-op.\n",
+              "end": 2651,
+              "kind": "engine",
+              "name": "executeExileTargetCardsSingleGraveyardEffect",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeExileTargetCardsSingleGraveyardEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeExileTargetCardsSingleGraveyardEffect(targets []Target) error",
+              "start": 2617,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeExileTargetCardsSingleGraveyardEffect",
+              "symbol_kind": "function",
+              "title": "executeExileTargetCardsSingleGraveyardEffect"
+            },
+            {
+              "description": "CastWithEscape casts a card from the graveyard using its Escape cost.",
+              "doc": "CastWithEscape casts a card from the graveyard using its Escape cost.\nchosenExileIDs are the OTHER graveyard cards to exile as part of the\ncost \u2014 must be exactly EscapeExile cards, not the spell itself.\n",
+              "end": 99,
+              "kind": "engine",
+              "name": "CastWithEscape",
+              "package": "game",
+              "path": "backend/game/escape.go",
+              "qualified": "game.GameState.CastWithEscape",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) CastWithEscape(playerIdx int, cardID string, chosenExileIDs []string, targets []Target) error",
+              "start": 18,
+              "symbol_id": "backend/game/escape.go::game.GameState.CastWithEscape",
+              "symbol_kind": "function",
+              "title": "CastWithEscape"
+            }
+          ],
+          "current_source_revision": "ba76f30c1ea6a4b2ab17ff66ccb4e49a6db6c3d7",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"exile\" AND \"target\" AND \"card\" AND \"from\" AND \"graveyard\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T00:40:13Z",
+          "indexed_revision": "ba76f30c1ea6a4b2ab17ff66ccb4e49a6db6c3d7",
+          "normalized_words": [
+            "exile",
+            "target",
+            "card",
+            "from",
+            "graveyard"
+          ],
+          "query": "exile_target_cards_from_graveyard",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "exile_target_cards_from_graveyard",
+            "request_id": "5867a9c7857e4044a2155b0c579ee42e",
+            "ticket": "ticket:map.plan-exile-rats-feast-5a756bbff8/v2"
+          },
+          "request_id": "5867a9c7857e4044a2155b0c579ee42e",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "applySpellEffectCore#case:exile",
+              "doc": "",
+              "end": 4074,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.applySpellEffectCore#case:exile",
+              "receiver": "GameState",
+              "signature": "applySpellEffectCore#case:exile",
+              "start": 4071,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.applySpellEffectCore#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            },
+            {
+              "description": "routeCardTo#case:exile",
+              "doc": "",
+              "end": 566,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/gamestate_tutor.go",
+              "qualified": "game.GameState.routeCardTo#case:exile",
+              "receiver": "GameState",
+              "signature": "routeCardTo#case:exile",
+              "start": 565,
+              "symbol_id": "backend/game/gamestate_tutor.go::game.GameState.routeCardTo#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            },
+            {
+              "description": "evaluateConditionRaw#case:exile",
+              "doc": "",
+              "end": 631,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/condition.go",
+              "qualified": "game.GameState.evaluateConditionRaw#case:exile",
+              "receiver": "GameState",
+              "signature": "evaluateConditionRaw#case:exile",
+              "start": 630,
+              "symbol_id": "backend/game/condition.go::game.GameState.evaluateConditionRaw#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            }
+          ],
+          "current_source_revision": "ba76f30c1ea6a4b2ab17ff66ccb4e49a6db6c3d7",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T00:40:13Z",
+          "indexed_revision": "ba76f30c1ea6a4b2ab17ff66ccb4e49a6db6c3d7",
+          "normalized_words": [
+            "exile"
+          ],
+          "query": "exile",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "exile",
+            "request_id": "cd614475a93e4350ade2baf3b6a63262",
+            "ticket": "ticket:map.plan-exile-rats-feast-5a756bbff8/v2"
+          },
+          "request_id": "cd614475a93e4350ade2baf3b6a63262",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/gamestate.go",
+      "sha256": "sha256:300113cd6e4e78ad381e4c1c7c926595d7cb33c1e557d9e7055989e3bd2128c3",
+      "symbol": {
+        "description": "applySpellEffectCore#case:exile",
+        "discovery_role": "operation_only",
+        "doc": "",
+        "end": 4074,
+        "kind": "engine",
+        "name": "exile",
+        "package": "game",
+        "path": "backend/game/gamestate.go",
+        "qualified": "game.GameState.applySpellEffectCore#case:exile",
+        "receiver": "GameState",
+        "request_id": "cd614475a93e4350ade2baf3b6a63262",
+        "signature": "applySpellEffectCore#case:exile",
+        "start": 4071,
+        "symbol_id": "backend/game/gamestate.go::game.GameState.applySpellEffectCore#case:exile",
+        "symbol_kind": "case",
+        "title": "exile"
+      }
+    },
+    {
+      "anchor": "1579-1613",
+      "fact": "Verified declaration game.GameState.executeExileFromGraveyardTargetEffect in source revision ba76f30c1ea6a4b2ab17ff66ccb4e49a6db6c3d7; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [
+            {
+              "description": "executeExileTargetCardsFromEventPlayerGraveyardEffect implements the",
+              "doc": "executeExileTargetCardsFromEventPlayerGraveyardEffect implements the\nauto_exile_cards_from_specific_player_graveyard_d4263a7f1f primitive\n(ticket engine.auto-exile-cards-from-specific-player-graveyard-d4263a7f1f,\nSkullsnatcher class: \"Whenever this creature deals combat damage to a\nplayer, exile up to two target cards from that player's graveyard.\").\nUnlike executeExileTargetCardsSingleGraveyardEffect above, which locks\nonto whichever graveyard holds the FIRST resolvable target (an\nundirected \"a single graveyard\" reading), this shape's Oracle text names\na SPECIFIC player's graveyard \u2014 the one identified dynamically by the\ntrigger context (the combat-damage recipient), carried on\nStackObject.EventPlayer/HasEventPlayer exactly like the existing\ntarget_ref==\"event_player\" rewrite (above) uses for player-typed\ntargets. Since the targets here are CARDS rather than the player\nitself, that generic rewrite doesn't apply; this executor instead reads\nEventPlayer directly and exiles only the targeted cards that are\nactually in THAT player's graveyard, skipping any target that isn't\nthere (fizzled elsewhere, or stale from a different graveyard) exactly\nlike a vanished target (Rule 608.2b). No stamped event player: no-op.\n",
+              "end": 2690,
+              "kind": "engine",
+              "name": "executeExileTargetCardsFromEventPlayerGraveyardEffect",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeExileTargetCardsFromEventPlayerGraveyardEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeExileTargetCardsFromEventPlayerGraveyardEffect(stackObj *StackObject, targets []Target) error",
+              "start": 2671,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeExileTargetCardsFromEventPlayerGraveyardEffect",
+              "symbol_kind": "function",
+              "title": "executeExileTargetCardsFromEventPlayerGraveyardEffect"
+            },
+            {
+              "description": "executeExileFromGraveyardTargetEffect implements the",
+              "doc": "executeExileFromGraveyardTargetEffect implements the\nexile_target_from_graveyard primitive (ticket\nengine.auto-exile-from-graveyard-3fefe932a6, Scour the Desert class):\n\"Exile target creature card from your graveyard.\" Unlike\nexecuteExileFromGraveyardEffect's amount-based auto-select (no target,\nfront-of-graveyard order) and executeExileEffect's battlefield-target\nremoval, this moves a single player-CHOSEN graveyard card to exile.\neffectValue[\"whose\"] selects which player's graveyard holds the legal\ntarget \u2014 \"you\" (default, the ability's controller) or \"opponent\" (first\nother player), mirroring executeExileFromGraveyardEffect's own \"whose\"\nconvention. An optional effectValue[\"filter\"] (matchesPermanentFilter's\nvocabulary, e.g. \"creature\") narrows what may be exiled. Mirrors\nexecuteReturnCardFromGraveyardSubsetToHand's GetCard/filter/RemoveCard\nidiom, just moving to Exile instead of Hand. No target, no matching\nplayer, an absent card, or a filter mismatch is a no-op \u2014 never an error\n(Rule 601.2c-style illegal/absent target tolerance).\n",
+              "end": 1613,
+              "kind": "engine",
+              "name": "executeExileFromGraveyardTargetEffect",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeExileFromGraveyardTargetEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeExileFromGraveyardTargetEffect(controller int, effectValue map[string]interface{}, targets []Target) error",
+              "start": 1579,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeExileFromGraveyardTargetEffect",
+              "symbol_kind": "function",
+              "title": "executeExileFromGraveyardTargetEffect"
+            },
+            {
+              "description": "executeExileTargetCardsSingleGraveyardEffect implements the",
+              "doc": "executeExileTargetCardsSingleGraveyardEffect implements the\nexile_target_cards_single_graveyard primitive (ticket\nengine.auto-exile-graveyard-card-target-ca4c0bd5ac, REPARSE-MAP\nverb_unmapped:exile / \"Exile up to two target cards from a single\ngraveyard\" family \u2014 Famished Ghoul class): unlike\nexile_target_cards_from_graveyard below, whose targets are already\nconstrained to one player by the Oracle text itself (Lochmere Serpent's\n\"an opponent's graveyard\"), this shape's Oracle text imposes the\nsingle-graveyard constraint on the CHOSEN SET of targets: all of them\nmust come from the same graveyard, whichever one that is. The executor\nenforces this at resolution time: it locks onto whichever graveyard\nholds the FIRST resolvable target, then only exiles targets also found\nin that same player's graveyard \u2014 a target sitting in a different\ngraveyard is skipped rather than exiled, exactly as if it had been an\nillegal target. Battlefield permanents are never consulted here\n(executeExileEffect's battlefield resolution is unaffected). A vanished\ntarget (Rule 608.2b) is skipped like any other; if none of the targets\nresolve to a graveyard at all, this is a no-op.\n",
+              "end": 2651,
+              "kind": "engine",
+              "name": "executeExileTargetCardsSingleGraveyardEffect",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeExileTargetCardsSingleGraveyardEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeExileTargetCardsSingleGraveyardEffect(targets []Target) error",
+              "start": 2617,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeExileTargetCardsSingleGraveyardEffect",
+              "symbol_kind": "function",
+              "title": "executeExileTargetCardsSingleGraveyardEffect"
+            },
+            {
+              "description": "CastWithEscape casts a card from the graveyard using its Escape cost.",
+              "doc": "CastWithEscape casts a card from the graveyard using its Escape cost.\nchosenExileIDs are the OTHER graveyard cards to exile as part of the\ncost \u2014 must be exactly EscapeExile cards, not the spell itself.\n",
+              "end": 99,
+              "kind": "engine",
+              "name": "CastWithEscape",
+              "package": "game",
+              "path": "backend/game/escape.go",
+              "qualified": "game.GameState.CastWithEscape",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) CastWithEscape(playerIdx int, cardID string, chosenExileIDs []string, targets []Target) error",
+              "start": 18,
+              "symbol_id": "backend/game/escape.go::game.GameState.CastWithEscape",
+              "symbol_kind": "function",
+              "title": "CastWithEscape"
+            }
+          ],
+          "current_source_revision": "ba76f30c1ea6a4b2ab17ff66ccb4e49a6db6c3d7",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"exile\" AND \"target\" AND \"card\" AND \"from\" AND \"graveyard\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T00:40:13Z",
+          "indexed_revision": "ba76f30c1ea6a4b2ab17ff66ccb4e49a6db6c3d7",
+          "normalized_words": [
+            "exile",
+            "target",
+            "card",
+            "from",
+            "graveyard"
+          ],
+          "query": "exile_target_cards_from_graveyard",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "exile_target_cards_from_graveyard",
+            "request_id": "5867a9c7857e4044a2155b0c579ee42e",
+            "ticket": "ticket:map.plan-exile-rats-feast-5a756bbff8/v2"
+          },
+          "request_id": "5867a9c7857e4044a2155b0c579ee42e",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "applySpellEffectCore#case:exile",
+              "doc": "",
+              "end": 4074,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.applySpellEffectCore#case:exile",
+              "receiver": "GameState",
+              "signature": "applySpellEffectCore#case:exile",
+              "start": 4071,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.applySpellEffectCore#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            },
+            {
+              "description": "routeCardTo#case:exile",
+              "doc": "",
+              "end": 566,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/gamestate_tutor.go",
+              "qualified": "game.GameState.routeCardTo#case:exile",
+              "receiver": "GameState",
+              "signature": "routeCardTo#case:exile",
+              "start": 565,
+              "symbol_id": "backend/game/gamestate_tutor.go::game.GameState.routeCardTo#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            },
+            {
+              "description": "evaluateConditionRaw#case:exile",
+              "doc": "",
+              "end": 631,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/condition.go",
+              "qualified": "game.GameState.evaluateConditionRaw#case:exile",
+              "receiver": "GameState",
+              "signature": "evaluateConditionRaw#case:exile",
+              "start": 630,
+              "symbol_id": "backend/game/condition.go::game.GameState.evaluateConditionRaw#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            }
+          ],
+          "current_source_revision": "ba76f30c1ea6a4b2ab17ff66ccb4e49a6db6c3d7",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T00:40:13Z",
+          "indexed_revision": "ba76f30c1ea6a4b2ab17ff66ccb4e49a6db6c3d7",
+          "normalized_words": [
+            "exile"
+          ],
+          "query": "exile",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "exile",
+            "request_id": "cd614475a93e4350ade2baf3b6a63262",
+            "ticket": "ticket:map.plan-exile-rats-feast-5a756bbff8/v2"
+          },
+          "request_id": "cd614475a93e4350ade2baf3b6a63262",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:dd2e798cdfb25dbaf3928d30ce02f412e9cd5f37e5902f48024f33cb1d7c7c2c",
+      "symbol": {
+        "description": "executeExileFromGraveyardTargetEffect implements the",
+        "discovery_role": "capability_label",
+        "doc": "executeExileFromGraveyardTargetEffect implements the\nexile_target_from_graveyard primitive (ticket\nengine.auto-exile-from-graveyard-3fefe932a6, Scour the Desert class):\n\"Exile target creature card from your graveyard.\" Unlike\nexecuteExileFromGraveyardEffect's amount-based auto-select (no target,\nfront-of-graveyard order) and executeExileEffect's battlefield-target\nremoval, this moves a single player-CHOSEN graveyard card to exile.\neffectValue[\"whose\"] selects which player's graveyard holds the legal\ntarget \u2014 \"you\" (default, the ability's controller) or \"opponent\" (first\nother player), mirroring executeExileFromGraveyardEffect's own \"whose\"\nconvention. An optional effectValue[\"filter\"] (matchesPermanentFilter's\nvocabulary, e.g. \"creature\") narrows what may be exiled. Mirrors\nexecuteReturnCardFromGraveyardSubsetToHand's GetCard/filter/RemoveCard\nidiom, just moving to Exile instead of Hand. No target, no matching\nplayer, an absent card, or a filter mismatch is a no-op \u2014 never an error\n(Rule 601.2c-style illegal/absent target tolerance).\n",
+        "end": 1613,
+        "kind": "engine",
+        "name": "executeExileFromGraveyardTargetEffect",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.executeExileFromGraveyardTargetEffect",
+        "receiver": "GameState",
+        "request_id": "5867a9c7857e4044a2155b0c579ee42e",
+        "signature": "func (gs *GameState) executeExileFromGraveyardTargetEffect(controller int, effectValue map[string]interface{}, targets []Target) error",
+        "start": 1579,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.executeExileFromGraveyardTargetEffect",
+        "symbol_kind": "function",
+        "title": "executeExileFromGraveyardTargetEffect"
+      }
+    },
+    {
+      "anchor": "565-566",
+      "fact": "Verified declaration game.GameState.routeCardTo#case:exile in source revision ba76f30c1ea6a4b2ab17ff66ccb4e49a6db6c3d7; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [
+            {
+              "description": "executeExileTargetCardsFromEventPlayerGraveyardEffect implements the",
+              "doc": "executeExileTargetCardsFromEventPlayerGraveyardEffect implements the\nauto_exile_cards_from_specific_player_graveyard_d4263a7f1f primitive\n(ticket engine.auto-exile-cards-from-specific-player-graveyard-d4263a7f1f,\nSkullsnatcher class: \"Whenever this creature deals combat damage to a\nplayer, exile up to two target cards from that player's graveyard.\").\nUnlike executeExileTargetCardsSingleGraveyardEffect above, which locks\nonto whichever graveyard holds the FIRST resolvable target (an\nundirected \"a single graveyard\" reading), this shape's Oracle text names\na SPECIFIC player's graveyard \u2014 the one identified dynamically by the\ntrigger context (the combat-damage recipient), carried on\nStackObject.EventPlayer/HasEventPlayer exactly like the existing\ntarget_ref==\"event_player\" rewrite (above) uses for player-typed\ntargets. Since the targets here are CARDS rather than the player\nitself, that generic rewrite doesn't apply; this executor instead reads\nEventPlayer directly and exiles only the targeted cards that are\nactually in THAT player's graveyard, skipping any target that isn't\nthere (fizzled elsewhere, or stale from a different graveyard) exactly\nlike a vanished target (Rule 608.2b). No stamped event player: no-op.\n",
+              "end": 2690,
+              "kind": "engine",
+              "name": "executeExileTargetCardsFromEventPlayerGraveyardEffect",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeExileTargetCardsFromEventPlayerGraveyardEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeExileTargetCardsFromEventPlayerGraveyardEffect(stackObj *StackObject, targets []Target) error",
+              "start": 2671,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeExileTargetCardsFromEventPlayerGraveyardEffect",
+              "symbol_kind": "function",
+              "title": "executeExileTargetCardsFromEventPlayerGraveyardEffect"
+            },
+            {
+              "description": "executeExileFromGraveyardTargetEffect implements the",
+              "doc": "executeExileFromGraveyardTargetEffect implements the\nexile_target_from_graveyard primitive (ticket\nengine.auto-exile-from-graveyard-3fefe932a6, Scour the Desert class):\n\"Exile target creature card from your graveyard.\" Unlike\nexecuteExileFromGraveyardEffect's amount-based auto-select (no target,\nfront-of-graveyard order) and executeExileEffect's battlefield-target\nremoval, this moves a single player-CHOSEN graveyard card to exile.\neffectValue[\"whose\"] selects which player's graveyard holds the legal\ntarget \u2014 \"you\" (default, the ability's controller) or \"opponent\" (first\nother player), mirroring executeExileFromGraveyardEffect's own \"whose\"\nconvention. An optional effectValue[\"filter\"] (matchesPermanentFilter's\nvocabulary, e.g. \"creature\") narrows what may be exiled. Mirrors\nexecuteReturnCardFromGraveyardSubsetToHand's GetCard/filter/RemoveCard\nidiom, just moving to Exile instead of Hand. No target, no matching\nplayer, an absent card, or a filter mismatch is a no-op \u2014 never an error\n(Rule 601.2c-style illegal/absent target tolerance).\n",
+              "end": 1613,
+              "kind": "engine",
+              "name": "executeExileFromGraveyardTargetEffect",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeExileFromGraveyardTargetEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeExileFromGraveyardTargetEffect(controller int, effectValue map[string]interface{}, targets []Target) error",
+              "start": 1579,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeExileFromGraveyardTargetEffect",
+              "symbol_kind": "function",
+              "title": "executeExileFromGraveyardTargetEffect"
+            },
+            {
+              "description": "executeExileTargetCardsSingleGraveyardEffect implements the",
+              "doc": "executeExileTargetCardsSingleGraveyardEffect implements the\nexile_target_cards_single_graveyard primitive (ticket\nengine.auto-exile-graveyard-card-target-ca4c0bd5ac, REPARSE-MAP\nverb_unmapped:exile / \"Exile up to two target cards from a single\ngraveyard\" family \u2014 Famished Ghoul class): unlike\nexile_target_cards_from_graveyard below, whose targets are already\nconstrained to one player by the Oracle text itself (Lochmere Serpent's\n\"an opponent's graveyard\"), this shape's Oracle text imposes the\nsingle-graveyard constraint on the CHOSEN SET of targets: all of them\nmust come from the same graveyard, whichever one that is. The executor\nenforces this at resolution time: it locks onto whichever graveyard\nholds the FIRST resolvable target, then only exiles targets also found\nin that same player's graveyard \u2014 a target sitting in a different\ngraveyard is skipped rather than exiled, exactly as if it had been an\nillegal target. Battlefield permanents are never consulted here\n(executeExileEffect's battlefield resolution is unaffected). A vanished\ntarget (Rule 608.2b) is skipped like any other; if none of the targets\nresolve to a graveyard at all, this is a no-op.\n",
+              "end": 2651,
+              "kind": "engine",
+              "name": "executeExileTargetCardsSingleGraveyardEffect",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeExileTargetCardsSingleGraveyardEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeExileTargetCardsSingleGraveyardEffect(targets []Target) error",
+              "start": 2617,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeExileTargetCardsSingleGraveyardEffect",
+              "symbol_kind": "function",
+              "title": "executeExileTargetCardsSingleGraveyardEffect"
+            },
+            {
+              "description": "CastWithEscape casts a card from the graveyard using its Escape cost.",
+              "doc": "CastWithEscape casts a card from the graveyard using its Escape cost.\nchosenExileIDs are the OTHER graveyard cards to exile as part of the\ncost \u2014 must be exactly EscapeExile cards, not the spell itself.\n",
+              "end": 99,
+              "kind": "engine",
+              "name": "CastWithEscape",
+              "package": "game",
+              "path": "backend/game/escape.go",
+              "qualified": "game.GameState.CastWithEscape",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) CastWithEscape(playerIdx int, cardID string, chosenExileIDs []string, targets []Target) error",
+              "start": 18,
+              "symbol_id": "backend/game/escape.go::game.GameState.CastWithEscape",
+              "symbol_kind": "function",
+              "title": "CastWithEscape"
+            }
+          ],
+          "current_source_revision": "ba76f30c1ea6a4b2ab17ff66ccb4e49a6db6c3d7",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"exile\" AND \"target\" AND \"card\" AND \"from\" AND \"graveyard\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T00:40:13Z",
+          "indexed_revision": "ba76f30c1ea6a4b2ab17ff66ccb4e49a6db6c3d7",
+          "normalized_words": [
+            "exile",
+            "target",
+            "card",
+            "from",
+            "graveyard"
+          ],
+          "query": "exile_target_cards_from_graveyard",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "exile_target_cards_from_graveyard",
+            "request_id": "5867a9c7857e4044a2155b0c579ee42e",
+            "ticket": "ticket:map.plan-exile-rats-feast-5a756bbff8/v2"
+          },
+          "request_id": "5867a9c7857e4044a2155b0c579ee42e",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "applySpellEffectCore#case:exile",
+              "doc": "",
+              "end": 4074,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.applySpellEffectCore#case:exile",
+              "receiver": "GameState",
+              "signature": "applySpellEffectCore#case:exile",
+              "start": 4071,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.applySpellEffectCore#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            },
+            {
+              "description": "routeCardTo#case:exile",
+              "doc": "",
+              "end": 566,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/gamestate_tutor.go",
+              "qualified": "game.GameState.routeCardTo#case:exile",
+              "receiver": "GameState",
+              "signature": "routeCardTo#case:exile",
+              "start": 565,
+              "symbol_id": "backend/game/gamestate_tutor.go::game.GameState.routeCardTo#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            },
+            {
+              "description": "evaluateConditionRaw#case:exile",
+              "doc": "",
+              "end": 631,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/condition.go",
+              "qualified": "game.GameState.evaluateConditionRaw#case:exile",
+              "receiver": "GameState",
+              "signature": "evaluateConditionRaw#case:exile",
+              "start": 630,
+              "symbol_id": "backend/game/condition.go::game.GameState.evaluateConditionRaw#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            }
+          ],
+          "current_source_revision": "ba76f30c1ea6a4b2ab17ff66ccb4e49a6db6c3d7",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T00:40:13Z",
+          "indexed_revision": "ba76f30c1ea6a4b2ab17ff66ccb4e49a6db6c3d7",
+          "normalized_words": [
+            "exile"
+          ],
+          "query": "exile",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "exile",
+            "request_id": "cd614475a93e4350ade2baf3b6a63262",
+            "ticket": "ticket:map.plan-exile-rats-feast-5a756bbff8/v2"
+          },
+          "request_id": "cd614475a93e4350ade2baf3b6a63262",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/gamestate_tutor.go",
+      "sha256": "sha256:10a573ee7a7d1d69918c921539a249babdf0d715e0d603de15c50384eb21e855",
+      "symbol": {
+        "description": "routeCardTo#case:exile",
+        "discovery_role": "operation_only",
+        "doc": "",
+        "end": 566,
+        "kind": "engine",
+        "name": "exile",
+        "package": "game",
+        "path": "backend/game/gamestate_tutor.go",
+        "qualified": "game.GameState.routeCardTo#case:exile",
+        "receiver": "GameState",
+        "request_id": "cd614475a93e4350ade2baf3b6a63262",
+        "signature": "routeCardTo#case:exile",
+        "start": 565,
+        "symbol_id": "backend/game/gamestate_tutor.go::game.GameState.routeCardTo#case:exile",
+        "symbol_kind": "case",
+        "title": "exile"
+      }
+    },
+    {
+      "fact": "The required atomic Engine capability passed full integration gates. Runtime contract: Executor must support targeting and exiling X target cards where the targets are cards in a graveyard (not battlefield permanents) and all X targets must be chosen from the same single graveyard",
+      "ticket": "ticket:engine.auto-exile-target-cards-from-graveyard-8f46ca1228/v2"
+    },
+    {
+      "fact": "Failed integration recovery; current pinned-card audit: [{\"card\": \"Rats' Feast\", \"eligible\": false, \"misses\": [[\"verb_unmapped:exile\", \"exile x target cards from a single graveyard.\"]], \"oracle_text\": \"Exile X target cards from a single graveyard.\", \"status\": \"review\"}]",
+      "path": "docs/factory-ng/runs/2026-09-09T010937Z-map-plan-exile-rats-feast-5a756bbff8-v2-codex.json"
+    },
+    {
+      "fact": "Failed integration recovery; current pinned-card audit: [{\"card\": \"Rats' Feast\", \"eligible\": false, \"misses\": [[\"verb_unmapped:exile\", \"exile x target cards from a single graveyard.\"]], \"oracle_text\": \"Exile X target cards from a single graveyard.\", \"status\": \"review\"}]",
+      "path": "docs/factory-ng/runs/2026-09-15T203724Z-map-plan-exile-rats-feast-5a756bbff8-v3-claude.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "qwen-prepared-direct@1.0.2",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "parser_probes": [
+      {
+        "card": "Rats' Feast",
+        "function": "reparse_card"
+      }
+    ],
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "Rebase an accepted Map candidate against current source and verify its complete Oracle behavior; the discovery frontier no longer represents this failed obligation.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "cd scripts/paragraph && python3 -m unittest test_factory_ng_5a756bbff8",
+    "git diff --check",
+    "git status --porcelain adds or changes only scripts/paragraph/reparse.py and scripts/paragraph/test_factory_ng_5a756bbff8.py",
+    "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-5a756bbff8-v1.json reports zero remaining pinned members"
+  ],
+  "id": "ticket:map.operator-rats-feast-recovery-sep15/v1",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Compile any new validated atomic dependency automatically; otherwise retain the terminal verdict and advance discovery.",
+  "parents": [
+    "ticket:map.plan-exile-rats-feast-5a756bbff8/v4"
+  ],
+  "production": {
+    "integration_repair_generation": 2,
+    "key": "build-plan:verb_unmapped:exile:sha256:3f41c1f7bb17de513a3abc1958899b17eb00056b35fcde1c48c7812901444625:after:ticket:engine.auto-exile-target-cards-from-graveyard-8f46ca1228/v2",
+    "producer": "build-plan-integration-recovery",
+    "retry_reason": "integration_conflict_repair"
+  },
+  "required_behavior": [
+    "Map the exact current verb_unmapped:exile miss on Rats' Feast through the already-registered exile primitive without losing any Oracle semantics.",
+    "The pinned card loses this miss and retains no new or silently swallowed miss.",
+    "Add a focused positive test plus an adjacent negative that must remain unmapped.",
+    "If the exact amount, recipient, filter, referent, or duration cannot execute through existing runtime behavior, return NEEDS_PRIMITIVE with one atomic CAPABILITY_JSON instead of a partial Map patch.",
+    "Do not edit Engine, converter, corpus data, or use a card-name special case.",
+    "The Engine dependency landing is not proof this card is fixed. Verify the complete Oracle mapping against its runtime representation, including every ability, even if parsing is already eligible.",
+    "The prior observation is historical evidence, not proof that its patch is still correct. Preserve every current valid mapping. Do not restore an obsolete negative assertion for a shape now implemented.",
+    "Keep every original gate command and allowed path. Add or repair the named positive and adjacent-negative tests on this revision; assert all Oracle clauses, counts, choices, controller restrictions and durations, not just eligibility or one removed miss.",
+    "A pinned card already marked auto must still be reparsed and tested. If the implementation is already correct, return only meaningful regression-test changes; do not duplicate parser branches.",
+    "If the miss moved to spell_seq_targeted or a required runtime behavior is absent, return a validated atomic NEEDS_PRIMITIVE demand. Do not hide the new miss, drop a clause, or force status auto.",
+    "Repair the observed failing contract without weakening it: [{\"command\": \"python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-5a756bbff8-v1.json reports zero remaining pinned members\", \"detail\": \"{\\n  \\\"member_count\\\": 1,\\n  \\\"members\\\": [\\n    {\\n      \\\"all_miss_shapes\\\": [\\n        \\\"verb_unmapped:exile\\\"\\n      ],\\n      \\\"details\\\": [\\n        \\\"exile x target cards from a single graveyard.\\\"\\n      ],\\n      \\\"name\\\": \\\"Rats' Feast\\\",\\n      \\\"text_sha256\\\": \\\"sha256:3f41c1f7bb17de513a3abc1958899b17eb00056b35fcde1c48c7812901444625\\\"\\n    }\\n  ],\\n  \\\"pinned_member_count\\\": 1,\\n  \\\"pinned_members_from\\\": \\\"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-5a756bbff8-v1.json\\\",\\n  \\\"pinned_unresolved_count\\\": 1,\\n  \\\"pinned_unresolved_members\\\": [\\n    {\\n      \\\"misses\\\": [\\n        [\\n          \\\"verb_unmapped:exile\\\",\\n          \\\"exile x target cards from a single graveyard.\\\"\\n        ]\\n      ],\\n      \\\"name\\\": \\\"Rats' Feast\\\"\\n    }\\n  ],\\n  \\\"review_cards_scanned\\\": 1,\\n  \\\"schema\\\": \\\"factory.targeted-demand/v1\\\",\\n  \\\"shape\\\": \\\"verb_unmapped:exile\\\",\\n  \\\"source\\\": {\\n    \\\"parser_sha256\\\": \\\"sha256:d4d2e9a93830ee4ca0532fa3453d804be8f5429f4f29c7dddd0f0f89c769ca91\\\",\\n    \\\"repository\\\": \\\"/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v2-v_vytlyl\\\",\\n    \\\"revision\\\": \\\"ba76f30c1ea6a4b2ab17ff66ccb4e49a6db6c3d7\\\"\\n  }\\n}\\npinned remeasurement is not zero\\npinned Map card still fails complete parsing; removing one miss category is insufficient\", \"id\": \"ticket-gate-3\", \"outcome\": \"failed\"}]",
+    "The prior observation is historical evidence, not proof that its patch is still correct. Preserve every current valid mapping. Do not restore an obsolete negative assertion for a shape now implemented.",
+    "Keep every original gate command and allowed path. Add or repair the named positive and adjacent-negative tests on this revision; assert all Oracle clauses, counts, choices, controller restrictions and durations, not just eligibility or one removed miss.",
+    "A pinned card already marked auto must still be reparsed and tested. If the implementation is already correct, return only meaningful regression-test changes; do not duplicate parser branches.",
+    "If the miss moved to spell_seq_targeted or a required runtime behavior is absent, return a validated atomic NEEDS_PRIMITIVE demand. Do not hide the new miss, drop a clause, or force status auto.",
+    "Repair the observed failing contract without weakening it: [{\"command\": \"cd scripts/paragraph && python3 -m unittest test_factory_ng_5a756bbff8\", \"detail\": \"./tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/reparse.py:10933: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/../../backend/data/carddb/f.json' mode='r' encoding='UTF-8'>\\n/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/reparse.py:10933: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/../../backend/data/carddb/j.json' mode='r' encoding='UTF-8'>\\n/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/reparse.py:10933: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/../../backend/data/carddb/n.json' mode='r' encoding='UTF-8'>\\n/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/reparse.py:10933: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/../../backend/data/carddb/s.json' mode='r' encoding='UTF-8'>\\n/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/reparse.py:10933: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/../../backend/data/carddb/\\u00e9.json' mode='r' encoding='UTF-8'>\\n/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/reparse.py:10933: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/../../backend/data/carddb/b.json' mode='r' encoding='UTF-8'>\\n/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/reparse.py:10933: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/../../backend/data/carddb/q.json' mode='r' encoding='UTF-8'>\\n/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/reparse.py:10933: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/../../backend/data/carddb/z.json' mode='r' encoding='UTF-8'>\\n/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/reparse.py:10933: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/../../backend/data/carddb/l.json' mode='r' encoding='UTF-8'>\\n/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/reparse.py:10933: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/../../backend/data/carddb/c.json' mode='r' encodin\\nyff/scripts/paragraph/../../backend/data/carddb/m.json' mode='r' encoding='UTF-8'>\\n  for c in json.load(open(f)).values():\\nResourceWarning: Enable tracemalloc to get the object allocation traceback\\n/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/reparse.py:10933: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/../../backend/data/carddb/x.json' mode='r' encoding='UTF-8'>\\n  for c in json.load(open(f)).values():\\nResourceWarning: Enable tracemalloc to get the object allocation traceback\\n/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/reparse.py:10933: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/../../backend/data/carddb/e.json' mode='r' encoding='UTF-8'>\\n  for c in json.load(open(f)).values():\\nResourceWarning: Enable tracemalloc to get the object allocation traceback\\n/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/reparse.py:10933: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/../../backend/data/carddb/y.json' mode='r' encoding='UTF-8'>\\n  for c in json.load(open(f)).values():\\nResourceWarning: Enable tracemalloc to get the object allocation traceback\\n/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/reparse.py:10933: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/../../backend/data/carddb/h.json' mode='r' encoding='UTF-8'>\\n  for c in json.load(open(f)).values():\\nResourceWarning: Enable tracemalloc to get the object allocation traceback\\n../tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/reparse.py:16639: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/../../backend/data/carddb/r.json' mode='r' encoding='UTF-8'>\\n  db = json.load(open(path))\\nResourceWarning: Enable tracemalloc to get the object allocation traceback\\nF\\n======================================================================\\nFAIL: test_rats_feast_card_reparses_eligible_with_no_misses (test_factory_ng_5a756bbff8.TestExileTargetCardsFromGraveyard.test_rats_feast_card_reparses_eligible_with_no_misses)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \\\"/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v3-g7ia4yff/scripts/paragraph/test_factory_ng_5a756bbff8.py\\\", line 31, in test_rats_feast_card_reparses_eligible_with_no_misses\\n    self.assertTrue(result['eligible'])\\nAssertionError: False is not true\\n----------------------------------------------------------------------\\nRan 4 tests in 2.151s\\nFAILED (failures=1)\", \"elapsed_ms\": 3800, \"id\": \"ticket-gate-0\", \"outcome\": \"failed\"}]"
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "scripts/paragraph/reparse.py",
+      "scripts/paragraph/test_factory_ng_5a756bbff8.py"
+    ],
+    "forbidden_paths": [
+      "backend/",
+      "backend/data/",
+      "scripts/paragraph/slotparse_oneshot.py"
+    ]
+  },
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "761dada5eb26259920871514a3f4d4e56a4a052f",
+    "clean": true
+  },
+  "supersedes": "ticket:map.plan-exile-rats-feast-5a756bbff8/v3",
+  "title": "Preserve exact paid-X graveyard targets for Rats Feast",
+  "work_type": "map",
+  "operator_recovery": {
+    "authorization": "User requested fixing all needs-attention tickets.",
+    "original_ticket": "docs/factory-ng/tickets/map-plan-exile-rats-feast-5a756bbff8-v4.json",
+    "original_ticket_sha256": "sha256:a77362a913b66bb73bb325e0cf757094e3ea75e5fea3e5126e6c56284c81f920",
+    "additional_provider_runs": 0,
+    "counter_resets": false,
+    "scope_addition_reason": "No scope expansion; connects separately integrated single-graveyard Engine runtime and rejects unsupported target qualifiers."
+  }
+}

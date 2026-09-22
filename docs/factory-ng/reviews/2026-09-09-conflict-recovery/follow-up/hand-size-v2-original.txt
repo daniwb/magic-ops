@@ -1,0 +1,137 @@
+CAPABILITY_ASSESSMENT: {"classification":"engine_gap","existing_symbols":["patternDamageTargetPlayerEqualCardsInHand","buildMainSpellEffect","ApplySpellEffectWithRuntime","executeDamageEffect"],"remaining_gap":"target_hand_size is parsed but discarded by conversion and resolution","verification":"public converter and spell-resolution test"}
+
+<<<FILE backend/cards/converter.go
+<<<SEARCH
+				if from, ok := ability.Value["amount_from"].(string); ok {
+					eff.AmountFrom = from
+				}
+				if v, ok := ability.Value["amount_bonus"]; ok {
+===REPLACE
+				if from, ok := ability.Value["amount_from"].(string); ok {
+					eff.AmountFrom = from
+				}
+				if from, ok := ability.Value["amount_source"].(string); ok && from == "target_hand_size" {
+					eff.AmountFrom = from
+				}
+				if v, ok := ability.Value["amount_bonus"]; ok {
+>>>END
+
+<<<FILE backend/game/card.go
+<<<SEARCH
+	// Currently supported: "energy_x" — the variable energy spent at cast
+	// time, plus AmountBonus (e.g. "1 plus the number of {E} spent" → bonus 1).
+	AmountFrom  string `json:"amount_from,omitempty"`
+===REPLACE
+	// Currently supported: "energy_x" — the variable energy spent at cast
+	// time, plus AmountBonus (e.g. "1 plus the number of {E} spent" → bonus 1).
+	// "target_hand_size" reads the targeted player's current hand at resolution.
+	AmountFrom  string `json:"amount_from,omitempty"`
+>>>END
+
+<<<FILE backend/game/gamestate.go
+<<<SEARCH
+	amount := resolveSpellAmount(card.SpellEffect, runtime)
+	// Delirium damage boost: if the spell has a DeliriumAmount and the
+===REPLACE
+	amount := resolveSpellAmount(card.SpellEffect, runtime)
+	if card.SpellEffect.AmountFrom == "target_hand_size" {
+		for _, target := range targets {
+			if !target.IsCard && target.PlayerIdx >= 0 && target.PlayerIdx < len(gs.Players) {
+				amount = gs.Players[target.PlayerIdx].Hand.Count()
+				break
+			}
+		}
+	}
+	// Delirium damage boost: if the spell has a DeliriumAmount and the
+>>>END
+
+<<<FILE backend/game/ability_effects.go
+<<<SEARCH
+	amount := getIntValue(effectValue, "amount", 1)
+	// damage_amount_count_keyword (Vent Sentinel class): "~ deals damage to
+===REPLACE
+	amount := getIntValue(effectValue, "amount", 1)
+	targetHandSizeAmount, _ := effectValue["amount_source"].(string)
+	if targetHandSizeAmount == "target_hand_size" {
+		amount = 0
+	}
+	// damage_amount_count_keyword (Vent Sentinel class): "~ deals damage to
+>>>END
+
+<<<FILE backend/game/ability_effects.go
+<<<SEARCH
+		} else if target.PlayerIdx >= 0 && target.PlayerIdx < len(gs.Players) {
+			dmg := amount
+			// The same recipient-relative count used by each-player sweeps also
+===REPLACE
+		} else if target.PlayerIdx >= 0 && target.PlayerIdx < len(gs.Players) {
+			dmg := amount
+			if targetHandSizeAmount == "target_hand_size" {
+				dmg = gs.Players[target.PlayerIdx].Hand.Count()
+				dmg = ModifyDamageAmount(gs.Battlefield, source, dmg)
+				dmg = gs.ApplyEOTDamageMultiplier(source, dmg)
+			}
+			// The same recipient-relative count used by each-player sweeps also
+>>>END
+
+<<<NEWFILE backend/cards/factory_ng_5b58aa258c_test.go
+package cards
+
+import (
+	"testing"
+
+	"magic-backend/game"
+)
+
+func TestFactoryNGDamageAmountReferentTargetHandSize(t *testing.T) {
+	parser := NewParser()
+	parsed := parser.Parse("Storm Seeker deals damage to target player equal to the number of cards in that player's hand.", "Instant")
+	if len(parsed.ParseErrors) != 0 {
+		t.Fatalf("unexpected parse errors: %v", parsed.ParseErrors)
+	}
+
+	def := &CardDefinition{
+		Name:      "Storm Seeker",
+		Type:      "Instant",
+		Abilities: parsed.Abilities,
+	}
+	spell, err := def.ToGameCard(0)
+	if err != nil {
+		t.Fatalf("ToGameCard: %v", err)
+	}
+	if spell.SpellEffect == nil || spell.SpellEffect.AmountFrom != "target_hand_size" {
+		t.Fatalf("target hand-size referent was not converted: %+v", spell.SpellEffect)
+	}
+
+	gs := game.NewGame("P0", "P1", false)
+	gs.Players[1].Hand.Cards = []*game.Card{
+		game.NewCreature("A", game.ManaCost{}, 1, 1, 1),
+		game.NewCreature("B", game.ManaCost{}, 1, 1, 1),
+		game.NewCreature("C", game.ManaCost{}, 1, 1, 1),
+		game.NewCreature("D", game.ManaCost{}, 1, 1, 1),
+	}
+
+	target := game.Target{Type: game.TargetPlayer, PlayerIdx: 1}
+	life := gs.Players[1].Life
+	if err := gs.ApplySpellEffect(spell, []game.Target{target}); err != nil {
+		t.Fatalf("ApplySpellEffect: %v", err)
+	}
+	if got := gs.Players[1].Life; got != life-4 {
+		t.Fatalf("expected 4 damage from target hand size, life %d -> %d", life, got)
+	}
+
+	fixed := game.NewInstant("Fixed Damage", game.ManaCost{}, &game.SpellEffect{
+		Type:   "damage",
+		Amount: 3,
+	}, 0)
+	life = gs.Players[1].Life
+	if err := gs.ApplySpellEffect(fixed, []game.Target{target}); err != nil {
+		t.Fatalf("fixed ApplySpellEffect: %v", err)
+	}
+	if got := gs.Players[1].Life; got != life-3 {
+		t.Fatalf("fixed damage changed unexpectedly: life %d -> %d", life, got)
+	}
+}
+>>>END
+
+EXPECT: Target-player hand-size damage is preserved through conversion and evaluated from the target’s live hand at spell resolution, while fixed damage remains literal.

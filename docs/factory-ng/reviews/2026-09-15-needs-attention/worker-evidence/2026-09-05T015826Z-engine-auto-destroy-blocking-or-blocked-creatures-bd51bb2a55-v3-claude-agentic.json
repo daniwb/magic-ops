@@ -1,0 +1,67 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-engine-auto-destroy-blocking-or-blocked-creatures-bd51bb2a55-v3-pta4pzsa",
+    "candidate_commit": "c9f1424d164f31778ba3d3352c7dbbf1dfa4328a",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "62e9de7ee21593bb56710ea99181002e0f431281",
+    "source_tree_changed": true
+  },
+  "gates": [
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "claude-agentic@1.0.0",
+    "resolved_model": "claude-sonnet-5",
+    "telemetry": {
+      "bounded_repair_attempted": true,
+      "cache_read_tokens": 2197311,
+      "cache_write_tokens": 82836,
+      "elapsed_ms": 250102,
+      "input_tokens": 13380,
+      "output_tokens": 20245,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      }
+    },
+    "worker": "claude"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed_model_protocol",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-05T015826Z-engine-auto-destroy-blocking-or-blocked-creatures-bd51bb2a55-v3-claude-agentic.raw.json",
+      "sha256": "sha256:65fbfdd00de796f1cf54aa8951b058dbf806ff245aff4cf1f04e10a21be65821"
+    },
+    {
+      "kind": "bounded_repair",
+      "path": "docs/factory-ng/runs/2026-09-05T015826Z-engine-auto-destroy-blocking-or-blocked-creatures-bd51bb2a55-v3-claude-agentic.repair.raw.json",
+      "sha256": "sha256:1b2ef8bc035f0d3c785a260994dc0a503470399646f3168e8f22af2bbd47a72a"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-destroy-blocking-or-blocked-creatures-bd51bb2a55/v3",
+    "path": "docs/factory-ng/tickets/engine-auto-destroy-blocking-or-blocked-creatures-bd51bb2a55-v3.json",
+    "sha256": "sha256:26522e3b47b177618c2a79d1ec65a3723af7d1d25581b7a6fde5b7b7fc3d1b3c"
+  }
+}

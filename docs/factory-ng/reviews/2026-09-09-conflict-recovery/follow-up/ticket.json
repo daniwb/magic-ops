@@ -1,0 +1,186 @@
+{
+  "schema": "factory.ticket-spec/v1",
+  "id": "ticket:engine.operator-conflict-recovery-sep09/v1",
+  "title": "Operator recovery of five reviewed September 9 Engine conflict lineages",
+  "work_type": "engine",
+  "lifecycle": "ready_for_observation",
+  "parents": [
+    "ticket:engine.auto-damage-amount-referent-target-hand-size-5b58aa258c/v3",
+    "ticket:engine.auto-pump-until-eot-ability-self-no-target-9e24f96767/v3",
+    "ticket:engine.auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295/v2",
+    "ticket:engine.auto-destroyed-this-way-per-player-count-58304e2f98/v2",
+    "ticket:engine.auto-sacrifice-unless-discard-3e88a33648/v2"
+  ],
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "df3ca2bf7f9719b070389cde2b7cb777fcdb3913",
+    "clean": true
+  },
+  "scope": {
+    "allowed_paths": [
+      "backend/cards/converter.go",
+      "backend/cards/patterns_keywords.go",
+      "backend/game/ability_effects.go",
+      "backend/game/card.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effect_sequence.go",
+      "backend/game/gamestate.go",
+      "backend/game/gamestate_choice.go",
+      "backend/game/targeting.go",
+      "backend/cards/factory_ng_3e88a33648_test.go",
+      "backend/cards/factory_ng_5b58aa258c_test.go",
+      "backend/cards/registry_conflict_recovery.go",
+      "backend/cards/shape_conflict_recovery_test.go",
+      "backend/cards/shape_storm_keyword_boundary_test.go",
+      "backend/game/factory_ng_3e88a33648_test.go",
+      "backend/game/factory_ng_58304e2f98_test.go",
+      "backend/game/factory_ng_5b58aa258c_test.go",
+      "backend/game/factory_ng_9e24f96767_test.go",
+      "backend/game/factory_ng_a737105295_test.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGDamageAmountReferentTargetHandSize$' -count=1",
+    "git diff --check",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGPumpUntilEotAbilitySelfNoTarget$' -count=1",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGDynamicAmountManaValueOfExiledThisWay$' -count=1",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGDestroyedThisWayPerPlayerCount$' -count=1",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGSacrificeUnlessDiscard$' -count=1",
+    "cd backend && go test ./cards -run '^TestShape_(StormKeywordBoundary|ConflictRecoveryExecutors)$' -count=1",
+    "cd backend && go test ./game ./cards"
+  ],
+  "required_behavior": [
+    "The damage primitive's amount must support a computed referent (count of cards in the targeted player's hand at resolution time) instead of only a literal fixed integer",
+    "Preserve these adjacent behaviors: fixed integer damage amounts such as 'deals 3 damage to target player' must remain literal and unaffected; damage amounts referencing the caster's own hand or library size must not be conflated with this target-player-hand-size referent",
+    "Add a discriminating behavior test named TestFactoryNGDamageAmountReferentTargetHandSize; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases.",
+    "Preserve all required gate selectors and semantic assertions. If a named test is missing, provide it with meaningful coverage of the original behavior; do not weaken or remove the gate.",
+    "Review existing current-source behavior before implementing anything. The retained candidate is evidence, not proof of correctness on this revision.",
+    "When a triggered ability's pump_until_eot atom has no target (i.e. it buffs the source creature itself, as in \"it gets +X/+0 until end of turn\"), executePumpEffect in game/ability_effects.go must resolve the buff against the ability's source instead of no-oping for lack of a target atom.",
+    "Preserve these adjacent behaviors: Targeted pump_until_eot abilities (with an explicit target creature/permanent) must keep resolving exactly as before, unaffected by any self-reference fallback.",
+    "Add a discriminating behavior test named TestFactoryNGPumpUntilEotAbilitySelfNoTarget; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases.",
+    "The retained candidate assumes every missing target is self. This contradicts the existing pump_until_eot no-target guard and the accepted untargeted-all negative test. Distinguish a proven self referent using explicit effect metadata or actual ability target metadata; missing targets alone are NOT evidence of self. Preserve group_filter and all=true behavior. No broad implicit self fallback.",
+    "Keep the original named test and cover explicit self pump, an explicitly targeted effect with no remaining legal targets (must not pump source), explicit group filter and all=true dispatch. Use subtests under the original required test so all assertions execute with the existing selector. Return an honest evidence gap if the self distinction cannot be established within scope.",
+    "Preserve every original gate and semantic obligation; do not edit the frozen registry literal.",
+    "When a spell exiles a target permanent and a later atom in the same spell uses an amount defined as 'the mana value of the permanent exiled this way', the engine must track the exiled permanent's mana value at the exile event and expose it as a dynamic-amount count kind usable by amount_count-consuming effects (e.g. put_counters)",
+    "Preserve these adjacent behaviors: 'where X is the number of <subtype> you control' (already handled by parse_count_phrase/amount_count); 'where X is the mana value of the exiled card' when the exile was NOT performed by an earlier atom of the same spell (e.g. impulse-draw exile zones)",
+    "Add a discriminating behavior test named TestFactoryNGDynamicAmountManaValueOfExiledThisWay; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases.",
+    "The retained candidate records mana value before executeExileEffect succeeds or applies its mana/color filters. The GameState scalar is cleared only when consumed, so an exile with no consumer leaves a value for an unrelated spell. Its zero-mana-value test manually calls the helper and does not prove public resolution wiring. Preserve current executeExileEffect color-filter arguments.",
+    "Keep the original named test and exercise public resolution with nonzero mana value. Cover successful exile and its same-spell consumer, exile rejected by mana/color filtering, an unrelated later spell after an unconsumed exile, and repeated reads within a single resolution when applicable. Carry value only for a successfully exiled object in that resolution; no global stale scalar. Add subtests under the existing required selector.",
+    "Preserve every original gate and semantic obligation; do not edit the frozen registry literal.",
+    "Damage each player by the number of artifacts that player individually controlled which a preceding destroy atom in the same spell sequence put into a graveyard, requiring a per-controller sequence tally (engine's seqTally is currently a single global int per key, e.g. tapped_this_way) plus an each-player damage recipient path that reads the tally keyed by that specific recipient rather than a flat total.",
+    "Preserve these adjacent behaviors: Angel's Trumpet's 'damage to the player equal to creatures tapped this way' stays a single-recipient, single global tally and must not be altered; A destroy atom followed by a flat fixed-amount damage atom (no per-player equal-to count) remains mapped exactly as today",
+    "Add a discriminating behavior test named TestFactoryNGDestroyedThisWayPerPlayerCount; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases.",
+    "Review negative probe proves an indestructible artifact remains on the battlefield yet its controller loses life from the destroyed-this-way tally. Candidate counts targets BEFORE successful destruction and subtracts Life directly, bypassing the damage pipeline. Artifact identification also checks SubTypes rather than all card Types.",
+    "Count only artifacts actually put into graveyards by this sequence, with the correct controller at destruction. Preserve indestructible/regeneration/replacement behavior, artifact creatures and per-player tallies. Deal the resulting damage through the established damage pipeline. Add negative-probe coverage as subtests under the original named selector.",
+    "Preserve every original gate and semantic obligation; do not edit the frozen registry literal.",
+    "When a sacrifice effect targets its own source permanent and is qualified by 'unless you discard a card', let the affected player choose at resolution to discard a card instead of sacrificing the source, instead of an unconditional sacrifice",
+    "Preserve these adjacent behaviors: Unconditional filter-scoped sacrifice with no unless-cost (existing executeSacrificeFiltered targets like 'sacrifice an artifact') must keep executing without offering a discard-to-avoid option",
+    "Add a discriminating behavior test named TestFactoryNGSacrificeUnlessDiscard; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases.",
+    "Review negative probe proves ResolveSacrificeUnlessDiscard accepts a nonexistent hand card, clears PendingSacrificeUnlessDiscard, and neither discards nor sacrifices. Validate input before consuming the choice. Also inspect nil source/controller bounds and existing production choice dispatch so the new decision is actually reachable.",
+    "Invalid discard selection must fail without consuming the choice or granting a free escape. Preserve valid discard, decline/sacrifice, and unconditional sacrifice behavior. Add the recorded negative probe as a subtest under the original required selector, and exercise the actual choice-resolution entry point.",
+    "Preserve every original gate and semantic obligation; do not edit the frozen registry literal."
+  ],
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "execution": {
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "codex-constrained@1.1.0",
+    "automatic_stop": false
+  },
+  "operator_recovery": {
+    "originals": [
+      {
+        "ticket": "ticket:engine.auto-damage-amount-referent-target-hand-size-5b58aa258c/v3",
+        "ticket_path": "docs/factory-ng/tickets/engine-auto-damage-amount-referent-target-hand-size-5b58aa258c-v3.json",
+        "ticket_sha256": "sha256:fa7863aa3d40d2628e272930946b9accf35a63a7183f837a04dc4a7838ccd3c0",
+        "receipt": "docs/factory-ng/runs/2026-09-09T135710Z-engine-auto-damage-amount-referent-target-hand-size-5b58aa258c-v3-codex.json",
+        "receipt_sha256": "sha256:72e44d61b4616a308f69d5b8b75c206110d36f43f284a6a114d1afce6fab65f3",
+        "production": {
+          "integration_repair_parent": "ticket:engine.auto-damage-amount-referent-target-hand-size-5b58aa258c/v1",
+          "key": "capability:damage_amount_referent_target_hand_size:sha256:5b58aa258c1fee9418c66d1fe41b0ebb78d898249fbf1b2304c022dc71f55f74:integration-repair-v1:gate-repair-v1",
+          "producer": "capability-dependencies",
+          "retry_reason": "semantic_gate_repair"
+        }
+      },
+      {
+        "ticket": "ticket:engine.auto-pump-until-eot-ability-self-no-target-9e24f96767/v3",
+        "ticket_path": "docs/factory-ng/tickets/engine-auto-pump-until-eot-ability-self-no-target-9e24f96767-v3.json",
+        "ticket_sha256": "sha256:1fc39b18346db084c084a95e6761014f20193567635e4c556a9c81377db3dd0b",
+        "receipt": "docs/factory-ng/runs/2026-09-09T185754Z-engine-auto-pump-until-eot-ability-self-no-target-9e24f96767-v3-codex.json",
+        "receipt_sha256": "sha256:ed206aa42cc34872fe025eb67e19c3094e88247e66c013c3c807d2166031828c",
+        "production": {
+          "integration_repair_parent": "ticket:engine.auto-pump-until-eot-ability-self-no-target-9e24f96767/v1",
+          "key": "capability:pump_until_eot_ability_self_no_target:sha256:9e24f9676753063b09c9a6ed84893153ecff7ecb5b9389f2718c1f28940ffc06:integration-repair-v1:gate-repair-v1",
+          "producer": "capability-dependencies",
+          "retry_reason": "semantic_gate_repair"
+        }
+      },
+      {
+        "ticket": "ticket:engine.auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295/v2",
+        "ticket_path": "docs/factory-ng/tickets/engine-auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295-v2.json",
+        "ticket_sha256": "sha256:0aa2a8059f2599073728c61bf5c7d74d6546464edb7dbb73b929e4cdbfcd1a95",
+        "receipt": "docs/factory-ng/runs/2026-09-09T071108Z-engine-auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295-v2-codex.json",
+        "receipt_sha256": "sha256:e69f12795d7d3fc08f41b03d5390d47b0984e827d417e2be8b8af8d7e8f2d727",
+        "production": {
+          "integration_repair_parent": "ticket:engine.auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295/v1",
+          "key": "capability:dynamic_amount_mana_value_of_exiled_this_way:sha256:a737105295300e396871d131f85cb90fbf2bd6d4d5c89621876c2f80b5c1145d:integration-repair-v1",
+          "producer": "capability-dependencies",
+          "retry_reason": "semantic_gate_repair"
+        }
+      },
+      {
+        "ticket": "ticket:engine.auto-destroyed-this-way-per-player-count-58304e2f98/v2",
+        "ticket_path": "docs/factory-ng/tickets/engine-auto-destroyed-this-way-per-player-count-58304e2f98-v2.json",
+        "ticket_sha256": "sha256:54592706fa482eb2a75bd5278f4dd59e803295fecd451480e5bda7da141aa482",
+        "receipt": "docs/factory-ng/runs/2026-09-09T072122Z-engine-auto-destroyed-this-way-per-player-count-58304e2f98-v2-codex.json",
+        "receipt_sha256": "sha256:9f97da5106b901be81206bab1957b57721a88a1444e9dfdb3c41fc3f74e896c9",
+        "production": {
+          "integration_repair_parent": "ticket:engine.auto-destroyed-this-way-per-player-count-58304e2f98/v1",
+          "key": "capability:destroyed_this_way_per_player_count:sha256:58304e2f984f976d5f1015e46eebc32d5e50e40461a46b07567ec9cdbbefc42b:integration-repair-v1",
+          "producer": "capability-dependencies",
+          "retry_reason": "semantic_gate_repair"
+        }
+      },
+      {
+        "ticket": "ticket:engine.auto-sacrifice-unless-discard-3e88a33648/v2",
+        "ticket_path": "docs/factory-ng/tickets/engine-auto-sacrifice-unless-discard-3e88a33648-v2.json",
+        "ticket_sha256": "sha256:ff1f9518037b3579f72ac0e113f301d401f19b6e3a65cd3b1085de3b1741b03c",
+        "receipt": "docs/factory-ng/runs/2026-09-09T072321Z-engine-auto-sacrifice-unless-discard-3e88a33648-v2-codex.json",
+        "receipt_sha256": "sha256:785feb6308f0e9bcf7b07c2d9402528544d54c629272c40b4def973c4bfa41c1",
+        "production": {
+          "integration_repair_parent": "ticket:engine.auto-sacrifice-unless-discard-3e88a33648/v1",
+          "key": "capability:sacrifice_unless_discard:sha256:3e88a336483cc3f1bc70b4964f4ba27201911e84f4cbf1cd01ed1ac8ed20d184:integration-repair-v1",
+          "producer": "capability-dependencies",
+          "retry_reason": "semantic_gate_repair"
+        }
+      }
+    ],
+    "authorization": "User requested action on the five unresolved reviewed lineages after their status check.",
+    "scope_additions": {
+      "backend/cards/patterns_keywords.go": "Storm keyword boundary prerequisite, retaining actual Storm Seeker parser assertion.",
+      "backend/cards/shape_storm_keyword_boundary_test.go": "Keyword/reminder and card-name boundary regressions.",
+      "backend/game/effect_sequence.go": "Bound sequence scratch reads to an active resolution.",
+      "backend/game/gamestate_choice.go": "Route discard/sacrifice through existing public PendingChoice API.",
+      "backend/cards/registry_conflict_recovery.go": "Expose recovered executors without editing the frozen literal.",
+      "backend/cards/shape_conflict_recovery_test.go": "Registry presence and public conversion/trigger checks."
+    },
+    "model_retry_budget_reset": false,
+    "provider_calls": 0,
+    "note": "Finite operator composition; no original ticket, scope, gate, receipt, model accounting, or retry counter is rewritten."
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-map-plan-exile-scarab-feast-d952117a2a-v4-4y4lmew3",
+    "candidate_commit": "408c09d9dfa7b89d3f10b9d9ddc16e0e0fd5db35",
+    "mode": "isolated_clone_observation_only",
+    "model_exit_code": 0,
+    "packet_sha256": "sha256:a4513af777905f452304798c6c2cfeb22eda697d2889927bb7d4ece112abe5dc",
+    "source_revision": "408c09d9dfa7b89d3f10b9d9ddc16e0e0fd5db35",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "command": "scripts/map-pipeline-apply.py",
+      "detail": "no edit blocks and no verdict found in model output",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "command": "scripts/map-pipeline-apply.py",
+      "detail": "no edit blocks and no verdict found in model output",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "qwen-prepared-direct@1.0.2",
+    "resolved_model": "Qwen3.8-27B-Q8_0",
+    "telemetry": {
+      "bounded_repair_attempted": true,
+      "cache_read_tokens": 14433,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 587493,
+      "input_tokens": 31958,
+      "output_tokens": 4000,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local provider does not report cost"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "local adapter disables thinking"
+      }
+    },
+    "worker": "qwen-local"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed_model_protocol",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-09T050633Z-map-plan-exile-scarab-feast-d952117a2a-v4-qwen.raw.txt",
+      "sha256": "sha256:132d81d0f755a5dc9df405030d38e959f91ba0d33fe521dc4768bf1db4327994"
+    },
+    {
+      "kind": "bounded_repair",
+      "path": "docs/factory-ng/runs/2026-09-09T050633Z-map-plan-exile-scarab-feast-d952117a2a-v4-qwen.repair.raw.txt",
+      "sha256": "sha256:132d81d0f755a5dc9df405030d38e959f91ba0d33fe521dc4768bf1db4327994"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "ticket": {
+    "id": "ticket:map.plan-exile-scarab-feast-d952117a2a/v4",
+    "path": "docs/factory-ng/tickets/map-plan-exile-scarab-feast-d952117a2a-v4.json",
+    "sha256": "sha256:d544ca09881b4c2393b804483ab298d97a7f628bb564e2016848db0946e64fcf"
+  }
+}

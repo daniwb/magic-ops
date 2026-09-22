@@ -1,0 +1,27 @@
+{
+  "receipts": [
+    "docs/factory-ng/runs/2026-09-08T185732Z-engine-auto-destroy-attached-to-referent-d32bfbcd7a-v1-claude-agentic.json",
+    "docs/factory-ng/runs/2026-09-09T005900Z-engine-auto-exile-target-graveyard-card-and-named-matches-656434340c-v1-codex.json",
+    "docs/factory-ng/runs/2026-09-09T012442Z-engine-auto-pump-all-referent-controller-spell-e7617de98a-v1-claude.json",
+    "docs/factory-ng/runs/2026-09-08T180022Z-engine-auto-pump-until-eot-untargeted-all-36523aeef0-v1-claude.json",
+    "docs/factory-ng/runs/2026-09-08T233406Z-engine-auto-return-exiled-cards-with-source-15c611c278-v1-claude.json",
+    "docs/factory-ng/runs/2026-09-08T234431Z-engine-auto-sacrifice-any-number-choice-9baee341fb-v1-claude.json",
+    "docs/factory-ng/runs/2026-09-08T232313Z-engine-auto-sacrifice-source-d0c00a2e90-v1-claude.json",
+    "docs/factory-ng/runs/2026-09-08T230221Z-engine-auto-sacrifice-unless-alternative-action-d672580388-v1-claude.json"
+  ],
+  "automatic_successors": [
+    {
+      "ticket": "ticket:engine.auto-copy-triggering-referent-b4a4facffb/v1",
+      "successor": "ticket:engine.auto-copy-triggering-referent-b4a4facffb/v2"
+    },
+    {
+      "ticket": "ticket:engine.auto-damage-amount-referent-target-hand-size-5b58aa258c/v1",
+      "successor": "ticket:engine.auto-damage-amount-referent-target-hand-size-5b58aa258c/v2"
+    }
+  ],
+  "semantic_rejections": [
+    "ticket:engine.auto-damage-amount-counter-count-82dee1907b/v3",
+    "ticket:engine.auto-destroyed-this-way-per-player-count-58304e2f98/v1",
+    "ticket:engine.auto-sacrifice-unless-discard-3e88a33648/v1"
+  ]
+}

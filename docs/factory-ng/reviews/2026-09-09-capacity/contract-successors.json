@@ -1,0 +1,128 @@
+{
+  "batch": "2026-09-09-capacity",
+  "max_active": 2,
+  "source_revision": "c0fac85b88da04f3d54fe2a5acd553a36662a329",
+  "tickets": [
+    {
+      "original": "ticket:engine.auto-damage-additional-to-subset-map-wiring-9fa4833208/v1",
+      "original_sha256": "sha256:fc3971091730e3c28c4fd37c20de7efd96bbb31aa2d1d8c2aeeb1d46a5d1ae6d",
+      "ticket_path": "docs/factory-ng/reviews/2026-09-09-capacity/successors/engine-auto-damage-additional-to-subset-map-wiring-9fa4833208-v2.json",
+      "ticket_sha256": "sha256:33a5f9c760d50693ca5f89621aaad4d8c35d65332a54cccffe8d8e9a11b26253",
+      "changes": [
+        "Mark scripts/paragraph/reparse.py as read-only context: original behavior cites existing implementation, parser registration visibility, or a preserved adjacent path; it does not require editing this file.",
+        "Correct the registry-literal instruction to the mandatory per-topic init-file convention; registered behavior is identical."
+      ]
+    },
+    {
+      "original": "ticket:engine.auto-destroy-self-at-end-of-combat-749095683e/v1",
+      "original_sha256": "sha256:33cacb3c510438880bc461c14c63d37c909ff8750c2b92dc5e9e839bfee43d1c",
+      "ticket_path": "docs/factory-ng/reviews/2026-09-09-capacity/successors/engine-auto-destroy-self-at-end-of-combat-749095683e-v2.json",
+      "ticket_sha256": "sha256:eba1ecbc2ca0f2c105d32837323a0fbff7e9877b440d85167d2019653ed9681c",
+      "changes": [
+        "Mark scripts/paragraph/reparse.py as read-only context: original behavior cites existing implementation, parser registration visibility, or a preserved adjacent path; it does not require editing this file."
+      ]
+    },
+    {
+      "original": "ticket:engine.auto-filter-dealt-damage-this-turn-0c9f0ab0d2/v1",
+      "original_sha256": "sha256:3d86078172e8a8ff36445614d4274886faad46d8807663772359f0d1ca98d9ec",
+      "ticket_path": "docs/factory-ng/reviews/2026-09-09-capacity/successors/engine-auto-filter-dealt-damage-this-turn-0c9f0ab0d2-v2.json",
+      "ticket_sha256": "sha256:ddb44ff2490f3b80ede08a1f176d0b6ed6654d9024f71790c0f0809d7098bcb5",
+      "changes": [
+        "Use unique new regression TestFactoryNGFilterDealtDamageThisTurn_Contract_fada00ce6f; preserve the original TestFactoryNGFilterDealtDamageThisTurn gate as well."
+      ]
+    },
+    {
+      "original": "ticket:engine.auto-gain-control-until-eot-5f2ae34749/v1",
+      "original_sha256": "sha256:ba02c1f964a6d7a931adea86678b10eb276b5889e7518ee7e48f677ba996c946",
+      "ticket_path": "docs/factory-ng/reviews/2026-09-09-capacity/successors/engine-auto-gain-control-until-eot-5f2ae34749-v2.json",
+      "ticket_sha256": "sha256:6fd0de774d8bc39df9f7e46c9cef7266e7a1da44dafb8bacd43e29a192a60d34",
+      "changes": [
+        "Use unique new regression TestFactoryNGGainControlUntilEot_Contract_6cec89276f; preserve the original TestFactoryNGGainControlUntilEot gate as well."
+      ]
+    },
+    {
+      "original": "ticket:engine.auto-gain-control-until-eot-e1492d2738/v1",
+      "original_sha256": "sha256:efd557dbf41a268214eadc21a17bd5c56956371b207477a31dfd0d404e730777",
+      "ticket_path": "docs/factory-ng/reviews/2026-09-09-capacity/successors/engine-auto-gain-control-until-eot-e1492d2738-v2.json",
+      "ticket_sha256": "sha256:5553580edfb0e92b225173a087572e602173ee9fc5fef745a2dd24af28b041cb",
+      "changes": [
+        "Use unique new regression TestFactoryNGGainControlUntilEot_Contract_c81fcf50b6; preserve the original TestFactoryNGGainControlUntilEot gate as well."
+      ]
+    },
+    {
+      "original": "ticket:engine.auto-pump-referent-eot-fe5451255d/v1",
+      "original_sha256": "sha256:ae0dcfe91578c63890ada2c8c2e793d40c8ec9b296523203369bb902d79b8859",
+      "ticket_path": "docs/factory-ng/reviews/2026-09-09-capacity/successors/engine-auto-pump-referent-eot-fe5451255d-v2.json",
+      "ticket_sha256": "sha256:97d962061e13100cc8495f1fd77b1800c4ba836b927a96ba720d9ecd63c6d0e1",
+      "changes": [
+        "Mark backend/game/effect_sequence.go as read-only context: original behavior cites existing implementation, parser registration visibility, or a preserved adjacent path; it does not require editing this file."
+      ]
+    },
+    {
+      "original": "ticket:engine.auto-pump-until-eot-self-source-d0c7ca626e/v1",
+      "original_sha256": "sha256:db68bd27f2ec23fc6a22261eec1e1ce286f8c66aa682c5d7b1e191eac4fefc1a",
+      "ticket_path": "docs/factory-ng/reviews/2026-09-09-capacity/successors/engine-auto-pump-until-eot-self-source-d0c7ca626e-v2.json",
+      "ticket_sha256": "sha256:fb9f5b99610eb72e5f445e034627bdbbf10f1aff7579e81fde8035f8ea49932d",
+      "changes": [
+        "Use unique new regression TestFactoryNGPumpUntilEotSelfSource_Contract_d4012e4ad2; preserve the original TestFactoryNGPumpUntilEotSelfSource gate as well."
+      ]
+    },
+    {
+      "original": "ticket:engine.auto-register-self-copy-on-cast-primitive-6ac1319816/v1",
+      "original_sha256": "sha256:389c915ce7ba04046e65a8c2c4367d2a20e19b6b32fe81b6ff5eafed6f477659",
+      "ticket_path": "docs/factory-ng/reviews/2026-09-09-capacity/successors/engine-auto-register-self-copy-on-cast-primitive-6ac1319816-v2.json",
+      "ticket_sha256": "sha256:2deefafdfac2364d5532d1c4e78c5ef480672ab5fb57d4a94c23e55e48061b05",
+      "changes": [
+        "Mark backend/cardfns/lib_spell_cast_self_copy.go as read-only context: original behavior cites existing implementation, parser registration visibility, or a preserved adjacent path; it does not require editing this file.",
+        "Mark backend/game/advanced_abilities.go as read-only context: original behavior cites existing implementation, parser registration visibility, or a preserved adjacent path; it does not require editing this file.",
+        "Mark backend/game/copy_effect.go as read-only context: original behavior cites existing implementation, parser registration visibility, or a preserved adjacent path; it does not require editing this file.",
+        "Mark scripts/paragraph/reparse.py as read-only context: original behavior cites existing implementation, parser registration visibility, or a preserved adjacent path; it does not require editing this file."
+      ]
+    },
+    {
+      "original": "ticket:engine.auto-return-from-graveyard-mana-value-filter-40a5f5303a/v2",
+      "original_sha256": "sha256:f7d04bb3aafba45b2ee22d892170596715ad80868d25e80a7c67c69bd4034eeb",
+      "ticket_path": "docs/factory-ng/reviews/2026-09-09-capacity/successors/engine-auto-return-from-graveyard-mana-value-filter-40a5f5303a-v3.json",
+      "ticket_sha256": "sha256:4c3521d36506803983297c170b641aab03952046f1baf722a6cd3f8ae7af0a3b",
+      "changes": [
+        "Use unique new regression TestFactoryNGReturnFromGraveyardManaValueFilter_Contract_2522dee372; preserve the original TestFactoryNGReturnFromGraveyardManaValueFilter gate as well."
+      ]
+    },
+    {
+      "original": "ticket:engine.auto-target-filter-dealt-damage-this-turn-7541e11849/v3",
+      "original_sha256": "sha256:6718e1828fd1c8a1f52217ca840b71af96b10be427be0ff1e4a4ce543aae05cf",
+      "ticket_path": "docs/factory-ng/reviews/2026-09-09-capacity/successors/engine-auto-target-filter-dealt-damage-this-turn-7541e11849-v4.json",
+      "ticket_sha256": "sha256:307141b93708840001250596309be3e47a0d66e1d89a6a07adc9d5919454175b",
+      "changes": [
+        "Use unique new regression TestFactoryNGTargetFilterDealtDamageThisTurn_Contract_8aa2a3cb81; preserve the original TestFactoryNGTargetFilterDealtDamageThisTurn gate as well."
+      ]
+    },
+    {
+      "original": "ticket:engine.auto-triggered-single-target-destroy-cd8f155f56/v2",
+      "original_sha256": "sha256:fd67c41c351fcdd9b0631f29e19759e11564bf7086374f0e5d36be4937070318",
+      "ticket_path": "docs/factory-ng/reviews/2026-09-09-capacity/successors/engine-auto-triggered-single-target-destroy-cd8f155f56-v3.json",
+      "ticket_sha256": "sha256:969c35f058e19a44b577bc09c7a56cfaae180c95e57427183cac7b14df979b19",
+      "changes": [
+        "Use unique new regression TestFactoryNGTriggeredSingleTargetDestroy_Contract_028abc27e0; preserve the original TestFactoryNGTriggeredSingleTargetDestroy gate as well."
+      ]
+    },
+    {
+      "original": "ticket:engine.auto-wire-exile-until-monarch-change-dispatch-033f7e061a/v1",
+      "original_sha256": "sha256:ead8e633598e12d0e6742e09e302c94182807235869b4e5b7b5af06432087013",
+      "ticket_path": "docs/factory-ng/reviews/2026-09-09-capacity/successors/engine-auto-wire-exile-until-monarch-change-dispatch-033f7e061a-v2.json",
+      "ticket_sha256": "sha256:048996e1bf43d496936e7ca5385b724e7238f466bb0bf235fd6ff4b394168625",
+      "changes": [
+        "Authorize the explicitly required BecomeMonarch hook in backend/game/monarch.go."
+      ]
+    },
+    {
+      "original": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v5",
+      "original_sha256": "sha256:2f15a12d1f0be725b0fa7dfcf27248fec54ac9670ee7e5ee13fcfae0cde7dfe1",
+      "ticket_path": "docs/factory-ng/reviews/2026-09-09-capacity/successors/map-plan-grant-eot-skittering-cicada-aaedaea801-v6.json",
+      "ticket_sha256": "sha256:eee1b1e7f2342dc87b020e8c251dce8caabce90074d27dae0c61b16086941433",
+      "changes": [
+        "Mark historical Engine failure text as read-only context. Preserve source/measurement, every gate and allowed path, and generation 2; v5 made zero model calls."
+      ]
+    }
+  ]
+}

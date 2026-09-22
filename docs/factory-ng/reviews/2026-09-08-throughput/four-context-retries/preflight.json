@@ -1,0 +1,30 @@
+[
+  {
+    "parent": "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v2",
+    "candidate": "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v3",
+    "preparation_problems": [],
+    "repair_generation": 1,
+    "source_revision": "54609c76ee6064d1b7081e26461618744c3e926a"
+  },
+  {
+    "parent": "ticket:map.plan-put-counters-machine-man-model-x-51-5f65a12e95/v1",
+    "candidate": "ticket:map.plan-put-counters-machine-man-model-x-51-5f65a12e95/v2",
+    "preparation_problems": [],
+    "repair_generation": 1,
+    "source_revision": "54609c76ee6064d1b7081e26461618744c3e926a"
+  },
+  {
+    "parent": "ticket:map.plan-pump-barge-in-a96db2c352/v1",
+    "candidate": "ticket:map.plan-pump-barge-in-a96db2c352/v2",
+    "preparation_problems": [],
+    "repair_generation": 1,
+    "source_revision": "54609c76ee6064d1b7081e26461618744c3e926a"
+  },
+  {
+    "parent": "ticket:map.plan-pump-thorntooth-witch-5b8aaa9b51/v1",
+    "candidate": "ticket:map.plan-pump-thorntooth-witch-5b8aaa9b51/v2",
+    "preparation_problems": [],
+    "repair_generation": 1,
+    "source_revision": "54609c76ee6064d1b7081e26461618744c3e926a"
+  }
+]

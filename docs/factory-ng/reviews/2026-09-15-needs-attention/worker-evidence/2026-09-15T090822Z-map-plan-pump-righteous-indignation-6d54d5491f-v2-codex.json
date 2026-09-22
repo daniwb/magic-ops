@@ -1,0 +1,91 @@
+{
+  "attempt_history": [],
+  "capability_assessments": [],
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-map-plan-pump-righteous-indignation-6d54d5491f-v2-yf01ft9h",
+    "candidate_commit": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+    "source_tree_changed": false
+  },
+  "failure_category": "model_response",
+  "gates": [
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "Provider call exited 1; see retained raw response. codex: provider process exited 1; see retained raw events\n",
+      "id": "provider-call",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "codex-constrained@1.1.0",
+    "resolved_model": "gpt-5.6-luna",
+    "telemetry": {
+      "cache_read_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter emitted no token counter"
+      },
+      "cache_write_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter emitted no token counter"
+      },
+      "elapsed_ms": 11988,
+      "input_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter emitted no token counter"
+      },
+      "model_calls": 1,
+      "output_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter emitted no token counter"
+      },
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "provider cost unavailable"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter emitted no token counter"
+      },
+      "stage_times": {
+        "attempt_wall_ms": 63378,
+        "candidate_gate_ms": 0,
+        "compilation_ms": {
+          "availability": "unavailable",
+          "reason": "go test includes package compilation; not separately timed"
+        },
+        "model_ms": 11988
+      }
+    },
+    "worker": "codex-2"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-15T090822Z-map-plan-pump-righteous-indignation-6d54d5491f-v2-codex.raw.json",
+      "sha256": "sha256:e51ea36d432f1bace3a20be48727d2050a49fe1f3c16747c142a18ab3cc54d28"
+    },
+    {
+      "kind": "prepared_packet",
+      "path": "docs/factory-ng/runs/2026-09-15T090822Z-map-plan-pump-righteous-indignation-6d54d5491f-v2-codex.packet.txt",
+      "sha256": "sha256:50213ea7b60fd1bce3eb5287c8340666498e930b543a45f2c7440c69b26dde86"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "ticket": {
+    "id": "ticket:map.plan-pump-righteous-indignation-6d54d5491f/v2",
+    "path": "docs/factory-ng/tickets/map-plan-pump-righteous-indignation-6d54d5491f-v2.json",
+    "sha256": "sha256:3a25704a6e1913e9fc55e66f84298b4f375b3d4952941aed9767e0cb63c115f9"
+  }
+}

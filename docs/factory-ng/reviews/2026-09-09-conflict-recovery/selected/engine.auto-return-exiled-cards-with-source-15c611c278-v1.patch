@@ -1,0 +1,137 @@
+From 3fcd414041fb3559824a1befd32f949d46b5f9b5 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Tue, 8 Sep 2026 23:44:26 +0000
+Subject: [PATCH] factory-ng: supervised engine observation
+
+---
+ backend/game/ability_effects.go            | 37 +++++++++++++
+ backend/game/factory_ng_15c611c278_test.go | 62 ++++++++++++++++++++++
+ 2 files changed, 99 insertions(+)
+ create mode 100644 backend/game/factory_ng_15c611c278_test.go
+
+diff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go
+index 839919e5e..38497e0fd 100644
+--- a/backend/game/ability_effects.go
++++ b/backend/game/ability_effects.go
+@@ -662,6 +662,37 @@ func (gs *GameState) executeSelfExileFromGraveyardWithDependentTrigger(source *C
+ 	return true, dependent(gs, found, controller)
+ }
+ 
++// executeSacrificeSelfReturnExiled implements the return_exiled_cards_with_source
++// primitive (Promise of Tomorrow class: "sacrifice this ~ and return all
++// cards exiled with it to the battlefield under your control"). Unlike the
++// shared returnStashedExiledCards helper (used by other stash consumers such
++// as the exile-until-monarch-change family, which return under a card's
++// OWNER's control per its own wording), this effect's cards return under the
++// SOURCE's controller specifically, so the controller is captured before the
++// source leaves the battlefield and applied explicitly rather than relying
++// on whatever Controller value each card happened to carry into exile.
++func (gs *GameState) executeSacrificeSelfReturnExiled(source *Card, controller int) error {
++	if source == nil {
++		return nil
++	}
++	ids := append([]string(nil), source.StashedExileIDs...)
++	returnController := source.Controller
++	gs.sacrificeCard(source, controller)
++	for _, id := range ids {
++		for _, p := range gs.Players {
++			if c, err := p.Exile.RemoveCard(id); err == nil {
++				c.Controller = returnController
++				c.SummoningSick = true
++				gs.Battlefield.AddCard(c)
++				gs.RegisterCardAbilities(c)
++				break
++			}
++		}
++	}
++	source.StashedExileIDs = nil
++	return nil
++}
++
+ // linkedTokenExileRegistry maps a source permanent's ID to the IDs of
+ // tokens created by an EARLIER effect of that permanent's own ability,
+ // pending exile when the source leaves the battlefield (ticket
+@@ -8783,6 +8814,12 @@ func (gs *GameState) ExecuteAbilityEffect(stackObj *StackObject) error {
+ 		return gs.executeCreateTokenCopyOfTrigger(controller, targets)
+ 	case "return_graveyard_to_hand":
+ 		return gs.executeReturnGraveyardToHand(controller, effectValue, targets)
++	case "sacrifice_self_return_exiled":
++		// Promise of Tomorrow class: sacrifice this source and return every
++		// card previously exiled with it to the battlefield under its
++		// controller's control.
++		return gs.executeSacrificeSelfReturnExiled(source, controller)
++
+ 	case "return_from_graveyard":
+ 		// Zombify / Eternal Witness family (schema-v2 3c round 7: 103
+ 		// records were parser-emitted with ZERO consuming code — the largest
+diff --git a/backend/game/factory_ng_15c611c278_test.go b/backend/game/factory_ng_15c611c278_test.go
+new file mode 100644
+index 000000000..a13b2abaa
+--- /dev/null
++++ b/backend/game/factory_ng_15c611c278_test.go
+@@ -0,0 +1,62 @@
++package game
++
++import "testing"
++
++// TestFactoryNGReturnExiledCardsWithSource covers the return_exiled_cards_with_source
++// primitive (Promise of Tomorrow class): when a source permanent that has
++// exiled cards with itself is sacrificed, everything it exiled must return to
++// the battlefield under its controller's control.
++func TestFactoryNGReturnExiledCardsWithSource(t *testing.T) {
++	gs := NewGame("P0", "P1", false)
++
++	source := NewCard("Test Promise of Tomorrow", CardType("Enchantment"), ManaCost{}, 0)
++	source.Controller = 0
++	gs.Battlefield.AddCard(source)
++	gs.RegisterCardAbilities(source)
++
++	victim := NewCreature("Test Fallen Beast", ManaCost{}, 2, 2, 0)
++	victim.Owner, victim.Controller = 0, 0
++	gs.Battlefield.AddCard(victim)
++	gs.RegisterCardAbilities(victim)
++
++	// Exile the creature "with" the source (durable_self_exile family: the
++	// "whenever a creature you control dies, exile it" half of the card).
++	if err := gs.executeDurableSelfExileEffect(source, 0, ""); err != nil {
++		t.Fatalf("executeDurableSelfExileEffect: %v", err)
++	}
++	if len(source.StashedExileIDs) != 1 {
++		t.Fatalf("expected 1 stashed exile id, got %d", len(source.StashedExileIDs))
++	}
++	if _, err := gs.Players[0].Exile.GetCard(victim.ID); err != nil {
++		t.Fatalf("expected victim to be in exile: %v", err)
++	}
++	if _, err := gs.Battlefield.GetCard(victim.ID); err == nil {
++		t.Fatalf("victim should have left the battlefield")
++	}
++
++	// Sacrifice the source and return everything it exiled to the
++	// battlefield under its controller's control.
++	if err := gs.executeSacrificeSelfReturnExiled(source, 0); err != nil {
++		t.Fatalf("executeSacrificeSelfReturnExiled: %v", err)
++	}
++
++	if _, err := gs.Battlefield.GetCard(source.ID); err == nil {
++		t.Fatalf("source should have been sacrificed off the battlefield")
++	}
++	if _, err := gs.Players[0].Graveyard.GetCard(source.ID); err != nil {
++		t.Fatalf("source should be in its owner's graveyard: %v", err)
++	}
++	if len(source.StashedExileIDs) != 0 {
++		t.Fatalf("stashed exile ids should be cleared, got %v", source.StashedExileIDs)
++	}
++	if _, err := gs.Players[0].Exile.GetCard(victim.ID); err == nil {
++		t.Fatalf("exiled card should no longer be in exile")
++	}
++	returned, err := gs.Battlefield.GetCard(victim.ID)
++	if err != nil {
++		t.Fatalf("exiled card should have returned to the battlefield: %v", err)
++	}
++	if returned.Controller != 0 {
++		t.Fatalf("returned card should be under its source's controller's control, got controller %d", returned.Controller)
++	}
++}
+-- 
+2.43.0
+

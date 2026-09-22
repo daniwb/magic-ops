@@ -1,0 +1,19 @@
+{
+  "ticket": "ticket:engine.auto-referent-object-to-library-top-b695fba968/v1",
+  "historical_receipt": "docs/factory-ng/runs/2026-09-20T113154Z-engine-auto-referent-object-to-library-top-b695fba968-v1-goose-qwen-staged.json",
+  "model_calls": [
+    {
+      "index": 0,
+      "historical_replay": true
+    },
+    {
+      "index": 1,
+      "historical_replay": true
+    },
+    {
+      "index": 2,
+      "historical_replay": false
+    }
+  ],
+  "elapsed_seconds": 1202.581
+}

@@ -1,0 +1,10 @@
+{
+  "ticket_id": "ticket:engine.auto-ability-pump-filter-all-23b3b60c38/v4",
+  "receipt": "docs/factory-ng/runs/2026-09-16T090604Z-engine-auto-ability-pump-filter-all-23b3b60c38-v4-codex.json",
+  "receipt_sha256": "sha256:f4ed39f7e2b23321e6f3c032637e46ec20186b4c21ad1ef2ffb5495c8bb8f7ba",
+  "raw_artifact": {
+    "path": "docs/factory-ng/runs/2026-09-16T090604Z-engine-auto-ability-pump-filter-all-23b3b60c38-v4-codex.raw.json",
+    "sha256": "sha256:ac80301f1b4d97df7014ca109a0673ffa56f4b86919d743492e8ac9e85282c0f"
+  },
+  "finding": "Explicit Luna capacity rejection before any patch; Terra configured and functioning since previous recovery. One attempt, original scope and all gates required."
+}

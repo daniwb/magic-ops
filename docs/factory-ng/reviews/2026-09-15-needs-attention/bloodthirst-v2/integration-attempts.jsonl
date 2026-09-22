@@ -1,0 +1,7 @@
+{"at": 1789512544.5843208, "exit_code": 75, "stdout": "{\"status\": \"integration_busy\", \"reason\": \"openmagic integration lock held\"}\n", "stderr": ""}
+{"at": 1789512554.8339465, "exit_code": 75, "stdout": "{\"status\": \"integration_busy\", \"reason\": \"openmagic integration lock held\"}\n", "stderr": ""}
+{"at": 1789512565.035139, "exit_code": 75, "stdout": "{\"status\": \"integration_busy\", \"reason\": \"openmagic integration lock held\"}\n", "stderr": ""}
+{"at": 1789512575.259163, "exit_code": 75, "stdout": "{\"status\": \"integration_busy\", \"reason\": \"openmagic integration lock held\"}\n", "stderr": ""}
+{"at": 1789512585.478329, "exit_code": 75, "stdout": "{\"status\": \"integration_busy\", \"reason\": \"openmagic integration lock held\"}\n", "stderr": ""}
+{"at": 1789512595.726859, "exit_code": 75, "stdout": "{\"status\": \"integration_busy\", \"reason\": \"openmagic integration lock held\"}\n", "stderr": ""}
+{"at": 1789512734.5104384, "exit_code": 0, "stdout": "{\"pushed\": true, \"receipt\": \"docs/factory-ng/runs/2026-09-15T225005Z-engine-operator-bloodthirst-runtime-sep15-v2-1789512605919283221-integration.json\", \"result_commit\": \"168e3851cc5e1e8ff2b1e2552a311dd18626ee31\", \"status\": \"pushed_full_production_gate_green\", \"ticket_results\": {\"ticket:engine.operator-bloodthirst-runtime-sep15/v2\": {\"reason\": \"\", \"receipt\": \"docs/factory-ng/runs/2026-09-15T225005Z-engine-operator-bloodthirst-runtime-sep15-v2-1789512605919283221-integration.json\", \"status\": \"pushed_full_production_gate_green\"}}}\n", "stderr": ""}

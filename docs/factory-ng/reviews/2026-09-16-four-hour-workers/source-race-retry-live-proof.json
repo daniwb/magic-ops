@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-16T22:40:13.881185+00:00",
+  "log": [
+    "[2026-09-16T22:37:56Z] producer=reviewed-harness-corrections-sep16 status=source_unavailable ticket=- reason=source changed during reviewed production",
+    "[2026-09-16T22:37:57Z] producer=reviewed-harness-corrections-sep16 retry=clean_source_advanced remaining_sweep_budget=8",
+    "[2026-09-16T22:38:55Z] producer=reviewed-harness-corrections-sep16 status=queued ticket=ticket:engine.auto-dual-target-fight-atom-c63ae8f425/v3",
+    "[2026-09-16T22:39:20Z] worker=codex status=working ticket=ticket:engine.auto-dual-target-fight-atom-c63ae8f425/v3 pid=3380942"
+  ],
+  "ticket": "ticket:engine.auto-dual-target-fight-atom-c63ae8f425/v3",
+  "ticket_path": "docs/factory-ng/tickets/engine-auto-dual-target-fight-atom-c63ae8f425-v3.json",
+  "ticket_sha256": "sha256:e55a8c518248ed7244190fd2e27aec988e51e5f5077f3f89ff7fd10c24e5ad46",
+  "source": {
+    "clean": true,
+    "repository": "/opt/development/test/openmagic",
+    "revision": "b2ade26d4fb116d6b16851d7c053257945a4769e"
+  },
+  "worker": "codex",
+  "pid": 3380942,
+  "state": "working"
+}

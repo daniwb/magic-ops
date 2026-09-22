@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "card-knowledge": {
+      "command": "python3",
+      "args": ["/opt/development/magic-ops/scripts/kb-mcp-server.py"]
+    },
+    "okf-knowledge": {
+      "command": "/opt/development/magic-ops/state/okf-trial/okf",
+      "args": ["mcp", "/opt/development/magic-ops/state/okf-trial/knowledge"]
+    }
+  }
+}

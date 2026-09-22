@@ -1,0 +1,570 @@
+This is an isolated ENGINE implementation benchmark. Satisfy the complete behavior contract below. A generated primitive name is only a search label. Reuse existing behavior if it already satisfies the contract; a new discriminating test-only patch is valid. Implement a demonstrated bounded gap otherwise. Do not return NEEDS_PRIMITIVE just because the requested behavior needs implementation: implementing it is your task. Report an actual scope/evidence blocker honestly if necessary. Never commit, push, deploy, modify live tickets, or access other checkouts. Do not run tests or compilers; the external evaluator runs every original ticket gate. Keep every edit within allowed_paths. Add the exact named test and exercise the public ExecuteAbilityEffect path and untap lifecycle, including adjacent plain-tap and repeated-application behavior.
+
+{
+  "ticket": "ticket:engine.auto-freeze-until-next-untap-7b6fc522b0/v1",
+  "source_revision": "fcb60f31cda3285216ac60206c56cc320b8e8b16",
+  "capability": {
+    "expected_unlock": 1,
+    "negative_examples": [
+      "A plain tap effect (verb 'tap') must not carry the duration-bound freeze behavior.",
+      "A permanent that is already frozen must not be affected by a second freeze request in a way that extends the duration beyond the next untap step."
+    ],
+    "required_behavior": "Given a target permanent, mark it so that during its controller's next untap step it does not untap; the marker is cleared after that untap step completes.",
+    "source_misses": [
+      {
+        "card": "Kashi-Tribe Warriors",
+        "oracle_text_sha256": "0b4ee98313f5c0ec256d588a3074b96a10ee6b1882dfa74d7513b100b44f1f78",
+        "paragraph": "Whenever this creature deals combat damage to a creature, tap that creature and it doesn't untap during its controller's next untap step.",
+        "required_behavior": "Mark the damaged creature so it does not untap during its controller's next untap step, then clear the marker."
+      }
+    ]
+  }
+}
+
+## TICKET CONTRACT (enforced verbatim by the harness)
+scope.allowed_paths (edit nothing else):
+- backend/game/ability_effects.go
+- backend/game/dynamic_amount.go
+- backend/game/effects.go
+- backend/game/card.go
+- backend/game/gamestate.go
+- backend/game/targeting.go
+- backend/cards/converter.go
+- backend/cards/registry.go
+- backend/game/factory_ng_7b6fc522b0_test.go
+- backend/cards/factory_ng_7b6fc522b0_test.go
+- backend/cards/registry_factory_ng_7b6fc522b0.go
+
+gates:
+- test -z "$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\.go$'))"
+- cd backend && go test ./game ./cards -run '^TestFactoryNGFreezeUntilNextUntap_7b6fc522b0$' -count=1
+- cd backend && go test ./game ./cards
+- git diff --check
+
+required behavior:
+- Given a target permanent, mark it so that during its controller's next untap step it does not untap; the marker is cleared after that untap step completes.
+- Preserve these adjacent behaviors: A plain tap effect (verb 'tap') must not carry the duration-bound freeze behavior.; A permanent that is already frozen must not be affected by a second freeze request in a way that extends the duration beyond the next untap step.
+- Add a discriminating behavior test named TestFactoryNGFreezeUntilNextUntap_7b6fc522b0; a compile-only assertion is insufficient.
+- Register every new public effect using regEffect in the allowed registry_*.go file, with executor and runtime test metadata; never edit the frozen registry literal.
+- Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases.
+## Vocabulary handoff
+Every new public ExecuteAbilityEffect case must be registered with regEffect in an allowed registry_*.go file, with executor and runtime test metadata. The registry literal is frozen. Parser-emitted effects must already be registered. The harness checks this before acceptance, in addition to every original gate.
+
+Compilation and testing are controlled separately by the dashboard. Do not run compilers, tests, benchmarks or generated test executables. Use source reads and return your proposed edit blocks; the harness owns validation.
+
+
+## Source evidence (same source revision, no line prefixes)
+### backend/game/ability_effects.go:1-100
+// Package game - Ability Effect Execution
+// Implements the resolution of triggered and activated ability effects
+package game
+
+import (
+	"errors"
+	"fmt"
+	"math/rand"
+	"sort"
+	"strconv"
+	"strings"
+)
+
+// exileFromBattlefield moves a permanent from the battlefield directly to
+// its owner's exile zone, mirroring exileFromHand/exileFromGraveyard's
+// RemoveCard/AddCard/EventExiled shape (activated_abilities.go) for the
+// battlefield zone specifically.
+func (gs *GameState) exileFromBattlefield(card *Card) {
+	if card == nil {
+		return
+	}
+	gs.Battlefield.RemoveCard(card.ID) //nolint:errcheck
+	owner := card.Owner
+	if owner < 0 || owner >= len(gs.Players) {
+		owner = card.Controller
+	}
+	if owner < 0 || owner >= len(gs.Players) {
+		return
+	}
+	if gs.Players[owner].Exile != nil {
+		gs.Players[owner].Exile.AddCard(card)
+	}
+	if gs.EventBus != nil {
+		gs.EventBus.Publish(NewEvent(EventExiled).WithSource(card).WithPlayer(owner))
+	}
+}
+
+// executeExileTargetPlusAttachedEquipment implements the
+// exile_target_plus_attached_equipment primitive (ticket
+// engine.auto-exile-target-plus-attached-equipment-3bbeb6bde5, Soul Nova
+// class): "Exile target attacking creature and all Equipment attached to
+// it." Mirrors executeBounceAttachedAndItsAuras's discovery shape exactly
+// — every Equipment currently attached to the targeted creature is found
+// by scanning the battlefield for AttachedTo == targetCreatureID at
+// resolution time, so the attached-Equipment set is dependent on which
+// creature was targeted, NOT a battlefield-wide Equipment filter
+// (negative example) — but sends both the Equipment and the anchor to
+// EXILE (via exileFromBattlefield above) instead of hand/graveyard.
+// Equipment is exiled BEFORE the targeted creature, same anchor-last
+// ordering executeBounceAttachedAndItsAuras uses. A missing/already-gone
+// target creature is a no-op, matching every other partial-legality
+// executor in this file; exiling only the creature without also exiling
+// its attached Equipment (the other negative example) never happens
+// since both are always resolved together in this single function.
+func (gs *GameState) executeExileTargetPlusAttachedEquipment(targetCreatureID string) error {
+	if targetCreatureID == "" {
+		return nil
+	}
+	creature, err := gs.Battlefield.GetCard(targetCreatureID)
+	if err != nil || creature == nil {
+		return nil
+	}
+	equipment := []*Card{}
+	for _, c := range gs.Battlefield.GetAll() {
+		if c == nil || c.AttachedTo != targetCreatureID {
+			continue
+		}
+		isEquipment := false
+		for _, st := range c.SubTypes {
+			if st == "Equipment" {
+				isEquipment = true
+				break
+			}
+		}
+		if !isEquipment {
+			continue
+		}
+		equipment = append(equipment, c)
+	}
+	for _, equip := range equipment {
+		gs.exileFromBattlefield(equip)
+	}
+	gs.exileFromBattlefield(creature)
+	return nil
+}
+
+// DealDamageSameNameAsTargetCreature implements the
+// damage_same_name_as_target_creature primitive (ticket
+// engine.auto-damage-same-name-as-target-creature-ff183ed4e9, Homing
+// Lightning class): "~ deals N damage to target creature and each other
+// creature with the same name as that creature." Unlike a plain
+// single-target damage effect, every OTHER battlefield creature whose
+// Name exactly matches the chosen target's Name (Rule 201.4 — object
+// names compare as printed) is ALSO dealt the same amount, one
+// CreateDamageEvent/ProcessTriggeredAbilities pair per creature actually
+// hit (the same event plumbing shape_dealt_damage_test.go exercises for
+// receiver-side "is_dealt_damage" triggers) — so per-creature triggers
+// see one damage event per creature, not a single shared event for the
+// whole group. No-op if the target isn't a card or isn't found on the
+// battlefield, mirroring the no-target no-op convention used throughout
+
+### backend/game/ability_effects.go:8760-8870
+			}
+			card, err := gs.Battlefield.GetCard(tgt.CardID)
+			if err != nil || card == nil {
+				continue
+			}
+			card.Tap()
+			if gs.EventBus != nil {
+				gs.ProcessTriggeredAbilities(NewEvent(EventTapped).WithSource(card).WithPlayer(card.Controller))
+				gs.ProcessTriggeredAbilities(NewEvent(EventBecomesTapped).WithSource(card).WithPlayer(card.Controller))
+			}
+		}
+		return nil
+	}
+	// untap_target_permanent primitive (ticket #3068, REPARSE-MAP
+	// static_unmapped: "untap target creature" family — Aim High, Act of
+	// Heroism, Gerrard's Command, Gift of Growth class): the mirror image of
+	// tap_target_creatures just above — no v2 effect previously mutated a
+	// targeted permanent's tapped state to UNtapped (the three
+	// knowledge-service hits — HighAlert, StaffofDomination,
+	// GreatOakGuardian — all hand-rolled it per-card instead). Same
+	// per-target battlefield lookup, no controller check (untapping a
+	// permanent you don't control is a legal, if unusual, effect — e.g.
+	// Twiddle-style cards). Reused unchanged by the v2
+	// spell-effect-sequence walker, same chokepoint tap_target_creatures
+	// shares.
+	if effect == "untap_target_permanent" {
+		for _, tgt := range targets {
+			if !tgt.IsCard {
+				continue
+			}
+			card, err := gs.Battlefield.GetCard(tgt.CardID)
+			if err != nil || card == nil {
+				continue
+			}
+			card.Tapped = false
+		}
+		return nil
+	}
+	// referent_doesnt_untap_next_step primitive (ticket #3066, REPARSE-MAP
+	// static_unmapped: "Those creatures don't untap during their
+	// controller's next untap step" family — Chilling Grasp class): the
+	// referent ("those creatures") is the same spell/ability's own target
+	// list, already sitting in stackObj.Targets by the time this second
+	// effect atom in a sequence resolves — the exact shared-targets shape
+	// tap_target_creatures documents above (same v2 spell-effect-sequence
+	// walker chokepoint). Rides Card.SkipNextUntap, the existing exert-
+	// mechanic flag (Rule 701.39), consumed and cleared by Zone.UntapAll —
+	// no new state needed; several cards (Sleep, ConeofCold, JunkWinder,
+	// KefnetsMonument) already hand-roll this exact flag-set per-card, this
+	// just gives the tap_target_creatures target list a registered v2
+	// executor for it. No controller check, matching
+	// untap_target_permanent's stance just above.
+	if effect == "referent_doesnt_untap_next_step" {
+		for _, tgt := range targets {
+			if !tgt.IsCard {
+				continue
+			}
+			card, err := gs.Battlefield.GetCard(tgt.CardID)
+			if err != nil || card == nil {
+				continue
+			}
+			card.SkipNextUntap = true
+		}
+		return nil
+	}
+	// skip_next_untap_step primitive (ticket #3458, REPARSE-MAP
+	// static_unmapped: "It doesn't untap during its controller's next untap
+	// step." family — Chill of the Grave, Crippling Chill, Ojutai's Breath,
+	// Press for Answers class). Reuses the existing Card.SkipNextUntap field
+	// (card.go, Exert — Rule 701.39) and its sole consumer, Zone.UntapAll
+	// (zone.go): that field already means exactly "skip THIS permanent's
+	// next untap, then clear," one permanent at a time, independent of
+	// every other permanent its controller untaps that same step —
+	// precisely the per-permanent (not per-player) semantics this family
+	// needs, unlike the per-PLAYER SkipNextUntapStep counter
+	// (cardfns/lib_skip_untap_step.go, [VOCAB] #1620). No new engine
+	// state — just a new name to set the field from a targeted effect,
+	// mirroring tap_target_creatures/untap_target_permanent's per-target
+	// battlefield-lookup shape immediately above.
+	if effect == "skip_next_untap_step" {
+		for _, tgt := range targets {
+			if !tgt.IsCard {
+				continue
+			}
+			card, err := gs.Battlefield.GetCard(tgt.CardID)
+			if err != nil || card == nil {
+				continue
+			}
+			card.SkipNextUntap = true
+		}
+		return nil
+	}
+	// tap_referent_doesnt_untap primitive (ticket engine.auto-prevent-untap-
+	// until-next-untap, REPARSE-MAP verb_unmapped:tap / "tap that creature
+	// and it doesn't untap during its controller's next untap step" family
+	// -- Kashi-Tribe Reaver class): the referent ("that creature") is the
+	// same triggered ability's own target, already in stackObj.Targets. The
+	// plain "tap"/"tap_target" mapping drops the follow-up clause and the
+	// bare skip_next_untap_step/referent_doesnt_untap_next_step atoms drop
+	// the tap, so this is the single PAIRED atom: it taps each supplied
+	// target with the full card.Tap() + EventTapped/EventBecomesTapped
+	// semantics (mirroring executeTapEffect, so becomes_tapped triggers on
+	// the damaged creature still fire) AND sets Card.SkipNextUntap on it --
+	// the existing exert-mechanic flag (Rule 701.39) consumed one-shot by
+	// Zone.UntapAll, so the effect is duration-bounded to the controller's
+	// next untap step and self-clears. A bare "Tap target creature" (no
+	// follow-up clause) still maps to plain "tap" and never reaches here.
+	if effect == "tap_referent_doesnt_untap" {
+		for _, tgt := range targets {
+			if !tgt.IsCard {
+				continue
+
+### backend/game/ability_effects.go:11160-11215
+				getStringValue(effectValue, "controller", ""),
+				getStringValue(effectValue, "enchanted_by_aura_controller", ""),
+				targets)
+			return err
+		}
+		// "Goad that creature" is an untargeted rider in the same ability.
+		// The preceding targeted atom records its object in the sequence
+		// referent slot; consume that object directly without opening a
+		// second target choice.
+		if len(targets) == 0 && gs.seqSlotsStr != nil {
+			if refID := gs.seqSlotsStr["referent"]; refID != "" {
+				targets = []Target{{IsCard: true, CardID: refID}}
+			}
+		}
+		for _, target := range targets {
+			if !target.IsCard {
+				continue
+			}
+			if card, err := gs.Battlefield.GetCard(target.CardID); err == nil {
+				card.GoadedUntilTurn = gs.TurnCount + 1
+			}
+		}
+		return nil
+	case "lock_creature":
+		// "{C}, {T}: Target creature can't attack or block this turn."
+		// Grant Defender keyword (prevents attacks) and register a blocking restriction
+		return gs.executeLockCreatureEffect(source, targets)
+	case "cant_block_target":
+		// "Target creature can't block this turn." (e.g. Voldaren Duelist)
+		// Only the ability to block is removed; the creature can still attack.
+		return gs.executeCantBlockTargetEffect(source, targets)
+	case "skip_untap_next":
+		// "~ doesn't untap during your next untap step." (? round
+		// 2026-08-03) — rides the exert flag (Rule 701.39 machinery,
+		// consumed+cleared by Zone.UntapAll).
+		if source != nil {
+			source.SkipNextUntap = true
+		}
+		return nil
+	case "cast_from_zone":
+		// cast_free round (2026-08-03, primitive spec from GLM park #2106),
+		// round-1 slice: grant permission to cast the EVENT-REFERENCED card
+		// from EXILE ("exile it. You may cast it [this turn / for as long as
+		// it remains exiled] [without paying its mana cost]"). Rides the
+		// existing ExilePlayGrant channel (cast_from_exile.go) — the read
+		// side (exilePlayGrantFor + CastSpellFromExileWithTargets) is fully
+		// wired incl. Free/AnyColor cost modes. Vanished referent = no-op.
+		if stackObj.EventCard == nil {
+			return nil
+		}
+		free, _ := effectValue["free"].(bool)
+		anyColor, _ := effectValue["any_mana"].(bool)
+		allowLand, _ := effectValue["allow_land"].(bool)
+		altCostEnergyEqualMV, _ := effectValue["alt_cost_energy_equal_mv"].(bool)
+		altCostLifeEqualMV, _ := effectValue["alt_cost_life_equal_mv"].(bool)
+		untilEOT := true
+
+### backend/game/card.go:1800-1840
+	SuppressETBTriggersScope string `json:"suppress_etb_triggers_scope,omitempty"`
+
+	// SuppressedTriggerEventTypes — the negative mirror of TriggerDoubler
+	// ([VOCAB] #9, SuppressTriggersForEventType): while this permanent is on
+	// the battlefield, TriggeredAbility instances that would otherwise match
+	// one of these event types don't trigger, for ANY player — not scoped to
+	// this permanent's controller, the event's source, or the triggered
+	// ability's controller (a broader, EventType-keyed generalization of the
+	// single-scope SuppressETBTriggersScope above, which only covers
+	// EventEntersBattlefield and only matches same-type sources). Empty/nil
+	// means no suppression (default, unchanged behavior). Consulted live off
+	// gs.Battlefield.GetAll() by GameState.isTriggerEventSuppressed, wired
+	// into EventBus.TriggerSuppressionQuery — self-clearing when this
+	// permanent leaves the battlefield, same "no registry to keep in sync"
+	// pattern as TriggerDoubler and SuppressETBTriggersScope.
+	SuppressedTriggerEventTypes map[EventType]bool `json:"suppressed_trigger_event_types,omitempty"`
+
+	// ManaMultiplier — Mana Reflection/Nyxbloom Ancient: tapping permanents
+	// for mana produces N times as much. Multiplied in resolveAddManaEffect
+	// across all such permanents the player controls.
+	ManaMultiplier int `json:"mana_multiplier,omitempty"`
+
+	// SkipNextUntap — exert (Rule 701.39): the permanent doesn't untap during
+	// its controller's next untap step. Consumed (reset) by Zone.UntapAll.
+	SkipNextUntap bool `json:"skip_next_untap,omitempty"`
+
+	// (See clearRecordReplacementFields — RegisterCardAbilities neutralizes
+	// the record-derived, live-scanned replacement fields below when a
+	// name-keyed handler wins, so handler and record never double-apply.)
+
+	// DamageMultiplier — Furnace of Rath / Dictate of the Twin Gods: "If a
+	// source would deal damage to a permanent or player, it deals double
+	// (×N) that damage instead." Global — applies to every damage source.
+	// Applied centrally in ModifyDamageAmount.
+	DamageMultiplier int `json:"damage_multiplier,omitempty"`
+
+	// DamageDelta — Torbran: "If a <color> source you control would deal
+	// damage, it deals that much +N instead." Gated on the SOURCE being
+	// controlled by this permanent's controller and (optionally) matching
+	// DamageDeltaColor.
+	DamageDelta      int    `json:"damage_delta,omitempty"`
+
+### backend/game/zone.go:395-452
+	}
+	return lands
+}
+
+// GetUntappedLands returns all untapped lands controlled by a specific player
+func (z *Zone) GetUntappedLands(controller int) []*Card {
+	if z.Type != ZoneBattlefield {
+		return []*Card{}
+	}
+	lands := []*Card{}
+	for _, card := range z.Cards {
+		if card.IsLand() && card.Controller == controller && !card.Tapped {
+			lands = append(lands, card)
+		}
+	}
+	return lands
+}
+
+// UntapAll untaps all permanents controlled by a specific player (Rule 502 -
+// Untap Step). Publishes EventUntapped for each permanent actually untapped
+// (i.e. that was tapped beforehand) when the zone is wired to a GameState via
+// SetGame ([VOCAB] #1683 — "whenever this creature becomes untapped" triggers,
+// e.g. Ghostly Pilferer, previously only fired off explicit untap effects like
+// Twiddle, never off the normal untap step).
+func (z *Zone) UntapAll(controller int) {
+	if z.Type != ZoneBattlefield {
+		return
+	}
+	for _, card := range z.Cards {
+		if card.Controller == controller {
+			// Exert (Rule 701.39): skip exactly one untap step, then clear.
+			if card.SkipNextUntap {
+				card.SkipNextUntap = false
+				continue
+			}
+			wasTapped := card.Tapped
+			card.Untap()
+			if wasTapped && z.game != nil && z.game.EventBus != nil {
+				z.game.EventBus.Publish(NewEvent(EventUntapped).WithSource(card).WithPlayer(card.Controller))
+			}
+		}
+	}
+}
+
+// RemoveSummoningSickness removes summoning sickness from all creatures (called at start of turn)
+func (z *Zone) RemoveSummoningSickness(controller int) {
+	if z.Type != ZoneBattlefield {
+		return
+	}
+	for _, card := range z.Cards {
+		if card.IsCreature() && card.Controller == controller {
+			card.SummoningSick = false
+		}
+	}
+}
+
+// ClearAttackedDefendersThisTurn resets Card.AttackedDefendersThisTurn for
+// every creature controller controls, mirroring RemoveSummoningSickness's
+
+### backend/cards/registry_self_oneshots.go:1-10
+package cards
+
+// ? round (2026-08-03): self-referent one-shots.
+
+func init() {
+	regEffect("skip_untap_next", Primitive{
+		Executor:  "game/ability_effects.go case \"skip_untap_next\" -> Card.SkipNextUntap (exert flag, Rule 701.39; consumed+cleared by Zone.UntapAll)",
+		ShapeTest: "TestShape_Activated_SkipUntapNext",
+	})
+}
+
+### backend/game/skip_next_untap_step_target_test.go:1-69
+package game
+
+import "testing"
+
+// TestSkipNextUntapStep_TargetDoesntUntapNextStep exercises the
+// skip_next_untap_step primitive (ticket #3458, REPARSE-MAP
+// static_unmapped) end-to-end through ExecuteAbilityEffect and the real
+// untap step: a StackObject carrying the effect marks the targeted
+// creature to skip its controller's next untap step, a SIBLING permanent
+// controlled by the same player untaps normally that same step, and the
+// mark is one-shot — a SECOND untap step untaps the target normally.
+func TestSkipNextUntapStep_TargetDoesntUntapNextStep(t *testing.T) {
+	gs := NewGame("P0", "P1", false)
+
+	source := NewCreature("Skip Untap Test Caster", ManaCost{}, 1, 1, 1)
+	source.Owner, source.Controller = 0, 0
+	gs.Battlefield.AddCard(source)
+
+	target := NewCreature("Skip Untap Test Target", ManaCost{}, 2, 2, 2)
+	target.Owner, target.Controller = 1, 1
+	target.Tapped = true
+	gs.Battlefield.AddCard(target)
+
+	sibling := NewCreature("Skip Untap Test Sibling", ManaCost{}, 2, 2, 2)
+	sibling.Owner, sibling.Controller = 1, 1
+	sibling.Tapped = true
+	gs.Battlefield.AddCard(sibling)
+
+	stackObj := &StackObject{
+		IsAbility:   true,
+		Text:        "skip_next_untap_step",
+		Controller:  0,
+		Card:        source,
+		EffectValue: map[string]interface{}{},
+		Targets:     []Target{{Type: TargetCreature, CardID: target.ID, IsCard: true}},
+	}
+
+	if err := gs.ExecuteAbilityEffect(stackObj); err != nil {
+		t.Fatalf("ExecuteAbilityEffect: %v", err)
+	}
+
+	if !target.SkipNextUntap {
+		t.Fatalf("expected target to be marked SkipNextUntap")
+	}
+
+	// Controller's next untap step: target stays tapped, sibling untaps normally.
+	if err := ExecuteUntapStep(gs.Players[1], gs.Battlefield); err != nil {
+		t.Fatalf("ExecuteUntapStep: %v", err)
+	}
+
+	if !target.Tapped {
+		t.Fatalf("target should have stayed tapped through its skipped untap step")
+	}
+	if sibling.Tapped {
+		t.Fatalf("sibling should have untapped normally")
+	}
+	if target.SkipNextUntap {
+		t.Fatalf("SkipNextUntap should be one-shot and cleared after being consumed")
+	}
+
+	// A LATER untap step, with no new skip, must untap the target normally.
+	target.Tapped = true
+	if err := ExecuteUntapStep(gs.Players[1], gs.Battlefield); err != nil {
+		t.Fatalf("ExecuteUntapStep (second): %v", err)
+	}
+	if target.Tapped {
+		t.Fatalf("skip mark persisted into a later untap step")
+	}
+}
+
+### backend/game/referent_doesnt_untap_next_step_test.go:1-52
+package game
+
+import "testing"
+
+// TestReferentDoesntUntapNextStep_SkipsControllersNextUntapStep exercises
+// the referent_doesnt_untap_next_step primitive (ticket #3066, REPARSE-MAP
+// static_unmapped: "Those creatures don't untap during their controller's
+// next untap step") end-to-end through ExecuteAbilityEffect: a StackObject
+// carrying the effect marks the creature named in its Targets so it skips
+// exactly one untap step for its controller, then untaps normally after.
+func TestReferentDoesntUntapNextStep_SkipsControllersNextUntapStep(t *testing.T) {
+	gs := NewGame("P0", "P1", false)
+
+	source := NewCreature("Referent Untap Test Caster", ManaCost{}, 1, 1, 1)
+	source.Owner, source.Controller = 0, 0
+	gs.Battlefield.AddCard(source)
+
+	target := NewCreature("Referent Untap Test Target", ManaCost{}, 2, 2, 2)
+	target.Owner, target.Controller = 1, 1
+	target.Tapped = true
+	gs.Battlefield.AddCard(target)
+
+	stackObj := &StackObject{
+		IsAbility:   true,
+		Text:        "referent_doesnt_untap_next_step",
+		Controller:  0,
+		Card:        source,
+		EffectValue: map[string]interface{}{},
+		Targets:     []Target{{Type: TargetCreature, CardID: target.ID, IsCard: true}},
+	}
+
+	if err := gs.ExecuteAbilityEffect(stackObj); err != nil {
+		t.Fatalf("ExecuteAbilityEffect: %v", err)
+	}
+
+	if !target.SkipNextUntap {
+		t.Fatalf("expected targeted creature to have SkipNextUntap set")
+	}
+
+	gs.Battlefield.UntapAll(target.Controller)
+	if !target.Tapped {
+		t.Fatalf("expected targeted creature to remain tapped through its controller's next untap step")
+	}
+	if target.SkipNextUntap {
+		t.Fatalf("expected SkipNextUntap to be consumed by UntapAll")
+	}
+
+	gs.Battlefield.UntapAll(target.Controller)
+	if target.Tapped {
+		t.Fatalf("expected targeted creature to untap normally on the following untap step")
+	}
+}
+
+You have Goose developer text_editor tools. Explore additional repository source as needed, then edit the allowed files directly in this isolated checkout. Do not just describe the patch. Finish with a short description of your changes. Use absolute paths rooted at /tmp/goose-factory-benchmark/agentic. No shell, tests, commits, or other extensions are needed.

@@ -1,0 +1,1128 @@
+[
+  {
+    "schema": "factory.queue-trend/v1",
+    "epoch": 1789490617.2213228,
+    "checked_at": "2026-09-15T16:43:37Z",
+    "baseline_at": 1789490617.2213228,
+    "cohort_states": {
+      "integration_run": 8,
+      "focused_wait": 34,
+      "integration_wait": 9,
+      "focused_run": 1
+    },
+    "counts": {
+      "focused_wait": 34,
+      "integration_run": 8,
+      "focused_run": 1,
+      "integration_wait": 9
+    },
+    "waiting": 43,
+    "running": 9,
+    "total_unfinished": 52,
+    "arrivals": [],
+    "completed": [],
+    "departed_without_completion": {},
+    "repair_wait": 34,
+    "repair_wait_by_worker": {
+      "claude": 4,
+      "codex-2": 10,
+      "codex-3": 12,
+      "codex": 6,
+      "claude-2": 2
+    },
+    "net_unfinished_change": 0,
+    "completed_since_baseline": 0
+  },
+  {
+    "schema": "factory.queue-trend/v1",
+    "epoch": 1789490795.002707,
+    "checked_at": "2026-09-15T16:46:35Z",
+    "baseline_at": 1789490617.2213228,
+    "cohort_states": {
+      "integration_run": 8,
+      "focused_wait": 33,
+      "integration_wait": 9,
+      "failed": 1,
+      "focused_run": 1
+    },
+    "counts": {
+      "integration_run": 8,
+      "focused_wait": 33,
+      "focused_run": 2,
+      "integration_wait": 9
+    },
+    "waiting": 42,
+    "running": 10,
+    "total_unfinished": 52,
+    "arrivals": [
+      "ticket:map.plan-multi-swift-silence-c4e8922f35/v2"
+    ],
+    "completed": [],
+    "departed_without_completion": {
+      "ticket:engine.auto-damage-equal-to-dying-creature-power-aea89a33b5/v1": "failed"
+    },
+    "repair_wait": 33,
+    "repair_wait_by_worker": {
+      "claude": 4,
+      "codex-2": 10,
+      "codex-3": 12,
+      "codex": 5,
+      "claude-2": 2
+    },
+    "net_unfinished_change": 0,
+    "completed_since_baseline": 0
+  },
+  {
+    "schema": "factory.queue-trend/v1",
+    "epoch": 1789490882.851082,
+    "checked_at": "2026-09-15T16:48:02Z",
+    "baseline_at": 1789490617.2213228,
+    "cohort_states": {
+      "integration_run": 8,
+      "focused_wait": 33,
+      "integration_wait": 9,
+      "failed": 1,
+      "focused_run": 1
+    },
+    "counts": {
+      "integration_run": 8,
+      "focused_wait": 35,
+      "integration_wait": 9,
+      "focused_run": 2
+    },
+    "waiting": 44,
+    "running": 10,
+    "total_unfinished": 54,
+    "arrivals": [
+      "ticket:engine.auto-activated-target-color-filter-cf809e911e/v2",
+      "ticket:map.plan-damage-mana-cannons-e039c2cdb9/v3"
+    ],
+    "completed": [],
+    "departed_without_completion": {},
+    "repair_wait": 33,
+    "repair_wait_by_worker": {
+      "claude": 4,
+      "codex-2": 10,
+      "codex-3": 12,
+      "codex": 5,
+      "claude-2": 2
+    },
+    "net_unfinished_change": 2,
+    "completed_since_baseline": 0
+  },
+  {
+    "schema": "factory.queue-trend/v1",
+    "epoch": 1789491000.5696704,
+    "checked_at": "2026-09-15T16:50:00Z",
+    "baseline_at": 1789490617.2213228,
+    "cohort_states": {
+      "completed": 7,
+      "focused_wait": 33,
+      "integration_run": 7,
+      "failed": 1,
+      "focused_run": 1,
+      "integration_wait": 3
+    },
+    "counts": {
+      "integration_run": 8,
+      "focused_wait": 36,
+      "focused_run": 1,
+      "integration_wait": 3
+    },
+    "waiting": 39,
+    "running": 9,
+    "total_unfinished": 48,
+    "arrivals": [
+      "ticket:map.plan-multi-ith-high-arcanist-7886b23c83/v2"
+    ],
+    "completed": [
+      "ticket:engine.auto-activated-cost-discarded-card-mana-value-damage-09241130f8/v1",
+      "ticket:engine.auto-gain-control-multi-target-x-count-00394988c3/v2",
+      "ticket:engine.auto-prevent-combat-damage-from-target-and-blockers-854810ef0f/v1",
+      "ticket:engine.auto-tap-and-put-counter-type-union-controller-filter-eb0230fea8/v1",
+      "ticket:engine.auto-unbounded-spell-target-selection-38d6b41c91/v1",
+      "ticket:map.plan-destroy-goblin-vandal-8809b89852/v3",
+      "ticket:map.plan-multi-infernal-medusa-abc34f23d1/v2"
+    ],
+    "departed_without_completion": {},
+    "repair_wait": 33,
+    "repair_wait_by_worker": {
+      "claude": 4,
+      "codex-2": 10,
+      "codex-3": 12,
+      "codex": 5,
+      "claude-2": 2
+    },
+    "net_unfinished_change": -6,
+    "completed_since_baseline": 7
+  },
+  {
+    "schema": "factory.queue-trend/v1",
+    "epoch": 1789491103.3157735,
+    "checked_at": "2026-09-15T16:51:43Z",
+    "baseline_at": 1789490617.2213228,
+    "cohort_states": {
+      "completed": 7,
+      "focused_wait": 30,
+      "integration_run": 7,
+      "failed": 4,
+      "integration_wait": 3,
+      "focused_run": 1
+    },
+    "counts": {
+      "focused_wait": 33,
+      "integration_wait": 4,
+      "integration_run": 8,
+      "focused_run": 1
+    },
+    "waiting": 37,
+    "running": 9,
+    "total_unfinished": 46,
+    "arrivals": [
+      "ticket:map.plan-exile-mangara-of-corondor-8ac65ddb74/v3"
+    ],
+    "completed": [],
+    "departed_without_completion": {
+      "ticket:engine.auto-exchange-control-until-eot-c914100b69/v1": "failed",
+      "ticket:engine.auto-destroy-mass-untapped-didnt-attack-except-couldn-cb2f3ae7bb/v1": "failed",
+      "ticket:map.plan-reanimate-zoraline-cosmos-caller-2f5296f84b/v2": "failed"
+    },
+    "repair_wait": 32,
+    "repair_wait_by_worker": {
+      "claude": 4,
+      "codex-2": 9,
+      "codex-3": 13,
+      "codex": 4,
+      "claude-2": 2
+    },
+    "net_unfinished_change": -2,
+    "completed_since_baseline": 7
+  },
+  {
+    "schema": "factory.queue-trend/v1",
+    "epoch": 1789491182.8054461,
+    "checked_at": "2026-09-15T16:53:02Z",
+    "baseline_at": 1789490617.2213228,
+    "cohort_states": {
+      "completed": 7,
+      "focused_wait": 29,
+      "integration_run": 7,
+      "failed": 4,
+      "focused_run": 2,
+      "integration_wait": 3
+    },
+    "counts": {
+      "focused_wait": 31,
+      "integration_run": 8,
+      "integration_wait": 4,
+      "focused_run": 3
+    },
+    "waiting": 35,
+    "running": 11,
+    "total_unfinished": 46,
+    "arrivals": [],
+    "completed": [],
+    "departed_without_completion": {},
+    "repair_wait": 31,
+    "repair_wait_by_worker": {
+      "claude": 4,
+      "codex-2": 9,
+      "codex-3": 13,
+      "codex": 3,
+      "claude-2": 2
+    },
+    "net_unfinished_change": 0,
+    "completed_since_baseline": 7
+  },
+  {
+    "schema": "factory.queue-trend/v1",
+    "epoch": 1789491299.146473,
+    "checked_at": "2026-09-15T16:54:59Z",
+    "baseline_at": 1789490617.2213228,
+    "cohort_states": {
+      "completed": 7,
+      "focused_wait": 27,
+      "focused_run": 2,
+      "integration_run": 7,
+      "failed": 6,
+      "integration_wait": 3
+    },
+    "counts": {
+      "integration_wait": 4,
+      "focused_wait": 30,
+      "integration_run": 8,
+      "focused_run": 2
+    },
+    "waiting": 34,
+    "running": 10,
+    "total_unfinished": 44,
+    "arrivals": [],
+    "completed": [],
+    "departed_without_completion": {
+      "ticket:map.plan-exile-identity-crisis-81b50b81d4/v3": "failed",
+      "ticket:engine.auto-delayed-trigger-referent-attacks-monarch-grant-k-a0661f7bf9/v1": "failed"
+    },
+    "repair_wait": 30,
+    "repair_wait_by_worker": {
+      "claude": 4,
+      "codex-2": 9,
+      "codex-3": 12,
+      "codex": 3,
+      "claude-2": 2
+    },
+    "net_unfinished_change": -2,
+    "completed_since_baseline": 7,
+    "arrivals_since_baseline": 5,
+    "unsuccessful_exits_since_baseline": 6,
+    "window": {
+      "status": "collecting",
+      "window_seconds": 681,
+      "unfinished_change": -8,
+      "waiting_change": -9,
+      "completed": 7,
+      "arrivals": 5,
+      "growth_alert": false
+    }
+  },
+  {
+    "schema": "factory.queue-trend/v1",
+    "epoch": 1789491395.1001537,
+    "checked_at": "2026-09-15T16:56:35Z",
+    "baseline_at": 1789490617.2213228,
+    "cohort_states": {
+      "completed": 7,
+      "focused_wait": 27,
+      "focused_run": 2,
+      "integration_run": 7,
+      "failed": 6,
+      "integration_wait": 3
+    },
+    "counts": {
+      "focused_wait": 31,
+      "integration_run": 8,
+      "focused_run": 2,
+      "integration_wait": 4
+    },
+    "waiting": 35,
+    "running": 10,
+    "total_unfinished": 45,
+    "arrivals": [
+      "ticket:map.plan-gain-control-mass-manipulation-54c1ff7d9a/v3"
+    ],
+    "completed": [],
+    "departed_without_completion": {},
+    "repair_wait": 30,
+    "repair_wait_by_worker": {
+      "claude": 4,
+      "codex-2": 9,
+      "codex-3": 12,
+      "codex": 3,
+      "claude-2": 2
+    },
+    "net_unfinished_change": 1,
+    "completed_since_baseline": 7,
+    "arrivals_since_baseline": 6,
+    "unsuccessful_exits_since_baseline": 6,
+    "window": {
+      "status": "collecting",
+      "window_seconds": 777,
+      "unfinished_change": -7,
+      "waiting_change": -8,
+      "completed": 7,
+      "arrivals": 6,
+      "growth_alert": false
+    }
+  },
+  {
+    "schema": "factory.queue-trend/v1",
+    "epoch": 1789491478.880223,
+    "checked_at": "2026-09-15T16:57:58Z",
+    "baseline_at": 1789490617.2213228,
+    "cohort_states": {
+      "completed": 7,
+      "focused_wait": 27,
+      "focused_run": 2,
+      "integration_run": 7,
+      "failed": 6,
+      "integration_wait": 3
+    },
+    "counts": {
+      "focused_wait": 31,
+      "integration_wait": 4,
+      "integration_run": 8,
+      "focused_run": 2
+    },
+    "waiting": 35,
+    "running": 10,
+    "total_unfinished": 45,
+    "arrivals": [],
+    "completed": [],
+    "departed_without_completion": {},
+    "repair_wait": 30,
+    "repair_wait_by_worker": {
+      "claude": 4,
+      "codex-2": 9,
+      "codex-3": 12,
+      "codex": 3,
+      "claude-2": 2
+    },
+    "net_unfinished_change": 0,
+    "completed_since_baseline": 7,
+    "arrivals_since_baseline": 6,
+    "unsuccessful_exits_since_baseline": 6,
+    "window": {
+      "status": "collecting",
+      "window_seconds": 861,
+      "unfinished_change": -7,
+      "waiting_change": -8,
+      "completed": 7,
+      "arrivals": 6,
+      "growth_alert": false
+    }
+  },
+  {
+    "schema": "factory.queue-trend/v1",
+    "epoch": 1789491550.4807785,
+    "checked_at": "2026-09-15T16:59:10Z",
+    "baseline_at": 1789490617.2213228,
+    "cohort_states": {
+      "completed": 7,
+      "focused_wait": 27,
+      "focused_run": 2,
+      "integration_run": 7,
+      "failed": 5,
+      "integration_wait": 3,
+      "superseded": 1
+    },
+    "counts": {
+      "focused_wait": 30,
+      "integration_wait": 4,
+      "integration_run": 8,
+      "focused_run": 3
+    },
+    "waiting": 34,
+    "running": 11,
+    "total_unfinished": 45,
+    "arrivals": [],
+    "completed": [],
+    "departed_without_completion": {},
+    "repair_wait": 30,
+    "repair_wait_by_worker": {
+      "claude": 4,
+      "codex-2": 9,
+      "codex-3": 12,
+      "codex": 3,
+      "claude-2": 2
+    },
+    "net_unfinished_change": 0,
+    "completed_since_baseline": 7,
+    "arrivals_since_baseline": 6,
+    "unsuccessful_exits_since_baseline": 6,
+    "window": {
+      "status": "collecting",
+      "window_seconds": 933,
+      "unfinished_change": -7,
+      "waiting_change": -9,
+      "completed": 7,
+      "arrivals": 6,
+      "growth_alert": false
+    }
+  },
+  {
+    "schema": "factory.queue-trend/v1",
+    "epoch": 1789491628.2064784,
+    "checked_at": "2026-09-15T17:00:28Z",
+    "baseline_at": 1789490617.2213228,
+    "cohort_states": {
+      "completed": 7,
+      "focused_wait": 27,
+      "focused_run": 2,
+      "integration_run": 7,
+      "failed": 5,
+      "integration_wait": 3,
+      "superseded": 1
+    },
+    "counts": {
+      "focused_wait": 30,
+      "focused_run": 3,
+      "integration_wait": 4,
+      "integration_run": 8
+    },
+    "waiting": 34,
+    "running": 11,
+    "total_unfinished": 45,
+    "arrivals": [],
+    "completed": [],
+    "departed_without_completion": {},
+    "repair_wait": 30,
+    "repair_wait_by_worker": {
+      "claude": 4,
+      "codex-2": 9,
+      "codex-3": 12,
+      "codex": 3,
+      "claude-2": 2
+    },
+    "net_unfinished_change": 0,
+    "completed_since_baseline": 7,
+    "arrivals_since_baseline": 6,
+    "unsuccessful_exits_since_baseline": 6,
+    "window": {
+      "status": "collecting",
+      "window_seconds": 1010,
+      "unfinished_change": -7,
+      "waiting_change": -9,
+      "completed": 7,
+      "arrivals": 6,
+      "growth_alert": false
+    }
+  },
+  {
+    "schema": "factory.queue-trend/v1",
+    "epoch": 1789491710.0285804,
+    "checked_at": "2026-09-15T17:01:50Z",
+    "baseline_at": 1789490617.2213228,
+    "cohort_states": {
+      "completed": 10,
+      "focused_wait": 27,
+      "focused_run": 2,
+      "integration_failed": 4,
+      "failed": 5,
+      "integration_run": 3,
+      "superseded": 1
+    },
+    "counts": {
+      "focused_wait": 30,
+      "integration_run": 4,
+      "focused_run": 3
+    },
+    "waiting": 30,
+    "running": 7,
+    "total_unfinished": 37,
+    "arrivals": [],
+    "completed": [
+      "ticket:engine.auto-counter-noncreature-spell-6e9906765e/v1",
+      "ticket:engine.auto-grant-eot-group-super-type-filter-2a41116ec7/v1",
+      "ticket:map.plan-grant-eot-vampire-s-zeal-d2998885cf/v2",
+      "ticket:map.plan-multi-swift-silence-c4e8922f35/v2"
+    ],
+    "departed_without_completion": {
+      "ticket:map.plan-pump-hurska-sweet-tooth-3c018cefc9/v3": "integration_failed",
+      "ticket:engine.auto-exile-one-card-per-type-and-tally-8ebd1039c9/v1": "integration_failed",
+      "ticket:engine.auto-conditional-destroy-target-by-mana-spent-86f551a847/v2": "integration_failed",
+      "ticket:engine.auto-counter-unless-controller-takes-damage-e76b0424a6/v3": "integration_failed"
+    },
+    "repair_wait": 30,
+    "repair_wait_by_worker": {
+      "claude": 4,
+      "codex-2": 9,
+      "codex-3": 12,
+      "codex": 3,
+      "claude-2": 2
+    },
+    "net_unfinished_change": -8,
+    "completed_since_baseline": 11,
+    "arrivals_since_baseline": 6,
+    "unsuccessful_exits_since_baseline": 10,
+    "window": {
+      "status": "collecting",
+      "window_seconds": 1092,
+      "unfinished_change": -15,
+      "waiting_change": -13,
+      "completed": 11,
+      "arrivals": 6,
+      "growth_alert": false
+    }
+  },
+  {
+    "schema": "factory.queue-trend/v1",
+    "epoch": 1789491821.740715,
+    "checked_at": "2026-09-15T17:03:41Z",
+    "baseline_at": 1789490617.2213228,
+    "cohort_states": {
+      "completed": 10,
+      "focused_wait": 27,
+      "focused_run": 2,
+      "integration_wait": 4,
+      "failed": 5,
+      "integration_run": 3,
+      "superseded": 1
+    },
+    "counts": {
+      "integration_run": 4,
+      "focused_wait": 31,
+      "focused_run": 2,
+      "integration_wait": 4
+    },
+    "waiting": 35,
+    "running": 6,
+    "total_unfinished": 41,
+    "arrivals": [
+      "ticket:engine.auto-conditional-destroy-target-by-mana-spent-86f551a847/v2",
+      "ticket:engine.auto-counter-unless-controller-takes-damage-e76b0424a6/v3",
+      "ticket:engine.auto-exile-one-card-per-type-and-tally-8ebd1039c9/v1",
+      "ticket:map.plan-pump-hurska-sweet-tooth-3c018cefc9/v3"
+    ],
+    "completed": [],
+    "departed_without_completion": {},
+    "repair_wait": 31,
+    "repair_wait_by_worker": {
+      "claude": 4,
+      "codex-2": 9,
+      "codex-3": 12,
+      "codex": 3,
+      "claude-2": 2,
+      "codex-4": 1
+    },
+    "net_unfinished_change": 4,
+    "completed_since_baseline": 11,
+    "arrivals_since_baseline": 10,
+    "unsuccessful_exits_since_baseline": 10,
+    "window": {
+      "status": "collecting",
+      "window_seconds": 1204,
+      "unfinished_change": -11,
+      "waiting_change": -8,
+      "completed": 11,
+      "arrivals": 10,
+      "growth_alert": false
+    }
+  },
+  {
+    "schema": "factory.queue-trend/v1",
+    "epoch": 1789491911.453228,
+    "checked_at": "2026-09-15T17:05:11Z",
+    "baseline_at": 1789490617.2213228,
+    "cohort_states": {
+      "completed": 12,
+      "focused_wait": 26,
+      "focused_run": 2,
+      "integration_run": 4,
+      "failed": 6,
+      "superseded": 1,
+      "integration_failed": 1
+    },
+    "counts": {
+      "focused_wait": 30,
+      "integration_run": 4,
+      "focused_run": 2
+    },
+    "waiting": 30,
+    "running": 6,
+    "total_unfinished": 36,
+    "arrivals": [],
+    "completed": [
+      "ticket:engine.auto-activated-target-color-filter-cf809e911e/v2",
+      "ticket:engine.auto-life-loss-each-player-dynamic-amount-5eb1ab5449/v1",
+      "ticket:engine.auto-untap-up-to-literal-count-14e44a315b/v1"
+    ],
+    "departed_without_completion": {
+      "ticket:engine.auto-exile-referenced-players-graveyard-6f0b2e74cf/v1": "failed",
+      "ticket:map.plan-pump-power-matrix-374a5aa846/v2": "integration_failed"
+    },
+    "repair_wait": 30,
+    "repair_wait_by_worker": {
+      "claude": 4,
+      "codex-3": 12,
+      "codex-2": 8,
+      "codex": 3,
+      "claude-2": 2,
+      "codex-4": 1
+    },
+    "net_unfinished_change": -5,
+    "completed_since_baseline": 14,
+    "arrivals_since_baseline": 10,
+    "new_tickets_seen": 6,
+    "reentries_since_baseline": 4,
+    "unsuccessful_exits_since_baseline": 12,
+    "window": {
+      "status": "collecting",
+      "window_seconds": 1294,
+      "unfinished_change": -16,
+      "waiting_change": -13,
+      "completed": 14,
+      "arrivals": 10,
+      "growth_alert": false
+    }
+  },
+  {
+    "schema": "factory.queue-trend/v1",
+    "epoch": 1789492004.5821474,
+    "checked_at": "2026-09-15T17:06:44Z",
+    "baseline_at": 1789490617.2213228,
+    "cohort_states": {
+      "completed": 12,
+      "focused_wait": 21,
+      "failed": 11,
+      "integration_run": 5,
+      "focused_run": 2,
+      "superseded": 1
+    },
+    "counts": {
+      "focused_wait": 25,
+      "focused_run": 4,
+      "integration_run": 5
+    },
+    "waiting": 25,
+    "running": 9,
+    "total_unfinished": 34,
+    "arrivals": [
+      "ticket:map.plan-exile-identity-crisis-81b50b81d4/v5",
+      "ticket:map.plan-pump-power-matrix-374a5aa846/v2",
+      "ticket:map.plan-tap-mechanozoa-60c0c6e209/v4"
+    ],
+    "completed": [],
+    "departed_without_completion": {
+      "ticket:engine.auto-attached-permanent-color-condition-d5f862f5ed/v2": "failed",
+      "ticket:engine.auto-conditional-copy-event-spell-or-draw-b0cf04d709/v2": "failed",
+      "ticket:engine.auto-destroy-unless-pay-mana-or-life-real-choice-e9e8a725d1/v2": "failed",
+      "ticket:map.plan-grant-eot-inner-flame-igniter-0b250cc25c/v3": "failed",
+      "ticket:map.plan-put-counters-khab-l-ghoul-f3bce9be41/v4": "failed"
+    },
+    "repair_wait": 25,
+    "repair_wait_by_worker": {
+      "claude": 4,
+      "codex-3": 10,
+      "codex-2": 5,
+      "codex": 3,
+      "claude-2": 2,
+      "codex-4": 1
+    },
+    "net_unfinished_change": -2,
+    "completed_since_baseline": 14,
+    "arrivals_since_baseline": 13,
+    "unsuccessful_exits_since_baseline": 17,
+    "window": {
+      "status": "collecting",
+      "window_seconds": 1387,
+      "unfinished_change": -18,
+      "waiting_change": -18,
+      "completed": 14,
+      "arrivals": 13,
+      "growth_alert": false
+    }
+  },
+  {
+    "schema": "factory.queue-trend/v1",
+    "epoch": 1789492080.3095222,
+    "checked_at": "2026-09-15T17:08:00Z",
+    "baseline_at": 1789490617.2213228,
+    "cohort_states": {
+      "completed": 12,
+      "focused_wait": 18,
+      "failed": 13,
+      "integration_run": 6,
+      "focused_run": 2,
+      "superseded": 1
+    },
+    "counts": {
+      "focused_wait": 22,
+      "focused_run": 4,
+      "integration_run": 6
+    },
+    "waiting": 22,
+    "running": 10,
+    "total_unfinished": 32,
+    "arrivals": [],
+    "completed": [],
+    "departed_without_completion": {
+      "ticket:engine.auto-sacrifice-any-number-linked-draw-count-7f68f922d8/v1": "failed",
+      "ticket:engine.auto-damage-recipient-referent-controller-9429d1f6b7/v1": "failed"
+    },
+    "repair_wait": 22,
+    "repair_wait_by_worker": {
+      "claude": 4,
+      "codex-3": 8,
+      "codex-2": 4,
+      "codex": 3,
+      "claude-2": 2,
+      "codex-4": 1
+    },
+    "net_unfinished_change": -2,
+    "completed_since_baseline": 14,
+    "arrivals_since_baseline": 13,
+    "new_tickets_seen": 8,
+    "reentries_since_baseline": 5,
+    "unsuccessful_exits_since_baseline": 19,
+    "window": {
+      "status": "collecting",
+      "window_seconds": 1463,
+      "unfinished_change": -20,
+      "waiting_change": -21,
+      "completed": 14,
+      "arrivals": 13,
+      "growth_alert": false
+    }
+  },
+  {
+    "schema": "factory.queue-trend/v1",
+    "epoch": 1789492187.4544575,
+    "checked_at": "2026-09-15T17:09:47Z",
+    "baseline_at": 1789490617.2213228,
+    "cohort_states": {
+      "completed": 13,
+      "focused_wait": 15,
+      "failed": 16,
+      "integration_run": 6,
+      "superseded": 1,
+      "focused_run": 1
+    },
+    "counts": {
+      "focused_wait": 21,
+      "integration_run": 6,
+      "focused_run": 1
+    },
+    "waiting": 21,
+    "running": 7,
+    "total_unfinished": 28,
+    "arrivals": [],
+    "completed": [
+      "ticket:map.plan-damage-minion-of-tevesh-szat-219c651a2e/v3"
+    ],
+    "departed_without_completion": {
+      "ticket:map.plan-multi-dragonrage-794e1928d2/v4": "failed",
+      "ticket:engine.auto-grant-activated-power-damage-ability-until-eot-e4cff78415/v2": "failed",
+      "ticket:engine.auto-put-counters-each-multi-subtype-entered-this-tur-d6a042542b/v2": "failed"
+    },
+    "repair_wait": 21,
+    "repair_wait_by_worker": {
+      "claude": 4,
+      "codex-3": 7,
+      "codex-2": 3,
+      "codex": 3,
+      "claude-2": 2,
+      "codex-4": 2
+    },
+    "net_unfinished_change": -4,
+    "completed_since_baseline": 15,
+    "arrivals_since_baseline": 13,
+    "new_tickets_seen": 8,
+    "reentries_since_baseline": 5,
+    "unsuccessful_exits_since_baseline": 22,
+    "window": {
+      "status": "collecting",
+      "window_seconds": 1570,
+      "unfinished_change": -24,
+      "waiting_change": -22,
+      "completed": 15,
+      "arrivals": 13,
+      "growth_alert": false
+    }
+  },
+  {
+    "schema": "factory.queue-trend/v1",
+    "epoch": 1789492273.13523,
+    "checked_at": "2026-09-15T17:11:13Z",
+    "baseline_at": 1789490617.2213228,
+    "cohort_states": {
+      "completed": 14,
+      "focused_wait": 12,
+      "failed": 19,
+      "integration_failed": 5,
+      "focused_run": 1,
+      "superseded": 1
+    },
+    "counts": {
+      "focused_wait": 18,
+      "focused_run": 2
+    },
+    "waiting": 18,
+    "running": 2,
+    "total_unfinished": 20,
+    "arrivals": [
+      "ticket:map.plan-damage-mercurial-chemister-94405bee15/v3"
+    ],
+    "completed": [
+      "ticket:map.plan-multi-goblin-snowman-1050a4d595/v3"
+    ],
+    "departed_without_completion": {
+      "ticket:engine.auto-exile-one-card-per-type-and-tally-8ebd1039c9/v1": "integration_failed",
+      "ticket:map.plan-pump-gloom-ripper-a28d5be141/v3": "failed",
+      "ticket:engine.auto-conditional-destroy-target-by-mana-spent-86f551a847/v2": "integration_failed",
+      "ticket:map.plan-pump-power-matrix-374a5aa846/v2": "integration_failed",
+      "ticket:engine.auto-damage-target-player-or-battle-82cd1f839e/v1": "failed",
+      "ticket:engine.auto-counter-unless-controller-takes-damage-e76b0424a6/v3": "integration_failed",
+      "ticket:map.plan-pump-embereth-skyblazer-1d42f9a60b/v5": "failed",
+      "ticket:map.plan-pump-hurska-sweet-tooth-3c018cefc9/v3": "integration_failed"
+    },
+    "repair_wait": 18,
+    "repair_wait_by_worker": {
+      "claude": 4,
+      "codex-2": 3,
+      "codex": 3,
+      "codex-3": 4,
+      "claude-2": 2,
+      "codex-4": 2
+    },
+    "net_unfinished_change": -8,
+    "completed_since_baseline": 16,
+    "arrivals_since_baseline": 14,
+    "new_tickets_seen": 9,
+    "reentries_since_baseline": 5,
+    "unsuccessful_exits_since_baseline": 30,
+    "window": {
+      "status": "collecting",
+      "window_seconds": 1655,
+      "unfinished_change": -32,
+      "waiting_change": -25,
+      "completed": 16,
+      "arrivals": 14,
+      "growth_alert": false
+    }
+  },
+  {
+    "schema": "factory.queue-trend/v1",
+    "epoch": 1789492328.7615528,
+    "checked_at": "2026-09-15T17:12:08Z",
+    "baseline_at": 1789490617.2213228,
+    "cohort_states": {
+      "completed": 14,
+      "focused_wait": 12,
+      "failed": 19,
+      "integration_failed": 5,
+      "focused_run": 1,
+      "superseded": 1
+    },
+    "counts": {
+      "focused_wait": 16,
+      "integration_wait": 1,
+      "focused_run": 3
+    },
+    "waiting": 17,
+    "running": 3,
+    "total_unfinished": 20,
+    "arrivals": [],
+    "completed": [],
+    "departed_without_completion": {},
+    "repair_wait": 16,
+    "repair_wait_by_worker": {
+      "claude": 4,
+      "codex-2": 1,
+      "codex": 3,
+      "codex-3": 4,
+      "claude-2": 2,
+      "codex-4": 2
+    },
+    "net_unfinished_change": 0,
+    "completed_since_baseline": 16,
+    "arrivals_since_baseline": 14,
+    "new_tickets_seen": 9,
+    "reentries_since_baseline": 5,
+    "unsuccessful_exits_since_baseline": 30,
+    "window": {
+      "status": "collecting",
+      "window_seconds": 1711,
+      "unfinished_change": -32,
+      "waiting_change": -26,
+      "completed": 16,
+      "arrivals": 14,
+      "growth_alert": false
+    }
+  },
+  {
+    "schema": "factory.queue-trend/v1",
+    "epoch": 1789492384.245208,
+    "checked_at": "2026-09-15T17:13:04Z",
+    "baseline_at": 1789490617.2213228,
+    "cohort_states": {
+      "completed": 14,
+      "focused_wait": 9,
+      "failed": 19,
+      "integration_failed": 5,
+      "focused_run": 2,
+      "integration_run": 1,
+      "superseded": 2
+    },
+    "counts": {
+      "focused_wait": 13,
+      "integration_run": 3,
+      "focused_run": 2
+    },
+    "waiting": 13,
+    "running": 5,
+    "total_unfinished": 18,
+    "arrivals": [],
+    "completed": [],
+    "departed_without_completion": {
+      "ticket:map.plan-exile-go-blank-c795cf6fd8/v3": "superseded",
+      "ticket:map.plan-exile-mangara-of-corondor-8ac65ddb74/v3": "failed"
+    },
+    "repair_wait": 13,
+    "repair_wait_by_worker": {
+      "claude": 4,
+      "codex-2": 1,
+      "codex": 2,
+      "codex-3": 2,
+      "claude-2": 2,
+      "codex-4": 2
+    },
+    "net_unfinished_change": -2,
+    "completed_since_baseline": 16,
+    "arrivals_since_baseline": 14,
+    "new_tickets_seen": 9,
+    "reentries_since_baseline": 5,
+    "unsuccessful_exits_since_baseline": 32,
+    "window": {
+      "status": "collecting",
+      "window_seconds": 1767,
+      "unfinished_change": -34,
+      "waiting_change": -30,
+      "completed": 16,
+      "arrivals": 14,
+      "growth_alert": false
+    }
+  },
+  {
+    "schema": "factory.queue-trend/v1",
+    "epoch": 1789492439.6841183,
+    "checked_at": "2026-09-15T17:13:59Z",
+    "baseline_at": 1789490617.2213228,
+    "cohort_states": {
+      "completed": 14,
+      "focused_wait": 9,
+      "failed": 19,
+      "integration_failed": 5,
+      "focused_run": 2,
+      "integration_run": 1,
+      "superseded": 2
+    },
+    "counts": {
+      "focused_wait": 14,
+      "integration_run": 3,
+      "focused_run": 2
+    },
+    "waiting": 14,
+    "running": 5,
+    "total_unfinished": 19,
+    "arrivals": [
+      "ticket:map.plan-exile-mindbreak-trap-5b1cbb94c7/v3"
+    ],
+    "completed": [],
+    "departed_without_completion": {},
+    "repair_wait": 13,
+    "repair_wait_by_worker": {
+      "claude": 4,
+      "codex-2": 1,
+      "codex": 2,
+      "claude-2": 2,
+      "codex-3": 2,
+      "codex-4": 2
+    },
+    "net_unfinished_change": 1,
+    "completed_since_baseline": 16,
+    "arrivals_since_baseline": 15,
+    "new_tickets_seen": 10,
+    "reentries_since_baseline": 5,
+    "unsuccessful_exits_since_baseline": 32,
+    "window": {
+      "status": "shrinking",
+      "window_seconds": 1822,
+      "unfinished_change": -33,
+      "waiting_change": -29,
+      "completed": 16,
+      "arrivals": 15,
+      "growth_alert": false
+    }
+  },
+  {
+    "schema": "factory.queue-trend/v1",
+    "epoch": 1789492495.1445103,
+    "checked_at": "2026-09-15T17:14:55Z",
+    "baseline_at": 1789490617.2213228,
+    "cohort_states": {
+      "completed": 14,
+      "focused_wait": 9,
+      "failed": 19,
+      "integration_failed": 5,
+      "focused_run": 2,
+      "integration_run": 1,
+      "superseded": 2
+    },
+    "counts": {
+      "focused_wait": 14,
+      "integration_run": 3,
+      "focused_run": 2
+    },
+    "waiting": 14,
+    "running": 5,
+    "total_unfinished": 19,
+    "arrivals": [],
+    "completed": [],
+    "departed_without_completion": {},
+    "repair_wait": 13,
+    "repair_wait_by_worker": {
+      "claude": 4,
+      "codex-2": 1,
+      "codex": 2,
+      "claude-2": 2,
+      "codex-3": 2,
+      "codex-4": 2
+    },
+    "net_unfinished_change": 0,
+    "completed_since_baseline": 16,
+    "arrivals_since_baseline": 15,
+    "new_tickets_seen": 10,
+    "reentries_since_baseline": 5,
+    "unsuccessful_exits_since_baseline": 32,
+    "window": {
+      "status": "shrinking",
+      "window_seconds": 1877,
+      "unfinished_change": -33,
+      "waiting_change": -29,
+      "completed": 16,
+      "arrivals": 15,
+      "growth_alert": false
+    }
+  },
+  {
+    "schema": "factory.queue-trend/v1",
+    "epoch": 1789492554.607957,
+    "checked_at": "2026-09-15T17:15:54Z",
+    "baseline_at": 1789490617.2213228,
+    "cohort_states": {
+      "completed": 15,
+      "focused_wait": 9,
+      "failed": 19,
+      "integration_failed": 5,
+      "focused_run": 2,
+      "superseded": 2
+    },
+    "counts": {
+      "focused_wait": 14,
+      "focused_run": 2
+    },
+    "waiting": 14,
+    "running": 2,
+    "total_unfinished": 16,
+    "arrivals": [],
+    "completed": [
+      "ticket:map.plan-damage-mercurial-chemister-94405bee15/v3",
+      "ticket:map.plan-destroy-jarl-of-the-forsaken-b41be14e5c/v3",
+      "ticket:map.plan-multi-ith-high-arcanist-7886b23c83/v2"
+    ],
+    "departed_without_completion": {},
+    "repair_wait": 13,
+    "repair_wait_by_worker": {
+      "claude": 4,
+      "codex-2": 1,
+      "codex": 2,
+      "claude-2": 2,
+      "codex-3": 2,
+      "codex-4": 2
+    },
+    "net_unfinished_change": -3,
+    "completed_since_baseline": 19,
+    "arrivals_since_baseline": 15,
+    "new_tickets_seen": 10,
+    "reentries_since_baseline": 5,
+    "unsuccessful_exits_since_baseline": 32,
+    "window": {
+      "status": "shrinking",
+      "window_seconds": 1937,
+      "unfinished_change": -36,
+      "waiting_change": -29,
+      "completed": 19,
+      "arrivals": 15,
+      "growth_alert": false
+    }
+  }
+]

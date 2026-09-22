@@ -1,0 +1,295 @@
+{
+  "observed_at": "2026-09-15T22:28:12.635503+00:00",
+  "tickets": [
+    {
+      "original": "ticket:map.plan-multi-sylvan-smite-eb280a50a2/v1",
+      "current": "ticket:map.plan-multi-sylvan-smite-eb280a50a2/v1",
+      "state": "blocked",
+      "outcome": "blocked_by_capability",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T191620Z-map-plan-multi-sylvan-smite-eb280a50a2-v1-codex.json",
+      "reason": "Engine dependency is queued, running, or awaiting integration",
+      "receipt_sha256": "sha256:c011dc6f21d90ee769a0f969f67e6166d49f524cbb45d0d752d376eed032a228",
+      "failed_gates": [
+        {
+          "detail": "\"card\":\"Sylvan Smite\",\"paragraph\":\"Put a +1/+1 counter on target creature you control if you weren't the starting player. Then that creature deals damage equal to its power to target creature you don't control.\",\"required_behavior\":\"Same conditional linked counter-then-source-power damage behavior.\"}],\"negative_examples\":[\"Do not execute the damage unconditionally when the controller is the starting player.\",\"Do not replace the linked source with the spell or its controller, and do not turn the effect into fight damage.\"]},\"expected_unlock\":0}\nREASON: Existing runtime supports the individual counter and chosen-source-power shapes but cannot preserve this spell's not-starting-player condition together with the linked first target and separately chosen second target in one ordered sequence.\n",
+          "id": "patch-apply",
+          "outcome": "failed"
+        }
+      ],
+      "execution": {
+        "candidate_clone": "/tmp/factory-ng-map-plan-multi-sylvan-smite-eb280a50a2-v1-_y8f6ysl",
+        "candidate_commit": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+        "mode": "isolated_clone_observation_only",
+        "source_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+        "source_tree_changed": false
+      }
+    },
+    {
+      "original": "ticket:engine.auto-copy-all-controlled-stack-objects-f0627c34c8/v1",
+      "current": "ticket:engine.auto-copy-all-controlled-stack-objects-f0627c34c8/v1",
+      "state": "parked",
+      "outcome": "parked",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T193649Z-engine-auto-copy-all-controlled-stack-objects-f0627c34c8-v1-claude.json",
+      "reason": null,
+      "receipt_sha256": "sha256:4ef4b9d0f49f11d448d82632bdf504ebd803a9affd5a47e392f4ee69dc291209",
+      "failed_gates": [
+        {
+          "detail": "VERDICT: AMBIGUOUS\nREASON: unresolved staged evidence gap.\n",
+          "id": "patch-apply",
+          "outcome": "failed"
+        }
+      ],
+      "execution": {
+        "candidate_clone": "/tmp/factory-ng-engine-auto-copy-all-controlled-stack-objects-f0627c34c8-v1-bp4t9em7",
+        "candidate_commit": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+        "mode": "isolated_clone_observation_only",
+        "source_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+        "source_tree_changed": false
+      }
+    },
+    {
+      "original": "ticket:map.plan-multi-stone-giant-ffd78803cd/v1",
+      "current": "ticket:map.plan-multi-stone-giant-ffd78803cd/v3",
+      "state": "integrating",
+      "outcome": "integration_busy",
+      "attempts": 1,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T221618Z-focused-7afd893b47564ff385097d87d4ae4390-0.json",
+      "reason": "Patch saved without acceptance; awaiting focused verification.",
+      "receipt_sha256": "sha256:992423484668796d0be9d4d7558dae8491293049483e6d6e9af3eb6660a0077e",
+      "failed_gates": [],
+      "execution": {
+        "candidate_commit": "e8e29b2f9718ddc138348c0217b2078eb5721ab1",
+        "candidate_patch": "docs/factory-ng/candidates/focused-7afd893b47564ff385097d87d4ae4390-0.patch",
+        "candidate_patch_sha256": "sha256:d02a32ff69e0995d4a3434bf5b0e3d53803eadf863f569c6c7bb1f23f58d85df",
+        "mode": "isolated_composed_verification",
+        "source_revision": "32e09c06e732d2121b57802cf40ecdb9fee6f2a1",
+        "source_tree_changed": false,
+        "verification_batch": "7afd893b47564ff385097d87d4ae4390",
+        "verification_cpus": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "verification_host": "dani@192.168.1.251",
+        "verification_image": "sha256:e8565fa265f973c06f0515fac7aa9d102edae01b5677d69216900b84029c6ad0",
+        "verification_slot": 0,
+        "verified_ticket_ids": [
+          "ticket:map.plan-multi-stone-giant-ffd78803cd/v3"
+        ],
+        "verified_tree": "42241b9d04631af10661103a3f941025558c5b87"
+      }
+    },
+    {
+      "original": "ticket:map.plan-pump-prismabasher-f1d1567dae/v2",
+      "current": "ticket:map.plan-pump-prismabasher-f1d1567dae/v2",
+      "state": "blocked",
+      "outcome": "blocked_by_capability",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T194538Z-map-plan-pump-prismabasher-f1d1567dae-v2-claude.json",
+      "reason": "Engine dependency has no active successor: parked",
+      "receipt_sha256": "sha256:51947e1aa80570c26afd275ba5f1ae020b0b375d2c210a6a5f0743f6d88bc876",
+      "failed_gates": [
+        {
+          "detail": "er of targets for an 'up to X target creatures you control' selection and as the symmetric +X/+X pump amount applied to each chosen target\"}],\"negative_examples\":[\"'up to three target creatures' with a fixed literal max_count (existing reanimate convention)\",\"untargeted mass pump to all creatures you control via group_filter with dynamic X amount but no per-target cap selection\"],\"expected_unlock\":1}\nREASON: The existing pump_until_eot/pt_amount_count paths only support either a literal target count or a static 'up to N' cap, and none of them tie the number of targets selectable to the same dynamically-resolved CountSpec used for the +X/+X amount, so Prismabasher's 'up to X target creatures ... where X is colors among permanents you control' cannot execute without a new runtime primitive.\n",
+          "id": "patch-apply",
+          "outcome": "failed"
+        }
+      ],
+      "execution": {
+        "candidate_clone": "/tmp/factory-ng-map-plan-pump-prismabasher-f1d1567dae-v2-9o6yam0z",
+        "candidate_commit": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+        "mode": "isolated_clone_observation_only",
+        "source_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+        "source_tree_changed": false
+      }
+    },
+    {
+      "original": "ticket:map.plan-destroy-premature-burial-8c31678b86/v2",
+      "current": "ticket:map.plan-destroy-premature-burial-8c31678b86/v2",
+      "state": "blocked",
+      "outcome": "blocked_by_capability",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T194744Z-map-plan-destroy-premature-burial-8c31678b86-v2-claude.json",
+      "reason": "Engine dependency has no active successor: parked",
+      "receipt_sha256": "sha256:8e051debe41f5e0b17add1c0e1b04cd5aacce4db2c466eb7d5ee15d56036bc00",
+      "failed_gates": [
+        {
+          "detail": "ehavior\":\"Filter single-target destroy candidates to permanents whose enter-the-battlefield event occurred after the ability controller's most recently completed turn ended\"}],\"negative_examples\":[\"target nonblack creature (no temporal qualifier) must remain the plain color-filter shape and must not gain a hidden temporal restriction\",\"a nonblack creature that entered the battlefield before the caster's last turn ended must remain an illegal target and must not become destroyable through this filter\"],\"expected_unlock\":1}}\nREASON: No existing matchesPermanentFilter bucket, subtype fallback, or single-target composite tracks entry timing relative to a player's last completed turn, so the temporal clause can't be represented through the registered destroy primitive without new engine state.\n",
+          "id": "patch-apply",
+          "outcome": "failed"
+        }
+      ],
+      "execution": {
+        "candidate_clone": "/tmp/factory-ng-map-plan-destroy-premature-burial-8c31678b86-v2-qbhsv6hl",
+        "candidate_commit": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+        "mode": "isolated_clone_observation_only",
+        "source_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+        "source_tree_changed": false
+      }
+    },
+    {
+      "original": "ticket:map.plan-multi-frenzied-fugue-a4f2dc8c74/v1",
+      "current": "ticket:map.plan-multi-frenzied-fugue-a4f2dc8c74/v1",
+      "state": "blocked",
+      "outcome": "blocked_by_capability",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T195711Z-map-plan-multi-frenzied-fugue-a4f2dc8c74-v1-claude.json",
+      "reason": "Engine dependency has no active successor: failed",
+      "receipt_sha256": "sha256:f63ed5ff045fb21f9e6c1f2e08aa140d015dadabab39abaf62d2d49fa39e59bd",
+      "failed_gates": [
+        {
+          "detail": "s\"}],\"negative_examples\":[\"gain control of target creature you don't control until end of turn (an explicit chosen target with no Aura attachment) must keep using gain_control's existing chosen-target resolution unchanged\",\"tap target enchanted creature / regenerate enchanted creature's existing target_attached resolution in ability_effects.go must not be altered\"],\"expected_unlock\":1}\nREASON: gain_control's registered executor (control_effects.go) has no documented attached-target resolution the way tap_target/regenerate do, so mapping \"gain control of enchanted permanent\" plus its linked untap/haste riders on the same resolved permanent would emit an atom whose runtime behavior is unverified, which the contract requires treating as a missing primitive rather than a guessed parser patch.\n",
+          "id": "patch-apply",
+          "outcome": "failed"
+        }
+      ],
+      "execution": {
+        "candidate_clone": "/tmp/factory-ng-map-plan-multi-frenzied-fugue-a4f2dc8c74-v1-mcwdl1bo",
+        "candidate_commit": "e28952a555225e6ab7491ae1345754bcd92103de",
+        "mode": "isolated_clone_observation_only",
+        "source_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+        "source_tree_changed": false
+      }
+    },
+    {
+      "original": "ticket:map.plan-multi-angel-of-serenity-9784e9b8d6/v1",
+      "current": "ticket:map.plan-multi-angel-of-serenity-9784e9b8d6/v1",
+      "state": "blocked",
+      "outcome": "blocked_by_capability",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T200550Z-map-plan-multi-angel-of-serenity-9784e9b8d6-v1-codex.json",
+      "reason": "Engine dependency has no active successor: failed",
+      "receipt_sha256": "sha256:abb7e48dc05a2d861739a5d5a5a34d173fee00b47227fc9122b03c6ef8720ff0",
+      "failed_gates": [
+        {
+          "detail": "s to their owners' hands.\",\"required_behavior\":\"Choose up to three other target creatures across the battlefield and creature cards in graveyards, exile the chosen cards while linking them to the source permanent, and return those cards to their owners' hands when that source leaves the battlefield.\"}],\"negative_examples\":[\"A single battlefield permanent exiled until the source leaves the battlefield must retain the existing exile_until_leaves behavior.\",\"Returning cards exiled with a source to the battlefield must not be changed into returning them to owners' hands.\"]},\"expected_unlock\":0}\nREASON: Existing primitives cannot represent the combined mixed-zone, up-to-three, other-target selection and source-linked return-to-owners-hands behavior without losing targets, quantity, or linkage.\n",
+          "id": "patch-apply",
+          "outcome": "failed"
+        }
+      ],
+      "execution": {
+        "candidate_clone": "/tmp/factory-ng-map-plan-multi-angel-of-serenity-9784e9b8d6-v1-u4zacwdj",
+        "candidate_commit": "e28952a555225e6ab7491ae1345754bcd92103de",
+        "mode": "isolated_clone_observation_only",
+        "source_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+        "source_tree_changed": false
+      }
+    },
+    {
+      "original": "ticket:map.plan-exile-scarab-feast-d952117a2a/v4",
+      "current": "ticket:map.plan-exile-scarab-feast-d952117a2a/v4",
+      "state": "blocked",
+      "outcome": "blocked_by_capability",
+      "attempts": 2,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T201832Z-map-plan-exile-scarab-feast-d952117a2a-v4-claude.json",
+      "reason": "Validated capability demand is waiting for Engine ticket admission",
+      "receipt_sha256": "sha256:bad0e2e16e4ec0fa7995cddb8a88340f13b848a16f37352a8d7015c66b108188",
+      "failed_gates": [
+        {
+          "detail": "ration, or owner-change clause.\"}],\"negative_examples\":[\"exile target creature card from your graveyard (single card, filter-restricted, already covered by executeExileFromGraveyardTargetEffect and must remain unchanged)\",\"exile N cards from a graveyard chosen by auto-select/front-of-graveyard order rather than real per-card player targeting (already covered by the amount-based auto-select primitive and must remain unchanged)\"],\"expected_unlock\":1}\nREASON: The only existing graveyard-card targeting primitive verified in current source (executeExileFromGraveyardTargetEffect) reads only targets[0] and moves a single player-chosen card, so \"up to three target cards from a single graveyard\" cannot execute through existing runtime behavior without losing the real multi-target choice semantics.\n",
+          "id": "patch-apply",
+          "outcome": "failed"
+        }
+      ],
+      "execution": {
+        "candidate_clone": "/tmp/factory-ng-map-plan-exile-scarab-feast-d952117a2a-v4-k16zqh37",
+        "candidate_commit": "408c09d9dfa7b89d3f10b9d9ddc16e0e0fd5db35",
+        "mode": "isolated_clone_observation_only",
+        "source_revision": "408c09d9dfa7b89d3f10b9d9ddc16e0e0fd5db35",
+        "source_tree_changed": false
+      }
+    },
+    {
+      "original": "ticket:map.plan-exile-rats-feast-5a756bbff8/v3",
+      "current": "ticket:map.plan-exile-rats-feast-5a756bbff8/v4",
+      "state": "blocked",
+      "outcome": "blocked_by_capability",
+      "attempts": 1,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T211254Z-map-plan-exile-rats-feast-5a756bbff8-v4-codex.json",
+      "reason": "Validated capability demand is waiting for Engine ticket admission",
+      "receipt_sha256": "sha256:b234528f81b28a843f00ff6361edbca16d159d5f6159c58592c6e6deeea96190",
+      "failed_gates": [
+        {
+          "detail": "r the existing single-graveyard multi-target exile executor\",\"specification\":{\"required_behavior\":\"Expose a registered effect for exiling X chosen target cards all from one single graveyard, preserving X targeting and same-graveyard enforcement.\",\"source_misses\":[{\"card\":\"Rats' Feast\",\"paragraph\":\"Exile X target cards from a single graveyard.\",\"required_behavior\":\"Exile X chosen target cards from one graveyard only.\"}],\"negative_examples\":[\"Battlefield permanent exile must continue using the existing exile primitive and must not be routed through this graveyard-card effect.\"]},\"expected_unlock\":0}\nREASON: The existing executor implements the behavior, but no registry entry exposes exile_target_cards_single_graveyard to the parser; the allowed paths cannot repair that missing registration.\n",
+          "id": "patch-apply",
+          "outcome": "failed"
+        }
+      ],
+      "execution": {
+        "candidate_clone": "/tmp/factory-ng-map-plan-exile-rats-feast-5a756bbff8-v4-pi5l85bb",
+        "candidate_commit": "c0e79c16c1136f92a8cecef92e381bdf348b16fe",
+        "mode": "isolated_clone_observation_only",
+        "source_revision": "c0e79c16c1136f92a8cecef92e381bdf348b16fe",
+        "source_tree_changed": false
+      }
+    },
+    {
+      "original": "ticket:map.plan-exile-time-to-reflect-261d7e6271/v2",
+      "current": "ticket:map.plan-exile-time-to-reflect-261d7e6271/v2",
+      "state": "blocked",
+      "outcome": "blocked_by_capability",
+      "attempts": 2,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T211546Z-map-plan-exile-time-to-reflect-261d7e6271-v2-codex.json",
+      "reason": "Validated capability demand is waiting for Engine ticket admission",
+      "receipt_sha256": "sha256:48ad999562a82e1a10a5ca39ab169bca5be88469ec7cad641eb5a46be3d58a08",
+      "failed_gates": [
+        {
+          "detail": "n\",\"summary\":\"Exile a creature that blocked or was blocked by a Zombie this turn\",\"specification\":{\"required_behavior\":\"Select and exile a target creature that blocked or was blocked by a Zombie this turn.\",\"source_misses\":[{\"card\":\"Time to Reflect\",\"paragraph\":\"Exile target creature that blocked or was blocked by a Zombie this turn.\",\"required_behavior\":\"Select and exile a target creature that blocked or was blocked by a Zombie this turn.\"}],\"negative_examples\":[\"Exile target creature that blocked or was blocked by a Zombie last turn must remain unmapped.\"]},\"expected_unlock\":1}\nREASON: The registered exile primitive only exiles already-selected battlefield targets and has no runtime filter or retained combat-history state for creatures that blocked or were blocked by a Zombie this turn.\n",
+          "id": "patch-apply",
+          "outcome": "failed"
+        }
+      ],
+      "execution": {
+        "candidate_clone": "/tmp/factory-ng-map-plan-exile-time-to-reflect-261d7e6271-v2-5ldl51_b",
+        "candidate_commit": "435aa05e3f4f0371a208167494aa2542ce7395fd",
+        "mode": "isolated_clone_observation_only",
+        "source_revision": "435aa05e3f4f0371a208167494aa2542ce7395fd",
+        "source_tree_changed": false
+      }
+    },
+    {
+      "original": "ticket:engine.auto-conditional-damage-to-referent-player-768261106f/v2",
+      "current": "ticket:engine.auto-conditional-damage-to-referent-player-768261106f/v2",
+      "state": "failed",
+      "outcome": "gate_failed",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T215537Z-engine-auto-conditional-damage-to-referent-player-768261106f-v2-codex.json",
+      "reason": null,
+      "receipt_sha256": "sha256:930000e0eb18ca794b666ec29f0b1e32d669c87446e9d2a0ddcbc94a0f28c894",
+      "failed_gates": [
+        {
+          "detail": "backend/game/factory_ng_768261106f_test.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\n",
+          "id": "initial-patch-apply",
+          "outcome": "failed"
+        },
+        {
+          "detail": "Go vocabulary extraction failed: dispatch:2666:1: expected statement, found '>>'\n",
+          "elapsed_ms": 132,
+          "id": "engine-vocabulary-handoff",
+          "outcome": "failed"
+        }
+      ],
+      "execution": {
+        "candidate_clone": "/tmp/factory-ng-engine-auto-conditional-damage-to-referent-player-768261106f-v2-dufrujmy",
+        "candidate_commit": "3aa81879863abf1a653090f4fe2f64fdbf27ff87",
+        "mode": "isolated_clone_observation_only",
+        "source_revision": "3aa81879863abf1a653090f4fe2f64fdbf27ff87",
+        "source_tree_changed": false
+      }
+    }
+  ]
+}

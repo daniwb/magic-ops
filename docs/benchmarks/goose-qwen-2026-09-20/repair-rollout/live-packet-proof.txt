@@ -1,0 +1,2 @@
+docs/factory-ng/runs/2026-09-20T162044Z-engine-auto-return-up-to-one-per-color-from-graveyard-to-han-f8b782a10e-v1-goose-qwen-staged.packet.txt
+API supplement present

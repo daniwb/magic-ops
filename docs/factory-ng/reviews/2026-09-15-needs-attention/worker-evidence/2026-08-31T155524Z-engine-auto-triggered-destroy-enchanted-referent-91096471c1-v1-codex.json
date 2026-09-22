@@ -1,0 +1,67 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-engine-auto-triggered-destroy-enchanted-referent-91096471c1-v1-10gohz1k",
+    "candidate_commit": "5cee8dac8e447fd9fa553838c548bd66471a8ab3",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "5cee8dac8e447fd9fa553838c548bd66471a8ab3",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "codex-constrained@1.0.0",
+    "resolved_model": "gpt-5.6-luna",
+    "telemetry": {
+      "bounded_repair_attempted": true,
+      "cache_read_tokens": 24064,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 16017,
+      "input_tokens": 45849,
+      "output_tokens": 474,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      }
+    },
+    "worker": "codex"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed_model_protocol",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-31T155524Z-engine-auto-triggered-destroy-enchanted-referent-91096471c1-v1-codex.raw.json",
+      "sha256": "sha256:5e445d2bc8e87f85fafce32e165a64390e0ffc7ec8cb7e2d73c8cc1de4e630fd"
+    },
+    {
+      "kind": "bounded_repair",
+      "path": "docs/factory-ng/runs/2026-08-31T155524Z-engine-auto-triggered-destroy-enchanted-referent-91096471c1-v1-codex.repair.raw.json",
+      "sha256": "sha256:51fb053a790e812788ab3fc58507bb4984877249fe71f184d31149606dc4f835"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-triggered-destroy-enchanted-referent-91096471c1/v1",
+    "path": "docs/factory-ng/tickets/engine-auto-triggered-destroy-enchanted-referent-91096471c1-v1.json",
+    "sha256": "sha256:6c8fb1d942ec5777e9b37bca7eb5bbadf1b9ed3f14fbc98df4cb5ba4f4145ac9"
+  }
+}

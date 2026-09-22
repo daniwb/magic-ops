@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-08T19:17:15.895383+00:00",
+  "old_pid": 2870145,
+  "signal": "SIGHUP",
+  "purpose": "Load bounded Engine integration repair reserve and durable repair ancestry; workers and integration remain separately supervised.",
+  "new_pid": 2966269,
+  "verified_at": "2026-09-08T19:18:06.752551+00:00",
+  "runtime_after_reload": {
+    "state": "running",
+    "phase": "producing_ticket",
+    "updated_at": "2026-09-08T19:18:05Z"
+  },
+  "tidal_blocker": {
+    "reason": "Map repair limit reached (2/2); complete-card verification is still required.",
+    "receipt": "docs/factory-ng/runs/2026-09-08T164831Z-map-plan-tap-tidal-surge-6e2c99a204-v5-qwen.json"
+  }
+}

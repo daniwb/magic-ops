@@ -24,6 +24,7 @@ mv = re.search(r'\bVERDICT:\s*([A-Z_]+)', out)
 if mv and (re.search(r'\bVERDICT:\s*[A-Z_]+\|', out) or '<snake_case_name' in out or 'REASON: <one line>' in out):
     mv = None
 blocks = []
+malformed = []
 # A single file commonly needs several unrelated edits (for example a new
 # field, its registration default, and a query method). Keep one FILE header
 # as the model-facing grouping and extract every SEARCH/REPLACE pair inside
@@ -34,13 +35,15 @@ for i, header in enumerate(file_headers):
     end = file_headers[i + 1].start() if i + 1 < len(file_headers) else len(out)
     section = out[header.end():end]
     path = header.group(1)
-    pairs = re.findall(r'<<<SEARCH\n(.*?)\n===REPLACE\n(.*?)\n>>>END', section, re.S)
-    if not pairs:
-        # Preserve the existing error path for malformed output.
-        blocks.append((path, '', ''))
+    # Known marker variants have identical grammar/meaning. Recognize them
+    # only as complete delimiter lines; exact source and ambiguity checks
+    # below remain mandatory. Never infer or rewrite SEARCH/replacement text.
+    pairs = re.findall(r'^<<<SEARCH\n(.*?)\n(?:===(?:REPLACE|\nREPLACE)?|<<<REPLACE)\n(.*?)\n(?:>>>END|<<<END)(?=\n|$)', section, re.S | re.M)
+    if not pairs or len(pairs) != len(re.findall(r'^<<<SEARCH$', section, re.M)):
+        malformed.append('%s: malformed FILE block (missing SEARCH/REPLACE/END delimiter)' % path)
     else:
         blocks.extend((path, search, replace) for search, replace in pairs)
-newfiles = re.findall(r'<<<NEWFILE (.+?)\n(.*?)\n>>>END', out, re.S)
+newfiles = re.findall(r'^<<<NEWFILE (.+?)\n(.*?)\n(?:>>>END|<<<END)(?=\n|$)', out, re.S | re.M)
 # Alternate @@@ markers: llama-server's peg-native/harmony parser 500s on
 # outputs containing <<< sequences (local gpt-oss lane, 2026-08-07), so
 # local packs instruct @@@-style equivalents.
@@ -60,7 +63,7 @@ if not blocks and not newfiles:
     print('no edit blocks and no verdict found in model output')
     sys.exit(5)
 
-errors = []
+errors = list(malformed)
 staged = []
 for path, search, replace in blocks:
     path = path.strip()
@@ -70,10 +73,13 @@ for path, search, replace in blocks:
     # makes the block's own non-greedy regex swallow that second marker as
     # literal replacement content — corrupted a real file with a bare
     # "===REPLACE" line (ticket #3786). Reject outright rather than apply.
-    if '\n===REPLACE\n' in replace or '\n@@@REPLACE\n' in replace:
+    if re.search(r'(?m)^(?:===(?:REPLACE|\nREPLACE)?|<<<REPLACE|@@@REPLACE)\s*$', replace):
         errors.append('%s: block contains a second REPLACE marker — decide your final '
                        'replacement content BEFORE writing the block, one SEARCH/REPLACE '
                        'pair only' % path)
+        continue
+    if re.search(r'(?m)^(?:<{3,}(?:SEARCH|FILE|NEWFILE|END|REPLACE)|>{3,}END|@{3,}(?:SEARCH|FILE|NEWFILE|END))\b', search + '\n' + replace):
+        errors.append('%s: unexpected edit marker inside block content' % path)
         continue
     if path.startswith('backend/game/') and not ALLOW_GAME:
         errors.append('%s: backend/game/ is off-limits (auto-park rule)' % path)

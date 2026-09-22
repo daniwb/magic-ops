@@ -1,0 +1,12 @@
+{
+  "cache_path": "/opt/development/.gocache-magic",
+  "finished_at": "2026-09-16T23:30:05Z",
+  "message": "Go cache cleanup completed; Go gates are available again.",
+  "requested_at": "2026-09-16T23:27:06Z",
+  "schema": "factory.go-cache-maintenance/v1",
+  "size_after_gib": 0.0,
+  "size_before_gib": 37.18,
+  "started_at": "2026-09-16T23:29:58Z",
+  "state": "completed",
+  "updated_at": "2026-09-16T23:30:05Z"
+}

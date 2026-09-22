@@ -1,0 +1,529 @@
+{
+  "observed_at": "2026-09-14T05:41:14.151562+00:00",
+  "runtime": {
+    "active": [
+      {
+        "id": "capability-dependencies",
+        "kind": "producer"
+      }
+    ],
+    "deferred": [
+      "ticket:engine.auto-prevent-combat-damage-from-attacking-creatures-0e1e73d55a/v3",
+      "ticket:engine.auto-remove-counter-at-end-of-combat-0a0868121b/v1"
+    ],
+    "message": "Replenishing the automatic ground-truth queue.",
+    "phase": "producing_ticket",
+    "queue": {
+      "deferred": 2,
+      "runnable": 0,
+      "target_ready": 10,
+      "total": 2
+    },
+    "queued": [
+      "ticket:map.plan-pump-akroan-hoplite-3709fa771d/v2",
+      "ticket:map.plan-pump-arm-the-cathars-19d0a1dbb4/v2",
+      "ticket:engine.auto-pump-self-eot-axis-count-d4aa4d38b6/v1",
+      "ticket:map.plan-damage-ben-ben-akki-hermit-8fb1420aae/v2",
+      "ticket:map.plan-pump-bile-blight-ab52be7207/v2",
+      "ticket:engine.auto-pump-until-eot-optional-other-target-700a1e2a8f/v1",
+      "ticket:map.plan-grant-eot-blind-with-anger-d87e0b1862/v2"
+    ],
+    "results": [
+      {
+        "producer": "staged-five-card-trial",
+        "reason": "no uncompiled validated capability verdict exists",
+        "status": "no_capability_demand"
+      },
+      {
+        "producer": "context-retry-batch",
+        "status": "no_retry_candidate"
+      },
+      {
+        "producer": "reviewed-contract-corrections-sep09",
+        "status": "no_reviewed_contract_remaining"
+      },
+      {
+        "producer": "capability-dependencies",
+        "reason": "validated dependencies already have durable lifecycle state",
+        "status": "awaiting_dependency"
+      },
+      {
+        "producer": "build-plan-fresh-local",
+        "reason": "no unaccounted engine-reachable single-family example with exactly 1 misses remains",
+        "status": "exhausted_supported_plan"
+      },
+      {
+        "producer": "build-plan-two-miss-pilot",
+        "reason": "bounded miss-count frontier already has 2 active tickets",
+        "status": "active_frontier_limit"
+      },
+      {
+        "producer": "build-plan-integration-conflict",
+        "reason": "no unaccounted engine-reachable single-family example with exactly 1 misses remains",
+        "status": "exhausted_supported_plan"
+      },
+      {
+        "producer": "build-plan-paid-repair",
+        "status": "queued",
+        "ticket_id": "ticket:map.plan-pump-akroan-hoplite-3709fa771d/v2"
+      },
+      {
+        "status": "working",
+        "ticket_id": "ticket:map.plan-pump-akroan-hoplite-3709fa771d/v2",
+        "worker": "claude"
+      },
+      {
+        "producer": "static-conditional-safe-shape-meta",
+        "status": "no_safe_candidate"
+      },
+      {
+        "producer": "capability-dependencies",
+        "reason": "validated dependencies already have durable lifecycle state",
+        "status": "awaiting_dependency"
+      },
+      {
+        "producer": "build-plan-paid-repair",
+        "status": "queued",
+        "ticket_id": "ticket:map.plan-pump-arm-the-cathars-19d0a1dbb4/v2"
+      },
+      {
+        "receipt": "docs/factory-ng/runs/2026-09-14T053601Z-map-plan-pump-akroan-hoplite-3709fa771d-v2-claude.json",
+        "status": "blocked_by_capability",
+        "ticket_id": "ticket:map.plan-pump-akroan-hoplite-3709fa771d/v2",
+        "worker": "claude"
+      },
+      {
+        "status": "working",
+        "ticket_id": "ticket:map.plan-pump-arm-the-cathars-19d0a1dbb4/v2",
+        "worker": "claude"
+      },
+      {
+        "producer": "capability-dependencies",
+        "status": "queued",
+        "ticket_id": "ticket:engine.auto-pump-self-eot-axis-count-d4aa4d38b6/v1"
+      },
+      {
+        "status": "working",
+        "ticket_id": "ticket:engine.auto-pump-self-eot-axis-count-d4aa4d38b6/v1",
+        "worker": "claude-2"
+      },
+      {
+        "producer": "build-plan-paid-repair",
+        "status": "queued",
+        "ticket_id": "ticket:map.plan-damage-ben-ben-akki-hermit-8fb1420aae/v2"
+      },
+      {
+        "status": "working",
+        "ticket_id": "ticket:map.plan-damage-ben-ben-akki-hermit-8fb1420aae/v2",
+        "worker": "codex"
+      },
+      {
+        "producer": "capability-dependencies",
+        "reason": "validated dependencies already have durable lifecycle state",
+        "status": "awaiting_dependency"
+      },
+      {
+        "producer": "build-plan-paid-repair",
+        "status": "queued",
+        "ticket_id": "ticket:map.plan-pump-bile-blight-ab52be7207/v2"
+      },
+      {
+        "receipt": "docs/factory-ng/runs/2026-09-14T053732Z-map-plan-pump-arm-the-cathars-19d0a1dbb4-v2-claude.json",
+        "status": "blocked_by_capability",
+        "ticket_id": "ticket:map.plan-pump-arm-the-cathars-19d0a1dbb4/v2",
+        "worker": "claude"
+      },
+      {
+        "status": "working",
+        "ticket_id": "ticket:map.plan-pump-bile-blight-ab52be7207/v2",
+        "worker": "claude"
+      },
+      {
+        "producer": "capability-dependencies",
+        "status": "queued",
+        "ticket_id": "ticket:engine.auto-pump-until-eot-optional-other-target-700a1e2a8f/v1"
+      },
+      {
+        "status": "working",
+        "ticket_id": "ticket:engine.auto-pump-until-eot-optional-other-target-700a1e2a8f/v1",
+        "worker": "codex-2"
+      },
+      {
+        "producer": "build-plan-paid-repair",
+        "status": "queued",
+        "ticket_id": "ticket:map.plan-grant-eot-blind-with-anger-d87e0b1862/v2"
+      }
+    ],
+    "state": "running",
+    "updated_at": "2026-09-14T05:41:00Z"
+  },
+  "jobs": [
+    {
+      "attempts": 1,
+      "compatible_profiles": [
+        "claude-staged@1.0.0",
+        "qwen-prepared-local@1.0.1",
+        "codex-constrained@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "created_at": "2026-09-14T05:38:01Z",
+      "dispatch_profile": "claude-staged@1.0.0",
+      "log_path": "state/factory-ng-job-output/engine-auto-pump-self-eot-axis-count-d4aa4d38b6-v1.log",
+      "model": "claude-sonnet-5",
+      "pid": 2640468,
+      "preferred_profile": "claude-staged@1.0.0",
+      "production": {
+        "key": "capability:pump_self_eot_axis_count:sha256:d4aa4d38b6af9b5e6fe0e5644c414ed5b4ae4d8e21d698133f1762ecc454075b",
+        "producer": "capability-dependencies"
+      },
+      "profile": "claude-staged@1.0.0",
+      "result_path": "state/factory-ng-job-output/engine-auto-pump-self-eot-axis-count-d4aa4d38b6-v1.json",
+      "started_at": "2026-09-14T05:38:12Z",
+      "state": "working",
+      "ticket_id": "ticket:engine.auto-pump-self-eot-axis-count-d4aa4d38b6/v1",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-pump-self-eot-axis-count-d4aa4d38b6-v1.json",
+      "updated_at": "2026-09-14T05:38:12Z",
+      "usage_status": {
+        "claude": "5h=1% 7d=58% | weekly-mode=paced fixed=100% | Tag 5/7 \u2192 erlaubt 71% n\u00e4chste Stufe: 2026-09-14 20:00 CEST \u2192 l\u00e4uft (unter Tages-Stufe, Stopp bei >=)",
+        "claude-2": "5h=1% 7d=58% | weekly-mode=paced fixed=95% | Tag 5/7 \u2192 erlaubt 68% n\u00e4chste Stufe: 2026-09-14 20:00 CEST \u2192 l\u00e4uft (unter Tages-Stufe, Stopp bei >=)",
+        "codex": "primary=17% secondary=n/a% | weekly-mode=fixed fixed=90% | Tag 2 -> erlaubt 26% -> laeuft (fixed weekly ceiling 90%)",
+        "codex-2": "primary=17% secondary=n/a% | weekly-mode=fixed fixed=70% | Tag 2 -> erlaubt 20% -> laeuft (fixed weekly ceiling 70%)",
+        "codex-3": "primary=17% secondary=n/a% | weekly-mode=fixed fixed=70% | Tag 2 -> erlaubt 20% -> laeuft (fixed weekly ceiling 70%)"
+      },
+      "work_type": "engine",
+      "worker": "claude-2"
+    },
+    {
+      "attempts": 1,
+      "compatible_profiles": [
+        "claude-staged@1.0.0",
+        "qwen-prepared-local@1.0.1",
+        "codex-constrained@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "created_at": "2026-09-14T05:40:19Z",
+      "dispatch_profile": "codex-constrained@1.1.0",
+      "log_path": "state/factory-ng-job-output/engine-auto-pump-until-eot-optional-other-target-700a1e2a8f-v1.log",
+      "model": "gpt-5.6-luna",
+      "pid": 2646233,
+      "preferred_profile": "claude-staged@1.0.0",
+      "production": {
+        "key": "capability:pump_until_eot_optional_other_target:sha256:700a1e2a8f456b77ec05906dcbe9d82c4e69f064ecbf62dc97c8824a577ecc9c",
+        "producer": "capability-dependencies"
+      },
+      "profile": "claude-staged@1.0.0",
+      "result_path": "state/factory-ng-job-output/engine-auto-pump-until-eot-optional-other-target-700a1e2a8f-v1.json",
+      "started_at": "2026-09-14T05:40:29Z",
+      "state": "working",
+      "ticket_id": "ticket:engine.auto-pump-until-eot-optional-other-target-700a1e2a8f/v1",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-pump-until-eot-optional-other-target-700a1e2a8f-v1.json",
+      "updated_at": "2026-09-14T05:40:29Z",
+      "usage_status": {
+        "claude": "5h=1% 7d=58% | weekly-mode=paced fixed=100% | Tag 5/7 \u2192 erlaubt 71% n\u00e4chste Stufe: 2026-09-14 20:00 CEST \u2192 l\u00e4uft (unter Tages-Stufe, Stopp bei >=)",
+        "claude-2": "5h=1% 7d=58% | weekly-mode=paced fixed=95% | Tag 5/7 \u2192 erlaubt 68% n\u00e4chste Stufe: 2026-09-14 20:00 CEST \u2192 l\u00e4uft (unter Tages-Stufe, Stopp bei >=)",
+        "codex": "primary=18% secondary=n/a% | weekly-mode=fixed fixed=90% | Tag 2 -> erlaubt 26% -> laeuft (fixed weekly ceiling 90%)",
+        "codex-2": "primary=18% secondary=n/a% | weekly-mode=fixed fixed=70% | Tag 2 -> erlaubt 20% -> laeuft (fixed weekly ceiling 70%)",
+        "codex-3": "primary=18% secondary=n/a% | weekly-mode=fixed fixed=70% | Tag 2 -> erlaubt 20% -> laeuft (fixed weekly ceiling 70%)"
+      },
+      "work_type": "engine",
+      "worker": "codex-2"
+    },
+    {
+      "attempts": 1,
+      "compatible_profiles": [
+        "claude-staged@1.0.0",
+        "minimax-prepared-direct@1.0.0",
+        "codex-constrained@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "created_at": "2026-09-14T05:38:41Z",
+      "dispatch_profile": "codex-constrained@1.1.0",
+      "finished_at": "2026-09-14T05:41:08Z",
+      "log_path": "state/factory-ng-job-output/map-plan-damage-ben-ben-akki-hermit-8fb1420aae-v2.log",
+      "model": "gpt-5.6-luna",
+      "outcome": "blocked_by_capability",
+      "preferred_profile": "claude-staged@1.0.0",
+      "production": {
+        "key": "build-plan:verb_unmapped:damage:sha256:da1a03cce29db35b8b38933c1767ce73de0a7216b771dd09a152ead30364b269",
+        "miss_count": 1,
+        "plan_rank": 15,
+        "predicted_class_unlock": 148,
+        "producer": "build-plan-continuous",
+        "retry_generation": 1,
+        "retry_reason": "semantic_gate_repair"
+      },
+      "profile": "claude-staged@1.0.0",
+      "receipt": "docs/factory-ng/runs/2026-09-14T053852Z-map-plan-damage-ben-ben-akki-hermit-8fb1420aae-v2-codex.json",
+      "result_path": "state/factory-ng-job-output/map-plan-damage-ben-ben-akki-hermit-8fb1420aae-v2.json",
+      "started_at": "2026-09-14T05:38:51Z",
+      "state": "blocked",
+      "ticket_id": "ticket:map.plan-damage-ben-ben-akki-hermit-8fb1420aae/v2",
+      "ticket_path": "docs/factory-ng/tickets/map-plan-damage-ben-ben-akki-hermit-8fb1420aae-v2.json",
+      "updated_at": "2026-09-14T05:41:08Z",
+      "usage_status": {
+        "claude": "5h=1% 7d=58% | weekly-mode=paced fixed=100% | Tag 5/7 \u2192 erlaubt 71% n\u00e4chste Stufe: 2026-09-14 20:00 CEST \u2192 l\u00e4uft (unter Tages-Stufe, Stopp bei >=)",
+        "claude-2": "5h=1% 7d=58% | weekly-mode=paced fixed=95% | Tag 5/7 \u2192 erlaubt 68% n\u00e4chste Stufe: 2026-09-14 20:00 CEST \u2192 l\u00e4uft (unter Tages-Stufe, Stopp bei >=)",
+        "codex": "primary=17% secondary=n/a% | weekly-mode=fixed fixed=90% | Tag 2 -> erlaubt 26% -> laeuft (fixed weekly ceiling 90%)",
+        "codex-2": "primary=17% secondary=n/a% | weekly-mode=fixed fixed=70% | Tag 2 -> erlaubt 20% -> laeuft (fixed weekly ceiling 70%)",
+        "codex-3": "primary=17% secondary=n/a% | weekly-mode=fixed fixed=70% | Tag 2 -> erlaubt 20% -> laeuft (fixed weekly ceiling 70%)"
+      },
+      "work_type": "map",
+      "worker": "codex"
+    },
+    {
+      "attempts": 1,
+      "compatible_profiles": [
+        "claude-staged@1.0.0",
+        "minimax-prepared-direct@1.0.0",
+        "codex-constrained@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "created_at": "2026-09-14T05:40:59Z",
+      "dispatch_profile": "codex-constrained@1.1.0",
+      "log_path": "state/factory-ng-job-output/map-plan-grant-eot-blind-with-anger-d87e0b1862-v2.log",
+      "model": "gpt-5.6-luna",
+      "pid": 2647487,
+      "preferred_profile": "claude-staged@1.0.0",
+      "production": {
+        "key": "build-plan:verb_unmapped:grant_eot:sha256:79ba14ff2bea4eef1afacad1018493f6fee42508e792f6a2c3f6b42450d614de",
+        "miss_count": 1,
+        "plan_rank": 19,
+        "predicted_class_unlock": 117,
+        "producer": "build-plan-continuous",
+        "retry_generation": 1,
+        "retry_reason": "semantic_gate_repair"
+      },
+      "profile": "claude-staged@1.0.0",
+      "result_path": "state/factory-ng-job-output/map-plan-grant-eot-blind-with-anger-d87e0b1862-v2.json",
+      "started_at": "2026-09-14T05:41:10Z",
+      "state": "working",
+      "ticket_id": "ticket:map.plan-grant-eot-blind-with-anger-d87e0b1862/v2",
+      "ticket_path": "docs/factory-ng/tickets/map-plan-grant-eot-blind-with-anger-d87e0b1862-v2.json",
+      "updated_at": "2026-09-14T05:41:10Z",
+      "usage_status": {
+        "claude": "5h=1% 7d=58% | weekly-mode=paced fixed=100% | Tag 5/7 \u2192 erlaubt 71% n\u00e4chste Stufe: 2026-09-14 20:00 CEST \u2192 l\u00e4uft (unter Tages-Stufe, Stopp bei >=)",
+        "claude-2": "5h=1% 7d=58% | weekly-mode=paced fixed=95% | Tag 5/7 \u2192 erlaubt 68% n\u00e4chste Stufe: 2026-09-14 20:00 CEST \u2192 l\u00e4uft (unter Tages-Stufe, Stopp bei >=)",
+        "codex": "primary=18% secondary=n/a% | weekly-mode=fixed fixed=90% | Tag 2 -> erlaubt 26% -> laeuft (fixed weekly ceiling 90%)",
+        "codex-2": "primary=18% secondary=n/a% | weekly-mode=fixed fixed=70% | Tag 2 -> erlaubt 20% -> laeuft (fixed weekly ceiling 70%)",
+        "codex-3": "primary=18% secondary=n/a% | weekly-mode=fixed fixed=70% | Tag 2 -> erlaubt 20% -> laeuft (fixed weekly ceiling 70%)"
+      },
+      "work_type": "map",
+      "worker": "codex"
+    },
+    {
+      "attempts": 1,
+      "compatible_profiles": [
+        "claude-staged@1.0.0",
+        "minimax-prepared-direct@1.0.0",
+        "codex-constrained@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "created_at": "2026-09-14T05:35:50Z",
+      "dependency_blocker": {
+        "children": {
+          "ticket:engine.auto-pump-self-eot-axis-count-d4aa4d38b6/v1": "working"
+        },
+        "reason": "Engine dependency is queued, running, or awaiting integration"
+      },
+      "dispatch_profile": "claude-staged@1.0.0",
+      "finished_at": "2026-09-14T05:37:50Z",
+      "log_path": "state/factory-ng-job-output/map-plan-pump-akroan-hoplite-3709fa771d-v2.log",
+      "model": "claude-sonnet-5",
+      "outcome": "blocked_by_capability",
+      "preferred_profile": "claude-staged@1.0.0",
+      "processed_receipt": "docs/factory-ng/runs/2026-09-14T053601Z-map-plan-pump-akroan-hoplite-3709fa771d-v2-claude.json",
+      "production": {
+        "key": "build-plan:verb_unmapped:pump:sha256:08b4d126042635ed722dd65a7d6c7f28f24c6df88c598b6266e04bbc934c7f59",
+        "miss_count": 1,
+        "plan_rank": 11,
+        "predicted_class_unlock": 170,
+        "producer": "build-plan-continuous",
+        "retry_generation": 1,
+        "retry_reason": "semantic_gate_repair"
+      },
+      "profile": "claude-staged@1.0.0",
+      "receipt": "docs/factory-ng/runs/2026-09-14T053601Z-map-plan-pump-akroan-hoplite-3709fa771d-v2-claude.json",
+      "result_path": "state/factory-ng-job-output/map-plan-pump-akroan-hoplite-3709fa771d-v2.json",
+      "started_at": "2026-09-14T05:36:00Z",
+      "state": "blocked",
+      "ticket_id": "ticket:map.plan-pump-akroan-hoplite-3709fa771d/v2",
+      "ticket_path": "docs/factory-ng/tickets/map-plan-pump-akroan-hoplite-3709fa771d-v2.json",
+      "updated_at": "2026-09-14T05:37:50Z",
+      "usage_status": {
+        "claude": "5h=0% 7d=58% | weekly-mode=paced fixed=100% | Tag 5/7 \u2192 erlaubt 71% n\u00e4chste Stufe: 2026-09-14 20:00 CEST \u2192 l\u00e4uft (unter Tages-Stufe, Stopp bei >=)",
+        "claude-2": "5h=0% 7d=58% | weekly-mode=paced fixed=95% | Tag 5/7 \u2192 erlaubt 68% n\u00e4chste Stufe: 2026-09-14 20:00 CEST \u2192 l\u00e4uft (unter Tages-Stufe, Stopp bei >=)",
+        "codex": "primary=17% secondary=n/a% | weekly-mode=fixed fixed=90% | Tag 2 -> erlaubt 26% -> laeuft (fixed weekly ceiling 90%)",
+        "codex-2": "primary=17% secondary=n/a% | weekly-mode=fixed fixed=70% | Tag 2 -> erlaubt 20% -> laeuft (fixed weekly ceiling 70%)",
+        "codex-3": "primary=17% secondary=n/a% | weekly-mode=fixed fixed=70% | Tag 2 -> erlaubt 20% -> laeuft (fixed weekly ceiling 70%)"
+      },
+      "waiting_reason": "Engine dependency is queued, running, or awaiting integration",
+      "work_type": "map",
+      "worker": "claude"
+    },
+    {
+      "attempts": 1,
+      "compatible_profiles": [
+        "claude-staged@1.0.0",
+        "minimax-prepared-direct@1.0.0",
+        "codex-constrained@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "created_at": "2026-09-14T05:37:21Z",
+      "dependency_blocker": {
+        "children": {
+          "ticket:engine.auto-pump-until-eot-optional-other-target-700a1e2a8f/v1": "working"
+        },
+        "reason": "Engine dependency is queued, running, or awaiting integration"
+      },
+      "dispatch_profile": "claude-staged@1.0.0",
+      "finished_at": "2026-09-14T05:40:05Z",
+      "log_path": "state/factory-ng-job-output/map-plan-pump-arm-the-cathars-19d0a1dbb4-v2.log",
+      "model": "claude-sonnet-5",
+      "outcome": "blocked_by_capability",
+      "preferred_profile": "claude-staged@1.0.0",
+      "processed_receipt": "docs/factory-ng/runs/2026-09-14T053732Z-map-plan-pump-arm-the-cathars-19d0a1dbb4-v2-claude.json",
+      "production": {
+        "key": "build-plan:verb_unmapped:pump:sha256:b964b0e21ca1153fac2634080deb3be874eb7fa6274992788be3407f44ac06db",
+        "miss_count": 1,
+        "plan_rank": 11,
+        "predicted_class_unlock": 170,
+        "producer": "build-plan-continuous",
+        "retry_generation": 1,
+        "retry_reason": "semantic_gate_repair"
+      },
+      "profile": "claude-staged@1.0.0",
+      "receipt": "docs/factory-ng/runs/2026-09-14T053732Z-map-plan-pump-arm-the-cathars-19d0a1dbb4-v2-claude.json",
+      "result_path": "state/factory-ng-job-output/map-plan-pump-arm-the-cathars-19d0a1dbb4-v2.json",
+      "started_at": "2026-09-14T05:37:32Z",
+      "state": "blocked",
+      "ticket_id": "ticket:map.plan-pump-arm-the-cathars-19d0a1dbb4/v2",
+      "ticket_path": "docs/factory-ng/tickets/map-plan-pump-arm-the-cathars-19d0a1dbb4-v2.json",
+      "updated_at": "2026-09-14T05:40:05Z",
+      "usage_status": {
+        "claude": "5h=0% 7d=58% | weekly-mode=paced fixed=100% | Tag 5/7 \u2192 erlaubt 71% n\u00e4chste Stufe: 2026-09-14 20:00 CEST \u2192 l\u00e4uft (unter Tages-Stufe, Stopp bei >=)",
+        "claude-2": "5h=0% 7d=58% | weekly-mode=paced fixed=95% | Tag 5/7 \u2192 erlaubt 68% n\u00e4chste Stufe: 2026-09-14 20:00 CEST \u2192 l\u00e4uft (unter Tages-Stufe, Stopp bei >=)",
+        "codex": "primary=17% secondary=n/a% | weekly-mode=fixed fixed=90% | Tag 2 -> erlaubt 26% -> laeuft (fixed weekly ceiling 90%)",
+        "codex-2": "primary=17% secondary=n/a% | weekly-mode=fixed fixed=70% | Tag 2 -> erlaubt 20% -> laeuft (fixed weekly ceiling 70%)",
+        "codex-3": "primary=17% secondary=n/a% | weekly-mode=fixed fixed=70% | Tag 2 -> erlaubt 20% -> laeuft (fixed weekly ceiling 70%)"
+      },
+      "waiting_reason": "Engine dependency is queued, running, or awaiting integration",
+      "work_type": "map",
+      "worker": "claude"
+    },
+    {
+      "attempts": 1,
+      "compatible_profiles": [
+        "claude-staged@1.0.0",
+        "minimax-prepared-direct@1.0.0",
+        "codex-constrained@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "created_at": "2026-09-14T05:39:37Z",
+      "dispatch_profile": "claude-staged@1.0.0",
+      "log_path": "state/factory-ng-job-output/map-plan-pump-bile-blight-ab52be7207-v2.log",
+      "model": "claude-sonnet-5",
+      "pid": 2645071,
+      "preferred_profile": "claude-staged@1.0.0",
+      "production": {
+        "key": "build-plan:verb_unmapped:pump:sha256:5b18c56881b6b6bdce25e0e00fe92923612bdf12830ddf7b3a685982952c645b",
+        "miss_count": 1,
+        "plan_rank": 11,
+        "predicted_class_unlock": 170,
+        "producer": "build-plan-continuous",
+        "retry_generation": 1,
+        "retry_reason": "semantic_gate_repair"
+      },
+      "profile": "claude-staged@1.0.0",
+      "result_path": "state/factory-ng-job-output/map-plan-pump-bile-blight-ab52be7207-v2.json",
+      "started_at": "2026-09-14T05:39:48Z",
+      "state": "working",
+      "ticket_id": "ticket:map.plan-pump-bile-blight-ab52be7207/v2",
+      "ticket_path": "docs/factory-ng/tickets/map-plan-pump-bile-blight-ab52be7207-v2.json",
+      "updated_at": "2026-09-14T05:39:48Z",
+      "usage_status": {
+        "claude": "5h=1% 7d=58% | weekly-mode=paced fixed=100% | Tag 5/7 \u2192 erlaubt 71% n\u00e4chste Stufe: 2026-09-14 20:00 CEST \u2192 l\u00e4uft (unter Tages-Stufe, Stopp bei >=)",
+        "claude-2": "5h=1% 7d=58% | weekly-mode=paced fixed=95% | Tag 5/7 \u2192 erlaubt 68% n\u00e4chste Stufe: 2026-09-14 20:00 CEST \u2192 l\u00e4uft (unter Tages-Stufe, Stopp bei >=)",
+        "codex": "primary=17% secondary=n/a% | weekly-mode=fixed fixed=90% | Tag 2 -> erlaubt 26% -> laeuft (fixed weekly ceiling 90%)",
+        "codex-2": "primary=17% secondary=n/a% | weekly-mode=fixed fixed=70% | Tag 2 -> erlaubt 20% -> laeuft (fixed weekly ceiling 70%)",
+        "codex-3": "primary=17% secondary=n/a% | weekly-mode=fixed fixed=70% | Tag 2 -> erlaubt 20% -> laeuft (fixed weekly ceiling 70%)"
+      },
+      "work_type": "map",
+      "worker": "claude"
+    }
+  ],
+  "watchdog": {
+    "active": true,
+    "activity_signature": {
+      "job_states": {
+        "blocked": 801,
+        "completed": 1139,
+        "failed": 1447,
+        "integration_failed": 5,
+        "parked": 332,
+        "queued": 2,
+        "working": 3
+      },
+      "latest_receipt_epoch": 1789364357,
+      "latest_ticket_epoch": 1789364370
+    },
+    "cards": {
+      "auto": 13238,
+      "available": true,
+      "delta_24h": 66,
+      "sample_age_seconds": 771,
+      "window_seconds": 85705
+    },
+    "checked_at": "2026-09-14T05:40:14Z",
+    "controller": {
+      "pids": [
+        360455
+      ],
+      "runtime_age_seconds": 29,
+      "updated_at": "2026-09-14T05:39:38Z"
+    },
+    "healthy": false,
+    "interval_seconds": 600,
+    "moving": false,
+    "operator_paused": false,
+    "problems": [
+      "5 unresolved integration failure(s)"
+    ],
+    "productive_signature": {
+      "accepted_receipts": 1265,
+      "completed_jobs": 1139,
+      "integrations": 729,
+      "latest_integrated_epoch": 1789312309,
+      "latest_productive_epoch": 1789312309
+    },
+    "queue": {
+      "deferred": 2,
+      "runnable": 0,
+      "states": {
+        "blocked": 801,
+        "completed": 1139,
+        "failed": 1447,
+        "integration_failed": 5,
+        "parked": 332,
+        "queued": 2,
+        "working": 3
+      },
+      "target_ready": 10
+    },
+    "recovery": [],
+    "schema": "factory.ng-watchdog/v1",
+    "signature": {
+      "job_states": {
+        "blocked": 801,
+        "completed": 1139,
+        "failed": 1447,
+        "integration_failed": 5,
+        "parked": 332,
+        "queued": 2,
+        "working": 3
+      },
+      "latest_receipt_epoch": 1789364357,
+      "latest_ticket_epoch": 1789364370
+    }
+  },
+  "canonical_status": ""
+}

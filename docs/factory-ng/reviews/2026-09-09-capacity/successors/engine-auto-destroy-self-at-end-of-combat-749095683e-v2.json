@@ -1,0 +1,149 @@
+{
+  "capability": {
+    "expected_unlock": 1,
+    "negative_examples": [
+      "Destroy a single target creature chosen by the controlling player (must remain on existing DestroyTarget path)",
+      "Destroy all creatures matching a filter (must remain on destroyAllMatching path)",
+      "Destroy a target artifact or enchantment (must remain on the existing reparse.py artifact_or_enchantment path)"
+    ],
+    "required_behavior": "For a triggered ability whose trigger event is 'attacks' or 'blocks' on a creature, schedule a destroy effect that resolves at end of combat and targets the source creature of the trigger. The referent is the source of the trigger (self-referential 'it'/'this creature'), not a target chosen by the controlling player, and the timing is end of combat, not end of turn.",
+    "source_misses": [
+      {
+        "card": "Vebulid",
+        "oracle_text_sha256": "735b6c7fcc9098b79f2010587446d96990d489d621dce015d5765a7e9a6b87ea",
+        "paragraph": "When this creature attacks or blocks, destroy it at end of combat.",
+        "required_behavior": "When this creature attacks or blocks, destroy this creature at end of combat."
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "key": "destroy_self_at_end_of_combat",
+        "specification": {
+          "expected_unlock": 1,
+          "negative_examples": [
+            "Destroy a single target creature chosen by the controlling player (must remain on existing DestroyTarget path)",
+            "Destroy all creatures matching a filter (must remain on destroyAllMatching path)",
+            "Destroy a target artifact or enchantment (must remain on the existing reparse.py artifact_or_enchantment path)"
+          ],
+          "required_behavior": "For a triggered ability whose trigger event is 'attacks' or 'blocks' on a creature, schedule a destroy effect that resolves at end of combat and targets the source creature of the trigger. The referent is the source of the trigger (self-referential 'it'/'this creature'), not a target chosen by the controlling player, and the timing is end of combat, not end of turn.",
+          "source_misses": [
+            {
+              "card": "Vebulid",
+              "oracle_text_sha256": "735b6c7fcc9098b79f2010587446d96990d489d621dce015d5765a7e9a6b87ea",
+              "paragraph": "When this creature attacks or blocks, destroy it at end of combat.",
+              "required_behavior": "When this creature attacks or blocks, destroy this creature at end of combat."
+            }
+          ]
+        },
+        "summary": "Destroy the source creature of an attack/block triggered ability at end of combat."
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-03T042708Z-map-plan-destroy-vebulid-6ad38fd89d-v1-openrouter.json"
+    },
+    {
+      "anchor": "2078-2143",
+      "fact": "Card-knowledge index match (engine): resolveRecipientFromEventCard is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d0ac33d83a17c5e21e00829259f817523252b61afd7aa34b5e989710ebaa7a0b"
+    },
+    {
+      "anchor": "2047-2112",
+      "fact": "Card-knowledge index match (engine): ResolveTriggerReferentPlayerController is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d0ac33d83a17c5e21e00829259f817523252b61afd7aa34b5e989710ebaa7a0b"
+    },
+    {
+      "anchor": "2108-2173",
+      "fact": "Card-knowledge index match (engine): resolvePumpReferentSpellManaValue is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d0ac33d83a17c5e21e00829259f817523252b61afd7aa34b5e989710ebaa7a0b"
+    },
+    {
+      "anchor": "6587-6652",
+      "fact": "Card-knowledge index match (engine): executePumpCounterLifelinkEOTAttacking is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d0ac33d83a17c5e21e00829259f817523252b61afd7aa34b5e989710ebaa7a0b"
+    },
+    {
+      "fact": "Operator-reviewed correction, September 9: Mark scripts/paragraph/reparse.py as read-only context: original behavior cites existing implementation, parser registration visibility, or a preserved adjacent path; it does not require editing this file.",
+      "path": "docs/factory-ng/reviews/2026-09-09-capacity/contract-audit.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "context_only_paths": [
+      "scripts/paragraph/reparse.py"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "An Oracle-validated Map block has been compiled into one bounded Engine dependency.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGDestroySelfAtEndOfCombat$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.auto-destroy-self-at-end-of-combat-749095683e/v2",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Record an immutable bounded verdict; automatic discovery continues with independent work.",
+  "parents": [
+    "ticket:map.plan-destroy-vebulid-6ad38fd89d/v1",
+    "ticket:engine.auto-destroy-self-at-end-of-combat-749095683e/v1"
+  ],
+  "production": {
+    "contract_correction_batch": "2026-09-09-capacity",
+    "key": "capability:destroy_self_at_end_of_combat:sha256:749095683e0d8bffe019ea1d788b7c4f86e340372542194e698b90d09aa6fc7f:reviewed-contract-sep09",
+    "producer": "capability-dependencies"
+  },
+  "required_behavior": [
+    "For a triggered ability whose trigger event is 'attacks' or 'blocks' on a creature, schedule a destroy effect that resolves at end of combat and targets the source creature of the trigger. The referent is the source of the trigger (self-referential 'it'/'this creature'), not a target chosen by the controlling player, and the timing is end of combat, not end of turn.",
+    "Preserve these adjacent behaviors: Destroy a single target creature chosen by the controlling player (must remain on existing DestroyTarget path); Destroy all creatures matching a filter (must remain on destroyAllMatching path); Destroy a target artifact or enchantment (must remain on the existing reparse.py artifact_or_enchantment path)",
+    "Add a discriminating behavior test named TestFactoryNGDestroySelfAtEndOfCombat; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_749095683e_test.go",
+      "backend/cards/factory_ng_749095683e_test.go",
+      "backend/cards/registry_factory_ng_749095683e.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "clean": true,
+    "repository": "/opt/development/test/openmagic",
+    "revision": "c0fac85b88da04f3d54fe2a5acd553a36662a329"
+  },
+  "supersedes": "ticket:engine.auto-destroy-self-at-end-of-combat-749095683e/v1",
+  "title": "Corrected contract: Implement atomic capability: Destroy the source creature of an attack/block triggered ability at end of combat.",
+  "work_type": "engine"
+}

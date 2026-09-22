@@ -1,0 +1,56 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-engine-auto-ability-pump-filtered-no-target-1e97812a5d-v4-k746q59g",
+    "candidate_commit": "986c2ec8e35380da360274338c6f8a249a3e7de2",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "986c2ec8e35380da360274338c6f8a249a3e7de2",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "qwen-prepared-local@1.0.1",
+    "resolved_model": "Qwen3.8-27B-Q8_0",
+    "telemetry": {
+      "cache_read_tokens": 553298,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 307631,
+      "input_tokens": 33285,
+      "output_tokens": 1296,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      }
+    },
+    "worker": "qwen-local"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-07T123345Z-engine-auto-ability-pump-filtered-no-target-1e97812a5d-v4-qwen-agentic.raw.json",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-ability-pump-filtered-no-target-1e97812a5d/v4",
+    "path": "docs/factory-ng/tickets/engine-auto-ability-pump-filtered-no-target-1e97812a5d-v4.json",
+    "sha256": "sha256:45ff56bc2bfa7b932ec28704a1028d0e06af38819d831c2547245a7804bac7c4"
+  }
+}

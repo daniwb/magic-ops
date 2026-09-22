@@ -1,0 +1,145 @@
+From 163b1a62e001f74032e7d04d6c430afe05f8799c Mon Sep 17 00:00:00 2001
+From: Factory NG Operator <factory-ng@local>
+Date: Tue, 8 Sep 2026 16:20:50 +0000
+Subject: [PATCH] fix: expose triggering spell mana value to dynamic P/T
+
+---
+ backend/game/dynamic_amount.go                |  5 ++
+ backend/game/gamestate.go                     |  4 +-
+ backend/game/lib_trigger_event_card.go        | 22 ++++++++
+ .../shape_audited_event_mana_value_test.go    | 56 +++++++++++++++++++
+ 4 files changed, 85 insertions(+), 2 deletions(-)
+ create mode 100644 backend/game/lib_trigger_event_card.go
+ create mode 100644 backend/game/shape_audited_event_mana_value_test.go
+
+diff --git a/backend/game/dynamic_amount.go b/backend/game/dynamic_amount.go
+index 3b3b2fe01..8969bcdfb 100644
+--- a/backend/game/dynamic_amount.go
++++ b/backend/game/dynamic_amount.go
+@@ -1058,6 +1058,11 @@ func (gs *GameState) evalDynamicAmountBase(spec map[string]interface{}, controll
+ 			return eventCard.GetPowerWithEffects(gs.EffectManager), true
+ 		}
+ 		return 0, false
++	case "event_subject_mana_value":
++		if eventCard == nil {
++			return 0, false
++		}
++		return eventCard.ManaCost.CMC(), true
+ 	case "stat_of_ref":
+ 		// "equal to its power/toughness" with an explicit referent — the
+ 		// generalized form of the fixed source_*/event_subject_* pairs
+diff --git a/backend/game/gamestate.go b/backend/game/gamestate.go
+index 6f33b598b..d66419ffc 100644
+--- a/backend/game/gamestate.go
++++ b/backend/game/gamestate.go
+@@ -6213,7 +6213,7 @@ func (gs *GameState) putTriggeredAbilityOnStackOnce(ability *TriggeredAbility, e
+ 		}
+ 		gs.OpenTriggerTargetChoice(ctrl, ability.SourceCard.Name, legal, ability)
+ 		if p := gs.PendingTriggerTarget; p != nil && event != nil {
+-			p.EventCard = event.Source
++			p.EventCard = gs.triggerEventCard(event)
+ 			if event.Player >= 0 {
+ 				p.EventPlayer = event.Player
+ 				p.HasEventPlayer = true
+@@ -6399,7 +6399,7 @@ func (gs *GameState) stampEventCard(event *Event) {
+ 		return
+ 	}
+ 	if event.Source != nil {
+-		top.EventCard = event.Source
++		top.EventCard = gs.triggerEventCard(event)
+ 	}
+ 	if event.Player >= 0 {
+ 		top.EventPlayer = event.Player
+diff --git a/backend/game/lib_trigger_event_card.go b/backend/game/lib_trigger_event_card.go
+new file mode 100644
+index 000000000..0253cf2c3
+--- /dev/null
++++ b/backend/game/lib_trigger_event_card.go
+@@ -0,0 +1,22 @@
++package game
++
++// Preserve the spell's announced mana value in trigger context, even when it
++// is countered before the trigger resolves. Other event subjects remain live.
++func (gs *GameState) triggerEventCard(event *Event) *Card {
++	c := event.Source
++	if c == nil || c.ManaCost.XCount == 0 {
++		return c
++	}
++	switch event.Type {
++	case EventSpellCast, EventSpellCastFromExile, EventSpellCastFromGraveyard, EventSpellCastFromLibrary:
++		for _, obj := range gs.Stack.Objects {
++			if !obj.IsAbility && obj.Card != nil && obj.Card.ID == c.ID {
++				copy := *c
++				copy.ManaCost.Generic += c.ManaCost.XCount * getIntValue(obj.EffectValue, "x_value", 0)
++				copy.ManaCost.XCount = 0
++				return &copy
++			}
++		}
++	}
++	return c
++}
+diff --git a/backend/game/shape_audited_event_mana_value_test.go b/backend/game/shape_audited_event_mana_value_test.go
+new file mode 100644
+index 000000000..b2b76003d
+--- /dev/null
++++ b/backend/game/shape_audited_event_mana_value_test.go
+@@ -0,0 +1,56 @@
++package game
++
++import "testing"
++
++func TestShape_AuditedEventManaValuePump(t *testing.T) {
++	for _, mana := range []int{0, 4} {
++		gs := NewGame("P0", "P1", false)
++		source := NewCreature("source", ManaCost{}, 2, 2, 0)
++		gs.Battlefield.AddCard(source)
++		spell := NewInstant("spell", ManaCost{Generic: mana}, nil, 0)
++		atoms := []EffectAtomSpec{{Effect: "grant_keywords_until_eot", EffectValue: map[string]interface{}{"keyword": "trample"}}, {Effect: "pump_until_eot", EffectValue: map[string]interface{}{"target_self": true, "pt_amount_count": map[string]interface{}{"count": "event_subject_mana_value"}}}}
++		for i := 0; i < 2; i++ {
++			if err := gs.executeEffectSequenceEv(0, source, atoms, nil, 0, nil, spell, 0); err != nil {
++				t.Fatal(err)
++			}
++		}
++		if source.GetPowerWithEffects(gs.EffectManager) != 2+2*mana || source.GetToughnessWithEffects(gs.EffectManager) != 2+2*mana || !source.HasKeywordWithEffects(Trample, gs.EffectManager) {
++			t.Fatal("sequence did not grant symmetric P/T and trample")
++		}
++		gs.CleanupEndOfTurnEffects()
++		if source.GetPowerWithEffects(gs.EffectManager) != 2 || source.GetToughnessWithEffects(gs.EffectManager) != 2 || source.HasKeywordWithEffects(Trample, gs.EffectManager) {
++			t.Fatal("effects did not expire")
++		}
++		obj := &StackObject{IsAbility: true, Card: source, Controller: 0, Text: "pump_until_eot", EventCard: spell, EffectValue: map[string]interface{}{"power_from": "referent_spell_mana_value"}}
++		if err := gs.ExecuteAbilityEffect(obj); err != nil {
++			t.Fatal(err)
++		}
++		if source.GetPowerWithEffects(gs.EffectManager) != 2+mana || source.GetToughnessWithEffects(gs.EffectManager) != 2 {
++			t.Fatal("legacy +X/+0 changed")
++		}
++	}
++}
++
++func TestShape_AuditedEventManaValueSurvivesCounteredXSpell(t *testing.T) {
++	gs := NewGame("P0", "P1", false)
++	source := NewCreature("source", ManaCost{}, 2, 2, 0)
++	gs.Battlefield.AddCard(source)
++	spell := NewInstant("X spell", ManaCost{Generic: 1, XCount: 2}, nil, 0)
++	gs.Stack.PushSpellWithTargets(spell, 0, nil)
++	cast := gs.Stack.Peek()
++	cast.EffectValue = map[string]interface{}{"x_value": 3}
++	ability := &TriggeredAbility{SourceCard: source, EffectSequence: []EffectAtomSpec{{Effect: "pump_until_eot", EffectValue: map[string]interface{}{"target_self": true, "pt_amount_count": map[string]interface{}{"count": "event_subject_mana_value"}}}}}
++	gs.PutTriggeredAbilityOnStackWithEvent(ability, CreateSpellCastEvent(spell, 0))
++	if _, err := gs.Stack.RemoveByStackID(cast.ID); err != nil {
++		t.Fatal(err)
++	}
++	if err := gs.ResolveTopOfStack(); err != nil {
++		t.Fatal(err)
++	}
++	if source.GetPowerWithEffects(gs.EffectManager) != 9 || source.GetToughnessWithEffects(gs.EffectManager) != 9 {
++		t.Fatal("announced mana value was lost")
++	}
++	if spell.ManaCost.Generic != 1 || spell.ManaCost.XCount != 2 {
++		t.Fatal("printed cost mutated")
++	}
++}
+-- 
+2.43.0
+

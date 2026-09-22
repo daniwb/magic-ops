@@ -1,0 +1,45 @@
+{
+  "schema": "factory.knowledge-search/v1",
+  "status": "found",
+  "query": "emitPlayerDamaged",
+  "normalized_words": [
+    "emit",
+    "player",
+    "damaged"
+  ],
+  "fts_queries": [],
+  "strategy": "exact_symbol",
+  "indexed_revision": "8bc157460b32e83008a0d6b176c03285f5d87826",
+  "indexed_at": "2026-09-08T16:45:33Z",
+  "candidates": [
+    {
+      "name": "emitPlayerDamaged",
+      "receiver": "GameState",
+      "package": "game",
+      "kind": "engine",
+      "path": "backend/game/lib_player_damage_event.go",
+      "start": 5,
+      "end": 16,
+      "signature": "func (gs *GameState) emitPlayerDamaged(source *Card, player, amount int, combat bool)",
+      "doc": "Player-damage observers use actual post-prevention damage, including infect,\nindependently of life loss. Combat-only observers retain their old event.\n",
+      "qualified": "game.GameState.emitPlayerDamaged",
+      "symbol_id": "backend/game/lib_player_damage_event.go::game.GameState.emitPlayerDamaged",
+      "title": "emitPlayerDamaged",
+      "symbol_kind": "function",
+      "description": "Player-damage observers use actual post-prevention damage, including infect,"
+    }
+  ],
+  "request_id": "f8a51509c1e7478aae0cd1c97c35ba13",
+  "current_source_revision": "8bc157460b32e83008a0d6b176c03285f5d87826",
+  "index_stale": false,
+  "request": {
+    "q": "emitPlayerDamaged",
+    "kind": "engine",
+    "n": 3,
+    "fallback": "0",
+    "caller": "operator:post-integration-source-check",
+    "ticket": "",
+    "attempt": "",
+    "request_id": "f8a51509c1e7478aae0cd1c97c35ba13"
+  }
+}

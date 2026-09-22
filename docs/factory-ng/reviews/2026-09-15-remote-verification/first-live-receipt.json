@@ -1,0 +1,106 @@
+{
+  "execution": {
+    "candidate_commit": "51364f96b2a4430f56e49961e506fb8c3c83e6ac",
+    "candidate_patch": "docs/factory-ng/candidates/focused-1052e7d0ad654226bf6a11ed11684187-0.patch",
+    "candidate_patch_sha256": "sha256:447b8d85b05fd666073ad367fd0f43ebe1d8657bfc131d30ab416ab6e8d19393",
+    "mode": "isolated_composed_verification",
+    "source_revision": "9febad303048eeb495b9dd20c68e15d16a39e308",
+    "source_tree_changed": false,
+    "verification_batch": "1052e7d0ad654226bf6a11ed11684187",
+    "verification_host": "dani@192.168.1.251",
+    "verification_image": "sha256:e8565fa265f973c06f0515fac7aa9d102edae01b5677d69216900b84029c6ad0",
+    "verified_ticket_ids": [
+      "ticket:engine.auto-destroy-target-aura-attached-to-creature-you-con-1ef581020f/v1"
+    ],
+    "verified_tree": "48721b8f602cb86ea303dfe207697d490c48c0dc"
+  },
+  "gates": [
+    {
+      "detail": "changed=backend/cards/factory_ng_1ef581020f_test.go,backend/cards/registry_factory_ng_1ef581020f.go,backend/game/ability_effects.go,backend/game/targeting.go",
+      "id": "scope",
+      "outcome": "passed"
+    },
+    {
+      "id": "diff-check",
+      "outcome": "passed"
+    },
+    {
+      "detail": "All newly added public effects are registered.",
+      "elapsed_ms": 155,
+      "id": "engine-vocabulary-handoff",
+      "outcome": "passed"
+    },
+    {
+      "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+      "detail": "bash: line 1: gofmt: command not found",
+      "elapsed_ms": 12,
+      "id": "ticket-gate-0",
+      "outcome": "passed"
+    },
+    {
+      "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGDestroyTargetAuraAttachedToCreatureYouControl_1ef581020f$' -count=1",
+      "detail": "testing: warning: no tests to run\nPASS\nok  \tmagic-backend/game\t0.003s [no tests to run]\n=== RUN   TestFactoryNGDestroyTargetAuraAttachedToCreatureYouControl_1ef581020f\n--- PASS: TestFactoryNGDestroyTargetAuraAttachedToCreatureYouControl_1ef581020f (0.00s)\nPASS\nok  \tmagic-backend/cards\t0.005s\nNamed test gate: 1 test(s) passed for '^TestFactoryNGDestroyTargetAuraAttachedToCreatureYouControl_1ef581020f$'",
+      "elapsed_ms": 27779,
+      "id": "ticket-gate-1",
+      "outcome": "passed"
+    },
+    {
+      "command": "cd backend && go test ./game ./cards",
+      "detail": "ok  \tmagic-backend/game\t0.030s\nok  \tmagic-backend/cards\t7.146s",
+      "elapsed_ms": 8816,
+      "id": "ticket-gate-2",
+      "outcome": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "detail": "Checked against the individual patch before composition.",
+      "id": "ticket-gate-3",
+      "outcome": "passed"
+    }
+  ],
+  "integration": "eligible_full_gate",
+  "model": {
+    "profile": "codex-constrained@1.1.0",
+    "resolved_model": "gpt-5.6-luna",
+    "telemetry": {
+      "cache_read_tokens": 452352,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 132616,
+      "input_tokens": 528314,
+      "output_tokens": 8045,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      }
+    },
+    "worker": "codex-3"
+  },
+  "next_action": "Revalidate every included contract on the final integration composition.",
+  "outcome": "accepted_for_dependent_observation",
+  "raw_artifacts": [
+    {
+      "kind": "saved_proposal",
+      "path": "docs/factory-ng/candidates/proposal-7c86a7ef1c7746da93ca8339a099fc16.json",
+      "sha256": "sha256:8078221a0b2b71c1bc0198ce9122f0d32ba796a10599374889063e9e1e5121f8"
+    },
+    {
+      "path": "docs/factory-ng/runs/2026-09-15T150203Z-engine-auto-destroy-target-aura-attached-to-creature-you-con-1ef581020f-v1-codex.raw.json",
+      "sha256": "sha256:f5dc646027010e8be9e8f5a2b01798e69b4da84d2c411826ab464f3ed3920e09"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-destroy-target-aura-attached-to-creature-you-con-1ef581020f/v1",
+    "path": "docs/factory-ng/tickets/engine-auto-destroy-target-aura-attached-to-creature-you-con-1ef581020f-v1.json",
+    "sha256": "sha256:3d961b54b154840d6d6aa8d6cb23a1870c9f447da60e9352b42eda6064a3d5fe"
+  }
+}

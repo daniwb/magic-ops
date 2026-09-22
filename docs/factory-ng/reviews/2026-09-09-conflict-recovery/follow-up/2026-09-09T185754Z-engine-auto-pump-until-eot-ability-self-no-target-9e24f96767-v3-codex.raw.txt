@@ -1,0 +1,112 @@
+CAPABILITY_ASSESSMENT: {"classification":"reuse","existing_symbols":["game.GameState.resolvePumpAttachedCreatureNoTarget","game.GameState.ExecuteAbilityEffect","game.GameState.executePumpEffect"],"remaining_gap":"none; explicit target_ref=self already resolves source while preserving group_filter/all and targeted paths","verification":"public ExecuteAbilityEffect behavior test"}
+
+<<<NEWFILE backend/game/factory_ng_9e24f96767_test.go
+package game
+
+import "testing"
+
+func TestFactoryNGPumpUntilEotAbilitySelfNoTarget(t *testing.T) {
+	t.Run("explicit self referent pumps source", func(t *testing.T) {
+		gs := NewGame("P0", "P1", false)
+		source := NewCreature("Test Terra Ravager", ManaCost{}, 0, 4, 1)
+		source.Owner, source.Controller = 0, 0
+		gs.Battlefield.AddCard(source)
+
+		obj := &StackObject{
+			IsAbility:  true,
+			Text:       "pump_until_eot",
+			Controller: 0,
+			Card:       source,
+			EffectValue: map[string]interface{}{
+				"power":      3,
+				"toughness": 0,
+				"target_ref": "self",
+			},
+		}
+		if err := gs.ExecuteAbilityEffect(obj); err != nil {
+			t.Fatalf("ExecuteAbilityEffect: %v", err)
+		}
+		if got := source.GetPowerWithEffects(gs.EffectManager); got != 3 {
+			t.Fatalf("source power = %d, want 3", got)
+		}
+	})
+
+	t.Run("missing legal target does not become self", func(t *testing.T) {
+		gs := NewGame("P0", "P1", false)
+		source := NewCreature("Test Source", ManaCost{}, 2, 2, 0)
+		source.Owner, source.Controller = 0, 0
+		gs.Battlefield.AddCard(source)
+
+		obj := &StackObject{
+			IsAbility:  true,
+			Text:       "pump_until_eot",
+			Controller: 0,
+			Card:       source,
+			Targets: []Target{{
+				Type: TargetCreature, CardID: "missing-creature", IsCard: true,
+			}},
+			EffectValue: map[string]interface{}{"power": 3, "toughness": 3},
+		}
+		if err := gs.ExecuteAbilityEffect(obj); err != nil {
+			t.Fatalf("ExecuteAbilityEffect: %v", err)
+		}
+		if got := source.GetPowerWithEffects(gs.EffectManager); got != 2 {
+			t.Fatalf("source power = %d, want unchanged 2", got)
+		}
+	})
+
+	t.Run("group filter remains non-self", func(t *testing.T) {
+		gs := NewGame("P0", "P1", false)
+		source := NewCreature("Test Source", ManaCost{}, 2, 2, 0)
+		source.Owner, source.Controller = 0, 0
+		gs.Battlefield.AddCard(source)
+
+		obj := &StackObject{
+			IsAbility:  true,
+			Text:       "pump_until_eot",
+			Controller: 0,
+			Card:       source,
+			EffectValue: map[string]interface{}{
+				"power": 2, "toughness": 2, "group_filter": "blocking_source",
+			},
+		}
+		if err := gs.ExecuteAbilityEffect(obj); err != nil {
+			t.Fatalf("ExecuteAbilityEffect: %v", err)
+		}
+		if got := source.GetPowerWithEffects(gs.EffectManager); got != 2 {
+			t.Fatalf("source power = %d, want unchanged 2", got)
+		}
+	})
+
+	t.Run("all filter remains mass dispatch", func(t *testing.T) {
+		gs := NewGame("P0", "P1", false)
+		source := NewCreature("Test Source", ManaCost{}, 2, 2, 0)
+		source.Owner, source.Controller = 0, 0
+		other := NewCreature("Test Other", ManaCost{}, 1, 1, 0)
+		other.Owner, other.Controller = 0, 0
+		gs.Battlefield.AddCard(source)
+		gs.Battlefield.AddCard(other)
+
+		obj := &StackObject{
+			IsAbility:  true,
+			Text:       "pump_until_eot",
+			Controller: 0,
+			Card:       source,
+			EffectValue: map[string]interface{}{
+				"power": 1, "toughness": 1, "all": true, "controller": "you",
+			},
+		}
+		if err := gs.ExecuteAbilityEffect(obj); err != nil {
+			t.Fatalf("ExecuteAbilityEffect: %v", err)
+		}
+		if got := source.GetPowerWithEffects(gs.EffectManager); got != 3 {
+			t.Fatalf("source power = %d, want 3", got)
+		}
+		if got := other.GetPowerWithEffects(gs.EffectManager); got != 2 {
+			t.Fatalf("other power = %d, want 2", got)
+		}
+	})
+}
+>>>END
+
+EXPECT: Explicit self-referent pump_until_eot effects buff their source while missing targets, group filters, all=true, and explicit targets retain their existing semantics.

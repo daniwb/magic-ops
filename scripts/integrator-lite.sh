@@ -11,9 +11,20 @@
 # Cron: */15 * * * *  (flock-guarded). Stopp: touch /opt/development/magic-ops/INTEGRATOR_LITE_OFF
 set -uo pipefail
 
+# Factory NG is the sole landing authority while automatic integration is on.
+# A retained legacy cron must never race NG or deploy outside NG policy.
+if jq -e '.integration.automatic == true' /opt/development/magic-ops/config/factory-ng-policy.json >/dev/null; then
+  exit 0
+fi
+exec 8>/tmp/orch/openmagic-integration.lock
+flock -n 8 || exit 0
+exec 7>/tmp/orch/factory-deploy.lock
+flock -n 7 || exit 0
+
 REPO=/opt/development/test/openmagic
 LIVE=/opt/development/magic-new
-GO=/usr/local/go/bin/go
+GO=/opt/development/magic-ops/scripts/go-cache-run.sh
+GO_CACHE_RUN=/opt/development/magic-ops/scripts/go-cache-run.sh
 # cron PATH lacks go — test-cards-sharded.sh calls bare `go` (cardfns gate step
 # 2026-08-04); without this every suite run dies "go: command not found".
 export PATH="/usr/local/go/bin:$PATH"
@@ -45,7 +56,7 @@ run_gates() { # one wave + full gates over the CURRENT tree; returns 0 on green
   python3 scripts/paragraph/reparse.py --import-corpus --tag "$tag" >> "$LOG" 2>&1
   (cd backend && "$GO" build ./...) >> "$LOG" 2>&1 || return 1
   (cd backend && "$GO" test ./cards/ -run 'TestVocabulary|TestV2|TestShape_|TestCardDBSubtypeScopes' -count=1) >> "$LOG" 2>&1 || return 1
-  bash scripts/test-cards-sharded.sh 6 >> "$LOG" 2>&1 || return 1
+  "$GO_CACHE_RUN" exec bash scripts/test-cards-sharded.sh 6 >> "$LOG" 2>&1 || return 1
   return 0
 }
 

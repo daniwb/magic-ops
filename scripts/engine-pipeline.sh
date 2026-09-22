@@ -44,7 +44,8 @@ BRANCH="reparse/engine-task-$TICKET"
 [ "$CAPABILITY_ID" != 0 ] && BRANCH="reparse/capability-$CAPABILITY_ID"
 CLONE="${CLONE:-/tmp/work/engine-pipe-clone}"
 MODEL="${PIPE_MODEL:-claude-sonnet-5}"
-GO=/usr/local/go/bin/go
+GO=/opt/development/magic-ops/scripts/go-cache-run.sh
+GO_CACHE_RUN=/opt/development/magic-ops/scripts/go-cache-run.sh
 export GOCACHE=/opt/development/.gocache-magic
 LOG="/tmp/orch/engine-pipeline-$TICKET.log"
 : > "$LOG"
@@ -189,7 +190,7 @@ import json, sys
 p = sys.stdin.read()
 body = {
     'model': '$MODEL',
-    'max_tokens': ${PIPE_MAX_TOKENS_CAP:-8000},
+    'max_tokens': ${PIPE_MAX_TOKENS_CAP:-16000},
     'stream': False,
     'reasoning': {'max_tokens': ${PIPE_REASONING_TOKENS:-3000}, 'exclude': True},
     'messages': [
@@ -226,7 +227,7 @@ print(json.dumps(body))")
   if [ "${PIPE_ENGINE:-}" = openrouter-agentic ]; then
     python3 "$OPS/scripts/openrouter-agentic-call.py" --repo "$PWD" --allow-game \
       --base-url "${PIPE_BASE_URL:-https://openrouter.ai/api/v1}" --model "$MODEL" \
-      --max-turns "${PIPE_AGENTIC_MAX_TURNS:-25}" --max-tokens "${PIPE_MAX_TOKENS_CAP:-8000}" \
+      --max-turns "${PIPE_AGENTIC_MAX_TURNS:-25}" --max-tokens "${PIPE_MAX_TOKENS_CAP:-16000}" \
       --reasoning-tokens "${PIPE_REASONING_TOKENS:-3000}" \
       2>>"$LOG"
     return
@@ -245,7 +246,7 @@ print(json.dumps(body))")
   if [ "${PIPE_ENGINE:-}" = qwen-agentic ]; then
     python3 "$OPS/scripts/qwen-agentic-call.py" --repo "$PWD" --allow-game \
       --base-url "${PIPE_BASE_URL:-http://192.168.1.251:8080}" --model "$MODEL" \
-      --max-turns "${PIPE_AGENTIC_MAX_TURNS:-25}" --max-tokens "${PIPE_MAX_TOKENS_CAP:-8000}" \
+      --max-turns "${PIPE_AGENTIC_MAX_TURNS:-25}" --max-tokens "${PIPE_MAX_TOKENS_CAP:-16000}" \
       2>>"$LOG"
     return
   fi
@@ -332,7 +333,7 @@ run_bugfix_gate() { # green -> commit+push+0
      && has_nontest_code \
      && BUILD_OUT=$(cd backend && "$GO" build ./... 2>&1) \
      && TEST_OUT=$(cd backend && timeout 600 "$GO" test ./cards/ ./game/ -run 'TestVocabulary|TestV2|TestShape_|TestCardDBSubtypeScopes|TestCombat' -count=1 2>&1) \
-     && SUITE_OUT=$(bash scripts/test-cards-sharded.sh 6 2>&1); then
+     && SUITE_OUT=$("$GO_CACHE_RUN" exec bash scripts/test-cards-sharded.sh 6 2>&1); then
     log "GATE GREEN after bugfix"
     git commit -qm "reparse(capability-$CAPABILITY_ID task-$TICKET): engine-pipeline primitive build (bugfix round)"
     [ $PUSH -eq 1 ] && git push -qf origin "HEAD:refs/heads/$BRANCH" && log "pushed $BRANCH"
@@ -348,10 +349,12 @@ attempt=1
 PROMPT_FILE="$PACK"
 while [ $attempt -le 2 ]; do
   log "model call $attempt (model $MODEL)"
-  OUT=$(model_call < "$PROMPT_FILE")
+  OUT=$(model_call < "$PROMPT_FILE"); call_rc=$?
+  [ "$call_rc" -eq 76 ] && { log "OpenRouter 429 cooldown recorded"; exit 76; }
   if [ -z "$OUT" ]; then
     log "empty model reply — one retry"
-    OUT=$(model_call < "$PROMPT_FILE")
+    OUT=$(model_call < "$PROMPT_FILE"); call_rc=$?
+    [ "$call_rc" -eq 76 ] && { log "OpenRouter cooldown still active"; exit 76; }
     [ -z "$OUT" ] && { log "empty twice — abort"; exit 1; }
   fi
   printf '%s\n' "$OUT" > "/tmp/orch/engine-pipeline-$TICKET-reply-$attempt.md"
@@ -397,7 +400,7 @@ while [ $attempt -le 2 ]; do
       log "gate: ticket scope rejected candidate"
     elif BUILD_OUT=$(cd backend && "$GO" build ./... 2>&1) \
        && TEST_OUT=$(cd backend && timeout 600 "$GO" test ./cards/ ./game/ -run 'TestVocabulary|TestV2|TestShape_|TestCardDBSubtypeScopes|TestCombat' -count=1 2>&1) \
-       && SUITE_OUT=$(bash scripts/test-cards-sharded.sh 6 2>&1); then
+       && SUITE_OUT=$("$GO_CACHE_RUN" exec bash scripts/test-cards-sharded.sh 6 2>&1); then
       log "GATE GREEN (build + tests + full suite)"
       git add -A
       git commit -qm "reparse(capability-$CAPABILITY_ID task-$TICKET): engine-pipeline primitive build (staged non-agentic run)"
@@ -432,7 +435,8 @@ $(printf '%s\n%s\n%s' "${BUILD_OUT:-}" "${TEST_OUT:-}" "${SUITE_OUT:-}" | comman
           echo "End with EXPECT: <one line>."
         } > "$BFP"
         log "bugfix call $bfx"
-        BOUT=$(model_call < "$BFP")
+        BOUT=$(model_call < "$BFP"); call_rc=$?
+        [ "$call_rc" -eq 76 ] && { log "OpenRouter 429 cooldown recorded during repair"; exit 76; }
         [ -z "$BOUT" ] && break
         BAPPLY=$(printf '%s' "$BOUT" | python3 "$OPS/scripts/map-pipeline-apply.py" --overwrite --allow-game); brc=$?
         if [ $brc -ne 0 ]; then GATE_TAIL="Correction blocks failed to apply: $BAPPLY"; bfx=$((bfx+1)); continue; fi

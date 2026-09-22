@@ -1,0 +1,18 @@
+{
+  "at": "2026-09-17T04:59:00.101182+00:00",
+  "checks": {
+    "five_focused_go_tests": "passed",
+    "dashboard_javascript_syntax": "passed",
+    "live_worker_card_render": "passed: three quota-paused at81% with70% ceiling",
+    "worker_configuration_unchanged": true,
+    "scoped_dashboard_reload": "passed",
+    "canonical_source": "clean, integration lock free at04:58 health check"
+  },
+  "implementation_hashes": {
+    "services/dispatcher/v4/factory_ng.go": "032ad9b33fbe61ead9b7540a4061cf4b121db53ecde0277d75c6d4d6bbf05561",
+    "services/dispatcher/v4/dashboard.html": "8fd2c404cf4525d50778102abf636933143a715783afc4640b3d478ceeef8d58",
+    "services/dispatcher/v4/factory_worker_limits_test.go": "fc083d8476aaeb6fc7473b98bd9d273d2ce8b5b7071f0d73557a948519972216",
+    "services/dispatcher/v4/dispatcher-v4": "0480a4196da75e2aafd53b06cfdf896d1442d52c89d51c99381d1a440c2a6ec5"
+  },
+  "quota_change": "pending user choice; not applied"
+}

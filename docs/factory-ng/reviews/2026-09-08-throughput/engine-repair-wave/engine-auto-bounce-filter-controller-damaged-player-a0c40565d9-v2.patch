@@ -1,0 +1,472 @@
+From f3d5f64d93a0c67ccddf133ac1bc610a43c34bff Mon Sep 17 00:00:00 2001
+From: Factory NG Operator <factory-ng@local>
+Date: Tue, 8 Sep 2026 16:20:50 +0000
+Subject: [PATCH] fix: carry actual player damage through enchanted triggers
+
+---
+ backend/cards/converter.go                    |  2 +-
+ backend/cards/registry_player_damaged.go      |  4 +
+ .../cards/shape_audited_player_damage_test.go | 40 ++++++++
+ backend/game/ability_effects.go               | 22 +----
+ backend/game/combat.go                        |  3 +
+ backend/game/events.go                        | 14 ++-
+ backend/game/gamestate.go                     |  9 ++
+ backend/game/gamestate_trigger_target.go      | 31 ++++++-
+ backend/game/lib_player_damage_event.go       | 29 ++++++
+ .../game/shape_audited_player_damage_test.go  | 92 +++++++++++++++++++
+ backend/game/stack.go                         | 10 +-
+ backend/game/targeting.go                     |  3 +-
+ 12 files changed, 229 insertions(+), 30 deletions(-)
+ create mode 100644 backend/cards/registry_player_damaged.go
+ create mode 100644 backend/cards/shape_audited_player_damage_test.go
+ create mode 100644 backend/game/lib_player_damage_event.go
+ create mode 100644 backend/game/shape_audited_player_damage_test.go
+
+diff --git a/backend/cards/converter.go b/backend/cards/converter.go
+index 01661532d..01e775803 100644
+--- a/backend/cards/converter.go
++++ b/backend/cards/converter.go
+@@ -3187,7 +3187,7 @@ func qualifiedTriggerTargetSupported(t *TargetFilter) bool {
+ 	if t.Filter != "creature" && t.Filter != "permanent" && t.Filter != "artifact" && t.Filter != "token" && t.Filter != "artifact_or_creature" {
+ 		return false
+ 	}
+-	if t.Controller != "" && t.Controller != "you" && t.Controller != "opponent" {
++	if t.Controller != "" && t.Controller != "you" && t.Controller != "opponent" && t.Controller != "defending_player" {
+ 		return false
+ 	}
+ 	// parse_subject renders "without <keyword>" as a garbage subtype
+diff --git a/backend/cards/registry_player_damaged.go b/backend/cards/registry_player_damaged.go
+new file mode 100644
+index 000000000..d1e9aa24a
+--- /dev/null
++++ b/backend/cards/registry_player_damaged.go
+@@ -0,0 +1,4 @@
++package cards
++
++// Unlike deals_combat_damage_to_player, this event covers either damage kind.
++func init() { V2TriggerEvents["player_damaged"] = true }
+diff --git a/backend/cards/shape_audited_player_damage_test.go b/backend/cards/shape_audited_player_damage_test.go
+new file mode 100644
+index 000000000..4c170c0d8
+--- /dev/null
++++ b/backend/cards/shape_audited_player_damage_test.go
+@@ -0,0 +1,40 @@
++package cards
++
++import (
++	"magic-backend/game"
++	"testing"
++)
++
++func TestShape_AuditedPlayerDamageDSL(t *testing.T) {
++	gs := game.NewGame("P0", "P1", false)
++	dealer := game.NewCreature("dealer", game.ManaCost{}, 2, 2, 0)
++	gs.Battlefield.AddCard(dealer)
++	victim := game.NewCreature("victim", game.ManaCost{}, 2, 2, 1)
++	gs.Battlefield.AddCard(victim)
++	def := &CardDefinition{Name: "aura", Type: "Enchantment", Abilities: []AbilityDSL{{Type: "triggered", TriggerV2: &TriggerSpec{Event: "player_damaged", Subject: &TargetFilter{Filter: "enchanted"}}, Effects: []EffectAtom{{Effect: "bounce", Target: &TargetFilter{Filter: "creature", Controller: "defending_player"}}}}}}
++	aura, err := def.ToGameCard(0)
++	if err != nil {
++		t.Fatal(err)
++	}
++	aura.AttachedTo = dealer.ID
++	gs.Battlefield.AddCard(aura)
++	if !V2TriggerEvents["player_damaged"] {
++		t.Fatal("event vocabulary missing")
++	}
++	def.RegisterTriggeredAbilities(aura, gs.EventBus)
++	if err := gs.ExecuteAbilityEffectDirect(0, dealer, map[string]interface{}{"effect": "damage", "amount": 1}, []game.Target{{Type: game.TargetPlayer, PlayerIdx: 1}}); err != nil {
++		t.Fatal(err)
++	}
++	if gs.PendingTriggerTarget == nil {
++		t.Fatal("DSL did not reach runtime target choice")
++	}
++	if err := gs.ResolveTriggerTargetChoice(0, victim.ID); err != nil {
++		t.Fatal(err)
++	}
++	if err := gs.ResolveTopOfStack(); err != nil {
++		t.Fatal(err)
++	}
++	if !gs.Players[1].Hand.HasCard(victim.ID) {
++		t.Fatal("DSL did not resolve bounce")
++	}
++}
+diff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go
+index 693f9b848..5e34c3349 100644
+--- a/backend/game/ability_effects.go
++++ b/backend/game/ability_effects.go
+@@ -8589,22 +8589,12 @@ func (gs *GameState) executeDamageEffect(controller int, source *Card, effectVal
+ 						dmg = ModifyDamageAmount(gs.Battlefield, source, n)
+ 						dmg = gs.ApplyEOTDamageMultiplier(source, dmg)
+ 					}
+-					gs.Players[idx].TakeDamage(dmg)
+-					dealt += dmg
+-					if gs.EventBus != nil {
+-						gs.ProcessTriggeredAbilities(CreateLifeLossEvent(idx, dmg))
+-					}
++					dealt += gs.dealNoncombatPlayerDamage(source, idx, dmg)
+ 				}
+ 				return nil
+ 			}
+ 		}
+-		gs.Players[targetPlayer].TakeDamage(amount)
+-		dealt += amount
+-
+-		// Fire damage event
+-		if gs.EventBus != nil {
+-			gs.ProcessTriggeredAbilities(CreateLifeLossEvent(targetPlayer, amount))
+-		}
++		dealt += gs.dealNoncombatPlayerDamage(source, targetPlayer, amount)
+ 		return nil
+ 	}
+ 
+@@ -8642,13 +8632,7 @@ func (gs *GameState) executeDamageEffect(controller int, source *Card, effectVal
+ 				dmg = ModifyDamageAmount(gs.Battlefield, source, n)
+ 				dmg = gs.ApplyEOTDamageMultiplier(source, dmg)
+ 			}
+-			gs.Players[target.PlayerIdx].TakeDamage(dmg)
+-			dealt += dmg
+-
+-			// Fire damage event
+-			if gs.EventBus != nil {
+-				gs.ProcessTriggeredAbilities(CreateLifeLossEvent(target.PlayerIdx, dmg))
+-			}
++			dealt += gs.dealNoncombatPlayerDamage(source, target.PlayerIdx, dmg)
+ 		}
+ 	}
+ 
+diff --git a/backend/game/combat.go b/backend/game/combat.go
+index e2ac59a0d..b3cc4fc0f 100644
+--- a/backend/game/combat.go
++++ b/backend/game/combat.go
+@@ -423,6 +423,9 @@ func applyCombatDamageToPlayer(gs *GameState, em *EffectManager, source *Card, p
+ 	// becomes life loss or (Infect) poison counters — see field doc in
+ 	// player.go (VOCAB #1056).
+ 	player.DamageTakenThisTurn += amount
++	if gs != nil {
++		defer gs.emitPlayerDamaged(source, player.Index, amount, true)
++	}
+ 	// Rule 702.164a: Toxic's poison counters are granted IN ADDITION to
+ 	// whatever the normal result of this damage turns out to be (life loss,
+ 	// or — if source also has Infect — Infect's own poison counters), so
+diff --git a/backend/game/events.go b/backend/game/events.go
+index 04849e29d..12a431b7c 100644
+--- a/backend/game/events.go
++++ b/backend/game/events.go
+@@ -61,6 +61,8 @@ const (
+ 	EventDeclareBlocker    EventType = "declare_blocker"  // Rule 509
+ 	EventDealsCombatDamage EventType = "deals_combat_damage"
+ 	EventDealsPlayerDamage EventType = "deals_player_damage"
++	// Actual player damage of either kind; the older event remains combat-only.
++	EventPlayerDamaged EventType = "player_damaged"
+ 	// EventGroupDealsPlayerDamage fires once per combat damage step (not
+ 	// once per creature) with EVERY unblocked attacker that dealt combat
+ 	// damage to the defending player that step, via
+@@ -701,6 +703,11 @@ func (tc *TriggerCondition) Matches(event *Event, listenerCard *Card) bool {
+ 		return false
+ 	}
+ 
++	if tc.SourceType == "enchanted" {
++		if subj == nil || listenerCard.AttachedTo == "" || subj.ID != listenerCard.AttachedTo || !subj.IsCreature() {
++			return false
++		}
++	}
+ 	if tc.Self {
+ 		if subj == nil || subj.ID != listenerCard.ID {
+ 			return false
+@@ -745,6 +752,9 @@ func (tc *TriggerCondition) Matches(event *Event, listenerCard *Card) bool {
+ 		if event.Target != nil {
+ 			recvController = event.Target.Controller
+ 			hasReceiver = true
++		} else if event.Type == EventPlayerDamaged && event.Opponent >= 0 {
++			recvController = event.Opponent
++			hasReceiver = true
+ 		} else if event.Player >= 0 {
+ 			recvController = event.Player
+ 			hasReceiver = true
+@@ -786,7 +796,7 @@ func (tc *TriggerCondition) Matches(event *Event, listenerCard *Card) bool {
+ 			if !matched {
+ 				return false
+ 			}
+-		} else if !sourceTypeMatches(subj, tc.SourceType) {
++		} else if tc.SourceType != "enchanted" && !sourceTypeMatches(subj, tc.SourceType) {
+ 			return false
+ 		}
+ 	}
+@@ -1221,7 +1231,7 @@ func (eb *EventBus) SubscribeAll(handler EventHandler) {
+ 	allTypes := []EventType{
+ 		EventEntersBattlefield, EventLeavesBattlefield, EventDies, EventExiled,
+ 		EventDrawCard, EventDeclareAttacker, EventDeclareBlocker,
+-		EventDealsCombatDamage, EventDealsPlayerDamage, EventBecomesBlocked,
++		EventDealsCombatDamage, EventDealsPlayerDamage, EventPlayerDamaged, EventBecomesBlocked,
+ 		EventAttacks, EventUntapStep, EventUpkeepStart, EventDrawStep,
+ 		EventMainPhase, EventPostcombatMainPhase, EventCombatStart, EventEndStep, EventEndOfCombat, EventCleanup,
+ 		EventSpellCast, EventSpellCastFromGraveyard, EventAbilityActivated, EventSpellResolves, EventTargeted,
+diff --git a/backend/game/gamestate.go b/backend/game/gamestate.go
+index a1c3f1e17..12fe7a5cc 100644
+--- a/backend/game/gamestate.go
++++ b/backend/game/gamestate.go
+@@ -2927,6 +2927,11 @@ func (gs *GameState) ResolveTopOfStack() error {
+ 
+ 	// Handle abilities
+ 	if topObj.IsAbility {
++		if topObj.TriggerTargetController != nil && !gs.revalidatePlayerControlledTriggerTarget(topObj) {
++			gs.PrioritySystem.SetActivePlayer(gs.ActivePlayerIdx)
++			gs.PrioritySystem.ResetPasses()
++			return nil
++		}
+ 		// Intervening "if" clause (Rule 603.4): if the named condition
+ 		// isn't satisfied at resolution, the ability does nothing.
+ 		if topObj.IfCondition != "" && !gs.evalIfConditionWithSourceAndValue(topObj.IfCondition, topObj.Controller, topObj.Card, topObj.EffectValue) {
+@@ -6223,6 +6228,10 @@ func (gs *GameState) putTriggeredAbilityOnStackOnce(ability *TriggeredAbility, e
+ 		}
+ 		gs.OpenTriggerTargetChoice(ctrl, ability.SourceCard.Name, legal, ability)
+ 		if p := gs.PendingTriggerTarget; p != nil && event != nil {
++			if qual != nil && qual.Controller == "defending_player" {
++				controller := event.Opponent
++				p.TriggerTargetController = &controller
++			}
+ 			p.EventCard = gs.triggerEventCard(event)
+ 			if event.Player >= 0 {
+ 				p.EventPlayer = event.Player
+diff --git a/backend/game/gamestate_trigger_target.go b/backend/game/gamestate_trigger_target.go
+index 7c0922e1f..36dbad271 100644
+--- a/backend/game/gamestate_trigger_target.go
++++ b/backend/game/gamestate_trigger_target.go
+@@ -30,9 +30,11 @@ import (
+ // PendingTriggerTarget represents an in-flight target choice for a triggered
+ // ability that has fired but is not yet on the stack.
+ type PendingTriggerTarget struct {
+-	PlayerIdx    int      `json:"player_idx"`
+-	SourceName   string   `json:"source_name,omitempty"`
+-	LegalTargets []Target `json:"legal_targets"`
++	// Damaged/defending player whose control restricts the chosen target.
++	TriggerTargetController *int     `json:"-"`
++	PlayerIdx               int      `json:"player_idx"`
++	SourceName              string   `json:"source_name,omitempty"`
++	LegalTargets            []Target `json:"legal_targets"`
+ 
+ 	// Ability is the triggered ability waiting to be put on the stack once a
+ 	// target is chosen. Not JSON-serialized, same convention as
+@@ -169,8 +171,31 @@ func (gs *GameState) pushTriggeredAbilityWithTarget(pending *PendingTriggerTarge
+ 	gs.Stack.PushTriggeredAbilityFull(ability)
+ 	if obj := gs.Stack.Peek(); obj != nil {
+ 		obj.Targets = []Target{target}
++		obj.TriggerTargetController = pending.TriggerTargetController
+ 		obj.EventCard = pending.EventCard
+ 		obj.EventPlayer = pending.EventPlayer
+ 		obj.HasEventPlayer = pending.HasEventPlayer
+ 	}
+ }
++
++func (gs *GameState) revalidatePlayerControlledTriggerTarget(obj *StackObject) bool {
++	for _, atom := range obj.EffectSequence {
++		if atom.TargetType == "" {
++			continue
++		}
++		legal := make([]Target, 0, len(obj.Targets))
++		for _, target := range obj.Targets {
++			if !IsValidTarget(target, TargetRequirement{Type: atom.TargetType}, gs, obj.Controller) {
++				continue
++			}
++			card, err := gs.Battlefield.GetCard(target.CardID)
++			if err != nil || card.Controller != *obj.TriggerTargetController {
++				continue
++			}
++			legal = append(legal, target)
++		}
++		obj.Targets = legal
++		return len(legal) > 0
++	}
++	return false
++}
+diff --git a/backend/game/lib_player_damage_event.go b/backend/game/lib_player_damage_event.go
+new file mode 100644
+index 000000000..54684e02d
+--- /dev/null
++++ b/backend/game/lib_player_damage_event.go
+@@ -0,0 +1,29 @@
++package game
++
++// Player-damage observers use actual post-prevention damage, including infect,
++// independently of life loss. Combat-only observers retain their old event.
++func (gs *GameState) emitPlayerDamaged(source *Card, player, amount int, combat bool) {
++	if gs.EventBus == nil || amount <= 0 {
++		return
++	}
++	controller := -1
++	if source != nil {
++		controller = source.Controller
++	}
++	event := NewEvent(EventPlayerDamaged).WithSource(source).WithPlayer(controller).WithOpponent(player).WithAmount(amount)
++	event.Data["is_combat"] = combat
++	gs.ProcessTriggeredAbilities(event)
++}
++
++func (gs *GameState) dealNoncombatPlayerDamage(source *Card, player, amount int) int {
++	if amount <= 0 || player < 0 || player >= len(gs.Players) {
++		return 0
++	}
++	p := gs.Players[player]
++	beforeDamage, beforeLife := p.DamageTakenThisTurn, p.Life
++	_ = DamageTargetFromSource(Target{Type: TargetPlayer, PlayerIdx: player}, amount, source, gs)
++	if lost := beforeLife - p.Life; lost > 0 && gs.EventBus != nil {
++		gs.ProcessTriggeredAbilities(CreateLifeLossEvent(player, lost))
++	}
++	return p.DamageTakenThisTurn - beforeDamage
++}
+diff --git a/backend/game/shape_audited_player_damage_test.go b/backend/game/shape_audited_player_damage_test.go
+new file mode 100644
+index 000000000..29c0b477f
+--- /dev/null
++++ b/backend/game/shape_audited_player_damage_test.go
+@@ -0,0 +1,92 @@
++package game
++
++import "testing"
++
++func TestShape_AuditedPlayerDamageNotifications(t *testing.T) {
++	for _, combat := range []bool{false, true} {
++		for _, prevented := range []bool{false, true} {
++			gs := NewGame("P0", "P1", false)
++			source := NewCreature("dealer", ManaCost{}, 2, 2, 0)
++			gs.Battlefield.AddCard(source)
++			seen := 0
++			gs.EventBus.Subscribe(EventPlayerDamaged, func(e *Event) {
++				seen++
++				if e.Source != source || e.Opponent != 1 || e.Amount != 2 || e.Data["is_combat"] != combat {
++					t.Error("bad event context")
++				}
++			})
++			gs.MonarchIdx = 1
++			if prevented {
++				gs.ReplacementManager.CreateSourceOnlyDamagePreventionShield(source.ID, false)
++			}
++			if combat {
++				applyCombatDamageToPlayer(gs, gs.EffectManager, source, gs.Players[1], 2)
++			} else {
++				if err := gs.ExecuteAbilityEffectDirect(0, source, map[string]interface{}{"effect": "damage", "amount": 2}, []Target{{Type: TargetPlayer, PlayerIdx: 1}}); err != nil {
++					t.Fatal(err)
++				}
++			}
++			want := 1
++			if prevented {
++				want = 0
++			}
++			if seen != want {
++				t.Fatalf("combat=%v prevented=%v events=%d want %d", combat, prevented, seen, want)
++			}
++			if !combat && gs.MonarchIdx != 1 {
++				t.Fatal("noncombat damage transferred monarch")
++			}
++			gs.Players[1].LoseLife(1)
++			if seen != want {
++				t.Fatal("life loss emitted damage")
++			}
++		}
++	}
++}
++
++func TestShape_AuditedEnchantedDamageTarget(t *testing.T) {
++	for _, changeControl := range []bool{false, true} {
++		gs := NewGame("P0", "P1", false)
++		dealer := NewCreature("dealer", ManaCost{}, 2, 2, 0)
++		gs.Battlefield.AddCard(dealer)
++		aura := &Card{ID: "audit-aura", Type: TypeEnchantment, Name: "aura", Controller: 0, Owner: 0, AttachedTo: dealer.ID}
++		gs.Battlefield.AddCard(aura)
++		victim := NewCreature("stolen victim", ManaCost{}, 2, 2, 0)
++		victim.Controller = 1
++		gs.Battlefield.AddCard(victim)
++		ability := &TriggeredAbility{ID: "aura-trigger", SourceCard: aura, Condition: TriggerCondition{EventType: EventPlayerDamaged, SourceType: "enchanted"}, EffectSequence: []EffectAtomSpec{{Effect: "bounce", TargetType: TargetCreature, TargetQualifier: &TriggerTargetFilter{Type: "creature", Controller: "defending_player"}}}}
++		gs.EventBus.RegisterTriggeredAbility(ability)
++		if err := gs.ExecuteAbilityEffectDirect(0, dealer, map[string]interface{}{"effect": "damage", "amount": 1}, []Target{{Type: TargetPlayer, PlayerIdx: 1}}); err != nil {
++			t.Fatal(err)
++		}
++		p := gs.PendingTriggerTarget
++		if p == nil || len(p.LegalTargets) != 1 || p.LegalTargets[0].CardID != victim.ID {
++			t.Fatal("wrong damaged-player target choice")
++		}
++		if err := gs.ResolveTriggerTargetChoice(0, victim.ID); err != nil {
++			t.Fatal(err)
++		}
++		if changeControl {
++			victim.Controller = 0
++		}
++		if err := gs.ResolveTopOfStack(); err != nil {
++			t.Fatal(err)
++		}
++		if changeControl {
++			if !gs.Battlefield.HasCard(victim.ID) {
++				t.Fatal("now-illegal target bounced")
++			}
++		} else if !gs.Players[0].Hand.HasCard(victim.ID) {
++			t.Fatal("stolen target did not return to owner")
++		}
++		// An unrelated creature must not trigger the enchanted-source condition.
++		other := NewCreature("other", ManaCost{}, 2, 2, 0)
++		gs.Battlefield.AddCard(other)
++		if err := gs.ExecuteAbilityEffectDirect(0, other, map[string]interface{}{"effect": "damage", "amount": 1}, []Target{{Type: TargetPlayer, PlayerIdx: 1}}); err != nil {
++			t.Fatal(err)
++		}
++		if gs.PendingTriggerTarget != nil || !gs.Stack.IsEmpty() {
++			t.Fatal("unrelated source triggered aura")
++		}
++	}
++}
+diff --git a/backend/game/stack.go b/backend/game/stack.go
+index 63c3b7e1c..c37a94484 100644
+--- a/backend/game/stack.go
++++ b/backend/game/stack.go
+@@ -9,6 +9,8 @@ import (
+ 
+ // StackObject represents an object on the stack (spell or ability)
+ type StackObject struct {
++	// Damaged/defending player whose control restricts the chosen target.
++	TriggerTargetController *int `json:"-"`
+ 	// EventCard — the triggering event's subject (referent round 7,
+ 	// 2026-08-02): "deals 2 damage to IT" resolves against this card.
+ 	EventCard *Card `json:"-"`
+@@ -16,15 +18,15 @@ type StackObject struct {
+ 	// (event-player round, 2026-08-03): "deals 1 damage to THAT PLAYER"
+ 	// resolves against this player. HasEventPlayer distinguishes a stamped
+ 	// player 0 from the zero value.
+-	EventPlayer        int                    `json:"-"`
+-	HasEventPlayer     bool                   `json:"-"`
++	EventPlayer    int  `json:"-"`
++	HasEventPlayer bool `json:"-"`
+ 	// EventAmount — the triggering event's own numeric magnitude (the
+ 	// "put that many" family, ticket #3730): the life gained, damage dealt,
+ 	// etc. recorded on Event.Amount by the event that fired this trigger.
+ 	// HasEventAmount distinguishes a stamped 0 from the zero value, exactly
+ 	// like HasEventPlayer.
+-	EventAmount      int  `json:"-"`
+-	HasEventAmount   bool `json:"-"`
++	EventAmount        int                    `json:"-"`
++	HasEventAmount     bool                   `json:"-"`
+ 	ID                 string                 `json:"id,omitempty"`                   // Unique per stack object, spell or ability alike (assigned by Stack.Push); unlike Card.ID (shared with the source permanent for abilities), this lets a Target reference one specific ability instance on the stack ([VOCAB] change-target-of-spell-or-ability)
+ 	Card               *Card                  `json:"card"`                           // The card if it's a spell, or source card for abilities
+ 	Controller         int                    `json:"controller"`                     // Player who controls this spell/ability
+diff --git a/backend/game/targeting.go b/backend/game/targeting.go
+index 8aedc0f25..7ca7412a4 100644
+--- a/backend/game/targeting.go
++++ b/backend/game/targeting.go
+@@ -80,7 +80,7 @@ const (
+ 	// color, an empty Card.Colors).
+ 	TargetAbilityOnStackYouCtlColorless TargetType = "ability_on_stack_you_ctl_colorless"
+ 	TargetPlayerOrPW                    TargetType = "player_or_planeswalker" // "deals N damage to target player or planeswalker" (modal round 2, 2026-08-02)
+-	TargetOpponent             TargetType = "opponent"               // "deals N damage to target opponent" (?/it round, 2026-08-03)
++	TargetOpponent                      TargetType = "opponent"               // "deals N damage to target opponent" (?/it round, 2026-08-03)
+ 	// task-2387 (verb_unmapped:copy): "copy target instant or sorcery
+ 	// spell[ you control]" (Reverberate/Twincast/Reiterate class) — TargetSpell
+ 	// is deliberately type-unfiltered (any spell, for counterspells), so a
+@@ -741,6 +741,7 @@ func DamageTargetFromSource(target Target, amount int, source *Card, gs *GameSta
+ 		// independent of whether it becomes life loss or (Infect) poison
+ 		// counters — see field doc in player.go (VOCAB #1056).
+ 		gs.Players[target.PlayerIdx].DamageTakenThisTurn += dealt
++		defer gs.emitPlayerDamaged(source, target.PlayerIdx, dealt, false)
+ 	}
+ 	// Rule 702.90b: a source with Infect gives poison counters to a player
+ 	// instead of causing life loss.
+-- 
+2.43.0
+

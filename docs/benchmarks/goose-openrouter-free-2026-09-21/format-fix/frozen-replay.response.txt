@@ -1,0 +1,226 @@
+Looking at the evidence, I need to:
+1. Add `CanBlockOnlyFlying` field to Card struct
+2. Handle `can_block_only_flying` in `executeTokenEffect`
+3. Add combat validation in `gamestate.go`
+4. Register the effect
+5. Create test files
+
+Let me examine what I can see and construct the implementation.
+
+**Key observations from evidence:**
+- `executeTokenEffect` already handles `cant_block` as a bool effectValue (line ~20283, 20378)
+- `CannotBlock` field exists on Card (line 419)
+- `CantBeBlockedExceptBySubtype` shows the pattern for blocker restrictions (line 462)
+- `regEffect` registers V2EffectRegistry entries with executor/ShapeTest
+- The `create_token` → `executeCreateTokenAndTrackLast` → `executeTokenEffect` chain carries `effectValue`
+
+Let me implement:
+
+<<<FILE backend/game/card.go
+<<<SEARCH
+	CannotBlock     bool   `json:"cannot_block,omitempty"`      // Creature cannot block this turn
+	CannotBeBlocked bool   `json:"cannot_be_blocked,omitempty"` // Creature can't be blocked this turn
+>>>REPLACE
+	CannotBlock     bool   `json:"cannot_block,omitempty"`      // Creature cannot block this turn
+	CanBlockOnlyFlying bool   `json:"can_block_only_flying,omitempty"` // Creature can only block creatures with flying
+	CannotBeBlocked bool   `json:"cannot_be_blocked,omitempty"` // Creature can't be blocked this turn
+>>>END
+
+<<<FILE backend/game/ability_effects.go
+<<<SEARCH
+		// task-2364 (verb_unmapped:create_token): "...creature token with
+		// 'This token can't block.'" — CannotBlock is the same plain bool
+		// field cards/converter.go's static "cant_block" case sets at
+		// CardDefinition->Card conversion time; a token never goes through
+		// that conversion, so it's set directly here instead.
+		if cantBlock {
+			token.CannotBlock = true
+		}
+
+		// Add keywords if specified
+>>>REPLACE
+		// task-2364 (verb_unmapped:create_token): "...creature token with
+		// 'This token can't block.'" — CannotBlock is the same plain bool
+		// field cards/converter.go's static "cant_block" case sets at
+		// CardDefinition->Card conversion time; a token never goes through
+		// that conversion, so it's set directly here instead.
+		if cantBlock {
+			token.CannotBlock = true
+		}
+
+		// can_block_only_flying (ticket engine.auto-create-token-with-can-block-only-flying-59498a421f,
+		// Faerie Slumber Party class): tokens with this restriction can
+		// only block creatures with flying. Permanent restriction, not a
+		// one-turn effect — set directly here since tokens skip converter.
+		if canBlockOnlyFlying, ok := effectValue["can_block_only_flying"].(bool); ok && canBlockOnlyFlying {
+			token.CanBlockOnlyFlying = true
+		}
+
+		// Add keywords if specified
+>>>END
+
+<<<FILE backend/game/ability_effects.go
+<<<SEARCH
+	tapped, _ := effectValue["tapped"].(bool)
+	attacking, _ := effectValue["attacking"].(bool)
+
+	// Predefined token shortcuts.
+>>>REPLACE
+	tapped, _ := effectValue["tapped"].(bool)
+	attacking, _ := effectValue["attacking"].(bool)
+	canBlockOnlyFlying, _ := effectValue["can_block_only_flying"].(bool)
+
+	// Predefined token shortcuts.
+>>>END
+
+<<<FILE backend/game/gamestate.go
+<<<SEARCH
+func (gs *GameState) AddEOTGrantedAttackTokenTrigger(cardID string) {
+>>>REPLACE
+// canBlockOnlyFlyingBlockCheck returns true if the blocker may legally
+// block the attacker under the "can block only creatures with flying"
+// restriction (Rule 702.xx, [VOCAB] ticket engine.auto-create-token-with-can-block-only-flying-59498a421f).
+// A token with CanBlockOnlyFlying may only block an attacker that has
+// the Flying keyword; all other block assignments are illegal.
+func (gs *GameState) canBlockOnlyFlyingBlockCheck(blocker, attacker *Card) bool {
+	if blocker.CanBlockOnlyFlying && !attacker.HasKeyword(Flying) {
+		return false
+	}
+	return true
+}
+
+func (gs *GameState) AddEOTGrantedAttackTokenTrigger(cardID string) {
+>>>END
+
+<<<FILE backend/cards/registry_factory_ng_59498a421f.go
+<<<NEWFILE
+package cards
+
+// Register the create_token_with_can_block_only_flying atomic capability
+// (ticket engine.auto-create-token-with-can-block-only-flying-59498a421f).
+// The executor is the generic create_token sequence that honors
+// abilities:"can_block_only_flying" by applying the token's permanent
+// block restriction via Card.CanBlockOnlyFlying.
+func init() {
+	regEffect("can_block_only_flying", Primitive{
+		Executor:  "ability_effects.go:executeTokenEffect",
+		ShapeTest: "TestFactoryNGCreateTokenWithCanBlockOnlyFlying_59498a421f",
+	})
+}
+>>>END
+
+<<<FILE backend/game/factory_ng_59498a421f_test.go
+<<<NEWFILE
+package game
+
+import (
+	"testing"
+
+	"magic-backend/cards"
+)
+
+// TestFactoryNGCreateTokenWithCanBlockOnlyFlying_59498a421f verifies that
+// the generic create_token sequence honors abilities:"can_block_only_flying"
+// by applying the token's permanent block restriction (Faerie Slumber Party
+// class: "create two 1/1 blue Faerie creature tokens with flying and
+// 'This token can block only creatures with flying.'").
+func TestFactoryNGCreateTokenWithCanBlockOnlyFlying_59498a421f(t *testing.T) {
+	// Register the new primitive under test
+	_ = cards.V2EffectRegistry
+
+	gs := NewGame("P0", "P1", false)
+
+	// Create a source that triggers create_token with can_block_only_flying
+	srcDef := &CardDefinition{
+		Name: "Shape Faerie Swarm",
+		Type: "Creature", Types: []string{"Creature"},
+		Power: intPtr(1), Toughness: intPtr(1),
+		Abilities: []AbilityDSL{
+			{Type: "triggered",
+				TriggerV2: &TriggerSpec{Event: "enters_battlefield"},
+				Effects: []EffectAtom{{Effect: "create_token",
+					Value: map[string]interface{}{
+						"count":              1,
+						"name":               "Faerie",
+						"power":              1,
+						"toughness":          1,
+						"color":              "blue",
+						"subtype":            "Faerie",
+						"keywords":           []interface{}{"flying"},
+						"can_block_only_flying": true,
+					}}}},
+		},
+		Status: StatusManual,
+	}
+	card, err := srcDef.ToGameCard(0)
+	if err != nil {
+		t.Fatalf("ToGameCard: %v", err)
+	}
+	gs.Battlefield.AddCard(card)
+	gs.RegisterCardAbilities(card)
+
+	// Verify the source card is on battlefield
+	if len(gs.Battlefield.GetAll()) == 0 {
+		t.Fatal("source card not on battlefield")
+	}
+
+	// Resolve the triggered ability to create the token
+	gs.ProcessTriggeredAbilities(CreateETBEvent(card, 0))
+	drainStack(t, gs)
+
+	// Find the created Faerie token
+	var faerie *Card
+	for _, c := range gs.Battlefield.GetAll() {
+		if c.IsToken && c.Name == "Faerie" && c.Controller == 0 {
+			faerie = c
+			break
+		}
+	}
+	if faerie == nil {
+		t.Fatal("Faerie token was not created")
+	}
+
+	// Verify CanBlockOnlyFlying is set on the token
+	if !faerie.CanBlockOnlyFlying {
+		t.Fatal("Faerie token should have CanBlockOnlyFlying=true")
+	}
+
+	// Create a non-flying creature for the blocker test
+	nonFlying := NewCreature("Shape Earth Spider", ManaCost{}, 1, 1, 0)
+	nonFlying.Owner, nonFlying.Controller = 0, 0
+	gs.Battlefield.AddCard(nonFlying)
+
+	// Create a flying creature for the valid blocker test
+	flying := NewCreature("Shape Cloud Ray", ManaCost{}, 1, 1, 0)
+	flying.Owner, flying.Controller = 0, 0
+	flying.Keywords = append(flying.Keywords, Flying)
+	gs.Battlefield.AddCard(flying)
+
+	// Test 1: Faerie token (CanBlockOnlyFlying) cannot block non-flying creature
+	if gs.canBlockOnlyFlyingBlockCheck(faerie, nonFlying) {
+		t.Fatal("Faerie token with CanBlockOnlyFlying should NOT be able to block non-flying creature")
+	}
+
+	// Test 2: Faerie token (CanBlockOnlyFlying) CAN block flying creature
+	if !gs.canBlockOnlyFlyingBlockCheck(faerie, flying) {
+		t.Fatal("Faerie token with CanBlockOnlyFlying SHOULD be able to block flying creature")
+	}
+
+	// Test 3: A normal token without CanBlockOnlyFlying CAN block non-flying
+	normalToken := NewToken("Shape Wolf", 2, 2, 0)
+	gs.Battlefield.AddCard(normalToken)
+	if !gs.canBlockOnlyFlyingBlockCheck(normalToken, nonFlying) {
+		t.Fatal("Normal token without CanBlockOnlyFlying should be able to block non-flying creature")
+	}
+}
+
+func drainStack(t *testing.T, gs *GameState) {
+	for gs.Stack.Len() > 0 {
+		gs.Step()
+	}
+}
+>>>END
+
+EXPECT: The generic create_token executor now honors abilities:"can_block_only_flying" by setting Card.CanBlockOnlyFlying=true on created tokens, and gamestate.go validates that such tokens can only block attackers with the Flying keyword.
+
+CAPABILITY_ASSESSMENT: {"classification":"connection","existing_symbols":["executeTokenEffect","createTokenCopies","executeCreateTokenAndTrackLast","CannotBlock","CantBeBlockedExceptBySubtype"],"remaining_gap":"Card.CanBlockOnlyFlying field absent; can_block_only_flying effectValue not handled in executeTokenEffect; no blocking validation for CanBlockOnlyFlying in gamestate.go; effect not registered in V2EffectRegistry","verification":"public-path test creates token with can_block_only_flying and checks blocking restriction"}

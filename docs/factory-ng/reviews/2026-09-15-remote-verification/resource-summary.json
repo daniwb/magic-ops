@@ -1,0 +1,54 @@
+{
+  "two": {
+    "max_concurrent_jobs": 2,
+    "peak_sampled_cpu": 7.72,
+    "max_combined_memory_GiB": 9.42,
+    "cpu_masks": {
+      "0": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "1": [
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    "sample_seconds": 30.93
+  },
+  "four": {
+    "max_concurrent_jobs": 3,
+    "peak_sampled_cpu": 10.19,
+    "max_combined_memory_GiB": 15.84,
+    "cpu_masks": {
+      "1": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "2": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "3": [
+        12,
+        13,
+        14,
+        15
+      ],
+      "0": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "sample_seconds": 31.01
+  }
+}

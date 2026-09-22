@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # p1 — the staged Sonnet pipeline lane (map->engine->map circle per ticket).
 # Claims tier=map via the dispatcher; escalation to the agentic fleet happens
-# through normal retry counters. See docs/pipeline-workflows.md.
+# through normal retry counters. Historical design:
+# docs/archive/factory-evolution/pipeline-workflows-2026-08-07.md.
 W=p1
 L=/tmp/orch/pipeline-lane-$W.log
 mkdir -p /tmp/orch /tmp/work

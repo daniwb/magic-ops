@@ -1,0 +1,24 @@
+{
+  "at": "2026-09-15T12:44:07Z",
+  "cpu_affinity": [
+    6,
+    11,
+    12,
+    19
+  ],
+  "controller": [
+    4055077
+  ],
+  "roots": [
+    26697,
+    36851,
+    37496,
+    40128,
+    4055077
+  ],
+  "threads_updated": 114,
+  "failures": [],
+  "per_go_gomaxprocs": 2,
+  "per_go_package_parallelism": 2,
+  "nice": 10
+}

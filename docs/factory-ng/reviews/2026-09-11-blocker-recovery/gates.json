@@ -1,0 +1,149 @@
+[
+  {
+    "id": "ticket-gate-0",
+    "command": "cd scripts/paragraph && python3 -m unittest test_factory_ng_30d5d8211c",
+    "outcome": "passed",
+    "elapsed_ms": 1902,
+    "detail": "/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/reparse.py:18271: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/../../backend/data/carddb/s.json' mode='r' encoding='UTF-8'>\n/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/reparse.py:18271: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/../../backend/data/carddb/s.json' mode='r' encoding='UTF-8'>\n  db = json.load(open(path))\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n..\n----------------------------------------------------------------------\nRan 2 tests in 0.353s\nOK"
+  },
+  {
+    "id": "ticket-gate-1",
+    "command": "git diff --check",
+    "outcome": "passed",
+    "elapsed_ms": 178,
+    "detail": ""
+  },
+  {
+    "id": "ticket-gate-2",
+    "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-30d5d8211c-v1.json reports zero remaining pinned members",
+    "outcome": "passed",
+    "elapsed_ms": 3899,
+    "detail": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-30d5d8211c-v1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:copy\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:f47574e5187d4e484067001ae98cb54c75093910307a8c3c0a68152e70780536\",\n    \"repository\": \"/tmp/factory-ng-blocker-recovery-sep11\",\n    \"revision\": \"d705f2ef3f6d17ecec79c4a9ad1ecf6684c81572\"\n  }\n}"
+  },
+  {
+    "id": "ticket-gate-3",
+    "command": "cd scripts/paragraph && python3 -m unittest test_factory_ng_845ba13507",
+    "outcome": "passed",
+    "elapsed_ms": 878,
+    "detail": "/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/reparse.py:18271: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/../../backend/data/carddb/d.json' mode='r' encoding='UTF-8'>\n/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/reparse.py:18271: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/../../backend/data/carddb/d.json' mode='r' encoding='UTF-8'>\n  db = json.load(open(path))\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n..\n----------------------------------------------------------------------\nRan 2 tests in 0.225s\nOK"
+  },
+  {
+    "id": "ticket-gate-4",
+    "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-845ba13507-v1.json reports zero remaining pinned members",
+    "outcome": "passed",
+    "elapsed_ms": 3669,
+    "detail": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-845ba13507-v1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:damage_by\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:f47574e5187d4e484067001ae98cb54c75093910307a8c3c0a68152e70780536\",\n    \"repository\": \"/tmp/factory-ng-blocker-recovery-sep11\",\n    \"revision\": \"d705f2ef3f6d17ecec79c4a9ad1ecf6684c81572\"\n  }\n}"
+  },
+  {
+    "id": "ticket-gate-5",
+    "command": "cd scripts/paragraph && python3 -m unittest test_factory_ng_3f854ae5df",
+    "outcome": "passed",
+    "elapsed_ms": 1483,
+    "detail": "/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/reparse.py:18271: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/../../backend/data/carddb/s.json' mode='r' encoding='UTF-8'>\n/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/reparse.py:18271: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/../../backend/data/carddb/s.json' mode='r' encoding='UTF-8'>\n  db = json.load(open(path))\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n..\n----------------------------------------------------------------------\nRan 2 tests in 0.619s\nOK"
+  },
+  {
+    "id": "ticket-gate-6",
+    "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-3f854ae5df-v1.json reports zero remaining pinned members",
+    "outcome": "passed",
+    "elapsed_ms": 4227,
+    "detail": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-3f854ae5df-v1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:damage\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:f47574e5187d4e484067001ae98cb54c75093910307a8c3c0a68152e70780536\",\n    \"repository\": \"/tmp/factory-ng-blocker-recovery-sep11\",\n    \"revision\": \"d705f2ef3f6d17ecec79c4a9ad1ecf6684c81572\"\n  }\n}"
+  },
+  {
+    "id": "ticket-gate-7",
+    "command": "cd scripts/paragraph && python3 -m unittest test_factory_ng_032fa4cd5d",
+    "outcome": "passed",
+    "elapsed_ms": 888,
+    "detail": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.139s\nOK"
+  },
+  {
+    "id": "ticket-gate-8",
+    "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-032fa4cd5d-v1.json reports zero remaining pinned members",
+    "outcome": "passed",
+    "elapsed_ms": 4103,
+    "detail": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-032fa4cd5d-v1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:exile\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:f47574e5187d4e484067001ae98cb54c75093910307a8c3c0a68152e70780536\",\n    \"repository\": \"/tmp/factory-ng-blocker-recovery-sep11\",\n    \"revision\": \"d705f2ef3f6d17ecec79c4a9ad1ecf6684c81572\"\n  }\n}"
+  },
+  {
+    "id": "ticket-gate-9",
+    "command": "cd scripts/paragraph && python3 -m unittest test_factory_ng_b33ea3ed9d",
+    "outcome": "passed",
+    "elapsed_ms": 930,
+    "detail": "./tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/reparse.py:18271: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/../../backend/data/carddb/r.json' mode='r' encoding='UTF-8'>\n./tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/reparse.py:18271: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/../../backend/data/carddb/r.json' mode='r' encoding='UTF-8'>\n  db = json.load(open(path))\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n.\n----------------------------------------------------------------------\nRan 2 tests in 0.238s\nOK"
+  },
+  {
+    "id": "ticket-gate-10",
+    "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-b33ea3ed9d-v1.json reports zero remaining pinned members",
+    "outcome": "passed",
+    "elapsed_ms": 3765,
+    "detail": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-b33ea3ed9d-v1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:regrow\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:f47574e5187d4e484067001ae98cb54c75093910307a8c3c0a68152e70780536\",\n    \"repository\": \"/tmp/factory-ng-blocker-recovery-sep11\",\n    \"revision\": \"d705f2ef3f6d17ecec79c4a9ad1ecf6684c81572\"\n  }\n}"
+  },
+  {
+    "id": "ticket-gate-11",
+    "command": "cd scripts/paragraph && python3 -m unittest test_factory_ng_f7fb65fa2a",
+    "outcome": "passed",
+    "elapsed_ms": 1144,
+    "detail": "/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/reparse.py:18271: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/../../backend/data/carddb/p.json' mode='r' encoding='UTF-8'>\n/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/reparse.py:18271: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/../../backend/data/carddb/p.json' mode='r' encoding='UTF-8'>\n  db = json.load(open(path))\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n..\n----------------------------------------------------------------------\nRan 2 tests in 0.347s\nOK"
+  },
+  {
+    "id": "ticket-gate-12",
+    "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-f7fb65fa2a-v1.json reports zero remaining pinned members",
+    "outcome": "passed",
+    "elapsed_ms": 3768,
+    "detail": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-f7fb65fa2a-v1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:sacrifice\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:f47574e5187d4e484067001ae98cb54c75093910307a8c3c0a68152e70780536\",\n    \"repository\": \"/tmp/factory-ng-blocker-recovery-sep11\",\n    \"revision\": \"d705f2ef3f6d17ecec79c4a9ad1ecf6684c81572\"\n  }\n}"
+  },
+  {
+    "id": "ticket-gate-13",
+    "command": "cd scripts/paragraph && python3 -m unittest test_factory_ng_ecc1126789",
+    "outcome": "passed",
+    "elapsed_ms": 1037,
+    "detail": "./tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/reparse.py:18271: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/../../backend/data/carddb/t.json' mode='r' encoding='UTF-8'>\n./tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/reparse.py:18271: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/../../backend/data/carddb/t.json' mode='r' encoding='UTF-8'>\n  db = json.load(open(path))\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n.\n----------------------------------------------------------------------\nRan 2 tests in 0.343s\nOK"
+  },
+  {
+    "id": "ticket-gate-14",
+    "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-ecc1126789-v1.json reports zero remaining pinned members",
+    "outcome": "passed",
+    "elapsed_ms": 4162,
+    "detail": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-ecc1126789-v1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:tap\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:f47574e5187d4e484067001ae98cb54c75093910307a8c3c0a68152e70780536\",\n    \"repository\": \"/tmp/factory-ng-blocker-recovery-sep11\",\n    \"revision\": \"d705f2ef3f6d17ecec79c4a9ad1ecf6684c81572\"\n  }\n}"
+  },
+  {
+    "id": "ticket-gate-15",
+    "command": "cd scripts/paragraph && python3 -m unittest test_factory_ng_e0c3cca63f",
+    "outcome": "passed",
+    "elapsed_ms": 754,
+    "detail": "./tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/reparse.py:18271: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/../../backend/data/carddb/w.json' mode='r' encoding='UTF-8'>\n./tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/reparse.py:18271: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/../../backend/data/carddb/w.json' mode='r' encoding='UTF-8'>\n  db = json.load(open(path))\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n.\n----------------------------------------------------------------------\nRan 2 tests in 0.137s\nOK"
+  },
+  {
+    "id": "ticket-gate-16",
+    "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-e0c3cca63f-v1.json reports zero remaining pinned members",
+    "outcome": "passed",
+    "elapsed_ms": 4125,
+    "detail": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-e0c3cca63f-v1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:tap\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:f47574e5187d4e484067001ae98cb54c75093910307a8c3c0a68152e70780536\",\n    \"repository\": \"/tmp/factory-ng-blocker-recovery-sep11\",\n    \"revision\": \"d705f2ef3f6d17ecec79c4a9ad1ecf6684c81572\"\n  }\n}"
+  },
+  {
+    "id": "ticket-gate-17",
+    "command": "cd scripts/paragraph && python3 -m unittest test_factory_ng_70becf7c9a",
+    "outcome": "passed",
+    "elapsed_ms": 741,
+    "detail": "./tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/reparse.py:18271: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/../../backend/data/carddb/c.json' mode='r' encoding='UTF-8'>\n./tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/reparse.py:18271: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/../../backend/data/carddb/c.json' mode='r' encoding='UTF-8'>\n  db = json.load(open(path))\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n.\n----------------------------------------------------------------------\nRan 2 tests in 0.186s\nOK"
+  },
+  {
+    "id": "ticket-gate-18",
+    "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-70becf7c9a-retry1.json reports zero remaining pinned members",
+    "outcome": "passed",
+    "elapsed_ms": 4217,
+    "detail": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-70becf7c9a-retry1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:gain_control\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:f47574e5187d4e484067001ae98cb54c75093910307a8c3c0a68152e70780536\",\n    \"repository\": \"/tmp/factory-ng-blocker-recovery-sep11\",\n    \"revision\": \"d705f2ef3f6d17ecec79c4a9ad1ecf6684c81572\"\n  }\n}"
+  },
+  {
+    "id": "ticket-gate-19",
+    "command": "cd backend && go test ./cards ./game -run '^(TestShape_FactoryNGRegistryRecovery.*|TestFactoryNGTriggerUnlessHandCountCondition|TestFactoryNGExileMvLeSourceCountersMultizone|TestFactoryNGPutCounterAndDrawCard|TestFactoryNGReturnFromGraveyardDualFilterHand|TestFactoryNGReturnExiledCardsWithSource|TestFactoryNGTapOrUntapChoiceTarget|TestFactoryNGTapVariableXTargetCount|TestFactoryNGNamedPermanentControlGatesEffectChoice_fac1071987|TestFactoryNGDamageByTargetPowerToItsController_fa4925b0a9)$' -count=1",
+    "outcome": "passed",
+    "elapsed_ms": 192169,
+    "detail": "TestShape_FactoryNGRegistryRecovery/return_from_graveyard_dual_filter_hand\n--- PASS: TestShape_FactoryNGRegistryRecovery/return_from_graveyard_dual_filter_hand (0.00s)\n=== RUN   TestShape_FactoryNGRegistryRecovery/sacrifice_self_return_exiled\n--- PASS: TestShape_FactoryNGRegistryRecovery/sacrifice_self_return_exiled (0.00s)\n=== RUN   TestShape_FactoryNGRegistryRecovery/tap_or_untap_target_choice\n--- PASS: TestShape_FactoryNGRegistryRecovery/tap_or_untap_target_choice (0.00s)\n=== RUN   TestShape_FactoryNGRegistryRecovery/tap_variable_amount_x\n--- PASS: TestShape_FactoryNGRegistryRecovery/tap_variable_amount_x (0.00s)\n=== RUN   TestShape_FactoryNGRegistryRecovery/tap_or_gain_control_if_named\n--- PASS: TestShape_FactoryNGRegistryRecovery/tap_or_gain_control_if_named (0.00s)\n=== RUN   TestShape_FactoryNGRegistryRecovery/damage_by_target_power_to_its_controller\n--- PASS: TestShape_FactoryNGRegistryRecovery/damage_by_target_power_to_its_controller (0.00s)\n--- PASS: TestShape_FactoryNGRegistryRecovery (0.00s)\n=== RUN   TestShape_FactoryNGRegistryRecoverySkullcage\n--- PASS: TestShape_FactoryNGRegistryRecoverySkullcage (0.00s)\n=== RUN   TestShape_FactoryNGRegistryRecoveryDongZhou\n--- PASS: TestShape_FactoryNGRegistryRecoveryDongZhou (0.00s)\n=== RUN   TestShape_FactoryNGRegistryRecoveryPromise\n--- PASS: TestShape_FactoryNGRegistryRecoveryPromise (0.00s)\nPASS\nok  \tmagic-backend/cards\t0.043s\n=== RUN   TestFactoryNGReturnExiledCardsWithSource\n--- PASS: TestFactoryNGReturnExiledCardsWithSource (0.00s)\n=== RUN   TestFactoryNGTapOrUntapChoiceTarget\n--- PASS: TestFactoryNGTapOrUntapChoiceTarget (0.00s)\n=== RUN   TestFactoryNGPutCounterAndDrawCard\n--- PASS: TestFactoryNGPutCounterAndDrawCard (0.00s)\n=== RUN   TestFactoryNGReturnFromGraveyardDualFilterHand\n--- PASS: TestFactoryNGReturnFromGraveyardDualFilterHand (0.00s)\n=== RUN   TestFactoryNGExileMvLeSourceCountersMultizone\n--- PASS: TestFactoryNGExileMvLeSourceCountersMultizone (0.00s)\n=== RUN   TestFactoryNGTapVariableXTargetCount\n--- PASS: TestFactoryNGTapVariableXTargetCount (0.00s)\n=== RUN   TestFactoryNGTriggerUnlessHandCountCondition\n--- PASS: TestFactoryNGTriggerUnlessHandCountCondition (0.00s)\n=== RUN   TestFactoryNGDamageByTargetPowerToItsController_fa4925b0a9\n--- PASS: TestFactoryNGDamageByTargetPowerToItsController_fa4925b0a9 (0.00s)\n=== RUN   TestFactoryNGNamedPermanentControlGatesEffectChoice_fac1071987\n--- PASS: TestFactoryNGNamedPermanentControlGatesEffectChoice_fac1071987 (0.00s)\nPASS\nok  \tmagic-backend/game\t0.040s\nNamed test gate: 22 test(s) passed for '^(TestShape_FactoryNGRegistryRecovery.*|TestFactoryNGTriggerUnlessHandCountCondition|TestFactoryNGExileMvLeSourceCountersMultizone|TestFactoryNGPutCounterAndDrawCard|TestFactoryNGReturnFromGraveyardDualFilterHand|TestFactoryNGReturnExiledCardsWithSource|TestFactoryNGTapOrUntapChoiceTarget|TestFactoryNGTapVariableXTargetCount|TestFactoryNGNamedPermanentControlGatesEffectChoice_fac1071987|TestFactoryNGDamageByTargetPowerToItsController_fa4925b0a9)$'"
+  },
+  {
+    "id": "ticket-gate-20",
+    "command": "cd backend && go test ./game ./cards",
+    "outcome": "passed",
+    "elapsed_ms": 156415,
+    "detail": "ok  \tmagic-backend/game\t0.647s\nok  \tmagic-backend/cards\t135.366s"
+  }
+]

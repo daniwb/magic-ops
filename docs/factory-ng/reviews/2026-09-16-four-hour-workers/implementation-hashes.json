@@ -1,0 +1,19 @@
+{
+  "scripts/factory-ng-controller.py": "sha256:0fb5b91be4b4a7561a9a8ddcd8ad521a7b232d8cc3fb016ef3da07c8a175d3a4",
+  "scripts/factory-ng-run-engine-ticket.py": "sha256:88d9c3f410df39f057a54d5130a8b9140440d301212948060f54855bfb9170d3",
+  "scripts/factory_ng_verification.py": "sha256:261b365bb6422d6e524247a9624ec1d2487118ead4270f7bfbf01f35283c0508",
+  "scripts/factory-ng-verify-batch.py": "sha256:8a030ab09ce8b1e7ee610af3ddbe8316aa2557b85d4ba3f1fdec94fb7d6c218c",
+  "scripts/factory-ng-reviewed-harness-recovery.py": "sha256:7b7238095b14f80b71f7f6ef8f1980dfa6d93a917fe41c357fcbda6742c1a83e",
+  "scripts/factory-ng-watchdog.py": "sha256:06dca823f336b1b05812cbb7f90490f612d506113d866a5b3ae7235985b9d2da",
+  "services/dispatcher/v4/dashboard.html": "sha256:74a8b7c544076d5eb04a28b12b7839e0d9408fed81dc6f43af59e680c5c1d282",
+  "config/factory-ng-producers.json": "sha256:657affeee6e558b22807296cffb1b03f3f23febe2c1d82316813018591807da0",
+  "config/factory-ng-workers.json": "sha256:a25a991c4ec8a82d32824eebfd834e4a5b130ff23332f41c32622dbec678d5c9",
+  "scripts/factory_ng_context.py": "sha256:5d463d74afa1e8add8ad8a2b2f2c0d04e47af6e2f2a59ffabe30fda72668c9e2",
+  "scripts/factory-ng-verify-remote.py": "sha256:3f2972fffbd3e134498f8c1acda446a1e81e9370058ce9dd8957d9c1755abb1d",
+  "scripts/test_factory_ng_producer_performance.py": "sha256:3e6e9481caf5900eae9665bc7d8122c32fd74eaad27d8cf5c3e79bf7249e24da",
+  "scripts/test_factory_ng_batching.py": "sha256:8ceb68261e4463cd24ff720576eddd11b2fdecf033e97d66ee8cc1531d052d0e",
+  "scripts/test_factory_ng_verification.py": "sha256:c4f6b40881adf09fad7a5503bce5e51245ab3e71edd0da2a35105b4bc3f3fede",
+  "scripts/test_factory_ng_remote.py": "sha256:2e83226b797ef444d26871dba1c2f1295373f5d84b56766888ceb326f546ac5e",
+  "scripts/test_factory_ng_control.py": "sha256:bbdd3c0e802443920ba62f2027fc02f870067b4546b28a5042ea8ae4143d7364",
+  "scripts/test_factory_ng_gate_priority.py": "sha256:042bfc073cd39c2b5474f82906bc4ae4b7a20b665d78dc194409f06591e69097"
+}

@@ -1,0 +1,24 @@
+{
+  "ticket_id": "ticket:engine.auto-active-damage-receiver-type-gate-3b7d9305ad/v2",
+  "receipt": "docs/factory-ng/runs/2026-09-16T155746Z-engine-auto-active-damage-receiver-type-gate-3b7d9305ad-v2-codex.json",
+  "receipt_sha256": "sha256:aba42154a072845ac6b98a104f87504476ad5e43d4c1f9c3f0a8cc617ed8d45d",
+  "provider_capacity_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-16T155746Z-engine-auto-active-damage-receiver-type-gate-3b7d9305ad-v2-codex.raw.json",
+      "sha256": "sha256:da4bd54f90da82cee804d56cc27b930ee1c0eda1c5f01fbb7d8e252173e3eb72"
+    }
+  ],
+  "prior_recovery": {
+    "admitted_at": "2026-09-16T15:57:45Z",
+    "batch": "needs-attention-2026-09-15",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-codex-repair/engine.auto-active-damage-receiver-type-gate-3b7d9305ad-v2.review.json",
+    "evidence_sha256": "sha256:c0147bc546f6cadd9279746d00efb611cde4b19159d4c183fb5a4f1a45771fda",
+    "previous_attempts": 1,
+    "previous_receipt": "docs/factory-ng/runs/2026-09-16T104907Z-engine-auto-active-damage-receiver-type-gate-3b7d9305ad-v2-codex.json",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "reason": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged."
+  },
+  "correction": "New jobs use gpt-5.6-terra after explicit Luna provider-capacity rejections. One finite retry is restricted to that different model; previous attempts, review and failed-profile history remain."
+}

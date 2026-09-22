@@ -1,0 +1,3 @@
+package main
+import("fmt"; "magic-backend/cards")
+func main(){p:=cards.NewParser();r:=p.Parse("Storm Seeker deals damage to target player equal to the number of cards in that player's hand.","Instant");fmt.Printf("%+v\n",r);for _,a:=range r.Abilities{fmt.Printf("ability=%+v\n",a)}}

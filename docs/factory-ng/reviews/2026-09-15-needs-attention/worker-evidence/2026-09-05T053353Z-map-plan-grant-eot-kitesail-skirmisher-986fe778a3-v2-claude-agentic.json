@@ -1,0 +1,67 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-map-plan-grant-eot-kitesail-skirmisher-986fe778a3-v2-ke7bml9v",
+    "candidate_commit": "8993e699ae5f3dc9b3e88ec1a2ff95b4456fcaf0",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "8993e699ae5f3dc9b3e88ec1a2ff95b4456fcaf0",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "claude-agentic@1.0.0",
+    "resolved_model": "claude-sonnet-5",
+    "telemetry": {
+      "bounded_repair_attempted": true,
+      "cache_read_tokens": 8710596,
+      "cache_write_tokens": 210561,
+      "elapsed_ms": 1012855,
+      "input_tokens": 16214,
+      "output_tokens": 77361,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      }
+    },
+    "worker": "claude"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed_model_protocol",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-05T053353Z-map-plan-grant-eot-kitesail-skirmisher-986fe778a3-v2-claude-agentic.raw.json",
+      "sha256": "sha256:c56b407e465708391d622f6d7064855ca8a44305a79923c96ccf441f009877b0"
+    },
+    {
+      "kind": "bounded_repair",
+      "path": "docs/factory-ng/runs/2026-09-05T053353Z-map-plan-grant-eot-kitesail-skirmisher-986fe778a3-v2-claude-agentic.repair.raw.json",
+      "sha256": "sha256:1eff29ade623e490fc5bdda83fb33dda461f7d0705766cd38be9ed81373d8262"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "ticket": {
+    "id": "ticket:map.plan-grant-eot-kitesail-skirmisher-986fe778a3/v2",
+    "path": "docs/factory-ng/tickets/map-plan-grant-eot-kitesail-skirmisher-986fe778a3-v2.json",
+    "sha256": "sha256:1c7bb55dc442fe64abb52eea880996adb8ba9363fc84c8ebb022474f02b245a5"
+  }
+}

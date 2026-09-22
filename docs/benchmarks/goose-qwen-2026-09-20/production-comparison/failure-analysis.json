@@ -1,0 +1,296 @@
+[
+  {
+    "ticket": "ticket:engine.auto-matches-tutor-filter-basic-land-2af184f7e6/v1",
+    "receipt": "docs/factory-ng/runs/2026-09-20T073015Z-engine-auto-matches-tutor-filter-basic-land-2af184f7e6-v1-goose-qwen-staged.json",
+    "category": "compile_or_vet",
+    "need_continuation": false,
+    "repair_attempted": true,
+    "failed_gates": [
+      {
+        "detail": "no edit blocks and no verdict found in model output\n",
+        "id": "initial-patch-apply",
+        "outcome": "failed"
+      },
+      {
+        "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGMatchesTutorFilterBasicLand_2af184f7e6$' -count=1",
+        "detail": "game/factory_ng_2af184f7e6_test.go:115:7: cannot use &raw (value of type **Card) as *Card value in assignment\n# magic-backend/game [magic-backend/game.test]\ngame/factory_ng_2af184f7e6_test.go:115:7: cannot use &raw (value of type **Card) as *Card value in assignment\nFAIL\tmagic-backend/game [build failed]\ntesting: warning: no tests to run\nPASS\nok  \tmagic-backend/cards\t0.004s [no tests to run]",
+        "elapsed_ms": 2289,
+        "id": "ticket-gate-1",
+        "outcome": "failed"
+      }
+    ]
+  },
+  {
+    "ticket": "ticket:engine.auto-targeted-graveyard-cards-to-top-of-library-order-658f24ac26/v1",
+    "receipt": "docs/factory-ng/runs/2026-09-20T082243Z-engine-auto-targeted-graveyard-cards-to-top-of-library-order-658f24ac26-v1-goose-qwen-staged.json",
+    "category": "completion_budget",
+    "need_continuation": true,
+    "repair_attempted": false,
+    "failed_gates": [
+      {
+        "detail": "no edit blocks and no verdict found in model output\n",
+        "id": "patch-apply",
+        "outcome": "failed"
+      },
+      {
+        "detail": "Provider call exited 1; see retained raw response. goose-staged: Goose exhausted the completion budget; partial output rejected\n",
+        "id": "provider-call",
+        "outcome": "failed"
+      }
+    ]
+  },
+  {
+    "ticket": "ticket:engine.auto-bounce-to-library-color-qualified-target-3e0a00f5e3/v1",
+    "receipt": "docs/factory-ng/runs/2026-09-20T092450Z-engine-auto-bounce-to-library-color-qualified-target-3e0a00f5e3-v1-goose-qwen-staged.json",
+    "category": "completion_budget",
+    "need_continuation": true,
+    "repair_attempted": false,
+    "failed_gates": [
+      {
+        "detail": "no edit blocks and no verdict found in model output\n",
+        "id": "patch-apply",
+        "outcome": "failed"
+      },
+      {
+        "detail": "Provider call exited 1; see retained raw response. goose-staged: Goose exhausted the completion budget; partial output rejected\n",
+        "id": "provider-call",
+        "outcome": "failed"
+      }
+    ]
+  },
+  {
+    "ticket": "ticket:engine.auto-for-each-attacker-owner-choice-library-placement-02fff2db77/v1",
+    "receipt": "docs/factory-ng/runs/2026-09-20T102135Z-engine-auto-for-each-attacker-owner-choice-library-placement-02fff2db77-v1-goose-qwen-staged.json",
+    "category": "model_response",
+    "need_continuation": true,
+    "repair_attempted": false,
+    "failed_gates": [
+      {
+        "detail": "backend/game/effects.go: NEWFILE but file already exists \u2014 use SEARCH/REPLACE\n",
+        "id": "patch-apply",
+        "outcome": "failed"
+      }
+    ]
+  },
+  {
+    "ticket": "ticket:engine.auto-reveal-random-card-from-hand-addfaf2838/v1",
+    "receipt": "docs/factory-ng/runs/2026-09-20T100158Z-engine-auto-reveal-random-card-from-hand-addfaf2838-v1-goose-qwen-staged.json",
+    "category": "model_response",
+    "need_continuation": true,
+    "repair_attempted": false,
+    "failed_gates": [
+      {
+        "detail": "backend/cards/registry_factory_ng_addfaf2838.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\nbackend/cards/factory_ng_addfaf2838_test.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\n",
+        "id": "patch-apply",
+        "outcome": "failed"
+      }
+    ]
+  },
+  {
+    "ticket": "ticket:engine.auto-for-each-attacker-owner-choice-library-placement-02fff2db77/v2",
+    "receipt": "docs/factory-ng/runs/2026-09-20T111404Z-engine-auto-for-each-attacker-owner-choice-library-placement-02fff2db77-v2-goose-qwen-staged.json",
+    "category": "compile_or_vet",
+    "need_continuation": true,
+    "repair_attempted": false,
+    "failed_gates": [
+      {
+        "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGForEachAttackerOwnerChoiceLibraryPlacement_02fff2db77$' -count=1",
+        "detail": "game/effects.go:44:29: cannot use c (variable of type *Card) as string value in argument to gs.Battlefield.RemoveCard\ngame/effects.go:47:32: cannot use append([]*Card{\u2026}, gs.Players[owner].Library...) (value of type []*Card) as *Zone value in assignment\ngame/effects.go:47:51: cannot use gs.Players[owner].Library (variable of type *Zone) as []*Card value in argument to append\ngame/effects.go:49:39: invalid append: argument must be a slice; have gs.Players[owner].Library (variable of type *Zone)\n# magic-backend/game\ngame/effects.go:44:29: cannot use c (variable of type *Card) as string value in argument to gs.Battlefield.RemoveCard\ngame/effects.go:47:32: cannot use append([]*Card{\u2026}, gs.Players[owner].Library...) (value of type []*Card) as *Zone value in assignment\ngame/effects.go:47:51: cannot use gs.Players[owner].Library (variable of type *Zone) as []*Card value in argument to append\ngame/effects.go:49:39: invalid append: argument must be a slice; have gs.Players[owner].Library (variable of type *Zone)\nFAIL\tmagic-backend/game [build failed]\nFAIL\tmagic-backend/cards [build failed]",
+        "elapsed_ms": 548,
+        "id": "ticket-gate-1",
+        "outcome": "failed"
+      }
+    ]
+  },
+  {
+    "ticket": "ticket:engine.auto-reveal-random-card-from-hand-addfaf2838/v2",
+    "receipt": "docs/factory-ng/runs/2026-09-20T105028Z-engine-auto-reveal-random-card-from-hand-addfaf2838-v2-goose-qwen-staged.json",
+    "category": "compile_or_vet",
+    "need_continuation": true,
+    "repair_attempted": false,
+    "failed_gates": [
+      {
+        "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGRevealRandomCardFromHand_addfaf2838$' -count=1",
+        "detail": "game/factory_ng_addfaf2838_test.go:8:2: undefined: RevealedRandomCardsFromHand\ngame/factory_ng_addfaf2838_test.go:9:2: undefined: revealRandomCardState\ngame/factory_ng_addfaf2838_test.go:44:15: undefined: RevealedRandomCardsFromHand\ncards/registry_factory_ng_addfaf2838.go:6:3: unknown field RuntimeTest in struct literal of type Primitive\n# magic-backend/game [magic-backend/game.test]\ngame/factory_ng_addfaf2838_test.go:8:2: undefined: RevealedRandomCardsFromHand\ngame/factory_ng_addfaf2838_test.go:9:2: undefined: revealRandomCardState\ngame/factory_ng_addfaf2838_test.go:44:15: undefined: RevealedRandomCardsFromHand\nFAIL\tmagic-backend/game [build failed]\n# magic-backend/cards [magic-backend/cards.test]\ncards/registry_factory_ng_addfaf2838.go:6:3: unknown field RuntimeTest in struct literal of type Primitive\nFAIL\tmagic-backend/cards [build failed]",
+        "elapsed_ms": 1282,
+        "id": "ticket-gate-1",
+        "outcome": "failed"
+      }
+    ]
+  },
+  {
+    "ticket": "ticket:engine.auto-for-each-color-optional-target-return-graveyard--d3fbd9fabe/v1",
+    "receipt": "docs/factory-ng/runs/2026-09-20T112326Z-engine-auto-for-each-color-optional-target-return-graveyard--d3fbd9fabe-v1-goose-qwen-staged.json",
+    "category": "completion_budget",
+    "need_continuation": true,
+    "repair_attempted": false,
+    "failed_gates": [
+      {
+        "detail": "no edit blocks and no verdict found in model output\n",
+        "id": "patch-apply",
+        "outcome": "failed"
+      },
+      {
+        "detail": "Provider call exited 1; see retained raw response. goose-staged: Goose exhausted the completion budget; partial output rejected\n",
+        "id": "provider-call",
+        "outcome": "failed"
+      }
+    ]
+  },
+  {
+    "ticket": "ticket:engine.auto-referent-object-to-library-top-b695fba968/v1",
+    "receipt": "docs/factory-ng/runs/2026-09-20T113154Z-engine-auto-referent-object-to-library-top-b695fba968-v1-goose-qwen-staged.json",
+    "category": "model_response",
+    "need_continuation": true,
+    "repair_attempted": false,
+    "failed_gates": [
+      {
+        "detail": "backend/cards/registry_factory_ng_b695fba968.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\n",
+        "id": "patch-apply",
+        "outcome": "failed"
+      }
+    ]
+  },
+  {
+    "ticket": "ticket:engine.auto-mill-random-typed-card-to-own-graveyard-1f7a9784d0/v1",
+    "receipt": "docs/factory-ng/runs/2026-09-20T122742Z-engine-auto-mill-random-typed-card-to-own-graveyard-1f7a9784d0-v1-goose-qwen-staged.json",
+    "category": "completion_budget",
+    "need_continuation": true,
+    "repair_attempted": false,
+    "failed_gates": [
+      {
+        "detail": "no edit blocks and no verdict found in model output\n",
+        "id": "patch-apply",
+        "outcome": "failed"
+      },
+      {
+        "detail": "Provider call exited 1; see retained raw response. goose-staged: Goose exhausted the completion budget; partial output rejected\n",
+        "id": "provider-call",
+        "outcome": "failed"
+      }
+    ]
+  },
+  {
+    "ticket": "ticket:engine.auto-referent-object-to-library-top-b695fba968/v2",
+    "receipt": "docs/factory-ng/runs/2026-09-20T121542Z-engine-auto-referent-object-to-library-top-b695fba968-v2-goose-qwen-staged.json",
+    "category": "compile_or_vet",
+    "need_continuation": true,
+    "repair_attempted": false,
+    "failed_gates": [
+      {
+        "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGReferentObjectToLibraryTop_b695fba968$' -count=1",
+        "detail": "game/ability_effects.go:2844:28: cannot use card (variable of type *Card) as string value in argument to gs.Battlefield.RemoveCard\ngame/ability_effects.go:2845:30: cannot use append([]*Card{\u2026}, gs.Players[owner].Library...) (value of type []*Card) as *Zone value in assignment\ngame/ability_effects.go:2845:52: cannot use gs.Players[owner].Library (variable of type *Zone) as []*Card value in argument to append\n# magic-backend/game\ngame/ability_effects.go:2844:28: cannot use card (variable of type *Card) as string value in argument to gs.Battlefield.RemoveCard\ngame/ability_effects.go:2845:30: cannot use append([]*Card{\u2026}, gs.Players[owner].Library...) (value of type []*Card) as *Zone value in assignment\ngame/ability_effects.go:2845:52: cannot use gs.Players[owner].Library (variable of type *Zone) as []*Card value in argument to append\nFAIL\tmagic-backend/game [build failed]\nFAIL\tmagic-backend/cards [build failed]",
+        "elapsed_ms": 554,
+        "id": "ticket-gate-1",
+        "outcome": "failed"
+      }
+    ]
+  },
+  {
+    "ticket": "ticket:engine.auto-restricted-color-choice-from-referent-set-1a59da27ac/v1",
+    "receipt": "docs/factory-ng/runs/2026-09-20T125501Z-engine-auto-restricted-color-choice-from-referent-set-1a59da27ac-v1-goose-qwen-staged.json",
+    "category": "model_response",
+    "need_continuation": true,
+    "repair_attempted": false,
+    "failed_gates": [
+      {
+        "detail": "no edit blocks and no verdict found in model output\n",
+        "id": "patch-apply",
+        "outcome": "failed"
+      }
+    ]
+  },
+  {
+    "ticket": "ticket:engine.auto-put-hand-card-library-top-ab49d26a4e/v1",
+    "receipt": "docs/factory-ng/runs/2026-09-20T132536Z-engine-auto-put-hand-card-library-top-ab49d26a4e-v1-goose-qwen-staged.json",
+    "category": "compile_or_vet",
+    "need_continuation": true,
+    "repair_attempted": false,
+    "failed_gates": [
+      {
+        "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGPutHandCardLibraryTop_ab49d26a4e$' -count=1",
+        "detail": "game/factory_ng_ab49d26a4e_test.go:31:16: cannot use []*Card{\u2026} (value of type []*Card) as []Target value in struct literal\n# magic-backend/game [magic-backend/game.test]\ngame/factory_ng_ab49d26a4e_test.go:31:16: cannot use []*Card{\u2026} (value of type []*Card) as []Target value in struct literal\nFAIL\tmagic-backend/game [build failed]\ntesting: warning: no tests to run\nPASS\nok  \tmagic-backend/cards\t0.004s [no tests to run]",
+        "elapsed_ms": 2612,
+        "id": "ticket-gate-1",
+        "outcome": "failed"
+      }
+    ]
+  },
+  {
+    "ticket": "ticket:engine.auto-look-top-n-choose-one-hand-exile-rest-88b80b98a1/v1",
+    "receipt": "docs/factory-ng/runs/2026-09-20T132552Z-engine-auto-look-top-n-choose-one-hand-exile-rest-88b80b98a1-v1-goose-qwen-staged.json",
+    "category": "model_response",
+    "need_continuation": true,
+    "repair_attempted": false,
+    "failed_gates": [
+      {
+        "detail": "backend/cards/registry_factory_ng_88b80b98a1.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\n",
+        "id": "patch-apply",
+        "outcome": "failed"
+      }
+    ]
+  },
+  {
+    "ticket": "ticket:engine.auto-look-top-n-choose-one-hand-exile-rest-88b80b98a1/v2",
+    "receipt": "docs/factory-ng/runs/2026-09-20T134443Z-engine-auto-look-top-n-choose-one-hand-exile-rest-88b80b98a1-v2-goose-qwen-staged.json",
+    "category": "model_response",
+    "need_continuation": true,
+    "repair_attempted": false,
+    "failed_gates": [
+      {
+        "detail": "backend/cards/registry_factory_ng_88b80b98a1.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\n",
+        "id": "patch-apply",
+        "outcome": "failed"
+      }
+    ]
+  },
+  {
+    "ticket": "ticket:engine.auto-put-hand-card-library-top-ab49d26a4e/v2",
+    "receipt": "docs/factory-ng/runs/2026-09-20T135625Z-engine-auto-put-hand-card-library-top-ab49d26a4e-v2-goose-qwen-staged.json",
+    "category": "compile_or_vet",
+    "need_continuation": true,
+    "repair_attempted": false,
+    "failed_gates": [
+      {
+        "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGPutHandCardLibraryTop_ab49d26a4e$' -count=1",
+        "detail": "game/factory_ng_ab49d26a4e_test.go:42:28: undefined: got\ncards/registry_factory_ng_ab49d26a4e.go:20:3: too many arguments in call to regEffect\n# magic-backend/game [magic-backend/game.test]\ngame/factory_ng_ab49d26a4e_test.go:42:28: undefined: got\nFAIL\tmagic-backend/game [build failed]\n# magic-backend/cards [magic-backend/cards.test]\ncards/registry_factory_ng_ab49d26a4e.go:20:3: too many arguments in call to regEffect\n\thave (string, func(gs *game.GameState, controller int, value map[string]interface{}, source *game.Card) error, string)\n\twant (string, Primitive)\nFAIL\tmagic-backend/cards [build failed]",
+        "elapsed_ms": 1284,
+        "id": "ticket-gate-1",
+        "outcome": "failed"
+      }
+    ]
+  },
+  {
+    "ticket": "ticket:engine.auto-targeted-graveyard-cards-to-owner-library-top-or-b03850c466/v1",
+    "receipt": "docs/factory-ng/runs/2026-09-20T142323Z-engine-auto-targeted-graveyard-cards-to-owner-library-top-or-b03850c466-v1-goose-qwen-staged.json",
+    "category": "model_response",
+    "need_continuation": true,
+    "repair_attempted": false,
+    "failed_gates": [
+      {
+        "detail": "no edit blocks and no verdict found in model output\n",
+        "id": "patch-apply",
+        "outcome": "failed"
+      }
+    ]
+  },
+  {
+    "ticket": "ticket:engine.auto-target-filter-life-greater-than-controller-2c2462be5e/v1",
+    "receipt": "docs/factory-ng/runs/2026-09-20T141507Z-engine-auto-target-filter-life-greater-than-controller-2c2462be5e-v1-goose-qwen-staged.json",
+    "category": "completion_budget",
+    "need_continuation": true,
+    "repair_attempted": false,
+    "failed_gates": [
+      {
+        "detail": "no edit blocks and no verdict found in model output\n",
+        "id": "patch-apply",
+        "outcome": "failed"
+      },
+      {
+        "detail": "Provider call exited 1; see retained raw response. goose-staged: Goose exhausted the completion budget; partial output rejected\n",
+        "id": "provider-call",
+        "outcome": "failed"
+      }
+    ]
+  }
+]

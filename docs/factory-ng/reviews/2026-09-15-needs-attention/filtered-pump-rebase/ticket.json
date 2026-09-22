@@ -1,0 +1,179 @@
+{
+  "capability": {
+    "expected_unlock": 1,
+    "negative_examples": [
+      "Targeted single-permanent pump_until_eot atoms (e.g. 'Target creature gets +1/+1 until end of turn.') must keep resolving through the existing TARGETED executePumpEffect path unchanged"
+    ],
+    "required_behavior": "executePumpEffect in game/ability_effects.go must apply a pump_until_eot amount to every permanent matching a static filter (e.g. 'artifact creatures you control') when the atom carries no target, instead of no-oping as it currently does for no-target atoms",
+    "source_misses": [
+      {
+        "card": "Artificer's Dragon",
+        "oracle_text_sha256": "278ef003f44199c6aa55152c14bacd3118d329df134e036df3ae11dff699c2e4",
+        "paragraph": "Artifact creatures you control get +1/+0 until end of turn.",
+        "required_behavior": "apply +1/+0 until end of turn to all artifact creatures the activating player controls, with no target chosen"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "key": "ability_pump_filtered_no_target",
+        "specification": {
+          "expected_unlock": 1,
+          "negative_examples": [
+            "Targeted single-permanent pump_until_eot atoms (e.g. 'Target creature gets +1/+1 until end of turn.') must keep resolving through the existing TARGETED executePumpEffect path unchanged"
+          ],
+          "required_behavior": "executePumpEffect in game/ability_effects.go must apply a pump_until_eot amount to every permanent matching a static filter (e.g. 'artifact creatures you control') when the atom carries no target, instead of no-oping as it currently does for no-target atoms",
+          "source_misses": [
+            {
+              "card": "Artificer's Dragon",
+              "oracle_text_sha256": "278ef003f44199c6aa55152c14bacd3118d329df134e036df3ae11dff699c2e4",
+              "paragraph": "Artifact creatures you control get +1/+0 until end of turn.",
+              "required_behavior": "apply +1/+0 until end of turn to all artifact creatures the activating player controls, with no target chosen"
+            }
+          ]
+        },
+        "summary": "Ability-tier pump_until_eot executor cannot apply a non-targeted, filter-scoped effect to multiple permanents"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-08-30T221412Z-map-plan-pump-artificer-s-dragon-4c0aa7e388-v1-claude.json"
+    },
+    {
+      "anchor": "1-40",
+      "fact": "Current source contains the nearest bounded seam matching capability tokens ability, pump, filtered, target.",
+      "path": "backend/game/dynamic_amount.go",
+      "sha256": "sha256:07c514d74935fce87d2eebbf7da347a0f4be738088f738cfa731bfc83551e6a2"
+    },
+    {
+      "anchor": "1-61",
+      "fact": "Current source contains the nearest bounded seam matching capability tokens ability, pump, filtered, target.",
+      "path": "backend/game/effects.go",
+      "sha256": "sha256:283a75ac596319d6422f91838cd413c5b1f1cc7b074a1c8f26b1a9a1955ed269"
+    },
+    {
+      "anchor": "180-250",
+      "fact": "Current source contains the nearest bounded seam matching capability tokens ability, pump, filtered, target.",
+      "path": "backend/game/card.go",
+      "sha256": "sha256:4cb1df58b8b56e8d060e0c1b3e8b304678c4c4517f33dd5d5671337164e9d91f"
+    },
+    {
+      "fact": "The v1 worker requested exact source regions; the runner now supplies one bounded NEED continuation automatically.",
+      "path": "docs/factory-ng/runs/2026-08-30T222512Z-engine-auto-ability-pump-filtered-no-target-1e97812a5d-v1-codex.json"
+    },
+    {
+      "anchor": "423-488",
+      "fact": "Card-knowledge index match (engine): executePumpEffect is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:96b6e44495d22c42ba6dc3dba67b4ce98125ed9376d5a0ecd24c61966d898415"
+    },
+    {
+      "anchor": "3591-3656",
+      "fact": "Card-knowledge index match (engine): resolveMassDamage is the nearest indexed seam for this capability.",
+      "path": "backend/game/gamestate.go",
+      "sha256": "sha256:61300ea7c3ad4081d570a4569e71de421e5d0381764a58b4fc1a3a51a6f3ed0d"
+    },
+    {
+      "anchor": "1-63",
+      "fact": "Card-knowledge index match (engine): executeGainControlEffect is the nearest indexed seam for this capability.",
+      "path": "backend/game/control_effects.go",
+      "sha256": "sha256:e05b148d7ba6ea7a9a73152aa3031bbf38c8b3dfb2da3d42755946e6df9aec82"
+    },
+    {
+      "anchor": "503-568",
+      "fact": "Card-knowledge index match (engine): routeSeqTargets is the nearest indexed seam for this capability.",
+      "path": "backend/game/effect_sequence.go",
+      "sha256": "sha256:d203a73924f924312712e7cf0de2fec762c7def5a24705f510346749f3939405"
+    },
+    {
+      "fact": "The previous attempt parked AMBIGUOUS because its evidence pack omitted the real seam; this retry regenerates evidence from the indexed engine symbol table.",
+      "path": "docs/factory-ng/runs/2026-08-30T223024Z-engine-auto-ability-pump-filtered-no-target-1e97812a5d-v2-codex.json"
+    },
+    {
+      "fact": "The previous candidate compiled/ran and failed this exact gate: ticket-gate-0: ; ticket-gate-1: FAIL\tmagic-backend/game [build failed]\nok  \tmagic-backend/cards\t0.022s [no tests to run]\nFAIL\n# magic-backend/game [magic-backend/game.test]\ngame/factory_ng_1e97812a5d_test.go:24:18: undefined: TypeArtifactCreature\ngame/factory_ng_1e97812a5d_test.go:36:21: undefined: TypeArtifactCreature; ticket-gate-2: FAIL\tmagic-backend/game [build failed]\nok  \tmagic-backend/cards\t59.912s\nFAIL\n# magic-backend/game [magic-backend/game.test]\ngame/factory_ng_1e97812a5d_test.go:24:18: undefined: TypeArtifactCreature\ngame/factory_ng_1e97812a5d_test.go:36:21: undefined: TypeArtifactCreature. Fix only this defect; do not restructure unrelated code or revisit already-passing behavior.",
+      "path": "docs/factory-ng/runs/2026-09-03T155754Z-engine-auto-ability-pump-filtered-no-target-1e97812a5d-v3-qwen-agentic.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "One bounded gate-failure repair: the prior candidate was substantively close but failed a specific behavior or build gate.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGAbilityPumpFilteredNoTarget$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.operator-filtered-pump-recovery-sep15/v2",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Retain the terminal receipt and continue independent discovery; do not request manual source transcription.",
+  "parents": [
+    "ticket:engine.auto-ability-pump-filtered-no-target-1e97812a5d/v4",
+    "ticket:engine.operator-filtered-pump-recovery-sep15/v1"
+  ],
+  "production": {
+    "key": "capability:ability_pump_filtered_no_target:sha256:1e97812a5d823fe2f4de760e0244c350683415033a25906f89779cd64078fe30:need-continuation-v2:evidence-refresh-v1:gate-repair-v1",
+    "producer": "capability-dependencies",
+    "retry_reason": "semantic_gate_repair"
+  },
+  "required_behavior": [
+    "executePumpEffect in game/ability_effects.go must apply a pump_until_eot amount to every permanent matching a static filter (e.g. 'artifact creatures you control') when the atom carries no target, instead of no-oping as it currently does for no-target atoms",
+    "Preserve these adjacent behaviors: Targeted single-permanent pump_until_eot atoms (e.g. 'Target creature gets +1/+1 until end of turn.') must keep resolving through the existing TARGETED executePumpEffect path unchanged",
+    "Add a discriminating behavior test named TestFactoryNGAbilityPumpFilteredNoTarget; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_1e97812a5d_test.go",
+      "backend/cards/factory_ng_1e97812a5d_test.go",
+      "backend/cards/registry_factory_ng_1e97812a5d.go",
+      "backend/cards/converter_untargeted_pump.go",
+      "backend/cards/shape_untargeted_pump_test.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "0e46dd46b537e9d57ec76c06ba064c3457017265",
+    "clean": true
+  },
+  "title": "Preserve explicit recipient filters for untargeted temporary pumps",
+  "work_type": "engine",
+  "operator_recovery": {
+    "authorization": "User requested fixing all needs-attention tickets.",
+    "original_ticket": "docs/factory-ng/tickets/engine-auto-ability-pump-filtered-no-target-1e97812a5d-v4.json",
+    "original_ticket_sha256": "sha256:45ff56bc2bfa7b932ec28704a1028d0e06af38819d831c2547245a7804bac7c4",
+    "additional_provider_runs": 0,
+    "counter_resets": false,
+    "scope_addition_reason": "Isolated converter helper and discriminating public-action shape tests; preserve original named gate and all full tests.",
+    "previous_operator_ticket": "docs/factory-ng/reviews/2026-09-15-needs-attention/filtered-pump/ticket.json",
+    "integration_conflict_repair": "Preserve the already-integrated activated grant conversion and disturb filter while applying the independent pump additions."
+  },
+  "supersedes": "ticket:engine.operator-filtered-pump-recovery-sep15/v1"
+}

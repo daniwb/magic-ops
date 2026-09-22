@@ -1,0 +1,17 @@
+{
+  "receipt": "docs/factory-ng/runs/2026-09-11T213352Z-wave-9e4daf22389a-1789162432267229617-integration.json",
+  "outcome": "pushed_full_production_gate_green",
+  "elapsed_minutes": {
+    "candidate-apply": 0.05,
+    "composed-ticket checks": 43.1,
+    "reparse-flip": 2.24,
+    "reparse-import": 0.42,
+    "go-build": 2.96,
+    "game-tests": 0.64,
+    "focused-go": 0.45,
+    "full-sharded-suite": 4.33,
+    "push": 0.05
+  },
+  "excluded_candidates": {},
+  "note": "Observed serial integration overhead. Original candidate checks and final-composition rechecks retained; no integration gate optimization in this recovery."
+}

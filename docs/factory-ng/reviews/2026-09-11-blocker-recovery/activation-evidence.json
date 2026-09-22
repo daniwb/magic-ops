@@ -1,0 +1,125 @@
+{
+  "sigil": {
+    "attempts": 1,
+    "compatible_profiles": [
+      "claude-staged@1.0.0"
+    ],
+    "created_at": "2026-09-09T16:03:33Z",
+    "dispatch_profile": "claude-staged@1.0.0",
+    "failed_profiles": [
+      "claude-staged@1.0.0"
+    ],
+    "finished_at": "2026-09-09T16:33:47Z",
+    "log_path": "state/factory-ng-job-output/engine-staged-trial-verify-sigil-v2.log",
+    "model": "claude-sonnet-5",
+    "outcome": "infrastructure_failed_model_protocol",
+    "preferred_profile": "claude-staged@1.0.0",
+    "processed_receipt": "docs/factory-ng/runs/2026-09-09T161806Z-engine-staged-trial-verify-sigil-v2-claude.json",
+    "production": {
+      "key": "staged-five-card-2026-09-08:verify:sigil:evidence-refresh-v1",
+      "producer": "staged-five-card-trial",
+      "trial_card": "Sigil of Sleep",
+      "trial_id": "staged-five-card-2026-09-08",
+      "trial_phase": "verification",
+      "verification_context_version": "pinned-fixtures-v1"
+    },
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-09T161806Z-engine-staged-trial-verify-sigil-v2-claude.json",
+    "result_path": "state/factory-ng-job-output/engine-staged-trial-verify-sigil-v2.json",
+    "retry_after_epoch": 1788971927,
+    "started_at": "2026-09-09T16:18:05Z",
+    "state": "failed",
+    "ticket_id": "ticket:engine.staged-trial-verify-sigil/v2",
+    "ticket_path": "docs/factory-ng/tickets/engine-staged-trial-verify-sigil-v2.json",
+    "updated_at": "2026-09-09T16:33:47Z",
+    "usage_status": {},
+    "waiting_reason": "all compatible profiles exhausted their bounded protocol attempt; a reviewed repair is required",
+    "work_type": "engine",
+    "worker": "claude"
+  },
+  "churning_eddy": {
+    "attempts": 1,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0",
+      "codex-constrained@1.1.0"
+    ],
+    "created_at": "2026-09-10T20:33:44Z",
+    "dependency_blocker": {
+      "children": {
+        "ticket:engine.auto-bounce-two-independent-targets-8ee0aad41a/v2": "failed"
+      },
+      "reason": "Engine dependency has no active successor: failed"
+    },
+    "dispatch_profile": "codex-constrained@1.1.0",
+    "finished_at": "2026-09-10T20:36:35Z",
+    "log_path": "state/factory-ng-job-output/map-plan-bounce-churning-eddy-8b71eb3c88-v2.log",
+    "model": "gpt-5.6-luna",
+    "outcome": "blocked_by_capability",
+    "preferred_profile": "claude-staged@1.0.0",
+    "processed_receipt": "docs/factory-ng/runs/2026-09-10T203401Z-map-plan-bounce-churning-eddy-8b71eb3c88-v2-codex.json",
+    "production": {
+      "key": "build-plan:verb_unmapped:bounce:sha256:7d74848fca832f32f12a78084cc2073cc4341cf129d67e1b8eb6df3552522a5d",
+      "plan_rank": 46,
+      "predicted_class_unlock": 42,
+      "producer": "build-plan-continuous",
+      "retry_generation": 1,
+      "retry_reason": "semantic_gate_repair"
+    },
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-10T203401Z-map-plan-bounce-churning-eddy-8b71eb3c88-v2-codex.json",
+    "result_path": "state/factory-ng-job-output/map-plan-bounce-churning-eddy-8b71eb3c88-v2.json",
+    "started_at": "2026-09-10T20:34:00Z",
+    "state": "blocked",
+    "ticket_id": "ticket:map.plan-bounce-churning-eddy-8b71eb3c88/v2",
+    "ticket_path": "docs/factory-ng/tickets/map-plan-bounce-churning-eddy-8b71eb3c88-v2.json",
+    "updated_at": "2026-09-10T20:36:35Z",
+    "usage_status": {
+      "claude": "5h=64% 7d=19% | weekly-mode=paced fixed=100% | Tag 2/7 \u2192 erlaubt 29% n\u00e4chste Stufe: 2026-09-11 19:59 CEST \u2192 l\u00e4uft (unter Tages-Stufe, Stopp bei >=)",
+      "claude-2": "5h=64% 7d=19% | weekly-mode=paced fixed=95% | Tag 2/7 \u2192 erlaubt 27% n\u00e4chste Stufe: 2026-09-11 19:59 CEST \u2192 l\u00e4uft (unter Tages-Stufe, Stopp bei >=)",
+      "codex": "primary=48% secondary=n/a% | weekly-mode=fixed fixed=70% | Tag 3 -> erlaubt 30% -> laeuft (fixed weekly ceiling 70%)",
+      "codex-2": "primary=48% secondary=n/a% | weekly-mode=fixed fixed=50% | Tag 3 -> erlaubt 21% -> laeuft (fixed weekly ceiling 50%)"
+    },
+    "waiting_reason": "Engine dependency has no active successor: failed",
+    "work_type": "map",
+    "worker": "codex-2"
+  },
+  "codex_2": [
+    {
+      "attempts": 1,
+      "compatible_profiles": [
+        "claude-staged@1.0.0",
+        "qwen-prepared-local@1.0.1",
+        "codex-constrained@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "created_at": "2026-09-11T21:45:17Z",
+      "dispatch_profile": "codex-constrained@1.1.0",
+      "log_path": "state/factory-ng-job-output/engine-auto-fight-attached-referent-1622bc7a24-v2.log",
+      "model": "gpt-5.6-luna",
+      "pid": 2887085,
+      "preferred_profile": "claude-staged@1.0.0",
+      "production": {
+        "key": "capability:fight_attached_referent:sha256:1622bc7a2414b98ac92b38869d0314d17702cdc18909975dedb1f9e00d5ff613:gate-repair-v1",
+        "producer": "capability-dependencies",
+        "retry_reason": "semantic_gate_repair"
+      },
+      "profile": "claude-staged@1.0.0",
+      "result_path": "state/factory-ng-job-output/engine-auto-fight-attached-referent-1622bc7a24-v2.json",
+      "started_at": "2026-09-11T21:45:28Z",
+      "state": "working",
+      "ticket_id": "ticket:engine.auto-fight-attached-referent-1622bc7a24/v2",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-fight-attached-referent-1622bc7a24-v2.json",
+      "updated_at": "2026-09-11T21:45:28Z",
+      "usage_status": {
+        "claude": "5h=91% 7d=37% | weekly-mode=paced fixed=100% | Tag 3/7 \u2192 erlaubt 43% n\u00e4chste Stufe: 2026-09-12 20:00 CEST \u2192 l\u00e4uft (unter Tages-Stufe, Stopp bei >=)",
+        "claude-2": "5h=91% 7d=37% | weekly-mode=paced fixed=95% | Tag 3/7 \u2192 erlaubt 41% n\u00e4chste Stufe: 2026-09-12 20:00 CEST \u2192 l\u00e4uft (unter Tages-Stufe, Stopp bei >=)",
+        "codex": "primary=60% secondary=n/a% | weekly-mode=fixed fixed=70% | Tag 4 -> erlaubt 40% -> laeuft (fixed weekly ceiling 70%)",
+        "codex-2": "primary=60% secondary=n/a% | weekly-mode=fixed fixed=70% | Tag 4 -> erlaubt 40% -> laeuft (fixed weekly ceiling 70%)"
+      },
+      "work_type": "engine",
+      "worker": "codex-2"
+    }
+  ]
+}

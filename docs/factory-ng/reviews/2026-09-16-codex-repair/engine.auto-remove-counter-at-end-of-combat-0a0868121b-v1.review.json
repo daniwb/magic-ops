@@ -1,0 +1,20 @@
+{
+  "ticket_id": "ticket:engine.auto-remove-counter-at-end-of-combat-0a0868121b/v1",
+  "codex_receipt": "docs/factory-ng/runs/2026-09-13T024212Z-engine-auto-remove-counter-at-end-of-combat-0a0868121b-v1-codex.json",
+  "codex_receipt_sha256": "sha256:a7e49c5610bb2235cc301e339963482101f8bb9f0a3e473e30be66d3a3c65862",
+  "current_receipt": "docs/factory-ng/runs/2026-09-13T025040Z-engine-auto-remove-counter-at-end-of-combat-0a0868121b-v1-claude.json",
+  "current_receipt_sha256": "sha256:0e37e6507fd62a3cb4e034c62c30dc8e905a21cf598eef6717484a860273b162",
+  "initial_gates": [
+    {
+      "detail": "backend/cards/converter.go: SEARCH text not found (must be copied verbatim, no line numbers)\nbackend/game/ability_effects.go: SEARCH text not found (must be copied verbatim, no line numbers)\n",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "correction": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged."
+}

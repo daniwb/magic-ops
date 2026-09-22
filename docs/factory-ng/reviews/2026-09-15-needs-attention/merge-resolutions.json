@@ -1,0 +1,45 @@
+{
+  "schema": "factory.reviewed-merge-resolutions/v1",
+  "resolutions": {
+    "ticket:engine.auto-each-player-discard-hand-dynamic-count-6be50d10d1/v3": {
+      "original_patch_sha256": "sha256:22014cf64a8ef20dab40092a045daec87cd3ae97464d10088b93fb6fca414c69",
+      "ticket_sha256": "sha256:9bdf9c27345333bb71ff4b96f799d8b24185c24e9a3daa0f839635432fde4bef",
+      "patch": "docs/factory-ng/reviews/2026-09-15-needs-attention/engine.auto-each-player-discard-hand-dynamic-count-6be50d10d1-v3.patch",
+      "patch_sha256": "sha256:57e569bcbdbd2f432b1053d442012271a776577e34f6deb8b9847eb431d23026",
+      "source_revision": "dcaede101695679db547667bfd3efdf360309e73",
+      "reason": "Preserve target-player discard conversion and bind the each-player hand discard to its exact runtime path and original end-to-end test."
+    },
+    "ticket:engine.auto-remove-counter-at-end-of-combat-a452329fad/v2": {
+      "original_patch_sha256": "sha256:9583c71670fc5561aa930a6d4ee36fa206accb89627792581cbe486faa100357",
+      "ticket_sha256": "sha256:122d6a542f8188a83f0aecd1f230cf32dd267ca2282bba09dc3c11410267184c",
+      "patch": "docs/factory-ng/reviews/2026-09-15-needs-attention/engine.auto-remove-counter-at-end-of-combat-a452329fad-v2.patch",
+      "patch_sha256": "sha256:f3dce3818715b04e156d301edf2f74015efd17f62e11e42d69efb6014c69ed16",
+      "source_revision": "dcaede101695679db547667bfd3efdf360309e73",
+      "reason": "Preserve the already landed delayed-counter executor including event-card binding; retain explicit target guards and original end-of-combat test."
+    },
+    "ticket:map.plan-regenerate-butcher-s-glee-ec963567a0/v4": {
+      "original_patch_sha256": "sha256:b0a813ee34217244ed3473e3856b8ae641fdbd6f39cd01863f4c65a6107eb839",
+      "ticket_sha256": "sha256:4d011a9fe1468eebd09b52e951dd856233474dfbb023a4850c5b77733718105c",
+      "patch": "docs/factory-ng/reviews/2026-09-15-needs-attention/map.plan-regenerate-butcher-s-glee-ec963567a0-v4.patch",
+      "patch_sha256": "sha256:59a352e3316f5ed22bd5bd117bb9791421be0021f32fb02fd86c64ba20fe49ac",
+      "source_revision": "dcaede101695679db547667bfd3efdf360309e73",
+      "reason": "Combine the independent enchanted-creature and spell sequence referent regenerate mappings; preserve all four original parser checks."
+    },
+    "ticket:map.plan-damage-by-assert-perfection-8ba7935f36/v5": {
+      "original_patch_sha256": "sha256:f47ddcf9cd66f76d77afe49bb66212676cac16aad01a8f5851f95b47bcd2d331",
+      "ticket_sha256": "sha256:46e153fe42d4f7be764fc7d3f1f5624c7b0c5cf1eec14ba1b0d398e3ff8c09ea",
+      "patch": "docs/factory-ng/reviews/2026-09-15-needs-attention/map.plan-damage-by-assert-perfection-8ba7935f36-v5.patch",
+      "patch_sha256": "sha256:4859bf1325d364c6e7cb1e3beb3ffd6b3f6c346f506937bc7def2ffdeb58614c",
+      "source_revision": "dcaede101695679db547667bfd3efdf360309e73",
+      "reason": "Preserve newer damage-source mappings, modal metadata and independent damage pair support while restoring the accepted referent-power mapping and optional target."
+    },
+    "ticket:map.plan-put-counters-selfcraft-mechan-ac7fb28b1a/v4": {
+      "original_patch_sha256": "sha256:3c32faddbb6a3d6d8a5732d349d8a29dce9d122ca6140f3e89bceed7f89a41e8",
+      "ticket_sha256": "sha256:5a4901180045c0fc4f9a5cf175cae4bca34df552b77e98636c0a9d74ba1f53ae",
+      "patch": "docs/factory-ng/reviews/2026-09-15-needs-attention/map.plan-put-counters-selfcraft-mechan-ac7fb28b1a-v4.patch",
+      "patch_sha256": "sha256:65bc995a2135f437bca3c0c0aca780c60ecfa41ae7ea858adda9db2cf4da1146",
+      "source_revision": "dcaede101695679db547667bfd3efdf360309e73",
+      "reason": "The missing primitive is now registered. Retain whole-card exact output; replace obsolete unsupported-two-draw assertion with a stricter exact two-draw sequence assertion plus rejection by the one-card helper."
+    }
+  }
+}

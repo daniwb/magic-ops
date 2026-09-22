@@ -1,0 +1,14 @@
+{
+  "at": "2026-09-16T23:33:31.049055+00:00",
+  "checks": {
+    "docs/factory-ng/runs/2026-09-16T215330Z-focused-e1a47da70c6943b786442062358ac1fe-0.json": true,
+    "docs/factory-ng/runs/2026-09-16T215328Z-focused-fa423e067b494f7785cb1d9a487ece5b-0.json": true,
+    "docs/factory-ng/runs/2026-09-16T215433Z-engine-auto-copy-spell-as-artifact-token-cd2b069ce2-v3-codex.json": true,
+    "docs/factory-ng/runs/2026-09-16T225250Z-focused-283c27a2e66d4a8d9e5957553f21ac1b-0.json": true,
+    "docs/factory-ng/runs/2026-09-16T225159Z-focused-db80f00c51664820b20f3aa02b25434f-0.json": true,
+    "ticket:engine.auto-destroy-permanents-with-attribute-equal-to-count-cd9a3837ad/v4 full integration": true,
+    "ticket:engine.auto-destroy-trigger-block-counterpart-referent-09d08a014b/v3 full integration": true,
+    "tested implementation hashes": true,
+    "controller loaded after final code change": true
+  }
+}

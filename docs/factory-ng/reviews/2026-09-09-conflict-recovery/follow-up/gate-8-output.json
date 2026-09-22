@@ -1,0 +1,6 @@
+{
+  "exit_code": 0,
+  "stdout": "ok  \tmagic-backend/game\t0.366s\nok  \tmagic-backend/cards\t82.054s\n",
+  "stderr": "",
+  "elapsed_ms": 99597
+}

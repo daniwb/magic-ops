@@ -1,0 +1,33 @@
+[
+  {
+    "card": "Siegfried, Famed Swordsman",
+    "exit_code": 0,
+    "abilities": 1,
+    "keywords": [
+      "Menace"
+    ]
+  },
+  {
+    "card": "Sigil of Sleep",
+    "exit_code": 0,
+    "abilities": 2,
+    "keywords": []
+  },
+  {
+    "card": "Skittering Cicada",
+    "exit_code": 1,
+    "diagnostic": "Traceback (most recent call last):\n  File \"<string>\", line 7, in <module>\nAssertionError: {'name': 'Skittering Cicada', 'eligible': False, 'abilities': [{'type': 'static', 'effect': 'cast_spells_as_though_flash', 'affects': {'controller': 'you', 'filter': 'colorless'}}], 'keywords': ['Flash'], 'misses': [('verb_unmapped:grant_eot', 'until end of turn, ~ gains trample and gets +x/+x, where x is that spe')]}\n"
+  },
+  {
+    "card": "Rakdos Roustabout",
+    "exit_code": 0,
+    "abilities": 1,
+    "keywords": []
+  },
+  {
+    "card": "Sea God's Scorn",
+    "exit_code": 0,
+    "abilities": 1,
+    "keywords": []
+  }
+]

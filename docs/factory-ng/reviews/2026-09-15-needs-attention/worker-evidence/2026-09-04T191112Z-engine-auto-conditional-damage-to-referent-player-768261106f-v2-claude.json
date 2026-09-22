@@ -1,0 +1,62 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-engine-auto-conditional-damage-to-referent-player-768261106f-v2-m1eklzmr",
+    "candidate_commit": "unavailable",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "3aa81879863abf1a653090f4fe2f64fdbf27ff87",
+    "source_tree_changed": false
+  },
+  "gates": [],
+  "integration": "observation_only",
+  "model": {
+    "profile": "claude-staged@1.0.0",
+    "resolved_model": "claude-sonnet-5",
+    "telemetry": {
+      "cache_read_tokens": {
+        "availability": "unavailable",
+        "reason": "runner failed before model"
+      },
+      "cache_write_tokens": {
+        "availability": "unavailable",
+        "reason": "runner failed before model"
+      },
+      "elapsed_ms": 0,
+      "input_tokens": {
+        "availability": "unavailable",
+        "reason": "runner failed before model"
+      },
+      "output_tokens": {
+        "availability": "unavailable",
+        "reason": "runner failed before model"
+      },
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "runner failed before model"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "runner failed before model"
+      }
+    },
+    "worker": "claude-2"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-04T191112Z-engine-auto-conditional-damage-to-referent-player-768261106f-v2-claude.raw.json",
+      "sha256": "sha256:cc922c74641eecd2cd98b31bf446c29d5949964a1d692e89a40c2b85c3e9a4a8"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-conditional-damage-to-referent-player-768261106f/v2",
+    "path": "docs/factory-ng/tickets/engine-auto-conditional-damage-to-referent-player-768261106f-v2.json",
+    "sha256": "sha256:5156da58a5eb0daf06bd4e583538103a50c6e6a265a0a8d48542aa222b406da8"
+  }
+}

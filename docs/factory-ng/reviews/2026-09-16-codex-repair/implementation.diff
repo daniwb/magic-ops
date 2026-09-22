@@ -1,0 +1,199 @@
+--- docs/factory-ng/reviews/2026-09-16-codex-repair/before/factory-ng-run-engine-ticket.py	2026-09-16 15:53:04.687295259 +0000
++++ scripts/factory-ng-run-engine-ticket.py	2026-09-16 15:53:58.145048360 +0000
+@@ -13,6 +13,7 @@
+ from factory_ng_context import requested_context, preparation_problems, failure_detail, source_path, render_regions
+ from factory_ng_knowledge import lookup_context, capability_assessment
+ from factory_ng_investigation import evidence_gap, investigation_prompt, validate_evidence, EVIDENCE_INSTRUCTIONS
++from factory_ng_patch_repair import protocol_repair_prompt, repair_instructions
+ from factory_ng_safety import (source_problem, final_gates_pass, test_json_command,
+                                require_executed_test, decoded_output, source_wait_receipt)
+ 
+@@ -232,7 +233,7 @@
+     return gates, changed
+ 
+ 
+-def gate_repair_prompt(packet, clone, ticket, gates, changed):
++def gate_repair_prompt(packet, clone, ticket, gates, changed, profile=None):
+     failed = '\n'.join(g.get('command', g['id']) + '\n' + g.get('detail', '')
+                        for g in gates if g['outcome'] == 'failed')
+     sections, budget = [], 500
+@@ -280,10 +281,10 @@
+             'SEARCH/REPLACE blocks. Files you created now exist: do not repeat NEWFILE blocks. '
+             'Keep every original required behavior and gate, including test names and assertions. '
+             'Do not disable, skip, remove or weaken required tests. Correct a misnamed candidate test '
+-            'to the required selector while preserving its assertions. No more NEED requests or tools.\n'
++            'to the required selector while preserving its assertions.\n'
+             'Exact failed gate and diagnostics:\n' + failed +
+             '\n\nCurrent candidate source (takes precedence over the original packet):\n' +
+-            '\n\n'.join(sections) + '\nReturn only the bounded correction or an honest verdict.\n')
++            '\n\n'.join(sections) + '\n' + repair_instructions(profile))
+ 
+ 
+ def failure_category(outcome, gates, preparation=()):
+@@ -330,6 +331,7 @@
+     if proposal:
+         raw = OPS / proposal['context']['raw_path']
+     repair_raw=raw.with_name(raw.name.replace('.raw.json','.repair.raw.json'))
++    repair_packet=raw.with_name(raw.name.replace('.raw.json','.repair.packet.txt'))
+     continuation_raw=raw.with_name(raw.name.replace('.raw.json','.continuation.raw.json'))
+     packet_artifact=raw.with_name(raw.name.replace('.raw.json','.packet.txt'))
+     context_artifact=raw.with_name(raw.name.replace('.raw.json','.context.txt'))
+@@ -485,11 +487,9 @@
+             if should_attempt_repair(model, apply, telemetry, args.profile):
+                 gates.append({'id':'initial-patch-apply','outcome':'failed',
+                               'detail':(apply['stdout']+apply['stderr'])[-800:]})
+-                repair_prompt = (packet['stdout'] + '\n\n## ONE BOUNDED REPAIR\nYour previous answer was:\n' +
+-                                 model['stdout'] + '\n\nThe strict patch harness rejected it with:\n' +
+-                                 (apply['stdout']+apply['stderr'])[-1600:] +
+-                                 '\nReturn one complete corrected answer in the original OUTPUT FORMAT. '
+-                                 'Use NEWFILE for paths that do not exist. No prose or tool calls.\n')
++                repair_prompt = protocol_repair_prompt(packet['stdout'], clone, model['stdout'],
++                                                      apply['stdout']+apply['stderr'], args.profile)
++                repair_packet.write_text(repair_prompt)
+                 repair_env=model_env(repair_raw)
+                 repaired=call([sys.executable,str(OPS/'scripts/model_call.py'),'--engine',engine,
+                                '--model',args.model,'--tier',ticket['work_type']],clone,
+@@ -549,7 +549,7 @@
+                     candidate_gates[0]['outcome'] == 'passed' and
+                     any(g['outcome'] == 'failed' for g in candidate_gates[1:])):
+                 attempt_history.append({'stage': 'before_gate_repair', 'gates': candidate_gates})
+-                prompt = gate_repair_prompt(packet['stdout'], clone, ticket, candidate_gates, changed)
++                prompt = gate_repair_prompt(packet['stdout'], clone, ticket, candidate_gates, changed, args.profile)
+                 repaired=call([sys.executable,str(OPS/'scripts/model_call.py'),'--engine',engine,
+                                '--model',args.model,'--tier',ticket['work_type']],clone,
+                               stdin=prompt,timeout=model_timeout,env=model_env(gate_repair_raw))
+@@ -638,6 +638,7 @@
+     if continuation_raw.exists(): artifacts.append({'path':str(continuation_raw.relative_to(OPS)),'sha256':file_digest(continuation_raw),'kind':'need_continuation'})
+     if gate_repair_raw.exists(): artifacts.append({'path':str(gate_repair_raw.relative_to(OPS)),'sha256':file_digest(gate_repair_raw),'kind':'gate_repair'})
+     if repair_raw.exists(): artifacts.append({'path':str(repair_raw.relative_to(OPS)),'sha256':file_digest(repair_raw),'kind':'bounded_repair'})
++    if repair_packet.exists(): artifacts.append({'path':str(repair_packet.relative_to(OPS)),'sha256':file_digest(repair_packet),'kind':'repair_packet'})
+     for path, kind in ((investigation_raw, 'agentic_investigation'), (investigation_packet, 'investigation_packet'),
+                        (investigation_context, 'investigation_source'), (investigation_resume, 'staged_after_investigation')):
+         if path.exists(): artifacts.append({'path':str(path.relative_to(OPS)),'sha256':file_digest(path),'kind':kind})
+
+--- docs/factory-ng/reviews/2026-09-16-codex-repair/before/factory_ng_attention_recovery.py	2026-09-16 15:53:04.687295259 +0000
++++ scripts/factory_ng_attention_recovery.py	2026-09-16 16:13:13.430160547 +0000
+@@ -10,6 +10,10 @@
+     return 'sha256:' + hashlib.sha256(path.read_bytes()).hexdigest()
+ 
+ 
++def review_digest(review):
++    return 'sha256:' + hashlib.sha256(json.dumps(review, sort_keys=True).encode()).hexdigest()
++
++
+ def pending(job):
+     review = job.get('attention_recovery', {})
+     return bool(review and int(job.get('attempts', 0)) == review['previous_attempts'])
+@@ -24,6 +28,14 @@
+     failed = set(job.get('failed_profiles') or [])
+     if pending(job):
+         failed.difference_update(job['attention_recovery']['profiles'])
++    elif (job.get('state') == 'awaiting_verification' and job.get('proposal')
++          and job.get('attention_recovery')
++          and int(job.get('attempts', 0)) == job['attention_recovery']['previous_attempts'] + 1
++          and job.get('dispatch_profile') in job['attention_recovery']['profiles']):
++        # Saving a draft ends the lease, not its reviewed attempt. Its original
++        # worker must still be able to verify/repair that exact proposal. Keep
++        # history intact and never extend this exception to a fresh queued run.
++        failed.discard(job['dispatch_profile'])
+     return failed
+ 
+ 
+@@ -77,8 +89,29 @@
+         if admitted >= room:
+             break
+         job = jobs.get(item['ticket_id'], {})
+-        if (job.get('state') != 'failed' or job.get('superseded_by')
+-                or job.get('attention_recovery')
++        prior = job.get('attention_recovery')
++        followup = item.get('prior_recovery_sha256')
++        if followup:
++            # A changed-model transport recovery needs its own finite review,
++            # bound to the prior review and new failure. It cannot replay the
++            # original allowance or reopen a semantic failure.
++            if (not prior or review_digest(prior) != followup
++                    or not item.get('required_model') or item['required_model'] == job.get('model')
++                    or item.get('reviewed_outcome') != job.get('outcome')
++                    or job.get('outcome') not in ('infrastructure_failed_provider_capacity', 'infrastructure_failed')):
++                continue
++        elif prior:
++            continue
++        # A finite reviewed protocol fix may also cover deferred inventory.
++        # Default manifests still admit failed jobs only. Bind the reviewed
++        # state and exact protocol outcome; never reopen active or semantic work.
++        reviewed_state = item.get('reviewed_state', 'failed')
++        if reviewed_state not in ('failed', 'queued'):
++            continue
++        if reviewed_state == 'queued' and (job.get('outcome') != 'infrastructure_failed_model_protocol'
++                or not set(item.get('profiles', [])).issubset(set(job.get('failed_profiles', [])))):
++            continue
++        if (job.get('state') != reviewed_state or job.get('superseded_by')
+                 or not str(job.get('outcome', '')).startswith('infrastructure_failed')
+                 or job.get('receipt') != item.get('receipt')
+                 or job.get('attempts', 0) != item['attempts']
+@@ -93,12 +126,16 @@
+         profiles = [p for p in item['profiles'] if p in job.get('compatible_profiles', [])]
+         if not profiles:
+             continue
++        if prior:
++            job.setdefault('attention_recovery_history', []).append(prior)
+         job['attention_recovery'] = {
+             'batch': batch, 'previous_attempts': item['attempts'],
+             'previous_receipt': item.get('receipt'), 'profiles': profiles,
+             'evidence_path': item['evidence_path'], 'evidence_sha256': item['evidence_sha256'],
+             'reason': item['reason'], 'admitted_at': now,
+         }
++        if item.get('required_model'):
++            job['attention_recovery']['required_model'] = item['required_model']
+         job.update(state='queued', updated_at=now,
+                    waiting_reason='One reviewed recovery attempt; original scope and gates remain required.')
+         job.pop('retry_after_epoch', None)
+
+--- docs/factory-ng/reviews/2026-09-16-codex-repair/before/factory-ng-controller.py	2026-09-16 16:06:33.078050673 +0000
++++ scripts/factory-ng-controller.py	2026-09-16 16:06:33.155056079 +0000
+@@ -526,6 +526,9 @@
+ def worker_supports_job(worker, job):
+     if not worker_supports(worker, job.get('work_type')):
+         return False
++    required_model = job.get('attention_recovery', {}).get('required_model')
++    if attention_recovery.pending(job) and required_model and worker.get('model') != required_model:
++        return False
+     if job.get('production', {}).get('retry_batch') and worker.get('profile') != 'claude-staged@1.0.0':
+         return False
+     trial = worker.get('map_trial_only')
+
+--- docs/factory-ng/reviews/2026-09-16-codex-repair/before/map-pipeline-apply.py	2026-09-16 16:08:20.796613903 +0000
++++ scripts/map-pipeline-apply.py	2026-09-16 16:08:20.857618186 +0000
+@@ -35,12 +35,15 @@
+     end = file_headers[i + 1].start() if i + 1 < len(file_headers) else len(out)
+     section = out[header.end():end]
+     path = header.group(1)
+-    pairs = re.findall(r'^<<<SEARCH\n(.*?)\n===(?:REPLACE|\nREPLACE)\n(.*?)\n>>>END(?=\n|$)', section, re.S | re.M)
++    # Known marker variants have identical grammar/meaning. Recognize them
++    # only as complete delimiter lines; exact source and ambiguity checks
++    # below remain mandatory. Never infer or rewrite SEARCH/replacement text.
++    pairs = re.findall(r'^<<<SEARCH\n(.*?)\n(?:===(?:REPLACE|\nREPLACE)?|<<<REPLACE)\n(.*?)\n(?:>>>END|<<<END)(?=\n|$)', section, re.S | re.M)
+     if not pairs or len(pairs) != len(re.findall(r'^<<<SEARCH$', section, re.M)):
+         malformed.append('%s: malformed FILE block (missing SEARCH/REPLACE/END delimiter)' % path)
+     else:
+         blocks.extend((path, search, replace) for search, replace in pairs)
+-newfiles = re.findall(r'<<<NEWFILE (.+?)\n(.*?)\n>>>END', out, re.S)
++newfiles = re.findall(r'^<<<NEWFILE (.+?)\n(.*?)\n(?:>>>END|<<<END)(?=\n|$)', out, re.S | re.M)
+ # Alternate @@@ markers: llama-server's peg-native/harmony parser 500s on
+ # outputs containing <<< sequences (local gpt-oss lane, 2026-08-07), so
+ # local packs instruct @@@-style equivalents.
+@@ -70,12 +73,12 @@
+     # makes the block's own non-greedy regex swallow that second marker as
+     # literal replacement content — corrupted a real file with a bare
+     # "===REPLACE" line (ticket #3786). Reject outright rather than apply.
+-    if re.search(r'(?m)^(?:===(?:REPLACE|\nREPLACE)|@@@REPLACE)\s*$', replace):
++    if re.search(r'(?m)^(?:===(?:REPLACE|\nREPLACE)?|<<<REPLACE|@@@REPLACE)\s*$', replace):
+         errors.append('%s: block contains a second REPLACE marker — decide your final '
+                        'replacement content BEFORE writing the block, one SEARCH/REPLACE '
+                        'pair only' % path)
+         continue
+-    if re.search(r'(?m)^(?:<{3,}(?:SEARCH|FILE|NEWFILE)|>{3,}END|@{3,}(?:SEARCH|FILE|NEWFILE|END))\b', search + '\n' + replace):
++    if re.search(r'(?m)^(?:<{3,}(?:SEARCH|FILE|NEWFILE|END|REPLACE)|>{3,}END|@{3,}(?:SEARCH|FILE|NEWFILE|END))\b', search + '\n' + replace):
+         errors.append('%s: unexpected edit marker inside block content' % path)
+         continue
+     if path.startswith('backend/game/') and not ALLOW_GAME:

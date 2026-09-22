@@ -1,0 +1,96 @@
+{
+  "attempt_history": [],
+  "capability_assessments": [],
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-engine-auto-damage-enchanted-attached-creature-9b5f19f1fc-v2-9pme4jf1",
+    "candidate_commit": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+    "source_tree_changed": false
+  },
+  "failure_category": "model_response",
+  "gates": [
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "Provider call exited 1; see retained raw response. codex: provider process exited 1; see retained raw events\n",
+      "id": "provider-call",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "codex-constrained@1.1.0",
+    "resolved_model": "gpt-5.6-luna",
+    "telemetry": {
+      "cache_read_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter emitted no token counter"
+      },
+      "cache_write_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter emitted no token counter"
+      },
+      "elapsed_ms": 8637,
+      "input_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter emitted no token counter"
+      },
+      "model_calls": 1,
+      "output_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter emitted no token counter"
+      },
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "provider cost unavailable"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter emitted no token counter"
+      },
+      "stage_times": {
+        "attempt_wall_ms": 50904,
+        "candidate_gate_ms": 0,
+        "compilation_ms": {
+          "availability": "unavailable",
+          "reason": "go test includes package compilation; not separately timed"
+        },
+        "model_ms": 8637
+      }
+    },
+    "worker": "codex-2"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-15T075500Z-engine-auto-damage-enchanted-attached-creature-9b5f19f1fc-v2-codex.raw.json",
+      "sha256": "sha256:0436652f067fa0820de20f804aeb606d98d5dff2da513c0759c4973e03302665"
+    },
+    {
+      "kind": "prepared_packet",
+      "path": "docs/factory-ng/runs/2026-09-15T075500Z-engine-auto-damage-enchanted-attached-creature-9b5f19f1fc-v2-codex.packet.txt",
+      "sha256": "sha256:a9da6ee4fd2f4913e50793effefe6a5fa8e4ca1a764a33115b1e169f5c6bad86"
+    },
+    {
+      "kind": "knowledge_trace",
+      "path": "docs/factory-ng/runs/2026-09-15T075500Z-engine-auto-damage-enchanted-attached-creature-9b5f19f1fc-v2-codex.lookup.jsonl",
+      "sha256": "sha256:d4ce6cad6a6eac924c0aecd643cf98154a09f7cb89a177c6b58bf3ca69e8e10c"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-damage-enchanted-attached-creature-9b5f19f1fc/v2",
+    "path": "docs/factory-ng/tickets/engine-auto-damage-enchanted-attached-creature-9b5f19f1fc-v2.json",
+    "sha256": "sha256:e30380c4462154456d08da545d76473738b8d71103422dda298c962418693a0b"
+  }
+}

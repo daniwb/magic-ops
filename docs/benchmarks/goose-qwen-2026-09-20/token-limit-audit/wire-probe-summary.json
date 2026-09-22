@@ -1,0 +1,62 @@
+[
+  {
+    "engine": "ollama",
+    "exit_code": 0,
+    "requests": [
+      {
+        "path": "/v1/chat/completions",
+        "settings": {
+          "model": "halogen-qwen3.8-flash-next",
+          "stream_options": {
+            "include_usage": true
+          },
+          "stream": true,
+          "options": {
+            "num_predict": 16000
+          }
+        }
+      },
+      {
+        "path": "/v1/chat/completions",
+        "settings": {
+          "model": "halogen-qwen3.8-flash-next",
+          "stream_options": {
+            "include_usage": true
+          },
+          "stream": true,
+          "options": {
+            "num_predict": 16000
+          }
+        }
+      }
+    ]
+  },
+  {
+    "engine": "openai",
+    "exit_code": 0,
+    "requests": [
+      {
+        "path": "/v1/chat/completions",
+        "settings": {
+          "model": "halogen-qwen3.8-flash-next",
+          "max_tokens": 16000,
+          "stream": true,
+          "stream_options": {
+            "include_usage": true
+          }
+        }
+      },
+      {
+        "path": "/v1/chat/completions",
+        "settings": {
+          "model": "halogen-qwen3.8-flash-next",
+          "max_tokens": 16000,
+          "stream": true,
+          "stream_options": {
+            "include_usage": true
+          }
+        }
+      }
+    ]
+  }
+]

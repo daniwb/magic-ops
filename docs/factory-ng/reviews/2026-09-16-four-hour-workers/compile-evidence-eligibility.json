@@ -1,0 +1,11 @@
+{
+  "remaining_repair": [
+    "ticket:engine.auto-bounce-cards-from-graveyard-to-hand-49633d7255/v3",
+    "ticket:engine.auto-bounce-with-mana-value-filter-4bf6a351c2/v4",
+    "ticket:engine.auto-conditional-destroy-by-predicate-f0d32ade7a/v4",
+    "ticket:engine.auto-count-named-creatures-controlled-9b848e9f72/v3"
+  ],
+  "already_repaired": [
+    "ticket:engine.auto-conditional-grant-on-sacrificed-permanent-type-c540489e62/v3"
+  ]
+}

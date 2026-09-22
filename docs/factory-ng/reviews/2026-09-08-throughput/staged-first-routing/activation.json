@@ -1,0 +1,11 @@
+{
+  "at": "2026-09-08T20:12:10.233393+00:00",
+  "previous_controller_pid": 3006669,
+  "worker": "claude",
+  "profile": "claude-staged@1.0.0",
+  "weekly_gate_mode": "fixed",
+  "weekly_gate_pct": 98,
+  "scope": "Claude routing only; other workers and usage settings retained",
+  "restart": "graceful SIGHUP; active workers retained",
+  "deployment": false
+}

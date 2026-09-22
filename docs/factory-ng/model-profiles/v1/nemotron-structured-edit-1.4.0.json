@@ -1,0 +1,36 @@
+{
+  "schema": "factory.model-profile/v1",
+  "id": "nemotron-structured-edit",
+  "version": "1.4.0",
+  "extends": "staged-baseline@1.0.0",
+  "adapter": {
+    "adapter_id": "nemotron-structured-edit-v1",
+    "executable": "scripts/nemotron-structured-call.py",
+    "engine": "nemotron-structured",
+    "workflow": "bounded exact-range inspection, short no-tools implementation plan, then forced no-reasoning submit_edit calls; independently valid partial submissions are retained while a single correction requests only missing required paths",
+    "allowed_tools": ["read_range", "submit_edit"],
+    "filesystem": "read-only",
+    "network": "OpenRouter API only",
+    "reasoning": "low for inspection; disabled for the explicit plan and structured submission",
+    "max_inspection_calls": 1,
+    "max_model_calls": 4,
+    "max_completion_tokens": {"inspection": 3500, "plan": 1200, "submission": 1800}
+  },
+  "routing": {
+    "best_for": ["candidate small evidence-complete Map patch", "literal source-preserving edit", "focused gate repair"],
+    "do_not_use_when": ["repository discovery is required", "cross-layer capability design is required", "required product paths cannot be declared"],
+    "promotion_gate": "frozen benchmark acceptance plus a second independently frozen Map ticket"
+  },
+  "budget_policy": {
+    "ordinary_target_effective_tokens": 200000,
+    "warning_reflection_effective_tokens": 500000,
+    "calculation": "input_tokens + output_tokens"
+  },
+  "telemetry": {
+    "source": "aggregated OpenRouter Chat Completions usage",
+    "measured": ["input", "output", "cache_read", "elapsed"],
+    "unavailable": ["cache_write", "reasoning token split"],
+    "cost": "provider endpoint price; zero for the tested :free model"
+  },
+  "change_note": "1.4.0 preserves independently valid partial submissions and focuses the one correction call only on missing required-file coverage."
+}

@@ -1,0 +1,263 @@
+{
+  "capability": {
+    "required_behavior": "Implement and verify all three original reviewed capabilities in one indivisible operator correction.",
+    "components": [
+      {
+        "expected_unlock": 0,
+        "negative_examples": [
+          "Return target creature card from your graveyard to the battlefield (no counters)",
+          "Return target artifact card from your graveyard to the battlefield tapped (no counters)",
+          "Return target creature card from your graveyard to the top of its owner's library (no counters)"
+        ],
+        "required_behavior": "The return_from_graveyard primitive must accept a 'with_counters' value parameter (e.g. {'+1/+1': 2}) that places the specified counters on the returned permanent as it enters the battlefield, composable with the existing self-return and tapped flags",
+        "source_misses": [
+          {
+            "card": "Retrofitted Transmogrant",
+            "oracle_text_sha256": "8a896b713ef04a0d1159b1681c7a76370a0e0501fc3ea357fe5a6ed70660d9c2",
+            "paragraph": "{3}{B}: Return this card from your graveyard to the battlefield tapped with two +1/+1 counters on it.",
+            "required_behavior": "The return_from_graveyard primitive must accept a 'with_counters' value parameter (e.g. {'+1/+1': 2}) that places the specified counters on the returned permanent as it enters the battlefield, composable with the existing self-return and tapped flags"
+          }
+        ]
+      },
+      {
+        "expected_unlock": 1,
+        "negative_examples": [
+          "Destroy target artifact, enchantment, or creature (no power restriction) must continue to match via the existing type-union filter without any threshold applied"
+        ],
+        "required_behavior": "Targeting for a single-target effect must be able to restrict candidates to a type-union filter (e.g., artifact, enchantment, or creature) further narrowed by a minimum power value, matching only permanents whose power is defined and greater than or equal to the threshold",
+        "source_misses": [
+          {
+            "card": "Make Your Move",
+            "oracle_text_sha256": "f3e2c578b427e9a78a009f0b8182ceccfbcce68029931cf1d7d655ab41b54ff6",
+            "paragraph": "Destroy target artifact, enchantment, or creature with power 4 or greater.",
+            "required_behavior": "Restrict the destroy target filter to artifact, enchantment, or creature permanents that additionally have power 4 or greater"
+          }
+        ]
+      },
+      {
+        "expected_unlock": 0,
+        "negative_examples": [
+          "Activated abilities that exile a target permanent on the battlefield, covered by TestShape_Activated_ExileTarget and executeExileEffect, must continue to route through that primitive unchanged.",
+          "Existing exile mappings that take a target_filter for permanent types (e.g. creature, artifact) must remain unchanged.",
+          "Zone-leaving effects that move cards to hand, library, or the battlefield must not be repurposed to satisfy this miss."
+        ],
+        "required_behavior": "Given a parsed paragraph that calls for exiling a specified player's entire graveyard (zone-level), the engine must remove every card currently in that player's graveyard from the game into the exile zone in a single atomic operation; this behavior must not be synthesized by reusing executeExileEffect, whose contract is bounded to battlefield targets with effect-cleanup and unregister, and map_atom must not invent a filter/recipient shape that pretends a graveyard is a battlefield target.",
+        "source_misses": [
+          {
+            "card": "Jirina, Dauntless General",
+            "oracle_text_sha256": "333f94a8fbfbeff02bcc1e89441d8a8dacd21fe16b40fd518706ef381b14fa7b",
+            "paragraph": "When Jirina enters, exile target player's graveyard.",
+            "required_behavior": "Exile all cards from a target player's graveyard as a single atomic zone-level operation, distinct from battlefield-target exile."
+          }
+        ]
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "key": "return_from_graveyard_with_counters",
+        "specification": {
+          "expected_unlock": 0,
+          "negative_examples": [
+            "Return target creature card from your graveyard to the battlefield (no counters)",
+            "Return target artifact card from your graveyard to the battlefield tapped (no counters)",
+            "Return target creature card from your graveyard to the top of its owner's library (no counters)"
+          ],
+          "required_behavior": "The return_from_graveyard primitive must accept a 'with_counters' value parameter (e.g. {'+1/+1': 2}) that places the specified counters on the returned permanent as it enters the battlefield, composable with the existing self-return and tapped flags",
+          "source_misses": [
+            {
+              "card": "Retrofitted Transmogrant",
+              "oracle_text_sha256": "8a896b713ef04a0d1159b1681c7a76370a0e0501fc3ea357fe5a6ed70660d9c2",
+              "paragraph": "{3}{B}: Return this card from your graveyard to the battlefield tapped with two +1/+1 counters on it.",
+              "required_behavior": "The return_from_graveyard primitive must accept a 'with_counters' value parameter (e.g. {'+1/+1': 2}) that places the specified counters on the returned permanent as it enters the battlefield, composable with the existing self-return and tapped flags"
+            }
+          ]
+        },
+        "summary": "Extend the registered return_from_graveyard primitive to support placing counters on the returned permanent as it enters the battlefield"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-02T155744Z-map-plan-reanimate-retrofitted-transmogrant-b1d6a5577c-v1-openrouter.json"
+    },
+    {
+      "anchor": "1048-1113",
+      "fact": "Card-knowledge index match (engine): executeReturnFromGraveyardWithCounter is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:622a7316a1adcae36e04a3ffd901a71f97347d6c86552261fa1204ae88c14db5"
+    },
+    {
+      "anchor": "117-182",
+      "fact": "Card-knowledge index match (engine): executeReturnFromGraveyard is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:622a7316a1adcae36e04a3ffd901a71f97347d6c86552261fa1204ae88c14db5"
+    },
+    {
+      "anchor": "255-320",
+      "fact": "Card-knowledge index match (engine): AllCounts is the nearest indexed seam for this capability.",
+      "path": "backend/game/counters.go",
+      "sha256": "sha256:019d8a08312b32393ebf36715bd9d365891a1f8678d7c0e01e742befa151fba4"
+    },
+    {
+      "anchor": "117-182",
+      "fact": "Card-knowledge index match (engine): executeReturnFromGraveyardManaValueX is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:622a7316a1adcae36e04a3ffd901a71f97347d6c86552261fa1204ae88c14db5"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "An Oracle-validated Map block has been compiled into one bounded Engine dependency.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGReturnFromGraveyardWithCounters$' -count=1",
+    "git diff --check",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGTargetFilterPowerThreshold$' -count=1",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGExileZone$' -count=1",
+    "cd backend && go test ./game ./cards"
+  ],
+  "id": "ticket:engine.operator-legacy-shapes-recovery-sep15/v1",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Record an immutable bounded verdict; automatic discovery continues with independent work.",
+  "parents": [
+    "ticket:engine.auto-return-from-graveyard-with-counters-77c5905163/v1",
+    "ticket:engine.auto-target-filter-power-threshold-72615893da/v2",
+    "ticket:engine.auto-exile-zone-ce4b8ad676/v3"
+  ],
+  "production": {
+    "key": "capability:return_from_graveyard_with_counters:sha256:77c5905163aedda04a2850e225f5adcd3613456eb91f50bef6be3bd51864810d",
+    "producer": "capability-dependencies"
+  },
+  "required_behavior": [
+    "The return_from_graveyard primitive must accept a 'with_counters' value parameter (e.g. {'+1/+1': 2}) that places the specified counters on the returned permanent as it enters the battlefield, composable with the existing self-return and tapped flags",
+    "Preserve these adjacent behaviors: Return target creature card from your graveyard to the battlefield (no counters); Return target artifact card from your graveyard to the battlefield tapped (no counters); Return target creature card from your graveyard to the top of its owner's library (no counters)",
+    "Add a discriminating behavior test named TestFactoryNGReturnFromGraveyardWithCounters; a compile-only assertion is insufficient.",
+    "Targeting for a single-target effect must be able to restrict candidates to a type-union filter (e.g., artifact, enchantment, or creature) further narrowed by a minimum power value, matching only permanents whose power is defined and greater than or equal to the threshold",
+    "Preserve these adjacent behaviors: Destroy target artifact, enchantment, or creature (no power restriction) must continue to match via the existing type-union filter without any threshold applied",
+    "Add a discriminating behavior test named TestFactoryNGTargetFilterPowerThreshold; a compile-only assertion is insufficient.",
+    "Given a parsed paragraph that calls for exiling a specified player's entire graveyard (zone-level), the engine must remove every card currently in that player's graveyard from the game into the exile zone in a single atomic operation; this behavior must not be synthesized by reusing executeExileEffect, whose contract is bounded to battlefield targets with effect-cleanup and unregister, and map_atom must not invent a filter/recipient shape that pretends a graveyard is a battlefield target.",
+    "Preserve these adjacent behaviors: Activated abilities that exile a target permanent on the battlefield, covered by TestShape_Activated_ExileTarget and executeExileEffect, must continue to route through that primitive unchanged.; Existing exile mappings that take a target_filter for permanent types (e.g. creature, artifact) must remain unchanged.; Zone-leaving effects that move cards to hand, library, or the battlefield must not be repurposed to satisfy this miss.",
+    "Add a discriminating behavior test named TestFactoryNGExileZone; a compile-only assertion is insufficient."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_77c5905163_test.go",
+      "backend/cards/factory_ng_77c5905163_test.go",
+      "backend/cards/registry_factory_ng_77c5905163.go",
+      "backend/game/factory_ng_72615893da_test.go",
+      "backend/cards/factory_ng_72615893da_test.go",
+      "backend/cards/registry_factory_ng_72615893da.go",
+      "backend/game/factory_ng_ce4b8ad676_test.go",
+      "backend/cards/factory_ng_ce4b8ad676_test.go",
+      "backend/cards/registry_factory_ng_ce4b8ad676.go",
+      "backend/game/factory_ng_b91ef21e90_test.go",
+      "backend/game/factory_ng_b10fec4c4c_test.go",
+      "backend/cards/factory_ng_6ba27d29b5_test.go",
+      "backend/game/shape_reviewed_entry_counters_test.go",
+      "backend/game/shape_reviewed_union_power_test.go",
+      "backend/cards/shape_reviewed_player_graveyard_test.go",
+      "backend/cards/shape_reviewed_union_power_test.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "5537cb4638e3a07c6bcfaaff28c9b9e7b4d23043",
+    "clean": true
+  },
+  "title": "Recover three reviewed Engine obligations hidden by test-name collisions",
+  "work_type": "engine",
+  "operator_recovery": {
+    "authorization": "User requested fixing all needs-attention tickets.",
+    "originals": [
+      {
+        "ticket": "docs/factory-ng/tickets/engine-auto-return-from-graveyard-with-counters-77c5905163-v1.json",
+        "ticket_sha256": "sha256:584dd1033729a88703239f4e7f52289574f790c0e9769d05dbb1f3edaf99be38",
+        "retained_failure": {
+          "ticket_id": "ticket:engine.auto-return-from-graveyard-with-counters-77c5905163/v1",
+          "ticket_sha256": "sha256:584dd1033729a88703239f4e7f52289574f790c0e9769d05dbb1f3edaf99be38",
+          "receipt": null,
+          "attempts": 3,
+          "started_at": "2026-09-06T21:02:00Z",
+          "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-return-from-graveyard-with-counters-77c5905163-v1.log",
+          "evidence_sha256": "sha256:030cdcdf77718ee0d5af2a5b6b7bb05b7e0f212c6222cc08b29e1e93c08d9676",
+          "profiles": [
+            "claude-staged@1.0.0",
+            "codex-constrained@1.1.0"
+          ],
+          "category": "unsupported_profile",
+          "reason": "Pre-model unsupported profile rejection. Current enabled staged/Codex profiles pass validation and the runner supports them."
+        }
+      },
+      {
+        "ticket": "docs/factory-ng/tickets/engine-auto-target-filter-power-threshold-72615893da-v2.json",
+        "ticket_sha256": "sha256:a008044d1d1f60b03d428d4e213d5c3ecda9cd55ebc5daa2cdb0b32e9507d50d",
+        "retained_failure": {
+          "ticket_id": "ticket:engine.auto-target-filter-power-threshold-72615893da/v2",
+          "ticket_sha256": "sha256:a008044d1d1f60b03d428d4e213d5c3ecda9cd55ebc5daa2cdb0b32e9507d50d",
+          "receipt": null,
+          "attempts": 3,
+          "started_at": "2026-09-05T10:02:34Z",
+          "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-target-filter-power-threshold-72615893da-v2.log",
+          "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+          "profiles": [
+            "claude-staged@1.0.0",
+            "codex-constrained@1.1.0"
+          ],
+          "category": "source_preflight",
+          "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+        }
+      },
+      {
+        "ticket": "docs/factory-ng/tickets/engine-auto-exile-zone-ce4b8ad676-v3.json",
+        "ticket_sha256": "sha256:4220a6546cb1a7961265b36d9eb24d3f75797e22efc04aa522772df7b600a532",
+        "retained_failure": {
+          "ticket_id": "ticket:engine.auto-exile-zone-ce4b8ad676/v3",
+          "ticket_sha256": "sha256:4220a6546cb1a7961265b36d9eb24d3f75797e22efc04aa522772df7b600a532",
+          "receipt": "docs/factory-ng/runs/2026-09-04T214025Z-engine-auto-exile-zone-ce4b8ad676-v3-codex.json",
+          "attempts": 3,
+          "started_at": "2026-09-04T21:40:24Z",
+          "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-04T214025Z-engine-auto-exile-zone-ce4b8ad676-v3-codex.json",
+          "evidence_sha256": "sha256:e71dca971a72e1beda07c461364e5f9242a7a6a8d5d67913ec0f568ca9b305b6",
+          "profiles": [
+            "claude-staged@1.0.0",
+            "codex-constrained@1.1.0"
+          ],
+          "category": "model_protocol",
+          "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+        }
+      }
+    ],
+    "scope_addition_reason": "Preserve existing same-name test assertions while linking each original selector to a new shape test for the distinct reviewed capability. All three originals land as one candidate.",
+    "additional_provider_runs": 0,
+    "counter_resets": false
+  }
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "id": "20260920_1",
+    "name": "factory-benchmark-staged",
+    "working_dir": "/tmp/goose-factory-staged-no-thinking/staged",
+    "created_at": "2026-09-20 07:07:09",
+    "updated_at": "2026-09-20 07:11:21",
+    "accumulated_input_tokens": 7236,
+    "accumulated_output_tokens": 3462,
+    "accumulated_total_tokens": 10698,
+    "accumulated_cache_read_tokens": 0,
+    "accumulated_cache_write_tokens": 0,
+    "usage_ledger": [
+      {
+        "id": 1,
+        "session_id": "20260920_1",
+        "created_timestamp": 1789888281,
+        "model": "halogen-qwen3.8-flash-next",
+        "input_tokens": 7236,
+        "output_tokens": 3462,
+        "total_tokens": 10698,
+        "cache_read_tokens": null,
+        "cache_write_tokens": null,
+        "cost": null,
+        "cost_source": null,
+        "is_compaction": 0
+      }
+    ]
+  }
+]

@@ -1,0 +1,68 @@
+{
+  "created_at": "2026-09-08T16:22:44.906071+00:00",
+  "execution": {
+    "candidate_commit": "5860494673056a1c37c088929b93df66a09e8ce3",
+    "candidate_patch": "docs/factory-ng/reviews/2026-09-08-throughput/engine-repair-wave/engine-auto-spell-seq-atom-up-to-n-target-cap-554092e021-v4.patch",
+    "candidate_patch_sha256": "sha256:9c51f38f923f619539f3d66ef63b35a4241e77e60aff6e114a312f41bb5f0832",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "6642351731e0c336cd220a861dd14fc212e7d192",
+    "source_tree_changed": false,
+    "verified_composition": "f3d5f64d93a0c67ccddf133ac1bc610a43c34bff"
+  },
+  "gates": [
+    {
+      "detail": "Every changed path equals declared scope; gofmt reports no files; committed diff check passed.",
+      "id": "scope-and-format",
+      "outcome": "passed"
+    },
+    {
+      "command": "cd backend && go test ./game ./cards -run '^TestShape_AuditedTargetCount' -count=1",
+      "detail": "testing: warning: no tests to run\nPASS\nok  \tmagic-backend/game\t0.008s [no tests to run]\n=== RUN   TestShape_AuditedTargetCountConversionAndCasting\n--- PASS: TestShape_AuditedTargetCountConversionAndCasting (0.00s)\n=== RUN   TestShape_AuditedTargetCountRejectsDuplicateAndKeepsLegacyRequiredTarget\n--- PASS: TestShape_AuditedTargetCountRejectsDuplicateAndKeepsLegacyRequiredTarget (0.00s)\nPASS\nok  \tmagic-backend/cards\t0.028s\n",
+      "id": "ticket-gate-0",
+      "outcome": "passed"
+    },
+    {
+      "command": "cd backend && go test ./game ./cards",
+      "detail": "Run once on the complete operator candidate composition: ok  \tmagic-backend/game\t0.259s\nok  \tmagic-backend/cards\t49.851s",
+      "id": "ticket-gate-1",
+      "outcome": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "detail": "",
+      "id": "ticket-gate-2",
+      "outcome": "passed"
+    }
+  ],
+  "integration": "eligible_full_gate",
+  "model": {
+    "profile": "operator-reviewed-recovery",
+    "resolved_model": "no worker invocation",
+    "worker": "operator-audited-engine-repair"
+  },
+  "next_action": "Integrate this ordered four-candidate operator wave through all normal production gates; then resume complete Map verification.",
+  "outcome": "accepted_for_dependent_observation",
+  "raw_artifacts": [
+    {
+      "kind": "operator_focused_gate",
+      "path": "docs/factory-ng/reviews/2026-09-08-throughput/engine-repair-wave/focused-2.log",
+      "sha256": "sha256:542cf304b8bf7a0691a861910bc50744228da0248ee8e5e7d3381837a97deee6"
+    },
+    {
+      "kind": "operator_composed_package_gates",
+      "path": "docs/factory-ng/reviews/2026-09-08-throughput/engine-repair-wave/full-package-tests.log",
+      "sha256": "sha256:ac552997fda31d7ea4c1e6873557f217bddfeb55a0f5ffd7ac933da8d161d832"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-spell-seq-atom-up-to-n-target-cap-554092e021/v4",
+    "path": "docs/factory-ng/reviews/2026-09-08-throughput/engine-repair-wave/engine-auto-spell-seq-atom-up-to-n-target-cap-554092e021-v4.ticket.json",
+    "sha256": "sha256:4ae0be6ff59932dc0e13ab100e1c050b2a517c3c122dc94a55ba58d41a34e62f"
+  }
+}

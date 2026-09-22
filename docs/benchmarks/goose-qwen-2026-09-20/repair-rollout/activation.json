@@ -1,0 +1,17 @@
+{
+  "activated_at": "2026-09-20T16:15:14Z",
+  "profile": "qwen-goose-staged@1.0.0",
+  "max_completion_tokens": 32000,
+  "max_model_calls": 3,
+  "need_rounds": 1,
+  "patch_corrections": 1,
+  "evidence": {
+    "max_database_queries_per_phase": 8,
+    "max_source_lines_per_phase": 480,
+    "max_source_chars_per_phase": 32000,
+    "local_fallback_files": 5
+  },
+  "model_tools": [],
+  "controller_restart_required": false,
+  "active_jobs_interrupted": false
+}

@@ -1,0 +1,181 @@
+[
+  {
+    "ticket": "ticket:engine.auto-grant-protection-from-chosen-color-until-eot-1f5ac2e5a3/v3",
+    "query": "grant_protection_from_chosen_color_until_eot",
+    "status": "found",
+    "strategy": "exact_symbol",
+    "candidates": [
+      "game.GameState.ExecuteAbilityEffect#case:grant_protection_from_chosen_color_until_eot"
+    ],
+    "request_id": "e17ff27a64ca4f539e2ba12bda2f07fe"
+  },
+  {
+    "ticket": "ticket:engine.auto-damage-recipient-attacked-target-8aa9c754cc/v3",
+    "query": "damage_recipient_attacked_target",
+    "status": "not_found",
+    "strategy": "explicit_leading_terms",
+    "candidates": [],
+    "request_id": "d9dcb64bae4e4250958d805a3fe36026"
+  },
+  {
+    "ticket": "ticket:engine.auto-self-exile-source-spell-55f122fbda/v3",
+    "query": "self_exile_source_spell",
+    "status": "found",
+    "strategy": "normalized_all_terms",
+    "candidates": [
+      "game.GameState.executeDurableSelfExileEffect",
+      "game.GameState.executeExileLinkedTokensOnLeave",
+      "game.GameState.payNonChoiceCosts",
+      "game.GameState.executeExileUntilMonarchChangeEffect"
+    ],
+    "request_id": "07994e5fd1a945c7ade37e9b624cf52f"
+  },
+  {
+    "ticket": "ticket:engine.auto-filter-dealt-damage-this-turn-49d67e187f/v3",
+    "query": "filter_dealt_damage_this_turn",
+    "status": "found",
+    "strategy": "normalized_all_terms",
+    "candidates": [
+      "game.GameState.executeDestroyTargetDealtDamageThisTurn",
+      "game.GameState.executeDestroyEachDealtDamageThisTurn",
+      "game.GameState.executeDestroyTargetReferentControllerFilter",
+      "game.matchesPermanentFilter#case:dealt_damage_this_turn"
+    ],
+    "request_id": "7ff87c9a4f3e46509fb92bd155307229"
+  },
+  {
+    "ticket": "ticket:engine.auto-grant-keywords-until-eot-conditional-205e618cf1/v2",
+    "query": "grant_keywords_until_eot_conditional",
+    "status": "found",
+    "strategy": "explicit_leading_terms",
+    "candidates": [
+      "game.GameState.applySpellEffectCore#case:grant_keywords_until_eot",
+      "game.GameState.ExecuteAbilityEffect#case:grant_keywords_until_eot",
+      "game.GameState.ExecuteAbilityEffect#case:grant_keywords_referent_eot",
+      "game.GameState.executePumpEffect"
+    ],
+    "request_id": "550e7fb937b541a4bbd5aa915063c642"
+  },
+  {
+    "ticket": "ticket:engine.auto-grant-protection-from-colors-of-target-permanent-6ede8b1221/v2",
+    "query": "grant_protection_from_colors_of_target_permanent_eot",
+    "status": "found",
+    "strategy": "explicit_leading_terms",
+    "candidates": [
+      "game.GameState.ExecuteAbilityEffect#case:grant_protection_from_chosen_color_until_eot",
+      "game.GameState.executeGrantProtectionFromChosenColorUntilEOTEffect",
+      "game.GameState.executeDamageAndGainLifeToControllerEffect"
+    ],
+    "request_id": "2f2e8ed0abc445ad8a5b0c48d6704aa0"
+  },
+  {
+    "ticket": "ticket:engine.auto-bounce-target-creature-or-enchantment-87dba8dbf5/v2",
+    "query": "bounce_target_creature_or_enchantment",
+    "status": "not_found",
+    "strategy": "explicit_leading_terms",
+    "candidates": [],
+    "request_id": "3e1eb17e5eda424d80be7fa7472c7568"
+  },
+  {
+    "ticket": "ticket:engine.auto-spell-seq-atom-up-to-n-target-cap-554092e021/v1",
+    "query": "spell_seq_atom_up_to_n_target_cap",
+    "status": "not_found",
+    "strategy": "explicit_leading_terms",
+    "candidates": [],
+    "request_id": "18ed9ae5e2944984ad426d0866039141"
+  },
+  {
+    "ticket": "ticket:engine.auto-spell-seq-atom-up-to-n-target-cap-554092e021/v2",
+    "query": "spell_seq_atom_up_to_n_target_cap",
+    "status": "not_found",
+    "strategy": "explicit_leading_terms",
+    "candidates": [],
+    "request_id": "9b41884df8ff4958a8cbddcbf126d35a"
+  },
+  {
+    "ticket": "ticket:engine.auto-pump-until-eot-referent-power-f20d46e322/v2",
+    "query": "pump_until_eot_referent_power",
+    "status": "found",
+    "strategy": "normalized_all_terms",
+    "candidates": [
+      "game.GameState.resolvePumpReferentSpellManaValue"
+    ],
+    "request_id": "c10738f3bef14d73bcb2c3cca661ce3d"
+  },
+  {
+    "ticket": "ticket:engine.auto-spell-seq-atom-up-to-n-target-cap-554092e021/v3",
+    "query": "spell_seq_atom_up_to_n_target_cap",
+    "status": "not_found",
+    "strategy": "explicit_leading_terms",
+    "candidates": [],
+    "request_id": "7de179495e29477698b39d06675eb362"
+  },
+  {
+    "ticket": "ticket:engine.auto-put-counters-amount-from-source-counters-on-deat-4a4b1b3089/v2",
+    "query": "put_counters_amount_from_source_counters_on_death",
+    "status": "found",
+    "strategy": "explicit_leading_terms",
+    "candidates": [
+      "game.GameState.executeExileMvLeSourceCountersMultizone",
+      "game.GameState.executeDestroyUpToLandsBySourceCounter",
+      "game.GameState.executeRemoveCounterDamageEffect",
+      "game.GameState.advanceSagaChapters"
+    ],
+    "request_id": "e7b03b76bbbc447f82e605a7917450a9"
+  },
+  {
+    "ticket": "ticket:engine.auto-put-counters-dynamic-zone-count-amount-c03e4c4218/v1",
+    "query": "put_counters_dynamic_zone_count_amount",
+    "status": "not_found",
+    "strategy": "explicit_leading_terms",
+    "candidates": [],
+    "request_id": "42ca18a65f2d45efbf85033248317f59"
+  },
+  {
+    "ticket": "ticket:engine.auto-bounce-filter-controller-damaged-player-a0c40565d9/v1",
+    "query": "bounce_filter_controller_damaged_player",
+    "status": "not_found",
+    "strategy": "explicit_leading_terms",
+    "candidates": [],
+    "request_id": "448c0649aa344175a3ba592e76b04ff3"
+  },
+  {
+    "ticket": "ticket:engine.auto-grant-keyword-plus-dynamic-pt-until-eot-db98033e77/v1",
+    "query": "grant_keyword_plus_dynamic_pt_until_eot",
+    "status": "not_found",
+    "strategy": "explicit_leading_terms",
+    "candidates": [],
+    "request_id": "4b491135b9044feba35f9cf1f5c4b4ad"
+  },
+  {
+    "ticket": "ticket:engine.auto-counter-target-filter-by-mana-value-5f164cb7de/v1",
+    "query": "counter_target_filter_by_mana_value",
+    "status": "found",
+    "strategy": "normalized_all_terms",
+    "candidates": [
+      "game.GameState.executeTapVariableAmountXEffect",
+      "game.GameState.executeReturnTargetAndSameNameOthersFromGraveyard"
+    ],
+    "request_id": "9c5fde6a3b894654a6771f0033f86b7c"
+  },
+  {
+    "ticket": "ticket:engine.auto-pump-until-eot-untargeted-filter-7e01f629e6/v1",
+    "query": "pump_until_eot_untargeted_filter",
+    "status": "found",
+    "strategy": "explicit_leading_terms",
+    "candidates": [
+      "game.GameState.resolvePumpAttachedCreatureNoTarget"
+    ],
+    "request_id": "a8be3ea487b84aad857325344dac5daf"
+  },
+  {
+    "ticket": "ticket:engine.auto-grant-keyword-choice-until-eot-dae33b6735/v1",
+    "query": "grant_keyword_choice_until_eot",
+    "status": "found",
+    "strategy": "normalized_all_terms",
+    "candidates": [
+      "game.GameState.ExecuteAbilityEffect#case:grant_keyword_choice_eot"
+    ],
+    "request_id": "fcff916db4b74f4aa70f3ed594070b17"
+  }
+]

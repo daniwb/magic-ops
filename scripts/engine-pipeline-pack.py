@@ -12,6 +12,10 @@ Usage: engine-pipeline-pack.py TICKET_ID [--repo PATH] [--db PATH]
 """
 import argparse, json, glob, os, re, sqlite3, sys, urllib.request, urllib.parse
 from pathlib import Path
+from factory_ng_context import render_regions, source_path, resolved_regions, requested_context
+from factory_ng_knowledge import search as knowledge_search, discover_capability, describe, resolve_candidate
+from factory_ng_symbols import render as render_symbol
+from factory_ng_verification_context import verification_context
 
 ap = argparse.ArgumentParser()
 ap.add_argument('ticket', type=int, nargs='?', help='legacy dispatcher ticket id')
@@ -36,7 +40,8 @@ if a.ticket_spec:
     ticket_label = spec['id']
     title = spec['title']
     descr = ''
-    prim = spec['id'].split('/')[-2].split('.')[-1].replace('-', '_')
+    production_key = spec.get('production',{}).get('key','')
+    prim = production_key.split(':')[1] if production_key.startswith('capability:') else spec['id'].split('/')[-2].split('.')[-1].replace('-', '_')
     capability_spec = dict(spec.get('capability') or {})
     if not capability_spec:
         capability_spec = {
@@ -120,6 +125,7 @@ for n in examples:
 # actually named in required_behavior/reason is unambiguous and a single grep
 # away, so verify it against the current clone before trusting anything else.
 def _resolve_named_function(repo_root, identifier):
+    identifier = identifier.rsplit('.', 1)[-1]
     pattern = re.compile(r'(?m)^func\s*(?:\([^)]*\)\s*)?' + re.escape(identifier) + r'\s*\(')
     for rel_dir in ('backend/game', 'backend/cards'):
         for f in sorted(glob.glob(os.path.join(repo_root, rel_dir, '*.go'))):
@@ -147,11 +153,28 @@ def _resolve_named_function(repo_root, identifier):
 text_pool = reason
 if capability_spec:
     text_pool += ' ' + str(capability_spec.get('required_behavior', ''))
-named_idents = re.findall(r'\b(execute[A-Z]\w+|handle[A-Z]\w+|apply[A-Z]\w+|resolve[A-Z]\w+)\b', text_pool)
+if spec:
+    text_pool += ' ' + ' '.join(item.get('fact', '') for item in spec.get('evidence', []))
+named_idents = re.findall(r'\b(execute[A-Z]\w+|handle[A-Z]\w+|apply[A-Z]\w+|resolve[A-Z]\w+|Get[A-Z]\w+|Can[A-Z]\w+)\b', text_pool)
 named_idents += re.findall(r'`([A-Za-z_][A-Za-z0-9_.]{4,})`', text_pool)
 named_idents = list(dict.fromkeys(named_idents))[:6]
 
 code_sections, budget = [], 420
+# A named effect's actual dispatch outranks nearby comments and stale anchors.
+# Use the same resolver as the runner's NEED continuation.
+if spec:
+    capability_key = spec.get('production', {}).get('key', '').split(':')
+    exact_names = named_idents + (capability_key[1:2] if capability_key[:1] == ['capability'] else [])
+    exact_names += re.findall(r'`([a-z][a-z0-9_]{3,})`', text_pool)
+    detail = ' '.join(dict.fromkeys(exact_names))
+    for relative in dict.fromkeys(e.get('path', '') for e in spec.get('evidence', [])):
+        path = source_path(a.repo, relative)
+        if not path or not detail or budget <= 180:
+            continue
+        section, used = resolved_regions(a.repo, relative, detail, min(140, budget - 180))
+        if 'implementation unresolved' not in section:
+            code_sections.append(section)
+            budget -= used
 for ident in named_idents:
     if budget <= 0:
         break
@@ -163,7 +186,7 @@ for ident in named_idents:
     take = min(end - start, budget)
     if take <= 0:
         continue
-    code_sections.append('### %s:%d-%d (verified: named function %s)\n%s' % (
+    code_sections.append('### %s:%d-%d (verified: named function %s; bounded excerpt, request continuation if the body extends past this range)\n%s' % (
         rel_path, start + 1, start + take, ident,
         '\n'.join('%5d %s' % (i + 1, file_lines[i]) for i in range(start, start + take))))
     budget -= take
@@ -173,7 +196,12 @@ for ident in named_idents:
 if spec:
     for evidence in spec.get('evidence', []):
         path = evidence.get('path', '')
-        if not path or not os.path.exists(path):
+        if not path or not os.path.exists(path) or budget <= 0:
+            continue
+        if evidence.get('symbol'):
+            row = resolve_candidate(a.repo,evidence['symbol'],caller='engine-packet',budget=min(120,budget))
+            if row['status']=='resolved':
+                code_sections.append(render_symbol(row)); budget -= row['supplied_end']-row['start']+1
             continue
         lines = Path(path).read_text(encoding='utf-8', errors='replace').splitlines()
         for lo, hi in re.findall(r'(\d+)-(\d+)', evidence.get('anchor', '')):
@@ -205,7 +233,7 @@ for f in FILES:
     if hits:
         scored.append((len(hits), f, lines, sorted(set(hits))))
 scored.sort(reverse=True)
-for _, f, lines, hits in scored[:4]:
+for _, f, lines, hits in (scored[:4] if not spec else []):
     if budget <= 0:
         break
     merged = []
@@ -221,30 +249,30 @@ for _, f, lines, hits in scored[:4]:
         code_sections.append('### %s:%d-%d\n%s' % (f, lo + 1, lo + take, seg))
         budget -= take
 
-kb_hits = ''
-kb_queries = [(' '.join(tokens[:4]), None)]
-if spec:
-    # The TicketSpec facts are where the producer records the exact seam it
-    # already proved. Query those symbols individually: a slug such as
-    # "pt-switch-layer" is useful for primitive discovery but is too vague to
-    # retrieve GetPowerWithEffects from the function index.
-    symbols = []
-    for evidence in spec.get('evidence', []):
-        symbols.extend(re.findall(r'\b[A-Z][A-Za-z0-9_]{3,}\b', evidence.get('fact', '')))
-    for symbol in dict.fromkeys(symbols):
-        kb_queries.append((symbol, 'engine'))
-
-hits = []
-for query_text, kind in kb_queries[:7]:
-    try:
-        query = urllib.parse.quote(query_text)
-        suffix = '&kind=%s' % urllib.parse.quote(kind) if kind else ''
-        hit = urllib.request.urlopen('%s/find?q=%s&n=2%s' % (a.kb, query, suffix), timeout=5).read().decode().strip()
-        if hit and not hit.startswith('NO MATCH') and hit not in hits:
-            hits.append(hit)
-    except Exception:
-        pass
+# Discover the contract's named parts as well as its generated capability label.
+discovery = discover_capability({'key': prim, 'specification': capability_spec or {'required_behavior': reason}},
+                                'engine-packet', limit=6, base=a.kb)
+hits = [describe(lookup) + '\nDiscovery purpose: ' + lookup['discovery_role']
+        for lookup in discovery['lookups']]
+# Pinned source and named fixtures share the same bounded budget with search
+# results. Never zero the pinned budget or refill it for incidental hits.
+seen_symbols = set()
+candidates = discovery['candidates'] + ([e['symbol'] for e in spec.get('evidence', []) if e.get('symbol')] if spec else [])
+for candidate in candidates:
+    if budget <= 0 or not candidate.get('symbol_id') or candidate['symbol_id'] in seen_symbols: continue
+    seen_symbols.add(candidate['symbol_id'])
+    row = resolve_candidate(a.repo, candidate, candidate.get('request_id', ''), 'engine-packet', min(120, budget))
+    if row['status'] == 'resolved':
+        code_sections.append(render_symbol(row)); budget -= row['supplied_end'] - row['start'] + 1
 kb_hits = '\n\n'.join(hits)
+if spec:
+    verification = verification_context(a.repo, spec)
+    if verification:
+        code_sections.append(verification)
+if spec and spec.get('execution', {}).get('context_requests'):
+    code_sections.append(requested_context('\n'.join(
+        'NEED: ' + request for request in spec['execution']['context_requests'][:3]), a.repo, spec))
+
 
 # Shape-test convention: show the head of a recent shape test as template.
 test_tmpl = ''
@@ -255,11 +283,12 @@ for cand in ['backend/cards/shape_dealt_damage_test.go', 'backend/cards/shape_be
         break
 
 tool_budget = '''## TOOL BUDGET
-You may Read/Grep/Glob to verify exact lines (~10 tool calls budget). Plan
-your reads, then STOP exploring and emit your answer — your FINAL message
-MUST be the output format below. An imperfect block set beats running out of
-turns in silence: the gate catches errors and you get one retry with the
-failure detail.'''
+Local read-only source tools are available in this isolated checkout. Use
+targeted reads/searches to verify exact lines (~10 tool calls budget), including
+missing or truncated declarations and test fixtures. Do not edit files, run
+tests, use the network, commit, or integrate; the harness owns those actions.
+Then emit the strict output format below in your FINAL message. If essential
+evidence remains missing, return an honest bounded verdict.'''
 if a.no_tools:
     tool_budget = '''## NO-TOOLS ADAPTER
 No repository tools are available in this call. Use only the line-numbered
@@ -267,7 +296,7 @@ evidence in this packet. Do not issue a tool call. If essential exact source
 is absent, use the bounded `NEED:` continuation defined below; otherwise
 return an edit block or a verdict in this response.'''
 
-print('''# ENGINE-PIPELINE TASK — build ONE small primitive, single-shot
+print('''# ENGINE-PIPELINE TASK — satisfy ONE bounded behavior contract
 
 Ticket %s: %s
 Primitive demand: `%s`
@@ -278,7 +307,18 @@ Park reason:
 %s
 
 You are extending the Go MTG engine (repo openmagic, module magic-backend,
-run from backend/). Build the SMALLEST change that delivers this primitive.
+run from backend/). First distinguish existing behavior from the specific remaining gap. A generated
+capability name is a search label, not an instruction to add a new primitive.
+Decompose the requirement into existing operations, connections, and missing
+behavior. Operation-only search hits are candidates, not proof of full support.
+Use the public converter/cast/trigger/resolution path for the discriminating
+test; a private-helper test alone can miss lost fields or later defaults.
+If existing code satisfies the entire contract, a discriminating test-only
+patch is valid. Otherwise change only the demonstrated gap. Missing evidence
+requires NEED, not an invented framework. Choose classification reuse, connection, engine_gap, or insufficient_evidence.
+Include one short assessment line (example):
+CAPABILITY_ASSESSMENT: {"classification":"connection","existing_symbols":["qualified symbol"],"remaining_gap":"specific behavior or none","verification":"public-path test or missing evidence"}
+Then deliver the normal edit blocks or verdict. This adds no model round.
 Rules:
 - backend/game/ edits ARE allowed here (this is the engine tier).
 - Follow existing conventions: extend an existing executor/switch where

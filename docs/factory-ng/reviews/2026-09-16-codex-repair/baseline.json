@@ -1,0 +1,592 @@
+{
+  "ticket:engine.auto-active-damage-receiver-type-gate-3b7d9305ad/v2": {
+    "attempts": 1,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "qwen-prepared-local@1.0.1",
+      "codex-constrained@1.0.0",
+      "codex-constrained@1.1.0"
+    ],
+    "created_at": "2026-09-16T10:48:55Z",
+    "dispatch_profile": "codex-constrained@1.1.0",
+    "failed_profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "finished_at": "2026-09-16T10:52:22Z",
+    "log_path": "state/factory-ng-job-output/engine-auto-active-damage-receiver-type-gate-3b7d9305ad-v2.log",
+    "model": "gpt-5.6-luna",
+    "outcome": "infrastructure_failed_model_protocol",
+    "preferred_profile": "claude-staged@1.0.0",
+    "processed_receipt": "docs/factory-ng/runs/2026-09-16T104907Z-engine-auto-active-damage-receiver-type-gate-3b7d9305ad-v2-codex.json",
+    "production": {
+      "key": "capability:active_damage_receiver_type_gate:sha256:3b7d9305ad049205349c5599d4f569a17271ae08a1a9b04323a018b077ad7820:gate-repair-v1",
+      "producer": "capability-dependencies",
+      "retry_reason": "semantic_gate_repair"
+    },
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-16T104907Z-engine-auto-active-damage-receiver-type-gate-3b7d9305ad-v2-codex.json",
+    "result_path": "state/factory-ng-job-output/engine-auto-active-damage-receiver-type-gate-3b7d9305ad-v2.json",
+    "retry_after_epoch": 1789556242,
+    "started_at": "2026-09-16T10:49:07Z",
+    "state": "queued",
+    "ticket_id": "ticket:engine.auto-active-damage-receiver-type-gate-3b7d9305ad/v2",
+    "ticket_path": "docs/factory-ng/tickets/engine-auto-active-damage-receiver-type-gate-3b7d9305ad-v2.json",
+    "updated_at": "2026-09-16T10:52:22Z",
+    "usage_status": {
+      "claude": "5h=0% 7d=100% | weekly-mode=paced fixed=100% | Tag 7/7 \u2192 erlaubt 100% n\u00e4chste Stufe: 2026-09-16 19:59 CEST PACE-PAUSE bis 2026-09-16 20:00 CEST",
+      "claude-2": "5h=0% 7d=100% | weekly-mode=paced fixed=95% | Tag 7/7 \u2192 erlaubt 95% n\u00e4chste Stufe: 2026-09-16 19:59 CEST PACE-PAUSE bis 2026-09-16 20:00 CEST"
+    },
+    "verification_host": "local",
+    "verification_resume": false,
+    "waiting_reason": "all compatible workers are usage-paused; retained as deferred inventory",
+    "work_type": "engine",
+    "worker": "codex-3"
+  },
+  "ticket:engine.auto-become-creature-with-pt-and-keywords-until-eot-0ace9f1b94/v1": {
+    "attempts": 2,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "qwen-prepared-local@1.0.1",
+      "codex-constrained@1.0.0",
+      "codex-constrained@1.1.0"
+    ],
+    "created_at": "2026-09-15T07:12:33Z",
+    "dispatch_profile": "claude-staged@1.0.0",
+    "failed_profiles": [
+      "codex-constrained@1.1.0",
+      "claude-staged@1.0.0"
+    ],
+    "finished_at": "2026-09-15T18:37:14Z",
+    "log_path": "state/factory-ng-job-output/engine-auto-become-creature-with-pt-and-keywords-until-eot-0ace9f1b94-v1.log",
+    "model": "claude-sonnet-5",
+    "outcome": "infrastructure_failed_model_protocol",
+    "preferred_profile": "claude-staged@1.0.0",
+    "processed_receipt": "docs/factory-ng/runs/2026-09-15T183143Z-engine-auto-become-creature-with-pt-and-keywords-until-eot-0ace9f1b94-v1-claude.json",
+    "production": {
+      "key": "capability:become_creature_with_pt_and_keywords_until_eot:sha256:0ace9f1b94a7eb82467b3871d18d71febbae917791dbf58ad0c8dc7dbb4135f1",
+      "producer": "capability-dependencies"
+    },
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-15T183143Z-engine-auto-become-creature-with-pt-and-keywords-until-eot-0ace9f1b94-v1-claude.json",
+    "result_path": "state/factory-ng-job-output/engine-auto-become-creature-with-pt-and-keywords-until-eot-0ace9f1b94-v1.json",
+    "retry_after_epoch": 1789497734,
+    "started_at": "2026-09-15T18:31:41Z",
+    "state": "queued",
+    "ticket_id": "ticket:engine.auto-become-creature-with-pt-and-keywords-until-eot-0ace9f1b94/v1",
+    "ticket_path": "docs/factory-ng/tickets/engine-auto-become-creature-with-pt-and-keywords-until-eot-0ace9f1b94-v1.json",
+    "updated_at": "2026-09-15T18:37:14Z",
+    "usage_status": {},
+    "verification_host": "local",
+    "verification_resume": false,
+    "waiting_reason": "no enabled compatible worker",
+    "work_type": "engine",
+    "worker": "claude-2"
+  },
+  "ticket:engine.auto-counter-target-creature-spell-78cf9b4a60/v2": {
+    "attempts": 1,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "qwen-prepared-local@1.0.1",
+      "codex-constrained@1.0.0",
+      "codex-constrained@1.1.0"
+    ],
+    "created_at": "2026-09-16T10:46:05Z",
+    "dispatch_profile": "codex-constrained@1.1.0",
+    "failed_profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "finished_at": "2026-09-16T10:48:25Z",
+    "log_path": "state/factory-ng-job-output/engine-auto-counter-target-creature-spell-78cf9b4a60-v2.log",
+    "model": "gpt-5.6-luna",
+    "outcome": "infrastructure_failed_model_protocol",
+    "preferred_profile": "claude-staged@1.0.0",
+    "processed_receipt": "docs/factory-ng/runs/2026-09-16T104611Z-engine-auto-counter-target-creature-spell-78cf9b4a60-v2-codex.json",
+    "production": {
+      "key": "capability:counter_target_creature_spell:sha256:78cf9b4a60723fe7cb32142b885d29b43b1e477cf246dd2f73ff8e0c8d6ecd76:gate-repair-v1",
+      "producer": "capability-dependencies",
+      "retry_reason": "semantic_gate_repair"
+    },
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-16T104611Z-engine-auto-counter-target-creature-spell-78cf9b4a60-v2-codex.json",
+    "result_path": "state/factory-ng-job-output/engine-auto-counter-target-creature-spell-78cf9b4a60-v2.json",
+    "retry_after_epoch": 1789556005,
+    "started_at": "2026-09-16T10:46:11Z",
+    "state": "queued",
+    "ticket_id": "ticket:engine.auto-counter-target-creature-spell-78cf9b4a60/v2",
+    "ticket_path": "docs/factory-ng/tickets/engine-auto-counter-target-creature-spell-78cf9b4a60-v2.json",
+    "updated_at": "2026-09-16T10:48:25Z",
+    "usage_status": {
+      "claude": "5h=0% 7d=100% | weekly-mode=paced fixed=100% | Tag 7/7 \u2192 erlaubt 100% n\u00e4chste Stufe: 2026-09-16 19:59 CEST PACE-PAUSE bis 2026-09-16 20:00 CEST",
+      "claude-2": "5h=0% 7d=100% | weekly-mode=paced fixed=95% | Tag 7/7 \u2192 erlaubt 95% n\u00e4chste Stufe: 2026-09-16 19:59 CEST PACE-PAUSE bis 2026-09-16 20:00 CEST"
+    },
+    "verification_host": "local",
+    "verification_resume": false,
+    "waiting_reason": "all compatible workers are usage-paused; retained as deferred inventory",
+    "work_type": "engine",
+    "worker": "codex-2"
+  },
+  "ticket:engine.auto-flying-attacking-or-blocking-target-628d6120f2/v1": {
+    "attempts": 1,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "qwen-prepared-local@1.0.1",
+      "codex-constrained@1.0.0",
+      "codex-constrained@1.1.0"
+    ],
+    "created_at": "2026-09-16T03:05:05Z",
+    "dispatch_profile": "codex-constrained@1.1.0",
+    "failed_profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "finished_at": "2026-09-16T06:46:55Z",
+    "log_path": "state/factory-ng-job-output/engine-auto-flying-attacking-or-blocking-target-628d6120f2-v1.log",
+    "model": "gpt-5.6-luna",
+    "outcome": "infrastructure_failed_model_protocol",
+    "preferred_profile": "claude-staged@1.0.0",
+    "processed_receipt": "docs/factory-ng/runs/2026-09-16T064310Z-engine-auto-flying-attacking-or-blocking-target-628d6120f2-v1-codex.json",
+    "production": {
+      "key": "capability:flying_attacking_or_blocking_target:sha256:628d6120f2982de92550e5dedfe5ae33df7055b2c45fe6712b8951c1e0feaa9e",
+      "producer": "capability-dependencies"
+    },
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-16T064310Z-engine-auto-flying-attacking-or-blocking-target-628d6120f2-v1-codex.json",
+    "result_path": "state/factory-ng-job-output/engine-auto-flying-attacking-or-blocking-target-628d6120f2-v1.json",
+    "retry_after_epoch": 1789541515,
+    "started_at": "2026-09-16T06:43:09Z",
+    "state": "queued",
+    "ticket_id": "ticket:engine.auto-flying-attacking-or-blocking-target-628d6120f2/v1",
+    "ticket_path": "docs/factory-ng/tickets/engine-auto-flying-attacking-or-blocking-target-628d6120f2-v1.json",
+    "updated_at": "2026-09-16T06:46:55Z",
+    "usage_status": {
+      "claude": "5h=0% 7d=100% | weekly-mode=paced fixed=100% | Tag 7/7 \u2192 erlaubt 100% n\u00e4chste Stufe: 2026-09-16 19:59 CEST PACE-PAUSE bis 2026-09-16 20:00 CEST",
+      "claude-2": "5h=0% 7d=100% | weekly-mode=paced fixed=95% | Tag 7/7 \u2192 erlaubt 95% n\u00e4chste Stufe: 2026-09-16 19:59 CEST PACE-PAUSE bis 2026-09-16 20:00 CEST"
+    },
+    "verification_host": "local",
+    "verification_resume": false,
+    "waiting_reason": "all compatible workers are usage-paused; retained as deferred inventory",
+    "work_type": "engine",
+    "worker": "codex-2"
+  },
+  "ticket:engine.auto-prevent-combat-damage-from-attacking-creatures-0e1e73d55a/v3": {
+    "attempts": 2,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "qwen-prepared-local@1.0.1",
+      "codex-constrained@1.0.0",
+      "codex-constrained@1.1.0"
+    ],
+    "created_at": "2026-09-12T16:55:49Z",
+    "dispatch_profile": "claude-staged@1.0.0",
+    "failed_profiles": [
+      "codex-constrained@1.1.0",
+      "claude-staged@1.0.0"
+    ],
+    "finished_at": "2026-09-12T18:04:55Z",
+    "log_path": "state/factory-ng-job-output/engine-auto-prevent-combat-damage-from-attacking-creatures-0e1e73d55a-v3.log",
+    "model": "claude-sonnet-5",
+    "outcome": "infrastructure_failed_model_protocol",
+    "preferred_profile": "claude-staged@1.0.0",
+    "processed_receipt": "docs/factory-ng/runs/2026-09-12T180033Z-engine-auto-prevent-combat-damage-from-attacking-creatures-0e1e73d55a-v3-claude.json",
+    "production": {
+      "key": "capability:prevent_combat_damage_from_attacking_creatures:sha256:0e1e73d55a9ed373dcc85f00f5af2f5680b004c88624a318b912071c5a4d3daa:evidence-refresh-v1:gate-repair-v1",
+      "producer": "capability-dependencies",
+      "retry_reason": "semantic_gate_repair"
+    },
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-12T180033Z-engine-auto-prevent-combat-damage-from-attacking-creatures-0e1e73d55a-v3-claude.json",
+    "result_path": "state/factory-ng-job-output/engine-auto-prevent-combat-damage-from-attacking-creatures-0e1e73d55a-v3.json",
+    "retry_after_epoch": 1789236595,
+    "started_at": "2026-09-12T18:00:33Z",
+    "state": "queued",
+    "ticket_id": "ticket:engine.auto-prevent-combat-damage-from-attacking-creatures-0e1e73d55a/v3",
+    "ticket_path": "docs/factory-ng/tickets/engine-auto-prevent-combat-damage-from-attacking-creatures-0e1e73d55a-v3.json",
+    "updated_at": "2026-09-12T18:04:55Z",
+    "usage_status": {},
+    "waiting_reason": "no enabled compatible worker",
+    "work_type": "engine",
+    "worker": "claude-2"
+  },
+  "ticket:engine.auto-register-untap-up-to-literal-count-effect-af5116bc30/v1": {
+    "attempts": 1,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "qwen-prepared-local@1.0.1",
+      "codex-constrained@1.0.0",
+      "codex-constrained@1.1.0"
+    ],
+    "created_at": "2026-09-16T03:17:30Z",
+    "dispatch_profile": "codex-constrained@1.1.0",
+    "failed_profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "finished_at": "2026-09-16T07:37:34Z",
+    "log_path": "state/factory-ng-job-output/engine-auto-register-untap-up-to-literal-count-effect-af5116bc30-v1.log",
+    "model": "gpt-5.6-luna",
+    "outcome": "infrastructure_failed_model_protocol",
+    "preferred_profile": "claude-staged@1.0.0",
+    "priority_recovery_parent": "ticket:map.plan-untap-palinchron-598d1b13ec/v4",
+    "processed_receipt": "docs/factory-ng/runs/2026-09-16T073501Z-engine-auto-register-untap-up-to-literal-count-effect-af5116bc30-v1-codex.json",
+    "production": {
+      "key": "capability:register_untap_up_to_literal_count_effect:sha256:af5116bc30772a74f158ebd97e507ade4cf7d26f8ea2bb6cb908d60ac5e42d2b",
+      "producer": "capability-dependencies"
+    },
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-16T073501Z-engine-auto-register-untap-up-to-literal-count-effect-af5116bc30-v1-codex.json",
+    "result_path": "state/factory-ng-job-output/engine-auto-register-untap-up-to-literal-count-effect-af5116bc30-v1.json",
+    "retry_after_epoch": 1789544554,
+    "started_at": "2026-09-16T07:35:01Z",
+    "state": "queued",
+    "ticket_id": "ticket:engine.auto-register-untap-up-to-literal-count-effect-af5116bc30/v1",
+    "ticket_path": "docs/factory-ng/tickets/engine-auto-register-untap-up-to-literal-count-effect-af5116bc30-v1.json",
+    "updated_at": "2026-09-16T07:37:34Z",
+    "usage_status": {
+      "claude": "5h=0% 7d=100% | weekly-mode=paced fixed=100% | Tag 7/7 \u2192 erlaubt 100% n\u00e4chste Stufe: 2026-09-16 19:59 CEST PACE-PAUSE bis 2026-09-16 20:00 CEST",
+      "claude-2": "5h=0% 7d=100% | weekly-mode=paced fixed=95% | Tag 7/7 \u2192 erlaubt 95% n\u00e4chste Stufe: 2026-09-16 19:59 CEST PACE-PAUSE bis 2026-09-16 20:00 CEST"
+    },
+    "verification_host": "local",
+    "verification_resume": false,
+    "waiting_reason": "all compatible workers are usage-paused; retained as deferred inventory",
+    "work_type": "engine",
+    "worker": "codex-3"
+  },
+  "ticket:engine.auto-remove-counter-at-end-of-combat-0a0868121b/v1": {
+    "attempts": 2,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "qwen-prepared-local@1.0.1",
+      "codex-constrained@1.0.0",
+      "codex-constrained@1.1.0"
+    ],
+    "created_at": "2026-09-13T02:34:29Z",
+    "dispatch_profile": "claude-staged@1.0.0",
+    "failed_profiles": [
+      "codex-constrained@1.1.0",
+      "claude-staged@1.0.0"
+    ],
+    "finished_at": "2026-09-13T02:55:51Z",
+    "log_path": "state/factory-ng-job-output/engine-auto-remove-counter-at-end-of-combat-0a0868121b-v1.log",
+    "model": "claude-sonnet-5",
+    "outcome": "infrastructure_failed_model_protocol",
+    "preferred_profile": "claude-staged@1.0.0",
+    "processed_receipt": "docs/factory-ng/runs/2026-09-13T025040Z-engine-auto-remove-counter-at-end-of-combat-0a0868121b-v1-claude.json",
+    "production": {
+      "key": "capability:remove_counter_at_end_of_combat:sha256:0a0868121b4043328466c2d94054b2a61d3e8381b6d5fc9805c45dd80962104e",
+      "producer": "capability-dependencies"
+    },
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-13T025040Z-engine-auto-remove-counter-at-end-of-combat-0a0868121b-v1-claude.json",
+    "result_path": "state/factory-ng-job-output/engine-auto-remove-counter-at-end-of-combat-0a0868121b-v1.json",
+    "retry_after_epoch": 1789268451,
+    "started_at": "2026-09-13T02:50:40Z",
+    "state": "queued",
+    "ticket_id": "ticket:engine.auto-remove-counter-at-end-of-combat-0a0868121b/v1",
+    "ticket_path": "docs/factory-ng/tickets/engine-auto-remove-counter-at-end-of-combat-0a0868121b-v1.json",
+    "updated_at": "2026-09-13T02:55:51Z",
+    "usage_status": {},
+    "waiting_reason": "no enabled compatible worker",
+    "work_type": "engine",
+    "worker": "claude"
+  },
+  "ticket:engine.auto-return-from-graveyard-lesser-toughness-filter-cfeba54e07/v3": {
+    "attempts": 1,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "qwen-prepared-local@1.0.1",
+      "codex-constrained@1.0.0",
+      "codex-constrained@1.1.0"
+    ],
+    "created_at": "2026-09-16T02:43:04Z",
+    "dispatch_profile": "codex-constrained@1.1.0",
+    "failed_profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "finished_at": "2026-09-16T05:38:13Z",
+    "log_path": "state/factory-ng-job-output/engine-auto-return-from-graveyard-lesser-toughness-filter-cfeba54e07-v3.log",
+    "model": "gpt-5.6-luna",
+    "outcome": "infrastructure_failed_model_protocol",
+    "preferred_profile": "claude-staged@1.0.0",
+    "processed_receipt": "docs/factory-ng/runs/2026-09-16T053442Z-engine-auto-return-from-graveyard-lesser-toughness-filter-cfeba54e07-v3-codex.json",
+    "production": {
+      "key": "capability:return_from_graveyard_lesser_toughness_filter:sha256:cfeba54e07c7db44e98171d6d06e71271973c20f2344380aa17ec7eed3ac6fdd:need-continuation-v2:gate-repair-v1",
+      "producer": "capability-dependencies",
+      "retry_reason": "semantic_gate_repair"
+    },
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-16T053442Z-engine-auto-return-from-graveyard-lesser-toughness-filter-cfeba54e07-v3-codex.json",
+    "result_path": "state/factory-ng-job-output/engine-auto-return-from-graveyard-lesser-toughness-filter-cfeba54e07-v3.json",
+    "retry_after_epoch": 1789537393,
+    "started_at": "2026-09-16T05:34:41Z",
+    "state": "queued",
+    "ticket_id": "ticket:engine.auto-return-from-graveyard-lesser-toughness-filter-cfeba54e07/v3",
+    "ticket_path": "docs/factory-ng/tickets/engine-auto-return-from-graveyard-lesser-toughness-filter-cfeba54e07-v3.json",
+    "updated_at": "2026-09-16T05:38:13Z",
+    "usage_status": {
+      "claude": "5h=0% 7d=100% | weekly-mode=paced fixed=100% | Tag 7/7 \u2192 erlaubt 100% n\u00e4chste Stufe: 2026-09-16 19:59 CEST PACE-PAUSE bis 2026-09-16 20:00 CEST",
+      "claude-2": "5h=0% 7d=100% | weekly-mode=paced fixed=95% | Tag 7/7 \u2192 erlaubt 95% n\u00e4chste Stufe: 2026-09-16 19:59 CEST PACE-PAUSE bis 2026-09-16 20:00 CEST"
+    },
+    "verification_host": "local",
+    "verification_resume": false,
+    "waiting_reason": "all compatible workers are usage-paused; retained as deferred inventory",
+    "work_type": "engine",
+    "worker": "codex-2"
+  },
+  "ticket:engine.auto-tap-or-untap-attached-choice-7e9017ab8c/v1": {
+    "attempts": 1,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "qwen-prepared-local@1.0.1",
+      "codex-constrained@1.0.0",
+      "codex-constrained@1.1.0"
+    ],
+    "created_at": "2026-09-16T02:57:29Z",
+    "dispatch_profile": "codex-constrained@1.1.0",
+    "failed_profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "finished_at": "2026-09-16T06:22:01Z",
+    "log_path": "state/factory-ng-job-output/engine-auto-tap-or-untap-attached-choice-7e9017ab8c-v1.log",
+    "model": "gpt-5.6-luna",
+    "outcome": "infrastructure_failed_model_protocol",
+    "preferred_profile": "claude-staged@1.0.0",
+    "processed_receipt": "docs/factory-ng/runs/2026-09-16T061814Z-engine-auto-tap-or-untap-attached-choice-7e9017ab8c-v1-codex.json",
+    "production": {
+      "key": "capability:tap_or_untap_attached_choice:sha256:7e9017ab8cc4c02fa9cf410d9dec633d48cf9406efb7aa185271f703efca69d0",
+      "producer": "capability-dependencies"
+    },
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-16T061814Z-engine-auto-tap-or-untap-attached-choice-7e9017ab8c-v1-codex.json",
+    "result_path": "state/factory-ng-job-output/engine-auto-tap-or-untap-attached-choice-7e9017ab8c-v1.json",
+    "retry_after_epoch": 1789540021,
+    "started_at": "2026-09-16T06:18:13Z",
+    "state": "queued",
+    "ticket_id": "ticket:engine.auto-tap-or-untap-attached-choice-7e9017ab8c/v1",
+    "ticket_path": "docs/factory-ng/tickets/engine-auto-tap-or-untap-attached-choice-7e9017ab8c-v1.json",
+    "updated_at": "2026-09-16T06:22:01Z",
+    "usage_status": {
+      "claude": "5h=0% 7d=100% | weekly-mode=paced fixed=100% | Tag 7/7 \u2192 erlaubt 100% n\u00e4chste Stufe: 2026-09-16 19:59 CEST PACE-PAUSE bis 2026-09-16 20:00 CEST",
+      "claude-2": "5h=0% 7d=100% | weekly-mode=paced fixed=95% | Tag 7/7 \u2192 erlaubt 95% n\u00e4chste Stufe: 2026-09-16 19:59 CEST PACE-PAUSE bis 2026-09-16 20:00 CEST"
+    },
+    "verification_host": "local",
+    "verification_resume": false,
+    "waiting_reason": "all compatible workers are usage-paused; retained as deferred inventory",
+    "work_type": "engine",
+    "worker": "codex-2"
+  },
+  "ticket:engine.auto-tap-preceding-mass-damage-referent-38d1cb4ec9/v1": {
+    "attempts": 1,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "qwen-prepared-local@1.0.1",
+      "codex-constrained@1.0.0",
+      "codex-constrained@1.1.0"
+    ],
+    "created_at": "2026-09-16T03:11:34Z",
+    "dispatch_profile": "codex-constrained@1.1.0",
+    "failed_profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "finished_at": "2026-09-16T07:05:42Z",
+    "log_path": "state/factory-ng-job-output/engine-auto-tap-preceding-mass-damage-referent-38d1cb4ec9-v1.log",
+    "model": "gpt-5.6-luna",
+    "outcome": "infrastructure_failed_model_protocol",
+    "preferred_profile": "claude-staged@1.0.0",
+    "processed_receipt": "docs/factory-ng/runs/2026-09-16T070204Z-engine-auto-tap-preceding-mass-damage-referent-38d1cb4ec9-v1-codex.json",
+    "production": {
+      "key": "capability:tap_preceding_mass_damage_referent:sha256:38d1cb4ec9bd57ced3e4fdbda3f2db2f9bf0998998c7c5d186a9df6b015ff687",
+      "producer": "capability-dependencies"
+    },
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-16T070204Z-engine-auto-tap-preceding-mass-damage-referent-38d1cb4ec9-v1-codex.json",
+    "result_path": "state/factory-ng-job-output/engine-auto-tap-preceding-mass-damage-referent-38d1cb4ec9-v1.json",
+    "retry_after_epoch": 1789542642,
+    "started_at": "2026-09-16T07:02:03Z",
+    "state": "queued",
+    "ticket_id": "ticket:engine.auto-tap-preceding-mass-damage-referent-38d1cb4ec9/v1",
+    "ticket_path": "docs/factory-ng/tickets/engine-auto-tap-preceding-mass-damage-referent-38d1cb4ec9-v1.json",
+    "updated_at": "2026-09-16T07:05:42Z",
+    "usage_status": {
+      "claude": "5h=0% 7d=100% | weekly-mode=paced fixed=100% | Tag 7/7 \u2192 erlaubt 100% n\u00e4chste Stufe: 2026-09-16 19:59 CEST PACE-PAUSE bis 2026-09-16 20:00 CEST",
+      "claude-2": "5h=0% 7d=100% | weekly-mode=paced fixed=95% | Tag 7/7 \u2192 erlaubt 95% n\u00e4chste Stufe: 2026-09-16 19:59 CEST PACE-PAUSE bis 2026-09-16 20:00 CEST"
+    },
+    "verification_host": "local",
+    "verification_resume": false,
+    "waiting_reason": "all compatible workers are usage-paused; retained as deferred inventory",
+    "work_type": "engine",
+    "worker": "codex-3"
+  },
+  "ticket:engine.auto-target-attacking-alone-creature-edef446e2c/v2": {
+    "attempts": 1,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "qwen-prepared-local@1.0.1",
+      "codex-constrained@1.0.0",
+      "codex-constrained@1.1.0"
+    ],
+    "created_at": "2026-09-16T10:11:51Z",
+    "dispatch_profile": "codex-constrained@1.1.0",
+    "failed_profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "finished_at": "2026-09-16T10:17:53Z",
+    "log_path": "state/factory-ng-job-output/engine-auto-target-attacking-alone-creature-edef446e2c-v2.log",
+    "model": "gpt-5.6-luna",
+    "outcome": "infrastructure_failed_model_protocol",
+    "preferred_profile": "claude-staged@1.0.0",
+    "processed_receipt": "docs/factory-ng/runs/2026-09-16T101351Z-engine-auto-target-attacking-alone-creature-edef446e2c-v2-codex.json",
+    "production": {
+      "key": "capability:target_attacking_alone_creature:sha256:edef446e2ce3b5de05a12e32d4dafa6f73ddf3a3bae591f69bcba94775cf348f:gate-repair-v1",
+      "producer": "capability-dependencies",
+      "retry_reason": "semantic_gate_repair"
+    },
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-16T101351Z-engine-auto-target-attacking-alone-creature-edef446e2c-v2-codex.json",
+    "result_path": "state/factory-ng-job-output/engine-auto-target-attacking-alone-creature-edef446e2c-v2.json",
+    "retry_after_epoch": 1789554173,
+    "started_at": "2026-09-16T10:13:50Z",
+    "state": "queued",
+    "ticket_id": "ticket:engine.auto-target-attacking-alone-creature-edef446e2c/v2",
+    "ticket_path": "docs/factory-ng/tickets/engine-auto-target-attacking-alone-creature-edef446e2c-v2.json",
+    "updated_at": "2026-09-16T10:17:53Z",
+    "usage_status": {
+      "claude": "5h=0% 7d=100% | weekly-mode=paced fixed=100% | Tag 7/7 \u2192 erlaubt 100% n\u00e4chste Stufe: 2026-09-16 19:59 CEST PACE-PAUSE bis 2026-09-16 20:00 CEST",
+      "claude-2": "5h=0% 7d=100% | weekly-mode=paced fixed=95% | Tag 7/7 \u2192 erlaubt 95% n\u00e4chste Stufe: 2026-09-16 19:59 CEST PACE-PAUSE bis 2026-09-16 20:00 CEST"
+    },
+    "verification_host": "local",
+    "verification_resume": false,
+    "waiting_reason": "all compatible workers are usage-paused; retained as deferred inventory",
+    "work_type": "engine",
+    "worker": "codex"
+  },
+  "ticket:engine.auto-target-player-graveyard-filtered-exile-count-2e44bf1a94/v2": {
+    "attempts": 2,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "qwen-prepared-local@1.0.1",
+      "codex-constrained@1.0.0",
+      "codex-constrained@1.1.0"
+    ],
+    "created_at": "2026-09-15T01:52:53Z",
+    "dispatch_profile": "codex-constrained@1.1.0",
+    "failed_profiles": [
+      "claude-staged@1.0.0",
+      "codex-constrained@1.1.0"
+    ],
+    "finished_at": "2026-09-15T02:07:11Z",
+    "log_path": "state/factory-ng-job-output/engine-auto-target-player-graveyard-filtered-exile-count-2e44bf1a94-v2.log",
+    "model": "gpt-5.6-luna",
+    "outcome": "infrastructure_failed_model_protocol",
+    "preferred_profile": "claude-staged@1.0.0",
+    "processed_receipt": "docs/factory-ng/runs/2026-09-15T020255Z-engine-auto-target-player-graveyard-filtered-exile-count-2e44bf1a94-v2-codex.json",
+    "production": {
+      "key": "capability:target_player_graveyard_filtered_exile_count:sha256:2e44bf1a94f00f989050ca1df08a1b25d1715473adbd3f2d3274692cdfefc39a:evidence-refresh-v1",
+      "producer": "capability-dependencies"
+    },
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-15T020255Z-engine-auto-target-player-graveyard-filtered-exile-count-2e44bf1a94-v2-codex.json",
+    "result_path": "state/factory-ng-job-output/engine-auto-target-player-graveyard-filtered-exile-count-2e44bf1a94-v2.json",
+    "retry_after_epoch": 1789438331,
+    "started_at": "2026-09-15T02:02:53Z",
+    "state": "queued",
+    "ticket_id": "ticket:engine.auto-target-player-graveyard-filtered-exile-count-2e44bf1a94/v2",
+    "ticket_path": "docs/factory-ng/tickets/engine-auto-target-player-graveyard-filtered-exile-count-2e44bf1a94-v2.json",
+    "updated_at": "2026-09-15T02:07:11Z",
+    "usage_status": {},
+    "verification_resume": false,
+    "waiting_reason": "no enabled compatible worker",
+    "work_type": "engine",
+    "worker": "codex-2"
+  },
+  "ticket:engine.auto-untap-target-attached-b1b7838292/v1": {
+    "attempts": 1,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "qwen-prepared-local@1.0.1",
+      "codex-constrained@1.0.0",
+      "codex-constrained@1.1.0"
+    ],
+    "created_at": "2026-09-16T02:29:19Z",
+    "dispatch_profile": "codex-constrained@1.1.0",
+    "failed_profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "finished_at": "2026-09-16T05:08:55Z",
+    "log_path": "state/factory-ng-job-output/engine-auto-untap-target-attached-b1b7838292-v1.log",
+    "model": "gpt-5.6-luna",
+    "outcome": "infrastructure_failed_model_protocol",
+    "preferred_profile": "claude-staged@1.0.0",
+    "priority_recovery_parent": "ticket:map.plan-multi-frenzied-fugue-a4f2dc8c74/v3",
+    "processed_receipt": "docs/factory-ng/runs/2026-09-16T050452Z-engine-auto-untap-target-attached-b1b7838292-v1-codex.json",
+    "production": {
+      "attention_recovery_parent": "ticket:map.plan-multi-frenzied-fugue-a4f2dc8c74/v1",
+      "key": "capability:untap_target_attached:sha256:b1b7838292ad27f4c5d42cf8bc95767316ab49c45716eb4f608974f8f65fe1a1",
+      "producer": "capability-dependencies"
+    },
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-16T050452Z-engine-auto-untap-target-attached-b1b7838292-v1-codex.json",
+    "result_path": "state/factory-ng-job-output/engine-auto-untap-target-attached-b1b7838292-v1.json",
+    "retry_after_epoch": 1789535635,
+    "source_wait_refunds": [
+      "docs/factory-ng/runs/2026-09-16T045902Z-engine-auto-untap-target-attached-b1b7838292-v1-source-wait-1789534742384203711.json"
+    ],
+    "started_at": "2026-09-16T05:04:51Z",
+    "state": "queued",
+    "ticket_id": "ticket:engine.auto-untap-target-attached-b1b7838292/v1",
+    "ticket_path": "docs/factory-ng/tickets/engine-auto-untap-target-attached-b1b7838292-v1.json",
+    "updated_at": "2026-09-16T05:08:55Z",
+    "usage_status": {
+      "claude": "5h=0% 7d=100% | weekly-mode=paced fixed=100% | Tag 7/7 \u2192 erlaubt 100% n\u00e4chste Stufe: 2026-09-16 19:59 CEST PACE-PAUSE bis 2026-09-16 20:00 CEST",
+      "claude-2": "5h=0% 7d=100% | weekly-mode=paced fixed=95% | Tag 7/7 \u2192 erlaubt 95% n\u00e4chste Stufe: 2026-09-16 19:59 CEST PACE-PAUSE bis 2026-09-16 20:00 CEST"
+    },
+    "verification_host": "local",
+    "verification_resume": false,
+    "waiting_reason": "all compatible workers are usage-paused; retained as deferred inventory",
+    "work_type": "engine",
+    "worker": "codex"
+  },
+  "ticket:map.plan-exile-scarab-feast-d952117a2a/v5": {
+    "attempts": 1,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "qwen-prepared-direct@1.0.2",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0",
+      "codex-constrained@1.1.0"
+    ],
+    "created_at": "2026-09-16T08:26:11Z",
+    "dispatch_profile": "codex-constrained@1.1.0",
+    "failed_profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "finished_at": "2026-09-16T08:29:20Z",
+    "log_path": "state/factory-ng-job-output/map-plan-exile-scarab-feast-d952117a2a-v5.log",
+    "model": "gpt-5.6-luna",
+    "outcome": "infrastructure_failed_model_protocol",
+    "preferred_profile": "claude-staged@1.0.0",
+    "processed_receipt": "docs/factory-ng/runs/2026-09-16T082649Z-map-plan-exile-scarab-feast-d952117a2a-v5-codex.json",
+    "production": {
+      "integration_recovery_parent": "ticket:map.plan-exile-scarab-feast-d952117a2a/v4",
+      "integration_repair_generation": 2,
+      "key": "build-plan:verb_unmapped:exile:sha256:4351b2176e2b74ba7dfd0f693cd895100a21338a0accf8203435a85f0010658a:after:ticket:engine.auto-exile-from-graveyard-up-to-n-cards-ca3b90d06c/v1:after:ticket:engine.auto-exile-up-to-n-target-cards-single-graveyard-7f967c5875/v2",
+      "producer": "capability-dependencies",
+      "retry_reason": "integration_conflict_repair"
+    },
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-16T082649Z-map-plan-exile-scarab-feast-d952117a2a-v5-codex.json",
+    "result_path": "state/factory-ng-job-output/map-plan-exile-scarab-feast-d952117a2a-v5.json",
+    "retry_after_epoch": 1789547660,
+    "started_at": "2026-09-16T08:26:48Z",
+    "state": "queued",
+    "ticket_id": "ticket:map.plan-exile-scarab-feast-d952117a2a/v5",
+    "ticket_path": "docs/factory-ng/tickets/map-plan-exile-scarab-feast-d952117a2a-v5.json",
+    "updated_at": "2026-09-16T08:29:20Z",
+    "usage_status": {
+      "claude": "5h=0% 7d=100% | weekly-mode=paced fixed=100% | Tag 7/7 \u2192 erlaubt 100% n\u00e4chste Stufe: 2026-09-16 19:59 CEST PACE-PAUSE bis 2026-09-16 20:00 CEST",
+      "claude-2": "5h=0% 7d=100% | weekly-mode=paced fixed=95% | Tag 7/7 \u2192 erlaubt 95% n\u00e4chste Stufe: 2026-09-16 19:59 CEST PACE-PAUSE bis 2026-09-16 20:00 CEST"
+    },
+    "verification_host": "local",
+    "verification_resume": false,
+    "waiting_reason": "all compatible workers are usage-paused; retained as deferred inventory",
+    "work_type": "map",
+    "worker": "codex-4"
+  }
+}

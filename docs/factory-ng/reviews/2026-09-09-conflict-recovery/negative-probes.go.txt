@@ -1,0 +1,33 @@
+package game
+
+import "testing"
+
+func TestReviewCounterDamageMarksCreature(t *testing.T) {
+ gs:=NewGame("P0","P1",false)
+ source:=NewCreature("source",ManaCost{},2,2,0)
+ victim:=NewCreature("victim",ManaCost{},4,4,1)
+ gs.Battlefield.AddCard(source);gs.Battlefield.AddCard(victim)
+ source.Counters.AddCounter(CounterType("+1/+1"),3)
+ _,err:=gs.DealDamageEqualToCounterCount(source,0,Target{IsCard:true,CardID:victim.ID},source,CounterType("+1/+1"))
+ if err!=nil {t.Fatal(err)}
+ if victim.Damage!=3 {t.Fatalf("reported damage without marking creature: got %d want 3",victim.Damage)}
+}
+func TestReviewIndestructibleIsNotDestroyedThisWay(t *testing.T) {
+ gs:=NewGame("P0","P1",false);gs.seqTally=map[string]int{}
+ artifact:=NewCard("indestructible artifact",CardType("Artifact"),ManaCost{},0)
+ artifact.Keywords=[]Keyword{Indestructible};gs.Battlefield.AddCard(artifact)
+ target:=Target{IsCard:true,CardID:artifact.ID}
+ gs.noteDestroyedArtifactsPerController([]Target{target})
+ if err:=DestroyTarget(target,gs);err!=nil {t.Fatal(err)}
+ if _,err:=gs.Battlefield.GetCard(artifact.ID);err!=nil {t.Fatal("probe prerequisite: artifact must survive")}
+ before:=gs.Players[0].Life
+ if err:=gs.executeDamageEachPlayerArtifactsDestroyedThisWay();err!=nil {t.Fatal(err)}
+ if gs.Players[0].Life!=before {t.Fatal("damaged player for artifact that was never destroyed")}
+}
+func TestReviewInvalidDiscardCannotEvadeSacrifice(t *testing.T) {
+ gs:=NewGame("P0","P1",false);source:=NewCreature("source",ManaCost{},2,2,0);gs.Battlefield.AddCard(source)
+ if err:=gs.executeSacrificeUnlessDiscard(0,source);err!=nil {t.Fatal(err)}
+ err:=gs.ResolveSacrificeUnlessDiscard(0,"not-in-hand")
+ _,alive:=gs.Battlefield.GetCard(source.ID)
+ if err==nil && alive==nil && gs.PendingSacrificeUnlessDiscard==nil {t.Fatal("invalid discard cleared choice while neither discarding nor sacrificing")}
+}

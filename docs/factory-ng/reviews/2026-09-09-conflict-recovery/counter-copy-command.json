@@ -1,0 +1,10 @@
+[
+  "python3",
+  "scripts/factory-ng-integrate.py",
+  "--reviewed-resolutions",
+  "docs/factory-ng/reviews/2026-09-09-conflict-recovery/counter/resolutions.json",
+  "--receipt",
+  "docs/factory-ng/runs/2026-09-07T200419Z-engine-auto-damage-amount-counter-count-82dee1907b-v3-claude.json",
+  "--receipt",
+  "docs/factory-ng/runs/2026-09-09T072046Z-engine-auto-copy-triggering-referent-b4a4facffb-v2-operator-format.json"
+]

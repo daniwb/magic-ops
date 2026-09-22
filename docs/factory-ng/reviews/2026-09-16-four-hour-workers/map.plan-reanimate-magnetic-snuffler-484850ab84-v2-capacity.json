@@ -1,0 +1,10 @@
+{
+  "ticket_id": "ticket:map.plan-reanimate-magnetic-snuffler-484850ab84/v2",
+  "receipt": "docs/factory-ng/runs/2026-09-16T085751Z-map-plan-reanimate-magnetic-snuffler-484850ab84-v2-codex.json",
+  "receipt_sha256": "sha256:2167b74db41d61494df2df4753edb3a8505928f6a869b51d1473c54c4b522f42",
+  "raw_artifact": {
+    "path": "docs/factory-ng/runs/2026-09-16T085751Z-map-plan-reanimate-magnetic-snuffler-484850ab84-v2-codex.raw.json",
+    "sha256": "sha256:3b1877c6e302aef56d2b336e0803b6d03e07c63f7cdfbb9f1735f5b5f1344080"
+  },
+  "finding": "Explicit Luna capacity rejection before any patch; Terra configured and functioning since previous recovery. One attempt, original scope and all gates required."
+}

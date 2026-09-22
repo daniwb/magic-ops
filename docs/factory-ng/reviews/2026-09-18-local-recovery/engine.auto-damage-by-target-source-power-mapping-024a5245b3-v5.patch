@@ -1,0 +1,214 @@
+From 1f4f6bc14e93b1d842d16666275d261b85efe3bd Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Thu, 17 Sep 2026 19:54:33 +0000
+Subject: [PATCH] factory-ng: focused batch proposal
+
+---
+ backend/cards/converter.go                    | 21 +++++-
+ backend/cards/factory_ng_024a5245b3_test.go   | 71 +++++++++++++++++++
+ .../cards/registry_factory_ng_024a5245b3.go   |  8 +++
+ backend/game/targeting.go                     | 28 ++++++++
+ 4 files changed, 126 insertions(+), 2 deletions(-)
+ create mode 100644 backend/cards/factory_ng_024a5245b3_test.go
+ create mode 100644 backend/cards/registry_factory_ng_024a5245b3.go
+
+diff --git a/backend/cards/converter.go b/backend/cards/converter.go
+index fd4a171f3..5a8b2df4f 100644
+--- a/backend/cards/converter.go
++++ b/backend/cards/converter.go
+@@ -153,6 +153,14 @@ func (def *CardDefinition) ToGameCard(owner int) (*game.Card, error) {
+ 			bounceIndexes, independentBounceTargets := independentBounceTargetIndexes(ab.Effects)
+ 			pumpIndexes, independentPumpTargets := independentPumpTargetIndexes(ab.Effects)
+ 			damageTapIndexes, independentDamageTapTargets := independentDamageTapTargetIndexes(ab.Effects)
++			damageByTargetSourcePower := len(ab.Effects) == 1 &&
++				(CanonicalEffect(ab.Effects[0].Effect) == "damage_by" ||
++					CanonicalEffect(ab.Effects[0].Effect) == "damage_by_power") &&
++				ab.Effects[0].Affects != nil &&
++				ab.Effects[0].Affects.Filter == "creature" &&
++				ab.Effects[0].Affects.Controller == "you" &&
++				ab.Effects[0].Target != nil &&
++				ab.Effects[0].Target.Filter == "player"
+ 			independentDamageTargets := false
+ 			for ai := range ab.Effects {
+ 				if ai > 0 && ab.Effects[ai].Target != nil &&
+@@ -251,6 +259,9 @@ func (def *CardDefinition) ToGameCard(owner int) (*game.Card, error) {
+ 					}
+ 					effectValue["choose"] = true
+ 				}
++				if damageByTargetSourcePower {
++					effect = "damage_by_target_source_power"
++				}
+ 				if tokenCopyLinksCreatedTokens(ab.Effects, ai) {
+ 					if effectValue == nil {
+ 						effectValue = map[string]interface{}{}
+@@ -560,7 +571,9 @@ func (def *CardDefinition) ToGameCard(owner int) (*game.Card, error) {
+ 				// which folds onto the SAME composite TargetCreatureYouCtl/
+ 				// TargetCreatureOppCtl TargetType the struct path's
+ 				// "pump_until_eot"/"token_copy" cases above already trust.
+-				if atom.Target == nil && sharedTargetPlayerCompoundEffect(ab.Effects, ai) {
++				if damageByTargetSourcePower {
++					spec.TargetType = game.TargetCreatureYouCtlAndPlayerSlots
++				} else if atom.Target == nil && sharedTargetPlayerCompoundEffect(ab.Effects, ai) {
+ 					filter := *ab.Effects[ai-1].Target
+ 					filter.MinTargets, filter.MaxTargets = 0, 0
+ 					if ct := spellControllerTargetType(&filter); ct != "" {
+@@ -681,7 +694,11 @@ func (def *CardDefinition) ToGameCard(owner int) (*game.Card, error) {
+ 					tf = game.TargetCreatureOppCtl
+ 					minTargets, maxTargets = 2, 2
+ 				}
+-				if n == 1 || independentCounterTargets > 0 || targetedExileThenCounter || independentBounceTargets > 0 || independentPumpTargets > 0 || independentFightTargets || independentDamageTapTargets > 0 || sequenceDamageBySpellSelectedSource {
++				if damageByTargetSourcePower {
++					tf = game.TargetCreatureYouCtlAndPlayerSlots
++					minTargets, maxTargets = 2, 2
++				}
++				if n == 1 || independentCounterTargets > 0 || targetedExileThenCounter || independentBounceTargets > 0 || independentPumpTargets > 0 || independentFightTargets || independentDamageTapTargets > 0 || sequenceDamageBySpellSelectedSource || damageByTargetSourcePower {
+ 					if len(ab.Effects) == 1 && ab.Effects[0].Effect == "counter" &&
+ 						(strings.HasPrefix(string(tf), "spell_mv_gte_") ||
+ 							strings.HasPrefix(string(tf), "spell_mv_lte_")) {
+diff --git a/backend/cards/factory_ng_024a5245b3_test.go b/backend/cards/factory_ng_024a5245b3_test.go
+new file mode 100644
+index 000000000..3b173dfed
+--- /dev/null
++++ b/backend/cards/factory_ng_024a5245b3_test.go
+@@ -0,0 +1,71 @@
++package cards
++
++import (
++	"testing"
++
++	"magic-backend/game"
++)
++
++func TestFactoryNGDamageByTargetSourcePowerMapping_024a5245b3(t *testing.T) {
++	def := &CardDefinition{
++		Name:  "Factory Gravitic Punch",
++		Type:  "Instant",
++		Types: []string{"Instant"},
++		Abilities: []AbilityDSL{{
++			Type: "spell",
++			Effects: []EffectAtom{{
++				Effect:  "damage_by",
++				Affects: &TargetFilter{Filter: "creature", Controller: "you"},
++				Target:  &TargetFilter{Filter: "player"},
++			}},
++		}},
++		Status: StatusManual,
++	}
++	spell, err := def.ToGameCard(0)
++	if err != nil {
++		t.Fatalf("ToGameCard: %v", err)
++	}
++	if len(spell.SpellEffectSequence) != 1 || spell.SpellEffectSequence[0].Effect != "damage_by_target_source_power" {
++		t.Fatalf("converter did not preserve damage-by source mapping: %#v", spell.SpellEffectSequence)
++	}
++	if spell.SpellEffect == nil || spell.SpellEffect.SpellTargetType != game.TargetCreatureYouCtlAndPlayerSlots {
++		t.Fatalf("converter did not expose independent source/player target slots: %#v", spell.SpellEffect)
++	}
++
++	gs := game.NewGame("P0", "P1", false)
++	source := game.NewCreature("Controlled Source", game.ManaCost{}, 4, 4, 0)
++	source.Owner, source.Controller = 0, 0
++	other := game.NewCreature("Opponent Source", game.ManaCost{}, 9, 9, 1)
++	other.Owner, other.Controller = 1, 1
++	gs.Battlefield.AddCard(source)
++	gs.Battlefield.AddCard(other)
++	gs.Players[0].Hand.AddCard(spell)
++
++	targets := []game.Target{
++		{Type: game.TargetCreatureYouCtl, CardID: source.ID, IsCard: true},
++		{Type: game.TargetPlayer, PlayerIdx: 1},
++	}
++	if err := gs.CastSpellWithTargets(0, spell.ID, []game.Target{
++		{Type: game.TargetCreatureYouCtl, CardID: other.ID, IsCard: true},
++		{Type: game.TargetPlayer, PlayerIdx: 1},
++	}); err == nil {
++		t.Fatal("cast accepted an opponent-controlled source creature")
++	}
++	if err := gs.CastSpellWithTargets(0, spell.ID, targets); err != nil {
++		t.Fatalf("CastSpellWithTargets: %v", err)
++	}
++
++	*source.BasePower = 7
++	life := gs.Players[1].Life
++	for !gs.Stack.IsEmpty() {
++		if err := gs.ResolveTopOfStack(); err != nil {
++			t.Fatalf("ResolveTopOfStack: %v", err)
++		}
++	}
++	if got, want := gs.Players[1].Life, life-7; got != want {
++		t.Fatalf("target player life = %d, want %d from source live power", got, want)
++	}
++	if source.Damage != 0 {
++		t.Fatalf("source creature took %d damage; effect must be one-way rather than fight", source.Damage)
++	}
++}
+diff --git a/backend/cards/registry_factory_ng_024a5245b3.go b/backend/cards/registry_factory_ng_024a5245b3.go
+new file mode 100644
+index 000000000..98e53282b
+--- /dev/null
++++ b/backend/cards/registry_factory_ng_024a5245b3.go
+@@ -0,0 +1,8 @@
++package cards
++
++func init() {
++	regEffect("damage_by_target_source_power", Primitive{
++		Executor:  "game/ability_effects.go ExecuteAbilityEffect case \"damage_by_target_source_power\" -> executeDamageBySourcePowerToMultipleTargetsEffect",
++		ShapeTest: "TestFactoryNGDamageByTargetSourcePowerMapping_024a5245b3",
++	})
++}
+diff --git a/backend/game/targeting.go b/backend/game/targeting.go
+index 310f7a395..5cad748cc 100644
+--- a/backend/game/targeting.go
++++ b/backend/game/targeting.go
+@@ -208,6 +208,7 @@ const (
+ 	TargetCreatureTokenEnteredThisTurn                TargetType = "creature_token_entered_this_turn"
+ 	TargetCreatureAndLandSlots                        TargetType = "creature_and_land_slots"
+ 	TargetCreatureYouCtlAndOppCtlSlots                TargetType = "creature_you_ctrl_and_creature_opp_ctrl_slots"
++	TargetCreatureYouCtlAndPlayerSlots                TargetType = "creature_you_ctrl_and_player_slots"
+ 	TargetFightCreatureYouCtlAndOppCtlSlots           TargetType = "fight_creature_you_ctrl_and_creature_opp_ctrl_slots"
+ 	TargetAnyAndCreatureSlots                         TargetType = "any_and_creature_slots"
+ 	TargetArtifactOrEnchantmentAndCreatureYouCtlSlots TargetType = "artifact_or_enchantment_and_creature_you_ctrl_slots"
+@@ -722,6 +723,16 @@ func IsValidTarget(target Target, req TargetRequirement, gs *GameState, controll
+ 		}
+ 		return CanBeTargetedBy(card, controllerIdx, gs.EffectManager)
+ 
++	case TargetCreatureYouCtlAndPlayerSlots:
++		switch target.Type {
++		case TargetCreatureYouCtl:
++			return IsValidTarget(target, TargetRequirement{Type: TargetCreatureYouCtl}, gs, controllerIdx)
++		case TargetPlayer:
++			return IsValidTarget(target, TargetRequirement{Type: TargetPlayer}, gs, controllerIdx)
++		default:
++			return false
++		}
++
+ 	case TargetCreatureYouCtlAndOppCtlSlots:
+ 		if !target.IsCard {
+ 			return false
+@@ -1229,6 +1240,23 @@ func GetLegalTargets(req TargetRequirement, gs *GameState, controllerIdx int) []
+ 			}
+ 		}
+ 
++	case TargetCreatureYouCtlAndPlayerSlots:
++		for _, card := range gs.Battlefield.Cards {
++			if card.IsCreature() && card.Controller == controllerIdx {
++				targets = append(targets, Target{
++					Type:   TargetCreatureYouCtl,
++					CardID: card.ID,
++					IsCard: true,
++				})
++			}
++		}
++		for i := range gs.Players {
++			targets = append(targets, Target{
++				Type:      TargetPlayer,
++				PlayerIdx: i,
++			})
++		}
++
+ 	case TargetTokenEnteredThisTurn, TargetCreatureTokenEnteredThisTurn:
+ 		for _, card := range gs.Battlefield.Cards {
+ 			if !card.IsToken ||
+-- 
+2.55.0
+

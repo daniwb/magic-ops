@@ -1,0 +1,143 @@
+{
+  "capability": {
+    "expected_unlock": 1,
+    "negative_examples": [
+      "Targeted pump_until_eot abilities (e.g. 'Target creature gets +1/+1 until end of turn') must keep requiring and resolving against their explicit target, unaffected by this change"
+    ],
+    "required_behavior": "When an activated or triggered ability's pump_until_eot effect has no target atom (self-referential 'this creature'/'~' phrasing, no 'target' keyword), apply the power/toughness modification directly to the ability's source permanent instead of no-op'ing for lack of a target",
+    "source_misses": [
+      {
+        "card": "Urza's Avenger",
+        "oracle_text_sha256": "4855180b2f80f2c117439e5f5633973de349dd80dcc8d30f5f6d3a7b84732312",
+        "paragraph": "{0}: This creature gets -1/-1 and gains your choice of banding, flying, first strike, or trample until end of turn.",
+        "required_behavior": "When an activated ability's pump_until_eot effect has no target atom (self-referential 'this creature' phrasing), apply the power/toughness modification to the ability's source permanent instead of no-op'ing"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "key": "pump_until_eot_self_source",
+        "specification": {
+          "expected_unlock": 1,
+          "negative_examples": [
+            "Targeted pump_until_eot abilities (e.g. 'Target creature gets +1/+1 until end of turn') must keep requiring and resolving against their explicit target, unaffected by this change"
+          ],
+          "required_behavior": "When an activated or triggered ability's pump_until_eot effect has no target atom (self-referential 'this creature'/'~' phrasing, no 'target' keyword), apply the power/toughness modification directly to the ability's source permanent instead of no-op'ing for lack of a target",
+          "source_misses": [
+            {
+              "card": "Urza's Avenger",
+              "oracle_text_sha256": "4855180b2f80f2c117439e5f5633973de349dd80dcc8d30f5f6d3a7b84732312",
+              "paragraph": "{0}: This creature gets -1/-1 and gains your choice of banding, flying, first strike, or trample until end of turn.",
+              "required_behavior": "When an activated ability's pump_until_eot effect has no target atom (self-referential 'this creature' phrasing), apply the power/toughness modification to the ability's source permanent instead of no-op'ing"
+            }
+          ]
+        },
+        "summary": "Let ability-tier pump_until_eot apply to the ability's own source when the atom is self-referential and untargeted"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-03T041407Z-map-plan-pump-urza-s-avenger-c343daa525-v1-claude.json"
+    },
+    {
+      "anchor": "730-795",
+      "fact": "Card-knowledge index match (engine): resolvePumpAttachedCreatureNoTarget is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d0ac33d83a17c5e21e00829259f817523252b61afd7aa34b5e989710ebaa7a0b"
+    },
+    {
+      "anchor": "2108-2173",
+      "fact": "Card-knowledge index match (engine): resolvePumpReferentSpellManaValue is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d0ac33d83a17c5e21e00829259f817523252b61afd7aa34b5e989710ebaa7a0b"
+    },
+    {
+      "anchor": "1-63",
+      "fact": "Card-knowledge index match (engine): executeGainControlEffect is the nearest indexed seam for this capability.",
+      "path": "backend/game/control_effects.go",
+      "sha256": "sha256:e05b148d7ba6ea7a9a73152aa3031bbf38c8b3dfb2da3d42755946e6df9aec82"
+    },
+    {
+      "anchor": "1184-1249",
+      "fact": "Card-knowledge index match (engine): executeGrantColorUntilEOTEffect is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d0ac33d83a17c5e21e00829259f817523252b61afd7aa34b5e989710ebaa7a0b"
+    },
+    {
+      "fact": "Operator-reviewed correction, September 9: Use unique new regression TestFactoryNGPumpUntilEotSelfSource_Contract_d4012e4ad2; preserve the original TestFactoryNGPumpUntilEotSelfSource gate as well.",
+      "path": "docs/factory-ng/reviews/2026-09-09-capacity/contract-audit.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "An Oracle-validated Map block has been compiled into one bounded Engine dependency.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGPumpUntilEotSelfSource$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGPumpUntilEotSelfSource_Contract_d4012e4ad2$' -count=1"
+  ],
+  "id": "ticket:engine.auto-pump-until-eot-self-source-d0c7ca626e/v2",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Record an immutable bounded verdict; automatic discovery continues with independent work.",
+  "parents": [
+    "ticket:map.plan-pump-urza-s-avenger-c343daa525/v1",
+    "ticket:engine.auto-pump-until-eot-self-source-d0c7ca626e/v1"
+  ],
+  "production": {
+    "contract_correction_batch": "2026-09-09-capacity",
+    "key": "capability:pump_until_eot_self_source:sha256:d0c7ca626e3bc047b642eff7980dce346e8bec2e8c0e2a0846981f5ecbac49dc:reviewed-contract-sep09",
+    "producer": "capability-dependencies"
+  },
+  "required_behavior": [
+    "When an activated or triggered ability's pump_until_eot effect has no target atom (self-referential 'this creature'/'~' phrasing, no 'target' keyword), apply the power/toughness modification directly to the ability's source permanent instead of no-op'ing for lack of a target",
+    "Preserve these adjacent behaviors: Targeted pump_until_eot abilities (e.g. 'Target creature gets +1/+1 until end of turn') must keep requiring and resolving against their explicit target, unaffected by this change",
+    "Add a discriminating behavior test named TestFactoryNGPumpUntilEotSelfSource_Contract_d4012e4ad2; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_d0c7ca626e_test.go",
+      "backend/cards/factory_ng_d0c7ca626e_test.go",
+      "backend/cards/registry_factory_ng_d0c7ca626e.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "clean": true,
+    "repository": "/opt/development/test/openmagic",
+    "revision": "c0fac85b88da04f3d54fe2a5acd553a36662a329"
+  },
+  "supersedes": "ticket:engine.auto-pump-until-eot-self-source-d0c7ca626e/v1",
+  "title": "Corrected contract: Implement atomic capability: Let ability-tier pump_until_eot apply to the ability's own source when the atom is self-referential and untargeted",
+  "work_type": "engine"
+}

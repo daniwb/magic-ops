@@ -8,6 +8,7 @@ import (
 	"os"
 	"strings"
 	"testing"
+	"time"
 )
 
 // Treibt die echten HTTP-Handler in-process — deckt genau die im Smoke-Test
@@ -207,6 +208,138 @@ func TestStatsEndpoint(t *testing.T) {
 }
 
 var _ = http.StatusOK
+
+func TestFactoryNGDetailRejectsTraversal(t *testing.T) {
+	rec := httptest.NewRecorder()
+	factoryNGDetail(rec, httptest.NewRequest("GET", "/factory-ng/detail?path=../../etc/passwd.json", nil))
+	if rec.Code != http.StatusBadRequest {
+		t.Fatalf("expected traversal rejection, got %d", rec.Code)
+	}
+}
+
+func TestFactoryNGDetailReadsTicketJSON(t *testing.T) {
+	rec := httptest.NewRecorder()
+	factoryNGDetail(rec, httptest.NewRequest("GET", "/factory-ng/detail?path=docs/factory-ng/tickets/map-static-condition-self-attacked-keyword-v1.json", nil))
+	if rec.Code != http.StatusOK {
+		t.Fatalf("expected ticket JSON, got %d: %s", rec.Code, rec.Body.String())
+	}
+	var value map[string]any
+	if err := json.Unmarshal(rec.Body.Bytes(), &value); err != nil || value["schema"] != "factory.ticket-spec/v1" {
+		t.Fatalf("unexpected artifact response: %v %v", err, value["schema"])
+	}
+}
+
+func TestFactoryQuotaBoundsUsesSevenDayTranches(t *testing.T) {
+	reset := time.Date(2026, 9, 2, 18, 0, 0, 0, time.UTC)
+	now := reset.Add(-7*24*time.Hour + 4*24*time.Hour + time.Hour)
+	day, allowed, next := factoryQuotaBounds(now, reset, 7, 100)
+	if day != 5 || allowed != 71 {
+		t.Fatalf("expected day 5 with 71%% unlocked, got day=%d allowed=%d", day, allowed)
+	}
+	if want := reset.Add(-2 * 24 * time.Hour); !next.Equal(want) {
+		t.Fatalf("expected next boundary %s, got %s", want, next)
+	}
+}
+
+func TestFactoryWeeklyGateModes(t *testing.T) {
+	config := factoryNGWorkerFile{Workers: []factoryNGWorker{
+		{ID: "claude", WeeklyGateMode: "fixed", WeeklyGatePct: 73},
+		{ID: "codex", WeeklyGateMode: "none", WeeklyGatePct: 95},
+	}}
+	if mode, pct := factoryWeeklyGate(config, "claude", "paced"); mode != "fixed" || pct != 73 {
+		t.Fatalf("unexpected Claude gate %s %d", mode, pct)
+	}
+	if mode, pct := factoryWeeklyGate(config, "codex", "paced"); mode != "none" || pct != 95 {
+		t.Fatalf("unexpected Codex gate %s %d", mode, pct)
+	}
+}
+
+func TestFetchCodexUsageRefreshesDisabledWorkerCache(t *testing.T) {
+	directory := t.TempDir()
+	cache := directory + "/codex-usage.json"
+	fetcher := directory + "/fetch.py"
+	old := []byte(`{"used_pct":100,"resets_at":1788748153,"window_mins":10080,"plan_type":"plus"}`)
+	if err := os.WriteFile(cache, old, 0644); err != nil {
+		t.Fatal(err)
+	}
+	now := time.Now()
+	stale := now.Add(-time.Hour)
+	if err := os.Chtimes(cache, stale, stale); err != nil {
+		t.Fatal(err)
+	}
+	program := []byte("import json\nprint(json.dumps({'used_pct': 0, 'resets_at': 1789375826, 'window_mins': 10080, 'plan_type': 'plus'}))\n")
+	if err := os.WriteFile(fetcher, program, 0644); err != nil {
+		t.Fatal(err)
+	}
+	t.Setenv("CODEX_USAGE_CACHE", cache)
+	t.Setenv("CODEX_USAGE_FETCH", fetcher)
+	t.Setenv("CODEX_USAGE_GATE_TTL", "180")
+	if !fetchCodexUsage(now) {
+		t.Fatal("expected stale Codex cache to refresh")
+	}
+	var got struct {
+		UsedPct *float64 `json:"used_pct"`
+	}
+	raw, err := os.ReadFile(cache)
+	if err != nil || json.Unmarshal(raw, &got) != nil || got.UsedPct == nil || *got.UsedPct != 0 {
+		t.Fatalf("unexpected refreshed cache: err=%v body=%s", err, raw)
+	}
+}
+
+func TestFactoryWorkerUpdatePersistsWeeklyGate(t *testing.T) {
+	directory := t.TempDir()
+	original := factoryNGWorkersPath
+	factoryNGWorkersPath = directory + "/workers.json"
+	t.Cleanup(func() { factoryNGWorkersPath = original })
+	config := factoryNGWorkerFile{Schema: "factory-ng-workers/v1", Workers: []factoryNGWorker{
+		{ID: "claude", Label: "Claude", UsagePolicy: "claude-weekly", WeeklyGateMode: "paced", WeeklyGatePct: 95,
+			AlternateProfiles: []string{"qwen-prepared-local@1.0.1"}, PreferEngine: true, RoutingMode: "auto"},
+	}}
+	if err := writeFactoryNGWorkers(config); err != nil {
+		t.Fatal(err)
+	}
+	rec := postJSON(factoryNGWorkersHandler, "/factory-ng/workers", `{"id":"claude","routing_mode":"engine","weekly_gate_mode":"fixed","weekly_gate_pct":73}`)
+	if rec.Code != http.StatusOK {
+		t.Fatalf("weekly gate update code=%d body=%s", rec.Code, rec.Body.String())
+	}
+	got, err := loadFactoryNGWorkers()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got.Workers[0].WeeklyGateMode != "fixed" || got.Workers[0].WeeklyGatePct != 73 {
+		t.Fatalf("weekly gate was not persisted: %+v", got.Workers[0])
+	}
+	if got.Workers[0].RoutingMode != "engine" {
+		t.Fatalf("routing mode was not persisted: %+v", got.Workers[0])
+	}
+	if len(got.Workers[0].AlternateProfiles) != 1 || got.Workers[0].AlternateProfiles[0] != "qwen-prepared-local@1.0.1" || !got.Workers[0].PreferEngine {
+		t.Fatalf("alternate routing was not preserved: %+v", got.Workers[0])
+	}
+}
+
+func TestFactoryWorkerRejectsInvalidRoutingMode(t *testing.T) {
+	directory := t.TempDir()
+	original := factoryNGWorkersPath
+	factoryNGWorkersPath = directory + "/workers.json"
+	t.Cleanup(func() { factoryNGWorkersPath = original })
+	config := factoryNGWorkerFile{Schema: "factory-ng-workers/v1", Workers: []factoryNGWorker{
+		{ID: "claude", Label: "Claude", RoutingMode: "auto"},
+	}}
+	if err := writeFactoryNGWorkers(config); err != nil {
+		t.Fatal(err)
+	}
+	rec := postJSON(factoryNGWorkersHandler, "/factory-ng/workers", `{"id":"claude","routing_mode":"everything"}`)
+	if rec.Code != http.StatusBadRequest {
+		t.Fatalf("invalid routing mode code=%d body=%s", rec.Code, rec.Body.String())
+	}
+	got, err := loadFactoryNGWorkers()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got.Workers[0].RoutingMode != "auto" {
+		t.Fatalf("invalid update changed routing mode: %+v", got.Workers[0])
+	}
+}
 
 func TestVocabListAndFail(t *testing.T) {
 	setup(t)
@@ -424,5 +557,25 @@ func TestAttemptLedgerIsImmutableAndVisible(t *testing.T) {
 	json.Unmarshal(rec.Body.Bytes(), &listed)
 	if len(listed) != 1 || listed[0]["pack_sha"] != "123" {
 		t.Fatalf("attempt list lost provenance: %s", rec.Body.String())
+	}
+}
+
+func TestFactoryNGWorkerPauseResume(t *testing.T) {
+	directory := t.TempDir()
+	original := factoryNGWorkerPausesPath
+	factoryNGWorkerPausesPath = directory + "/pauses.json"
+	t.Cleanup(func() { factoryNGWorkerPausesPath = original })
+	value := factoryNGWorkerPauseFile{Schema: "factory.ng-worker-pauses/v1", Workers: map[string]map[string]interface{}{
+		"claude": {"worker_id": "claude", "reason": "OAuth expired"},
+	}}
+	if err := writeFactoryNGWorkerPauses(value); err != nil {
+		t.Fatal(err)
+	}
+	rec := postJSON(factoryNGWorkerPause, "/factory-ng/worker-pause", `{"id":"claude"}`)
+	if rec.Code != http.StatusOK {
+		t.Fatalf("resume code=%d body=%s", rec.Code, rec.Body.String())
+	}
+	if _, held := loadFactoryNGWorkerPauses().Workers["claude"]; held {
+		t.Fatal("worker authentication hold was not cleared")
 	}
 }

@@ -1,0 +1,10 @@
+{
+  "ticket_id": "ticket:engine.auto-register-exile-target-cards-single-graveyard-4fd0722a8e/v1",
+  "receipt": "docs/factory-ng/runs/2026-09-16T085708Z-engine-auto-register-exile-target-cards-single-graveyard-4fd0722a8e-v1-codex.json",
+  "receipt_sha256": "sha256:ab7b47202d8b9702a4c10a4cc51c67a2ae172e22cfe4efa5121ad951fb7f4e07",
+  "raw_artifact": {
+    "path": "docs/factory-ng/runs/2026-09-16T085708Z-engine-auto-register-exile-target-cards-single-graveyard-4fd0722a8e-v1-codex.raw.json",
+    "sha256": "sha256:7c828ad9d2232c1102d705be32d39b98e459cf7deecbc022b1dfd3470eca3f15"
+  },
+  "finding": "Explicit Luna capacity rejection before any patch; Terra configured and functioning since previous recovery. One attempt, original scope and all gates required."
+}

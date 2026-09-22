@@ -31,10 +31,12 @@ import argparse, json, os, re, subprocess, sys, urllib.request
 
 ap = argparse.ArgumentParser()
 ap.add_argument('--repo', required=True)
-ap.add_argument('--base-url', default='http://192.168.1.251:8080')
-ap.add_argument('--model', default='./Qwen3.8-27B/Qwen3.8-27B-Q8_0.gguf')
+# See qwen-prepared-call.py: the rootless Halogen forwarder must be reached
+# through IPv4 loopback rather than the ambiguous localhost hostname.
+ap.add_argument('--base-url', default='http://127.0.0.1:8080')
+ap.add_argument('--model', default='halogen-qwen3.8-flash-next')
 ap.add_argument('--max-turns', type=int, default=25)
-ap.add_argument('--max-tokens', type=int, default=8000)
+ap.add_argument('--max-tokens', type=int, default=16000)
 ap.add_argument('--allow-game', action='store_true',
                  help='engine tier: backend/game/ edits are allowed (mirrors map-pipeline-apply.py\'s flag)')
 a = ap.parse_args()
@@ -106,6 +108,9 @@ if a.allow_game:
     SCOPE_RULE = (
         "This is the ENGINE tier: backend/game/ edits ARE allowed. Prefer "
         "extending an existing executor/switch over inventing a new mechanism. "
+        "Edit ONLY paths explicitly listed in the task's scope.allowed_paths; "
+        "never invent a test filename. Use the exact required Test... function "
+        "name and create it only at one of the allowed *_test.go paths. "
         "Your diff MUST include a NEW test function (a line starting 'func "
         "Test...') in a NEW _test.go file — a real behavior test, not just an "
         "assertion of current behavior — or the patch is rejected outright "
@@ -144,7 +149,9 @@ SYSTEM_PROMPT = (
     "WITHOUT line-number prefixes)\n===REPLACE\nreplacement lines\n>>>END\n"
     "Each block has EXACTLY ONE <<<SEARCH and EXACTLY ONE ===REPLACE — decide your "
     "final replacement content before writing the block, never a second ===REPLACE "
-    "inside the same block.\n\n"
+    "inside the same block. Every replacement line must be valid source code; "
+    "never insert explanatory prose as bare source lines. Use ASCII punctuation "
+    "in generated source and the language's comment syntax for every comment.\n\n"
     "To CREATE a brand-new file (e.g. a new _test.go file — SEARCH/REPLACE only "
     "works on files that already exist), use a NEWFILE block instead:\n"
     "<<<NEWFILE path/relative/to/repo\nfull file content\n>>>END\n\n"

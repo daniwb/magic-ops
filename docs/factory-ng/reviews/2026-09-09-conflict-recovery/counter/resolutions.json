@@ -1,0 +1,14 @@
+{
+  "schema": "factory.reviewed-merge-resolutions/v1",
+  "resolutions": {
+    "ticket:engine.auto-damage-amount-counter-count-82dee1907b/v3": {
+      "ticket_sha256": "sha256:736366110ea444c85393acd8b5f6b208a8002911b20601c2a103b0a275c140a9",
+      "original_patch_sha256": "sha256:fce20652dcbf6366d6f190832d98b84ab0096d86410fb787a7fceeb704c4394f",
+      "patch": "docs/factory-ng/reviews/2026-09-09-conflict-recovery/counter/damage-counter-resolved.patch",
+      "patch_sha256": "sha256:39d0ef9980e723066c0feb8a5173d8768d140136fb0c62218ea1660941b3d764",
+      "source_revision": "13f9971583fd8f63bfda25477072ce95369aa8de",
+      "reason": "Operator repaired proven event-only damage defect by delegating to executeDamageEffect; original named test now also asserts actual marked damage. No model retry or counter reset.",
+      "original_receipt": "docs/factory-ng/runs/2026-09-07T200419Z-engine-auto-damage-amount-counter-count-82dee1907b-v3-claude.json"
+    }
+  }
+}

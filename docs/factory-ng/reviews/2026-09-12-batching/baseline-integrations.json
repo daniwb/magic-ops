@@ -1,0 +1,1106 @@
+[
+  {
+    "receipt": "docs/factory-ng/runs/2026-09-12T091546Z-map-plan-prevent-arachnogenesis-2eaecc603a-v1-1789204546667892158-integration.json",
+    "patches_applied": 1,
+    "outcome": "pushed_full_production_gate_green",
+    "gate_seconds": 300.6,
+    "stages": [
+      {
+        "id": "candidate-apply",
+        "seconds": 0.6
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 2.8
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 3.9
+      },
+      {
+        "id": "reparse-flip",
+        "seconds": 110.7
+      },
+      {
+        "id": "reparse-import",
+        "seconds": 22.0
+      },
+      {
+        "id": "go-build",
+        "seconds": 24.1
+      },
+      {
+        "id": "game-tests",
+        "seconds": 4.2
+      },
+      {
+        "id": "focused-go",
+        "seconds": 24.9
+      },
+      {
+        "id": "full-sharded-suite",
+        "seconds": 104.5
+      },
+      {
+        "id": "push",
+        "seconds": 3.0
+      }
+    ]
+  },
+  {
+    "receipt": "docs/factory-ng/runs/2026-09-12T092403Z-map-plan-draw-april-reporter-of-the-weird-05120434ce-v1-1789205043942647223-integration.json",
+    "patches_applied": 1,
+    "outcome": "pushed_full_production_gate_green",
+    "gate_seconds": 293.0,
+    "stages": [
+      {
+        "id": "candidate-apply",
+        "seconds": 0.4
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 1.3
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.4
+      },
+      {
+        "id": "reparse-flip",
+        "seconds": 109.3
+      },
+      {
+        "id": "reparse-import",
+        "seconds": 21.9
+      },
+      {
+        "id": "go-build",
+        "seconds": 24.2
+      },
+      {
+        "id": "game-tests",
+        "seconds": 4.4
+      },
+      {
+        "id": "focused-go",
+        "seconds": 23.5
+      },
+      {
+        "id": "full-sharded-suite",
+        "seconds": 101.9
+      },
+      {
+        "id": "push",
+        "seconds": 3.7
+      }
+    ]
+  },
+  {
+    "receipt": "docs/factory-ng/runs/2026-09-12T093253Z-map-plan-exile-barrier-breach-1a1bacbbb1-v3-1789205573186745454-integration.json",
+    "patches_applied": 1,
+    "outcome": "pushed_full_production_gate_green",
+    "gate_seconds": 288.4,
+    "stages": [
+      {
+        "id": "candidate-apply",
+        "seconds": 0.7
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 1.3
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.4
+      },
+      {
+        "id": "reparse-flip",
+        "seconds": 108.0
+      },
+      {
+        "id": "reparse-import",
+        "seconds": 22.3
+      },
+      {
+        "id": "go-build",
+        "seconds": 24.4
+      },
+      {
+        "id": "game-tests",
+        "seconds": 4.3
+      },
+      {
+        "id": "focused-go",
+        "seconds": 22.8
+      },
+      {
+        "id": "full-sharded-suite",
+        "seconds": 99.4
+      },
+      {
+        "id": "push",
+        "seconds": 2.8
+      }
+    ]
+  },
+  {
+    "receipt": "docs/factory-ng/runs/2026-09-12T093803Z-wave-4662c739f33f-1789205883539353219-integration.json",
+    "patches_applied": 2,
+    "outcome": "pushed_full_production_gate_green",
+    "gate_seconds": 300.2,
+    "stages": [
+      {
+        "id": "candidate-apply",
+        "seconds": 0.7
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 1.3
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.4
+      },
+      {
+        "id": "candidate-apply",
+        "seconds": 0.4
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 1.1
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.3
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 0.6
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.5
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 0.7
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.5
+      },
+      {
+        "id": "reparse-flip",
+        "seconds": 110.1
+      },
+      {
+        "id": "reparse-import",
+        "seconds": 21.3
+      },
+      {
+        "id": "go-build",
+        "seconds": 24.5
+      },
+      {
+        "id": "game-tests",
+        "seconds": 4.3
+      },
+      {
+        "id": "focused-go",
+        "seconds": 23.1
+      },
+      {
+        "id": "full-sharded-suite",
+        "seconds": 99.4
+      },
+      {
+        "id": "push",
+        "seconds": 3.0
+      }
+    ]
+  },
+  {
+    "receipt": "docs/factory-ng/runs/2026-09-12T094336Z-map-plan-gain-life-battle-at-the-bridge-93fd873d97-v1-1789206216640962534-integration.json",
+    "patches_applied": 1,
+    "outcome": "pushed_full_production_gate_green",
+    "gate_seconds": 289.8,
+    "stages": [
+      {
+        "id": "candidate-apply",
+        "seconds": 0.9
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 1.3
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.4
+      },
+      {
+        "id": "reparse-flip",
+        "seconds": 107.4
+      },
+      {
+        "id": "reparse-import",
+        "seconds": 21.7
+      },
+      {
+        "id": "go-build",
+        "seconds": 24.0
+      },
+      {
+        "id": "game-tests",
+        "seconds": 4.4
+      },
+      {
+        "id": "focused-go",
+        "seconds": 23.6
+      },
+      {
+        "id": "full-sharded-suite",
+        "seconds": 101.0
+      },
+      {
+        "id": "push",
+        "seconds": 3.1
+      }
+    ]
+  },
+  {
+    "receipt": "docs/factory-ng/runs/2026-09-12T094856Z-wave-21b3e242a4d5-1789206536065203909-integration.json",
+    "patches_applied": 3,
+    "outcome": "pushed_full_production_gate_green",
+    "gate_seconds": 314.9,
+    "stages": [
+      {
+        "id": "candidate-apply",
+        "seconds": 0.5
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 1.2
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.4
+      },
+      {
+        "id": "candidate-apply",
+        "seconds": 0.3
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 1.2
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.7
+      },
+      {
+        "id": "candidate-apply",
+        "seconds": 0.4
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 1.3
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.4
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 0.6
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.3
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 0.6
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.5
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 0.7
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.4
+      },
+      {
+        "id": "reparse-flip",
+        "seconds": 111.0
+      },
+      {
+        "id": "reparse-import",
+        "seconds": 22.2
+      },
+      {
+        "id": "go-build",
+        "seconds": 24.0
+      },
+      {
+        "id": "game-tests",
+        "seconds": 4.3
+      },
+      {
+        "id": "focused-go",
+        "seconds": 24.8
+      },
+      {
+        "id": "full-sharded-suite",
+        "seconds": 103.1
+      },
+      {
+        "id": "push",
+        "seconds": 4.1
+      }
+    ]
+  },
+  {
+    "receipt": "docs/factory-ng/runs/2026-09-12T095441Z-map-plan-p-discard-headless-specter-bd8a9bb1bf-v1-1789206881236064617-integration.json",
+    "patches_applied": 1,
+    "outcome": "pushed_full_production_gate_green",
+    "gate_seconds": 327.6,
+    "stages": [
+      {
+        "id": "candidate-apply",
+        "seconds": 1.3
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 2.1
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 3.5
+      },
+      {
+        "id": "reparse-flip",
+        "seconds": 121.8
+      },
+      {
+        "id": "reparse-import",
+        "seconds": 25.1
+      },
+      {
+        "id": "go-build",
+        "seconds": 25.7
+      },
+      {
+        "id": "game-tests",
+        "seconds": 4.8
+      },
+      {
+        "id": "focused-go",
+        "seconds": 25.6
+      },
+      {
+        "id": "full-sharded-suite",
+        "seconds": 115.3
+      },
+      {
+        "id": "push",
+        "seconds": 2.5
+      }
+    ]
+  },
+  {
+    "receipt": "docs/factory-ng/runs/2026-09-12T100028Z-wave-6d1c04bffa4e-1789207228012491660-integration.json",
+    "patches_applied": 3,
+    "outcome": "pushed_full_production_gate_green",
+    "gate_seconds": 687.4,
+    "stages": [
+      {
+        "id": "candidate-apply",
+        "seconds": 1.4
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 1.2
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.4
+      },
+      {
+        "id": "candidate-apply",
+        "seconds": 0.4
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 1.4
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.6
+      },
+      {
+        "id": "candidate-apply",
+        "seconds": 0.3
+      },
+      {
+        "id": "composed-ticket-1",
+        "seconds": 15.9
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 0.6
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.5
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 0.7
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.4
+      },
+      {
+        "id": "composed-ticket-1",
+        "seconds": 14.0
+      },
+      {
+        "id": "reparse-flip",
+        "seconds": 111.4
+      },
+      {
+        "id": "reparse-import",
+        "seconds": 21.8
+      },
+      {
+        "id": "go-build",
+        "seconds": 162.2
+      },
+      {
+        "id": "game-tests",
+        "seconds": 41.4
+      },
+      {
+        "id": "focused-go",
+        "seconds": 28.6
+      },
+      {
+        "id": "full-sharded-suite",
+        "seconds": 272.7
+      },
+      {
+        "id": "push",
+        "seconds": 3.7
+      }
+    ]
+  },
+  {
+    "receipt": "docs/factory-ng/runs/2026-09-12T101218Z-wave-c505623b9a49-1789207938327749569-integration.json",
+    "patches_applied": 2,
+    "outcome": "pushed_full_production_gate_green",
+    "gate_seconds": 981.8,
+    "stages": [
+      {
+        "id": "candidate-apply",
+        "seconds": 0.3
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 1.2
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.4
+      },
+      {
+        "id": "candidate-apply",
+        "seconds": 0.3
+      },
+      {
+        "id": "composed-ticket-1",
+        "seconds": 262.4
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 0.7
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.6
+      },
+      {
+        "id": "composed-ticket-1",
+        "seconds": 14.9
+      },
+      {
+        "id": "reparse-flip",
+        "seconds": 114.3
+      },
+      {
+        "id": "reparse-import",
+        "seconds": 21.4
+      },
+      {
+        "id": "go-build",
+        "seconds": 168.2
+      },
+      {
+        "id": "game-tests",
+        "seconds": 38.9
+      },
+      {
+        "id": "focused-go",
+        "seconds": 28.0
+      },
+      {
+        "id": "full-sharded-suite",
+        "seconds": 323.6
+      },
+      {
+        "id": "push",
+        "seconds": 2.8
+      }
+    ]
+  },
+  {
+    "receipt": "docs/factory-ng/runs/2026-09-12T102915Z-wave-7244608a6778-1789208955983665693-integration.json",
+    "patches_applied": 4,
+    "outcome": "pushed_full_production_gate_green",
+    "gate_seconds": 979.0,
+    "stages": [
+      {
+        "id": "candidate-apply",
+        "seconds": 0.6
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 1.4
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.8
+      },
+      {
+        "id": "candidate-apply",
+        "seconds": 0.3
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 1.2
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.4
+      },
+      {
+        "id": "candidate-apply",
+        "seconds": 0.4
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 1.2
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.5
+      },
+      {
+        "id": "candidate-apply",
+        "seconds": 0.3
+      },
+      {
+        "id": "composed-ticket-1",
+        "seconds": 263.3
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 1.2
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 3.4
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 0.7
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.8
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 0.8
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 3.4
+      },
+      {
+        "id": "composed-ticket-1",
+        "seconds": 18.0
+      },
+      {
+        "id": "reparse-flip",
+        "seconds": 130.1
+      },
+      {
+        "id": "reparse-import",
+        "seconds": 30.1
+      },
+      {
+        "id": "go-build",
+        "seconds": 188.6
+      },
+      {
+        "id": "game-tests",
+        "seconds": 38.1
+      },
+      {
+        "id": "focused-go",
+        "seconds": 24.7
+      },
+      {
+        "id": "full-sharded-suite",
+        "seconds": 256.5
+      },
+      {
+        "id": "push",
+        "seconds": 4.1
+      }
+    ]
+  },
+  {
+    "receipt": "docs/factory-ng/runs/2026-09-12T104604Z-wave-9a1130f297ab-1789209964567706951-integration.json",
+    "patches_applied": 4,
+    "outcome": "pushed_full_production_gate_green",
+    "gate_seconds": 940.9,
+    "stages": [
+      {
+        "id": "candidate-apply",
+        "seconds": 0.6
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 1.6
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 3.5
+      },
+      {
+        "id": "candidate-apply",
+        "seconds": 0.4
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 1.4
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 3.4
+      },
+      {
+        "id": "candidate-apply",
+        "seconds": 0.5
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 1.9
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 3.0
+      },
+      {
+        "id": "candidate-apply",
+        "seconds": 0.4
+      },
+      {
+        "id": "composed-ticket-1",
+        "seconds": 301.9
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 0.7
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.6
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 0.7
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.7
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 0.8
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.8
+      },
+      {
+        "id": "composed-ticket-1",
+        "seconds": 16.1
+      },
+      {
+        "id": "reparse-flip",
+        "seconds": 111.1
+      },
+      {
+        "id": "reparse-import",
+        "seconds": 22.0
+      },
+      {
+        "id": "go-build",
+        "seconds": 149.2
+      },
+      {
+        "id": "game-tests",
+        "seconds": 34.0
+      },
+      {
+        "id": "focused-go",
+        "seconds": 24.4
+      },
+      {
+        "id": "full-sharded-suite",
+        "seconds": 250.8
+      },
+      {
+        "id": "push",
+        "seconds": 4.4
+      }
+    ]
+  },
+  {
+    "receipt": "docs/factory-ng/runs/2026-09-12T110211Z-wave-c0dde3358980-1789210931255554647-integration.json",
+    "patches_applied": 3,
+    "outcome": "pushed_full_production_gate_green",
+    "gate_seconds": 952.6,
+    "stages": [
+      {
+        "id": "candidate-apply",
+        "seconds": 0.7
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 1.2
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.4
+      },
+      {
+        "id": "candidate-apply",
+        "seconds": 0.3
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 1.2
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.3
+      },
+      {
+        "id": "candidate-apply",
+        "seconds": 0.2
+      },
+      {
+        "id": "composed-ticket-1",
+        "seconds": 265.6
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 0.7
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.8
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 0.8
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.7
+      },
+      {
+        "id": "composed-ticket-1",
+        "seconds": 17.5
+      },
+      {
+        "id": "reparse-flip",
+        "seconds": 114.5
+      },
+      {
+        "id": "reparse-import",
+        "seconds": 23.5
+      },
+      {
+        "id": "go-build",
+        "seconds": 153.3
+      },
+      {
+        "id": "game-tests",
+        "seconds": 33.9
+      },
+      {
+        "id": "focused-go",
+        "seconds": 24.2
+      },
+      {
+        "id": "full-sharded-suite",
+        "seconds": 301.5
+      },
+      {
+        "id": "push",
+        "seconds": 3.4
+      }
+    ]
+  },
+  {
+    "receipt": "docs/factory-ng/runs/2026-09-12T111834Z-wave-67f1c6c5bd90-1789211914620972850-integration.json",
+    "patches_applied": 1,
+    "outcome": "pushed_full_production_gate_green",
+    "gate_seconds": 594.5,
+    "stages": [
+      {
+        "id": "candidate-apply",
+        "seconds": 0.2
+      },
+      {
+        "id": "composed-ticket-1",
+        "seconds": 224.9
+      },
+      {
+        "id": "reparse-flip",
+        "seconds": 118.4
+      },
+      {
+        "id": "reparse-import",
+        "seconds": 27.8
+      },
+      {
+        "id": "go-build",
+        "seconds": 36.7
+      },
+      {
+        "id": "game-tests",
+        "seconds": 6.2
+      },
+      {
+        "id": "focused-go",
+        "seconds": 34.0
+      },
+      {
+        "id": "full-sharded-suite",
+        "seconds": 143.6
+      },
+      {
+        "id": "push",
+        "seconds": 2.6
+      }
+    ]
+  },
+  {
+    "receipt": "docs/factory-ng/runs/2026-09-12T113149Z-map-plan-prevent-commencement-of-festivities-1773df72a3-v3-1789212709842331038-integration.json",
+    "patches_applied": 1,
+    "outcome": "pushed_full_production_gate_green",
+    "gate_seconds": 316.5,
+    "stages": [
+      {
+        "id": "candidate-apply",
+        "seconds": 0.4
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 1.4
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.7
+      },
+      {
+        "id": "reparse-flip",
+        "seconds": 130.0
+      },
+      {
+        "id": "reparse-import",
+        "seconds": 22.0
+      },
+      {
+        "id": "go-build",
+        "seconds": 25.6
+      },
+      {
+        "id": "game-tests",
+        "seconds": 4.2
+      },
+      {
+        "id": "focused-go",
+        "seconds": 23.3
+      },
+      {
+        "id": "full-sharded-suite",
+        "seconds": 103.8
+      },
+      {
+        "id": "push",
+        "seconds": 2.9
+      }
+    ]
+  },
+  {
+    "receipt": "docs/factory-ng/runs/2026-09-12T113745Z-map-plan-prevent-consulate-surveillance-1905a20475-v2-1789213065599921676-integration.json",
+    "patches_applied": 1,
+    "outcome": "pushed_full_production_gate_green",
+    "gate_seconds": 1162.7,
+    "stages": [
+      {
+        "id": "candidate-apply",
+        "seconds": 0.5
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 1.3
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 2.4
+      },
+      {
+        "id": "reparse-flip",
+        "seconds": 114.9
+      },
+      {
+        "id": "reparse-import",
+        "seconds": 22.7
+      },
+      {
+        "id": "go-build",
+        "seconds": 314.7
+      },
+      {
+        "id": "game-tests",
+        "seconds": 163.9
+      },
+      {
+        "id": "focused-go",
+        "seconds": 210.7
+      },
+      {
+        "id": "full-sharded-suite",
+        "seconds": 328.5
+      },
+      {
+        "id": "push",
+        "seconds": 3.1
+      }
+    ]
+  },
+  {
+    "receipt": "docs/factory-ng/runs/2026-09-12T115923Z-engine-auto-target-referent-color-count-e6b41de588-v2-1789214363575711881-integration.json",
+    "patches_applied": 1,
+    "outcome": "pushed_full_production_gate_green",
+    "gate_seconds": 621.1,
+    "stages": [
+      {
+        "id": "candidate-apply",
+        "seconds": 0.3
+      },
+      {
+        "id": "composed-ticket-1",
+        "seconds": 15.6
+      },
+      {
+        "id": "reparse-flip",
+        "seconds": 109.4
+      },
+      {
+        "id": "reparse-import",
+        "seconds": 22.2
+      },
+      {
+        "id": "go-build",
+        "seconds": 149.1
+      },
+      {
+        "id": "game-tests",
+        "seconds": 33.5
+      },
+      {
+        "id": "focused-go",
+        "seconds": 23.8
+      },
+      {
+        "id": "full-sharded-suite",
+        "seconds": 264.4
+      },
+      {
+        "id": "push",
+        "seconds": 2.9
+      }
+    ]
+  },
+  {
+    "receipt": "docs/factory-ng/runs/2026-09-12T121013Z-map-plan-mill-hope-estheim-3a3a3aee6e-v1-1789215013276227368-integration.json",
+    "patches_applied": 1,
+    "outcome": "pushed_full_production_gate_green",
+    "gate_seconds": 417.7,
+    "stages": [
+      {
+        "id": "candidate-apply",
+        "seconds": 0.7
+      },
+      {
+        "id": "composed-ticket-0",
+        "seconds": 1.6
+      },
+      {
+        "id": "composed-ticket-3",
+        "seconds": 4.1
+      },
+      {
+        "id": "reparse-flip",
+        "seconds": 163.6
+      },
+      {
+        "id": "reparse-import",
+        "seconds": 28.2
+      },
+      {
+        "id": "go-build",
+        "seconds": 36.7
+      },
+      {
+        "id": "game-tests",
+        "seconds": 7.3
+      },
+      {
+        "id": "focused-go",
+        "seconds": 31.3
+      },
+      {
+        "id": "full-sharded-suite",
+        "seconds": 140.8
+      },
+      {
+        "id": "push",
+        "seconds": 3.6
+      }
+    ]
+  }
+]

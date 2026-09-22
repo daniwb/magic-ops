@@ -1,0 +1,189 @@
+{
+  "trial": {
+    "worker": "openrouter-free-goose",
+    "started_at": "2026-09-21T12:40:55.068248+00:00",
+    "ends_at": "2026-09-21T13:40:55.068248+00:00",
+    "ends_at_epoch": 1789998055.068248,
+    "duration_seconds": 3600,
+    "expiry_behavior": "No new claims after deadline; already-running harnesses retain normal gates."
+  },
+  "attempt_count": 10,
+  "unique_tickets": 7,
+  "outcomes": {
+    "infrastructure_failed": 4,
+    "infrastructure_failed_model_protocol": 1,
+    "blocked_by_capability": 1,
+    "parked": 2,
+    "infrastructure_failed_rate_limited": 1,
+    "gate_failed": 1
+  },
+  "model_calls": 24,
+  "accepted_patches": 0,
+  "worker_enabled": false,
+  "attempts": [
+    {
+      "receipt": "docs/factory-ng/runs/2026-09-21T124114Z-engine-auto-create-token-with-can-block-only-flying-59498a421f-v1-goose-openrouter-staged.json",
+      "ticket": "ticket:engine.auto-create-token-with-can-block-only-flying-59498a421f/v1",
+      "outcome": "infrastructure_failed",
+      "model_calls": 2,
+      "failed_gates": [
+        {
+          "id": "patch-apply",
+          "detail": "no edit blocks and no verdict found in model output\n"
+        },
+        {
+          "id": "provider-call",
+          "detail": "Provider call exited 1; see retained raw response. goose-staged: provider process failed; see retained artifact\n"
+        }
+      ]
+    },
+    {
+      "receipt": "docs/factory-ng/runs/2026-09-21T124158Z-engine-auto-for-each-opponent-optional-target-destroy-9c39947804-v2-goose-openrouter-staged.json",
+      "ticket": "ticket:engine.auto-for-each-opponent-optional-target-destroy-9c39947804/v2",
+      "outcome": "infrastructure_failed_model_protocol",
+      "model_calls": 3,
+      "failed_gates": [
+        {
+          "id": "initial-patch-apply",
+          "detail": "no edit blocks and no verdict found in model output\n"
+        },
+        {
+          "id": "patch-apply",
+          "detail": "no edit blocks and no verdict found in model output\n"
+        }
+      ]
+    },
+    {
+      "receipt": "docs/factory-ng/runs/2026-09-21T124333Z-map-plan-create-token-circle-of-power-9799d43f44-v1-goose-openrouter-staged.json",
+      "ticket": "ticket:map.plan-create-token-circle-of-power-9799d43f44/v1",
+      "outcome": "blocked_by_capability",
+      "model_calls": 1,
+      "failed_gates": [
+        {
+          "id": "patch-apply",
+          "detail": "sing Oracle semantics\",\"source_misses\":[{\"card\":\"Circle of Power\",\"paragraph\":\"Create a 0/1 black Wizard creature token with \\\"Whenever you cast a noncreature spell, this token deals 1 damage to each opponent.\\\"\",\"required_behavior\":\"token creation that includes a quoted granted triggered ability on the token\"}],\"negative_examples\":[\"predefined treasure/food tokens without granted abilities\",\"creature tokens with keyword grants via with (tapped, flying, etc.) that the structured branch already handles\"],\"expected_unlock\":0}}\nREASON: The miss requires representing a granted triggered ability on a predefined-shape creature token; existing create_token paths (predefined token_type and structure"
+        }
+      ]
+    },
+    {
+      "receipt": "docs/factory-ng/runs/2026-09-21T124350Z-engine-auto-counter-unless-pay-self-counter-count-x-8de2c20acb-v1-goose-openrouter-staged.json",
+      "ticket": "ticket:engine.auto-counter-unless-pay-self-counter-count-x-8de2c20acb/v1",
+      "outcome": "infrastructure_failed",
+      "model_calls": 3,
+      "failed_gates": [
+        {
+          "id": "initial-patch-apply",
+          "detail": "no edit blocks and no verdict found in model output\n"
+        },
+        {
+          "id": "patch-apply",
+          "detail": "no edit blocks and no verdict found in model output\n"
+        },
+        {
+          "id": "provider-call",
+          "detail": "Provider call exited 1; see retained raw response. goose-staged: provider process failed; see retained artifact\n"
+        }
+      ]
+    },
+    {
+      "receipt": "docs/factory-ng/runs/2026-09-21T124802Z-engine-auto-create-token-with-can-block-only-flying-59498a421f-v1-goose-openrouter-staged.json",
+      "ticket": "ticket:engine.auto-create-token-with-can-block-only-flying-59498a421f/v1",
+      "outcome": "parked",
+      "model_calls": 3,
+      "failed_gates": [
+        {
+          "id": "initial-patch-apply",
+          "detail": "no edit blocks and no verdict found in model output\n"
+        },
+        {
+          "id": "patch-apply",
+          "detail": "VERDICT: AMBIGUOUS\nREASON: Missing essential source for the Card struct fields (e.g., CanBlockOnlyFlying) and the token creation logic in ability_effects.go to implement and enforce the can_block_only_flying restriction; also need the non\u2011frozen registry file to register the new effect. Without these details the required changes cannot be accurately specified.\n"
+        }
+      ]
+    },
+    {
+      "receipt": "docs/factory-ng/runs/2026-09-21T125510Z-engine-auto-counter-unless-pay-self-counter-count-x-8de2c20acb-v1-goose-openrouter-staged.json",
+      "ticket": "ticket:engine.auto-counter-unless-pay-self-counter-count-x-8de2c20acb/v1",
+      "outcome": "infrastructure_failed_rate_limited",
+      "model_calls": 2,
+      "failed_gates": [
+        {
+          "id": "provider-rate-limit",
+          "detail": "OpenRouter returned 429; no candidate was attempted."
+        }
+      ]
+    },
+    {
+      "receipt": "docs/factory-ng/runs/2026-09-21T131135Z-engine-auto-create-token-with-can-block-only-flying-59498a421f-v2-goose-openrouter-staged.json",
+      "ticket": "ticket:engine.auto-create-token-with-can-block-only-flying-59498a421f/v2",
+      "outcome": "infrastructure_failed",
+      "model_calls": 3,
+      "failed_gates": [
+        {
+          "id": "initial-patch-apply",
+          "detail": "backend/game/gamestate.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\nbackend/cards/converter.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\nbackend/game/card.go: SEARCH text not found (must be copied verbatim, no line numbers)\n"
+        },
+        {
+          "id": "patch-apply",
+          "detail": "no edit blocks and no verdict found in model output\n"
+        },
+        {
+          "id": "provider-call",
+          "detail": "Provider call exited 1; see retained raw response. goose-staged: provider process failed; see retained artifact\n"
+        }
+      ]
+    },
+    {
+      "receipt": "docs/factory-ng/runs/2026-09-21T131807Z-engine-auto-counter-unless-pay-dynamic-source-power-amount-71a6c2fbc0-v1-goose-openrouter-staged.json",
+      "ticket": "ticket:engine.auto-counter-unless-pay-dynamic-source-power-amount-71a6c2fbc0/v1",
+      "outcome": "parked",
+      "model_calls": 2,
+      "failed_gates": [
+        {
+          "id": "initial-patch-apply",
+          "detail": "no edit blocks and no verdict found in model output\n"
+        },
+        {
+          "id": "patch-apply",
+          "detail": "VERDICT: AMBIGUOUS\nREASON: Essential source files (dynamic_amount.go, converter.go, and detailed ability DSL/ability_effects.go imports) are not available in the provided packet, making it impossible to determine the exact interface for dynamic amount resolution and the required test scaffolding. Without these, any edits risk breaking compilation or failing to meet the ticket\u2019s behavioral contract.\n"
+        }
+      ]
+    },
+    {
+      "receipt": "docs/factory-ng/runs/2026-09-21T132532Z-engine-auto-create-token-with-can-block-only-flying-59498a421f-v2-goose-openrouter-staged.json",
+      "ticket": "ticket:engine.auto-create-token-with-can-block-only-flying-59498a421f/v2",
+      "outcome": "gate_failed",
+      "model_calls": 3,
+      "failed_gates": [
+        {
+          "id": "initial-patch-apply",
+          "detail": "no edit blocks and no verdict found in model output\n"
+        },
+        {
+          "id": "patch-apply",
+          "detail": "backend/game/card.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\nbackend/game/ability_effects.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\n"
+        }
+      ]
+    },
+    {
+      "receipt": "docs/factory-ng/runs/2026-09-21T133134Z-engine-auto-token-enters-tapped-attacking-chosen-target-ac5adc8d36-v1-goose-openrouter-staged.json",
+      "ticket": "ticket:engine.auto-token-enters-tapped-attacking-chosen-target-ac5adc8d36/v1",
+      "outcome": "infrastructure_failed",
+      "model_calls": 2,
+      "failed_gates": [
+        {
+          "id": "initial-patch-apply",
+          "detail": "no edit blocks and no verdict found in model output\n"
+        },
+        {
+          "id": "patch-apply",
+          "detail": "no edit blocks and no verdict found in model output\n"
+        },
+        {
+          "id": "provider-call",
+          "detail": "Provider call exited 1; see retained raw response. goose-staged: provider process failed; see retained artifact\n"
+        }
+      ]
+    }
+  ]
+}

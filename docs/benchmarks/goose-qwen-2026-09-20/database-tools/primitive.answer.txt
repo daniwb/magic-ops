@@ -1,0 +1,39 @@
+```json
+{
+  "primitive": {
+    "name": "put_counter_and_draw_card",
+    "indexed_path": "backend/cards/registry_factory_ng_recovery_sep11.go",
+    "evidence": "find_capability(kind=primitive) index snippet only: `regEffect(\"put_counter_and_draw_card\", Primitive{` — the registration itself was NOT returned with a symbol_id, so it was not read_source-verified",
+    "how_found": "not surfaced by the unqualified search (which returned handlers); appeared only under kind=primitive"
+  },
+  "executor": {
+    "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:put_counter_and_draw_card",
+    "path": "backend/game/ability_effects.go",
+    "source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+    "start_line": 10313,
+    "verified_by": "read_source (lines 10313-10320)",
+    "behavior": "Inside GameState.ExecuteAbilityEffect's string switch: (1) delegates counter placement to gs.executePutCounterEffect(source, effectValue, targets) and returns immediately on error; (2) if `controller` is within len(gs.Players), calls gs.Players[controller].DrawCards(1); (3) returns nil. Order is counter-then-draw, the draw is unconditional (no 'you may' gate in this case), always exactly 1 card, and the DrawCards error is discarded (`_ =`)."
+  },
+  "handler_candidate": {
+    "handler": "Caldera Pyremaw",
+    "path": "backend/cardfns/CalderaPyremaw.go",
+    "status": "SEARCH SUGGESTION ONLY — no symbol_id was returned for it and it was not read_source-verified",
+    "index_description": "CardHandler subscribing to EventSpellCast filtered to instant/sorcery spells cast by the controller; on trigger adds a +1/+1 counter then deals damage equal to power to an auto-selected first opponent",
+    "fit_gap": "No returned handler matches 'deals 1 damage to any target' exactly. Closest on amount: ExaltedFlamerOfTzeentch (backend/cardfns/ExaltedFlamerOfTzeentch.go, 'Fire of Tzeentch' → DamageEachOpponent, i.e. each opponent rather than any target); closest on counter-then-damage shape: Caldera Pyremaw (damage equal to power, target opponent). Mercurial Spelldancer uses a noncreature filter and oil counters, not a match. The 'any target' (player/planeswalker/creature choice) semantics are not evidenced in any returned result."
+  },
+  "capability_check": {
+    "call": "check_capability('put_counter_and_draw_card')",
+    "result": "MISSING — reported as neither an engine EventType nor a converter case; near names: counter, draw, draw_card",
+    "interpretation": "Non-contradictory with the verified executor: check_capability only indexes event constants and converter labels, while this effect is dispatched through ExecuteAbilityEffect's case switch, whose existence read_source confirmed. The miss is not evidence of absent functionality."
+  },
+  "limitations": [
+    "Only the ExecuteAbilityEffect case body (10313-10320) was read. gs.executePutCounterEffect internals are unverified: counter kind, count, and target validation all come from effectValue and were not inspected.",
+    "The primitive's own registration (registry_factory_ng_recovery_sep11.go) has no symbol_id in the index output, so its Primitive{} fields (labels, parameter schema) could not be resolved with the current tools.",
+    "find_capability(kind=helper) for the same phrasing returned not_found; that is a search miss, not proof no helper exists.",
+    "All handler information (Caldera Pyremaw, ExaltedFlamerOfTzeentch, Mercurial Spelldancer) comes from index summaries/descriptions; none was read_source-verified, so the described trigger wiring and auto-targeting conventions are unconfirmed.",
+    "The verified case draws for `controller` only; whether that is the effect's controller or the card's owner is not determinable from the lines returned.",
+    "All results are pinned to indexed revision f8d04f3ce658cafd9fc05a92edd2960e016e36d9; no other branch/worktree state was checked.",
+    "8 of the allowed 9 tool calls used; no attempt was made to invent symbol_ids for unresolved entries."
+  ]
+}
+```

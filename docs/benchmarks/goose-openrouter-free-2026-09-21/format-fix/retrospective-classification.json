@@ -1,0 +1,146 @@
+[
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T124114Z-engine-auto-create-token-with-can-block-only-flying-59498a421f-v1-goose-openrouter-staged.continuation.raw.json",
+    "recorded_exit": 1,
+    "corrected_exit": 1,
+    "failure_reason": "Goose returned no answer"
+  },
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T124114Z-engine-auto-create-token-with-can-block-only-flying-59498a421f-v1-goose-openrouter-staged.raw.json",
+    "recorded_exit": 0,
+    "corrected_exit": 0,
+    "failure_reason": null
+  },
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T124158Z-engine-auto-for-each-opponent-optional-target-destroy-9c39947804-v2-goose-openrouter-staged.continuation.raw.json",
+    "recorded_exit": 0,
+    "corrected_exit": 0,
+    "failure_reason": null
+  },
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T124158Z-engine-auto-for-each-opponent-optional-target-destroy-9c39947804-v2-goose-openrouter-staged.raw.json",
+    "recorded_exit": 0,
+    "corrected_exit": 0,
+    "failure_reason": null
+  },
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T124158Z-engine-auto-for-each-opponent-optional-target-destroy-9c39947804-v2-goose-openrouter-staged.repair.raw.json",
+    "recorded_exit": 0,
+    "corrected_exit": 0,
+    "failure_reason": null
+  },
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T124333Z-map-plan-create-token-circle-of-power-9799d43f44-v1-goose-openrouter-staged.raw.json",
+    "recorded_exit": 0,
+    "corrected_exit": 0,
+    "failure_reason": null
+  },
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T124350Z-engine-auto-counter-unless-pay-self-counter-count-x-8de2c20acb-v1-goose-openrouter-staged.continuation.raw.json",
+    "recorded_exit": 0,
+    "corrected_exit": 0,
+    "failure_reason": null
+  },
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T124350Z-engine-auto-counter-unless-pay-self-counter-count-x-8de2c20acb-v1-goose-openrouter-staged.raw.json",
+    "recorded_exit": 0,
+    "corrected_exit": 0,
+    "failure_reason": null
+  },
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T124350Z-engine-auto-counter-unless-pay-self-counter-count-x-8de2c20acb-v1-goose-openrouter-staged.repair.raw.json",
+    "recorded_exit": 1,
+    "corrected_exit": 1,
+    "failure_reason": "completion_budget_exhausted"
+  },
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T124802Z-engine-auto-create-token-with-can-block-only-flying-59498a421f-v1-goose-openrouter-staged.continuation.raw.json",
+    "recorded_exit": 0,
+    "corrected_exit": 0,
+    "failure_reason": null
+  },
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T124802Z-engine-auto-create-token-with-can-block-only-flying-59498a421f-v1-goose-openrouter-staged.raw.json",
+    "recorded_exit": 0,
+    "corrected_exit": 0,
+    "failure_reason": null
+  },
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T124802Z-engine-auto-create-token-with-can-block-only-flying-59498a421f-v1-goose-openrouter-staged.repair.raw.json",
+    "recorded_exit": 0,
+    "corrected_exit": 0,
+    "failure_reason": null
+  },
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T125510Z-engine-auto-counter-unless-pay-self-counter-count-x-8de2c20acb-v1-goose-openrouter-staged.continuation.raw.json",
+    "recorded_exit": 76,
+    "corrected_exit": 1,
+    "failure_reason": "completion_budget_exhausted"
+  },
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T125510Z-engine-auto-counter-unless-pay-self-counter-count-x-8de2c20acb-v1-goose-openrouter-staged.raw.json",
+    "recorded_exit": 0,
+    "corrected_exit": 0,
+    "failure_reason": null
+  },
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T131135Z-engine-auto-create-token-with-can-block-only-flying-59498a421f-v2-goose-openrouter-staged.continuation.raw.json",
+    "recorded_exit": 0,
+    "corrected_exit": 0,
+    "failure_reason": null
+  },
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T131135Z-engine-auto-create-token-with-can-block-only-flying-59498a421f-v2-goose-openrouter-staged.raw.json",
+    "recorded_exit": 0,
+    "corrected_exit": 0,
+    "failure_reason": null
+  },
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T131135Z-engine-auto-create-token-with-can-block-only-flying-59498a421f-v2-goose-openrouter-staged.repair.raw.json",
+    "recorded_exit": 1,
+    "corrected_exit": 1,
+    "failure_reason": "completion_budget_exhausted"
+  },
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T131807Z-engine-auto-counter-unless-pay-dynamic-source-power-amount-71a6c2fbc0-v1-goose-openrouter-staged.raw.json",
+    "recorded_exit": 0,
+    "corrected_exit": 0,
+    "failure_reason": null
+  },
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T131807Z-engine-auto-counter-unless-pay-dynamic-source-power-amount-71a6c2fbc0-v1-goose-openrouter-staged.repair.raw.json",
+    "recorded_exit": 0,
+    "corrected_exit": 0,
+    "failure_reason": null
+  },
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T132532Z-engine-auto-create-token-with-can-block-only-flying-59498a421f-v2-goose-openrouter-staged.continuation.raw.json",
+    "recorded_exit": 0,
+    "corrected_exit": 0,
+    "failure_reason": null
+  },
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T132532Z-engine-auto-create-token-with-can-block-only-flying-59498a421f-v2-goose-openrouter-staged.raw.json",
+    "recorded_exit": 0,
+    "corrected_exit": 0,
+    "failure_reason": null
+  },
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T132532Z-engine-auto-create-token-with-can-block-only-flying-59498a421f-v2-goose-openrouter-staged.repair.raw.json",
+    "recorded_exit": 0,
+    "corrected_exit": 0,
+    "failure_reason": null
+  },
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T133134Z-engine-auto-token-enters-tapped-attacking-chosen-target-ac5adc8d36-v1-goose-openrouter-staged.raw.json",
+    "recorded_exit": 0,
+    "corrected_exit": 0,
+    "failure_reason": null
+  },
+  {
+    "artifact": "docs/factory-ng/runs/2026-09-21T133134Z-engine-auto-token-enters-tapped-attacking-chosen-target-ac5adc8d36-v1-goose-openrouter-staged.repair.raw.json",
+    "recorded_exit": 1,
+    "corrected_exit": 1,
+    "failure_reason": "completion_budget_exhausted"
+  }
+]

@@ -1,0 +1,64 @@
+--- before/controller.py
++++ after/controller.py
+@@ -931,6 +931,15 @@
+                     for job in jobs['jobs'].values()))
+ 
+ 
++def verification_slot_busy(jobs):
++    """One verification process; optional overlap with the sole integration."""
++    overlap = policy().get('verification', {}).get('overlap_integration') is True
++    return (any(job.get('state') == 'working' and job.get('verification_resume')
++                for job in jobs['jobs'].values())
++            or (not overlap and (integration_ready(jobs) or any(
++                job.get('state') == 'integrating' for job in jobs['jobs'].values()))))
++
++
+ def next_dispatch(jobs, by_profile, availability=None):
+     """Return one claimed ticket per worker, honoring global lane priority.
+ 
+@@ -948,16 +957,14 @@
+             job["waiting_reason"] = "bounded infrastructure retry backoff"
+             continue
+         resuming = job.get("state") == "awaiting_verification"
+-        if resuming and integration_ready(jobs):
+-            job['waiting_reason'] = 'accepted patches have priority for the shared integration gate'
++        if resuming and verification_slot_busy(jobs):
++            job['waiting_reason'] = 'verification slot is occupied or reserved for integration'
+             continue
+         if resuming and policy().get('verification', {}).get('batch_size', 1) > 1:
+-            if not job.get('verification_isolate') or any(
+-                    item.get('state') == 'integrating' or
+-                    (item.get('state') == 'working' and item.get('verification_resume'))
+-                    for item in jobs['jobs'].values()) or any(
+-                    item[1].get('state') == 'awaiting_verification' for item in selected):
++            if not job.get('verification_isolate'):
+                 continue
++        if resuming and any(item[1].get('state') == 'awaiting_verification' for item in selected):
++            continue
+         if resuming and not compilation_status(policy())["allowed"]:
+             job["waiting_reason"] = "saved patch waits for compilation/testing switch"
+             continue
+@@ -1186,11 +1193,7 @@
+     settings = policy().get('verification', {})
+     if int(settings.get('batch_size', 1)) <= 1 or not compilation_status(policy())['allowed']:
+         return
+-    if any(job.get('state') == 'integrating' or
+-           (job.get('state') == 'working' and job.get('verification_resume'))
+-           for job in jobs['jobs'].values()):
+-        return
+-    if integration_ready(jobs):
++    if verification_slot_busy(jobs):
+         return
+     selected, revision = [], None
+     for _, job in sorted(jobs['jobs'].items(), key=dispatch_priority):
+@@ -1266,8 +1269,9 @@
+         return
+     if not policy().get('integration', {}).get('automatic', False):
+         return
++    overlap = policy().get('verification', {}).get('overlap_integration') is True
+     if any(job.get("state") == "integrating" or
+-           (job.get("state") == "working" and job.get("verification_resume"))
++           (not overlap and job.get("state") == "working" and job.get("verification_resume"))
+            for job in jobs["jobs"].values()):
+         return
+     problem = source_problem(SOURCE)

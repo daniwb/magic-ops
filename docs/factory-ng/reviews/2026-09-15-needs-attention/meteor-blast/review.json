@@ -1,0 +1,10 @@
+{
+  "original": "ticket:engine.auto-damage-each-of-x-targets-spell-registration-d078b33904/v2",
+  "failed_receipt": "docs/factory-ng/runs/2026-09-15T203539Z-engine-auto-damage-each-of-x-targets-spell-registration-d078b33904-v2-codex.json",
+  "defects": [
+    "Malformed replacement delimiters: both attempts used <<<REPLACE instead of ===REPLACE and combined multiple SEARCH sections.",
+    "Candidate direct sequence test supplied one target at X=0 instead of proving paid X and exact cardinality.",
+    "Current CastXSpell never checks target count, duplicates or target legality before paying, so converter-only repair cannot satisfy original requirement."
+  ],
+  "plan": "Preserve executor; register and convert fixed numeric any-target sequence; add explicit paid-X exact-target metadata and prepayment validation, with public CastXSpell tests."
+}

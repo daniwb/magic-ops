@@ -1,0 +1,47 @@
+{
+  "outcome": "passed",
+  "tree_matches_local": true,
+  "stages": [
+    {
+      "stage": "original-ticket-checks",
+      "local_seconds": 36.163,
+      "remote_seconds": 3.148
+    },
+    {
+      "stage": "reparse-flip",
+      "local_seconds": 122.388,
+      "remote_seconds": 12.364
+    },
+    {
+      "stage": "reparse-import",
+      "local_seconds": 22.787,
+      "remote_seconds": 3.294
+    },
+    {
+      "stage": "go-build",
+      "local_seconds": 30.222,
+      "remote_seconds": 23.599
+    },
+    {
+      "stage": "game-tests",
+      "local_seconds": 6.13,
+      "remote_seconds": 18.048
+    },
+    {
+      "stage": "focused-go",
+      "local_seconds": 30.657,
+      "remote_seconds": 21.609
+    },
+    {
+      "stage": "full-sharded-suite",
+      "local_seconds": 176.831,
+      "remote_seconds": 25.281
+    }
+  ],
+  "local_gate_seconds": 425.178,
+  "remote_gate_seconds": 107.343,
+  "remote_replay_seconds": 107.718,
+  "remote_prepare_seconds": 7.007,
+  "peak_memory_gib": 4.770668029785156,
+  "observed_gate_speedup": 3.960928984656661
+}

@@ -1,0 +1,111 @@
+{
+  "schema": "factory-ng-producers/v1",
+  "producers": [
+    {
+      "id": "staged-five-card-trial",
+      "enabled": true,
+      "command": [
+        "python3",
+        "scripts/factory-ng-staged-trial.py"
+      ],
+      "timeout_seconds": 180
+    },
+    {
+      "id": "context-retry-batch",
+      "enabled": true,
+      "command": [
+        "python3",
+        "scripts/factory-ng-context-retry-batch.py"
+      ],
+      "timeout_seconds": 180
+    },
+    {
+      "id": "reviewed-contract-corrections-sep09",
+      "enabled": true,
+      "command": [
+        "python3",
+        "scripts/factory-ng-reviewed-contracts.py"
+      ],
+      "timeout_seconds": 60
+    },
+    {
+      "id": "capability-dependencies",
+      "enabled": true,
+      "command": [
+        "python3",
+        "scripts/factory-ng-produce-capability-dependency.py"
+      ]
+    },
+    {
+      "id": "build-plan-fresh-local",
+      "enabled": true,
+      "command": [
+        "python3",
+        "scripts/factory-ng-produce-build-plan.py",
+        "--lane",
+        "fresh"
+      ],
+      "timeout_seconds": 180
+    },
+    {
+      "id": "build-plan-integration-conflict",
+      "enabled": true,
+      "command": [
+        "python3",
+        "scripts/factory-ng-produce-build-plan.py",
+        "--lane",
+        "conflict"
+      ]
+    },
+    {
+      "id": "build-plan-paid-repair",
+      "enabled": true,
+      "command": [
+        "python3",
+        "scripts/factory-ng-produce-build-plan.py",
+        "--lane",
+        "repair"
+      ]
+    },
+    {
+      "id": "static-condition-gained-life-pump",
+      "enabled": false,
+      "command": [
+        "python3",
+        "scripts/factory-ng-produce-gained-life-static-pump.py"
+      ]
+    },
+    {
+      "id": "static-condition-self-attacked-keyword",
+      "enabled": false,
+      "command": [
+        "python3",
+        "scripts/factory-ng-produce-self-attacked-static-keyword.py"
+      ]
+    },
+    {
+      "id": "static-condition-drawn-two-keywords",
+      "enabled": false,
+      "command": [
+        "python3",
+        "scripts/factory-ng-produce-drawn-two-static-keywords.py"
+      ]
+    },
+    {
+      "id": "static-condition-color-control-keyword-reminder",
+      "enabled": false,
+      "command": [
+        "python3",
+        "scripts/factory-ng-produce-color-control-keyword-reminder.py"
+      ]
+    },
+    {
+      "id": "static-conditional-safe-shape-meta",
+      "enabled": true,
+      "command": [
+        "python3",
+        "scripts/factory-ng-produce-static-conditional-safe-shape.py"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+From 79b3cfc265c0f621ff8301de857e6afbaaa1db9b Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Thu, 17 Sep 2026 04:49:14 +0000
+Subject: [PATCH] factory-ng: focused batch proposal
+
+---
+ backend/cards/converter.go                  |  6 ++
+ backend/cards/factory_ng_1622bc7a24_test.go | 86 +++++++++++++++++++++
+ 2 files changed, 92 insertions(+)
+ create mode 100644 backend/cards/factory_ng_1622bc7a24_test.go
+
+diff --git a/backend/cards/converter.go b/backend/cards/converter.go
+index 20df5af59..f4acc9672 100644
+--- a/backend/cards/converter.go
++++ b/backend/cards/converter.go
+@@ -4587,6 +4587,12 @@ func AbilityToTriggered(ability AbilityDSL, source *game.Card, index int) *game.
+ 			if sourcePowerDamageToFlyingCreature(CanonicalEffect(atom.Effect), atom.Target) {
+ 				effectValue = sourcePowerDamageEffectValue(effectValue)
+ 			}
++			if effect == "fight" && source != nil && source.IsAura() {
++				if effectValue == nil {
++					effectValue = map[string]interface{}{}
++				}
++				effectValue["fight_attached_referent"] = true
++			}
+ 			if tokenCopyLinksCreatedTokens(ability.Effects, ai) {
+ 				if effectValue == nil {
+ 					effectValue = map[string]interface{}{}
+diff --git a/backend/cards/factory_ng_1622bc7a24_test.go b/backend/cards/factory_ng_1622bc7a24_test.go
+new file mode 100644
+index 000000000..373aa3d69
+--- /dev/null
++++ b/backend/cards/factory_ng_1622bc7a24_test.go
+@@ -0,0 +1,86 @@
++package cards
++
++import (
++	"testing"
++
++	"magic-backend/game"
++)
++
++// CAPABILITY_ASSESSMENT: {"classification":"connection","existing_symbols":["cards.AbilityToTriggered","game.GameState.ExecuteAbilityEffect#case:fight"],"remaining_gap":"Aura-triggered fight atoms did not mark their attached creature as the first combatant","verification":"public converter/trigger/resolution-path test"}
++func TestFactoryNGFightAttachedReferent_1622bc7a24(t *testing.T) {
++	def := &CardDefinition{
++		Name:     "Factory Pitiless Fists",
++		Type:     "Enchantment",
++		Types:    []string{"Enchantment"},
++		SubTypes: []string{"Aura"},
++		Abilities: []AbilityDSL{
++			{
++				Type:   "static",
++				Effect: "enchant_target",
++				Value:  map[string]interface{}{"target": "creature you control"},
++			},
++			{
++				Type:      "triggered",
++				TriggerV2: &TriggerSpec{Event: "etb"},
++				Effects: []EffectAtom{{
++					Effect:   "fight",
++					Optional: true,
++					Target: &TargetFilter{
++						Filter:     "creature",
++						Controller: "opponent",
++					},
++				}},
++			},
++		},
++		Status: StatusManual,
++	}
++
++	aura, err := def.ToGameCard(0)
++	if err != nil {
++		t.Fatalf("ToGameCard: %v", err)
++	}
++	if len(aura.TriggeredAbilities) != 1 ||
++		len(aura.TriggeredAbilities[0].EffectSequence) != 1 ||
++		!aura.TriggeredAbilities[0].EffectSequence[0].Optional ||
++		!aura.TriggeredAbilities[0].EffectSequence[0].EffectValue["fight_attached_referent"].(bool) {
++		t.Fatalf("attached optional fight was not converted: %+v", aura.TriggeredAbilities)
++	}
++
++	gs := game.NewGame("P0", "P1", false)
++	enchanted := game.NewCreature("Enchanted Fighter", game.ManaCost{}, 4, 6, 0)
++	enchanted.Owner, enchanted.Controller = 0, 0
++	opponent := game.NewCreature("Opponent Fighter", game.ManaCost{}, 3, 7, 1)
++	opponent.Owner, opponent.Controller = 1, 1
++	gs.Battlefield.AddCard(enchanted)
++	gs.Battlefield.AddCard(opponent)
++	gs.Battlefield.AddCard(aura)
++
++	if err := gs.AttachAura(0, aura.ID, enchanted.ID, ""); err != nil {
++		t.Fatalf("AttachAura: %v", err)
++	}
++	gs.RegisterCardAbilities(aura)
++	gs.ProcessTriggeredAbilities(game.CreateETBEvent(aura, 0))
++
++	if gs.PendingTriggerTarget == nil {
++		t.Fatal("expected opposing-creature target choice")
++	}
++	if err := gs.ResolveTriggerTargetChoice(0, opponent.ID); err != nil {
++		t.Fatalf("ResolveTriggerTargetChoice: %v", err)
++	}
++	if err := gs.ResolveTopOfStack(); err != nil {
++		t.Fatalf("ResolveTopOfStack: %v", err)
++	}
++	if gs.PendingSequenceChoice == nil {
++		t.Fatal("expected optional fight choice")
++	}
++	if err := gs.ResolveSequenceChoice(0, true); err != nil {
++		t.Fatalf("ResolveSequenceChoice: %v", err)
++	}
++
++	if opponent.Damage != 4 {
++		t.Fatalf("opponent damage = %d, want enchanted creature power 4", opponent.Damage)
++	}
++	if enchanted.Damage != 3 {
++		t.Fatalf("enchanted creature damage = %d, want opponent power 3", enchanted.Damage)
++	}
++}
+-- 
+2.55.0
+

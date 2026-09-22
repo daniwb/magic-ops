@@ -7,6 +7,9 @@ harness-owned acceptance tests.  Each profile invokes its appropriate native
 executable and output contract:
 
 - `qwen-prepared-local`: prepared local tool loop, with thinking disabled;
+- `openrouter-prepared-direct`: prepared no-tools completion over OpenRouter;
+- `openrouter-prepared-agentic`: prepared read-only tool loop over OpenRouter;
+- `nemotron-structured-edit`: Nemotron-specific exact-range inspection and forced structured edit submission;
 - `codex-constrained`: read-only Codex session returning patch blocks;
 - `claude-staged`: the old pipeline-compatible read-only Claude call returning
   patch blocks.

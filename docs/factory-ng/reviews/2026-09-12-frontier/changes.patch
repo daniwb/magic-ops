@@ -1,0 +1,498 @@
+--- a/scripts/factory-ng-vocabulary/main.go
++++ b/scripts/factory-ng-vocabulary/main.go
+@@ -19,12 +19,41 @@
+ 	return ""
+ }
+ 
++func primitiveMetadata(path string, expr ast.Expr) map[string]string {
++	body, ok := expr.(*ast.CompositeLit)
++	if !ok {
++		return nil
++	}
++	result := map[string]string{"path": path}
++	for _, field := range body.Elts {
++		kv, ok := field.(*ast.KeyValueExpr)
++		if !ok {
++			continue
++		}
++		key, ok := kv.Key.(*ast.Ident)
++		if !ok {
++			continue
++		}
++		switch key.Name {
++		case "Executor":
++			result["executor"] = literal(kv.Value)
++		case "ShapeTest":
++			result["shape_test"] = literal(kv.Value)
++		}
++	}
++	if result["executor"] == "" || result["shape_test"] == "" {
++		return nil
++	}
++	return result
++}
++
+ func main() {
+ 	var sources map[string]string
+ 	if err := json.NewDecoder(os.Stdin).Decode(&sources); err != nil {
+ 		panic(err)
+ 	}
+ 	dispatch, registered := map[string]bool{}, map[string]bool{}
++	metadata := map[string]map[string]string{}
+ 	for name, src := range sources {
+ 		f, err := parser.ParseFile(token.NewFileSet(), name, src, 0)
+ 		if err != nil {
+@@ -72,6 +101,11 @@
+ 				if fn, ok := x.Fun.(*ast.Ident); ok && fn.Name == "regEffect" && len(x.Args) > 0 {
+ 					if v := literal(x.Args[0]); v != "" {
+ 						registered[v] = true
++						if len(x.Args) > 1 {
++							if entry := primitiveMetadata(name, x.Args[1]); entry != nil {
++								metadata[v] = entry
++							}
++						}
+ 					}
+ 				}
+ 			case *ast.ValueSpec:
+@@ -84,17 +118,25 @@
+ 							if kv, ok := e.(*ast.KeyValueExpr); ok {
+ 								if v := literal(kv.Key); v != "" {
+ 									registered[v] = true
++									if entry := primitiveMetadata(name, kv.Value); entry != nil {
++										metadata[v] = entry
++									}
+ 								}
+ 							}
+ 						}
+ 					}
+ 				}
+ 			case *ast.AssignStmt:
+-				for _, lhs := range x.Lhs {
++				for i, lhs := range x.Lhs {
+ 					if idx, ok := lhs.(*ast.IndexExpr); ok {
+ 						if id, ok := idx.X.(*ast.Ident); ok && id.Name == "V2EffectRegistry" {
+ 							if v := literal(idx.Index); v != "" {
+ 								registered[v] = true
++								if i < len(x.Rhs) {
++									if entry := primitiveMetadata(name, x.Rhs[i]); entry != nil {
++										metadata[v] = entry
++									}
++								}
+ 							}
+ 						}
+ 					}
+@@ -103,5 +145,5 @@
+ 			return true
+ 		})
+ 	}
+-	json.NewEncoder(os.Stdout).Encode(map[string]interface{}{"dispatch": dispatch, "registered": registered})
++	json.NewEncoder(os.Stdout).Encode(map[string]interface{}{"dispatch": dispatch, "registered": registered, "metadata": metadata})
+ }
+--- a/scripts/factory-ng-produce-build-plan.py
++++ b/scripts/factory-ng-produce-build-plan.py
+@@ -37,6 +37,13 @@
+ # typed effect names.  Keep this map explicit: a fuzzy name match is not proof
+ # that the runtime behavior exists.
+ VERB_EFFECT = {
++    "draw": "draw",
++    "p_draw": "draw",
++    "gain_life": "life_gain",
++    "lose_life": "life_loss",
++    "discard": "discard",
++    "p_discard": "discard",
++    "mill": "mill",
+     "damage": "damage",
+     "damage_by": "damage",
+     "fight": "fight",
+@@ -88,32 +95,12 @@
+ 
+ 
+ def registry_effects(source):
+-    entries = {}
+-    registry = source / "backend/cards/registry.go"
+-    text = registry.read_text()
+-    for match in re.finditer(
+-        r'^\s*"([a-z0-9_]+)":\s*\{(?P<body>.*?)^\s*\},', text, re.M | re.S
+-    ):
+-        body = match.group("body")
+-        executor = re.search(r'Executor:\s*"((?:\\.|[^"])*)"', body)
+-        shape_test = re.search(r'ShapeTest:\s*"((?:\\.|[^"])*)"', body)
+-        if executor and shape_test:
+-            entries[match.group(1)] = {
+-                "path": "backend/cards/registry.go",
+-                "executor": json.loads('"' + executor.group(1) + '"'),
+-                "shape_test": json.loads('"' + shape_test.group(1) + '"'),
+-            }
+-    for path in (source / "backend/cards").glob("registry_*.go"):
+-        body = path.read_text(encoding="utf-8", errors="replace")
+-        for match in re.finditer(r'regEffect\("([a-z0-9_]+)"\s*,\s*Primitive\s*\{(.*?)\}\)', body, re.S):
+-            executor = re.search(r'Executor:\s*"((?:\\.|[^"])*)"', match.group(2))
+-            shape_test = re.search(r'ShapeTest:\s*"((?:\\.|[^"])*)"', match.group(2))
+-            if executor and shape_test:
+-                entries[match.group(1)] = {
+-                    "path": str(path.relative_to(source)),
+-                    "executor": json.loads('"' + executor.group(1) + '"'),
+-                    "shape_test": json.loads('"' + shape_test.group(1) + '"'),
+-                }
++    # Go syntax is required: an executor description can itself contain `})`,
++    # and comments/unused functions are not runtime registrations.
++    from factory_ng_vocabulary import vocabulary
++    entries = vocabulary(source)['metadata']
++    for entry in entries.values():
++        entry['path'] = str(Path(entry['path']).relative_to(source))
+     return entries
+ 
+ 
+@@ -126,8 +113,8 @@
+     pass
+ 
+ 
+-def discover_fresh_example(source, reparse, rows, effects, history, cache=None, revision=None, budget_seconds=15):
+-    """Find the best unaccounted sole-shape member beyond plan sample names."""
++def discover_fresh_example(source, reparse, rows, effects, history, cache=None, revision=None, budget_seconds=15, miss_count=1):
++    """Find an unaccounted member with exactly miss_count misses of one shape."""
+     by_shape = {}
+     for row in rows:
+         match = re.fullmatch(r"verb_unmapped:([a-z0-9_]+)", row.get("item", ""))
+@@ -141,7 +128,7 @@
+         if isinstance(data, dict):
+             cards.extend((name, card) for name, card in sorted(data.items())
+                          if isinstance(card, dict) and card.get('status') == 'review')
+-    scan_key = str(source.resolve())
++    scan_key = str(source.resolve()) + ":miss-count=" + str(miss_count)
+     cursor = 0
+     if cache:
+         found, previous = cache.get('fresh-cursor-v1', scan_key, 'position')
+@@ -167,7 +154,7 @@
+             details = [detail for kind, detail in result['misses'] if kind == shapes[0]]
+             text_hash = digest_bytes((card.get('text') or '').encode())
+             production_key = 'build-plan:%s:%s' % (row['item'], text_hash)
+-            if len(details) == 1 and production_key not in history:
++            if len(details) == miss_count and production_key not in history:
+                 # Cache selects candidates only. The caller reparses the exact
+                 # card and verifies source identity before publishing a ticket.
+                 return row, name
+@@ -364,7 +351,25 @@
+     parser.add_argument("--plan", type=Path)
+     parser.add_argument("--lane", choices=("all", "fresh", "conflict", "repair"), default="all",
+                         help="emit fresh local work, paid repairs, or the legacy combined frontier")
++    parser.add_argument("--miss-count", type=int, choices=(1, 2), default=1,
++                        help="exact remaining miss count; two is restricted to one verb family in the fresh lane")
++    parser.add_argument("--max-active", type=int,
++                        help="bound active fresh tickets admitted with this miss count")
+     args = parser.parse_args()
++    if args.miss_count != 1 and args.lane != "fresh":
++        parser.error("--miss-count 2 requires --lane fresh")
++    if args.max_active is not None and args.max_active < 1:
++        parser.error("--max-active must be positive")
++    if args.max_active is not None:
++        jobs = (load_json(args.jobs, {}) or {}).get('jobs', {})
++        active = sum(
++            1 for path in args.ticket_dir.glob('*.json')
++            if (ticket := load_json(path, {}) or {}).get('production', {}).get('producer') == 'build-plan-continuous'
++            and ticket.get('production', {}).get('miss_count', 1) == args.miss_count
++            and jobs.get(ticket.get('id'), {}).get('state') in (ACTIVE_STATES | {'blocked'}))
++        if active >= args.max_active:
++            emit('active_frontier_limit', reason='bounded miss-count frontier already has %d active tickets' % active)
++            return
+     source = args.repo.resolve()
+     plan_path = args.plan or source / "corpus/build-plan.jsonl"
+     if not clean_source(source):
+@@ -391,7 +396,7 @@
+         cache = ProducerCache(OPS / 'state/factory-ng-producer-cache.sqlite3')
+         try:
+             discovered = discover_fresh_example(source, reparse, rows, effects, history,
+-                                                cache, scan_revision)
++                                                cache, scan_revision, miss_count=args.miss_count)
+         except ScanPending as exc:
+             emit('scan_pending', reason=str(exc))
+             return
+@@ -420,7 +425,7 @@
+             result = reparse.reparse_card(card)
+             matches = [detail for kind, detail in result.get("misses", []) if kind == shape]
+             all_shapes = sorted({kind for kind, _ in result.get("misses", [])})
+-            if len(matches) != 1 or all_shapes != [shape]:
++            if len(matches) != args.miss_count or all_shapes != [shape]:
+                 continue
+             text_hash = digest_bytes((card.get("text") or "").encode())
+             production_key = "build-plan:%s:%s" % (row["item"], text_hash)
+@@ -488,7 +493,7 @@
+             registry = effects[effect]
+             selected_profile = "claude-staged@1.0.0"
+             selection_reason = (
+-                "A live sole-shape Map miss with exact Oracle text and a registered executor is bounded for the staged implementation worker."
++                "A live single-family Map member with exact Oracle text and a registered executor is bounded for the staged implementation worker."
+                 if retry_generation == 0 else
+                 "The local prepared candidate failed deterministic semantic gates; route one versioned repair with its receipt to a paid staged worker."
+                 if retry_reason == "semantic_gate_repair" else
+@@ -506,7 +511,7 @@
+                 "production": {"producer": "build-plan-continuous", "key": production_key,
+                                "plan_rank": row.get("rank"),
+                                "predicted_class_unlock": row.get("marginal_unlock"),
+-                               "retry_generation": retry_generation},
++                               "retry_generation": retry_generation, "miss_count": args.miss_count},
+                 "source": {"repository": str(source), "revision": source_revision(source), "clean": True},
+                 "skill": {"name": "implement-map-class", "path": str(SKILL.relative_to(OPS)),
+                           "sha256": digest_file(SKILL)},
+@@ -515,7 +520,7 @@
+                                               "scripts/paragraph/slotparse_oneshot.py"]},
+                 "evidence": [
+                     {"path": measurement_path,
+-                     "fact": "%s is a current sole %s miss with pinned Oracle text." % (name, shape)},
++                     "fact": "%s has exactly %d current %s misses and no other miss family, with pinned Oracle text." % (name, args.miss_count, shape)},
+                     {"path": registry["path"],
+                      "fact": "The existing %s primitive is registered with executor %s and shape test %s."
+                              % (effect, registry["executor"], registry["shape_test"])},
+@@ -526,7 +531,7 @@
+                 "required_behavior": [
+                     "Map the exact current %s miss on %s through the already-registered %s primitive without losing any Oracle semantics."
+                     % (shape, name, effect),
+-                    "The pinned card loses this miss and retains no new or silently swallowed miss.",
++                    "The pinned card loses all %d misses of this family and becomes eligible with no new or silently swallowed miss." % args.miss_count,
+                     "Add a focused positive test plus an adjacent negative that must remain unmapped.",
+                     "If the exact amount, recipient, filter, referent, or duration cannot execute through existing runtime behavior, return NEEDS_PRIMITIVE with one atomic CAPABILITY_JSON instead of a partial Map patch.",
+                     "Do not edit Engine, converter, corpus data, or use a card-name special case.",
+@@ -554,6 +559,15 @@
+                 },
+                 "on_failure": "Record a structured verdict. NEEDS_PRIMITIVE creates one Engine dependency; invalid or mixed premises are terminal and discovery advances to another candidate.",
+             }
++            if verb in ('draw', 'p_draw', 'gain_life', 'lose_life', 'discard', 'p_discard', 'mill'):
++                ticket['required_behavior'].append(
++                    'Preserve the exact player (controller, opponent, chosen target or each player), quantity, variable binding and choice timing. Discard choice versus random discard and mill destination must remain exact. Registry membership alone does not prove these argument shapes; request an atomic Engine dependency when the public resolution/choice path is missing.')
++            if verb == 'prevent':
++                ticket['required_behavior'].append(
++                    'Distinguish the damage source filter from the protected recipient, combat-only from all damage, and unlimited prevention from a next-N shield. The scoped primitive proves only its documented shapes; other prevention semantics require an Engine dependency.')
++            if args.miss_count == 2:
++                ticket['required_behavior'].append(
++                    'Both pinned misses are one bounded verb-family task. Cover both occurrences in focused tests, preserving their separate targets, amounts, timing and ordering. A patch fixing only one occurrence is incomplete and must fail the whole-card pinned gate.')
+             if verb in ('fight', 'damage_by'):
+                 ticket['required_behavior'].append(
+                     'Preserve both participant identities, controller restrictions, damage source, live power/toughness and targeting choices. Fight deals damage in both directions; damage_by is one-way. If the existing runtime cannot express the exact source/recipient pair or choice, return NEEDS_PRIMITIVE; never replace it with damage from this spell or its controller.')
+@@ -575,7 +589,7 @@
+             return
+         skipped["no_live_example"] += 1
+ 
+-    emit("exhausted_supported_plan", reason="no unaccounted engine-reachable sole-shape example remains",
++    emit("exhausted_supported_plan", reason="no unaccounted engine-reachable single-family example with exactly %d misses remains" % args.miss_count,
+          skipped=skipped)
+ 
+ 
+--- a/config/factory-ng-producers.json
++++ b/config/factory-ng-producers.json
+@@ -45,7 +45,24 @@
+         "--lane",
+         "fresh",
+         "--plan",
+-        "docs/factory-ng/measurements/producer-frontier-2026-09-10.jsonl"
++        "docs/factory-ng/measurements/producer-frontier-2026-09-12.jsonl"
++      ],
++      "timeout_seconds": 180
++    },
++    {
++      "id": "build-plan-two-miss-pilot",
++      "enabled": true,
++      "command": [
++        "python3",
++        "scripts/factory-ng-produce-build-plan.py",
++        "--lane",
++        "fresh",
++        "--miss-count",
++        "2",
++        "--max-active",
++        "2",
++        "--plan",
++        "docs/factory-ng/measurements/producer-frontier-2026-09-12.jsonl"
+       ],
+       "timeout_seconds": 180
+     },
+@@ -58,7 +75,7 @@
+         "--lane",
+         "conflict",
+         "--plan",
+-        "docs/factory-ng/measurements/producer-frontier-2026-09-10.jsonl"
++        "docs/factory-ng/measurements/producer-frontier-2026-09-12.jsonl"
+       ]
+     },
+     {
+@@ -70,7 +87,7 @@
+         "--lane",
+         "repair",
+         "--plan",
+-        "docs/factory-ng/measurements/producer-frontier-2026-09-10.jsonl"
++        "docs/factory-ng/measurements/producer-frontier-2026-09-12.jsonl"
+       ]
+     },
+     {
+--- a/scripts/factory-ng-coverage-snapshot.py
++++ b/scripts/factory-ng-coverage-snapshot.py
+@@ -21,7 +21,21 @@
+ TICKETS = OPS / "docs/factory-ng/tickets"
+ JOBS = OPS / "state/factory-ng-jobs.json"
+ OUT = OPS / "state/factory-ng-coverage.json"
+-PLAN = Path(os.environ.get("OPENMAGIC_BUILD_PLAN", "/opt/development/test/openmagic/corpus/build-plan.jsonl"))
++PLAN = Path(os.environ["OPENMAGIC_BUILD_PLAN"]) if os.environ.get("OPENMAGIC_BUILD_PLAN") else None
++
++
++def configured_plan():
++    if PLAN is not None:
++        return PLAN
++    config = load_json(OPS / 'config/factory-ng-producers.json', {}) or {}
++    for producer in config.get('producers', []):
++        command = producer.get('command', [])
++        if (producer.get('enabled') and 'scripts/factory-ng-produce-build-plan.py' in command
++                and '--plan' in command and '--lane' in command
++                and command[command.index('--lane') + 1] == 'fresh'):
++            path = Path(command[command.index('--plan') + 1])
++            return path if path.is_absolute() else OPS / path
++    return Path('/opt/development/test/openmagic/corpus/build-plan.jsonl')
+ 
+ 
+ def load_json(path, default=None):
+@@ -44,9 +58,10 @@
+ 
+ 
+ def build():
+-    if not PLAN.is_file():
++    plan = configured_plan()
++    if not plan.is_file():
+         return {"generated_at": None, "error": "coverage plan not found: %s" % PLAN, "shapes": []}
+-    plan_rows = [json.loads(line) for line in PLAN.read_text().splitlines() if line.strip()]
++    plan_rows = [json.loads(line) for line in plan.read_text().splitlines() if line.strip()]
+     jobs = (load_json(JOBS, {}) or {}).get("jobs", {})
+ 
+     tickets = {}
+@@ -89,6 +104,10 @@
+         "generated_at": __import__("datetime").datetime.now(__import__("datetime").timezone.utc)
+                          .strftime("%Y-%m-%dT%H:%M:%SZ"),
+         "total_tickets": len(tickets),
++        "plan_path": str(plan),
++        "source_revision": next((r.get('source_revision') for r in plan_rows if r.get('source_revision')), None),
++        "measured_at": next((r.get('measured_at') for r in plan_rows if r.get('measured_at')), None),
++        "measurement_note": "Measured one-miss candidates, not runnable tickets or guaranteed enabled cards. Ticket zones describe all-time history.",
+         "shapes": shapes,
+     }
+ 
+--- a/services/dispatcher/v4/coverage.html
++++ b/services/dispatcher/v4/coverage.html
+@@ -318,31 +318,30 @@
+ 
+   <div class="eyebrow">Factory NG · Capability Coverage</div>
+   <h1>The Coverage Atlas</h1>
+-  <p class="lede">Every tracked capability gap in the parser, sized by how many review-queue cards it would unlock, grouped by whether Factory NG has ever actually produced a ticket against it.</p>
++  <p class="lede">Measured cards with one remaining parser miss, grouped by miss family and linked ticket history. These counts describe candidates at the measured revision; each card still needs semantic validation.</p>
+   <div class="meta-line" id="meta-line"></div>
+ 
+   <div class="stats" id="stat-row"></div>
+ 
+   <section class="panelblock">
+-    <h2>Where the unlock potential sits</h2>
+-    <p class="sec-sub">Each tile is one capability shape (a parser verb or structural class). Tile area = marginal cards unlocked. Panel width = share of total unlock potential held by that zone — so a wide red panel means most of the remaining value is untouched.</p>
++    <h2>Where the measured candidates sit</h2>
++    <p class="sec-sub">Each tile is one parser verb or structural class, sized by its measured candidate count. Colors describe ticket history, not whether work is running now. Broad classes such as unknown verbs and replacements need narrower, evidence-backed tasks.</p>
+     <div class="zones" id="zones"></div>
+     <div class="legend">
+-      <span><i class="idle"></i> Idle — zero tickets ever produced</span>
+-      <span><i class="active"></i> Active — attempted, nothing landed yet</span>
+-      <span><i class="producing"></i> Producing — at least one accepted receipt</span>
+-      <span><i class="gap"></i> ⚠ evidence-gap pattern found (see below)</span>
++      <span><i class="idle"></i> No linked history</span>
++      <span><i class="active"></i> Attempted — no completed job yet</span>
++      <span><i class="producing"></i> Has completed work — may be idle now</span>
+     </div>
+     <div class="callout" id="headline-callout"></div>
+   </section>
+ 
+   <section class="panelblock">
+-    <h2>Idle backlog, ranked</h2>
+-    <p class="sec-sub">These classes have never had a producer emit a single ticket. They are not blocked by anything currently running — they are simply not yet in scope for any registered producer.</p>
++    <h2>Families without linked tickets</h2>
++    <p class="sec-sub">No ticket declares this exact family as a plan parent. A large count does not prove that a compatible producer or runtime implementation exists. Older tickets may use a different parent.</p>
+     <div class="table-card">
+       <div class="table-scroll">
+         <table class="idle-table" id="idle-table">
+-          <thead><tr><th>Rank</th><th>Shape</th><th style="text-align:right">Unlock</th><th>Examples pinned</th></tr></thead>
++          <thead><tr><th>Rank</th><th>Shape</th><th style="text-align:right">Candidates</th><th>Examples pinned</th></tr></thead>
+           <tbody></tbody>
+         </table>
+       </div>
+@@ -350,12 +349,12 @@
+   </section>
+ 
+   <section class="panelblock">
+-    <h2>Active zone — what's actually being attempted</h2>
+-    <p class="sec-sub">Shapes with real ticket history but no accepted receipt yet. Bar shows the outcome mix across every matched ticket attempt.</p>
++    <h2>Attempted families without completed work</h2>
++    <p class="sec-sub">Families with linked ticket history and no completed job. Bars show states across ticket versions, including historical failures.</p>
+     <div class="table-card">
+       <div class="table-scroll">
+         <table class="idle-table" id="active-table">
+-          <thead><tr><th>Rank</th><th>Shape</th><th style="text-align:right">Unlock</th><th>Attempts</th><th>Outcome mix</th></tr></thead>
++          <thead><tr><th>Rank</th><th>Shape</th><th style="text-align:right">Candidates</th><th>Ticket versions</th><th>Outcome mix</th></tr></thead>
+           <tbody></tbody>
+         </table>
+       </div>
+@@ -363,7 +362,7 @@
+   </section>
+ 
+   <footer>
+-    Ticket↔shape matching reads each ticket's own declared <code>plan:&lt;shape&gt;</code> parent reference — the same field the build-plan producer writes — not a keyword guess. Zone = idle (0 matched tickets) / active (matched, no job in <code>completed</code> state) / producing (≥1 <code>completed</code> job). This page polls <code>/factory-ng/coverage.json</code> every 30s; that snapshot is regenerated by <code>scripts/factory-ng-coverage-snapshot.py</code> on the same cadence.
++    Ticket↔shape matching reads each ticket's own declared <code>plan:&lt;shape&gt;</code> parent reference — the same field the build-plan producer writes — not a keyword guess. Zone = idle (0 matched tickets) / active (matched, no job in <code>completed</code> state) / producing (≥1 <code>completed</code> job). This page polls <code>/factory-ng/coverage.json</code> every 30s; that snapshot is regenerated by <code>scripts/factory-ng-coverage-snapshot.py</code> periodically. The candidate measurement date is separate from the ticket-history refresh time.
+   </footer>
+ </div>
+ 
+@@ -373,11 +372,11 @@
+ (function () {
+   let DATA = [];
+   const zoneMeta = {
+-    idle:      { label: 'Idle' },
+-    active:    { label: 'Active' },
+-    producing: { label: 'Producing' }
++    idle:      { label: 'No linked history' },
++    active:    { label: 'Attempted' },
++    producing: { label: 'Has completed work' }
+   };
+-  const EVIDENCE_GAP = new Set(['verb_unmapped:damage', 'verb_unmapped:pump']);
++  const EVIDENCE_GAP = new Set();
+ 
+   const tooltip = document.getElementById('tooltip');
+   function showTip(evt, d) {
+@@ -386,7 +385,7 @@
+       : 'no tickets produced';
+     let html = '<div class="t-item">' + d.item + '</div>' +
+       '<div class="t-row"><span>rank</span><span>#' + d.rank + '</span></div>' +
+-      '<div class="t-row"><span>marginal unlock</span><span>' + d.unlock + ' cards</span></div>' +
++      '<div class="t-row"><span>measured candidates</span><span>' + d.unlock + ' cards</span></div>' +
+       '<div class="t-row"><span>tickets matched</span><span>' + d.matched + '</span></div>' +
+       '<div class="t-row"><span>outcomes</span><span>' + outcomeText + '</span></div>';
+     if (d.samples && d.samples.length) {
+@@ -505,14 +504,13 @@
+ 
+     document.getElementById('stat-row').innerHTML = [
+       { label: 'Tracked capability gaps', value: DATA.length, sub: 'ranked shapes in the coverage plan' },
+-      { label: 'Total unlock potential', value: totalUnlock.toLocaleString(), sub: 'marginal review-cards across all ' + DATA.length + ' shapes' },
+-      { label: 'Idle unlock potential', value: totals.idle.toLocaleString(), sub: zones.idle.length + ' shapes, ' + idleShare + '% of all potential', critical: true },
+-      { label: 'Never-attempted classes', value: zones.idle.length + ' / ' + DATA.length, sub: 'zero tickets produced for these', critical: true },
++      { label: 'Measured one-miss candidates', value: totalUnlock.toLocaleString(), sub: 'at the measured revision across ' + DATA.length + ' shapes' },
++      { label: 'Candidates without linked history', value: totals.idle.toLocaleString(), sub: zones.idle.length + ' shapes, ' + idleShare + '% of all potential', critical: true },
++      { label: 'Families without linked history', value: zones.idle.length + ' / ' + DATA.length, sub: 'no matching plan parent in ticket history', critical: true },
+     ].map(s => '<div class="stat"><div class="label">' + s.label + '</div><div class="value' + (s.critical ? ' critical' : '') + '">' + s.value + '</div><div class="sub">' + s.sub + '</div></div>').join('');
+ 
+-    document.getElementById('headline-callout').innerHTML =
+-      '<div><b>' + idleShare + '% of remaining unlock potential is sitting untouched.</b> ' +
+-      zones.idle.length + ' of ' + DATA.length + ' tracked capability classes (' + totals.idle.toLocaleString() + ' marginal cards) have never had a producer emit a ticket. Meanwhile the shapes the factory has spent the most attempts on — <code>damage</code> and <code>pump</code> — show a repeating evidence-pack gap (see zone tiles marked ⚠).</div>';
++    document.getElementById('headline-callout').textContent =
++      idleShare + '% of measured candidates have no linked family ticket. This is a discovery frontier. Runnable supply also depends on producer scope, existing ticket history, runtime support and worker availability.';
+ 
+     const zonesEl = document.getElementById('zones');
+     zonesEl.style.setProperty('--zone-cols', ['idle', 'active', 'producing'].map(z => Math.max(totals[z], 1) + 'fr').join(' '));
+@@ -549,7 +547,9 @@
+       }
+       DATA = d.shapes || [];
+       document.getElementById('meta-line').textContent =
+-        'Source: openmagic/corpus/build-plan.jsonl (' + DATA.length + ' ranked shapes) cross-referenced against ' + (d.total_tickets || '?').toLocaleString() + ' tracked tickets.';
++        'Measured: ' + (d.measured_at || 'date unavailable') +
++        ' · source ' + (d.source_revision || 'unknown').slice(0, 12) +
++        ' · ' + DATA.length + ' families · ' + (d.total_tickets || 0).toLocaleString() + ' ticket versions.';
+       document.getElementById('stamp').innerHTML = '<span class="live">live</span> updated ' + new Date(d.generated_at).toLocaleTimeString();
+       renderAll();
+     } catch (e) {

@@ -1,0 +1,82 @@
+[
+  {
+    "ticket_id": "ticket:engine.auto-active-damage-receiver-type-gate-3b7d9305ad/v2",
+    "attempts": 2,
+    "receipt": "docs/factory-ng/runs/2026-09-16T155746Z-engine-auto-active-damage-receiver-type-gate-3b7d9305ad-v2-codex.json",
+    "started_at": "2026-09-16T15:57:46Z",
+    "ticket_sha256": "sha256:a7dab4195e78cb53e768aa8dcd7a4a5a40d138f778ea8d205619cab809fa236b",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-codex-repair/engine.auto-active-damage-receiver-type-gate-3b7d9305ad-v2.capacity-review.json",
+    "evidence_sha256": "sha256:b20ca32ec5b299a44b4bb6612b8fc68e43110990fe0ab43d6556dbdf691eca51",
+    "reason": "New jobs use gpt-5.6-terra after explicit Luna provider-capacity rejections. One finite retry is restricted to that different model; previous attempts, review and failed-profile history remain.",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "prior_recovery_sha256": "sha256:7061f6cc5c564466254c9b6b0a882cbfd9659dfb9786c20c9fbaeaf5c103c213",
+    "reviewed_outcome": "infrastructure_failed_provider_capacity",
+    "required_model": "gpt-5.6-terra"
+  },
+  {
+    "ticket_id": "ticket:engine.auto-become-creature-with-pt-and-keywords-until-eot-0ace9f1b94/v1",
+    "attempts": 3,
+    "receipt": "docs/factory-ng/runs/2026-09-16T155813Z-engine-auto-become-creature-with-pt-and-keywords-until-eot-0ace9f1b94-v1-codex.json",
+    "started_at": "2026-09-16T15:58:13Z",
+    "ticket_sha256": "sha256:acbe6a9b73316cc9e0867a04ddfd6aadde110817e33ca76e9791c00553d090c7",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-codex-repair/engine.auto-become-creature-with-pt-and-keywords-until-eot-0ace9f1b94-v1.capacity-review.json",
+    "evidence_sha256": "sha256:fcc0f4cdf16d56bf99f2c8ff821feb53b68920ddfb0594eae5ae4c9d4c8093ce",
+    "reason": "New jobs use gpt-5.6-terra after explicit Luna provider-capacity rejections. One finite retry is restricted to that different model; previous attempts, review and failed-profile history remain.",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "prior_recovery_sha256": "sha256:a0b469be53a2d5440a8fe01fbb66a0e4b5de4db4e29d409b7cdd5d3e72e4ce46",
+    "reviewed_outcome": "infrastructure_failed",
+    "required_model": "gpt-5.6-terra"
+  },
+  {
+    "ticket_id": "ticket:engine.auto-flying-attacking-or-blocking-target-628d6120f2/v1",
+    "attempts": 2,
+    "receipt": "docs/factory-ng/runs/2026-09-16T160229Z-engine-auto-flying-attacking-or-blocking-target-628d6120f2-v1-codex.json",
+    "started_at": "2026-09-16T16:02:28Z",
+    "ticket_sha256": "sha256:117cc18e562159c2a5369070b010d0dbcffabae024a8de0cd0c46cbe7c58d9f4",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-codex-repair/engine.auto-flying-attacking-or-blocking-target-628d6120f2-v1.capacity-review.json",
+    "evidence_sha256": "sha256:328b3ff2b6f9e8e84e7279f186d35c9db26f0892bbd325b82d814d4a3455ec2c",
+    "reason": "New jobs use gpt-5.6-terra after explicit Luna provider-capacity rejections. One finite retry is restricted to that different model; previous attempts, review and failed-profile history remain.",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "prior_recovery_sha256": "sha256:916f6161029ad88bdab4bc5bcf4e8c771117c3f29e32cfc95d5f1863f760b379",
+    "reviewed_outcome": "infrastructure_failed_provider_capacity",
+    "required_model": "gpt-5.6-terra"
+  },
+  {
+    "ticket_id": "ticket:engine.auto-tap-or-untap-attached-choice-7e9017ab8c/v1",
+    "attempts": 2,
+    "receipt": "docs/factory-ng/runs/2026-09-16T160329Z-engine-auto-tap-or-untap-attached-choice-7e9017ab8c-v1-codex.json",
+    "started_at": "2026-09-16T16:03:28Z",
+    "ticket_sha256": "sha256:9a4e64dae4429329475177640e35f28b8b00310fab4ca8cd6a2c23cbe8a8b17c",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-codex-repair/engine.auto-tap-or-untap-attached-choice-7e9017ab8c-v1.capacity-review.json",
+    "evidence_sha256": "sha256:8b43af9ef93ab2088c99b3acd08dbcec927e74607f4928db76a312a37391b586",
+    "reason": "New jobs use gpt-5.6-terra after explicit Luna provider-capacity rejections. One finite retry is restricted to that different model; previous attempts, review and failed-profile history remain.",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "prior_recovery_sha256": "sha256:7cdfe63a9bf88870839fef8820fd63ef91827e075ed23e3b82801f3c05dbf356",
+    "reviewed_outcome": "infrastructure_failed_provider_capacity",
+    "required_model": "gpt-5.6-terra"
+  },
+  {
+    "ticket_id": "ticket:map.plan-exile-scarab-feast-d952117a2a/v5",
+    "attempts": 2,
+    "receipt": "docs/factory-ng/runs/2026-09-16T160329Z-map-plan-exile-scarab-feast-d952117a2a-v5-codex.json",
+    "started_at": "2026-09-16T16:03:28Z",
+    "ticket_sha256": "sha256:a69dccdb7ad1ef365d88bb6f8b22f5ff509a5d4e633540aa5eabb214a03c1bb1",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-codex-repair/map.plan-exile-scarab-feast-d952117a2a-v5.capacity-review.json",
+    "evidence_sha256": "sha256:705e4a0496387c1066d52f57b0b67197bb5dfcaf1a46198221285598f1877921",
+    "reason": "New jobs use gpt-5.6-terra after explicit Luna provider-capacity rejections. One finite retry is restricted to that different model; previous attempts, review and failed-profile history remain.",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "prior_recovery_sha256": "sha256:604ef54a740578902fc6a5eabe752125fdd3c20f8ae2a0948dd4f9c72d7f3452",
+    "reviewed_outcome": "infrastructure_failed_provider_capacity",
+    "required_model": "gpt-5.6-terra"
+  }
+]

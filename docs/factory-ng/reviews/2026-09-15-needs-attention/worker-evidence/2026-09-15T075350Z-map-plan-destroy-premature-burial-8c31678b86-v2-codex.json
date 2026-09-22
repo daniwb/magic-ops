@@ -1,0 +1,91 @@
+{
+  "attempt_history": [],
+  "capability_assessments": [],
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-map-plan-destroy-premature-burial-8c31678b86-v2-at3ob9eq",
+    "candidate_commit": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+    "source_tree_changed": false
+  },
+  "failure_category": "model_response",
+  "gates": [
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "Provider call exited 1; see retained raw response. codex: provider process exited 1; see retained raw events\n",
+      "id": "provider-call",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "codex-constrained@1.1.0",
+    "resolved_model": "gpt-5.6-luna",
+    "telemetry": {
+      "cache_read_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter emitted no token counter"
+      },
+      "cache_write_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter emitted no token counter"
+      },
+      "elapsed_ms": 10119,
+      "input_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter emitted no token counter"
+      },
+      "model_calls": 1,
+      "output_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter emitted no token counter"
+      },
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "provider cost unavailable"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter emitted no token counter"
+      },
+      "stage_times": {
+        "attempt_wall_ms": 33218,
+        "candidate_gate_ms": 0,
+        "compilation_ms": {
+          "availability": "unavailable",
+          "reason": "go test includes package compilation; not separately timed"
+        },
+        "model_ms": 10119
+      }
+    },
+    "worker": "codex-2"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-15T075350Z-map-plan-destroy-premature-burial-8c31678b86-v2-codex.raw.json",
+      "sha256": "sha256:5df920bf0124b35ec13c9ec194cac3a00e41843f11351ef6bc33486bd2ac31a1"
+    },
+    {
+      "kind": "prepared_packet",
+      "path": "docs/factory-ng/runs/2026-09-15T075350Z-map-plan-destroy-premature-burial-8c31678b86-v2-codex.packet.txt",
+      "sha256": "sha256:1649c1a1f538b813d96fd534c0b7c9439e77ddde4befeb4a885756539fe78f8b"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "ticket": {
+    "id": "ticket:map.plan-destroy-premature-burial-8c31678b86/v2",
+    "path": "docs/factory-ng/tickets/map-plan-destroy-premature-burial-8c31678b86-v2.json",
+    "sha256": "sha256:f3bc5aaaa8bf9fbfa97b70cedaae192ddccb05750ce28e314421eb0b1d17cdfe"
+  }
+}

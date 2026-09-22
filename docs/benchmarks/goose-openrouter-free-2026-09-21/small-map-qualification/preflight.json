@@ -1,0 +1,368 @@
+[
+  {
+    "case": "gained-life",
+    "ticket": "docs/factory-ng/tickets/map-static-condition-gained-life-pump-v1.json",
+    "ticket_sha256": "f5f1f43fb728fe72188b98ddd9be21a0dd926e85eac134b3a8350d66cf56f3e8",
+    "source_revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7",
+    "baseline_measurement": {
+      "member_count": 2,
+      "members": [
+        {
+          "all_miss_shapes": [
+            "static_conditional"
+          ],
+          "details": [
+            "~ gets +2/+0 as long as you gained life this turn"
+          ],
+          "name": "Tenured Concocter",
+          "text_sha256": "sha256:6723edd638cd7c9bed97dc6bebedac6cd82b03f0f87128703120d94a8ca70b87"
+        },
+        {
+          "all_miss_shapes": [
+            "static_conditional"
+          ],
+          "details": [
+            "~ gets +2/+0 as long as you gained life this turn"
+          ],
+          "name": "Ulna Alley Shopkeep",
+          "text_sha256": "sha256:9a344a65d6099fbc0ddcf78993175959acd8927ea524f0e531cee784fbd41ee8"
+        }
+      ],
+      "pinned_member_count": 2,
+      "pinned_members_from": "/data/magic-stack/development/magic-ops/docs/factory-ng/measurements/static-condition-gained-life-pump-v1.json",
+      "pinned_unresolved_count": 2,
+      "pinned_unresolved_members": [
+        {
+          "misses": [
+            [
+              "static_conditional",
+              "~ gets +2/+0 as long as you gained life this turn"
+            ]
+          ],
+          "name": "Tenured Concocter"
+        },
+        {
+          "misses": [
+            [
+              "static_conditional",
+              "~ gets +2/+0 as long as you gained life this turn"
+            ]
+          ],
+          "name": "Ulna Alley Shopkeep"
+        }
+      ],
+      "review_cards_scanned": 2,
+      "schema": "factory.targeted-demand/v1",
+      "shape": "static_conditional",
+      "source": {
+        "parser_sha256": "sha256:0b113cd5f8faa151a0c5fc1c2c8c15d9c7eb1df530f15560d6c55d2ed3285dbe",
+        "repository": "/tmp/goose-map-preflight-4krlmji2",
+        "revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7"
+      }
+    },
+    "packet_chars": 31906,
+    "complete_seam_chars": 11420,
+    "preparation_problems": []
+  },
+  {
+    "case": "drawn-two",
+    "ticket": "docs/factory-ng/tickets/map-static-condition-drawn-two-keywords-v1.json",
+    "ticket_sha256": "d1ac372c3aad9917b7f59d19879e508862ad158d73bbb3634df6f7b778990237",
+    "source_revision": "8dd5e06545926033d738b0b69ab8f29145275168",
+    "baseline_measurement": {
+      "member_count": 6,
+      "members": [
+        {
+          "all_miss_shapes": [
+            "static_conditional"
+          ],
+          "details": [
+            "as long as you've drawn two or more cards this turn, ~ gets +1/+0 and "
+          ],
+          "name": "Evangel of Synthesis",
+          "text_sha256": "sha256:bd94de1c3cba8e3d79741b7573b7a3f600d5486f3bf6928b4aad256e5f832d32"
+        },
+        {
+          "all_miss_shapes": [
+            "static_conditional"
+          ],
+          "details": [
+            "~ gets +2/+0 as long as you've drawn two or more cards this turn"
+          ],
+          "name": "Eyekite",
+          "text_sha256": "sha256:44e0acecb481be477a5b61c2b345235374967b4773103bc025b01c8edcc563a5"
+        },
+        {
+          "all_miss_shapes": [
+            "static_conditional"
+          ],
+          "details": [
+            "as long as you've drawn two or more cards this turn, ~ has lifelink an"
+          ],
+          "name": "Foggy Swamp Hunters",
+          "text_sha256": "sha256:18e96872cd37afaac586b2c1df3275ca3dc58be49caa8f9f74bccfe84be24a93"
+        },
+        {
+          "all_miss_shapes": [
+            "static_conditional"
+          ],
+          "details": [
+            "as long as you've drawn two or more cards this turn, ~ gets +0/+2 and "
+          ],
+          "name": "Gnarled Sage",
+          "text_sha256": "sha256:91ec10ad0a27f1228a7ca81a70c5c410241154ae4172242e5b19be9d1559af67"
+        },
+        {
+          "all_miss_shapes": [
+            "static_conditional"
+          ],
+          "details": [
+            "as long as you've drawn two or more cards this turn, ~ has double stri"
+          ],
+          "name": "Spinehorn Minotaur",
+          "text_sha256": "sha256:0419aedcda88a9b1e874af2fc91a5952cc6b42aecaa85d1fb95f3dc30984b9d7"
+        },
+        {
+          "all_miss_shapes": [
+            "static_conditional"
+          ],
+          "details": [
+            "as long as you've drawn two or more cards this turn, ~ has deathtouch "
+          ],
+          "name": "Trench Stalker",
+          "text_sha256": "sha256:5a133cab8130590cd74f7ea241236a563a45fd1b3ff7a69ae6e80d929bad8626"
+        }
+      ],
+      "pinned_member_count": 6,
+      "pinned_members_from": "/data/magic-stack/development/magic-ops/docs/factory-ng/measurements/static-condition-drawn-two-keywords-v1.json",
+      "pinned_unresolved_count": 6,
+      "pinned_unresolved_members": [
+        {
+          "misses": [
+            [
+              "static_conditional",
+              "as long as you've drawn two or more cards this turn, ~ gets +1/+0 and "
+            ]
+          ],
+          "name": "Evangel of Synthesis"
+        },
+        {
+          "misses": [
+            [
+              "static_conditional",
+              "~ gets +2/+0 as long as you've drawn two or more cards this turn"
+            ]
+          ],
+          "name": "Eyekite"
+        },
+        {
+          "misses": [
+            [
+              "static_conditional",
+              "as long as you've drawn two or more cards this turn, ~ has lifelink an"
+            ]
+          ],
+          "name": "Foggy Swamp Hunters"
+        },
+        {
+          "misses": [
+            [
+              "static_conditional",
+              "as long as you've drawn two or more cards this turn, ~ gets +0/+2 and "
+            ]
+          ],
+          "name": "Gnarled Sage"
+        },
+        {
+          "misses": [
+            [
+              "static_conditional",
+              "as long as you've drawn two or more cards this turn, ~ has double stri"
+            ]
+          ],
+          "name": "Spinehorn Minotaur"
+        },
+        {
+          "misses": [
+            [
+              "static_conditional",
+              "as long as you've drawn two or more cards this turn, ~ has deathtouch "
+            ]
+          ],
+          "name": "Trench Stalker"
+        }
+      ],
+      "review_cards_scanned": 6,
+      "schema": "factory.targeted-demand/v1",
+      "shape": "static_conditional",
+      "source": {
+        "parser_sha256": "sha256:aafb59b7a8190dc4f7f8243c9ffae9dc64334ba61c8a1964db770b3f80b8ea4d",
+        "repository": "/tmp/goose-map-preflight-mg4ti35q",
+        "revision": "8dd5e06545926033d738b0b69ab8f29145275168"
+      }
+    },
+    "packet_chars": 32539,
+    "complete_seam_chars": 11582,
+    "preparation_problems": []
+  },
+  {
+    "case": "graveyard-thresholds",
+    "ticket": "docs/factory-ng/tickets/map-static-condition-graveyard-thresholds-v1.json",
+    "ticket_sha256": "ae77e93564ed2be62f551615aab4bcf0962a4edb11969ee3b43a150c6d99dd50",
+    "source_revision": "def54b5e1de4765593e830a4e4127dfcd69e7e41",
+    "baseline_measurement": {
+      "member_count": 7,
+      "members": [
+        {
+          "all_miss_shapes": [
+            "static_conditional"
+          ],
+          "details": [
+            "as long as there are four or more card types among cards in your grave"
+          ],
+          "name": "A-Dragon's Rage Channeler",
+          "text_sha256": "sha256:dd963170bf0e5e6ed5fb5094221f325034d7c9e92227d3fb900debc1598aae2a"
+        },
+        {
+          "all_miss_shapes": [
+            "static_conditional"
+          ],
+          "details": [
+            "as long as there are five or more mana values among cards in your grav"
+          ],
+          "name": "A-Syndicate Infiltrator",
+          "text_sha256": "sha256:a269892b068fdfe7d1cacff7ee728184f7195aeb75df2831fffd754a550a25a0"
+        },
+        {
+          "all_miss_shapes": [
+            "static_conditional"
+          ],
+          "details": [
+            "as long as there are five or more mana values among cards in your grav"
+          ],
+          "name": "Aven Heartstabber",
+          "text_sha256": "sha256:26fa2d1077dd3fc114061ddae594d48149fa4566387148c2760ad5a64a999e47"
+        },
+        {
+          "all_miss_shapes": [
+            "static_conditional"
+          ],
+          "details": [
+            "as long as there are four or more card types among cards in your grave"
+          ],
+          "name": "Dragon's Rage Channeler",
+          "text_sha256": "sha256:13dcbf0e834061dc1c5276792b62d454bb146c2380d2fa9c9cd97b2b32a5d82f"
+        },
+        {
+          "all_miss_shapes": [
+            "static_conditional"
+          ],
+          "details": [
+            "as long as there are five or more mana values among cards in your grav"
+          ],
+          "name": "Snooping Newsie",
+          "text_sha256": "sha256:66b1edcf06b5c5ea2c415d184e149512a598c1ea9be72e4574ccc6acde79aa4f"
+        },
+        {
+          "all_miss_shapes": [
+            "static_conditional"
+          ],
+          "details": [
+            "as long as there are five or more mana values among cards in your grav"
+          ],
+          "name": "Syndicate Infiltrator",
+          "text_sha256": "sha256:368da987b185a435aa97bed1557f63c26905756190f88888225fcdd722845e83"
+        },
+        {
+          "all_miss_shapes": [
+            "static_conditional"
+          ],
+          "details": [
+            "as long as there are four or more card types among cards in your grave"
+          ],
+          "name": "Winter, Misanthropic Guide",
+          "text_sha256": "sha256:291d7a42add8c0a7cdb1fa5ad5fc1ad6c1b8a3261e99db1d052a68f90691db3f"
+        }
+      ],
+      "pinned_member_count": 7,
+      "pinned_members_from": "/data/magic-stack/development/magic-ops/docs/factory-ng/measurements/static-condition-graveyard-thresholds-v1.json",
+      "pinned_unresolved_count": 7,
+      "pinned_unresolved_members": [
+        {
+          "misses": [
+            [
+              "static_conditional",
+              "as long as there are four or more card types among cards in your grave"
+            ]
+          ],
+          "name": "A-Dragon's Rage Channeler"
+        },
+        {
+          "misses": [
+            [
+              "static_conditional",
+              "as long as there are five or more mana values among cards in your grav"
+            ]
+          ],
+          "name": "A-Syndicate Infiltrator"
+        },
+        {
+          "misses": [
+            [
+              "static_conditional",
+              "as long as there are five or more mana values among cards in your grav"
+            ]
+          ],
+          "name": "Aven Heartstabber"
+        },
+        {
+          "misses": [
+            [
+              "static_conditional",
+              "as long as there are four or more card types among cards in your grave"
+            ]
+          ],
+          "name": "Dragon's Rage Channeler"
+        },
+        {
+          "misses": [
+            [
+              "static_conditional",
+              "as long as there are five or more mana values among cards in your grav"
+            ]
+          ],
+          "name": "Snooping Newsie"
+        },
+        {
+          "misses": [
+            [
+              "static_conditional",
+              "as long as there are five or more mana values among cards in your grav"
+            ]
+          ],
+          "name": "Syndicate Infiltrator"
+        },
+        {
+          "misses": [
+            [
+              "static_conditional",
+              "as long as there are four or more card types among cards in your grave"
+            ]
+          ],
+          "name": "Winter, Misanthropic Guide"
+        }
+      ],
+      "review_cards_scanned": 7,
+      "schema": "factory.targeted-demand/v1",
+      "shape": "static_conditional",
+      "source": {
+        "parser_sha256": "sha256:1280798238c1a7660909e2b0be69e1a97ab685764c06795514bb7f20115dddd5",
+        "repository": "/tmp/goose-map-preflight-5zlukmdm",
+        "revision": "def54b5e1de4765593e830a4e4127dfcd69e7e41"
+      }
+    },
+    "packet_chars": 42778,
+    "complete_seam_chars": 16058,
+    "preparation_problems": []
+  }
+]

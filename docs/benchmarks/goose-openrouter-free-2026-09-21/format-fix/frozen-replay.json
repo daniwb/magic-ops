@@ -1,0 +1,44 @@
+{
+  "packet": "docs/factory-ng/runs/2026-09-21T132532Z-engine-auto-create-token-with-can-block-only-flying-59498a421f-v2-goose-openrouter-staged.repair.packet.txt",
+  "elapsed_seconds": 33.9,
+  "exit_code": 0,
+  "failure_reason": null,
+  "scope": "One frozen correction replay; no production admission or integration",
+  "usage": {
+    "type": "complete",
+    "total_tokens": 61417,
+    "input_tokens": 49531,
+    "output_tokens": 11886,
+    "cache_read_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "cost_usd": 0.0
+  },
+  "strict_apply_exit": 5,
+  "strict_apply_output": "no edit blocks and no verdict found in model output\n",
+  "strict_apply_stderr": "",
+  "marker_normalizations": [
+    {
+      "path_header": "<<<FILE backend/game/card.go",
+      "from": ">>>REPLACE",
+      "to": "===REPLACE"
+    },
+    {
+      "path_header": "<<<FILE backend/game/ability_effects.go",
+      "from": ">>>REPLACE",
+      "to": "===REPLACE"
+    },
+    {
+      "path_header": "<<<FILE backend/game/ability_effects.go",
+      "from": ">>>REPLACE",
+      "to": "===REPLACE"
+    },
+    {
+      "path_header": "<<<FILE backend/game/gamestate.go",
+      "from": ">>>REPLACE",
+      "to": "===REPLACE"
+    }
+  ],
+  "normalized_apply_exit": 6,
+  "normalized_apply_output": "backend/cards/registry_factory_ng_59498a421f.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\nbackend/game/factory_ng_59498a421f_test.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\n",
+  "normalized_apply_stderr": ""
+}

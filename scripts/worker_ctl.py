@@ -31,7 +31,7 @@ class WorkerConfig:
     mode: str = "map"  # map (pipeline-lane.sh, claims REPARSE-MAP tickets) |
                         # engine (engine-lane.sh, drains open capabilities directly)
     base_url: str = ""
-    max_tokens: int = 8000
+    max_tokens: int = 16000
     reasoning_tokens: int = 3000
     max_turns: int = 25          # agentic loop turns
     claude_max_turns: int = 5    # claude CLI's own --max-turns (unrelated knob)
@@ -108,6 +108,20 @@ def tmux_window_exists(session: str, name: str) -> bool:
     return name in out.stdout.split()
 
 
+def ensure_tmux_session(session: str) -> None:
+    """Create the native worker session when no launcher has created it yet."""
+    if subprocess.run(["tmux", "has-session", "-t", session], capture_output=True).returncode == 0:
+        return
+    created = subprocess.run(
+        ["tmux", "new-session", "-d", "-s", session, "-n", "control", "exec bash"],
+        capture_output=True, text=True,
+    )
+    if created.returncode:
+        # A concurrent dashboard request can win the race; accept its session.
+        if subprocess.run(["tmux", "has-session", "-t", session], capture_output=True).returncode:
+            raise RuntimeError(created.stderr.strip() or f"could not create tmux session {session!r}")
+
+
 def cmd_list(args):
     workers = load_workers()
     print(f"{'name':<12} {'mode':<8} {'engine':<18} {'model':<40}")
@@ -121,6 +135,7 @@ def cmd_start(args):
         sys.exit(f"unknown worker {args.name!r} — see workers.json")
     cfg = apply_overrides(workers[args.name], args.override)
     env = env_for(cfg)
+    ensure_tmux_session(args.tmux_session)
     if tmux_window_exists(args.tmux_session, cfg.name):
         sys.exit(f"tmux window {args.tmux_session}:{cfg.name} already exists — "
                  f"stop it first or it'll collide (this is exactly the zombie-"

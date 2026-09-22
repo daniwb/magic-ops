@@ -1,0 +1,92 @@
+{
+  "capability": {
+    "expected_unlock": 0,
+    "negative_examples": [
+      "Granting a keyword only with no P/T change",
+      "Applying a +X/+X buff where X is a fixed printed number",
+      "Applying +X/+X without an until-end-of-turn duration",
+      "A static permanent keyword grant (no trigger, no EOT)"
+    ],
+    "required_behavior": "EvalDynamicAmountFull supports count=event_subject_mana_value for the triggering spell. triggerEventCard preserves announced X if the spell is countered before resolution. Reuse pump_until_eot value.pt_amount_count={count:event_subject_mana_value}, target_self=true, followed or preceded by grant_keywords_until_eot value.keyword=trample. Both P/T deltas equal mana value; zero is legal, repeated triggers stack, and both effects expire at end of turn. Existing power_from=referent_spell_mana_value remains +X/+0.",
+    "source_misses": [
+      {
+        "card": "Skittering Cicada",
+        "oracle_text_sha256": "ca83bafc715896705996186cacf306811a8804c304f3650960321582dc961c2d",
+        "paragraph": "Whenever you cast a colorless spell, until end of turn, this creature gains trample and gets +X/+X, where X is that spell's mana value.",
+        "required_behavior": "On casting a colorless spell, this creature gains trample and gets +X/+X, where X is that spell's mana value, both lasting until end of turn."
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "fact": "Immutable predecessor. This successor corrects its implementation premise and scope using the behavior audit.",
+      "path": "docs/factory-ng/tickets/engine-auto-grant-keyword-plus-dynamic-pt-until-eot-db98033e77-v1.json"
+    },
+    {
+      "fact": "Source and public-path evidence for this correction; old nearest-match line anchors are not carried forward.",
+      "path": "docs/factory-ng/reviews/2026-09-08-throughput/fts5-miss-audit.md"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "Operator-authorized audited repair; preserve model-neutral contract and ordinary integration gates.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "cd backend && go test ./game ./cards -run '^TestShape_AuditedEventManaValue' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.auto-grant-keyword-plus-dynamic-pt-until-eot-db98033e77/v2",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Retain failed gate evidence; repair the demonstrated defect without weakening acceptance.",
+  "parents": [
+    "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v1",
+    "ticket:engine.auto-grant-keyword-plus-dynamic-pt-until-eot-db98033e77/v1"
+  ],
+  "production": {
+    "key": "capability:grant_keyword_plus_dynamic_pt_until_eot:sha256:db98033e778ca9db86dc6f0f1dca84a73e317440f7fc0a2d342670ad8abb1766:audited-correction-20260908",
+    "producer": "capability-dependencies",
+    "retry_reason": "operator_audited_contract_correction"
+  },
+  "required_behavior": [
+    "EvalDynamicAmountFull supports count=event_subject_mana_value for the triggering spell. triggerEventCard preserves announced X if the spell is countered before resolution. Reuse pump_until_eot value.pt_amount_count={count:event_subject_mana_value}, target_self=true, followed or preceded by grant_keywords_until_eot value.keyword=trample. Both P/T deltas equal mana value; zero is legal, repeated triggers stack, and both effects expire at end of turn. Existing power_from=referent_spell_mana_value remains +X/+0.",
+    "Add the public-path regression tests selected by ^TestShape_AuditedEventManaValue. No parser/card-name exceptions. Full integration gates and dependent Map verification remain required."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/dynamic_amount.go",
+      "backend/game/lib_trigger_event_card.go",
+      "backend/game/shape_audited_event_mana_value_test.go",
+      "backend/game/gamestate.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "clean": true,
+    "repository": "/opt/development/test/openmagic",
+    "revision": "6642351731e0c336cd220a861dd14fc212e7d192"
+  },
+  "supersedes": "ticket:engine.auto-grant-keyword-plus-dynamic-pt-until-eot-db98033e77/v1",
+  "title": "Audited correction: Connect triggering spell mana value to symmetric P/T",
+  "work_type": "engine"
+}

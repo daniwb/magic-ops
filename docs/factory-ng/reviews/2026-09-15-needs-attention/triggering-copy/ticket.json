@@ -1,0 +1,151 @@
+{
+  "capability": {
+    "expected_unlock": 1,
+    "negative_examples": [
+      "Never copy an unrelated spell selected from the stack.",
+      "Never require an artifact or impose target selection on the triggering spell.",
+      "Do not copy an opponent-cast spell or a spell outside the Faerie/Wizard permanent condition."
+    ],
+    "required_behavior": "When its controller casts a Faerie or Wizard permanent spell, copy that exact triggering spell once without targeting or selecting a different stack object; the copy becomes a token on resolution. Do not restrict the copied permanent spell to artifacts.",
+    "source_misses": [
+      {
+        "card": "Archmage of Echoes",
+        "oracle_text_sha256": "4b126395708b5871e0b994c454e376fe4145aae7cb154d9a6369a412432f3bde",
+        "paragraph": "Whenever you cast a Faerie or Wizard permanent spell, copy it. (The copy becomes a token.)",
+        "required_behavior": "When its controller casts a Faerie or Wizard permanent spell, copy that exact triggering spell once without targeting or selecting a different stack object; the copy becomes a token on resolution. Do not restrict the copied permanent spell to artifacts."
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "key": "copy_triggering_permanent_spell",
+        "specification": {
+          "expected_unlock": 1,
+          "negative_examples": [
+            "Never copy an unrelated spell selected from the stack.",
+            "Never require an artifact or impose target selection on the triggering spell.",
+            "Do not copy an opponent-cast spell or a spell outside the Faerie/Wizard permanent condition."
+          ],
+          "required_behavior": "When its controller casts a Faerie or Wizard permanent spell, copy that exact triggering spell once without targeting or selecting a different stack object; the copy becomes a token on resolution. Do not restrict the copied permanent spell to artifacts.",
+          "source_misses": [
+            {
+              "card": "Archmage of Echoes",
+              "oracle_text_sha256": "4b126395708b5871e0b994c454e376fe4145aae7cb154d9a6369a412432f3bde",
+              "paragraph": "Whenever you cast a Faerie or Wizard permanent spell, copy it. (The copy becomes a token.)",
+              "required_behavior": "When its controller casts a Faerie or Wizard permanent spell, copy that exact triggering spell once without targeting or selecting a different stack object; the copy becomes a token on resolution. Do not restrict the copied permanent spell to artifacts."
+            }
+          ]
+        },
+        "summary": "Copy the exact triggering permanent spell without targeting"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-07T125901Z-map-plan-copy-archmage-of-echoes-49f5309ea8-v2-operator-runtime-review.json"
+    },
+    {
+      "anchor": "8841-8906",
+      "fact": "Card-knowledge index match (engine): executeCopyAllTokensYouControl is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:fc564b46c97df5ffe85fb928bcaaf313252e12b72648368cb777ae5cdf8e51b2"
+    },
+    {
+      "anchor": "112-177",
+      "fact": "Card-knowledge index match (engine): cloneCardAsCasualtyToken is the nearest indexed seam for this capability.",
+      "path": "backend/game/additional_cost_casualty.go",
+      "sha256": "sha256:82919d4488786b51f8634d55ac57e447aafa4df1156a7671b15d4392c9211774"
+    },
+    {
+      "anchor": "1-35",
+      "fact": "Card-knowledge index match (engine): publishBecomesTargetEvents is the nearest indexed seam for this capability.",
+      "path": "backend/game/becomes_target.go",
+      "sha256": "sha256:253d3d4687e15d54a9f9f4f8011273b862268416698cd74034c02b1fc9e8f446"
+    },
+    {
+      "anchor": "2583-2648",
+      "fact": "Card-knowledge index match (engine): PutTriggeredAbilityOnStackWithEvent is the nearest indexed seam for this capability.",
+      "path": "backend/game/gamestate.go",
+      "sha256": "sha256:fd4fc341b694d8207696f20517d38f19ec9108dcacf06f2864ce6c4d1d624db7"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "An Oracle-validated Map block has been compiled into one bounded Engine dependency.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGCopyTriggeringPermanentSpell$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.operator-triggering-copy-recovery-sep15/v1",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Record an immutable bounded verdict; automatic discovery continues with independent work.",
+  "parents": [
+    "ticket:engine.auto-copy-triggering-permanent-spell-9e4be89001/v1"
+  ],
+  "production": {
+    "integration_recovery_parent": "ticket:map.plan-copy-archmage-of-echoes-49f5309ea8/v2",
+    "key": "capability:copy_triggering_permanent_spell:sha256:9e4be89001770da4bacb6551a74def15c73216b3e2426e9f2cdaa5cdf4e51936",
+    "producer": "capability-dependencies"
+  },
+  "required_behavior": [
+    "When its controller casts a Faerie or Wizard permanent spell, copy that exact triggering spell once without targeting or selecting a different stack object; the copy becomes a token on resolution. Do not restrict the copied permanent spell to artifacts.",
+    "Preserve these adjacent behaviors: Never copy an unrelated spell selected from the stack.; Never require an artifact or impose target selection on the triggering spell.; Do not copy an opponent-cast spell or a spell outside the Faerie/Wizard permanent condition.",
+    "Add a discriminating behavior test named TestFactoryNGCopyTriggeringPermanentSpell; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_9e4be89001_test.go",
+      "backend/cards/factory_ng_9e4be89001_test.go",
+      "backend/cards/registry_factory_ng_9e4be89001.go",
+      "backend/game/copy_triggering_permanent.go",
+      "backend/cards/registry_triggering_permanent_copy.go",
+      "backend/cards/shape_triggering_permanent_copy_test.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "0237aeb00d8639d847c18d70087f245066c45e38",
+    "clean": true
+  },
+  "title": "Copy the exact qualifying permanent spell from its cast trigger",
+  "work_type": "engine",
+  "operator_recovery": {
+    "authorization": "User requested fixing all needs-attention tickets.",
+    "original_ticket": "docs/factory-ng/tickets/engine-auto-copy-triggering-permanent-spell-9e4be89001-v1.json",
+    "original_ticket_sha256": "sha256:a914159546bd28e2c9f089374b207224f5d1025ce9c9877866ca17e3faa4ea0d",
+    "additional_provider_runs": 0,
+    "counter_resets": false,
+    "scope_addition_reason": "New helper and shape tests preserve original named/full gates. Existing event stamping reused; permanent clone preserves characteristics and rebinds ability identities rather than sharing original registrations."
+  }
+}

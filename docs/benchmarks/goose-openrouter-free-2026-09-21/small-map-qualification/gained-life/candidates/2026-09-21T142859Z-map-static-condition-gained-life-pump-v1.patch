@@ -1,0 +1,62 @@
+From 1cb026a602eb8a14cec0dd49601d4a67d9e868f9 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Mon, 21 Sep 2026 16:28:59 +0200
+Subject: [PATCH] factory-ng: supervised engine observation
+
+---
+ scripts/paragraph/reparse.py                  |  6 +++++
+ .../test_static_condition_gained_life.py      | 25 +++++++++++++++++++
+ 2 files changed, 31 insertions(+)
+ create mode 100644 scripts/paragraph/test_static_condition_gained_life.py
+
+diff --git a/scripts/paragraph/reparse.py b/scripts/paragraph/reparse.py
+index 79b4e4501..952c3c414 100644
+--- a/scripts/paragraph/reparse.py
++++ b/scripts/paragraph/reparse.py
+@@ -10905,6 +10905,12 @@ def parse_static_condition(text):
+     if m:
+         return {'kind': 'turn', 'whose': 'yours' if m.group(1) == 'your turn' else 'opponents'}
+ 
++    # ticket:map.static-condition-gained-life-pump: "you gained life this turn"
++    # runtime already tracks LifeGainedThisTurn (game/condition.go); parser
++    # must emit the happened-kind shape so +2/+0 self-pumps stop missing.
++    if text == 'you gained life this turn':
++        return {'kind': 'happened', 'what': 'you_gained_life'}
++
+     # ticket #5048 (static_conditional): "N or more nonland permanents
+     # entered the battlefield under your control this turn" (Armory Mice,
+     # Celebration cycle) — the happened-kind what the Go runtime already
+diff --git a/scripts/paragraph/test_static_condition_gained_life.py b/scripts/paragraph/test_static_condition_gained_life.py
+new file mode 100644
+index 000000000..0e5c3afc7
+--- /dev/null
++++ b/scripts/paragraph/test_static_condition_gained_life.py
+@@ -0,0 +1,25 @@
++import pathlib
++import sys
++import unittest
++
++
++sys.path.insert(0, str(pathlib.Path(__file__).parent))
++import reparse  # noqa: E402
++
++
++class StaticConditionGainedLifeTest(unittest.TestCase):
++    def test_you_gained_life_this_turn(self):
++        self.assertEqual(
++            reparse.parse_static_condition('you gained life this turn'),
++            {'kind': 'happened', 'what': 'you_gained_life'},
++        )
++
++    def test_opponent_gained_life_this_turn_is_unmapped(self):
++        self.assertIsNone(reparse.parse_static_condition('an opponent gained life this turn'))
++
++    def test_you_gained_2_life_this_turn_is_unmapped(self):
++        self.assertIsNone(reparse.parse_static_condition('you gained 2 life this turn'))
++
++
++if __name__ == '__main__':
++    unittest.main()
+-- 
+2.55.0
+

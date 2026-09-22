@@ -1,0 +1,157 @@
+{
+  "capability": {
+    "expected_unlock": 0,
+    "negative_examples": [
+      "Return target creature card from your graveyard to the battlefield (single targeted card_type-only filter, no mana value bound) must keep resolving exactly as today with no mana value filter or all-matching behavior added"
+    ],
+    "required_behavior": "return_from_graveyard must be able to filter the source graveyard set by mana value (e.g. 'mana value 2 or less') in addition to existing card_type filtering, and return all cards matching both filters (not a single target) from your own graveyard to the battlefield",
+    "source_misses": [
+      {
+        "card": "Raise the Past",
+        "oracle_text_sha256": "5883c90d7884b147a6c14e94955e938c453f0b7d1e951a30a09b8e5ee78a76bd",
+        "paragraph": "Return all creature cards with mana value 2 or less from your graveyard to the battlefield.",
+        "required_behavior": "return_from_graveyard must be able to filter the source graveyard set by mana value (e.g. 'mana value 2 or less') in addition to existing card_type filtering, and return all cards matching both filters from your own graveyard to the battlefield"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "key": "return_from_graveyard_mana_value_filter",
+        "specification": {
+          "expected_unlock": 0,
+          "negative_examples": [
+            "Return target creature card from your graveyard to the battlefield (single targeted card_type-only filter, no mana value bound) must keep resolving exactly as today with no mana value filter or all-matching behavior added"
+          ],
+          "required_behavior": "return_from_graveyard must be able to filter the source graveyard set by mana value (e.g. 'mana value 2 or less') in addition to existing card_type filtering, and return all cards matching both filters (not a single target) from your own graveyard to the battlefield",
+          "source_misses": [
+            {
+              "card": "Raise the Past",
+              "oracle_text_sha256": "5883c90d7884b147a6c14e94955e938c453f0b7d1e951a30a09b8e5ee78a76bd",
+              "paragraph": "Return all creature cards with mana value 2 or less from your graveyard to the battlefield.",
+              "required_behavior": "return_from_graveyard must be able to filter the source graveyard set by mana value (e.g. 'mana value 2 or less') in addition to existing card_type filtering, and return all cards matching both filters from your own graveyard to the battlefield"
+            }
+          ]
+        },
+        "summary": "Support a mana value threshold filter (e.g. mana value N or less) on the return_from_graveyard primitive, combinable with card_type and an all-matching (non-targeted, non-single) return"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-02T142042Z-map-plan-reanimate-raise-the-past-ed6e46c585-v1-claude.json"
+    },
+    {
+      "anchor": "117-182",
+      "fact": "Card-knowledge index match (engine): executeReturnFromGraveyard is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:622a7316a1adcae36e04a3ffd901a71f97347d6c86552261fa1204ae88c14db5"
+    },
+    {
+      "anchor": "519-584",
+      "fact": "Card-knowledge index match (engine): executeTapAllEffect is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:622a7316a1adcae36e04a3ffd901a71f97347d6c86552261fa1204ae88c14db5"
+    },
+    {
+      "anchor": "893-958",
+      "fact": "Card-knowledge index match (engine): executeReturnCardFromGraveyardSubsetToHand is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:622a7316a1adcae36e04a3ffd901a71f97347d6c86552261fa1204ae88c14db5"
+    },
+    {
+      "anchor": "983-1048",
+      "fact": "Card-knowledge index match (engine): executeDestroyTargetWithManaValueEqualToX is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:622a7316a1adcae36e04a3ffd901a71f97347d6c86552261fa1204ae88c14db5"
+    },
+    {
+      "fact": "The previous candidate compiled/ran and failed this exact gate: composed-ticket-1: required test filter '^TestFactoryNGReturnFromGraveyardManaValueFilter$' executed no passing tests\ntesting: warning: no tests to run\nPASS\nok  \tmagic-backend/game\t0.018s [no tests to run]\ntesting: warning: no tests to run\nPASS\nok  \tmagic-backend/cards\t0.021s [no tests to run]\nrequired test filter '^TestFactoryNGReturnFromGraveyardManaValueFilter$' executed no passing tests. Fix only this defect; do not restructure unrelated code or revisit already-passing behavior.",
+      "path": "docs/factory-ng/runs/2026-09-07T140457Z-wave-9c7e92abd77f-integration.json"
+    },
+    {
+      "fact": "Historical candidate for review/reuse, NOT applied to the current source. Verify every hunk and test against current source and the original semantic contract.\nFrom 112f775dcb0ad5fa04147858567d30ffa3593e70 Mon Sep 17 00:00:00 2001\nFrom: Factory NG <factory-ng@local>\nDate: Sun, 6 Sep 2026 19:47:40 +0000\nSubject: [PATCH] factory-ng: supervised engine observation\n\n---\n backend/game/ability_effects.go            | 61 ++++++++++++++++++++++\n backend/game/factory_ng_40a5f5303a_test.go | 54 +++++++++++++++++++\n 2 files changed, 115 insertions(+)\n create mode 100644 backend/game/factory_ng_40a5f5303a_test.go\n\ndiff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go\nindex 17a407284..0f8decee8 100644\n--- a/backend/game/ability_effects.go\n+++ b/backend/game/ability_effects.go\n@@ -164,6 +164,67 @@ func (gs *GameState) executeReturnFromGraveyardManaValueX(controller int, effect\n \treturn nil\n }\n \n+// executeReturnFromGraveyardManaValueOrLess implements the\n+// return_from_graveyard_mana_value_filter primitive (ticket\n+// engine.auto-return-from-graveyard-mana-value-filter-40a5f5303a, Raise the\n+// Past class): \"Return all creature cards with mana value 2 or less from\n+// your graveyard to the battlefield.\" Unlike\n+// executeReturnFromGraveyardManaValueX's exact-equality X match, this\n+// primitive returns EVERY card in the controller's own graveyard whose mana\n+// value (Card.ManaCost.CMC(), the same read\n+// executeDestroyAllArtifactsManaValueXOrLess above uses) is LESS THAN OR\n+// EQUAL TO a fixed threshold (effectValue[\"mana_value_max\"]), further\n+// narrowed by an optional effectValue[\"card_type\"] filter \u2014 \"creature\"\n+// checks Card.IsCreature() directly (the same method\n+// executeReturnFromGraveyardManaValueX filters on), any other non-empty\n+// value falls back to matchesPermanentFilter, the same generic type-bucket\n+// matcher executeTapVariableAmountXEffect's filter uses, and an empty\n+// card_type matches every card. This is a non-targeted, all-matching\n+// return: every card meeting both filters returns to the battlefield under\n+// its owner's control in one resolution, not a single chosen target \u2014 the\n+// pre-existing single-target, card_type-only executeReturnFromGraveyard\n+// path is untouched by this addition. Matches are collected before\n+// mutating the graveyard so removal doesn't skip entries while iterating a\n+// shrinking zone.\n+func (gs *GameState) executeReturnFromGraveyardManaValueOrLess(controller int, effectValue map[string]interface{}) error {\n+\tif controller < 0 || controller >= len(gs.Players) {\n+\t\treturn nil\n+\t}\n+\tthreshold := 0\n+\tswitch v := effectValue[\"mana_value_max\"].(type) {\n+\tcase int:\n+\t\tthreshold = v\n+\tcase float64:\n+\t\tthreshold = int(v)\n+\t}\n+\tcardType := getStringValue(effectValue, \"card_type\", \"\")\n+\tvar matches []*Card\n+\tfor _, c := range gs.Players[controller].Graveyard.GetAll() {\n+\t\tif c == nil || c.ManaCost.CMC() > threshold {\n+\t\t\tcontinue\n+\t\t}\n+\t\tswitch cardType {\n+\t\tcase \"\":\n+\t\tcase \"creature\":\n+\t\t\tif !c.IsCreature() {\n+\t\t\t\tcontinue\n+\t\t\t}\n+\t\tdefault:\n+\t\t\tif !matchesPermanentFilter(c, cardType) {\n+\t\t\t\tcontinue\n+\t\t\t}\n+\t\t}\n+\t\tmatches = append(matches, c)\n+\t}\n+\tfor _, c := range matches {\n+\t\tgs.Players[controller].Graveyard.RemoveCard(c.ID)\n+\t\tc.Owner = controller\n+\t\tc.Controller = controller\n+\t\tgs.Battlefield.AddCard(c)\n+\t}\n+\treturn nil\n+}\n+\n // unspentManaTotal returns the total amount of mana currently sitting in\n // controller's mana pool (Rule 106.4), for the dynamic-state-comparison\n // primitives above. Rather than reading ManaPool's per-color fields\ndiff --git a/backend/game/factory_ng_40a5f5303a_test.go b/backend/game/factory_ng_40a5f5303a_test.go\nnew file mode 100644\nindex 000000000..0e4ca7f93\n--- /dev/null\n+++ b/backend/game/factory_ng_40a5f5303a_test.go\n@@ -0,0 +1,54 @@\n+package game\n+\n+import \"testing\"\n+\n+// Raise the Past class (ticket\n+// engine.auto-return-from-graveyard-mana-value-filter-40a5f5303a): \"Return\n+// all creature cards with mana value 2 or less from your graveyard to the\n+// battlefield.\" Exercises executeReturnFromGraveyardManaValueOrLess\n+// directly against a graveyard containing cards above, at, and below the\n+// threshold, plus an opponent's graveyard card that must never move.\n+func TestReturnFromGraveyardManaValueOrLess(t *testing.T) {\n+\tgs := NewGame(\"P0\", \"P1\", false)\n+\n+\tcheap := NewCreature(\"Cheap Beast\", ManaCost{Generic: 1}, 1, 1, 0)\n+\tgs.Players[0].Graveyard.AddCard(cheap)\n+\n+\tonThreshold := NewCreature(\"Threshold Beast\", ManaCost{Generic: 2}, 2, 2, 0)\n+\tgs.Players[0].Graveyard.AddCard(onThreshold)\n+\n+\tpricey := NewCreature(\"Pricey Beast\", ManaCost{Generic: 3}, 3, 3, 0)\n+\tgs.Players[0].Graveyard.AddCard(pricey)\n+\n+\toppCheap := NewCreature(\"Opponent Cheap Beast\", ManaCost{Generic: 1}, 1, 1, 1)\n+\tgs.Players[1].Graveyard.AddCard(oppCheap)\n+\n+\tif err := gs.executeReturnFromGraveyardManaValueOrLess(0, map[string]interface{}{\n+\t\t\"mana_value_max\": 2,\n+\t\t\"card_type\":      \"creature\",\n+\t}); err != nil {\n+\t\tt.Fatalf(\"executeReturnFromGraveyardManaValueOrLess: %v\", err)\n+\t}\n+\n+\tonBattlefield := map[string]bool{}\n+\tfor _, c := range gs.Battlefield.GetAll() {\n+\t\tonBattlefield[c.Name] = true\n+\t}\n+\tif !onBattlefield[\"Cheap Beast\"] {\n+\t\tt.Fatalf(\"expected Cheap Beast (mana value 1) to return to the battlefield\")\n+\t}\n+\tif !onBattlefield[\"Threshold Beast\"] {\n+\t\tt.Fatalf(\"expected Threshold Beast (mana value 2) to return to the battlefield\")\n+\t}\n+\tif onBattlefield[\"Pricey Beast\"] {\n+\t\tt.Fatalf(\"Pricey Beast (mana value 3) must NOT return \u2014 above the mana value 2 threshold\")\n+\t}\n+\tif onBattlefield[\"Opponent Cheap Beast\"] {\n+\t\tt.Fatalf(\"opponent's graveyard card must not be returned by controller 0's effect\")\n+\t}\n+\n+\tremaining := gs.Players[0].Graveyard.GetAll()\n+\tif len(remaining) != 1 || remaining[0].Name != \"Pricey Beast\" {\n+\t\tt.Fatalf(\"expected only Pricey Beast to remain in the graveyard, got %v\", remaining)\n+\t}\n+}\n-- \n2.43.0\n\n",
+      "path": "docs/factory-ng/candidates/2026-09-06T194740Z-engine-auto-return-from-graveyard-mana-value-filter-40a5f5303a-v1.patch",
+      "sha256": "sha256:473750e38e9370d8fbdf2c58da7d3e17cbee32bce3e74f36d966f77eb148e728"
+    },
+    {
+      "fact": "Operator-reviewed correction, September 9: Use unique new regression TestFactoryNGReturnFromGraveyardManaValueFilter_Contract_2522dee372; preserve the original TestFactoryNGReturnFromGraveyardManaValueFilter gate as well.",
+      "path": "docs/factory-ng/reviews/2026-09-09-capacity/contract-audit.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "One bounded repair of an existing failed integration; preserve all semantic gates.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGReturnFromGraveyardManaValueFilter$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGReturnFromGraveyardManaValueFilter_Contract_2522dee372$' -count=1"
+  ],
+  "id": "ticket:engine.auto-return-from-graveyard-mana-value-filter-40a5f5303a/v3",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Retain the terminal receipt and continue independent discovery; do not request manual source transcription.",
+  "parents": [
+    "ticket:map.plan-reanimate-raise-the-past-ed6e46c585/v1",
+    "ticket:engine.auto-return-from-graveyard-mana-value-filter-40a5f5303a/v1",
+    "ticket:engine.auto-return-from-graveyard-mana-value-filter-40a5f5303a/v2"
+  ],
+  "production": {
+    "contract_correction_batch": "2026-09-09-capacity",
+    "integration_repair_parent": "ticket:engine.auto-return-from-graveyard-mana-value-filter-40a5f5303a/v1",
+    "key": "capability:return_from_graveyard_mana_value_filter:sha256:40a5f5303aad949e381b5f93047c5d1525ae4f5fe11f157ae2e7ebfd06bed684:integration-repair-v1:reviewed-contract-sep09",
+    "producer": "capability-dependencies",
+    "retry_reason": "semantic_gate_repair"
+  },
+  "required_behavior": [
+    "return_from_graveyard must be able to filter the source graveyard set by mana value (e.g. 'mana value 2 or less') in addition to existing card_type filtering, and return all cards matching both filters (not a single target) from your own graveyard to the battlefield",
+    "Preserve these adjacent behaviors: Return target creature card from your graveyard to the battlefield (single targeted card_type-only filter, no mana value bound) must keep resolving exactly as today with no mana value filter or all-matching behavior added",
+    "Add a discriminating behavior test named TestFactoryNGReturnFromGraveyardManaValueFilter_Contract_2522dee372; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases.",
+    "Preserve all required gate selectors and semantic assertions. If a named test is missing, provide it with meaningful coverage of the original behavior; do not weaken or remove the gate.",
+    "Review existing current-source behavior before implementing anything. The retained candidate is evidence, not proof of correctness on this revision."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_40a5f5303a_test.go",
+      "backend/cards/factory_ng_40a5f5303a_test.go",
+      "backend/cards/registry_factory_ng_40a5f5303a.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "clean": true,
+    "repository": "/opt/development/test/openmagic",
+    "revision": "c0fac85b88da04f3d54fe2a5acd553a36662a329"
+  },
+  "supersedes": "ticket:engine.auto-return-from-graveyard-mana-value-filter-40a5f5303a/v2",
+  "title": "Corrected contract: Repair after integration failure: Implement atomic capability: Support a mana value threshold filter (e.g. mana value N or less) on the return_from_graveyard primitive, combinable with card_type and an all-matching (non-targeted, non-single) return",
+  "work_type": "engine"
+}

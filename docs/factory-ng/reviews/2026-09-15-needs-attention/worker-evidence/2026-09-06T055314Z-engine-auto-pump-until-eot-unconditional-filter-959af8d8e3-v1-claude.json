@@ -1,0 +1,67 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-engine-auto-pump-until-eot-unconditional-filter-959af8d8e3-v1-ne8fj3rr",
+    "candidate_commit": "b53ef687eeb394dcfc3277523393b7c941da8159",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "9f7ecce65ff3e114a893afaf827d6e0f80ed8339",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "detail": "resolved 3 bounded source request(s)",
+      "id": "need-continuation",
+      "outcome": "passed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "claude-staged@1.0.0",
+    "resolved_model": "claude-sonnet-5",
+    "telemetry": {
+      "cache_read_tokens": 24845,
+      "cache_write_tokens": 41764,
+      "elapsed_ms": 36544,
+      "input_tokens": 4,
+      "need_continuation_attempted": true,
+      "output_tokens": 1727,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      }
+    },
+    "worker": "claude-2"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed_model_protocol",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-06T055314Z-engine-auto-pump-until-eot-unconditional-filter-959af8d8e3-v1-claude.raw.json",
+      "sha256": "sha256:80870df30eda8131071953e82c1a9a1f455266db16e57ab6421a8d7753532310"
+    },
+    {
+      "kind": "need_continuation",
+      "path": "docs/factory-ng/runs/2026-09-06T055314Z-engine-auto-pump-until-eot-unconditional-filter-959af8d8e3-v1-claude.continuation.raw.json",
+      "sha256": "sha256:4f195a114999ac0368434778ce019a44906f0a4fab2c33cc6cc53b9b3b44d67d"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-pump-until-eot-unconditional-filter-959af8d8e3/v1",
+    "path": "docs/factory-ng/tickets/engine-auto-pump-until-eot-unconditional-filter-959af8d8e3-v1.json",
+    "sha256": "sha256:ddb653df8a8fe44290b888a97bae9ed2a9a427b85aa9397cdec35bb3dfcd5a61"
+  }
+}

@@ -1,0 +1,1377 @@
+{
+  "add_experience_counter": {
+    "executor": "game/ability_effects.go case \"add_experience_counter\" -> Player.ExperienceCounters += amount (mirrors cardfns.AddExperience without the cardfns import)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_ETB_AddExperienceCounter"
+  },
+  "add_mana": {
+    "executor": "cards/converter.go IsManaAbility conversion + game/ability_effects.go case \"add_mana\"",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Activated_AddMana"
+  },
+  "affinity": {
+    "executor": "cards/converter.go applyKeywordCost case \"affinity\" -> Card.AffinityType/AffinityReduction + game.CountAffinityPermanents cast discount",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_KeywordCost_PlotAndAffinity"
+  },
+  "always_enters_tapped": {
+    "executor": "cards/converter.go -> Card.EtbCondition{always_tapped}; applied at land play (gamestate_cast.go) AND at nonland stack resolution (gamestate.go, task 2008)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_ETB_AlwaysEntersTapped / TestShape_Cast_NonlandEntersTapped"
+  },
+  "amass": {
+    "executor": "game/ability_effects.go case \"amass\" -> GameState.executeAmassEffect (finds/creates the Army via gs.Battlefield.GetCreatures + gs.CreateToken, grants effectValue[\"creature_type\"] to an already-controlled Army that lacks it per Rule 701.42d, adds effectValue[\"amount\"] +1/+1 counters via gs.AddCounters) \u2014 dispatched from the shared switch in ExecuteAbilityEffect, so the SAME executor resolves both triggered/activated-ability atoms and v2 spell-sequence atoms (effect_sequence.go's executeSequenceAtomEv routes every sequence atom through ExecuteAbilityEffect); effectValue[\"amount\"] also accepts a resolved amount_count spec (game/dynamic_amount.go's resolveDynamicAmountFull runs before the switch, e.g. amount_count:{count:\"x_value\"} for \"Amass Type X.\" driven by the ability's own announced {X})",
+    "path": "backend/cards/registry_amass.go",
+    "shape_test": "TestShape_Triggered_Amass_CreatesArmy / TestShape_Triggered_Amass_ReusesArmyAndGrantsType / TestShape_Spell_Amass_Sequence"
+  },
+  "amount_count": {
+    "executor": "game/dynamic_amount.go EvalDynamicAmount/resolveDynamicAmount \u2014 value.amount_count count-spec folded into a plain amount at BOTH dispatch chokepoints (ExecuteAbilityEffect + ApplySpellEffectWithRuntime); battlefield counts ride task-1863's evaluatePerCount, hand/graveyard(card_type+subtype)/counters/opponents native; also consumed by EtbCounterSpec.AmountCount (applyEtbCounters, task 2008). Same EvalDynamicAmount also backs two cost-side consumers of the identical closed spec (task-1980 static_cost_mod): AbilityCost.CostReductionSpec/game.ActivationCost.CostReductionSpec (activated_abilities.go effectiveActivationManaForAbility) and Card.EquipCostReductionSpec (equip.go Equip) \u2014 battlefield mode's CountLegendary/CountModified/CountSumCounterType filters were added for these",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Spell_DamageEqualToHandSize / TestShape_Activated_CostReductionPerCountBattlefieldSubtype / TestShape_Activated_CostReductionSumCountersBattlefield / TestShape_Activated_CostReductionModifiedCreatureCount / TestShape_Equip_CostReductionPerCountBattlefieldSubtype"
+  },
+  "animate_self": {
+    "executor": "game/ability_effects.go case \"animate_self\" (sets Card.AnimatedAsCreature, registers a Layer-7b SetPower/SetToughness ContinuousEffect via EffectManager, UntilEOT; cleared by CleanupEndOfTurnEffects)",
+    "path": "backend/cards/registry_animate_self.go",
+    "shape_test": "TestShape_Activated_AnimateSelf"
+  },
+  "artifact_token_ability_cost_reduce": {
+    "executor": "cards/converter.go static case \"artifact_token_ability_cost_reduce\" -> Card.ReduceArtifactTokenAbilityActivationCost; game/activated_abilities.go effectiveActivationMana scan, scoped to artifact-token ability sources only \u2014 previously only cardfns.ReduceArtifactTokenAbilityCostBy-driven (Mutagen Man, Living Ooze), never AbilityDSL-driven",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_ArtifactTokenAbilityCostReduce"
+  },
+  "assigns_combat_damage_by_toughness": {
+    "executor": "cards/converter.go AbilityToEffect case \"assigns_combat_damage_by_toughness\" -> game.ContinuousEffect.AssignsCombatDamageByToughness; game/effects.go EffectManager.CreatureAssignsDamageByToughness (Rule 510.1c replacement, e.g. Assault Formation)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_AssignsCombatDamageByToughness"
+  },
+  "attach": {
+    "executor": "game/ability_effects.go case \"attach\" -> gs.AttachAura (aura.go, Rule 303.4h/301.5c reattach; reattach-safe Attachments-list clearing; works for Aura and Equipment alike)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestAttachEffect_MovesAuraAndClearsOldAttachment"
+  },
+  "become_monarch": {
+    "executor": "game/ability_effects.go case \"become_monarch\" -> BecomeMonarch (game/monarch.go, Rule 718.2)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_ETB_BecomeMonarch"
+  },
+  "bestow": {
+    "executor": "cards/converter.go applyKeywordCost case \"bestow\" + aura/creature dual-cast flow",
+    "path": "backend/cards/registry.go",
+    "shape_test": "covered by existing bestow card tests"
+  },
+  "blitz": {
+    "executor": "cards/converter.go applyKeywordCost case \"blitz\" -> Card.BlitzCost + game/blitz.go CastWithBlitz/ResolveBlitzCost (Rule 702.146)",
+    "path": "backend/cards/registry_blitz_cleave.go",
+    "shape_test": "TestShape_KeywordCost_Blitz"
+  },
+  "bolster": {
+    "executor": "game/ability_effects.go case \"bolster\" (scans battlefield for least-toughness creature controlled by the ability's controller, random tiebreak per CR 701.32, puts N +1/+1 counters via GameState.AddCounters; no-op if no creatures)",
+    "path": "backend/cards/registry_bolster.go",
+    "shape_test": "TestShape_Triggered_Bolster / TestShape_Triggered_Bolster_Tiebreak / TestShape_Triggered_Bolster_NoCreatures"
+  },
+  "bounce": {
+    "executor": "cards/converter.go case \"bounce\" -> SpellEffect + game resolution; game/ability_effects.go case \"bounce\" (triggered); value.to (task 2423) selects library_top/library_bottom instead of the default hand via game/ability_effects.go executeBounceEffectTo",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Spell_BounceTargetCreature; TestShape_Spell_BounceTargetCreatureToLibraryTop / TestShape_Spell_BounceTargetCreatureToLibraryBottom"
+  },
+  "buyback": {
+    "executor": "cards/converter.go applyKeywordCost case \"buyback\" -> Card.BuybackCost; game/additional_cost_buyback.go CastWithBuyback reads it generically (combined base+buyback payment, ResolveTopOfStack redirects to hand via Card.WasBoughtBack) \u2014 plain mana Buyback only; non-mana variants (\"Buyback\u2014Sacrifice a land\") need BuybackSacrificeCount/Filter instead and stay unmapped.",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_KeywordCost_Buyback"
+  },
+  "cant": {
+    "executor": "cards/converter.go static case \"cant\" -> Card.CantGrants + game/cant.go ApplyCantGrant/RegisterCantWinLose/RegisterCantPlayLands/RegisterCantGainLife (Player.CantWin/CantLose/CantPlayLands/CantGainLife)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_CantGrants"
+  },
+  "cant_be_blocked": {
+    "executor": "cards/converter.go static case \"cant_be_blocked\" -> Card.CannotBeBlocked (precomputed at conversion, mirrors Uncounterable); game/combat.go DeclareBlockerWithEffects consults it (Rule 509.1b evasion)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_CantBeBlocked"
+  },
+  "cant_be_blocked_by_card_type": {
+    "executor": "cards/converter.go attachAbilities (stamps Card.CantBeBlockedByCardType from value[\"card_type\"]) + game/gamestate.go handleCantBeBlockedByCardTypeOnBecomesBlocked / game/combat.go ValidateBlockersWithEffects",
+    "path": "backend/cards/registry_cant_be_blocked_by_card_type.go",
+    "shape_test": "TestShape_Static_CantBeBlockedByCardType"
+  },
+  "cant_be_blocked_by_power": {
+    "executor": "cards/converter.go static case \"cant_be_blocked_by_power\" -> Card.CantBeBlockedByPowerCmp/N (precomputed at conversion, mirrors cant_block/cant_be_blocked); game/combat.go ValidateBlockersWithEffects + new game/gamestate.go handleCantBeBlockedByPowerOnBecomesBlocked global EventBecomesBlocked subscriber strip illegal blockers live (e.g. Questing Beast)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_CantBeBlockedByPower"
+  },
+  "cant_be_blocked_by_relative_power_self": {
+    "executor": "cards/converter.go ToGameCard (registers a game.CardHandlers closure calling cards.RestrictBlockersToFn, set by the cardfns package at init to avoid an import cycle)",
+    "path": "backend/cards/registry_cant_be_blocked_by_relative_power_self.go",
+    "shape_test": "TestShape_Static_CantBeBlockedByRelativePowerSelf"
+  },
+  "cant_be_blocked_except_subtype": {
+    "executor": "cards/converter.go static case \"cant_be_blocked_except_subtype\" -> Card.CantBeBlockedExceptBySubtype ([VOCAB] #1131, previously only cardfns-driven, never AbilityDSL-driven); game/combat.go ValidateBlockersWithEffects + game/gamestate.go handleCantBeBlockedExceptBySubtypeOnBecomesBlocked already consult it (e.g. Departed Deckhand, Evil Eye of Orms-by-Gore)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_CantBeBlockedExceptSubtype"
+  },
+  "cant_be_blocked_target": {
+    "executor": "game/ability_effects.go executeCantBeBlockedTargetEffect (until-EOT evasion; combat.go consults Card.CannotBeBlocked)",
+    "path": "backend/cards/registry_target_restrictions.go",
+    "shape_test": "TestShape_Spell_CantBeBlockedTarget"
+  },
+  "cant_be_countered": {
+    "executor": "cards/converter.go static case -> Card.Uncounterable + game/gamestate.go CounterSpell gate (was inert: 35 records, spells were counterable)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Spell_CantBeCountered"
+  },
+  "cant_be_countered_all_spells": {
+    "executor": "cards/converter.go static case \"cant_be_countered_all_spells\" -> Card.GrantsAllSpellsUncounterable; same registerCantBeCounteredGrant executor, player-agnostic (applies no matter who cast the spell, mirroring cardfns.SubtypeSpellsCantBeCountered's Root Sliver wording minus the subtype filter) \u2014 e.g. Lier, Disciple of the Drowned (\"Spells can't be countered.\").",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_CantBeCounteredAllSpells"
+  },
+  "cant_be_countered_creature_enchantment_spells_you_control": {
+    "executor": "cards/converter.go static case \"cant_be_countered_creature_enchantment_spells_you_control\" -> Card.GrantsCreatureEnchantmentSpellsUncounterable; same registerCantBeCounteredGrant executor, filtered to e.Source.IsCreature() || Type==Enchantment \u2014 v2-native counterpart of cardfns.CreatureAndEnchantmentSpellsCantBeCountered (Destiny Spinner class), previously only ever hand-wired via the name-keyed DestinySpinner handler; first AbilityDSL-driven wiring.",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_CantBeCounteredCreatureEnchantmentSpellsYouControl"
+  },
+  "cant_be_countered_spells_you_control": {
+    "executor": "cards/converter.go static case \"cant_be_countered_spells_you_control\" -> Card.GrantsSpellsUncounterable; game/gamestate.go RegisterCardAbilities -> registerCantBeCounteredGrant subscribes EventSpellCast (owned to source's battlefield lifetime) and marks the caster's own casts Uncounterable \u2014 v2-native counterpart of cardfns.SpellsYouControlCantBeCountered (Chimil the Inner Sun, Hexing Squelcher), previously only ever hand-wired; first AbilityDSL-driven wiring.",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_CantBeCounteredSpellsYouControl"
+  },
+  "cant_block": {
+    "executor": "cards/converter.go static case \"cant_block\" -> Card.CannotBlock (precomputed at conversion, mirrors Uncounterable); game/card.go CanBlock() consults it (Rule 509.1)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_CantBlock"
+  },
+  "cant_block_target": {
+    "executor": "game/ability_effects.go executeCantBlockTargetEffect (ContinuousEffect CannotBlock+UntilEOT via applyCannotBlockUntilEOT; player target = every creature that player controls)",
+    "path": "backend/cards/registry_target_restrictions.go",
+    "shape_test": "TestShape_Spell_CantBlockTarget"
+  },
+  "cant_cast_spells": {
+    "executor": "cards/converter.go AbilityToEffect case \"cant_cast_spells\" -> game.ContinuousEffect.VetoesCasting (+ the generic Affects->AffectsFilter/AffectsSubtype/AffectsController wiring); game/effects.go EffectManager.CasterVetoedFromCasting ([VOCAB] #17) + cardhandlers.go GameState.checkCasterVeto, already consulted by checkCastRestriction at every cast path (gamestate_cast.go, cast_from_exile.go, cast_from_library.go, cast_prototype.go, ...) \u2014 pre-existing field/consultation with zero prior AbilityToEffect callers, same shape as cast_spells_as_though_flash above; distinct from the \"cant\" primitive (Card.CantGrants/game/cant.go win|lose|play_lands|gain_life \u2014 a different mechanism entirely, not spell-filtered), e.g. Grid Monitor / Steel Golem (\"You can't cast creature spells.\"); AffectsFilter also accepts \"permanent\" -> Card.IsPermanent() (Rule 110.5a, type-based so it works on a card that's still in hand/graveyard, not just battlefield-zone-based like the identically-named case in the OTHER effectApplies switch above) added alongside this task for Codie, Vociferous Codex (\"You can't cast permanent spells.\").",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_CantCastSpells"
+  },
+  "cast_free_from_hand": {
+    "executor": "game/ability_effects.go case \"cast_free_from_hand\" -> immediate Stack.PushSpell sourced from hand (maxMV = stackObj.EventCard.ManaCost.CMC(), optional permanent_only filter)",
+    "path": "backend/cards/registry_cast_free_from_hand.go",
+    "shape_test": "TestShape_Triggered_CastFreeFromHandMVFilter"
+  },
+  "cast_from_zone": {
+    "executor": "game/ability_effects.go case \"cast_from_zone\" -> Card.ExilePlay (ExilePlayGrant; read side cast_from_exile.go exilePlayGrantFor/CastSpellFromExileWithTargets, Free/AnyColor/AllowLand/AltCostEnergyEqualMV/AltCostLifeEqualMV/duration)",
+    "path": "backend/cards/registry_cast_from_zone.go",
+    "shape_test": "TestShape_Triggered_CastFromExileGrant"
+  },
+  "cast_spells_as_though_flash": {
+    "executor": "cards/converter.go AbilityToEffect case \"cast_spells_as_though_flash\" -> game.ContinuousEffect.GrantsAsThoughFlash (+ the generic Affects->AffectsFilter/AffectsSubtype/AffectsController wiring already applied to every static ability); game/effects.go EffectManager.CasterGrantedAsThoughFlash / effectAppliesToCaster ([VOCAB] #16) and cardhandlers.go GameState.CanCastAsThoughFlash already fully implement and consult it at every cast-timing check site (gamestate_cast.go, keyword_abilities.go, foretell.go, dash.go, escape.go, ...) \u2014 this is only the first AbilityToEffect case to ever SET the field; promoted off the same-named, permanently-inert v1 string (cards/patterns_static.go patternCastSpellsAsThoughFlash/patternTypeSpellsYouCastHaveFlash, whose own doc comment says \"the casting code does not consult it at runtime\") so no vocabulary duplication, e.g. Rattlechains (\"You may cast Spirit spells as though they had flash.\"), Sigarda's Aid, Singer of Swift Rivers, Skittering Cicada, Gandalf, Friend of the Shire.",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_CastAsThoughFlash"
+  },
+  "casualty": {
+    "executor": "cards/converter.go applyKeywordCost case \"casualty\" -> Card.CasualtyN; game/additional_cost_casualty.go CastWithCasualty reads it generically (optional sacrifice of a creature with power >= N to copy the spell) \u2014 previously only ever hand-stamped per-card.",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_KeywordCost_Casualty"
+  },
+  "cda_pt": {
+    "executor": "cards/converter.go static case \"cda_pt\" -> Card.CdaPTSpec/CdaBonus + game/gamestate.go RegisterCardAbilities live recompute (EvalDynamicAmount on every event \u2014 generic Mortivore pattern)",
+    "path": "backend/cards/registry_cda.go",
+    "shape_test": "TestShape_Static_CdaPT"
+  },
+  "choose_card_from_revealed_hand": {
+    "executor": "game/ability_effects.go case \"exile_nonbattlefield_zone\" -> PendingChoice{ChoiceType:\"exile_nonland_from_hand\"} (controller picks ONE filtered card from the revealed opponent hand) + game/gamestate_choice.go ResolvePendingChoice case \"exile_nonland_from_hand\" (moves ONLY the chosen card; unchosen candidates stay in hand); value.dest_graveyard routes the pick to the hand owner's graveyard instead of exile (PendingChoice.HandChoiceDestGraveyard)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestChooseCardFromRevealedHand_ChoiceExilesOnlyPickedCard / TestChooseCardFromRevealedHand_DestGraveyard"
+  },
+  "cleave": {
+    "executor": "cards/converter.go applyKeywordCost case \"cleave\" -> Card.CleaveData.CleaveCost + game/cleave.go CastWithCleave (Rule 702.148)",
+    "path": "backend/cards/registry_blitz_cleave.go",
+    "shape_test": "TestShape_KeywordCost_Cleave"
+  },
+  "color_creature_spell_cost_reduce": {
+    "executor": "cards/converter.go static case \"color_creature_spell_cost_reduce\" -> Card.ReduceColorCreatureSpell/Cost; game/gamestate_cast.go CastSpellWithTargets battlefield scan, gated on card.IsCreature() AND card.Colors matching the stored color (sibling of color_spell_cost_reduce, which has no creature-type gate)",
+    "path": "backend/cards/registry_cost_mod_2371.go",
+    "shape_test": "TestShape_Static_ColorCreatureSpellCostReduce"
+  },
+  "colors_spell_cost_reduce": {
+    "executor": "cards/converter.go static case \"colors_spell_cost_reduce\" -> Card.ReduceColorsAnySpell/Cost; game/gamestate_cast.go CastSpellWithTargets battlefield scan, applies once if the cast spell shares ANY listed color (mirrors the ReduceSubtypesAnySpell OR-list pattern for colors instead of subtypes)",
+    "path": "backend/cards/registry_cost_mod_2469.go",
+    "shape_test": "TestShape_Static_ColorsSpellCostReduce"
+  },
+  "conditional_cant_attack_block": {
+    "executor": "cards/converter.go static-ability flag-stamp case \"conditional_cant_attack_block\" -> game.SetConditionalCantAttackBlock (game/conditional_cant_attack_block.go); live re-evaluated at declaration time by game.GameState.CanDeclareAttack (controls-another-creature check)",
+    "path": "backend/cards/registry_conditional_cant_attack_block.go",
+    "shape_test": "TestShape_Static_ConditionalCantAttackBlock"
+  },
+  "conditional_etb_tapped": {
+    "executor": "cards/converter.go -> Card.EtbCondition (fast-land + unless_control/_n_or_more/_reveal/_player_life_lte/_n_or_more_opponents/_turn_lte + unless_opponents_control_n_or_more) + game/gamestate_cast.go PlayLandWithChoice gate",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Land_ConditionalEtbTapped via TestShape_Land_EtbTappedUnlessControl / TestShape_Land_EtbTappedUnlessReveal / TestShape_Land_EtbTappedUnlessOpponentsControl"
+  },
+  "conditional_other_permanents_enter_tapped": {
+    "executor": "cardfns.RegisterConditionalOtherPermanentsEnterTapped (lib_conditional_other_permanents_enter_tapped.go) + game.Player.PermanentsEnterTappedOverrides / GameState.PlayLandWithChoice chokepoint",
+    "path": "backend/cards/registry_conditional_other_permanents.go",
+    "shape_test": "TestConditionalOtherPermanentsEnterTapped / TestConditionalOtherPermanentsEnterTappedOverridesOwnEtbCondition"
+  },
+  "conditional_pump_on_creature_type": {
+    "executor": "game/ability_effects.go ExecuteAbilityEffect case \"conditional_pump_on_creature_type\" -> executeConditionalPumpOnCreatureType",
+    "path": "backend/cards/registry_factory_ng_e8d0c0640f.go",
+    "shape_test": "TestFactoryNGConditionalPumpOnCreatureTypeRegistration_e8d0c0640f"
+  },
+  "conditional_self_spell_cost_reduce": {
+    "executor": "cards/converter.go spell case \"cost_reduction_conditional\" (condition control_permanent_type) -> Card.ConditionalSelfSpellCostReduce; game/gamestate_cast.go CastSpellWithTargets evaluates the condition live against the caster's battlefield and reduces the spell's generic cost by the flat amount, guarded against a hand-wired CostReductionFns entry for the same card",
+    "path": "backend/cards/registry_conditional_self_spell_cost_reduce_3958.go",
+    "shape_test": "TestShape_ConditionalSelfSpellCostReduce_ControlPermanentType"
+  },
+  "copy": {
+    "executor": "game/targeting.go TargetInstantOrSorcerySpell[YouCtl]/TargetArtifactSpellYouCtl/TargetPermanentSpellYouCtl (GetLegalTargets/IsValidTarget) -> game/copy_effect.go executeCopyEffect (triggered/activated, via ability_effects.go case \"copy\", amount from EffectValue[\"amount\"]) + cards/converter.go buildMainSpellEffect case \"copy\" and game/gamestate.go applySpellEffectCore per-target case \"copy\" (spell tier, both call gs.CopySpell) + game/gamestate.go ResolveTopOfStack IsCopy zone-skip (Rule 706.10: a copy never occupies a zone, fixed as part of this primitive since the pre-existing graveyard routing never checked it)",
+    "path": "backend/cards/registry_copy.go",
+    "shape_test": "TestShape_Spell_CopyTargetInstantOrSorcery / TestShape_Spell_CopyTargetInstantOrSorceryYouCtl / TestShape_Triggered_CopyTargetInstantOrSorcery / TestShape_Spell_CopyTargetArtifactOrPermanentSpellYouCtl / TestShape_Activated_CopyTargetPermanentSpellYouControlAmount"
+  },
+  "count_of_group": {
+    "executor": "game/dynamic_amount.go evalDynamicAmountBase case \"count_of_group\" \u2014 the NUMBER of matching battlefield permanents, the COUNT sibling of max_stat_of_group: same group definition (matchesPermanentFilter vocabulary incl. compound buckets and bare subtypes, controller-scoped default, scope each_player widens). Deliberately NOT a duplicate of the older {\"count\":\"battlefield\"} kind (task-1863 Count* fields, type+subtype vocabulary, all-players default) \u2014 that one stays the emitter target for plain type+subtype counts; count_of_group covers the matchesPermanentFilter word vocabulary. Empty group -> (0,true): zero matches is a real count",
+    "path": "backend/cards/registry_dynamic_amount.go",
+    "shape_test": "TestShape_Activated_GainLifeTwiceCreatureCount / TestShape_Activated_LifePerDemonCountOfGroup"
+  },
+  "counter": {
+    "executor": "cards/converter.go case \"counter\" -> SpellEffect + game/gamestate.go CounterSpell (Rule 701.5) + ability_effects executeCounterEffect + trigger-target plumbing gamestate.go putTriggeredAbilityOnStackOnce",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Spell_CounterTargetSpell"
+  },
+  "counter_placement_bonus": {
+    "executor": "cards/converter.go static case \"counter_placement_bonus\" -> Card.CounterPlacementBonus (value.bonus: \"that many plus N\" \u2014 Hardened Scales / Conclave Mentor class, the map pre-existing) and the three fields added alongside this task: Card.CounterPlacementMultiplier (value.multiplier: \"twice that many\" \u2014 Corpsejack Menace; the proportional primitive cardfns/PrimalVigor.go explicitly declared MISSING), Card.CounterPlacementFilter (value.affects enum: permanent|creature|other_creature|artifact_or_creature|any_creature|self) and Card.CounterPlacementSubtypes (value.affects_subtypes: Mauh\u00far's Army/Goblin/Orc gate); maps keyed by counter type (\"+1/+1\") or \"*\" for every kind (Winding Constrictor). All consulted live by game/counter_placement.go GameState.AddCounters \u2014 the documented universal counter-placement funnel \u2014 via counterPlacementApplies/counterPlacementMapValue; additive bonuses apply before multipliers (Rule 616.1 affected-player-optimal ordering, documented on the field).",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_CounterPlacementBonus"
+  },
+  "create_role_aura_token_attached": {
+    "executor": "game/ability_effects.go:executeCreateRoleAuraTokenAttached",
+    "path": "backend/cards/registry_factory_ng_364f5179a0.go",
+    "shape_test": "TestFactoryNGCreateRoleAuraTokenAttached_364f5179a0"
+  },
+  "create_token": {
+    "executor": "game/ability_effects.go executeTokenEffect (case \"token\",\"create_token\") \u2014 value.tapped (task-1923) + predefined \"gold\" token_type",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_ETB_CreateToken / TestShape_ETB_CreateTokenTapped / TestShape_ETB_CreateTokenGold"
+  },
+  "creature_fights_target": {
+    "executor": "game/ability_effects.go case \"fight\", \"creature_fights_target\" -> gs.Fight(source.ID, targets[0].CardID); both combatants deal power damage simultaneously (Rule 701.12)",
+    "path": "backend/cards/registry_creature_fights_target.go",
+    "shape_test": "TestCreatureFightsTarget (game/creature_fights_target_test.go)"
+  },
+  "crew": {
+    "executor": "cards/converter.go applyKeywordCost case \"crew\" -> Card.CrewCost + cardfns/lib_crew_event_trigger.go CrewVehicle (Rule 702.155)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_KeywordCost_Crew"
+  },
+  "custom": {
+    "executor": "explicit gap marker, no executor by design \u2014 game/ability_effects.go's default arm no-ops unknown effects (mirrors phase.rs resolve_effect's Unimplemented => Ok(())). value.effect_text carries the verbatim unparsed clause for later clustering/re-parse. Entered the corpus via parser-spine round 5 imports (e843f9bfa) unregistered; registered 2026-08-10 to close the vocabulary ratchet the way the linter demands (registry, not the frozen grandfather list).",
+    "path": "backend/cards/registry_gap_markers.go",
+    "shape_test": "TestGapMarkersNeverOnPlayableCards"
+  },
+  "cycling": {
+    "executor": "cards/converter.go applyKeywordCost case \"cycling\" -> Card.CyclingCost + game/keyword_abilities.go Cycle (Rule 702.28; was inert: 47 records)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_KeywordCost_Cycling"
+  },
+  "cycling_ability_cost_reduce": {
+    "executor": "cards/converter.go static case \"cycling_ability_cost_reduce\" -> Card.ReduceCyclingCost; game/keyword_abilities.go Cycle() battlefield scan \u2014 already the per-card cardfns.ReduceCyclingCostBy convention (Fluctuator), this is its first AbilityDSL-driven wiring",
+    "path": "backend/cards/registry_cost_mod_2371.go",
+    "shape_test": "TestShape_Static_CyclingAbilityCostReduce"
+  },
+  "damage": {
+    "executor": "game/ability_effects.go executeDamageEffect (triggered) + cards/converter.go case \"damage\" -> SpellEffect (spell)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_ETB_DamageOpponent"
+  },
+  "damage_additional_to_subset": {
+    "executor": "game/ability_effects.go case \"damage_additional_to_subset\" -> executeDamageAdditionalToSubsetEffect; cards/converter.go v2 SpellEffectSequence untargeted atom",
+    "path": "backend/cards/registry_factory_ng_9fa4833208.go",
+    "shape_test": "TestFactoryNGDamageAdditionalToSubsetMapWiring"
+  },
+  "damage_by": {
+    "executor": "cards/converter.go sequence conversion -> game/ability_effects.go executeDamageEffect with sequence referent mana-value amount and source",
+    "path": "backend/cards/registry_factory_ng_0794f355ed.go",
+    "shape_test": "TestFactoryNGDamageAmountFromSequenceReferentManaValue_0794f355ed"
+  },
+  "damage_by_chosen_source_double_power": {
+    "executor": "game/ability_effects.go:executeDamageByChosenSourceDoublePowerEffect",
+    "path": "backend/cards/registry_factory_ng_260201e03a.go",
+    "shape_test": "TestFactoryNGChosenSourcePowerDamage_260201e03a"
+  },
+  "damage_by_chosen_source_power": {
+    "executor": "game/ability_effects.go:executeDamageBySourcePowerToMultipleTargetsEffect",
+    "path": "backend/cards/registry_factory_ng_8e37e717a9.go",
+    "shape_test": "game/factory_ng_8e37e717a9_test.go:TestFactoryNGSpellDamageByChosenSourcePower_8e37e717a9"
+  },
+  "damage_by_chosen_source_power_to_flying_target": {
+    "executor": "game/gamestate.go applySpellEffectCore case \"damage_by_chosen_source_power_to_flying_target\" \u2014 chosen creature you control deals its live power as one-way damage to a separately chosen flying creature",
+    "path": "backend/cards/registry_factory_ng_dfdc67f694.go",
+    "shape_test": "TestFactoryNGDamageByChosenSourcePowerToFlyingTarget_dfdc67f694"
+  },
+  "damage_by_live_power_each_modified_source": {
+    "executor": "game/ability_effects.go case \"damage_by_live_power_each_modified_source\" -> each modified creature controlled by the spell controller deals its live power through DamageTargetFromSource to the separately chosen recipient",
+    "path": "backend/cards/registry_factory_ng_7bc2db78a2.go",
+    "shape_test": "TestFactoryNGDamageByLivePowerEachModifiedSource_7bc2db78a2"
+  },
+  "damage_by_target_power_to_its_controller": {
+    "executor": "game/ability_effects.go ExecuteAbilityEffect case damage_by_target_power_to_its_controller",
+    "path": "backend/cards/registry_factory_ng_recovery_sep11.go",
+    "shape_test": "TestShape_FactoryNGRegistryRecovery / TestFactoryNGDamageByTargetPowerToItsController_fa4925b0a9"
+  },
+  "damage_count_nonbasic_lands": {
+    "executor": "game/dynamic_amount.go battlefield count spec with nonbasic=true -> ContinuousEffect.CountNonBasic; consumed per recipient by ability_effects.go executeDamageEffect each_player_amount_count",
+    "path": "backend/cards/registry_damage_count_nonbasic_lands.go",
+    "shape_test": "game.TestEachPlayerDamageCount_NonbasicLandsOnly"
+  },
+  "damage_count_of_color": {
+    "executor": "game/ability_effects.go case \"damage_count_of_color\" auto-picks a color via chooseColorForProtectionByPlayer, then folds into game/ability_effects.go executeDamageEffect's each_player_amount_count battlefield count spec (filter=creature, color=<picked>)",
+    "path": "backend/cards/registry_factory_ng_fed721efbb.go",
+    "shape_test": "game.TestFactoryNGDamageCountOfColor"
+  },
+  "damage_each_player_artifacts_destroyed_this_way": {
+    "executor": "game.GameState.executeDamageEachPlayerArtifactsDestroyedThisWay",
+    "path": "backend/cards/registry_conflict_recovery.go",
+    "shape_test": "TestFactoryNGDestroyedThisWayPerPlayerCount"
+  },
+  "damage_multiplier": {
+    "executor": "cards/converter.go static case \"damage_multiplier\" -> value.source dispatches onto three long-pre-existing, live-consulted Card fields: \"any\" -> Card.DamageMultiplier (Furnace of Rath / Dictate of the Twin Gods), \"you_control\" -> Card.YourDamageMultiplier (Angrath's Marauders x2, Fiery Emancipation / City on Fire x3), with optional value.source_subtype -> YourDamageMultiplierRequiresSubtype (Calamity Bearer's Giant gate) and optional value.source_colors/source_types -> a YourDamageMultiplierRequiresPredicate closure ANDing color-match with type-match over the SOURCE card (Fire Servant's \"red instant or sorcery spell you control\"), \"self\" -> Card.DamageMultiplierSelf; all consulted centrally by game/combat.go ModifyDamageAmount \u2014 the shared funnel for combat (ModifyDamageAmountBetween) AND non-combat spell/ability damage (game/ability_effects.go executeDamageEffect) \u2014 so the replacement applies uniformly to both, matching the cards' unqualified \"would deal damage\". Fields previously only ever set by name-keyed cardfns (lib_your_damage_multiplier.go, lib_subtype_filtered_damage_multiplier.go); first AbilityDSL-driven wiring.",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_DamageMultiplier"
+  },
+  "damage_unless_hand_count": {
+    "executor": "game/ability_effects.go ExecuteAbilityEffect case damage_unless_hand_count",
+    "path": "backend/cards/registry_factory_ng_recovery_sep11.go",
+    "shape_test": "TestShape_FactoryNGRegistryRecovery / TestFactoryNGTriggerUnlessHandCountCondition"
+  },
+  "deal_damage_target": {
+    "executor": "game/ability_effects.go case \"damage\", \"deal_damage_target\" -> executeDamageEffect (targeted)",
+    "path": "backend/cards/registry_deal_damage_target.go",
+    "shape_test": "TestShape_Activated_DealDamageTarget"
+  },
+  "destroy": {
+    "executor": "cards/converter.go case \"destroy\" -> SpellEffect + game/gamestate.go DestroyTarget (spell, single-target); game/gamestate.go resolveMassDestroy/destroyAllMatching + targeting.go DestroyTarget/DestroyTargetForced (spell, value.all mass shape \u2014 task-1876); game/ability_effects.go case \"destroy\" (triggered; value.all mass shape inside a v2 effect sequence \u2014 task-1876 round 2); game/gamestate.go matchesPermanentFilter nonland_permanent bucket + subtype fallback + \"_or_\"-joined type-union buckets (mass shape, shared with exile \u2014 task-1965/task-1968)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Spell_DestroyTargetCreature / TestShape_Spell_DestroyAllCreatures / TestShape_Spell_DestroyAllCantBeRegenerated / TestShape_Spell_DestroyAllSequence / TestShape_Spell_DestroyAllNonlandPermanents / TestShape_Spell_DestroyAllSubtype / TestShape_Spell_DestroyAllTypeUnion"
+  },
+  "destroy_delayed_referent": {
+    "executor": "game/ability_effects.go case \"destroy_delayed_referent\" -> reads gs.seqSlotsStr[\"referent\"] (armed by game/effect_sequence.go noteSeqReferent) -> registers one-shot EventEndStep subscriber -> DestroyTarget(referent); distinct from exile_until_next_end_step/exile_temporary_return (delayed RETURN, not destroy)",
+    "path": "backend/cards/registry_factory_ng_aee71e6496.go",
+    "shape_test": "TestFactoryNGDestroyDelayedReferent (game/factory_ng_aee71e6496_test.go)"
+  },
+  "destroy_target_blocking_source": {
+    "executor": "game/ability_effects.go executeDestroyTargetBlockingSource + case \"destroy_target_blocking_source\" in ExecuteAbilityEffect",
+    "path": "backend/cards/registry_factory_ng_8c68a1acdf.go",
+    "shape_test": "TestFactoryNGDestroyTargetBlockingSource"
+  },
+  "destroy_target_then_gain_life": {
+    "executor": "game/ability_effects.go ExecuteAbilityEffect case \"destroy_target_then_gain_life\" -> gs.executeDestroyTargetThenGainLifeEffect (destroys each chosen target via DestroyTarget, then grants the ability's controller a fixed amount of life via GainLife, both in one triggered effect) (ticket engine.auto-destroy-target-then-gain-life-ae43167ca6, Vengeant Vampire class)",
+    "path": "backend/cards/registry_factory_ng_ae43167ca6.go",
+    "shape_test": "TestFactoryNGDestroyTargetThenGainLife"
+  },
+  "destroy_unless_damage_to_controller": {
+    "executor": "game/ability_effects.go executeDestroyUnlessDamageToController + case \"destroy_unless_damage_to_controller\" in ExecuteAbilityEffect",
+    "path": "backend/cards/registry_factory_ng_1b18eeccd8.go",
+    "shape_test": "TestDestroyUnlessDamageToController"
+  },
+  "discard": {
+    "executor": "game/ability_effects.go case \"discard\" -> executeDiscardEffect (no-target default: opponent; value.target=\"you\" -> self; value.random=true -> random pick, no PendingChoice)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_ETB_DiscardOpponent"
+  },
+  "double_counters": {
+    "executor": "game/counters.go Counters.DoubleCounters + game/ability_effects.go case \"double_counters\"",
+    "path": "backend/cards/registry_double_counters.go",
+    "shape_test": "TestShape_Triggered_DoubleCounters"
+  },
+  "double_life_total": {
+    "executor": "game/ability_effects.go case \"double_life_total\" -> executeDoubleLifeTotalEffect \u2014 Rule 119.4 doubling as a DELTA through the standard life-change primitives, never a direct Player.Life write: positive total -> GainLife (LifeGainModifier replacements + EventLifeGain triggers apply, rules-correct for doubling), negative total -> LoseLife + CreateLifeLossEvent (2x of a negative is LOWER), zero -> no event (Rule 119.10 analog). whose target_player reads the first player target; absent target -> honest no-op (Rule 608.2b) \u2014 Beacon of Immortality class",
+    "path": "backend/cards/registry_dynamic_amount.go",
+    "shape_test": "TestShape_Activated_DoubleLifeTotal_FiresLifeGainTrigger"
+  },
+  "draw": {
+    "executor": "cards/converter.go case \"draw\" (spell) + game/ability_effects.go case \"draw\" (triggered)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_ETB_Draw"
+  },
+  "dredge": {
+    "executor": "cards/converter.go applyKeywordCost case \"dredge\" -> Card.DredgeData.DredgeAmount + game/advanced_abilities.go CanDredge/Dredge (Rule 702.51)",
+    "path": "backend/cards/registry_dredge.go",
+    "shape_test": "TestShape_KeywordCost_Dredge"
+  },
+  "each_player_draws": {
+    "executor": "cards/converter.go spell case \"each_player_draws\" + game/gamestate.go spell resolution; game/ability_effects.go triggered/activated case \"each_player_draws\"",
+    "path": "backend/cards/registry_factory_ng_740f96160c.go",
+    "shape_test": "TestFactoryNGDrawEachPlayer_740f96160c"
+  },
+  "earthbend": {
+    "executor": "game/ability_effects.go case \"earthbend\" -> GameState.EarthbendLand (game/earthbend.go): target land becomes a 0/0 haste creature (still a land) via two ContinuousEffects, gets N +1/+1 counters, and re-enters tapped/un-animated/counter-free on EventDies/EventExiled. Triggered abilities target via the atom-level TargetType free-choice channel (game/gamestate_trigger_target.go); activated abilities via the standard ability.Target channel (game/activated_abilities.go ActivateAbility).",
+    "path": "backend/cards/registry_earthbend.go",
+    "shape_test": "TestShape_Triggered_Earthbend / TestShape_Activated_Earthbend"
+  },
+  "edict_sacrifice": {
+    "executor": "game/ability_effects.go case \"edict_sacrifice\" -> executeEdictSacrifice (opponent sacrifices N filter-matching permanents of their choice; auto-sacrifices all when \u2264 N candidates, else PendingChoice). Mirrors executeAnnihilatorSacrifice, filter-scoped via matchesPermanentFilter.",
+    "path": "backend/cards/registry_edict.go",
+    "shape_test": "TestShape_Edict_Sacrifice"
+  },
+  "enchant_target": {
+    "executor": "cards/converter.go enchant_target -> Card.EnchantFilter + game/aura.go auraTargetMatchesFor (Rule 303.4a gate)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Aura_EnchantFilterGatesAttach / TestShape_Aura_EnchantYouControl"
+  },
+  "encore": {
+    "executor": "cards/converter.go applyKeywordCost case \"encore\" -> Card.EncoreCost + game/encore.go encoreActivatedAbilities/executeEncoreEffect (Rule 702.130)",
+    "path": "backend/cards/registry_encore.go",
+    "shape_test": "TestShape_KeywordCost_Encore"
+  },
+  "equip": {
+    "executor": "cards/converter.go case \"equip\" -> Card.EquipCost/EquipPower/EquipFilter + game/equip.go Equip (Rule 702.6, incl. Rule 702.6d restriction phrases via auraTargetMatchesFor)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Equip_Attach / TestShape_Equip_RestrictionFilter"
+  },
+  "equip_pump": {
+    "executor": "cards/converter.go case \"equip_pump\" -> Card.EquipPower/EquipToughness + equip attach flow",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Equip_PumpBonus"
+  },
+  "etb_choose_color": {
+    "executor": "cards/converter.go static case etb_choose_color -> Card.EtbChooseColor; game/gamestate_cast.go validates+stores payOption W/U/B/R/G -> Card.ChosenColor; game/activated_abilities.go resolves EffectValue color==\"chosen\" against it per activation",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_EtbChooseColor_ChosenManaTap"
+  },
+  "etb_choose_creature_type": {
+    "executor": "cards/converter.go static case etb_choose_creature_type -> Card.EtbChooseCreatureType (Cavern-of-Souls machinery: gamestate_cast payOption -> ChosenCreatureType; statics reference via chosen_creature_type sentinel, task-1873)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_EtbChooseCreatureType_Declared"
+  },
+  "etb_counters": {
+    "executor": "cards/converter.go -> Card.EtbCounters (parseEtbCounterSpec; value.amount|amount_var|amount_count) + game/gamestate_cast.go applyEtbCounters (amount_count resolved via game/dynamic_amount.go EvalDynamicAmount at ETB); affects.other=true variant -> ContinuousEffect.EtbCounterGrant (game/etb_counter_grants.go, incl. affects exclude_subtype/nontoken gates)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Cast_EntersWithCounters / TestShape_Cast_EntersWithCountersForEach / TestShape_Static_EtbCounterAnthem"
+  },
+  "exile": {
+    "executor": "game/ability_effects.go case \"exile\" -> executeExileEffect (battlefield targets; effect-cleanup + unregister)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Activated_ExileTarget"
+  },
+  "exile_each_opponents_graveyard": {
+    "executor": "game/ability_effects.go case \"exile_each_opponents_graveyard\" -> executeExileEachOpponentsGraveyardEffect(controller)",
+    "path": "backend/cards/registry_factory_ng_272e4027dc.go",
+    "shape_test": "TestFactoryNGExileEachOpponentsGraveyard"
+  },
+  "exile_library_top": {
+    "executor": "game/ability_effects.go case \"exile_library_top\" -> exiles top N cards of the selected player(s)' libraries (mirrors executeMillEffect's player-scope resolution, Exile zone instead of Graveyard)",
+    "path": "backend/cards/registry_exile_library.go",
+    "shape_test": "TestShape_Triggered_ExileLibraryTop"
+  },
+  "exile_mv_le_source_counters_multizone": {
+    "executor": "game/ability_effects.go ExecuteAbilityEffect case exile_mv_le_source_counters_multizone",
+    "path": "backend/cards/registry_factory_ng_recovery_sep11.go",
+    "shape_test": "TestShape_FactoryNGRegistryRecovery / TestFactoryNGExileMvLeSourceCountersMultizone"
+  },
+  "exile_nonbattlefield_zone": {
+    "executor": "game/ability_effects.go case \"exile_nonbattlefield_zone\" -> PendingChoice{ChoiceType:\"exile_nonland_from_hand\"} (nonland-filtered, optional value.max_mv cap, value.self picks own hand instead of default opponent hand) + game/gamestate_choice.go ResolvePendingChoice case \"exile_nonland_from_hand\"; optional value.until_leaves ties the pick to source.StashedExileFromHandIDs, reusing the existing exile_until_leaves hand-return path (returnStashedExiledFromHandCards)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestExileNonbattlefieldZone_OpponentHand_NonlandFilterAndUntilLeavesReturn / TestExileNonbattlefieldZone_OwnHand_ManaValueFilter"
+  },
+  "exile_referent_at_next_cleanup_step": {
+    "executor": "game/ability_effects.go case \"exile_referent_at_next_cleanup_step\" -> one-shot EventCleanup exile of ReferentCardIDs",
+    "path": "backend/cards/registry_factory_ng_31cfc02a02.go",
+    "shape_test": "TestFactoryNGExileAtNextCleanupStep"
+  },
+  "exile_referent_at_next_end_step": {
+    "executor": "game/ability_effects.go case \"exile_referent_at_next_end_step\" -> reads gs.seqSlotsStr[\"referent\"] (armed by game/effect_sequence.go noteSeqReferent) -> registers one-shot EventEndStep subscriber -> gs.ExileFromBattlefield(referent); distinct from destroy_delayed_referent (delayed DESTROY, not exile) and exile_temporary_return (delayed RETURN, not a one-way exile)",
+    "path": "backend/cards/registry_factory_ng_109a50b307.go",
+    "shape_test": "TestFactoryNGExileReferentAtNextEndStep (game/factory_ng_109a50b307_test.go)"
+  },
+  "exile_referent_from_zone": {
+    "executor": "game/ability_effects.go case \"exile_referent_from_zone\" -> reads gs.seqSlotsStr[\"referent\"] (armed by game/effect_sequence.go noteSeqReferent) -> removes from owner's hand/graveyard -> owner's Exile.AddCard; distinct from exile_nonbattlefield_zone (fresh choice) and \"exile\" (battlefield-only)",
+    "path": "backend/cards/registry_exile_referent_from_zone.go",
+    "shape_test": "TestExileReferentFromZone (game/exile_referent_from_zone_test.go)"
+  },
+  "exile_self_on_death": {
+    "executor": "game/ability_effects.go case \"exile_self_on_death\" -> gs.executeExileEffect (graveyard-first via task-2363 fallback; exiles the dies-trigger event subject \u2014 the dying creature exiles itself, Rule 406/701.10; covers both self-dies Adamantoise/Body Snatcher/Gerrard and external-trigger Curse of Clinging Webs shapes)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestExileSelfOnDeath_FromGraveyard / TestExileSelfOnDeath_ExternalSourceKeepsSource / TestExileSelfOnDeath_NoEventCardNoop"
+  },
+  "exile_target": {
+    "executor": "game/ability_effects.go case \"exile_target\" -> gs.ExileFromBattlefield (Rule 406, 701.10)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestExileTargetEffect"
+  },
+  "exile_target_player_graveyard": {
+    "executor": "game/ability_effects.go cases \"exile_graveyard\" and \"exile_target_player_graveyard\" -> executeExileGraveyardEffect resolves the target player and moves every card from that player's graveyard to that player's exile zone",
+    "path": "backend/cards/registry_factory_ng_4e4f805e85.go",
+    "shape_test": "TestFactoryNGRegisterExileGraveyardEffect_4e4f805e85"
+  },
+  "exile_target_plus_named_match_tokens": {
+    "executor": "game/ability_effects.go ExecuteAbilityEffect case \"exile_target_plus_named_match_tokens\" -> gs.executeExileTargetPlusNamedMatchTokens (reads the chosen target's Name/Controller before exiling it via executeExileEffect, then exiles every remaining battlefield token under that controller sharing that name) (ticket engine.auto-exile-target-plus-named-match-tokens-b9b031ee17, Legions to Ashes class)",
+    "path": "backend/cards/registry_factory_ng_b9b031ee17.go",
+    "shape_test": "TestFactoryNGExileTargetPlusNamedMatchTokens"
+  },
+  "exile_then_return": {
+    "executor": "game/ability_effects.go case \"exile_then_return\" -> exiles the target then immediately returns it to the battlefield under its owner's control (ExileFromBattlefield + ReturnFromExile, single-resolution blink)",
+    "path": "backend/cards/registry_exile_then_return.go",
+    "shape_test": "TestExileThenReturn"
+  },
+  "exile_top_may_play": {
+    "executor": "game/ability_effects.go case \"exile_top_may_play\" -> ExilePlayGrant{AllowLand:true, UntilEndOfTurn:true} (Count on Luck / impulse-draw family)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Triggered_ExileTopMayPlayThisTurn"
+  },
+  "exile_until_leaves": {
+    "executor": "game/ability_effects.go case \"exile_until_leaves\" (Oblivion-Ring family)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "covered by existing O-Ring family card tests"
+  },
+  "exile_until_next_end_step": {
+    "executor": "game/ability_effects.go case \"exile_until_next_end_step\" -> finds the already-exiled target card (moved there by the sequence's own earlier \"exile\" atom), EventBus.Subscribe(EventEndStep, ...) with a self-guarding \"returned\" bool closure -> ReturnFromExile + Controller reset (mirrors cardfns.ExileUntilNextEndStep / channelExileTarget's proven idiom); game/effect_sequence.go bypasses routeSeqTargets for this effect name specifically",
+    "path": "backend/cards/registry_exile_until_next_end_step.go",
+    "shape_test": "TestShape_Activated_ExileUntilNextEndStep"
+  },
+  "extra_land_plays": {
+    "executor": "cards/converter.go static case \"extra_land_plays\" -> Card.ExtraLandPlays (precomputed at conversion, mirrors Uncounterable); game/gamestate_cast.go GameState.MaxLandPlays sums it live off the battlefield (e.g. Azusa, Lost but Seeking / Oracle of Mul Daya)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_ExtraLandPlays"
+  },
+  "extra_turn": {
+    "executor": "spell kind: cards/converter.go buildMainSpellEffect case \"extra_turn\" (value.who target_player -> SpellTargetType player; value.count -> Amount; self_exile parity with take_extra_turn) -> game/gamestate.go applySpellEffectCore case \"extra_turn\"; triggered/activated kinds: game/ability_effects.go case \"extra_turn\". Both queue Player.PendingExtraTurns, consumed by GameState.NextTurn per Rule 500.7 (pre-existing machinery, shared with cardfns/BeaconofTomorrows.go et al.)",
+    "path": "backend/cards/registry_extra_turn.go",
+    "shape_test": "TestShape_Spell_ExtraTurn"
+  },
+  "fabricate": {
+    "executor": "cards/patterns_keywords.go patternFabricate -> self-ETB triggered \"fabricate\" (value.n; converter.go attachAbilities also stamps Card.Fabricate) + game/fabricate.go executeFabricate (StartOptionChoice: FabricateOptionCounters -> N +1/+1 counters, FabricateOptionServos / source-left-battlefield fallback -> N 1/1 colorless Servo artifact creature tokens; Rule 702.122)",
+    "path": "backend/cards/registry_fabricate.go",
+    "shape_test": "TestShape_ETB_FabricateCounters / TestShape_ETB_FabricateServos"
+  },
+  "fight": {
+    "executor": "game/ability_effects.go case \"fight\" -> gs.Fight (Rule 701.12, fires EventFight; was inert \u2014 wired round 11)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Triggered_Fight"
+  },
+  "fight_random_opponent_creature": {
+    "executor": "game/ability_effects.go:GameState.ExecuteAbilityEffect#case:fight_random_opponent_creature",
+    "path": "backend/cards/registry_factory_ng_113184b3be.go",
+    "shape_test": "TestFactoryNGRandomTriggerTargetSelection_113184b3be"
+  },
+  "fight_referent": {
+    "executor": "game/ability_effects.go case \"fight_referent\" -> reads gs.seqSlotsStr[\"referent\"] (armed by game/effect_sequence.go noteSeqReferent) -> gs.Fight(referent.ID, target.ID); distinct from case \"fight\" (source-fight)",
+    "path": "backend/cards/registry_fight_referent.go",
+    "shape_test": "TestSequence_FightReferent (game/fight_referent_test.go)"
+  },
+  "filter_greatest_power_creature": {
+    "executor": "game/ability_effects.go case \"filter_greatest_power_creature\" -> executeExileGreatestPowerCreature",
+    "path": "backend/cards/registry_factory_ng_a36181d769.go",
+    "shape_test": "TestFactoryNGRegisteredExileGreatestPowerCreature_a36181d769"
+  },
+  "first_subtype_spell_per_turn_cost_reduce": {
+    "executor": "cards/converter.go static case \"first_subtype_spell_per_turn_cost_reduce\" -> Card.FirstSubtypeSpellReduceCost/Subtype; game/gamestate_cast.go CastSpellWithTargets once-per-turn battlefield scan, applies to the first matching-subtype spell each turn (tracked via FirstSubtypeSpellReduceUsedTurn turn-stamp, re-arms each turn; optional gate via FirstSubtypeSpellReduceGateFns is a separate name-keyed registration)",
+    "path": "backend/cards/registry_cost_mod_3208.go",
+    "shape_test": "TestShape_Static_FirstSubtypeSpellPerTurnCostReduce"
+  },
+  "flashback": {
+    "executor": "cards/converter.go applyKeywordCost case \"flashback\" -> Card.FlashbackCost + game/flashback.go CastWithFlashback (Rule 702.33) + exile_on_resolve",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Flashback_CastFromGraveyard"
+  },
+  "for_each": {
+    "executor": "game/effect_sequence.go for_each branch -> group enumeration + per-element execution of Modes[0] with the element bound as eventCard/eventPlayer",
+    "path": "backend/cards/registry_for_each.go",
+    "shape_test": "TestShape_Spell_ForEachBindsElement"
+  },
+  "foretell": {
+    "executor": "cards/converter.go applyKeywordCost case \"foretell\" -> Card.ForetellCost; game/foretell_exile.go ForetellCard (pay {2}, exile face down) / CastForetoldCard (later-turn cast for ForetellCost, Rule 702.129)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_KeywordCost_Foretell"
+  },
+  "gain_control": {
+    "executor": "game/control_effects.go executeGainControlEffect (indefinite via GameState.GainControl; until_eot registers a one-shot EventCleanup revert to the pre-steal controller; optional untap/keywords/add_subtype riders apply to the same resolved creature; mass_filter + owned_by_you/target_player_controls/opponent_controls scope the mass form)",
+    "path": "backend/cards/registry_control.go",
+    "shape_test": "cards/shape_control_test.go TestShape_GainControl_* (+ shape_control_mass/_target_player/_opponent_test.go)"
+  },
+  "gain_control_until_eot": {
+    "executor": "game/ability_effects.go executeGainControlFilteredUntilEotEffect + case \"gain_control_until_eot\" in ExecuteAbilityEffect",
+    "path": "backend/cards/registry_factory_ng_3342d6fc4b.go",
+    "shape_test": "TestFactoryNGGainControlUntilEot"
+  },
+  "gain_energy": {
+    "executor": "game/ability_effects.go case \"gain_energy\" -> executeGainEnergyEffect (Player.GainEnergy) + cards/converter.go GetSpellEffect gain_energy pre-effect (spell); was grandfathered vocabulary with a working, already-tested executor (TestShape_ETB_GainEnergy) but never promoted into V2EffectRegistry, so reparse.py's registered_effects() mirror refused every 'you get {E}' mapping",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_ETB_GainEnergy"
+  },
+  "gain_life": {
+    "executor": "game/ability_effects.go case \"life_gain\",\"gain_life\" -> executeLifeGainEffect",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_SpellingAliases_GainLifeTapTarget"
+  },
+  "goad": {
+    "executor": "game/ability_effects.go case \"goad\" -> Card.GoadedUntilTurn = TurnCount+1 (mirrors cardfns.Goad); mass shape via executeGoadAllEffect (mirors exileAllMatching, controller scope you/opponent)",
+    "path": "backend/cards/registry_goad.go",
+    "shape_test": "TestShape_Triggered_GoadTargetCreature"
+  },
+  "grant": {
+    "executor": "cards/converter.go case \"grant\" -> keyword ContinuousEffect",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_GrantKeyword"
+  },
+  "grant_ability": {
+    "executor": "game/effect_sequence.go executeGrantAbility (until-EOT clone; stripped in CleanupEndOfTurnEffects)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_V2Native_GrantAbilityUntilEOT"
+  },
+  "grant_keyword_and_count_pump_until_eot": {
+    "executor": "game/ability_effects.go executeGrantKeywordAndCountPumpUntilEOT -> targeted UntilEOT keyword grant with one attacking_creature count used for symmetric +X/+X",
+    "path": "backend/cards/registry_factory_ng_13f45e8d22.go",
+    "shape_test": "TestFactoryNGRegisterGrantKeywordAndCountPumpUntilEot_13f45e8d22"
+  },
+  "grant_keyword_eot": {
+    "executor": "game/ability_effects.go case \"grant_keyword_eot\" -> UntilEOT ContinuousEffect (targets or all-your-permanents fallback)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Triggered_GrantKeywordEOTAll"
+  },
+  "grant_keywords_referent_eot": {
+    "executor": "game/ability_effects.go case \"grant_keywords_referent_eot\" -> reads gs.seqSlotsStr[\"referent\"] (armed by game/effect_sequence.go noteSeqReferent) -> UntilEOT ContinuousEffect grant; shared v2 spell-effect-sequence chokepoint with grant_keywords_until_eot",
+    "path": "backend/cards/registry_grant_referent_eot.go",
+    "shape_test": "TestSequence_ReferentKeywordGrantAfterInterveningAtom (game/sequence_referent_keyword_grant_test.go)"
+  },
+  "grant_keywords_until_eot": {
+    "executor": "game/ability_effects.go case \"grant_keywords_until_eot\" (activated/triggered) + cards/converter.go spell case + game/gamestate.go resolution",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Activated_GrantKeywordsSelfEOT / TestShape_Spell_GrantKeywordsTargetEOT"
+  },
+  "grant_subtype": {
+    "executor": "cards/converter.go AbilityToEffect case \"grant_subtype\" -> game.ContinuousEffect.AddSubType (Rule 613 Layer 4, pre-existing field with a doc comment naming exactly this idiom \u2014 \"Saproling\" for Life and Limb's \"Forests are ... Saproling creatures in addition to their other types\" \u2014 but with zero AbilityToEffect callers before this task); game/card.go HasSubTypeWithEffects/EffectManager.GetGrantedSubTypes already live-evaluate it the same reversible-on-source-leaving way AddType/AddColor work, so no new engine plumbing was needed, only the mapping (e.g. Demonic Embrace \"is a Demon in addition to its other types\", Graaz/Kudo/March of the World Ooze's \"are Juggernauts/Bears/Oozes in addition to their other creature types\" tail alongside set_base_pt)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_GrantSubtype"
+  },
+  "half_of": {
+    "executor": "game/dynamic_amount.go evalDynamicAmountBase case \"half_of\" (recursive EvalDynamicAmountFull on value.of, halfRound with explicit up/down toward +/-inf) + case \"life_total\" (Player.Life, read at fold time BEFORE the consuming executor applies its change) \u2014 \"loses half their life, rounded up\" (Blood Tribute class). Unresolvable inner spec propagates (0,false)",
+    "path": "backend/cards/registry_dynamic_amount.go",
+    "shape_test": "TestShape_Spell_LoseHalfLifeRoundedUp"
+  },
+  "historic_spell_cost_reduce": {
+    "executor": "cards/converter.go static case \"historic_spell_cost_reduce\" -> Card.ReduceHistoricSpellCost; game/gamestate_cast.go CastSpellWithTargets battlefield scan gated on card.IsHistoric() (Rule 700.11)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_HistoricSpellCostReduce"
+  },
+  "investigate": {
+    "executor": "game/ability_effects.go case \"investigate\" -> Clue token via executeTokenEffect",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_ETB_Investigate"
+  },
+  "keyword_creature_spell_cost_reduce": {
+    "executor": "cards/converter.go static case \"keyword_creature_spell_cost_reduce\" -> Card.ReduceKeywordCreatureSpell/Cost; game/gamestate_cast.go CastSpellWithTargets battlefield scan gated on the cast creature's own card.HasKeyword",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_KeywordCreatureSpellCostReduce"
+  },
+  "kicker": {
+    "executor": "cards/converter.go applyKeywordCost case \"kicker\" -> Card.KickerCost + game/keyword_abilities.go CastWithKicker (Rule 702.32); was_kicked -> Card.WasKicked mirrored generically by game/gamestate.go ResolveTopOfStack (pre-existing)",
+    "path": "backend/cards/registry_kicker.go",
+    "shape_test": "TestShape_KeywordCost_Kicker"
+  },
+  "legendary_spell_cost_reduce": {
+    "executor": "cards/converter.go static case \"legendary_spell_cost_reduce\" -> Card.ReduceLegendarySpellCost; game/gamestate_cast.go CastSpellWithTargets battlefield scan gated on the cast card's own card.Legendary flag \u2014 deliberately distinct from historic_spell_cost_reduce (Rule 700.11 historic is artifact OR legendary OR Saga, strictly broader than legendary alone)",
+    "path": "backend/cards/registry_cost_mod_2419.go",
+    "shape_test": "TestShape_Static_LegendarySpellCostReduce"
+  },
+  "level_up": {
+    "executor": "game/ability_effects.go case \"level_up\" -> game/class.go bumpClassLevel + activation gates activated_abilities.go",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Activated_LevelUpClass"
+  },
+  "leyline_begin_game": {
+    "executor": "cards/converter.go static case \"leyline_begin_game\" -> Card.LeylineBeginGame; game/gamestate.go RevealOpeningHands (invoked once, as the mulligan process concludes) moves the card hand -> battlefield and registers its abilities \u2014 Rule 103.6, no ETB event published (nothing triggers before the first turn), \"you may\" auto-resolved to \"yes\" per the documented opening-hand convention (cardfns.RegisterOpeningHandReveal). The Leyline cycle's shared paragraph; first generic (non-name-keyed) wiring.",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_LeylineBeginGame"
+  },
+  "library_top_cast_grant": {
+    "executor": "cards/converter.go static case \"library_top_cast_grant\" -> Card.LibraryTopCastGrant{Keywords,SubTypes,Types} (precomputed at conversion, mirrors library_top_land_play_grant); game/cast_from_library.go libraryTopCastGrantFor/CastSpellFromLibraryWithTargets consult it live off the battlefield (union match over the three lists)",
+    "path": "backend/cards/registry_library_top_cast.go",
+    "shape_test": "TestShape_Static_LibraryTopCastGrant_Subtype / TestShape_Static_LibraryTopCastGrant_Type / TestShape_Static_LibraryTopCastGrant_NoMatch"
+  },
+  "library_top_land_play_grant": {
+    "executor": "cards/converter.go static case \"library_top_land_play_grant\" -> Card.LibraryTopLandPlayGrant (precomputed at conversion, mirrors extra_land_plays/cant_block above); game/cast_from_library.go libraryTopLandPlayGrantFor/PlayLandFromLibraryTop consult it (Radha, Heart of Keld class, [VOCAB] #1253) \u2014 unconditional for any land on top, no keyword/subtype filter (previously only ever set by name-keyed cardfns; this is its first AbilityDSL-driven wiring).",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_LibraryTopLandPlayGrant"
+  },
+  "life_gain": {
+    "executor": "cards/converter.go extractGainLife (spell) + game/ability_effects.go case \"life_gain\"",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_ETB_LifeGain"
+  },
+  "life_gain_modifier": {
+    "executor": "cards/converter.go static case \"life_gain_modifier\" -> Card.LifeGainBonus (value.bonus: \"that much life plus N\" \u2014 Bilbo, Birthday Celebrant / Pest Rescuer) / Card.LifeGainMultiplier (value.multiplier: \"twice that much life\" \u2014 Alhammarret's Archive); consulted by the base Player.LifeGainModifier closure game/gamestate.go NewGame installs (the gain-side mirror of the pre-existing OpponentLifeLossMultiplier install): live-scans the CONTROLLER's battlefield permanents so the effect auto-expires, additive bonuses before multipliers (Rule 616.1 affected-player-optimal ordering). Every life-gain path funnels through Player.GainLife -> this hook (see cardfns/lib_life_gain_replacement.go, whose chain-wrap style keeps working on top). RegisterCardAbilities' hasHandler branch neutralizes the record fields via Card.clearRecordReplacementFields so name-keyed handlers never double-apply.",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_LifeGainModifier"
+  },
+  "life_loss": {
+    "executor": "game/ability_effects.go executeLifeLossEffect (triggered/activated) + game/gamestate.go spell case (converter spell case pending; value.player key unread \u2014 flagged)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Activated_LifeLossEachPlayer"
+  },
+  "linked_amount": {
+    "executor": "game/dynamic_amount.go evalDynamicAmountBase case \"linked_amount\" \u2014 reads GameState.seqTally, the per-sequence-walk tally value-producing executors write via noteSeqTally (game/effect_sequence.go; producers: executeDamageEffect key damage_dealt, executeMillEffect key cards_milled, executeLifeLossEffect key life_lost, plus shared key \"last\") \u2014 \"you gain that much life\" / \"draw that many cards\" after a preceding atom of the same sequence. Nothing recorded -> (0,false) honest no-op",
+    "path": "backend/cards/registry_dynamic_amount.go",
+    "shape_test": "TestShape_Spell_DamageThenGainThatMuchLife / TestShape_Spell_MillThenDrawThatMany"
+  },
+  "living_weapon": {
+    "executor": "game/living_weapon.go RegisterLivingWeaponTrigger + executeLivingWeapon (owned ETB subscription: CreateToken 0/0 black Phyrexian Germ + attachEquipmentToToken) wired from RegisterCardAbilities via Card.HasLivingWeapon flag, stamped by cards/converter.go attachAbilities static case from patternLivingWeapon DSL (Rule 702.79)",
+    "path": "backend/cards/registry_living_weapon.go",
+    "shape_test": "TestShape_LivingWeapon_ETB / TestShape_LivingWeapon_PumpApplies / TestShape_LivingWeapon_AttachesToGerm"
+  },
+  "lock_creature": {
+    "executor": "game/ability_effects.go case \"lock_creature\" -> executeLockCreatureEffect (grants Defender keyword + CannotBlock ContinuousEffect, UntilEOT, on each target card); triggered/activated only \u2014 no spell-side executor",
+    "path": "backend/cards/registry_lock_creature.go",
+    "shape_test": "TestShape_LockCreature"
+  },
+  "look_at_library_anytime": {
+    "executor": "cards/converter.go AbilityToEffect case \"look_at_library_anytime\" -> explicit no-op (return nil): informational-only permission with no game-state consequence to gate \u2014 the server-side engine already has full library visibility. Promotes the pre-existing v1 pattern (cards/patterns_static.go patternLookAtLibraryAnytime, grandfathered, already load-bearing for 10+ existing carddb records/tests e.g. bolas_citadel_test.go, glarb_test.go, hakoda_selfless_commander_test.go) into the closed v2 registry so re-parse can emit new instances of it.",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_LookAtLibraryAnytime"
+  },
+  "look_top_library": {
+    "executor": "game/ability_effects.go case \"look_top_library\" -> Zone.LookAtTop peek, no zone move (who: you/each_opponent/each_player scoping mirrors exile_library_top; target-based scoping via targets when present)",
+    "path": "backend/cards/registry_look_top_library.go",
+    "shape_test": "TestShape_Triggered_LookTopLibrary"
+  },
+  "look_top_n_rearrange": {
+    "executor": "game/ability_effects.go case \"look_top_n_rearrange\" -> Zone.ReorderTopInPlace (zone.go): top N replaced in place by the player's chosen permutation (effectValue[\"reorder\"], first element = new top); invalid/absent order leaves the library untouched",
+    "path": "backend/cards/registry_library_reorder_in_any_order.go",
+    "shape_test": "TestExecuteAbilityEffect_LookTopNRearrangeReordersTopOnly"
+  },
+  "lose_life": {
+    "executor": "game/ability_effects.go case \"life_loss\",\"lose_life\",\"opponent_loses_life\" -> executeLifeLossEffect",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_ETB_LoseLifeAliases"
+  },
+  "lose_unspent_mana": {
+    "executor": "game/ability_effects.go case \"lose_unspent_mana\" -> executeLoseUnspentManaEffect (triggered/activated); no-target default drains the opponent's pool, explicit target(s) drain the named player(s), value.target=\"each_player\" drains everyone",
+    "path": "backend/cards/registry_factory_ng_9905dcb8a3.go",
+    "shape_test": "TestFactoryNGLoseUnspentMana (game/factory_ng_9905dcb8a3_test.go)"
+  },
+  "madness": {
+    "executor": "cards/converter.go applyKeywordCost case \"madness\" + discard-to-exile madness cast flow",
+    "path": "backend/cards/registry.go",
+    "shape_test": "covered by existing madness card tests"
+  },
+  "manifest_dread": {
+    "executor": "game/ability_effects.go case \"manifest_dread\" (peels the top 2 library cards into Exile, opens a PendingChoice) -> game/gamestate_choice.go ResolvePendingChoice case \"manifest_dread\" -> game/advanced_abilities.go GameState.ManifestCardOntoBattlefield (extends Card.MorphData, the same face-down representation Morph uses); TurnFaceUp gained an OriginalType==Creature guard (Rule 701.40b) so manifested noncreature cards can never be turned face up",
+    "path": "backend/cards/registry_manifest_dread.go",
+    "shape_test": "TestShape_Activated_ManifestDread"
+  },
+  "max_stat_of_group": {
+    "executor": "game/dynamic_amount.go evalDynamicAmountBase case \"max_stat_of_group\" \u2014 greatest power/toughness among the controller's (or, scope each_player, ALL) battlefield permanents matching the standard matchesPermanentFilter vocabulary; continuous effects included via GetPower/ToughnessWithEffects. Empty group -> (0,false) \u2014 \"the greatest power among creatures you control\" (Bighorner Rancher class, residual gap named by the 2582 harvest verdict)",
+    "path": "backend/cards/registry_dynamic_amount.go",
+    "shape_test": "TestShape_Activated_MaxStatOfGroup"
+  },
+  "may_look_top_n_rearrange": {
+    "executor": "alias of look_top_n_rearrange (same game/ability_effects.go case; the optional keyword is an activation-time player choice, declining never runs the effect)",
+    "path": "backend/cards/registry_library_reorder_in_any_order.go",
+    "shape_test": "TestExecuteAbilityEffect_MayLookTopNRearrangeSameExecutor"
+  },
+  "mayhem": {
+    "executor": "cards/converter.go applyKeywordCost case \"mayhem\" -> Card.MayhemCost + game/mayhem.go CastWithMayhem (gated on Card.TurnDiscarded)",
+    "path": "backend/cards/registry_mayhem.go",
+    "shape_test": "TestShape_KeywordCost_Mayhem"
+  },
+  "mill": {
+    "executor": "game/ability_effects.go case \"mill\" -> executeMillEffect (triggered/activated/saga, and spell via the effects-sequence walker since mill isn't in SPELL_PATH_OK; no-target default mills opponent, value.self=true mills the controller \u2014 task-1997)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_ETB_Mill / TestShape_ETB_MillSelf"
+  },
+  "modal": {
+    "executor": "game/modal.go parkModalChoice/ResolveModalChoice(Targets) \u2014 terminal EffectAtomSpec Effect==\"modal\" parks PendingModalChoice at sequence walk (effect_sequence.go), picks validated (exact/up_to/or_both, distinct, in-range), round 2: per-mode targets validated against each atom's TargetType via IsValidTarget, then chosen modes execute in PRINTED order via ExecuteEffectSequence",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Spell_ModalChooseOne / TestShape_Modal_ChoiceValidation / TestShape_ETB_ModalChooseOne / TestShape_Modal_TargetedModes / TestShape_Modal_TargetedMode_Validation"
+  },
+  "morph": {
+    "executor": "cards/converter.go applyKeywordCost case \"morph\" -> Card.MorphData.MorphCost + game/advanced_abilities.go CastMorph (face-down {3}) / TurnFaceUp (pay MorphCost, restore characteristics) (Rule 702.36)",
+    "path": "backend/cards/registry_morph.go",
+    "shape_test": "TestShape_KeywordCost_Morph"
+  },
+  "mutate": {
+    "executor": "cards/converter.go applyKeywordCost case \"mutate\" -> Card.MutateCost; game/mutate.go CastWithMutate reads it generically (targets a non-Human creature the caster owns) and merges via cardfns/lib_mutate_mechanic.go's package-level MutateResolver \u2014 not per-card. Previously only ever hand-stamped by name-keyed cardfns (e.g. task668_archipelagore.go); this is its first AbilityDSL-driven wiring. Only plain (non-hybrid) mutate mana costs map \u2014 full_mana_map returns nil for hybrid pips like {U/B}, so those stay an honest miss rather than silently dropping the hybrid choice.",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_KeywordCost_Mutate"
+  },
+  "ninjutsu": {
+    "executor": "cards/converter.go applyKeywordCost case \"ninjutsu\" -> Card.NinjutsuCost + game/ninjutsu.go ActivateNinjutsu (Rule 702.49)",
+    "path": "backend/cards/registry_ninjutsu.go",
+    "shape_test": "TestShape_KeywordCost_Ninjutsu"
+  },
+  "no_untap_next_step": {
+    "executor": "game/ability_effects.go case \"no_untap_next_step\" -> loops stackObj.Targets, gs.Battlefield.GetCard(target.CardID), card.Tap() + EventTapped/EventBecomesTapped AND sets Card.SkipNextUntap = true (consumed one-shot by Zone.UntapAll, same field Exert uses); paired tap+prevent-untap atom for the Quiet Contemplation oracle family",
+    "path": "backend/cards/registry_factory_ng_565337de28.go",
+    "shape_test": "TestFactoryNGNoUntapNextStep (game/factory_ng_565337de28_test.go)"
+  },
+  "nonartifact_spell_tax": {
+    "executor": "cards/converter.go static case \"nonartifact_spell_tax\" -> Card.TaxNonartifactSpellCost; game/gamestate_cast.go CastSpellWithTargets battlefield scan (gated on !card.HasType(\"Artifact\"), applies to EVERY caster, sibling of noncreature_spell_tax) \u2014 already the per-card cardfns.TaxNonartifactSpellCost convention (Lodestone Golem); this is its first AbilityDSL-driven wiring",
+    "path": "backend/cards/registry_cost_mod_2419.go",
+    "shape_test": "TestShape_Static_NonartifactSpellTax"
+  },
+  "noncreature_spell_tax": {
+    "executor": "cards/converter.go static case \"noncreature_spell_tax\" -> Card.TaxNoncreatureSpellCost; game/gamestate_cast.go CastSpellWithTargets universal battlefield scan (all controllers), gated on !card.IsCreature() \u2014 previously only cardfns.TaxNoncreatureSpellCostBy-driven (Charitable Levy, Thalia Guardian of Thraben, Thorn of Amethyst, Vryn Wingmare), never AbilityDSL-driven",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_NoncreatureSpellTax"
+  },
+  "opponent_loses_life": {
+    "executor": "game/ability_effects.go case \"life_loss\",\"lose_life\",\"opponent_loses_life\" -> executeLifeLossEffect",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_ETB_LoseLifeAliases"
+  },
+  "opponent_spell_tax": {
+    "executor": "cards/converter.go static case \"opponent_spell_tax\" -> Card.TaxOpponentSpellCost; game/gamestate_cast.go CastSpellWithTargets battlefield scan, gated only on perm.Controller != playerIdx (no type filter) \u2014 sibling of opponent_types_spell_tax for the untyped \"Spells your opponents cast cost {N} more to cast\" wording (God-Pharaoh's Statue class)",
+    "path": "backend/cards/registry_cost_mod_2419.go",
+    "shape_test": "TestShape_Static_OpponentSpellTax"
+  },
+  "opponent_types_spell_tax": {
+    "executor": "cards/converter.go static case \"opponent_types_spell_tax\" -> Card.TaxOpponentTypes/TaxOpponentTypesCost; game/gamestate_cast.go CastSpellWithTargets battlefield scan, opponent-scoped, gated on card.HasType matching any listed type",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_OpponentTypesSpellTax"
+  },
+  "pay_2_life": {
+    "executor": "game/gamestate_cast.go alt_cost case \"pay_2_life\" (shock-land ETB choice)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "covered by existing shock-land tests"
+  },
+  "permanents_died_this_turn": {
+    "executor": "game/dynamic_amount.go evalDynamicAmountBase case \"permanents_died_this_turn\" \u2014 counts all subtype-matching permanents put into graveyards from the battlefield during the current turn across every player's graveyard",
+    "path": "backend/cards/registry_factory_ng_c5aba392d3.go",
+    "shape_test": "TestFactoryNGCountSubtypeDiedThisTurn_c5aba392d3"
+  },
+  "players_being_attacked_count": {
+    "executor": "game/dynamic_amount.go evalDynamicAmountBase case \"players_being_attacked_count\"",
+    "path": "backend/cards/registry_factory_ng_69348056bd.go",
+    "shape_test": "TestFactoryNGPlayersBeingAttackedCount_69348056bd"
+  },
+  "plot": {
+    "executor": "cards/converter.go applyKeywordCost case \"plot\" -> Card.PlotCost + cast-from-exile flow",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_KeywordCost_PlotAndAffinity"
+  },
+  "power_gt_toughness_creature_spell_cost_reduce": {
+    "executor": "cards/converter.go static case \"power_gt_toughness_creature_spell_cost_reduce\" -> Card.ReducePowerGtToughnessCreatureCost; game/gamestate_cast.go CastSpellWithTargets battlefield scan gated on the cast creature's own base power > toughness",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_ToughnessGtPowerCreatureSpellCostReduce"
+  },
+  "prevent_all_damage_from_chosen_source_to_player": {
+    "executor": "game/ability_effects.go case \"prevent_all_damage_from_chosen_source_to_player\" -> controller-scoped unlimited ReplacementDamagePrevention shield filtered by chosen target SourceOnlyID, consumed by ReplacementManager.PreventDamageWithContext",
+    "path": "backend/cards/registry_factory_ng_076f0908a0.go",
+    "shape_test": "TestFactoryNGPreventAllDamageFromChosenSourceToPlayer_076f0908a0"
+  },
+  "prevent_all_damage_to_all_creatures_this_turn": {
+    "executor": "game/ability_effects.go and game/gamestate.go -> register unlimited recipient-scoped ReplacementDamagePrevention shields for every battlefield creature, unrestricted by controller or combat origin and lasting until EOT",
+    "path": "backend/cards/registry_factory_ng_147bba4adb.go",
+    "shape_test": "TestFactoryNGPreventAllDamageToAllCreaturesThisTurn_147bba4adb"
+  },
+  "prevent_all_damage_to_player_and_controlled_permanents": {
+    "executor": "game/gamestate.go applySpellEffectCore -> unlimited recipient-scoped ReplacementDamagePrevention shields for the player and every permanent they control, covering combat and noncombat damage until EOT",
+    "path": "backend/cards/registry_factory_ng_eaf0e7dd34.go",
+    "shape_test": "TestFactoryNGPreventAllDamageToPlayerAndControlledPermanents_eaf0e7dd34"
+  },
+  "prevent_all_damage_to_referent_creature_this_turn": {
+    "executor": "game/ability_effects.go case \"prevent_all_damage_to_referent_creature_this_turn\" -> reads game sequence referent and registers an unlimited, unfiltered (combat and non-combat) UntilEOT shield scoped to that permanent",
+    "path": "backend/cards/registry_factory_ng_ff43e65d9f.go",
+    "shape_test": "TestFactoryNGPreventAllDamageToReferentCreatureThisTurn_ff43e65d9f"
+  },
+  "prevent_all_damage_to_target_creature_this_turn": {
+    "executor": "cards/converter.go buildMainSpellEffect + game/gamestate.go applySpellEffectCore -> registers an unlimited target-scoped all-damage prevention shield until EOT",
+    "path": "backend/cards/registry_factory_ng_6897287812.go",
+    "shape_test": "TestFactoryNGPreventAllDamageToTargetCreatureThisTurn_6897287812"
+  },
+  "prevent_all_damage_to_your_creatures_this_turn": {
+    "executor": "game/ability_effects.go and game/gamestate.go -> register unlimited recipient-scoped ReplacementDamagePrevention shields for each creature controlled by the activating player, unrestricted by combat origin and lasting until EOT",
+    "path": "backend/cards/registry_factory_ng_a547093678.go",
+    "shape_test": "TestFactoryNGPreventAllDamageToYourCreaturesThisTurn_a547093678"
+  },
+  "prevent_combat_damage_by_source_power_threshold": {
+    "executor": "game/ability_effects.go registerCombatDamagePreventionBySourcePowerThreshold -> ReplacementManager.Register source-only unlimited combat-only UntilEOT shields with live effective-power <= 3 conditions; game/gamestate.go spell resolution",
+    "path": "backend/cards/registry_factory_ng_f65f60f77b.go",
+    "shape_test": "TestFactoryNGPreventCombatDamageBySourcePowerThreshold_f65f60f77b"
+  },
+  "prevent_combat_damage_eot": {
+    "executor": "game/ability_effects.go case \"prevent_combat_damage_eot\" -> reads game sequence referent and registers an unlimited combat-only UntilEOT shield scoped to that permanent",
+    "path": "backend/cards/registry_factory_ng_3d245c4df0.go",
+    "shape_test": "TestFactoryNGPreventCombatDamageToReferentThisTurn_3d245c4df0"
+  },
+  "prevent_combat_damage_from_sources_without_plus_one_counters": {
+    "executor": "cards/converter.go spell conversion + game/gamestate.go spell resolution + game/ability_effects.go source-only unlimited combat-only UntilEOT shields with live no-+1/+1-counter conditions",
+    "path": "backend/cards/registry_factory_ng_5a56eef988.go",
+    "shape_test": "TestFactoryNGPreventCombatDamageFromSourcesWithoutPlusOneCounters_5a56eef988"
+  },
+  "prevent_combat_damage_from_target_creature": {
+    "executor": "game/ability_effects.go case \"prevent_combat_damage_from_target_creature\" -> registers an unlimited combat-only UntilEOT shield filtered by the chosen creature as damage source, regardless of recipient",
+    "path": "backend/cards/registry_factory_ng_4a3e2a8603.go",
+    "shape_test": "TestFactoryNGPreventCombatDamageFromTargetCreature_4a3e2a8603"
+  },
+  "prevent_combat_damage_this_turn": {
+    "executor": "game/ability_effects.go case \"prevent_combat_damage_this_turn\" -> ReplacementManager.Register(&ReplacementEffect{Type: ReplacementDamagePrevention, AnyTarget: true, CombatOnly: true, Unlimited: true, UntilEOT: true}), consumed by the existing PreventDamageWithContext chokepoint (game/combat.go, game/targeting.go)",
+    "path": "backend/cards/registry_prevent_combat_damage.go",
+    "shape_test": "TestShape_Activated_PreventCombatDamageThisTurn"
+  },
+  "prevent_combat_damage_to_and_by_self_source": {
+    "executor": "game/ability_effects.go:ExecuteAbilityEffect#case:prevent_combat_damage_to_and_by_self_source",
+    "path": "backend/cards/registry_factory_ng_95fd3e91a5.go",
+    "shape_test": "TestFactoryNGPreventCombatDamageToAndBySelfSource_95fd3e91a5"
+  },
+  "prevent_combat_damage_to_and_by_target": {
+    "executor": "game/ability_effects.go case \"prevent_combat_damage_to_and_by_target\" -> registers unlimited combat-only UntilEOT shields scoped to the chosen creature as recipient and damage source",
+    "path": "backend/cards/registry_factory_ng_5141279060.go",
+    "shape_test": "TestFactoryNGPreventCombatDamageToAndByTarget_5141279060"
+  },
+  "prevent_combat_damage_to_players_this_turn": {
+    "executor": "cards/converter.go spell conversion + game/gamestate.go ApplySpellEffect and game/ability_effects.go executor register unlimited combat-only player shields until EOT",
+    "path": "backend/cards/registry_factory_ng_871944e2ab.go",
+    "shape_test": "TestFactoryNGPreventCombatDamageToPlayersThisTurn_871944e2ab"
+  },
+  "prevent_combat_damage_to_you_by_nonflying_this_turn": {
+    "executor": "game/ability_effects.go case \"prevent_combat_damage_to_you_by_nonflying_this_turn\" -> ReplacementManager.Register recipient-scoped CombatOnly/Unlimited/UntilEOT shield with SourceExcludeSubType=\"Flying\"",
+    "path": "backend/cards/registry_factory_ng_bd59b3b3e9.go",
+    "shape_test": "TestFactoryNGRecipientScopedSourceFilteredCombatPrevention_bd59b3b3e9"
+  },
+  "prevent_damage_this_turn_scoped": {
+    "executor": "game/ability_effects.go case \"prevent_damage_this_turn_scoped\" -> ReplacementManager.Register(&ReplacementEffect{Type: ReplacementDamagePrevention, AnyTarget: true, CombatOnly: true, Unlimited: true, UntilEOT: true, SourceOnlyID (self_source) / SourceExcludeSubType (exclude_subtype) per effectValue}), consumed by the existing PreventDamageWithContext chokepoint (game/combat.go, game/targeting.go)",
+    "path": "backend/cards/registry_prevent_damage_scoped.go",
+    "shape_test": "TestShape_Activated_PreventDamageThisTurnScopedSelf"
+  },
+  "prevent_damage_to_controller_and_controlled_creatures_from_creatures": {
+    "executor": "game/gamestate.go applySpellEffectCore -> unlimited until-EOT prevention for combat and noncombat damage from creature sources to the controller and creatures they control",
+    "path": "backend/cards/registry_factory_ng_d2196fb2c9.go",
+    "shape_test": "TestFactoryNGPreventDamageToControllerAndControlledCreaturesFromCreatures_d2196fb2c9"
+  },
+  "prevent_damage_to_self_this_turn": {
+    "executor": "game/ability_effects.go ExecuteAbilityEffect case \"prevent_damage_to_self_this_turn\" -> ReplacementManager.Register(&ReplacementEffect{Type: ReplacementDamagePrevention, AffectsCardID: source.ID, Unlimited: true, UntilEOT: true}) (ticket engine.auto-prevent-damage-to-self-this-turn-d61890a68b, Favored Hoplite class)",
+    "path": "backend/cards/registry_factory_ng_d61890a68b.go",
+    "shape_test": "TestPreventDamageToSelfThisTurn_ShieldsAllDamage"
+  },
+  "proliferate": {
+    "executor": "game/ability_effects.go case \"proliferate\" -> GameState.Proliferate()",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestExecuteAbilityEffect_Proliferate"
+  },
+  "prototype": {
+    "executor": "cards/converter.go applyKeywordCost case \"prototype\" -> Card.PrototypeModes + game/cast_prototype.go CastSpellWithPrototype (Rule 702.163)",
+    "path": "backend/cards/registry_prototype.go",
+    "shape_test": "TestShape_KeywordCost_Prototype"
+  },
+  "pump": {
+    "executor": "cards/converter.go case \"pump\" -> ContinuousEffect via EffectManager",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_PumpAnthem"
+  },
+  "pump_all": {
+    "executor": "game/ability_effects.go case \"pump_all\" -> UntilEOT ContinuousEffect (AffectsFilter/Controller/Subtype) + converter Affects->EffectValue fold; spell path pending",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Activated_PumpAllTeamEOT"
+  },
+  "pump_per_count": {
+    "executor": "cards/converter.go AbilityToEffect case \"pump_per_count\" -> game.ContinuousEffect CountMode/CountFilter/CountSubtype/CountController/CountOther/CountCounterType/PowerPerCount/ToughnessPerCount; game/effects.go EffectManager.GetPowerBonus/GetToughnessBonus call evaluatePerCount live on every query (e.g. Adaptive Omnitool, Ancestral Mask, Blackblade Reforged)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_PumpPerCount"
+  },
+  "pump_referent_eot": {
+    "executor": "game/ability_effects.go case \"pump_referent_eot\" -> sequence referent UntilEOT ContinuousEffect",
+    "path": "backend/cards/registry_factory_ng_fe5451255d.go",
+    "shape_test": "TestFactoryNGPumpReferentEot"
+  },
+  "pump_self_eot": {
+    "executor": "game/ability_effects.go case \"pump_self_eot\" -> UntilEOT self ContinuousEffect",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Triggered_PumpSelfEOT"
+  },
+  "pump_until_eot": {
+    "executor": "cards/converter.go case \"pump_until_eot\" -> SpellEffect + game/gamestate.go resolution (UntilEOT ContinuousEffect); ability tier: game/ability_effects.go case \"pump_until_eot\" -> executePumpEffect, TARGETED ONLY (no-target atoms no-op \u2014 see case comment)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Spell_PumpUntilEOT / TestShape_Modal_TargetedModes"
+  },
+  "put_battlefield_property_filter_match": {
+    "executor": "game/ability_effects.go case \"put_battlefield_property_filter_match\" -> executeReturnFromGraveyard (source=hand, destination=battlefield, card_type filter + additive property=mana_value match vs amount_count counters_on_source/charge resolved by resolveDynamicAmountFull)",
+    "path": "backend/cards/registry_put_battlefield_property_filter_match.go",
+    "shape_test": "TestShape_PutBattlefieldPropertyFilterMatch_AetherVial"
+  },
+  "put_counter": {
+    "executor": "alias of put_counters (same executor)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_ETB_PutCountersEach"
+  },
+  "put_counter_and_draw_card": {
+    "executor": "game/ability_effects.go ExecuteAbilityEffect case put_counter_and_draw_card",
+    "path": "backend/cards/registry_factory_ng_recovery_sep11.go",
+    "shape_test": "TestShape_FactoryNGRegistryRecovery / TestFactoryNGPutCounterAndDrawCard"
+  },
+  "put_counters": {
+    "executor": "game/ability_effects.go executePutCounterEffect (+each-shape, +explicit-target modal round 2, target_trigger_source, target_attached task-1979) + game/gamestate.go spell case \"put_counter\"",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_ETB_PutCountersEach / TestShape_Spell_PutCounterTargetCreature / TestShape_Modal_TargetedModes / TestShape_ETB_PutCounterAttached"
+  },
+  "ravenous": {
+    "executor": "cards/converter.go applyKeywordCost case \"ravenous\" -> (a) Card.EtbCounters{AmountVar:\"x\", CounterType:\"+1/+1\"} consumed by game/gamestate_cast.go applyEtbCounters; (b) synthetic TriggeredAbility{EventEntersBattlefield+Self, RuntimeCondition kind:x_value gte 5, Effect:draw amount 1} \u2014 the draw fires only when the chosen X is \u22655 (Card.XValue stamped before ETB triggers fire)",
+    "path": "backend/cards/registry_ravenous.go",
+    "shape_test": "TestShape_Keyword_Ravenous"
+  },
+  "reconfigure": {
+    "executor": "cards/converter.go applyKeywordCost case \"reconfigure\" -> Card.ReconfigureCost + LosesCreatureTypeWhileAttached + game/reconfigure.go reconfigureActivatedAbilities/executeReconfigureEffect (Rule 702.151)",
+    "path": "backend/cards/registry_reconfigure.go",
+    "shape_test": "TestShape_KeywordCost_Reconfigure"
+  },
+  "referent_doesnt_untap_next_step": {
+    "executor": "game/ability_effects.go case \"referent_doesnt_untap_next_step\" -> loops stackObj.Targets, gs.Battlefield.GetCard(target.CardID), sets Card.SkipNextUntap = true; shared v2 spell-effect-sequence chokepoint with tap_target_creatures/untap_target_permanent",
+    "path": "backend/cards/registry_referent_untap.go",
+    "shape_test": "TestReferentDoesntUntapNextStep_SkipsControllersNextUntapStep (game/referent_doesnt_untap_next_step_test.go)"
+  },
+  "regenerate": {
+    "executor": "game/ability_effects.go case \"regenerate\" -> game/replacement.go GameState.Regenerate (increments Card.RegenerationShields), self-only (source.Controller/source.ID); consumed by game/targeting.go DestroyTarget and the lethal-damage state-based-action check in game/gamestate.go; cant_be_regenerated bypass via SpellEffect.CantBeRegenerated (cards/converter.go, game/gamestate.go); shields expire at cleanup (game/ending.go)",
+    "path": "backend/cards/registry_regenerate.go",
+    "shape_test": "TestShape_Activated_RegenerateSelf (end-to-end grant) + game/regenerate_test.go (TestRegenerate_SurvivesLethalDamage, TestRegenerate_SurvivesDestroyTarget, TestRegenerate_NoShieldDiesToLethalDamage, TestRegenerate_NoShieldDiesToDestroyTarget, TestRegenerate_RemovedFromCombat, TestRegenerate_TwoShieldsSurviveTwoDestructions, TestRegenerate_ShieldExpiresAtCleanup, TestRegenerate_DoesNotSaveFromZeroToughness \u2014 consumption side)"
+  },
+  "regenerate_target": {
+    "executor": "game/ability_effects.go case \"regenerate_target\" -> game/game.findRegenerateTargetCard (battlefield lookup by Target.CardID) -> game/replacement.go GameState.Regenerate, called with the TARGET's own controller/ID rather than the activator's \u2014 bypasses the self-only control check without modifying Regenerate; same shield consumption path as \"regenerate\" (game/targeting.go DestroyTarget, lethal-damage SBA check, cant_be_regenerated bypass, cleanup expiry)",
+    "path": "backend/cards/registry_regenerate.go",
+    "shape_test": "TestRegenerateTarget_GrantsShieldToOpponentControlledCreature (game/regenerate_target_test.go)"
+  },
+  "remove_counter": {
+    "executor": "game/ability_effects.go case \"remove_counter\" -> Card.Counters.RemoveCounter (self-only)",
+    "path": "backend/cards/registry_remove_counter.go",
+    "shape_test": "TestShape_Activated_RemoveCounter"
+  },
+  "repeat_for_each": {
+    "executor": "game/effect_sequence.go repeat_for_each branch -> EvalDynamicAmountEv count + N\u00d7 execution of Modes[0] (no per-element binding; emitters refuse element-referencing inners)",
+    "path": "backend/cards/registry_for_each.go",
+    "shape_test": "TestShape_Spell_RepeatForEach"
+  },
+  "return_card_from_graveyard_subset_to_hand": {
+    "executor": "game/ability_effects.go case \"return_card_from_graveyard_subset_to_hand\" -> executeReturnCardFromGraveyardSubsetToHand (candidates subset + card-type filter, target-driven optional pick)",
+    "path": "backend/cards/registry_factory_ng_01eaafe522.go",
+    "shape_test": "TestFactoryNGReturnCardFromGraveyardToHand (game/factory_ng_01eaafe522_test.go)"
+  },
+  "return_from_graveyard": {
+    "executor": "game/ability_effects.go executeReturnFromGraveyard (triggered/activated: card_type filter, to hand|battlefield|library_top|library_bottom|exile, self-return, tapped, opponent_graveyard source) + cards/converter.go spell case + game/gamestate.go targeted & untargeted resolution",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_ETB_ReturnFromGraveyard / TestShape_Spell_ReanimateToBattlefield / TestShape_Activated_ReturnFromGraveyardToLibraryTop / TestShape_Spell_ReturnFromGraveyardToLibraryBottom / TestShape_ETB_ExileCardFromGraveyard"
+  },
+  "return_from_graveyard_copy_name": {
+    "executor": "game/ability_effects.go case \"return_from_graveyard_copy_name\" -> executeReturnTargetAndSameNameOthersFromGraveyard (targeted creature card + all other same-named cards from controller's graveyard to battlefield tapped)",
+    "path": "backend/cards/registry_factory_ng_4c7a7ee140.go",
+    "shape_test": "TestFactoryNGRegisterReturnFromGraveyardCopyName_4c7a7ee140 (cards/factory_ng_4c7a7ee140_test.go, game/factory_ng_4c7a7ee140_test.go)"
+  },
+  "return_from_graveyard_dual_filter_hand": {
+    "executor": "game/ability_effects.go ExecuteAbilityEffect case return_from_graveyard_dual_filter_hand",
+    "path": "backend/cards/registry_factory_ng_recovery_sep11.go",
+    "shape_test": "TestShape_FactoryNGRegistryRecovery / TestFactoryNGReturnFromGraveyardDualFilterHand"
+  },
+  "reveal_choose": {
+    "executor": "cards/converter.go case \"reveal_choose\" -> SpellEffect + game reveal-top-N choice flow (startRevealChoice) for spells; game/ability_effects.go case \"reveal_choose\" -> game.startRevealChooseValue for triggered/activated abilities (task 2372); an \"until\" value key (SpellEffect.UntilFilter) switches both paths to the open-ended dig game.startRevealChoiceUntil instead of a fixed-N peel (task 2424)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "covered by existing reveal_choose card tests (dsl_integration); triggered/activated path covered by shape_reveal_choose_test.go; until-mode covered by shape_reveal_until_test.go"
+  },
+  "ring_tempts": {
+    "executor": "game/ability_effects.go case \"ring_tempts\" -> GameState.RingTemptsPlayer (game/ring_tempts.go; increments Player.RingTemptedCount + fires EventRingTempts)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_ETB_RingTempts"
+  },
+  "roll_die": {
+    "executor": "game/effect_sequence.go roll_die producer atom -> gs.RollDieForPlayer, result written to a named sequence slot; consumers use value.amount_ref (resolved in executeSequenceAtomEv)",
+    "path": "backend/cards/registry_dice.go",
+    "shape_test": "TestShape_Spell_RollDieBinding"
+  },
+  "roll_table": {
+    "executor": "game/effect_sequence.go roll_table branch -> gs.RollDieForPlayer (game/dice.go chokepoint, DieRollModifier + dispatched EventDieRoll) + range-row selection over Modes",
+    "path": "backend/cards/registry_dice.go",
+    "shape_test": "TestShape_Spell_RollTable"
+  },
+  "sacrifice": {
+    "executor": "game/ability_effects.go case \"sacrifice\" -> executeSacrificeFiltered (controller sacrifices N filter-matching permanents of their own choice; auto-sacrifices all when <= N candidates, else PendingChoice; exclude_self skips the ability's own source permanent for \"another\"/\"other\"). Mirrors executeEdictSacrifice, filter-scoped via matchesPermanentFilter.",
+    "path": "backend/cards/registry_sacrifice.go",
+    "shape_test": "TestShape_Sacrifice_Filtered"
+  },
+  "sacrifice_linked_tokens_at_next_end_step": {
+    "executor": "game/ability_effects.go case \"sacrifice_linked_tokens_at_next_end_step\" -> consumes the complete ReferentCardIDs token set created by the preceding sequence atom and sacrifices those exact permanents at the next EventEndStep",
+    "path": "backend/cards/registry_factory_ng_e81de9c554.go",
+    "shape_test": "TestFactoryNGSacrificeLinkedTokensAtNextEndStep_e81de9c554"
+  },
+  "sacrifice_referent_at_next_end_step": {
+    "executor": "game/ability_effects.go case \"sacrifice_referent_at_next_end_step\" -> reads gs.seqSlotsStr[\"referent\"] and registers a one-shot EventEndStep subscriber that sacrifices that exact permanent",
+    "path": "backend/cards/registry_factory_ng_aad85c6551.go",
+    "shape_test": "TestFactoryNGSacrificeReferentDelayedEndStep"
+  },
+  "sacrifice_self": {
+    "executor": "game/ability_effects.go case \"sacrifice_self\"",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Triggered_SacrificeSelf"
+  },
+  "sacrifice_self_at_next_cleanup_step": {
+    "executor": "game/ability_effects.go case \"sacrifice_self_at_next_cleanup_step\" -> one-shot EventCleanup subscription -> sacrifice source if still on battlefield",
+    "path": "backend/cards/registry_factory_ng_99163e3f52.go",
+    "shape_test": "TestFactoryNGDelayedSacrificeNextCleanupStep"
+  },
+  "sacrifice_self_return_exiled": {
+    "executor": "game/ability_effects.go ExecuteAbilityEffect case sacrifice_self_return_exiled",
+    "path": "backend/cards/registry_factory_ng_recovery_sep11.go",
+    "shape_test": "TestShape_FactoryNGRegistryRecovery / TestFactoryNGReturnExiledCardsWithSource"
+  },
+  "sacrifice_self_then_damage_by_removed_counters": {
+    "executor": "game/ability_effects.go case sacrifice_self_then_damage_by_removed_counters",
+    "path": "backend/cards/registry_factory_ng_417bfe0f81.go",
+    "shape_test": "TestFactoryNGSacrificeSelfThenDamageByRemovedCounters"
+  },
+  "sacrifice_self_unless_opponent_damage_this_turn": {
+    "executor": "game/ability_effects.go ExecuteAbilityEffect case \"sacrifice_self_unless_opponent_damage_this_turn\" -> checks every opponent's DamageTakenThisTurn before sacrificing the source",
+    "path": "backend/cards/registry_factory_ng_2e5295f0f5.go",
+    "shape_test": "TestFactoryNGSacrificeSelfUnlessOpponentDamageThisTurn_2e5295f0f5"
+  },
+  "sacrifice_unless": {
+    "executor": "game.GameState.executeSacrificeUnless via PendingOptionChoice and native bounce resolution",
+    "path": "backend/cards/registry_factory_ng_e9ac3e2462.go",
+    "shape_test": "TestFactoryNGSacrificeUnless"
+  },
+  "sacrifice_unless_discard": {
+    "executor": "game.GameState.executeSacrificeUnlessDiscard through ResolvePendingChoice",
+    "path": "backend/cards/registry_conflict_recovery.go",
+    "shape_test": "TestFactoryNGSacrificeUnlessDiscard"
+  },
+  "sacrifice_until_end_of_combat": {
+    "executor": "game/ability_effects.go case \"sacrifice_until_end_of_combat\" -> reads the preceding sequence referent and registers a one-shot EventEndOfCombat sacrifice for that exact permanent",
+    "path": "backend/cards/registry_factory_ng_3e9238b787.go",
+    "shape_test": "TestFactoryNGSacrificeUntilEndOfCombat"
+  },
+  "sacrifice_until_next_end_step": {
+    "executor": "game/ability_effects.go case \"sacrifice_until_next_end_step\" -> collects the target cardID (chosen target, else source.ID for the self shape), EventBus.Subscribe(EventEndStep, ...) with a self-guarding \"done\" bool closure -> GameState.Sacrifice(card.Controller, cardID) if still on the battlefield (mirrors exile_until_next_end_step / cardfns.ExileUntilNextEndStep's proven idiom, but the card stays on the battlefield until the end step rather than being pre-exiled); game/effect_sequence.go bypasses routeSeqTargets for this effect name specifically",
+    "path": "backend/cards/registry_sacrifice_until_next_end_step.go",
+    "shape_test": "TestShape_Activated_SacrificeUntilNextEndStep"
+  },
+  "sacrifice_variable_count_linked_x": {
+    "executor": "game/ability_effects.go case \"sacrifice_variable_count_linked_x\" -> ExecuteSacrificeVariableCountLinkedX and actual-count-limited DoubleStrike UntilEOT grants",
+    "path": "backend/cards/registry_factory_ng_d02e7f2f9b.go",
+    "shape_test": "TestFactoryNGExecuteLinkedVariableSacrificeFollowup_d02e7f2f9b"
+  },
+  "saddle": {
+    "executor": "cards/converter.go applyKeywordCost case \"saddle\" -> Card.SaddleCost + cardfns/lib_saddle_cost.go SaddleMount (Rule 702.156)",
+    "path": "backend/cards/registry_saddle.go",
+    "shape_test": "TestShape_KeywordCost_Saddle"
+  },
+  "scry": {
+    "executor": "game/ability_effects.go case \"scry\" (keep-all via gs.Scry+CompleteScry, fires EventScry) + cards/converter.go spell case + game/gamestate.go self-case",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_ETB_Scry"
+  },
+  "search": {
+    "executor": "cards/converter.go case \"search\" -> SpellEffect + game/gamestate_tutor.go PendingSearch/ResolveTutorChoice",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Spell_SearchBasicLandToHand"
+  },
+  "search_named_card_multi_zone": {
+    "executor": "game/ability_effects.go case \"search_named_card_multi_zone\" -> game/lib_search_named_card_multi_zone.go GameState.searchNamedCardMultiZone (exact-name search, library then graveyard; shuffle only when found via library)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestSearchNamedCardMultiZone"
+  },
+  "self_copy_on_cast": {
+    "executor": "game/advanced_abilities.go executeSelfCopyOnCastEffect via ability_effects.go case \"self_copy_on_cast\"",
+    "path": "backend/cards/registry_factory_ng_6ac1319816.go",
+    "shape_test": "TestFactoryNGRegisterSelfCopyOnCastPrimitive"
+  },
+  "self_spell_cost_reduce": {
+    "executor": "cards/converter.go static case \"self_spell_cost_reduce\" -> Card.SpellCostReductionSpec; game/gamestate_cast.go CastSpellWithTargets resolves it fresh via gs.EvalDynamicAmount against the spell card itself, guarded against a hand-wired CostReductionFns entry for the same card (same precedent as the AffinityType guard)",
+    "path": "backend/cards/registry_self_cost_reduce_2411.go",
+    "shape_test": "TestShape_Static_SelfSpellCostReduce"
+  },
+  "set_base_pt": {
+    "executor": "cards/converter.go AbilityToEffect case \"set_base_pt\" -> game.ContinuousEffect.SetPower/SetToughness (Rule 613 Layer 7b, auto-assigned by EffectManager.Register); game/card.go GetPowerWithEffects/GetToughnessWithEffects already consult GetSetPower/GetSetToughness ahead of Layer 7c bonuses and Layer 7d counters \u2014 same field pair animate_self (manland UntilEOT self-only) already uses, generalized here to an arbitrary filtered/permanent AffectsFilter/AffectsController/ExcludeSelf target (e.g. Graaz Unstoppable Juggernaut, Kudo King Among Bears, March of the World Ooze, Super State: \"has/have base power and toughness N/N\")",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_SetBasePT"
+  },
+  "shuffle_self_into_library": {
+    "executor": "game/ability_effects.go case \"shuffle_self_into_library\" -> Card.ShuffleSelfIntoLibraryOnResolve (resolving spell; consumed+cleared by ResolveTopOfStack's graveyard-routing point, gamestate.go) OR direct battlefield->owner-library shuffle (permanent ability source); no-op elsewhere (documented)",
+    "path": "backend/cards/registry_shuffle_self.go",
+    "shape_test": "TestShape_Spell_ShuffleSelfIntoLibrary"
+  },
+  "skip_next_untap_step": {
+    "executor": "game/ability_effects.go case \"skip_next_untap_step\" -> loops stackObj.Targets, gs.Battlefield.GetCard(target.CardID), sets Card.SkipNextUntap = true (consumed one-shot by Zone.UntapAll, same field Exert uses); shared by triggered/activated ability effects AND v2 spell-effect-sequence atoms (same chokepoint as \"tap_target_creatures\"/\"untap_target_permanent\")",
+    "path": "backend/cards/registry_skip_next_untap_step.go",
+    "shape_test": "TestSkipNextUntapStep_TargetDoesntUntapNextStep (game/skip_next_untap_step_target_test.go)"
+  },
+  "skip_untap_next": {
+    "executor": "game/ability_effects.go case \"skip_untap_next\" -> Card.SkipNextUntap (exert flag, Rule 701.39; consumed+cleared by Zone.UntapAll)",
+    "path": "backend/cards/registry_self_oneshots.go",
+    "shape_test": "TestShape_Activated_SkipUntapNext"
+  },
+  "skip_your_draw_step": {
+    "executor": "cards/converter.go static case \"skip_your_draw_step\" -> Card.GrantsSkipDrawStep; game/gamestate.go RegisterCardAbilities sets the controller's Player.SkipDrawStep (source-tracked via SkipDrawStepSources so concurrent grants compose), UnregisterCardAbilities tears it down; game/phases.go executeBeginningPhase StepDraw branch skips ExecuteDrawStep while the flag holds \u2014 v2-native counterpart of the caller-less cardfns.RegisterSkipDrawStep (Necrodominance, Infernal Sovereign, Solitary Confinement class); first AbilityDSL-driven wiring.",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_SkipYourDrawStep"
+  },
+  "stat_of_ref": {
+    "executor": "game/dynamic_amount.go evalDynamicAmountBase case \"stat_of_ref\" \u2014 power/toughness of an explicit referent: self = ability/spell's own source, target = first card target (threaded through the new resolveDynamicAmountFull/EvalDynamicAmountFull target plumbing at BOTH dispatch chokepoints), event_subject = triggering event's subject card; generalizes the fixed source_*/event_subject_* count kinds. Missing referent -> (0,false)",
+    "path": "backend/cards/registry_dynamic_amount.go",
+    "shape_test": "TestShape_Activated_DrawEqualToTargetPower / TestShape_Activated_GainLifeEqualToSelfPower"
+  },
+  "surveil": {
+    "executor": "cards/converter.go spell case -> Card.SurveilN + gamestate pause (spell); game/ability_effects.go case \"surveil\" -> PendingSurveil (triggered/activated, wired round 6)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_ETB_Surveil / TestShape_Spell_Surveil"
+  },
+  "suspect": {
+    "executor": "game/ability_effects.go case \"suspect\" (grants Menace via Card.Keywords append + sets Card.CannotBlock on each targeted card, idempotent)",
+    "path": "backend/cards/registry_suspect.go",
+    "shape_test": "TestShape_Suspect"
+  },
+  "suspend": {
+    "executor": "cards/converter.go applyKeywordCost case \"suspend\" -> Card.SuspendSpec + game/suspend.go SuspendCardFromHand/tickSuspendedCards + game/advanced_abilities.go RemoveTimeCounter cast-at-zero (Rule 702.61)",
+    "path": "backend/cards/registry_suspend.go",
+    "shape_test": "TestShape_KeywordCost_Suspend"
+  },
+  "tap": {
+    "executor": "game/ability_effects.go case \"tap\" -> executeTapEffect (targets)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Activated_TapUntapTarget"
+  },
+  "tap_all": {
+    "executor": "game/ability_effects.go case \"tap_all\" -> executeTapAllEffect (non-targeted mass tap by controller scope; filter currently creature-only via Battlefield.GetCreatures, matching the parser's tap_all gate)",
+    "path": "backend/cards/registry_tap.go",
+    "shape_test": "TestShape_Triggered_TapAllOpponentCreatures"
+  },
+  "tap_and_put_counter": {
+    "executor": "game/ability_effects.go case \"tap_and_put_counter\" -> executeTapAndPutCounterEffect (loops targets, card.Tap() + EventTapped/EventBecomesTapped, then gs.AddCounters(card, effectValue[\"counter_type\"] or \"stun\", 1)); shared by triggered/activated ability effects (same chokepoint as \"tap\"/\"tap_target\")",
+    "path": "backend/cards/registry_tap_and_put_counter.go",
+    "shape_test": "TestShape_Triggered_TapAndPutStunCounter / TestShape_Activated_TapAndPutStunCounter"
+  },
+  "tap_or_gain_control_if_named": {
+    "executor": "game/ability_effects.go ExecuteAbilityEffect case tap_or_gain_control_if_named",
+    "path": "backend/cards/registry_factory_ng_recovery_sep11.go",
+    "shape_test": "TestShape_FactoryNGRegistryRecovery / TestFactoryNGNamedPermanentControlGatesEffectChoice_fac1071987"
+  },
+  "tap_or_untap_target_choice": {
+    "executor": "game/ability_effects.go ExecuteAbilityEffect case tap_or_untap_target_choice",
+    "path": "backend/cards/registry_factory_ng_recovery_sep11.go",
+    "shape_test": "TestShape_FactoryNGRegistryRecovery / TestFactoryNGTapOrUntapChoiceTarget"
+  },
+  "tap_referent_doesnt_untap": {
+    "executor": "game/ability_effects.go case \"tap_referent_doesnt_untap\" -> loops stackObj.Targets, gs.Battlefield.GetCard(target.CardID), card.Tap() + EventTapped/EventBecomesTapped AND sets Card.SkipNextUntap = true (consumed one-shot by Zone.UntapAll, same field Exert uses); paired tap+prevent-untap atom shared by triggered/activated ability effects AND v2 spell-effect-sequence atoms",
+    "path": "backend/cards/registry_factory_ng_13cd0f106c.go",
+    "shape_test": "TestTapReferentDoesntUntap_TapsAndSkipsControllersNextUntapStep (game/factory_ng_13cd0f106c_test.go)"
+  },
+  "tap_self": {
+    "executor": "game/ability_effects.go case \"tap_self\" -> taps the source permanent in place, no target (mirrors untap_self; e.g. Tiger-Seal 'At the beginning of your upkeep, tap this creature.')",
+    "path": "backend/cards/registry_tap.go",
+    "shape_test": "TestShape_Triggered_TapSelf"
+  },
+  "tap_target": {
+    "executor": "game/ability_effects.go case \"tap\",\"tap_target\" -> executeTapEffect",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_SpellingAliases_GainLifeTapTarget"
+  },
+  "tap_target_creatures": {
+    "executor": "game/ability_effects.go case \"tap_target_creatures\" -> loops stackObj.Targets, gs.Battlefield.GetCard(target.CardID), sets Card.Tapped = true; shared by triggered/activated ability effects AND v2 spell-effect-sequence atoms (same chokepoint as \"destroy\"/\"regenerate_target\")",
+    "path": "backend/cards/registry_tap_target.go",
+    "shape_test": "TestTapTargetCreatures_TapsTargetedCreature (game/tap_target_creatures_test.go)"
+  },
+  "tap_target_permanent": {
+    "executor": "game/ability_effects.go case \"tap_target_permanent\" -> loops stackObj.Targets, gs.Battlefield.GetCard(target.CardID), card.Tap() + EventTapped/EventBecomesTapped (same semantics as executeTapEffect); type-agnostic sibling of \"tap_target_creatures\", shared by triggered/activated ability effects AND v2 spell-effect-sequence atoms",
+    "path": "backend/cards/registry_tap_target_permanent.go",
+    "shape_test": "TestTapTargetPermanent_TapsNonCreatureWall (game/tap_target_permanent_test.go)"
+  },
+  "tap_variable_amount_x": {
+    "executor": "game/ability_effects.go ExecuteAbilityEffect case tap_variable_amount_x",
+    "path": "backend/cards/registry_factory_ng_recovery_sep11.go",
+    "shape_test": "TestShape_FactoryNGRegistryRecovery / TestFactoryNGTapVariableXTargetCount"
+  },
+  "target_player_draw_discard": {
+    "executor": "game/ability_effects.go case \"target_player_draw_discard\" -> executeTargetPlayerDrawDiscard",
+    "path": "backend/cards/registry.go",
+    "shape_test": "covered by existing wheel/looter card tests"
+  },
+  "target_ref": {
+    "executor": "game/stack.go StackObject.EventCard (stamped in PutTriggeredAbilityOnStackWithEvent via stampEventCard) -> game/effect_sequence.go executeEffectSequenceEv threads it -> game/ability_effects.go chokepoint turns target_ref=='event_subject' into an ordinary target (vanished subject = no-op, Rule 608.2b)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Triggered_ReferentDamageToSubject"
+  },
+  "tiered": {
+    "executor": "gap marker for the unbuilt Tiered keyword mechanic (Fire Magic, TLA set) \u2014 same no-op / never-playable contract as \"custom\". Replace this entry with a real executor when a tiered engine round lands (regEffect panics on duplicate, so the swap is forced to be explicit).",
+    "path": "backend/cards/registry_gap_markers.go",
+    "shape_test": "TestGapMarkersNeverOnPlayableCards"
+  },
+  "times": {
+    "executor": "game/dynamic_amount.go evalDynamicAmountBase case \"times\" \u2014 the wrapped spec's resolved value multiplied by an integer factor (\"twice the number of ...\", factor 2), the multiplying sibling of half_of (recursive EvalDynamicAmountFull on value.of). Factor <= 0 or missing -> (0,false); unresolvable inner spec propagates (0,false)",
+    "path": "backend/cards/registry_dynamic_amount.go",
+    "shape_test": "TestShape_Activated_GainLifeTwiceCreatureCount"
+  },
+  "token": {
+    "executor": "game/ability_effects.go executeTokenEffect",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_ETB_CreateToken"
+  },
+  "token_copy": {
+    "executor": "game/token_copy.go executeTokenCopyEffect (ability tier: target_self/target_attached/target_ref=event_subject/explicit target, via triggered+activated ExecuteAbilityEffect case \"token_copy\") + cards/converter.go buildMainSpellEffect case \"token_copy\" and game/gamestate.go ResolveSpell per-target case \"token_copy\" (spell tier, SpellEffect.SpellTargetType)",
+    "path": "backend/cards/registry_token_copy.go",
+    "shape_test": "TestShape_TokenCopy_Self / TestShape_TokenCopy_Attached / TestShape_TokenCopy_EventSubject / TestShape_TokenCopy_ActivatedTarget / TestShape_TokenCopy_Spell / TestShape_TokenCopy_SpellTypeUnion / TestShape_TokenCopy_CharacteristicOverride (task-3234: add_subtypes + power/toughness override on the cloned token)"
+  },
+  "toughness_gt_power_creature_spell_cost_reduce": {
+    "executor": "cards/converter.go static case \"toughness_gt_power_creature_spell_cost_reduce\" -> Card.ReduceToughnessGtPowerCreatureCost; game/gamestate_cast.go CastSpellWithTargets battlefield scan gated on the cast creature's own base toughness > power",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_ToughnessGtPowerCreatureSpellCostReduce"
+  },
+  "transform_self": {
+    "executor": "game/ability_effects.go case \"transform_self\" -> gs.TransformCard (Rule 711; +untap_after)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Triggered_TransformSelf"
+  },
+  "trigger_referent_controller_filter": {
+    "executor": "game/ability_effects.go ExecuteAbilityEffect destroy dispatch -> executeDestroyTargetReferentControllerFilter; uses StackObject.EventPlayer stamped from the player dealt damage by EventDealsPlayerDamage",
+    "path": "backend/cards/registry_factory_ng_9195ceff20.go",
+    "shape_test": "TestFactoryNGWireTriggerReferentControllerDestroy_9195ceff20"
+  },
+  "two_maintype_spell_cost_reduce": {
+    "executor": "cards/converter.go static case \"two_maintype_spell_cost_reduce\" -> Card.ReduceTypesAnySpell/Cost; game/gamestate_cast.go CastSpellWithTargets battlefield scan, applies once if either listed main TYPE matches via card.HasType (sibling of two_type_spell_cost_reduce, which uses HasSubType)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Static_TwoMaintypeSpellCostReduce"
+  },
+  "typed_ability_cost_reduce": {
+    "executor": "cards/converter.go static case \"typed_ability_cost_reduce\" -> Card.ReduceTypedAbilityActivationCostType/Amount; game/activated_abilities.go effectiveActivationMana battlefield scan gated on the activated ability's own SOURCE matching the stored type/subtype word via HasType/HasSubType (generalizes the artifact-token-only gate on ReduceArtifactTokenAbilityActivationCost to any type word)",
+    "path": "backend/cards/registry_cost_mod_2371.go",
+    "shape_test": "TestShape_Static_TypedAbilityCostReduce"
+  },
+  "unearth": {
+    "executor": "cards/converter.go applyKeywordCost case \"unearth\" -> Card.UnearthCost (flat mana-map Value) + card handler EnableUnearth (cardfns/lib_cast_creature_from_graveyard.go) \u2014 Rule 702.71",
+    "path": "backend/cards/registry_dynamic_amount.go",
+    "shape_test": "TestConverter_UnearthCost_WiredToCard"
+  },
+  "untap": {
+    "executor": "game/ability_effects.go case \"untap\" -> executeUntapEffect (targets)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Activated_TapUntapTarget"
+  },
+  "untap_all": {
+    "executor": "game/ability_effects.go case \"untap_all\" -> executeUntapAllEffect (non-targeted mass untap by controller scope + filter/subtype/attacking; was grandfathered-but-inert \u2014 legacy patterns_spells.go/patterns_triggers.go had emitted the shape with zero consuming code for Reset, Relentless Assault, Wrath of Leknif, etc.)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Spell_UntapAll"
+  },
+  "untap_event_subject": {
+    "executor": "game/ability_effects.go case \"untap_event_subject\" -> reads stackObj.EventCard, gs.Battlefield.GetCard(EventCard.ID), sets Card.Tapped = false; binds directly to the triggering event's subject (no player-chosen target), e.g. \"Whenever a permanent you control enters tapped, untap it.\"",
+    "path": "backend/cards/registry_untap_event_subject.go",
+    "shape_test": "TestUntapEventSubject_UntapsEnteringPermanent (game/untap_event_subject_test.go)"
+  },
+  "untap_self": {
+    "executor": "game/ability_effects.go case \"untap_self\" -> untaps the source permanent in place, no target (e.g. Blasting Station, Anje Falkenrath, Gelectrode 'Untap ~.')",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Activated_UntapSelf"
+  },
+  "untap_target_permanent": {
+    "executor": "game/ability_effects.go case \"untap_target_permanent\" -> loops stackObj.Targets, gs.Battlefield.GetCard(target.CardID), sets Card.Tapped = false; shared by triggered/activated ability effects AND v2 spell-effect-sequence atoms (same chokepoint as \"tap_target_creatures\"/\"regenerate_target\")",
+    "path": "backend/cards/registry_untap_target.go",
+    "shape_test": "TestUntapTargetPermanent_UntapsTargetedCreature (game/untap_target_permanent_test.go)"
+  },
+  "ward": {
+    "executor": "cards/converter.go applyKeywordCost case \"ward\" -> Card.WardCost + game/gamestate_cast.go cast-time tax (Rule 702.152 stand-in)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_Keyword_WardTaxOnCast"
+  },
+  "ward_sacrifice": {
+    "executor": "cards/converter.go applyKeywordCost case \"ward_sacrifice\" -> Card.WardSacrificeCost; game/gamestate_cast.go CastSpellWithTargets already sums WardSacrificeCost across targeted warded permanents and auto-sacrifices that many of the caster's own permanents \u2014 unfiltered \"Ward\u2014Sacrifice N permanent(s)\" only (Mishra's Ward-Sacrifice / Ulamog, the Defiler family); filtered variants (\"Ward\u2014Sacrifice a creature\") don't fit the plain-count field and stay unmapped.",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_KeywordCost_WardSacrifice"
+  },
+  "warp": {
+    "executor": "cards/converter.go applyKeywordCost case \"warp\" -> Card warp cast flow",
+    "path": "backend/cards/registry.go",
+    "shape_test": "covered by existing warp card tests"
+  },
+  "win_game": {
+    "executor": "game/ability_effects.go case \"win_game\" -> GameState.WinTheGame (game/advanced_abilities.go, gates on Player.CantWin)",
+    "path": "backend/cards/registry.go",
+    "shape_test": "TestShape_ETB_WinGame"
+  }
+}

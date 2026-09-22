@@ -1,0 +1,34 @@
+{
+  "gates": [
+    {
+      "id": "scope",
+      "outcome": "passed",
+      "detail": "changed=backend/cards/converter.go,backend/game/ability_effects.go,backend/cards/shape_grant_ability_eot_test.go"
+    },
+    {
+      "id": "engine-vocabulary-handoff",
+      "outcome": "passed",
+      "detail": "All newly added public effects are registered.",
+      "elapsed_ms": 557
+    },
+    {
+      "id": "ticket-gate-0",
+      "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+      "outcome": "passed",
+      "elapsed_ms": 447,
+      "detail": ""
+    },
+    {
+      "id": "ticket-gate-1",
+      "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGGrantAbilityUntilEot$' -count=1",
+      "outcome": "failed",
+      "elapsed_ms": 560300,
+      "detail": "cards/shape_grant_ability_eot_test.go:100:27: gs.Players[1].Hand.Size undefined (type *game.Zone has no field or method Size)\ncards/shape_grant_ability_eot_test.go:100:67: gs.Players[0].Hand.Size undefined (type *game.Zone has no field or method Size)\ncards/shape_grant_ability_eot_test.go:108:50: gs.Players[1].Hand.Size undefined (type *game.Zone has no field or method Size)\n# magic-backend/cards [magic-backend/cards.test]\ncards/shape_grant_ability_eot_test.go:100:27: gs.Players[1].Hand.Size undefined (type *game.Zone has no field or method Size)\ncards/shape_grant_ability_eot_test.go:100:67: gs.Players[0].Hand.Size undefined (type *game.Zone has no field or method Size)\ncards/shape_grant_ability_eot_test.go:108:50: gs.Players[1].Hand.Size undefined (type *game.Zone has no field or method Size)\nFAIL\tmagic-backend/cards [build failed]\ntesting: warning: no tests to run\nPASS\nok  \tmagic-backend/game\t0.047s [no tests to run]"
+    }
+  ],
+  "changed": [
+    "backend/cards/converter.go",
+    "backend/game/ability_effects.go",
+    "backend/cards/shape_grant_ability_eot_test.go"
+  ]
+}

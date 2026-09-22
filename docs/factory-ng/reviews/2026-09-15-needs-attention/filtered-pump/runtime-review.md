@@ -1,0 +1,1 @@
+The initial focused check exposed the missing artifact_creature bucket in matchesPermanentFilter, including through the older legacy Affects path. Added that conjunctive type bucket. Initial fixture errors for player 1 priority and non-instant timing are corrected by setting the active player, priority, and main phase explicitly. Initial failing evidence is retained.

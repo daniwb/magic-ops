@@ -1,0 +1,79 @@
+{
+  "capability": {
+    "required_behavior": "Bloodthirst N or X applies entering +1/+1 counters only after actual opponent damage this turn."
+  },
+  "evidence": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-15T223102Z-map-plan-pump-rabble-rouser-21e06a8b0b-v3-codex.json",
+      "fact": "Targeted demand rejects parsed but unregistered bloodthirst; source review confirms missing runtime keyword_cost implementation."
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "One index-grounded evidence retry after an AMBIGUOUS park caused by an incomplete evidence pack.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestShape_BloodthirstEntry$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.operator-bloodthirst-runtime-sep15/v1",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Retain the terminal receipt and continue independent discovery; do not request manual source transcription.",
+  "parents": [],
+  "production": {
+    "producer": "operator-attention-review",
+    "key": "bloodthirst-runtime-sep15"
+  },
+  "required_behavior": [
+    "Implement numeric and X Bloodthirst keyword_cost records using actual damage dealt to opponents this turn.",
+    "Apply entering counters before ETB events for cast and non-cast battlefield entries, using the standard counter-placement pipeline.",
+    "Do not count controller damage, pure life loss, prevented damage, or previous-turn damage.",
+    "Avoid applying the same entry spec again during spell resolution."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/zone.go",
+      "backend/game/gamestate_cast.go",
+      "backend/game/bloodthirst_entry.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry_bloodthirst.go",
+      "backend/cards/shape_bloodthirst_entry_test.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "3d6011c8fb0382757a3c88b658ea67ebd7c720b5",
+    "clean": true
+  },
+  "title": "Apply Bloodthirst from actual opponent damage on battlefield entry",
+  "work_type": "engine",
+  "operator_recovery": {
+    "authorization": "User requested fixing all needs-attention tickets.",
+    "related_original": "ticket:map.plan-pump-rabble-rouser-21e06a8b0b/v2",
+    "additional_provider_runs": 0,
+    "counter_resets": false,
+    "scope_addition_reason": "Separate Engine prerequisite for the remaining keyword-cost stub; original Map remains open."
+  }
+}

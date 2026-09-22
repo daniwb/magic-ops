@@ -1,0 +1,197 @@
+--- a/scripts/factory-ng-controller.py
++++ b/scripts/factory-ng-controller.py
+@@ -1315,10 +1315,10 @@
+     return min(max_queued, target_ready + dispatch_slots)
+ 
+ 
+-def producer_queue_cap(max_queued, jobs):
+-    """Reserve queue capacity for active jobs that may return for a retry."""
++def producer_queue_cap(max_queued, jobs, target_ready=0):
++    """Reserve retry headroom without reducing the configured ready reserve."""
+     active_workers = sum(job.get("state") == "working" for job in jobs["jobs"].values())
+-    return max(0, max_queued - active_workers)
++    return max(min(target_ready, max_queued), max_queued - active_workers, 0)
+ 
+ 
+ def reserve_refill_due(runtime):
+@@ -1327,8 +1327,9 @@
+     runnable = int(queue.get("runnable", 0))
+     fill_target = int(queue.get("fill_target", queue.get("target_ready", 0)))
+     admission_cap = int(queue.get("admission_cap", queue.get("max_queued", fill_target)))
+-    producer_progress = any(item.get("producer") and item.get("status") == "queued"
+-                            for item in runtime.get("results", []))
++    latest = {item['producer']: item.get('status') for item in runtime.get('results', [])
++              if item.get('producer')}
++    producer_progress = any(status in ('queued', 'scan_pending') for status in latest.values())
+     return bool(fill_target and runnable < fill_target and
+                 runnable < admission_cap and producer_progress)
+ 
+@@ -1353,7 +1354,7 @@
+                      'deferred': len(inventory['deferred']), 'total': inventory['total'],
+                      'target_ready': target_ready}, results=results,
+                      message='Queue inventory measured before producer sweep.')
+-        admission_cap = producer_queue_cap(max_queued, jobs)
++        admission_cap = producer_queue_cap(max_queued, jobs, target_ready)
+         map_reserve = max(0, min(admission_cap, int(queue_settings.get("map_reserve", 0))))
+         producer_admission = {
+             "max_runnable": admission_cap,
+@@ -1453,14 +1454,19 @@
+                     break
+                 status = run_producer(producer_id, command, timeout, results, queued, producer_admission)
+                 attempts_left -= 1
++                if status in ("queued", "scan_pending"):
++                    progress = True
++                    next_round.append((producer_id, command, timeout))
++                elif producer_id == 'capability-dependencies' and status == 'awaiting_dependency':
++                    # Model results arriving during this sweep can introduce
++                    # new demand after the dependency producer found none.
++                    next_round.append((producer_id, command, timeout))
+                 if status == "queued":
+-                    progress = True
+                     jobs, by_profile = sync_jobs()
+                     inventory = queue_inventory(jobs, by_profile, availability)
+                     producer_admission["runnable_engine"] = sum(
+                         jobs["jobs"].get(ticket_id, {}).get("work_type") == "engine"
+                         for ticket_id in inventory["runnable"])
+-                    next_round.append((producer_id, command, timeout))
+                 if len(inventory["runnable"]) >= admission_cap or (not first_round and
+                                                                   len(inventory["runnable"]) >= fill_target):
+                     break
+@@ -1486,7 +1492,7 @@
+     final_target_ready = effective_target_ready(final_queue_settings, by_profile)
+     final_max_queued = max(final_target_ready, int(final_queue_settings.get(
+         "max_queued", final_target_ready * 4)))
+-    final_admission_cap = producer_queue_cap(final_max_queued, jobs)
++    final_admission_cap = producer_queue_cap(final_max_queued, jobs, final_target_ready)
+     final_fill_target = producer_fill_target(
+         final_target_ready, final_admission_cap, by_profile, availability)
+     exhausted = bool(producer_results) and all(item.get("status") in
+--- a/scripts/test_factory_ng_control.py
++++ b/scripts/test_factory_ng_control.py
+@@ -281,6 +281,13 @@
+         }}
+         self.assertEqual(controller.producer_queue_cap(12, jobs), 9)
+ 
++    def test_five_busy_workers_cannot_shrink_the_ten_ticket_reserve(self):
++        controller = load_script("factory_ng_reserve_floor_test", "factory-ng-controller.py")
++        jobs = {"jobs": {str(i): {"state": "working"} for i in range(5)}}
++        self.assertEqual(controller.producer_queue_cap(12, jobs, 10), 10)
++        jobs['jobs'].clear()
++        self.assertEqual(controller.producer_queue_cap(12, jobs, 10), 12)
++
+     def test_successful_supply_refills_immediately_after_leases(self):
+         controller = load_script("factory_ng_refill_due_test", "factory-ng-controller.py")
+         runtime = {"queue": {"runnable": 6, "total": 6, "fill_target": 9,
+@@ -295,6 +302,19 @@
+         runtime["queue"]["runnable"] = 6
+         runtime["results"][0]["status"] = "exhausted_supported_plan"
+         self.assertFalse(controller.reserve_refill_due(runtime))
++
++    def test_pending_scan_refills_but_latest_exhaustion_or_error_stops_it(self):
++        controller = load_script("factory_ng_pending_refill_test", "factory-ng-controller.py")
++        runtime = {'queue': {'runnable': 0, 'target_ready': 10, 'admission_cap': 10},
++                   'results': [{'producer': 'fresh', 'status': 'scan_pending'}]}
++        self.assertTrue(controller.reserve_refill_due(runtime))
++        runtime['queue']['runnable'] = 10
++        self.assertFalse(controller.reserve_refill_due(runtime))
++        runtime['queue']['runnable'] = 0
++        for status in ('exhausted_supported_plan', 'producer_error', 'active_frontier_limit'):
++            runtime['results'] = [{'producer': 'fresh', 'status': 'queued'},
++                                  {'producer': 'fresh', 'status': status}]
++            self.assertFalse(controller.reserve_refill_due(runtime))
+ 
+     def test_producer_timeout_is_recorded_without_escaping_sweep(self):
+         controller = load_script("factory_ng_producer_timeout_test", "factory-ng-controller.py")
+--- a/scripts/test_factory_ng_producer_performance.py
++++ b/scripts/test_factory_ng_producer_performance.py
+@@ -24,6 +24,60 @@
+ 
+ 
+ class ScanTest(unittest.TestCase):
++    def run_refill_sweep(self, behavior):
++        m = load('factory-ng-controller')
++        workers = [{'id': 'w%d' % i, 'profile': 'test', 'enabled': True} for i in range(5)]
++        profiles = m.configured_workers_by_profile(workers)
++        jobs = {'jobs': {}}
++        calls, snapshots = [], []
++        def inventory(*args):
++            ready = [key for key, job in jobs['jobs'].items() if job['state'] == 'queued']
++            return {'runnable': ready, 'deferred': [], 'total': len(ready)}
++        def produce(producer_id, command, timeout, results, queued, admission=None):
++            calls.append(producer_id)
++            status = behavior(producer_id, jobs, calls)
++            results.append({'producer': producer_id, 'status': status})
++            return status
++        with contextlib.ExitStack() as stack:
++            patches = {
++                'producers': [('capability-dependencies', [], 1), ('fresh', [], 1)],
++                'policy': {'queue': {'target_ready': 3, 'ready_per_worker': 2, 'max_queued': 12}},
++                'sync_jobs': (jobs, profiles), 'dispatch_one': jobs,
++                'worker_availability': {'test': {w['id']: {'allowed': True} for w in workers}},
++                'load_json': {'workers': workers}, 'load_worker_pauses': {'workers': {}},
++            }
++            for name, value in patches.items():
++                stack.enter_context(mock.patch.object(m, name, return_value=value))
++            stack.enter_context(mock.patch.object(m, 'queue_inventory', side_effect=inventory))
++            stack.enter_context(mock.patch.object(m, 'run_producer', side_effect=produce))
++            stack.enter_context(mock.patch.object(m, 'write_status', side_effect=lambda **s: snapshots.append(s)))
++            stack.enter_context(mock.patch.object(m, 'dispatch_integration'))
++            m.run_once()
++        return calls, snapshots[-1]
++
++    def test_pending_scan_continues_and_new_dependency_is_revisited_in_same_sweep(self):
++        def behavior(producer, jobs, calls):
++            if producer == 'fresh':
++                return 'scan_pending' if calls.count('fresh') == 1 else 'exhausted_supported_plan'
++            if calls.count(producer) == 2:
++                jobs['jobs']['engine'] = {'ticket_id': 'engine', 'state': 'queued', 'work_type': 'engine'}
++                return 'queued'
++            return 'awaiting_dependency'
++        calls, snapshot = self.run_refill_sweep(behavior)
++        self.assertEqual(calls[:4], ['capability-dependencies', 'fresh'] * 2)
++        self.assertEqual(snapshot['queue']['runnable'], 1)
++        self.assertEqual(snapshot['queue']['target_ready'], 10)
++        self.assertEqual(calls.count('fresh'), 2)
++
++    def test_pending_scan_sweep_is_bounded_and_exhaustion_does_not_spin(self):
++        calls, snapshot = self.run_refill_sweep(
++            lambda producer, *_: 'scan_pending' if producer == 'fresh' else 'awaiting_dependency')
++        self.assertEqual(len(calls), 14)  # twelve admission slots plus two producers
++        self.assertEqual(snapshot['queue']['runnable'], 0)
++        calls, _ = self.run_refill_sweep(
++            lambda producer, *_: 'exhausted_supported_plan' if producer == 'fresh' else 'awaiting_dependency')
++        self.assertEqual(calls, ['capability-dependencies', 'fresh'])
++
+     def test_cached_projection_tracks_changes_and_retries_partial_files(self):
+         with tempfile.TemporaryDirectory() as d:
+             root = Path(d); path = root / 'receipt.json'; cache = ProducerCache(root / 'cache.db')
+--- a/RUNBOOK.md
++++ b/RUNBOOK.md
+@@ -79,8 +79,10 @@
+ 
+ ## Queue and scheduling
+ 
+-The controller scans enabled producers every five minutes and immediately
+-refills when the reserve falls below target. Reserve size is:
++The controller scans enabled producers every five minutes. Below target,
++successful production and unfinished scan slices continue in bounded sweeps
++and on the next controller cycle, without waiting for that interval. A producer's
++latest exhausted/error result stops immediate continuation. Reserve size is:
+ 
+ ```
+ max(queue.target_ready, queue.ready_per_worker × enabled workers)
+@@ -98,6 +100,14 @@
+ Deferred tickets do not satisfy or consume the runnable reserve. Producers
+ must continue looking for independent work even when deferred inventory is
+ large.
++
++Running jobs reserve retry headroom only above the ready target: admission is
++`max(target_ready, max_queued - working)` after raising `max_queued` to at least
++the effective target. Thus five busy workers cannot reduce a ten-ticket target
++to seven. This is a shared compatible reserve, not two tickets assigned to each
++worker. Supply can remain below target when no eligible candidates exist.
++The dependency producer is revisited while other producers make progress, so
++Map verdicts arriving during a sweep can generate Engine work in that sweep.
+ 
+ Manual enqueue is a repair interface, not normal production:
+ 

@@ -1,0 +1,14 @@
+{
+  "strict_apply_exit": 0,
+  "tests": "test_answer_value (test_answer.TestAnswer.test_answer_value) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nOK\n",
+  "passed": true,
+  "usage": {
+    "type": "complete",
+    "total_tokens": 949,
+    "input_tokens": 848,
+    "output_tokens": 101,
+    "cache_read_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "cost_usd": 0.0
+  }
+}

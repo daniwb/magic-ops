@@ -1,0 +1,90 @@
+From 7db89ef0733b3505a319db4289ce12ff5c370f92 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Tue, 8 Sep 2026 23:32:42 +0000
+Subject: [PATCH] factory-ng: supervised engine observation
+
+---
+ backend/game/ability_effects.go            | 18 ++++++++++
+ backend/game/factory_ng_d0c00a2e90_test.go | 41 ++++++++++++++++++++++
+ 2 files changed, 59 insertions(+)
+ create mode 100644 backend/game/factory_ng_d0c00a2e90_test.go
+
+diff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go
+index 03947049a..166a3f416 100644
+--- a/backend/game/ability_effects.go
++++ b/backend/game/ability_effects.go
+@@ -8202,6 +8202,24 @@ func (gs *GameState) ExecuteAbilityEffect(stackObj *StackObject) error {
+ 			SourceName: anyNumSourceName,
+ 		}
+ 		return nil
++	case "sacrifice_source":
++		// "sacrifice this artifact/creature/permanent" — always the
++		// ability's own source, never a choice among other matching
++		// permanents (Monkey Cage class: "sacrifice this artifact and
++		// create X ... tokens"). Distinct from "sacrifice" above, which
++		// lets the controller choose among filtered candidates elsewhere
++		// on the battlefield.
++		if source == nil {
++			return nil
++		}
++		if _, err := gs.Battlefield.GetCard(source.ID); err != nil {
++			// Source already left the battlefield (e.g. sacrificed or
++			// destroyed by an earlier effect in the same resolution) —
++			// nothing left to sacrifice.
++			return nil
++		}
++		gs.sacrificeCard(source, controller)
++		return nil
+ 	case "sacrifice_choice":
+ 		// "[player] sacrifices a permanent of their choice" — the
+ 		// unless-pay consequence for event-triggered abilities whose
+diff --git a/backend/game/factory_ng_d0c00a2e90_test.go b/backend/game/factory_ng_d0c00a2e90_test.go
+new file mode 100644
+index 000000000..dbfdff875
+--- /dev/null
++++ b/backend/game/factory_ng_d0c00a2e90_test.go
+@@ -0,0 +1,41 @@
++package game
++
++import "testing"
++
++// TestFactoryNGSacrificeSource covers the sacrifice_source ability effect
++// (ticket engine.auto-sacrifice-source-d0c00a2e90, Monkey Cage class:
++// "sacrifice this artifact and create X ... tokens"). Distinguishes it from
++// the "sacrifice" effect (executeSacrificeFiltered), which lets the
++// controller choose among OTHER matching permanents.
++func TestFactoryNGSacrificeSource(t *testing.T) {
++	gs := NewGame("P0", "P1", false)
++
++	source := NewCard("Factory NG Cage Test", CardType("Artifact"), ManaCost{}, 0)
++	source.Controller = 0
++	gs.Battlefield.AddCard(source)
++
++	other := NewCard("Factory NG Bystander Relic", CardType("Artifact"), ManaCost{}, 0)
++	other.Controller = 0
++	gs.Battlefield.AddCard(other)
++
++	stackObj := &StackObject{
++		IsAbility:   true,
++		Text:        "sacrifice_source",
++		Controller:  0,
++		Card:        source,
++		EffectValue: map[string]interface{}{},
++	}
++	if err := gs.ExecuteAbilityEffect(stackObj); err != nil {
++		t.Fatalf("ExecuteAbilityEffect: %v", err)
++	}
++
++	if _, err := gs.Battlefield.GetCard(source.ID); err == nil {
++		t.Fatalf("source artifact still on battlefield after sacrifice_source effect")
++	}
++	// Negative example: a DIFFERENT artifact the same player controls
++	// must be untouched — sacrifice_source only ever sacrifices its own
++	// source, never another matching permanent.
++	if _, err := gs.Battlefield.GetCard(other.ID); err != nil {
++		t.Fatalf("unrelated artifact was removed instead of the source: %v", err)
++	}
++}
+-- 
+2.43.0
+

@@ -224,31 +224,14 @@ honest misses rather than being over-matched.
 %s
 ''' % (a.ticket, a.ticket, '\n\n'.join(diff_parts), reg_effects_section)
 
-kb_hits = ''
-try:
-    # Always blend the shape token with real words from the blocked example
-    # cards' oracle text (card_sections, already collected above) — the
-    # token alone is often too generic to surface what a ticket is
-    # actually about. Two found failure modes, both 2026-08-11:
-    #  1. Catch-all shapes ("verb_unmapped:?") reduce token to punctuation
-    #     — literally querying kb for "?". Every registered primitive was
-    #     invisible to every such ticket all night.
-    #  2. Category-shaped tokens that ARE real words ("kw_action",
-    #     "static_subject") still aren't card-specific: og1's kw_action
-    #     ticket queried "kw action" and never found amass/monstrosity/
-    #     proliferate even though the kb index has all three (verified
-    #     live) — the query was too generic, not the index stale.
-    # kb's own /find already AND-matches first and falls back to OR across
-    # all words if that's empty (card-knowledge-service.py:171-172), so
-    # blending in extra words is safe — worst case it degrades to OR
-    # ranking instead of returning nothing.
-    token_words = token.replace('_', ' ') if re.search(r'[a-z]{3,}', token) else ''
-    example_words = ' '.join(re.findall(r'\b[a-z]{4,}\b', ' '.join(card_sections).lower()))
-    kb_query = (token_words + ' ' + example_words).strip()[:300]
-    q = urllib.parse.quote(kb_query)
-    kb_hits = urllib.request.urlopen('%s/find?q=%s&n=5' % (a.kb, q), timeout=5).read().decode()
-except Exception:
-    pass
+from factory_ng_knowledge import search as knowledge_search, describe
+# Keep the shape/capability query separate from prose. Broadening is an
+# explicit second request, preserved in the lookup trace.
+kb_query = token if re.search(r'[a-z]{3,}', token) else ' '.join(card_sections)[:300]
+lookup = knowledge_search(kb_query,'legacy-map-packet',limit=5,base=a.kb)
+if lookup['status'] == 'not_found':
+    lookup = knowledge_search(kb_query,'legacy-map-packet',limit=5,base=a.kb,fallback=True)
+kb_hits = describe(lookup)
 
 implemented_section = ''
 if implemented_capabilities:

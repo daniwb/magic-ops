@@ -6,6 +6,9 @@ import json
 import sys
 import urllib.request
 import urllib.parse
+from pathlib import Path
+from factory_ng_knowledge import request, search, describe, resolve_candidate
+from factory_ng_symbols import render
 
 KB_BASE = "http://127.0.0.1:4103"
 
@@ -13,11 +16,12 @@ TOOLS = [
     {
         "name": "find_capability",
         "description": (
-            "Search the engine's index of every primitive, helper, and "
+            "Search indexed primitives, helpers, engine symbols, and "
             "existing card handler for a named capability (e.g. "
             "'grant unearth', 'discard hand', 'draw cards'). Use this "
             "BEFORE grepping the codebase manually — it directly answers "
-            "whether a capability already exists and where."
+            "candidate locations; a search miss is not proof of missing behavior. "
+            "Use read_source with a returned symbol_id to fetch the actual declaration."
         ),
         "inputSchema": {
             "type": "object",
@@ -48,12 +52,9 @@ TOOLS = [
     {
         "name": "check_capability",
         "description": (
-            "Authoritative check for whether the engine supports a specific "
-            "named event or condition (e.g. 'discard', 'event_unsupported' "
-            "shapes). MISSING means the engine genuinely lacks it — park "
-            "with NEEDS_PRIMITIVE immediately, do not explore the engine "
-            "first. SUPPORTED means map it via existing converter/parser "
-            "rules, never write new engine code."
+            "Check a limited index of event constants and converter labels. "
+            "A missing entry is not proof of a missing engine capability. "
+            "Verify the implementation in the pinned checkout before proposing Engine work."
         ),
         "inputSchema": {
             "type": "object",
@@ -66,13 +67,13 @@ TOOLS = [
 ]
 
 
+TOOLS.append({"name":"read_source", "description":"Resolve a qualified symbol from search in this worker checkout; returns actual declaration lines and source revision.",
+              "inputSchema":{"type":"object","properties":{"symbol_id":{"type":"string"}},"required":["symbol_id"]}})
+
+
 def call_kb(path, params):
-    url = f"{KB_BASE}{path}?{urllib.parse.urlencode(params)}"
-    try:
-        with urllib.request.urlopen(url, timeout=15) as r:
-            return r.read().decode("utf-8", errors="replace")
-    except Exception as e:
-        return f"ERROR calling knowledge service: {e}"
+    result=request(path,params,'worker-mcp',KB_BASE)
+    return result.get('text') or describe(result)
 
 
 def handle(req):
@@ -101,7 +102,12 @@ def handle(req):
             if args.get("kind"):
                 p["kind"] = args["kind"]
             p["n"] = args.get("n", 5)
-            text = call_kb("/find", p)
+            lookup=search(p["q"],"worker-mcp",p.get("kind"),p["n"],base=KB_BASE)
+            text=describe(lookup)
+        elif name == "read_source":
+            symbol_id=args.get('symbol_id','')
+            path,sep,_=symbol_id.partition('::')
+            text=render(resolve_candidate(Path.cwd(),{'path':path,'symbol_id':symbol_id},caller='worker-mcp')) if sep else 'Invalid symbol_id; select one returned by search.'
         elif name == "similar_handlers":
             p = {"text": args.get("text", ""), "n": args.get("n", 2)}
             text = call_kb("/similar", p)

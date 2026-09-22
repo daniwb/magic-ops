@@ -1,0 +1,43 @@
+{
+  "observed_at": "2026-09-08T19:19:36.724766+00:00",
+  "job": {
+    "compatible_profiles": [
+      "claude-agentic-test@1.0.0",
+      "claude-agentic@1.0.0",
+      "claude-staged@1.0.0",
+      "qwen-prepared-local@1.0.1",
+      "codex-constrained@1.0.0"
+    ],
+    "created_at": "2026-09-08T19:18:19Z",
+    "preferred_profile": "claude-staged@1.0.0",
+    "production": {
+      "integration_repair_parent": "ticket:engine.auto-dynamic-x-count-named-copies-in-all-graveyards-aee4fdb33f/v1",
+      "key": "capability:dynamic_x_count_named_copies_in_all_graveyards:sha256:aee4fdb33fb2d94d19f23335aa66ff67060a5903fecc7514d3ab68ac27bdad73:integration-repair-v1",
+      "producer": "capability-dependencies",
+      "retry_reason": "semantic_gate_repair"
+    },
+    "profile": "claude-staged@1.0.0",
+    "state": "queued",
+    "ticket_id": "ticket:engine.auto-dynamic-x-count-named-copies-in-all-graveyards-aee4fdb33f/v2",
+    "ticket_path": "docs/factory-ng/tickets/engine-auto-dynamic-x-count-named-copies-in-all-graveyards-aee4fdb33f-v2.json",
+    "updated_at": "2026-09-08T19:18:19Z",
+    "usage_status": {
+      "claude": "5h=40% 7d=84% | weekly-mode=paced fixed=95% | Tag 7/7 \u2192 erlaubt 95% n\u00e4chste Stufe: 2026-09-09 20:00 CEST \u2192 l\u00e4uft (unter Tages-Stufe, Stopp bei >=)",
+      "claude-2": "5h=40% 7d=84% | weekly-mode=paced fixed=95% | Tag 7/7 \u2192 erlaubt 95% n\u00e4chste Stufe: 2026-09-09 20:00 CEST \u2192 l\u00e4uft (unter Tages-Stufe, Stopp bei >=)",
+      "qwen-local": "unmetered local worker"
+    },
+    "waiting_reason": "all compatible workers are usage-paused; retained as deferred inventory",
+    "work_type": "engine"
+  },
+  "predecessor": {
+    "id": "ticket:engine.auto-dynamic-x-count-named-copies-in-all-graveyards-aee4fdb33f/v1",
+    "state": "integration_failed",
+    "superseded_by": "ticket:engine.auto-dynamic-x-count-named-copies-in-all-graveyards-aee4fdb33f/v2"
+  },
+  "original_gates_and_scope_preserved": true,
+  "ticket_sha256": "bd497ca8fe6d99a0cad0d647bbd725844044f25a293322257df8700de18a36b7",
+  "tidal_blocker": {
+    "reason": "Map repair limit reached (2/2); complete-card verification is still required.",
+    "receipt": "docs/factory-ng/runs/2026-09-08T164831Z-map-plan-tap-tidal-surge-6e2c99a204-v5-qwen.json"
+  }
+}

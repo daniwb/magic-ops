@@ -1,0 +1,20 @@
+{
+  "ticket_id": "ticket:engine.auto-target-attacking-alone-creature-edef446e2c/v2",
+  "codex_receipt": "docs/factory-ng/runs/2026-09-16T101351Z-engine-auto-target-attacking-alone-creature-edef446e2c-v2-codex.json",
+  "codex_receipt_sha256": "sha256:67871d70025cff30f6e26703d9ae91085fbec7f46b2df02f743a71cdfe3a775d",
+  "current_receipt": "docs/factory-ng/runs/2026-09-16T101351Z-engine-auto-target-attacking-alone-creature-edef446e2c-v2-codex.json",
+  "current_receipt_sha256": "sha256:67871d70025cff30f6e26703d9ae91085fbec7f46b2df02f743a71cdfe3a775d",
+  "initial_gates": [
+    {
+      "detail": "backend/cards/types.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\nbackend/game/events.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\nbackend/cards/converter.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\nbackend/cards/converter.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\nbackend/game/targeting.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\nbackend/game/activated_abilities.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\nbackend/game/activated_abilities.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\nbackend/game/ability_effects.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\n",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "correction": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged."
+}

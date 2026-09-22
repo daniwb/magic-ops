@@ -1,0 +1,12 @@
+[
+  {
+    "ticket": "ticket:engine.auto-destroy-permanents-with-attribute-equal-to-count-cd9a3837ad/v4",
+    "integration_receipt": "docs/factory-ng/runs/2026-09-16T225612Z-wave-b92dc50689b3-1789599372884218201-integration.json",
+    "outcome": "pushed_full_production_gate_green"
+  },
+  {
+    "ticket": "ticket:engine.auto-destroy-trigger-block-counterpart-referent-09d08a014b/v3",
+    "integration_receipt": "docs/factory-ng/runs/2026-09-16T225612Z-wave-b92dc50689b3-1789599372884218201-integration.json",
+    "outcome": "pushed_full_production_gate_green"
+  }
+]

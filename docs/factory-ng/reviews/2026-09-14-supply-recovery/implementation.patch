@@ -1,0 +1,415 @@
+--- a/scripts/factory-ng-produce-build-plan.py
++++ b/scripts/factory-ng-produce-build-plan.py
+@@ -132,8 +132,44 @@
+     pass
+ 
+ 
+-def discover_fresh_example(source, reparse, rows, effects, history, cache=None, revision=None, budget_seconds=15, miss_count=1):
+-    """Find an unaccounted member with exactly miss_count misses of one shape."""
++def candidate_retry(history, production_key, lane):
++    """Share admission rules between full-corpus discovery and ticket emission.
++
++    Age alone never grants another attempt. Only the existing bounded repair
++    classes qualify, and a successor with a different production key still
++    owns its ancestor's work.
++    """
++    chain = history.get(production_key, [])
++    if not chain:
++        return {} if lane in ('fresh', 'all') else None
++    if lane == 'fresh':
++        return None
++    if any(item.get('dedicated_recovery') for item in chain):
++        # Integration obligations and controlled cohorts have their own
++        # producers/contracts. Never replace those with a generic Map retry.
++        return None
++    latest = chain[-1]
++    if latest.get('superseded'):
++        return None
++    generation = max(item.get('retry_generation', 0) for item in chain)
++    conflict = (latest.get('state') == 'integration_failed'
++                and latest.get('outcome') == 'candidate_conflict' and generation < 2)
++    if (lane == 'conflict' and not conflict) or (lane == 'repair' and conflict):
++        return None
++    repair = (latest.get('state') in ('failed', 'integration_failed') and generation < 1
++              and (str(latest.get('outcome', '')).startswith('infrastructure_failed')
++                   or latest.get('outcome') == 'gate_failed'
++                   and latest.get('profile') == 'qwen-prepared-direct@1.0.2'))
++    if not (conflict or repair):
++        return None
++    return {'parent': latest['ticket_id'], 'generation': generation + 1,
++            'reason': ('integration_conflict_repair' if conflict else
++                       'semantic_gate_repair' if latest.get('outcome') == 'gate_failed' else
++                       'infrastructure_repair'), 'receipt': latest.get('receipt')}
++
++
++def discover_fresh_example(source, reparse, rows, effects, history, cache=None, revision=None, budget_seconds=15, miss_count=1, lane='fresh'):
++    """Find a current eligible member anywhere in the corpus, including repairs."""
+     by_shape = {}
+     for row in rows:
+         match = re.fullmatch(r"verb_unmapped:([a-z0-9_]+)", row.get("item", ""))
+@@ -148,9 +184,10 @@
+             cards.extend((name, card) for name, card in sorted(data.items())
+                          if isinstance(card, dict) and card.get('status') == 'review')
+     scan_key = str(source.resolve()) + ":miss-count=" + str(miss_count)
++    cursor_key = scan_key if lane == 'fresh' else scan_key + ':lane=' + lane
+     cursor = 0
+     if cache:
+-        found, previous = cache.get('fresh-cursor-v1', scan_key, 'position')
++        found, previous = cache.get('fresh-cursor-v1', cursor_key, 'position')
+         if found:
+             cursor = next((i for i, (name, _) in enumerate(cards) if name > previous), 0)
+     started = time.monotonic()
+@@ -165,7 +202,7 @@
+                 cache.put('fresh-parse-v1', key, stamp, result)
+         shapes = sorted({kind for kind, _ in result['misses']})
+         if cache:
+-            cache.put('fresh-cursor-v1', scan_key, 'position', name)
++            cache.put('fresh-cursor-v1', cursor_key, 'position', name)
+             if number % 50 == 0:
+                 cache.checkpoint()
+         if len(shapes) == 1 and shapes[0] in by_shape:
+@@ -173,7 +210,7 @@
+             details = [detail for kind, detail in result['misses'] if kind == shapes[0]]
+             text_hash = digest_bytes((card.get('text') or '').encode())
+             production_key = 'build-plan:%s:%s' % (row['item'], text_hash)
+-            if len(details) == miss_count and production_key not in history:
++            if len(details) == miss_count and candidate_retry(history, production_key, lane) is not None:
+                 # Cache selects candidates only. The caller reparses the exact
+                 # card and verifies source identity before publishing a ticket.
+                 return row, name
+@@ -194,26 +231,38 @@
+     for path in ticket_dir.glob("*.json"):
+         value = load_json(path, {}) or {}
+         ticket_id = value.get("id", "")
+-        match = re.fullmatch(r"ticket:" + re.escape(base) + r"/v(\d+)", ticket_id)
++        match = re.fullmatch(r"ticket:" + re.escape(base) + r"/v(\d+)", str(ticket_id))
+         if match:
+             used.add(int(match.group(1)))
+-    version = 1
+-    while version in used:
+-        version += 1
++    version = max(used, default=0) + 1
+     return "ticket:%s/v%d" % (base, version)
+ 
+ 
+ def production_history(ticket_dir, jobs_path):
+     jobs = (load_json(jobs_path, {}) or {}).get("jobs", {})
++    tickets = [load_json(path, {}) or {} for path in sorted(ticket_dir.glob('*.json'))]
++    superseded = {ticket.get('supersedes') for ticket in tickets if ticket.get('supersedes')}
++    # Numeric version order is durable; copying or restoring a file must not
++    # make an old failed version look like the latest lifecycle state.
++    def version(ticket):
++        match = re.search(r'/v(\d+)$', str(ticket.get('id', '')))
++        return int(match.group(1)) if match else 0
++    tickets.sort(key=version)
+     result = {}
+-    for path in sorted(ticket_dir.glob("*.json"), key=lambda item: item.stat().st_mtime):
+-        value = load_json(path, {}) or {}
++    for value in tickets:
+         key = value.get("production", {}).get("key")
+         if not key:
+             continue
+         state = (jobs.get(value.get("id"), {}) or {}).get("state")
+         job = jobs.get(value.get("id"), {}) or {}
+         result.setdefault(key, []).append({"ticket_id": value.get("id"), "state": state,
++                                           "superseded": value.get('id') in superseded or bool(job.get('superseded_by')),
++                                           "dedicated_recovery": bool(
++                                               value.get('production', {}).get('producer') not in (None, 'build-plan-continuous')
++                                               or value.get('production', {}).get('integration_repair_generation')
++                                               or value.get('production', {}).get('integration_recovery_parent')
++                                               or value.get('production', {}).get('trial_id')
++                                               or value.get('production', {}).get('retry_batch')),
+                                            "outcome": job.get("outcome"),
+                                            "profile": job.get("dispatch_profile", job.get("profile")),
+                                            "receipt": (job.get("integration_receipt")
+@@ -411,11 +460,11 @@
+     effects = registry_effects(source)
+     history = production_history(args.ticket_dir, args.jobs)
+     rows = coverage_rows(plan_path)
+-    if args.lane == "fresh":
++    if args.lane in ('fresh', 'repair', 'conflict'):
+         cache = ProducerCache(OPS / 'state/factory-ng-producer-cache.sqlite3')
+         try:
+             discovered = discover_fresh_example(source, reparse, rows, effects, history,
+-                                                cache, scan_revision, miss_count=args.miss_count)
++                                                cache, scan_revision, miss_count=args.miss_count, lane=args.lane)
+         except ScanPending as exc:
+             emit('scan_pending', reason=str(exc))
+             return
+@@ -448,45 +497,14 @@
+                 continue
+             text_hash = digest_bytes((card.get("text") or "").encode())
+             production_key = "build-plan:%s:%s" % (row["item"], text_hash)
+-            retry_parent = None
+-            retry_generation = 0
+-            retry_reason = None
+-            retry_receipt = None
+-            if production_key in history:
+-                if args.lane == "fresh":
+-                    skipped["already_accounted"] += 1
+-                    continue
+-                latest = history[production_key][-1]
+-                conflict_retry = (latest.get("state") == "integration_failed" and
+-                                  latest.get("outcome") == "candidate_conflict" and
+-                                  latest.get("retry_generation", 0) < 2)
+-                if args.lane == "conflict" and not conflict_retry:
+-                    skipped["already_accounted"] += 1
+-                    continue
+-                if args.lane == "repair" and conflict_retry:
+-                    skipped["already_accounted"] += 1
+-                    continue
+-                retryable_terminal = (conflict_retry or
+-                                      (latest.get("state") in ("failed", "integration_failed") and
+-                                       (str(latest.get("outcome", "")).startswith("infrastructure_failed") or
+-                                        (latest.get("outcome") == "gate_failed" and
+-                                         latest.get("profile") == "qwen-prepared-direct@1.0.2")) and
+-                                       latest.get("retry_generation", 0) < 1))
+-                if retryable_terminal:
+-                    retry_parent = latest["ticket_id"]
+-                    retry_generation = latest.get("retry_generation", 0) + 1
+-                    retry_reason = ("integration_conflict_repair" if conflict_retry else
+-                                    "semantic_gate_repair" if latest.get("outcome") == "gate_failed" else
+-                                    "infrastructure_repair")
+-                    retry_receipt = latest.get("receipt")
+-                else:
+-                    skipped["already_accounted"] += 1
+-                    continue
+-            elif args.lane in ("repair", "conflict"):
+-                # A repair lane must never consume or duplicate a fresh local
+-                # candidate.  The independent fresh lane keeps Qwen supplied
+-                # even while paid repair inventory exists earlier in the plan.
++            retry = candidate_retry(history, production_key, args.lane)
++            if retry is None:
++                skipped['already_accounted'] += 1
+                 continue
++            retry_parent = retry.get('parent')
++            retry_generation = retry.get('generation', 0)
++            retry_reason = retry.get('reason')
++            retry_receipt = retry.get('receipt')
+ 
+             suffix = hashlib.sha256(production_key.encode()).hexdigest()[:10]
+             base = "map.plan-%s-%s-%s" % (slug(verb), slug(name), suffix)
+--- a/scripts/test_factory_ng_supply_recovery.py
++++ b/scripts/test_factory_ng_supply_recovery.py
+@@ -0,0 +1,163 @@
++"""Repair supply follows current corpus and durable ancestry, never plan samples."""
++import importlib.util
++import contextlib
++import io
++import json
++import os
++from pathlib import Path
++import tempfile
++import sys
++import unittest
++from unittest import mock
++
++from factory_ng_producer_cache import ProducerCache
++
++
++def producer():
++    spec = importlib.util.spec_from_file_location('supply_producer',
++        Path(__file__).with_name('factory-ng-produce-build-plan.py'))
++    module = importlib.util.module_from_spec(spec)
++    spec.loader.exec_module(module)
++    return module
++
++
++class SupplyRecoveryTests(unittest.TestCase):
++    def setUp(self):
++        self.m = producer()
++        self.old = {'ticket_id': 'ticket:map.example/v1', 'state': 'failed',
++                    'outcome': 'gate_failed', 'profile': 'qwen-prepared-direct@1.0.2',
++                    'retry_generation': 0, 'receipt': 'old-receipt.json'}
++
++    def test_repair_discovers_card_absent_from_plan_examples(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp); db = root / 'backend/data/carddb'; db.mkdir(parents=True)
++            (db / 'e.json').write_text(json.dumps({'Example': {
++                'name': 'Example', 'text': 'Draw a card.', 'status': 'review'}}))
++            key = 'build-plan:verb_unmapped:draw:' + self.m.digest_bytes(b'Draw a card.')
++            history = {key: [self.old]}
++            parser = mock.Mock(reparse_card=lambda _: {'misses': [('verb_unmapped:draw', 'draw')]})
++            args = (root, parser, [{'item': 'verb_unmapped:draw', 'examples': []}], {'draw': {}}, history)
++            self.assertIsNone(self.m.discover_fresh_example(*args))
++            self.assertEqual(self.m.discover_fresh_example(*args, lane='repair')[1], 'Example')
++            self.assertIsNone(self.m.discover_fresh_example(*args, lane='conflict'))
++            # A newly emitted successor closes this inventory on the next pass.
++            history[key].append(dict(self.old, state='queued', retry_generation=1))
++            self.assertIsNone(self.m.discover_fresh_example(*args, lane='repair'))
++
++    def test_only_existing_repair_classes_receive_bounded_successors(self):
++        m = self.m
++        for changes in ({'state': 'completed'}, {'state': 'parked'}, {'state': 'blocked'},
++                        {'state': 'working'}, {'state': 'queued'}, {'retry_generation': 1},
++                        {'profile': 'codex-constrained@1.1.0'}, {'superseded': True}, {'dedicated_recovery': True},
++                        {'outcome': 'invalid_capability_demand'}):
++            with self.subTest(changes=changes):
++                self.assertIsNone(m.candidate_retry({'key': [dict(self.old, **changes)]}, 'key', 'repair'))
++        result = m.candidate_retry({'key': [self.old]}, 'key', 'repair')
++        self.assertEqual(result, {'parent': self.old['ticket_id'], 'generation': 1,
++                                 'reason': 'semantic_gate_repair', 'receipt': 'old-receipt.json'})
++        infra = dict(self.old, profile='claude-staged@1.0.0', outcome='infrastructure_failed_model_protocol')
++        self.assertEqual(m.candidate_retry({'key': [infra]}, 'key', 'repair')['reason'], 'infrastructure_repair')
++        self.assertIsNone(m.candidate_retry({}, 'key', 'repair'))
++
++    def test_conflict_reserve_and_maximum_historical_budget_survive(self):
++        conflict = dict(self.old, state='integration_failed', outcome='candidate_conflict', retry_generation=1)
++        self.assertEqual(self.m.candidate_retry({'key': [conflict]}, 'key', 'conflict')['generation'], 2)
++        self.assertIsNone(self.m.candidate_retry({'key': [conflict]}, 'key', 'repair'))
++        history = {'key': [dict(conflict, retry_generation=2), dict(conflict, retry_generation=0)]}
++        self.assertIsNone(self.m.candidate_retry(history, 'key', 'conflict'))
++
++    def test_history_uses_versions_and_cross_key_successors_not_mtime(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp); tickets = root / 'tickets'; tickets.mkdir()
++            jobs = root / 'jobs.json'
++            old_id = 'ticket:map.example/v1'; new_id = 'ticket:map.example/v10'
++            old = tickets / 'old.json'; newer = tickets / 'new.json'
++            old.write_text(json.dumps({'id': old_id, 'production': {'key': 'key'}}))
++            newer.write_text(json.dumps({'id': new_id, 'production': {'key': 'key', 'retry_generation': 1}}))
++            os.utime(old, (200, 200)); os.utime(newer, (100, 100))
++            jobs.write_text(json.dumps({'jobs': {old_id: self.old, new_id: {'state': 'completed'}}}))
++            (tickets / 'unrelated.json').write_text(json.dumps({'id': None}))
++            self.assertEqual(self.m.next_ticket_id(tickets, 'map.example'), 'ticket:map.example/v11')
++            history = self.m.production_history(tickets, jobs)
++            self.assertEqual(history['key'][-1]['ticket_id'], new_id)
++            self.assertIsNone(self.m.candidate_retry(history, 'key', 'repair'))
++            newer.write_text(json.dumps({'id': new_id, 'supersedes': old_id,
++                                        'production': {'key': 'key:after:engine'}}))
++            history = self.m.production_history(tickets, jobs)
++            self.assertTrue(history['key'][0]['superseded'])
++            self.assertIsNone(self.m.candidate_retry(history, 'key', 'repair'))
++
++    def test_integration_recovery_obligations_cannot_become_generic_retries(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp); tickets = root / 'tickets'; tickets.mkdir(); jobs = root / 'jobs.json'
++            jobs.write_text(json.dumps({'jobs': {self.old['ticket_id']: self.old}}))
++            for extra in ({'producer': 'build-plan-integration-recovery'},
++                          {'integration_repair_generation': 2}, {'trial_id': 'bounded-trial'},
++                          {'integration_recovery_parent': 'ticket:map.original/v1'}):
++                with self.subTest(extra=extra):
++                    (tickets / 'old.json').write_text(json.dumps({'id': self.old['ticket_id'],
++                        'production': {'key': 'key', 'producer': 'build-plan-continuous', **extra}}))
++                    history = self.m.production_history(tickets, jobs)
++                    self.assertIsNone(self.m.candidate_retry(history, 'key', 'repair'))
++    def test_repair_cursor_does_not_move_fresh_cursor_and_rechecks_new_source(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp); db = root / 'backend/data/carddb'; db.mkdir(parents=True)
++            (db / 'e.json').write_text(json.dumps({'Example': {
++                'name': 'Example', 'text': 'Oracle', 'status': 'review'}}))
++            key = 'build-plan:verb_unmapped:draw:' + self.m.digest_bytes(b'Oracle')
++            parser = mock.Mock(); parser.reparse_card.return_value = {'misses': [('verb_unmapped:draw', 'draw')]}
++            cache = ProducerCache(root / 'cache.db')
++            scan_key = str(root.resolve()) + ':miss-count=1'
++            cache.put('fresh-cursor-v1', scan_key, 'position', 'Fresh position')
++            args = (root, parser, [{'item': 'verb_unmapped:draw'}], {'draw': {}}, {key: [self.old]}, cache)
++            self.assertIsNotNone(self.m.discover_fresh_example(*args, revision='r1', lane='repair'))
++            self.assertEqual(cache.get('fresh-cursor-v1', scan_key, 'position')[1], 'Fresh position')
++            parser.reparse_card.return_value = {'misses': []}
++            self.assertIsNone(self.m.discover_fresh_example(*args, revision='r2', lane='repair'))
++            cache.close()
++
++    def test_main_emits_missing_plan_repair_once_across_process_reload(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp); db = root / 'backend/data/carddb'; db.mkdir(parents=True)
++            (db / 'e.json').write_text(json.dumps({'Example': {
++                'name': 'Example', 'text': 'Draw a card.', 'status': 'review'}}))
++            parser_path = root / 'scripts/paragraph/reparse.py'; parser_path.parent.mkdir(parents=True)
++            parser_path.write_text('def map_atom(atom):\n    pass\n')
++            tickets = root / 'tickets'; tickets.mkdir(); jobs = root / 'jobs.json'
++            plan = root / 'plan.jsonl'
++            plan.write_text(json.dumps({'item': 'verb_unmapped:draw', 'examples': ['Obsolete sample']}) + '\n')
++            key = 'build-plan:verb_unmapped:draw:' + self.m.digest_bytes(b'Draw a card.')
++            old_id = 'ticket:map.example/v1'
++            (tickets / 'old.json').write_text(json.dumps({'id': old_id, 'production': {'key': key}}))
++            jobs.write_text(json.dumps({'jobs': {old_id: self.old}}))
++
++            def run():
++                m = producer()  # a fresh interpreter/module must retain no selection memory
++                output = io.StringIO()
++                argv = ['producer', '--lane', 'repair', '--repo', str(root), '--ticket-dir', str(tickets),
++                        '--jobs', str(jobs), '--plan', str(plan)]
++                fake_parser = mock.Mock(reparse_card=lambda _: {'misses': [('verb_unmapped:draw', 'draw')]})
++                with mock.patch.object(sys, 'argv', argv), mock.patch.dict(sys.modules, reparse=fake_parser), \
++                     mock.patch.object(m, 'clean_source', return_value=True), \
++                     mock.patch.object(m, 'source_revision', return_value='a' * 40), \
++                     mock.patch.object(m, 'registry_effects', return_value={'draw': {
++                         'path': 'backend/cards/registry.go', 'executor': 'Draw', 'shape_test': 'TestDraw'}}), \
++                     mock.patch.object(m, 'ProducerCache', side_effect=lambda _: ProducerCache(root / 'cache.db')), \
++                     contextlib.redirect_stdout(output):
++                    m.main()
++                return json.loads(output.getvalue())
++
++            result = run(); self.assertEqual(result['status'], 'ready')
++            ticket = result['ticket']
++            self.assertEqual(ticket['supersedes'], old_id)
++            self.assertEqual(ticket['production']['retry_generation'], 1)
++            self.assertEqual(result['measurement']['members'][0]['name'], 'Example')
++            self.assertTrue(any(e.get('path') == 'old-receipt.json' for e in ticket['evidence']))
++            self.assertTrue(any('zero remaining pinned members' in gate for gate in ticket['gates']))
++            (tickets / 'successor.json').write_text(json.dumps(ticket))
++            jobs.write_text(json.dumps({'jobs': {old_id: self.old, ticket['id']: dict(self.old, state='failed')}}))
++            self.assertEqual(run()['status'], 'exhausted_supported_plan')
++
++
++if __name__ == '__main__':
++    unittest.main()
+--- a/RUNBOOK.md
++++ b/RUNBOOK.md
+@@ -400,6 +400,27 @@
+ 3. per-profile retry history on deferred jobs;
+ 4. producer admission incorrectly treating deferred inventory as runnable;
+ 5. producer errors or a genuinely exhausted measured frontier.
++
++The build-plan repair and conflict lanes scan the full current review corpus,
++with separate resumable cursors; dated plan examples only rank candidates.
++They reconsider eligible stale failures on every scheduled sweep, regenerate
++the bounded ticket against current source, and retain its failed receipt and
++retry generation. A superseding ticket owns the work even if its production
++key changed after an Engine dependency. Ticket versions, not file modification
++times, determine history order. Age alone never resets a retry budget.
++
++To inspect the next repair without enqueueing it (the disposable scan cache
++may advance):
++
++```bash
++python3 scripts/factory-ng-produce-build-plan.py --lane repair \
++  --plan docs/factory-ng/measurements/producer-frontier-2026-09-12-evening.jsonl
++```
++
++An exhausted fresh lane does not imply exhausted repair supply. Conversely,
++old blocked or failed records are not automatically runnable: completed or
++superseded work, exhausted repairs, and unsupported/mixed current misses remain
++excluded. The two-miss pilot still counts blocked parents toward its bound.
+ 
+ Do not count raw queued records as available work and do not manufacture
+ manual tickets merely to make the queue counter rise.
+--- a/docs/factory-ng/CURRENT.md
++++ b/docs/factory-ng/CURRENT.md
+@@ -1,4 +1,25 @@
+ # Factory NG — Durable Handoff
++
++## 2026-09-14 continuous repair supply restored
++
++The controller had zero runnable work despite available provider quota. Fresh
++one-miss supply was accounted for, but repair discovery only checked the few
++example names in the dated plan. Eligible stale failures outside those examples
++were never reconsidered. Repair/conflict lanes now scan the full current review
++corpus in bounded resumable slices on every scheduled sweep.
++
++History follows numeric versions and cross-key successors; generic retries
++cannot take over dedicated integration recovery or controlled cohorts. Existing
++retry limits, full-card gates, worker/quota policy and the two-miss pilot bound
++remain. A refined live census found 209 remaining repair candidates. No manual
++batch enqueue or controller restart was required.
++
++114 tests passed. The controller automatically queued Akroan Hoplite v2 at
++05:35:44 UTC, then further Map repairs and their new Engine dependencies.
++Claude, Claude-2 and Codex claimed work; the watchdog reported active again.
++The reserve was still filling and five older integration failures remained;
++worker dispatch is not proof of accepted/integrated cards. No game deployment.
++[Changes, validation and live evidence](reviews/2026-09-14-supply-recovery/README.md).
+ 
+ ## 2026-09-12 evening: eight more verb families enabled
+ 

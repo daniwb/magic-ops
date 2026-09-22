@@ -1,0 +1,150 @@
+{
+  "capability": {
+    "expected_unlock": 0,
+    "negative_examples": [
+      "destroy target creature (no controller referent) must remain mapped via the existing plain creature filter",
+      "tap all creatures target player controls, where 'target player' is an explicit target chosen by the ability, must keep using the existing target_player controller filter unchanged"
+    ],
+    "required_behavior": "Support a target filter whose controller constraint resolves to the player identified by a preceding trigger-condition clause (e.g. 'Whenever this creature deals combat damage to a player, ... destroy target creature that player controls') rather than requiring a separately targeted player chosen by the ability itself",
+    "source_misses": [
+      {
+        "card": "Blind Zealot",
+        "oracle_text_sha256": "d99e0c365e417003de1365c0b7d2035ab3aad13bf0c768dba951e0c3af70de0b",
+        "paragraph": "Whenever this creature deals combat damage to a player, you may sacrifice it. If you do, destroy target creature that player controls.",
+        "required_behavior": "Support a target filter whose controller constraint resolves to the player identified by a preceding trigger-condition clause rather than requiring a separately targeted player chosen by the ability itself"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "key": "controller_filter_referent_triggering_player",
+        "specification": {
+          "expected_unlock": 0,
+          "negative_examples": [
+            "destroy target creature (no controller referent) must remain mapped via the existing plain creature filter",
+            "tap all creatures target player controls, where 'target player' is an explicit target chosen by the ability, must keep using the existing target_player controller filter unchanged"
+          ],
+          "required_behavior": "Support a target filter whose controller constraint resolves to the player identified by a preceding trigger-condition clause (e.g. 'Whenever this creature deals combat damage to a player, ... destroy target creature that player controls') rather than requiring a separately targeted player chosen by the ability itself",
+          "source_misses": [
+            {
+              "card": "Blind Zealot",
+              "oracle_text_sha256": "d99e0c365e417003de1365c0b7d2035ab3aad13bf0c768dba951e0c3af70de0b",
+              "paragraph": "Whenever this creature deals combat damage to a player, you may sacrifice it. If you do, destroy target creature that player controls.",
+              "required_behavior": "Support a target filter whose controller constraint resolves to the player identified by a preceding trigger-condition clause rather than requiring a separately targeted player chosen by the ability itself"
+            }
+          ]
+        },
+        "summary": "Destroy target filter needs a controller constraint bound to the player named in an earlier trigger clause, not an explicitly chosen target player"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-08-31T104523Z-map-plan-destroy-blind-zealot-9853d7e935-v1-claude.json"
+    },
+    {
+      "anchor": "1-62",
+      "fact": "Current source contains the nearest bounded seam matching capability tokens controller, filter, referent, triggering, player.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:1795fe3b386e68f3a436bac42ab5e9ef00ff43ca512f640abdf5f5b17bb4ba21"
+    },
+    {
+      "anchor": "1-46",
+      "fact": "Current source contains the nearest bounded seam matching capability tokens controller, filter, referent, triggering, player.",
+      "path": "backend/game/dynamic_amount.go",
+      "sha256": "sha256:07c514d74935fce87d2eebbf7da347a0f4be738088f738cfa731bfc83551e6a2"
+    },
+    {
+      "anchor": "1-50",
+      "fact": "Current source contains the nearest bounded seam matching capability tokens controller, filter, referent, triggering, player.",
+      "path": "backend/game/effects.go",
+      "sha256": "sha256:283a75ac596319d6422f91838cd413c5b1f1cc7b074a1c8f26b1a9a1955ed269"
+    },
+    {
+      "anchor": "167-237",
+      "fact": "Current source contains the nearest bounded seam matching capability tokens controller, filter, referent, triggering, player.",
+      "path": "backend/game/card.go",
+      "sha256": "sha256:4cb1df58b8b56e8d060e0c1b3e8b304678c4c4517f33dd5d5671337164e9d91f"
+    },
+    {
+      "fact": "The v1 worker requested exact source regions; the runner now supplies one bounded NEED continuation automatically.",
+      "path": "docs/factory-ng/runs/2026-08-31T154558Z-engine-auto-controller-filter-referent-triggering-player-76c02b824f-v1-codex.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "One versioned retry exercises the newly implemented bounded Engine NEED continuation.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGControllerFilterReferentTriggeringPlayer$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.operator-trigger-player-filter-recovery-sep15/v1",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Retain the terminal receipt and continue independent discovery; do not request manual source transcription.",
+  "parents": [
+    "ticket:engine.auto-controller-filter-referent-triggering-player-76c02b824f/v2"
+  ],
+  "production": {
+    "key": "capability:controller_filter_referent_triggering_player:sha256:76c02b824f2a5e5fcdc5e7241f318f518f47c53930c0760f048dc64ce624fd04:need-continuation-v2",
+    "producer": "capability-dependencies"
+  },
+  "required_behavior": [
+    "Support a target filter whose controller constraint resolves to the player identified by a preceding trigger-condition clause (e.g. 'Whenever this creature deals combat damage to a player, ... destroy target creature that player controls') rather than requiring a separately targeted player chosen by the ability itself",
+    "Preserve these adjacent behaviors: destroy target creature (no controller referent) must remain mapped via the existing plain creature filter; tap all creatures target player controls, where 'target player' is an explicit target chosen by the ability, must keep using the existing target_player controller filter unchanged",
+    "Add a discriminating behavior test named TestFactoryNGControllerFilterReferentTriggeringPlayer; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_76c02b824f_test.go",
+      "backend/cards/factory_ng_76c02b824f_test.go",
+      "backend/cards/registry_factory_ng_76c02b824f.go",
+      "backend/cards/shape_trigger_player_filter_test.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "09f9ae5b53d9d675af10cef196d2c4b1a8689e16",
+    "clean": true
+  },
+  "supersedes": "ticket:engine.auto-controller-filter-referent-triggering-player-76c02b824f/v1",
+  "title": "Prove destroy targets are controlled by the damaged player",
+  "work_type": "engine",
+  "operator_recovery": {
+    "authorization": "User requested fixing all needs-attention tickets.",
+    "original_ticket": "docs/factory-ng/tickets/engine-auto-controller-filter-referent-triggering-player-76c02b824f-v2.json",
+    "original_ticket_sha256": "sha256:849018b01ba51a9c97fd43fa040ffb158f75983adf02a47ac152ee5bf79d5117",
+    "additional_provider_runs": 0,
+    "counter_resets": false,
+    "scope_addition_reason": "Existing defending_player filter now has public combat-to-choice-to-resolution evidence after damage-event repairs. Preserve plain targeting, ownership and resolution rechecks."
+  }
+}

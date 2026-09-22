@@ -6,6 +6,7 @@ import json
 import subprocess
 import sys
 from pathlib import Path
+from factory_ng_vocabulary import vocabulary, emitted_effects
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -70,7 +71,10 @@ def main():
                                    if args.members_from else (args.shape, None))
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         parser.error(str(exc))
-    members, scanned, summary = [], 0, {}
+    members, scanned, summary, unresolved = [], 0, {}, []
+    # Check the actual emitted representation, before a full corpus import/build.
+    # Source extraction observes init-file registrations as well as the literal.
+    known_effects = None
     for path in sorted(Path(reparse.CARDDB).glob("*.json")):
         if path.name.startswith("_"):
             continue
@@ -78,13 +82,25 @@ def main():
         for name, card in cards.items():
             if expected_members is not None and name not in expected_members:
                 continue
-            if card.get("status") != "review":
+            if expected_members is None and card.get("status") != "review":
                 continue
+            if expected_members is not None and card.get('status') not in ('review', 'auto'):
+                parser.error('pinned member has unsupported status: %s' % name)
             scanned += 1
             text_hash = "sha256:" + hashlib.sha256((card.get("text") or "").encode()).hexdigest()
             if expected_members is not None and text_hash != expected_members[name]:
                 parser.error("pinned member text changed: %s" % name)
             result = reparse.reparse_card(card)
+            if expected_members is not None:
+                effects = set(emitted_effects(result.get('abilities')))
+                if effects and known_effects is None:
+                    known_effects = set(vocabulary(source)['registered'])
+                missing_effects = sorted(effects - (known_effects or set()))
+                if missing_effects:
+                    parser.error('pinned member %s emits unregistered effects: %s' %
+                                 (name, ', '.join(missing_effects)))
+            if expected_members is not None and not result.get('eligible'):
+                unresolved.append({'name': name, 'misses': result.get('misses', [])})
             all_shapes = sorted({kind for kind, _ in result["misses"]})
             if args.summary:
                 for shape in all_shapes:
@@ -102,7 +118,7 @@ def main():
                                     "all_miss_shapes": all_shapes,
                                     "text_sha256": text_hash})
     if expected_members is not None and scanned != len(expected_members):
-        parser.error("pinned members missing or no longer reviewable: expected %d, found %d" %
+        parser.error("pinned members missing: expected %d, found %d" %
                      (len(expected_members), scanned))
     source_info = {"repository": str(source), "revision": revision(source),
                    "parser_sha256": digest(parser_root / "reparse.py")}
@@ -126,6 +142,8 @@ def main():
     if args.members_from:
         output["pinned_members_from"] = str(args.members_from.resolve())
         output["pinned_member_count"] = len(expected_members)
+        output['pinned_unresolved_count'] = len(unresolved)
+        output['pinned_unresolved_members'] = unresolved
     print(json.dumps(output, indent=2, sort_keys=True))
 
 

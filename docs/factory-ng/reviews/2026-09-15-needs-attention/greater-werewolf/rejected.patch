@@ -1,0 +1,129 @@
+diff --git a/backend/cards/converter.go b/backend/cards/converter.go
+index d1591d3612efb14a6d8709bf3623d0ed690196c6..65a61dd85a286f4c519c23acddadf143007e94d0 100644
+--- a/backend/cards/converter.go
++++ b/backend/cards/converter.go
+@@ -3488,7 +3488,8 @@ func AbilityToTriggered(ability AbilityDSL, source *game.Card, index int) *game.
+ 		(triggered.Condition.EventType == game.EventAttacks ||
+ 			triggered.Condition.EventType == game.EventDeclareBlocker)
+ 	if selfCombatAtEndOfCombat &&
+-		(triggered.Effect == "destroy" || triggered.Effect == "sacrifice" || triggered.Effect == "remove_counter") {
++		(triggered.Effect == "destroy" || triggered.Effect == "sacrifice" || triggered.Effect == "remove_counter" ||
++			triggered.Effect == "put_counter" || triggered.Effect == "put_counters") {
+ 		if triggered.EffectValue == nil {
+ 			triggered.EffectValue = map[string]interface{}{}
+ 		}
+diff --git a/backend/cards/factory_ng_7fda0f0882_test.go b/backend/cards/factory_ng_7fda0f0882_test.go
+new file mode 100644
+index 0000000000000000000000000000000000000000..86c936c6c2d22da4aaa59631add6ae754f59c7a3
+--- /dev/null
++++ b/backend/cards/factory_ng_7fda0f0882_test.go
+@@ -0,0 +1,66 @@
++package cards
++
++import (
++	"testing"
++
++	"magic-backend/game"
++)
++
++func TestFactoryNGPutCountersOnCombatRelatedCreatures_7fda0f0882(t *testing.T) {
++	def := &CardDefinition{
++		Name: "Greater Werewolf",
++		Type: "Creature",
++		Types: []string{"Creature"},
++		Power: intPtr(2),
++		Toughness: intPtr(4),
++		Abilities: []AbilityDSL{{
++			Type:    "triggered",
++			Trigger: "blocks",
++			Effect:  "put_counters",
++			Value: map[string]interface{}{
++				"counter_type": "-0/-2",
++				"amount":       1,
++			},
++		}},
++	}
++
++	source, err := def.ToGameCard(0)
++	if err != nil {
++		t.Fatalf("ToGameCard: %v", err)
++	}
++
++	gs := game.NewGame("P0", "P1", false)
++	gs.Battlefield.AddCard(source)
++	gs.RegisterCardAbilities(source)
++
++	attacker := game.NewCreature("Attacker", game.ManaCost{}, 3, 3, 1)
++	gs.Battlefield.AddCard(attacker)
++
++	blocker := game.NewCreature("Blocker", game.ManaCost{}, 2, 2, 1)
++	blocker.Blocking = true
++	blocker.BlockingCardID = source.ID
++	gs.Battlefield.AddCard(blocker)
++
++	source.Blocking = true
++	source.BlockingCardID = attacker.ID
++
++	unrelated := game.NewCreature("Unrelated", game.ManaCost{}, 2, 2, 1)
++	gs.Battlefield.AddCard(unrelated)
++
++	gs.ProcessTriggeredAbilities(game.CreateBlocksEvent(source, attacker, source.Controller))
++	if err := gs.ResolveTopOfStack(); err != nil {
++		t.Fatalf("ResolveTopOfStack: %v", err)
++	}
++
++	gs.EventBus.Publish(game.NewEvent(game.EventEndOfCombat))
++
++	if got := blocker.Counters.Custom["-0/-2"]; got != 1 {
++		t.Fatalf("blocking creature counters = %d, want 1", got)
++	}
++	if got := attacker.Counters.Custom["-0/-2"]; got != 1 {
++		t.Fatalf("blocked creature counters = %d, want 1", got)
++	}
++	if got := unrelated.Counters.Custom["-0/-2"]; got != 0 {
++		t.Fatalf("unrelated creature counters = %d, want 0", got)
++	}
++}
+diff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go
+index 4cc4b58d3ed83cb763daff385d3aa51b31e1f183..a81953319feab7f437e239c4a28d42c60004002d 100644
+--- a/backend/game/ability_effects.go
++++ b/backend/game/ability_effects.go
+@@ -14027,6 +14027,38 @@ func (gs *GameState) executePutCounterEffect(source *Card, effectValue map[strin
+ 		// Monstrosity 0 still makes the creature monstrous.
+ 	}
+ 
++	if effectValue["at_end_of_combat"] != nil {
++		if source == nil {
++			return nil
++		}
++		apply := func() {
++			for _, card := range gs.Battlefield.GetAll() {
++				if card == nil || !card.IsCreature() {
++					continue
++				}
++				blockingSource := card.Blocking && card.BlockingCardID == source.ID
++				blockedBySource := source.Blocking && source.BlockingCardID == card.ID
++				if blockingSource || blockedBySource {
++					gs.AddCounters(card, CounterType(counterType), amount)
++				}
++			}
++			gs.CheckStateBasedActions()
++		}
++		if gs.EventBus == nil {
++			apply()
++			return nil
++		}
++		fired := false
++		gs.EventBus.Subscribe(func(*Event) {
++			if fired {
++				return
++			}
++			fired = true
++			apply()
++		})
++		return nil
++	}
++
+ 	// put_counters_conditional_amount_this_turn_state primitive (ticket
+ 	// engine.auto-put-counters-conditional-amount-this-turn-state-
+ 	// a088f038ce, That's Rough Buddy class: "Put a +1/+1 counter on target

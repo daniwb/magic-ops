@@ -1,0 +1,33 @@
+         673878 function calls (673438 primitive calls) in 4.720 seconds
+
+   Ordered by: cumulative time
+   List reduced from 259 to 25 due to restriction <25>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.209    0.209    2.829    2.829 /opt/development/magic-ops/scripts/factory-ng-controller.py:732(sync_jobs)
+        1    0.000    0.000    1.891    1.891 /opt/development/magic-ops/scripts/factory-ng-controller.py:678(worker_availability)
+        6    0.001    0.000    1.891    0.315 /opt/development/magic-ops/scripts/factory-ng-controller.py:450(usage_gate)
+       12    0.001    0.000    1.883    0.157 /usr/lib/python3.12/subprocess.py:506(run)
+       12    0.000    0.000    1.816    0.151 /usr/lib/python3.12/subprocess.py:1165(communicate)
+       12    0.002    0.000    1.815    0.151 /usr/lib/python3.12/subprocess.py:2062(_communicate)
+       29    0.001    0.000    1.801    0.062 /usr/lib/python3.12/selectors.py:402(select)
+       29    1.800    0.062    1.800    0.062 {method 'poll' of 'select.poll' objects}
+        2    0.340    0.170    0.861    0.431 /opt/development/magic-ops/scripts/factory-ng-controller.py:324(cached_artifacts)
+    10212    0.120    0.000    0.825    0.000 /opt/development/magic-ops/scripts/factory-ng-controller.py:382(receipt_projections)
+     1156    0.016    0.000    0.770    0.001 /opt/development/magic-ops/scripts/factory-ng-controller.py:177(load_json)
+     1170    0.008    0.000    0.456    0.000 /usr/lib/python3.12/json/__init__.py:299(loads)
+     1170    0.012    0.000    0.445    0.000 /usr/lib/python3.12/json/decoder.py:332(decode)
+     1170    0.423    0.000    0.423    0.000 /usr/lib/python3.12/json/decoder.py:343(raw_decode)
+    31070    0.407    0.000    0.407    0.000 {method 'stat' of 'posix.DirEntry' objects}
+        1    0.000    0.000    0.357    0.357 /opt/development/magic-ops/scripts/factory-ng-controller.py:188(load_jobs)
+     1164    0.014    0.000    0.304    0.000 /usr/lib/python3.12/pathlib.py:1024(read_text)
+     4128    0.108    0.000    0.227    0.000 /opt/development/magic-ops/scripts/factory-ng-controller.py:571(compatible_profiles_for)
+        1    0.005    0.005    0.208    0.208 /opt/development/magic-ops/scripts/factory-ng-controller.py:365(ticket_projections)
+   258127    0.193    0.000    0.193    0.000 {method 'get' of 'dict' objects}
+     1179    0.004    0.000    0.175    0.000 /usr/lib/python3.12/pathlib.py:1007(open)
+     1203    0.059    0.000    0.170    0.000 {built-in method _io.open}
+        1    0.050    0.050    0.130    0.130 /opt/development/magic-ops/scripts/factory_ng_recovery.py:90(annotate_repair_blockers)
+     1228    0.004    0.000    0.109    0.000 /usr/lib/python3.12/pathlib.py:447(__fspath__)
+        1    0.066    0.066    0.108    0.108 /opt/development/magic-ops/scripts/factory_ng_recovery.py:7(annotate_dependency_blockers)
+
+

@@ -1,0 +1,12 @@
+{
+  "at": "2026-09-08T16:32:10.023225+00:00",
+  "old_pid": 2040099,
+  "signal": "SIGHUP",
+  "purpose": "Load bounded completed-dependency Map resume reserve; supervisor restarts controller; workers and integration are separate processes.",
+  "new_pid": 2870145,
+  "runtime_after_reload": {
+    "updated_at": "2026-09-08T16:32:55Z",
+    "state": "running",
+    "phase": "producing_ticket"
+  }
+}

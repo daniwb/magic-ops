@@ -1,0 +1,199 @@
+From 53a873d6025dfbeffefdd9d012d1cb05775e2664 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Tue, 8 Sep 2026 23:57:51 +0000
+Subject: [PATCH] factory-ng: supervised engine observation
+
+---
+ backend/cards/factory_ng_9baee341fb_test.go | 127 ++++++++++++++++++++
+ backend/game/ability_effects.go             |  41 +++++++
+ 2 files changed, 168 insertions(+)
+ create mode 100644 backend/cards/factory_ng_9baee341fb_test.go
+
+diff --git a/backend/cards/factory_ng_9baee341fb_test.go b/backend/cards/factory_ng_9baee341fb_test.go
+new file mode 100644
+index 000000000..34736042c
+--- /dev/null
++++ b/backend/cards/factory_ng_9baee341fb_test.go
+@@ -0,0 +1,127 @@
++package cards
++
++import (
++	"testing"
++
++	"magic-backend/game"
++)
++
++// TestFactoryNGSacrificeAnyNumberChoice exercises "sacrifice_any_number"
++// (ticket engine.auto-sacrifice-any-number-choice-9baee341fb): the
++// controller freely picks the sacrificed amount from zero up to every
++// matching permanent (Scapeshift: "Sacrifice any number of lands."),
++// distinct from the fixed-count "sacrifice" case (Sacrifice an artifact or
++// discard a card. / Sacrifice a Food or pay {2}{W}.), which this test never
++// touches and which must keep behaving exactly as before.
++func sacrificeAnyNumberDef(name string) *CardDefinition {
++	return &CardDefinition{
++		Name: name,
++		Type: "Creature", Types: []string{"Creature"},
++		Power: intPtr(1), Toughness: intPtr(1),
++		Abilities: []AbilityDSL{
++			{Type: "triggered",
++				TriggerV2: &TriggerSpec{Event: "is_dealt_damage", Subject: &TargetFilter{Filter: "self"}},
++				Effects: []EffectAtom{{Effect: "sacrifice_any_number", Value: map[string]interface{}{
++					"filter":       "creature",
++					"exclude_self": true,
++				}}}},
++		},
++		Status: StatusManual,
++	}
++}
++
++func TestFactoryNGSacrificeAnyNumberChoice(t *testing.T) {
++	def := sacrificeAnyNumberDef("Factory NG Any-Number Sacrificer")
++	src, err := def.ToGameCard(0)
++	if err != nil {
++		t.Fatalf("ToGameCard: %v", err)
++	}
++	gs := game.NewGame("P0", "P1", false)
++	gs.Battlefield.AddCard(src)
++	gs.RegisterCardAbilities(src)
++
++	fodder1 := game.NewCreature("Factory NG Fodder One", game.ManaCost{}, 1, 1, 1)
++	fodder1.Owner, fodder1.Controller = 0, 0
++	fodder2 := game.NewCreature("Factory NG Fodder Two", game.ManaCost{}, 1, 1, 1)
++	fodder2.Owner, fodder2.Controller = 0, 0
++	fodder3 := game.NewCreature("Factory NG Fodder Three", game.ManaCost{}, 1, 1, 1)
++	fodder3.Owner, fodder3.Controller = 0, 0
++	gs.Battlefield.AddCard(fodder1)
++	gs.Battlefield.AddCard(fodder2)
++	gs.Battlefield.AddCard(fodder3)
++
++	other := game.NewCreature("Factory NG Bystander", game.ManaCost{}, 2, 2, 1)
++	other.Owner, other.Controller = 1, 1
++	gs.Battlefield.AddCard(other)
++
++	// Keep every candidate -> the "zero" end of the freely-chosen 0..all
++	// range (a fixed-N sacrifice can only ever express "sacrifice 0" when
++	// N itself is 0, not as a live per-resolution controller choice).
++	gs.ProcessTriggeredAbilities(game.CreateDamageEvent(other, src, 1, 1))
++	drainStack(t, gs)
++
++	pending := gs.PendingChoice
++	if pending == nil || pending.ChoiceType != "sacrifice_keep_rest" {
++		t.Fatalf("expected a sacrifice_keep_rest pending choice, got %+v", pending)
++	}
++	if len(pending.Candidates) != 3 {
++		t.Fatalf("expected 3 candidates, got %d: %v", len(pending.Candidates), pending.Candidates)
++	}
++	if pending.Count != len(pending.Candidates) {
++		t.Fatalf("expected Count == candidate count (keep up to all == sacrifice 0..all), got Count=%d candidates=%d", pending.Count, len(pending.Candidates))
++	}
++
++	if err := gs.ResolvePendingChoice(0, pending.Candidates); err != nil {
++		t.Fatalf("ResolvePendingChoice(keep all): %v", err)
++	}
++	for _, c := range []*game.Card{fodder1, fodder2, fodder3} {
++		if _, err := gs.Battlefield.GetCard(c.ID); err != nil {
++			t.Fatalf("%s should still be on battlefield after keeping all (sacrifice zero), got: %v", c.Name, err)
++		}
++	}
++
++	// Keep NONE -> the "all" end of the range.
++	gs.ProcessTriggeredAbilities(game.CreateDamageEvent(other, src, 1, 1))
++	drainStack(t, gs)
++	pending = gs.PendingChoice
++	if pending == nil || pending.ChoiceType != "sacrifice_keep_rest" {
++		t.Fatalf("expected a second sacrifice_keep_rest pending choice, got %+v", pending)
++	}
++	if err := gs.ResolvePendingChoice(0, nil); err != nil {
++		t.Fatalf("ResolvePendingChoice(keep none): %v", err)
++	}
++	for _, c := range []*game.Card{fodder1, fodder2, fodder3} {
++		if _, err := gs.Battlefield.GetCard(c.ID); err == nil {
++			t.Fatalf("%s should have been sacrificed when keeping none (sacrifice all)", c.Name)
++		}
++	}
++
++	// A PARTIAL keep -> a freely-chosen amount strictly between zero and
++	// all, which the fixed-count "sacrifice" case cannot express for a
++	// single ability instance.
++	fodder4 := game.NewCreature("Factory NG Fodder Four", game.ManaCost{}, 1, 1, 1)
++	fodder4.Owner, fodder4.Controller = 0, 0
++	fodder5 := game.NewCreature("Factory NG Fodder Five", game.ManaCost{}, 1, 1, 1)
++	fodder5.Owner, fodder5.Controller = 0, 0
++	gs.Battlefield.AddCard(fodder4)
++	gs.Battlefield.AddCard(fodder5)
++
++	gs.ProcessTriggeredAbilities(game.CreateDamageEvent(other, src, 1, 1))
++	drainStack(t, gs)
++	pending = gs.PendingChoice
++	if pending == nil || pending.ChoiceType != "sacrifice_keep_rest" {
++		t.Fatalf("expected a third sacrifice_keep_rest pending choice, got %+v", pending)
++	}
++	if len(pending.Candidates) != 2 {
++		t.Fatalf("expected 2 candidates (fodder4, fodder5), got %d: %v", len(pending.Candidates), pending.Candidates)
++	}
++	if err := gs.ResolvePendingChoice(0, []string{fodder4.ID}); err != nil {
++		t.Fatalf("ResolvePendingChoice(keep partial): %v", err)
++	}
++	if _, err := gs.Battlefield.GetCard(fodder4.ID); err != nil {
++		t.Fatalf("fodder4 should still be on battlefield (kept), got: %v", err)
++	}
++	if _, err := gs.Battlefield.GetCard(fodder5.ID); err == nil {
++		t.Fatalf("fodder5 should have been sacrificed (not kept)")
++	}
++}
+diff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go
+index 38497e0fd..03947049a 100644
+--- a/backend/game/ability_effects.go
++++ b/backend/game/ability_effects.go
+@@ -8161,6 +8161,47 @@ func (gs *GameState) ExecuteAbilityEffect(stackObj *StackObject) error {
+ 		// source surviving only in the latter case. Deferred to
+ 		// ResolveSacrificeSelfUnlessFilteredChoice.
+ 		return gs.executeSacrificeSelfUnlessFiltered(controller, source, effectValue)
++
++	case "sacrifice_any_number":
++		// "sacrifice any number of [filter] permanents" (Scapeshift: "Sacrifice
++		// any number of lands.") — unlike the fixed-N "sacrifice" case above,
++		// the controller freely picks the sacrificed amount from zero up to
++		// every matching permanent. Reuses the "sacrifice_keep_rest" resolver
++		// (ResolvePendingChoice/resolveSacrificeKeepRestChoice): asking the
++		// controller to choose up to Count candidates to KEEP already accepts
++		// anywhere from 0 to Count kept, so setting Count to the full
++		// candidate count makes "keep K of N" express "sacrifice 0..N",
++		// without touching the shared resolver.
++		if controller < 0 || controller >= len(gs.Players) {
++			return nil
++		}
++		filter, _ := effectValue["filter"].(string)
++		excludeSelf, _ := effectValue["exclude_self"].(bool)
++		var anyNumCandidates []string
++		for _, c := range gs.Battlefield.Cards {
++			if c.Controller != controller || !matchesPermanentFilter(c, filter) {
++				continue
++			}
++			if excludeSelf && source != nil && c.ID == source.ID {
++				continue
++			}
++			anyNumCandidates = append(anyNumCandidates, c.ID)
++		}
++		if len(anyNumCandidates) == 0 {
++			return nil
++		}
++		anyNumSourceName := ""
++		if source != nil {
++			anyNumSourceName = source.Name
++		}
++		gs.PendingChoice = &PendingChoice{
++			PlayerIdx:  controller,
++			ChoiceType: "sacrifice_keep_rest",
++			Candidates: anyNumCandidates,
++			Count:      len(anyNumCandidates),
++			SourceName: anyNumSourceName,
++		}
++		return nil
+ 	case "sacrifice_choice":
+ 		// "[player] sacrifices a permanent of their choice" — the
+ 		// unless-pay consequence for event-triggered abilities whose
+-- 
+2.43.0
+

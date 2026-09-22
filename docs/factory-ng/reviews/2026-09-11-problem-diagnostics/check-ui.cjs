@@ -1,0 +1,16 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const html=fs.readFileSync('services/dispatcher/v4/dashboard.html','utf8');
+const script=html.split('<script>')[1].split('</script>')[0];
+const nodes={};const node=s=>nodes[s]||(nodes[s]={innerHTML:'',textContent:'',classList:{toggle(){}},open:true});
+const context={document:{querySelector:node,querySelectorAll:()=>[],addEventListener(){}},setInterval(){},setTimeout(){},clearTimeout(){},fetch:async()=>{throw Error('offline')},console:{error(){}},AbortController,AbortSignal,URLSearchParams};
+vm.createContext(context);vm.runInContext(script.replace(/refresh\(\);\s*setInterval[^;]*;/g,''),context);
+const receipt=JSON.parse(fs.readFileSync('docs/factory-ng/runs/2026-09-10T121700Z-map-plan-tap-tideforce-elemental-ecc1126789-v4-1789042620663915315-integration.json'));
+context.receipt=receipt;context.job={ticket_id:'tideforce',state:'integration_failed',outcome:'full_gate_failed',attempts:1,integration_attempts:2,repair_blocker:{reason:'Map repair limit reached (2/2)'}};
+vm.runInContext('renderModal(receipt,"receipt.json",job)',context);
+assert.match(nodes['#tabSummary'].innerHTML,/UNREGISTERED effect/);assert.match(nodes['#tabSummary'].innerHTML,/tap_or_untap_target_choice/);assert.match(nodes['#tabSummary'].innerHTML,/Map repair limit reached/);
+context.receipt.excluded_candidates={tideforce:{outcome:'candidate_conflict',gates:[{id:'candidate-apply',outcome:'failed',detail:'CONFLICT <script>unsafe</script>'}]}};
+vm.runInContext('renderModal(receipt,"wave.json",job)',context);
+assert.match(nodes['#tabSummary'].innerHTML,/CONFLICT &lt;script>/);assert.doesNotMatch(nodes['#tabSummary'].innerHTML,/UNREGISTERED effect/);
+vm.runInContext('renderModal({reason:"worker exited without result"},null,{ticket_id:"old",attempts:3})',context);
+assert.match(nodes['#tabSummary'].innerHTML,/worker exited without result/);
+console.log('UI checks passed: direct failure, recovery budget, per-ticket wave exclusion, escaped output, no-receipt fallback');

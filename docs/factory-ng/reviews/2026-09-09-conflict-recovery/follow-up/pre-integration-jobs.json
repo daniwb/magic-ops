@@ -1,0 +1,67 @@
+{
+  "ticket:engine.auto-damage-amount-referent-target-hand-size-5b58aa258c/v3": {
+    "attempts": 1,
+    "processed_receipt": "docs/factory-ng/runs/2026-09-09T135710Z-engine-auto-damage-amount-referent-target-hand-size-5b58aa258c-v3-codex.json",
+    "production": {
+      "integration_repair_parent": "ticket:engine.auto-damage-amount-referent-target-hand-size-5b58aa258c/v1",
+      "key": "capability:damage_amount_referent_target_hand_size:sha256:5b58aa258c1fee9418c66d1fe41b0ebb78d898249fbf1b2304c022dc71f55f74:integration-repair-v1:gate-repair-v1",
+      "producer": "capability-dependencies",
+      "retry_reason": "semantic_gate_repair"
+    },
+    "receipt": "docs/factory-ng/runs/2026-09-09T135710Z-engine-auto-damage-amount-referent-target-hand-size-5b58aa258c-v3-codex.json",
+    "state": "failed",
+    "updated_at": "2026-09-09T14:03:16Z"
+  },
+  "ticket:engine.auto-pump-until-eot-ability-self-no-target-9e24f96767/v3": {
+    "attempts": 1,
+    "processed_receipt": "docs/factory-ng/runs/2026-09-09T185754Z-engine-auto-pump-until-eot-ability-self-no-target-9e24f96767-v3-codex.json",
+    "production": {
+      "integration_repair_parent": "ticket:engine.auto-pump-until-eot-ability-self-no-target-9e24f96767/v1",
+      "key": "capability:pump_until_eot_ability_self_no_target:sha256:9e24f9676753063b09c9a6ed84893153ecff7ecb5b9389f2718c1f28940ffc06:integration-repair-v1:gate-repair-v1",
+      "producer": "capability-dependencies",
+      "retry_reason": "semantic_gate_repair"
+    },
+    "receipt": "docs/factory-ng/runs/2026-09-09T185754Z-engine-auto-pump-until-eot-ability-self-no-target-9e24f96767-v3-codex.json",
+    "state": "failed",
+    "updated_at": "2026-09-09T19:05:22Z"
+  },
+  "ticket:engine.auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295/v2": {
+    "attempts": 1,
+    "processed_receipt": "docs/factory-ng/runs/2026-09-09T071108Z-engine-auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295-v2-codex.json",
+    "production": {
+      "integration_repair_parent": "ticket:engine.auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295/v1",
+      "key": "capability:dynamic_amount_mana_value_of_exiled_this_way:sha256:a737105295300e396871d131f85cb90fbf2bd6d4d5c89621876c2f80b5c1145d:integration-repair-v1",
+      "producer": "capability-dependencies",
+      "retry_reason": "semantic_gate_repair"
+    },
+    "receipt": "docs/factory-ng/runs/2026-09-09T071108Z-engine-auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295-v2-codex.json",
+    "state": "failed",
+    "updated_at": "2026-09-09T07:15:33Z"
+  },
+  "ticket:engine.auto-destroyed-this-way-per-player-count-58304e2f98/v2": {
+    "attempts": 1,
+    "processed_receipt": "docs/factory-ng/runs/2026-09-09T072122Z-engine-auto-destroyed-this-way-per-player-count-58304e2f98-v2-codex.json",
+    "production": {
+      "integration_repair_parent": "ticket:engine.auto-destroyed-this-way-per-player-count-58304e2f98/v1",
+      "key": "capability:destroyed_this_way_per_player_count:sha256:58304e2f984f976d5f1015e46eebc32d5e50e40461a46b07567ec9cdbbefc42b:integration-repair-v1",
+      "producer": "capability-dependencies",
+      "retry_reason": "semantic_gate_repair"
+    },
+    "receipt": "docs/factory-ng/runs/2026-09-09T072122Z-engine-auto-destroyed-this-way-per-player-count-58304e2f98-v2-codex.json",
+    "state": "failed",
+    "updated_at": "2026-09-09T07:26:21Z"
+  },
+  "ticket:engine.auto-sacrifice-unless-discard-3e88a33648/v2": {
+    "attempts": 1,
+    "processed_receipt": "docs/factory-ng/runs/2026-09-09T072321Z-engine-auto-sacrifice-unless-discard-3e88a33648-v2-codex.json",
+    "production": {
+      "integration_repair_parent": "ticket:engine.auto-sacrifice-unless-discard-3e88a33648/v1",
+      "key": "capability:sacrifice_unless_discard:sha256:3e88a336483cc3f1bc70b4964f4ba27201911e84f4cbf1cd01ed1ac8ed20d184:integration-repair-v1",
+      "producer": "capability-dependencies",
+      "retry_reason": "semantic_gate_repair"
+    },
+    "receipt": "docs/factory-ng/runs/2026-09-09T072321Z-engine-auto-sacrifice-unless-discard-3e88a33648-v2-codex.json",
+    "state": "failed",
+    "updated_at": "2026-09-09T07:28:15Z"
+  }
+}

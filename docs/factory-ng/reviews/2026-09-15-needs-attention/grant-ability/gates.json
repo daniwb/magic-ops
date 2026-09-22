@@ -1,0 +1,48 @@
+{
+  "gates": [
+    {
+      "id": "scope",
+      "outcome": "passed",
+      "detail": "changed=backend/cards/converter.go,backend/game/ability_effects.go,backend/cards/shape_grant_ability_eot_test.go"
+    },
+    {
+      "id": "engine-vocabulary-handoff",
+      "outcome": "passed",
+      "detail": "All newly added public effects are registered.",
+      "elapsed_ms": 466
+    },
+    {
+      "id": "ticket-gate-0",
+      "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+      "outcome": "passed",
+      "elapsed_ms": 379,
+      "detail": ""
+    },
+    {
+      "id": "ticket-gate-1",
+      "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGGrantAbilityUntilEot$' -count=1",
+      "outcome": "passed",
+      "elapsed_ms": 739645,
+      "detail": "testing: warning: no tests to run\nPASS\nok  \tmagic-backend/game\t0.063s [no tests to run]\n=== RUN   TestFactoryNGGrantAbilityUntilEot\n=== RUN   TestFactoryNGGrantAbilityUntilEot/spell/1_grants\n2026/09/15 21:45:53 \ud83d\udde1\ufe0f  gs.DeclareAttackers called player=1 ids=[Recipient-1-2b1e4eea Other_dealer-2-fdcd3d4f] step=declare_attackers active=1\n2026/09/15 21:45:53    \u21b3 accepted 2 attacker(s)\n2026/09/15 21:45:53 \ud83d\udde1\ufe0f  gs.DeclareAttackers called player=1 ids=[Recipient-1-2b1e4eea Other_dealer-2-fdcd3d4f] step=declare_attackers active=1\n2026/09/15 21:45:53    \u21b3 accepted 2 attacker(s)\n--- PASS: TestFactoryNGGrantAbilityUntilEot/spell/1_grants (0.00s)\n=== RUN   TestFactoryNGGrantAbilityUntilEot/spell/2_grants\n2026/09/15 21:45:53 \ud83d\udde1\ufe0f  gs.DeclareAttackers called player=1 ids=[Recipient-24-50a6152e Other_dealer-25-b48b2b2f] step=declare_attackers active=1\n2026/09/15 21:45:53    \u21b3 accepted 2 attacker(s)\n2026/09/15 21:45:53 \ud83d\udde1\ufe0f  gs.DeclareAttackers called player=1 ids=[Recipient-24-50a6152e Other_dealer-25-b48b2b2f] step=declare_attackers active=1\n2026/09/15 21:45:53    \u21b3 accepted 2 attacker(s)\n--- PASS: TestFactoryNGGrantAbilityUntilEot/spell/2_grants (0.00s)\n=== RUN   TestFactoryNGGrantAbilityUntilEot/activated/1_grants\n2026/09/15 21:45:53 \ud83d\udde1\ufe0f  gs.DeclareAttackers called player=1 ids=[Recipient-48-a7c55914 Other_dealer-49-180d2094] step=declare_attackers active=1\n2026/09/15 21:45:53    \u21b3 accepted 2 attacker(s)\n2026/09/15 21:45:53 \ud83d\udde1\ufe0f  gs.DeclareAttackers called player=1 ids=[Recipient-48-a7c55914 Other_dealer-49-180d2094] step=declare_attackers active=1\n2026/09/15 21:45:53    \u21b3 accepted 2 attacker(s)\n--- PASS: TestFactoryNGGrantAbilityUntilEot/activated/1_grants (0.00s)\n=== RUN   TestFactoryNGGrantAbilityUntilEot/activated/2_grants\n2026/09/15 21:45:53 \ud83d\udde1\ufe0f  gs.DeclareAttackers called player=1 ids=[Recipient-71-189e0255 Other_dealer-72-a1128f10] step=declare_attackers active=1\n2026/09/15 21:45:53    \u21b3 accepted 2 attacker(s)\n2026/09/15 21:45:53 \ud83d\udde1\ufe0f  gs.DeclareAttackers called player=1 ids=[Recipient-71-189e0255 Other_dealer-72-a1128f10] step=declare_attackers active=1\n2026/09/15 21:45:53    \u21b3 accepted 2 attacker(s)\n--- PASS: TestFactoryNGGrantAbilityUntilEot/activated/2_grants (0.00s)\n=== RUN   TestFactoryNGGrantAbilityUntilEot/existing_activated_grant\n--- PASS: TestFactoryNGGrantAbilityUntilEot/existing_activated_grant (0.00s)\n--- PASS: TestFactoryNGGrantAbilityUntilEot (0.01s)\nPASS\nok  \tmagic-backend/cards\t0.067s\nNamed test gate: 6 test(s) passed for '^TestFactoryNGGrantAbilityUntilEot$'"
+    },
+    {
+      "id": "ticket-gate-2",
+      "command": "cd backend && go test ./game ./cards",
+      "outcome": "passed",
+      "elapsed_ms": 169297,
+      "detail": "ok  \tmagic-backend/game\t1.160s\nok  \tmagic-backend/cards\t124.959s"
+    },
+    {
+      "id": "ticket-gate-3",
+      "command": "git diff --check",
+      "outcome": "passed",
+      "elapsed_ms": 183,
+      "detail": ""
+    }
+  ],
+  "changed": [
+    "backend/cards/converter.go",
+    "backend/game/ability_effects.go",
+    "backend/cards/shape_grant_ability_eot_test.go"
+  ]
+}

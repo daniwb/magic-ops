@@ -1,0 +1,12 @@
+[
+  {
+    "ticket_id": "ticket:engine.operator-counter-threshold-recovery-sep15/v1",
+    "ticket_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/counter-threshold/ticket.json",
+    "proposal": "docs/factory-ng/candidates/proposal-15398cac2bc64acfaaeb42312974a63d.json",
+    "identity": {
+      "worker": "operator",
+      "model": "operator-correction-no-worker-provider-run",
+      "profile": "codex-constrained@1.1.0"
+    }
+  }
+]

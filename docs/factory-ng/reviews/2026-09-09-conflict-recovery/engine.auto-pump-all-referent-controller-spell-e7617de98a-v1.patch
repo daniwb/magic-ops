@@ -1,0 +1,160 @@
+From 8d9a10ddc57e93b64860466284d73d0686dfb75d Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Wed, 9 Sep 2026 01:43:01 +0000
+Subject: [PATCH] factory-ng: supervised engine observation
+
+---
+ backend/game/ability_effects.go            | 53 ++++++++++++++++-
+ backend/game/factory_ng_e7617de98a_test.go | 69 ++++++++++++++++++++++
+ 2 files changed, 121 insertions(+), 1 deletion(-)
+ create mode 100644 backend/game/factory_ng_e7617de98a_test.go
+
+diff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go
+index 90863d15e..de4ec06c8 100644
+--- a/backend/game/ability_effects.go
++++ b/backend/game/ability_effects.go
+@@ -5784,6 +5784,8 @@ func (gs *GameState) ExecuteAbilityEffect(stackObj *StackObject) error {
+ 		effectValue = gs.resolvePumpSubtypeCountAmount(effectValue, source)
+ 		effectValue = gs.resolvePumpTargetOwnPower(effectValue, targets)
+ 		return gs.executePumpEffect(controller, source, effectValue, targets)
++	case "pump_all_referent_controller_eot":
++		return gs.executePumpAllReferentControllerEOT(source, effectValue)
+ 	case "pump_until_eot":
+ 		// "Target creature gets +N/+N until end of turn" as a sequence/mode
+ 		// atom (modal round 2, 2026-08-02) — executePumpEffect's targeted
+@@ -9758,7 +9760,56 @@ func (gs *GameState) executeLoseUnspentManaEffect(controller int, effectValue ma
+ }
+ 
+ // executePumpEffect - "Target creature gets +N/+M until end of turn"
+-//
++// executePumpAllReferentControllerEOT implements the
++// pump_all_referent_controller_spell primitive (ticket
++// engine.auto-pump-all-referent-controller-spell-e7617de98a, Public
++// Execution class): "Each other creature that player controls gets -2/-0
++// until end of turn," where "that player" is the controller of the
++// permanent a PRIOR atom in this same spell sequence acted on
++// (gs.seqSlotsStr["referent"], the same cross-atom referent slot
++// grant_keywords_referent_eot/gain_control_referent_eot consume) — not a
++// statically-known you/opponent controller. Deliberately carries no target
++// of its own: the mass recipient is derived entirely from the referent's
++// controller, read while the referent is still on the battlefield (a
++// preceding "destroy target creature" atom marks it for a state-based
++// removal that hasn't pulled it off the battlefield yet when this atom
++// runs later in the same resolution).
++func (gs *GameState) executePumpAllReferentControllerEOT(source *Card, effectValue map[string]interface{}) error {
++	if gs.EffectManager == nil || source == nil || gs.seqSlotsStr == nil {
++		return nil
++	}
++	refID := gs.seqSlotsStr["referent"]
++	if refID == "" {
++		return nil
++	}
++	refCard, err := gs.Battlefield.GetCard(refID)
++	if err != nil || refCard == nil {
++		return nil
++	}
++	referentController := refCard.Controller
++	power := getIntValue(effectValue, "power", 0)
++	toughness := getIntValue(effectValue, "toughness", 0)
++	for _, card := range gs.Battlefield.GetAll() {
++		if card == nil || card.ID == refID {
++			continue
++		}
++		if card.Controller != referentController {
++			continue
++		}
++		if !matchesPermanentFilter(card, "creature") {
++			continue
++		}
++		gs.EffectManager.Register(&ContinuousEffect{
++			Source:          source,
++			AffectsSpecific: card.ID,
++			PowerMod:        power,
++			ToughnessMod:    toughness,
++			UntilEOT:        true,
++		})
++	}
++	return nil
++}
++
+ // pump_until_eot_with_keyword_grant primitive (ticket
+ // engine.auto-pump-until-eot-with-keyword-grant-ac968245d2, Moodmark Painter
+ // class: "target creature gains menace and gets +X/+0 until end of turn,
+diff --git a/backend/game/factory_ng_e7617de98a_test.go b/backend/game/factory_ng_e7617de98a_test.go
+new file mode 100644
+index 000000000..a0b124835
+--- /dev/null
++++ b/backend/game/factory_ng_e7617de98a_test.go
+@@ -0,0 +1,69 @@
++package game
++
++import "testing"
++
++// TestFactoryNGPumpAllReferentControllerSpell exercises the
++// pump_all_referent_controller_spell primitive (ticket
++// engine.auto-pump-all-referent-controller-spell-e7617de98a, Public
++// Execution class): "Destroy target creature an opponent controls. Each
++// other creature that player controls gets -2/-0 until end of turn."
++// "That player" is the controller of the permanent a PRIOR atom in the
++// same spell targeted, not a statically-known you/opponent controller.
++func TestFactoryNGPumpAllReferentControllerSpell(t *testing.T) {
++	gs := NewGame("P0", "P1", false)
++
++	source := NewCreature("Public Execution Shape Source", ManaCost{}, 0, 0, 0)
++	source.Owner, source.Controller = 0, 0
++	gs.Battlefield.AddCard(source)
++
++	referent := NewCreature("Referent Victim", ManaCost{}, 3, 3, 1)
++	referent.Owner, referent.Controller = 1, 1
++	gs.Battlefield.AddCard(referent)
++
++	ally1 := NewCreature("Referent Controller Ally One", ManaCost{}, 2, 2, 1)
++	ally1.Owner, ally1.Controller = 1, 1
++	gs.Battlefield.AddCard(ally1)
++
++	ally2 := NewCreature("Referent Controller Ally Two", ManaCost{}, 4, 4, 1)
++	ally2.Owner, ally2.Controller = 1, 1
++	gs.Battlefield.AddCard(ally2)
++
++	unrelated := NewCreature("Unrelated Caster Creature", ManaCost{}, 5, 5, 1)
++	unrelated.Owner, unrelated.Controller = 0, 0
++	gs.Battlefield.AddCard(unrelated)
++
++	// Arm the cross-atom referent slot the way effect_sequence.go's
++	// noteSeqReferent does once a preceding atom (the destroy) has acted
++	// on the target. The referent is still on the battlefield because
++	// destroy is a state-based removal that hasn't run yet mid-resolution.
++	gs.seqSlotsStr = map[string]string{"referent": referent.ID}
++
++	effectValue := map[string]interface{}{"power": float64(-2), "toughness": float64(0)}
++	if err := gs.executePumpAllReferentControllerEOT(source, effectValue); err != nil {
++		t.Fatalf("executePumpAllReferentControllerEOT: %v", err)
++	}
++
++	hasPump := func(card *Card) bool {
++		effs := gs.EffectManager.GetEffectsAffecting(card, card.Controller)
++		for i := range effs {
++			e := effs[i]
++			if e.PowerMod == -2 && e.ToughnessMod == 0 && e.UntilEOT {
++				return true
++			}
++		}
++		return false
++	}
++
++	if !hasPump(ally1) {
++		t.Fatalf("ally1 (referent controller's other creature) was not pumped")
++	}
++	if !hasPump(ally2) {
++		t.Fatalf("ally2 (referent controller's other creature) was not pumped")
++	}
++	if hasPump(referent) {
++		t.Fatalf("referent itself must not be pumped by its own 'each OTHER creature' clause")
++	}
++	if hasPump(unrelated) {
++		t.Fatalf("creature controlled by a different player must not be pumped")
++	}
++}
+-- 
+2.43.0
+

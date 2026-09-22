@@ -1,0 +1,283 @@
+# ENGINE-PIPELINE TASK — build ONE small primitive, single-shot
+
+Ticket ticket:engine.auto-cards-drawn-this-turn-counter-amount-830d3199d7/v1: Implement atomic capability: Track cards drawn this turn and expose it as a conditional-trigger gate and dynamic effect-amount source
+Primitive demand: `cards_drawn_this_turn_counter_amount`
+Capability ID: `TicketSpec`
+Atomic capability specification:
+{
+  "allowed_paths": [
+    "backend/game/ability_effects.go",
+    "backend/game/dynamic_amount.go",
+    "backend/game/effects.go",
+    "backend/game/card.go",
+    "backend/game/gamestate.go",
+    "backend/game/targeting.go",
+    "backend/cards/converter.go",
+    "backend/cards/registry.go",
+    "backend/game/factory_ng_830d3199d7_test.go",
+    "backend/cards/factory_ng_830d3199d7_test.go",
+    "backend/cards/registry_factory_ng_830d3199d7.go"
+  ],
+  "evidence": [
+    {
+      "capability": {
+        "key": "cards_drawn_this_turn_counter_amount",
+        "specification": {
+          "expected_unlock": 1,
+          "negative_examples": [
+            "Fixed-number or characteristic-based put_counters amounts (e.g. a static count, or an amount equal to a permanent's power/toughness) must continue to map exactly as before, unaffected by this capability",
+            "The already-mapped ETB draw-a-card trigger and the static no_maximum_hand_size ability on this same card must not change"
+          ],
+          "required_behavior": "Support a triggered ability that (a) only fires when the controller has drawn more than one card this turn, and (b) computes a put_counters amount as (cards drawn this turn minus one) at resolution time",
+          "source_misses": [
+            {
+              "card": "Proft's Eidetic Memory",
+              "oracle_text_sha256": "1c99093ab3dcb1961afdfdb1ba5d5b2050bee5c4e1826182ee44c51cca1e0bff",
+              "paragraph": "At the beginning of combat on your turn, if you've drawn more than one card this turn, put X +1/+1 counters on target creature you control, where X is the number of cards you've drawn this turn minus one.",
+              "required_behavior": "Support a triggered ability that (a) only fires when the controller has drawn more than one card this turn, and (b) computes a put_counters amount as (cards drawn this turn minus one) at resolution time"
+            }
+          ]
+        },
+        "summary": "Track cards drawn this turn and expose it as a conditional-trigger gate and dynamic effect-amount source"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-02T133658Z-map-plan-put-counters-proft-s-eidetic-memory-0639fc316e-v1-claude.json"
+    },
+    {
+      "anchor": "1-63",
+      "fact": "Card-knowledge index match (engine): AddCounters is the nearest indexed seam for this capability.",
+      "path": "backend/game/counter_placement.go",
+      "sha256": "sha256:635f904fa372bd8efee075df01ebd681999d3213a38225af471528bfa0b03ebb"
+    },
+    {
+      "anchor": "35-100",
+      "fact": "Card-knowledge index match (engine): ResolvePendingChoice is the nearest indexed seam for this capability.",
+      "path": "backend/game/gamestate_choice.go",
+      "sha256": "sha256:8a438538c691db385303b99c44d48ee187e420f76f3104859a5fd128214594e1"
+    },
+    {
+      "anchor": "1362-1427",
+      "fact": "Card-knowledge index match (engine): executeTapEffect is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:622a7316a1adcae36e04a3ffd901a71f97347d6c86552261fa1204ae88c14db5"
+    },
+    {
+      "anchor": "1-30",
+      "fact": "Card-knowledge index match (engine): OncePerTurnGate is the nearest indexed seam for this capability.",
+      "path": "backend/game/lib_once_per_turn_limiter.go",
+      "sha256": "sha256:72f589fa306eb4962b291481a97748a16b742bc5d60060f6dc7c9482e728e443"
+    }
+  ],
+  "expected_unlock": 1,
+  "negative_examples": [
+    "Fixed-number or characteristic-based put_counters amounts (e.g. a static count, or an amount equal to a permanent's power/toughness) must continue to map exactly as before, unaffected by this capability",
+    "The already-mapped ETB draw-a-card trigger and the static no_maximum_hand_size ability on this same card must not change"
+  ],
+  "required_behavior": "Support a triggered ability that (a) only fires when the controller has drawn more than one card this turn, and (b) computes a put_counters amount as (cards drawn this turn minus one) at resolution time",
+  "source_misses": [
+    {
+      "card": "Proft's Eidetic Memory",
+      "oracle_text_sha256": "1c99093ab3dcb1961afdfdb1ba5d5b2050bee5c4e1826182ee44c51cca1e0bff",
+      "paragraph": "At the beginning of combat on your turn, if you've drawn more than one card this turn, put X +1/+1 counters on target creature you control, where X is the number of cards you've drawn this turn minus one.",
+      "required_behavior": "Support a triggered ability that (a) only fires when the controller has drawn more than one card this turn, and (b) computes a put_counters amount as (cards drawn this turn minus one) at resolution time"
+    }
+  ]
+}
+Park reason:
+Atomic contract authority: Support a triggered ability that (a) only fires when the controller has drawn more than one card this turn, and (b) computes a put_counters amount as (cards drawn this turn minus one) at resolution time
+
+You are extending the Go MTG engine (repo openmagic, module magic-backend,
+run from backend/). Build the SMALLEST change that delivers this primitive.
+Rules:
+- backend/game/ edits ARE allowed here (this is the engine tier).
+- Follow existing conventions: extend an existing executor/switch where
+  possible; wire new vocabulary through the SAME registration points the
+  code regions below show (registry entry / converter case / v2 enum) if a
+  new effect name is needed.
+- A NEW test function in a NEW _test.go file is REQUIRED (gate greps the
+  diff for +func Test). Behavior test, not just compilation.
+- If this demand is actually FRAMEWORK-SIZED (new event system, new
+  dispatch machinery, cross-cutting state), do NOT attempt it.
+
+## Blocked example cards
+### Proft's Eidetic Memory
+Oracle text:
+When Proft's Eidetic Memory enters, draw a card.
+You have no maximum hand size.
+At the beginning of combat on your turn, if you've drawn more than one card this turn, put X +1/+1 counters on target creature you control, where X is the number of cards you've drawn this turn minus one.
+Current misses: [('verb_unmapped:put_counters', 'put x +1/+1 counters on target creature you control, where x is the nu')]
+
+## Relevant code regions (line-numbered, read-only reference)
+### backend/game/dynamic_amount.go:963-971 [game.GameState.evalDynamicAmountBase#case:cards_drawn_this_turn; 6642351731e0c336cd220a861dd14fc212e7d192]
+  963 	case "cards_drawn_this_turn":
+  964 		// "X is the number of cards you've drawn this turn[, minus one]"
+  965 		// (Proft's Eidetic Memory class, ticket
+  966 		// engine.auto-cards-drawn-this-turn-counter-amount-830d3199d7).
+  967 		// Player.CardsDrawnThisTurn already accumulates every draw this
+  968 		// turn (handleTrackCardsDrawn, gamestate.go) and resets each turn,
+  969 		// so this is a direct read; the generic "minus"/"plus" offset in
+  970 		// EvalDynamicAmountFull above handles "... minus one".
+  971 		return who(str(spec, "whose")).CardsDrawnThisTurn, true
+
+### backend/game/gamestate.go:1321-1330 [game.GameState.handleTrackCardsDrawn; 6642351731e0c336cd220a861dd14fc212e7d192]
+ 1321 func (gs *GameState) handleTrackCardsDrawn(ev *Event) {
+ 1322 	if ev == nil {
+ 1323 		return
+ 1324 	}
+ 1325 	playerIdx := ev.Player
+ 1326 	if playerIdx < 0 || playerIdx >= len(gs.Players) {
+ 1327 		return
+ 1328 	}
+ 1329 	gs.Players[playerIdx].CardsDrawnThisTurn++
+ 1330 }
+
+### backend/game/advanced_abilities.go:1472-1502 [game.GameState.DrawWithMiracleCheck; 6642351731e0c336cd220a861dd14fc212e7d192]
+ 1472 func (gs *GameState) DrawWithMiracleCheck(playerIdx int) (*Card, bool, error) {
+ 1473 	player := gs.Players[playerIdx]
+ 1474 
+ 1475 	if player.Library.IsEmpty() {
+ 1476 		return nil, false, errors.New("library is empty")
+ 1477 	}
+ 1478 
+ 1479 	card, err := player.Library.DrawCard()
+ 1480 	if err != nil {
+ 1481 		return nil, false, err
+ 1482 	}
+ 1483 
+ 1484 	// Check if first draw this turn
+ 1485 	isFirstDraw := !player.HasDrawnThisTurn
+ 1486 	player.HasDrawnThisTurn = true
+ 1487 
+ 1488 	hasMiracle := card.MiracleData != nil && isFirstDraw
+ 1489 
+ 1490 	if hasMiracle {
+ 1491 		card.MiracleData.IsFirstDraw = true
+ 1492 	}
+ 1493 
+ 1494 	player.Hand.AddCard(card)
+ 1495 
+ 1496 	// Fire draw event
+ 1497 	if gs.EventBus != nil {
+ 1498 		gs.EventBus.Publish(CreateDrawEvent(card, playerIdx))
+ 1499 	}
+ 1500 
+ 1501 	return card, hasMiracle, nil
+ 1502 }
+
+### backend/game/monarch.go:41-51 [game.GameState.handleMonarchEndStepDraw; 6642351731e0c336cd220a861dd14fc212e7d192]
+   41 func (gs *GameState) handleMonarchEndStepDraw(ev *Event) {
+   42 	if ev == nil || gs.MonarchIdx < 0 || ev.Player != gs.MonarchIdx {
+   43 		return
+   44 	}
+   45 	// Best-effort: an empty library is not itself a loss (Rule 104.3c only
+   46 	// applies when a player is instructed to draw and can't AT state-based-
+   47 	// action time), so a failed draw here is silently ignored, same as any
+   48 	// other DrawCardWithEvent call site that doesn't have a more specific
+   49 	// error path.
+   50 	_ = gs.DrawCardWithEvent(gs.MonarchIdx)
+   51 }
+
+## Knowledge-service hits
+Lookup 3df1fee8464744ff9243be5a9f9f4f78: found; strategy=explicit_leading_terms; indexed revision=6642351731e0c336cd220a861dd14fc212e7d192
+[engine] game.GameState.evalDynamicAmountBase#case:cards_drawn_this_turn (backend/game/dynamic_amount.go) — evalDynamicAmountBase#case:cards_drawn_this_turn
+  symbol_id: backend/game/dynamic_amount.go::game.GameState.evalDynamicAmountBase#case:cards_drawn_this_turn
+[engine] game.GameState.handleTrackCardsDrawn (backend/game/gamestate.go) — handleTrackCardsDrawn increments the drawing player's per-turn draw count.
+  symbol_id: backend/game/gamestate.go::game.GameState.handleTrackCardsDrawn
+[engine] game.GameState.DrawWithMiracleCheck (backend/game/advanced_abilities.go) — DrawWithMiracleCheck draws a card and checks for miracle
+  symbol_id: backend/game/advanced_abilities.go::game.GameState.DrawWithMiracleCheck
+[engine] game.GameState.handleMonarchEndStepDraw (backend/game/monarch.go) — handleMonarchEndStepDraw implements "at the beginning of the monarch's end
+  symbol_id: backend/game/monarch.go::game.GameState.handleMonarchEndStepDraw
+
+### backend/cards/shape_dealt_damage_test.go (convention template, first 60 lines)
+package cards
+
+// task-2427 (event_unsupported:deals_damage, receiver side) shape tests.
+// The passive voice ("Whenever ~ IS DEALT damage" — the Enrage family, Apex
+// Altisaur/Stuffy Doll class) names the damage RECEIVER, but every
+// TriggerCondition subject filter matched event.Source (the DEALER), so the
+// whole family was gated dead (reparse.py DEAD_TRIGGER_EVENTS). This round:
+// slotparse splits "is dealt damage" into its own v2 event is_dealt_damage,
+// the converter sets TriggerCondition.ReceiverSide, and Matches evaluates
+// every subject filter against event.Target when the flag is set. Combat
+// damage to a creature also dispatches through ProcessTriggeredAbilities now
+// (combat.go previously discarded the matched record triggers).
+// New file per the frozen-registry/shape-test convention.
+
+import (
+	"testing"
+
+	"magic-backend/game"
+)
+
+func dealtDamageDef(name string, subject *TargetFilter) *CardDefinition {
+	return &CardDefinition{
+		Name: name,
+		Type: "Creature", Types: []string{"Creature"},
+		Power: intPtr(3), Toughness: intPtr(3),
+		Abilities: []AbilityDSL{
+			{Type: "triggered",
+				TriggerV2: &TriggerSpec{Event: "is_dealt_damage", Subject: subject},
+				Effects:   []EffectAtom{{Effect: "gain_life", Value: map[string]interface{}{"amount": float64(5)}}}},
+		},
+		Status: StatusManual,
+	}
+}
+
+// "Whenever this creature is dealt damage, you gain 5 life." — Enrage/self family.
+// Self DEALING damage must NOT fire (that's the dealer-side reading); self
+// RECEIVING damage must.
+func TestShape_Triggered_IsDealtDamageSelf(t *testing.T) {
+	def := dealtDamageDef("Shape Enraged Saur", &TargetFilter{Filter: "self"})
+	src, err := def.ToGameCard(0)
+	if err != nil {
+		t.Fatalf("ToGameCard: %v", err)
+	}
+	gs := game.NewGame("P0", "P1", false)
+	gs.Battlefield.AddCard(src)
+	gs.RegisterCardAbilities(src)
+
+	other := game.NewCreature("Shape Bystander Beast", game.ManaCost{}, 2, 2, 1)
+	other.Owner, other.Controller = 1, 1
+	gs.Battlefield.AddCard(other)
+
+	life0 := gs.Players[0].Life
+
+	// Self is the DEALER (dealer-side reading) — must NOT fire.
+	gs.ProcessTriggeredAbilities(game.CreateDamageEvent(src, other, 2, 0))
+	drainStack(t, gs)
+	if got := gs.Players[0].Life; got != life0 {
+		t.Fatalf("receiver-side trigger fired on self DEALING damage (life %d -> %d)", life0, got)
+	}
+
+
+## NO-TOOLS ADAPTER
+No repository tools are available in this call. Use only the line-numbered
+evidence in this packet. Do not issue a tool call. If essential exact source
+is absent, use the bounded `NEED:` continuation defined below; otherwise
+return an edit block or a verdict in this response.
+
+## OUTPUT FORMAT (strict)
+If ESSENTIAL source is missing from the code regions above (you would have to
+guess exact lines), reply ONLY with up to 3 request lines and nothing else:
+NEED: <repo-relative-path or exact symbol/identifier>
+The harness will send the regions and re-ask ONCE.
+
+OTHERWISE — EITHER a park verdict:
+VERDICT: FRAMEWORK|AMBIGUOUS
+REASON: <one line>
+
+OR edit blocks. Existing files via exact-match search/replace:
+<<<FILE path/relative/to/repo
+<<<SEARCH
+exact existing lines (verbatim, no line-number prefixes)
+===REPLACE
+replacement lines
+>>>END
+New files (the required test file, new registry file if conventions demand):
+<<<NEWFILE path/relative/to/repo
+full file content
+>>>END
+
+End with one line:
+EXPECT: <what now works, one sentence>
+No other prose.

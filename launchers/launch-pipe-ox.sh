@@ -24,7 +24,7 @@ mkdir -p /tmp/orch /tmp/work
 while true; do
   PIPE_ENGINE=openrouter \
     PIPE_MODEL="${OPENROUTER_MODEL:-stealth/ox-alpha}" \
-    PIPE_MAX_TOKENS_CAP="${OX_MAX_TOKENS_CAP:-8000}" \
+    PIPE_MAX_TOKENS_CAP="${OX_MAX_TOKENS_CAP:-16000}" \
     PIPE_REASONING_TOKENS="${OX_REASONING_TOKENS:-3000}" \
     PIPE_MAX_NEED_ROUNDS="${OX_MAX_NEED_ROUNDS:-4}" \
     USAGE_LIMIT_PCT="${USAGE_LIMIT_PCT:-99}" \

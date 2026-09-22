@@ -1,0 +1,171 @@
+<<<FILE backend/game/dynamic_amount.go
+<<<SEARCH
+package game
+
+import "strings"
+===REPLACE
+package game
+
+import (
+	"strconv"
+	"strings"
+)
+>>>END
+
+<<<SEARCH
+	case "tapped_this_way":
+		// "equal to the number of creatures tapped this way" (ticket #4765,
+===REPLACE
+	case "destroyed_this_way_per_player_count":
+		if gs.seqTally == nil {
+			return 0, false
+		}
+		n, ok := gs.seqTally["destroyed_artifact_p"+strconv.Itoa(controller)]
+		return n, ok
+	case "tapped_this_way":
+		// "equal to the number of creatures tapped this way" (ticket #4765,
+>>>END
+
+<<<FILE backend/game/ability_effects.go
+<<<SEARCH
+// executeDestroyEffect - "Destroy target permanent"
+// cantBeRegenerated (ticket #3976, REPARSE-MAP
+// destroy_single_target_regen_gap / "destroy target X and it can't be
+// regenerated." — Knight of the Mists) routes each target through
+// DestroyTargetForced (Rule 701.16b — regeneration shields cannot replace
+// the destruction; indestructible is still honored) instead of the
+// shield-honoring DestroyTarget.
+func (gs *GameState) executeDestroyEffect(targets []Target, cantBeRegenerated bool) error {
+	destroy := DestroyTarget
+	if cantBeRegenerated {
+		destroy = DestroyTargetForced
+	}
+	for _, target := range targets {
+		if target.IsCard {
+			destroy(target, gs)
+		}
+	}
+	return nil
+}
+===REPLACE
+// executeDestroyEffect - "Destroy target permanent"
+// cantBeRegenerated (ticket #3976, REPARSE-MAP
+// destroy_single_target_regen_gap / "destroy target X and it can't be
+// regenerated." — Knight of the Mists) routes each target through
+// DestroyTargetForced (Rule 701.16b — regeneration shields cannot replace
+// the destruction; indestructible is still honored) instead of the
+// shield-honoring DestroyTarget.
+func (gs *GameState) executeDestroyEffect(targets []Target, cantBeRegenerated bool) error {
+	destroy := DestroyTarget
+	if cantBeRegenerated {
+		destroy = DestroyTargetForced
+	}
+	for _, target := range targets {
+		if !target.IsCard || target.CardID == "" {
+			continue
+		}
+		card, err := gs.Battlefield.GetCard(target.CardID)
+		if err != nil || card == nil {
+			continue
+		}
+		controller := card.Controller
+		isArtifact := isArtifactPermanent(card)
+		if err := destroy(target, gs); err != nil {
+			return err
+		}
+		if !isArtifact || gs.seqTally == nil {
+			continue
+		}
+		if card.Owner >= 0 && card.Owner < len(gs.Players) &&
+			gs.Players[card.Owner].Graveyard.HasCard(card.ID) {
+			key := "destroyed_artifact_p" + strconv.Itoa(controller)
+			gs.seqTally[key]++
+		}
+	}
+	return nil
+}
+>>>END
+
+<<<NEWFILE backend/game/factory_ng_58304e2f98_test.go
+package game
+
+import "testing"
+
+func TestFactoryNGDestroyedThisWayPerPlayerCount(t *testing.T) {
+	t.Run("controller-relative damage", func(t *testing.T) {
+		gs := NewGame("P0", "P1", false)
+		gs.seqTally = map[string]int{}
+
+		p0 := NewCard("P0 Artifact", TypeArtifact, ManaCost{}, 0)
+		p0.Owner, p0.Controller = 0, 0
+		p1a := NewCard("P1 Artifact A", TypeArtifact, ManaCost{}, 0)
+		p1a.Owner, p1a.Controller = 1, 1
+		p1b := NewCard("P1 Artifact B", TypeArtifact, ManaCost{}, 0)
+		p1b.Owner, p1b.Controller = 1, 1
+		for _, card := range []*Card{p0, p1a, p1b} {
+			gs.Battlefield.AddCard(card)
+		}
+
+		targets := []Target{
+			{IsCard: true, CardID: p0.ID},
+			{IsCard: true, CardID: p1a.ID},
+			{IsCard: true, CardID: p1b.ID},
+		}
+		if err := gs.executeDestroyEffect(targets, false); err != nil {
+			t.Fatal(err)
+		}
+
+		before0, before1 := gs.Players[0].Life, gs.Players[1].Life
+		if n, ok := gs.seqTally["destroyed_artifact_p0"]; !ok || n != 1 {
+			t.Fatalf("player 0 tally = %d, %v; want 1", n, ok)
+		}
+		if n, ok := gs.seqTally["destroyed_artifact_p1"]; !ok || n != 2 {
+			t.Fatalf("player 1 tally = %d, %v; want 2", n, ok)
+		}
+
+		for player := range gs.Players {
+			amount, ok := gs.EvalDynamicAmountFull(
+				map[string]interface{}{"kind": "destroyed_this_way_per_player_count"},
+				player, nil, nil, nil,
+			)
+			if !ok {
+				t.Fatalf("player %d amount did not resolve", player)
+			}
+			gs.Players[player].Life -= amount
+		}
+		if before0-gs.Players[0].Life != 1 || before1-gs.Players[1].Life != 2 {
+			t.Fatalf("want 1/2 damage, got %d/%d",
+				before0-gs.Players[0].Life,
+				before1-gs.Players[1].Life)
+		}
+	})
+
+	t.Run("indestructible is not counted", func(t *testing.T) {
+		gs := NewGame("P0", "P1", false)
+		gs.seqTally = map[string]int{}
+
+		card := NewCard("Indestructible Artifact", TypeArtifact, ManaCost{}, 0)
+		card.Owner, card.Controller = 0, 0
+		card.Keywords = []Keyword{Indestructible}
+		gs.Battlefield.AddCard(card)
+
+		before := gs.Players[0].Life
+		if err := gs.executeDestroyEffect(
+			[]Target{{IsCard: true, CardID: card.ID}}, false,
+		); err != nil {
+			t.Fatal(err)
+		}
+		if !gs.Battlefield.HasCard(card.ID) {
+			t.Fatal("indestructible artifact was removed")
+		}
+		if _, ok := gs.seqTally["destroyed_artifact_p0"]; ok {
+			t.Fatal("indestructible artifact was counted")
+		}
+		if before-gs.Players[0].Life != 0 {
+			t.Fatal("destroy effect changed life")
+		}
+	})
+}
+>>>END
+
+EXPECT: Builder’s Bane-style sequences now tally only successfully graveyarded artifacts by controller and resolve each player’s damage amount from that player’s own sequence tally.

@@ -1,0 +1,54 @@
+{
+  "seconds": 8.017065100371838,
+  "threads_checked": 34,
+  "affinity_mismatches": [],
+  "go_processes": [
+    {
+      "pid": 42218,
+      "settings": [
+        "GOFLAGS=-trimpath -p=2 ",
+        "GOMAXPROCS=2"
+      ]
+    },
+    {
+      "pid": 37750,
+      "settings": [
+        "GOFLAGS=-trimpath -p=2 ",
+        "GOMAXPROCS=2"
+      ]
+    }
+  ],
+  "total_cpu_pct": 291.6,
+  "top": [
+    {
+      "pid": 41647,
+      "cpu_pct": 129.7,
+      "command": "/home/dev/go/pkg/mod/golang.org/toolchain@v0.0.1-go1.25.0.linux-amd64/pkg/tool/linux_amd64/compile -o /tmp/go-build1208056518/b131/_pkg_.a -trimpath /tmp/factory-ng-engine-auto-gra"
+    },
+    {
+      "pid": 42845,
+      "cpu_pct": 88.9,
+      "command": "/home/dev/go/pkg/mod/golang.org/toolchain@v0.0.1-go1.25.0.linux-amd64/pkg/tool/linux_amd64/compile @/tmp/args2247858866 "
+    },
+    {
+      "pid": 42967,
+      "cpu_pct": 69.6,
+      "command": "python3 /opt/development/magic-ops/scripts/factory-ng-produce-capability-dependency.py --trial-id staged-five-card-2026-09-08 "
+    },
+    {
+      "pid": 4055077,
+      "cpu_pct": 3.4,
+      "command": "python3 scripts/factory-ng-controller.py --interval 15 --producer-interval 300 "
+    },
+    {
+      "pid": 26697,
+      "cpu_pct": 0.0,
+      "command": "/usr/bin/python3 /opt/development/magic-ops/scripts/factory-ng-integrate.py --receipt /opt/development/magic-ops/docs/factory-ng/runs/2026-09-15T121125Z-focused-b82054c203fc4c23814"
+    },
+    {
+      "pid": 42125,
+      "cpu_pct": 0.0,
+      "command": "python3 scripts/factory-ng-staged-trial.py "
+    }
+  ]
+}

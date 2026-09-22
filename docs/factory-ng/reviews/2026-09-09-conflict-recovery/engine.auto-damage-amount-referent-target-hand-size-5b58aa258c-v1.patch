@@ -1,0 +1,141 @@
+From 3e7aad299f8ca206ba8b25f0b336fe79b0132481 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Tue, 8 Sep 2026 00:11:02 +0000
+Subject: [PATCH] factory-ng: supervised engine observation
+
+---
+ backend/game/ability_effects.go            | 40 ++++++++++++++-
+ backend/game/factory_ng_5b58aa258c_test.go | 59 ++++++++++++++++++++++
+ 2 files changed, 97 insertions(+), 2 deletions(-)
+ create mode 100644 backend/game/factory_ng_5b58aa258c_test.go
+
+diff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go
+index 5c9df7506..5aee04810 100644
+--- a/backend/game/ability_effects.go
++++ b/backend/game/ability_effects.go
+@@ -3183,12 +3183,34 @@ func (gs *GameState) ResolveTriggerReferentPlayerController(effectValue map[stri
+ // amount_source is absent or its property is unrecognized, so a literal-
+ // amount damage atom (including one that still sets recipient_from) is
+ // never affected by this fold.
++//
++// EffectValue["amount_source"] == {"referent": "target", "property":
++// "hand_size"} implements the damage_amount_referent_target_hand_size
++// primitive (ticket
++// engine.auto-damage-amount-referent-target-hand-size-5b58aa258c, Storm
++// Seeker class: "~ deals damage to target player equal to the number of
++// cards in that player's hand."). Unlike the mana_value fold above, this
++// referent is the resolved TARGET (the []Target this function already
++// receives), not eventCard, so it applies even when eventCard is nil — a
++// plain targeted spell, not a triggered ability. Reads the hand size of
++// the first TargetPlayer entry in targets AT FOLD TIME (i.e. at
++// resolution, since targets are already locked in by then), never the
++// source's own controller's hand (that stays the separate "hand"/
++// "whose":"you" count spec, dynamic_amount.go) and never a caster's
++// library size, per the ticket's negative examples. No player target
++// present -> folds to 0, an honest no-op rather than a guessed amount.
+ func (gs *GameState) resolveRecipientFromEventCard(effectValue map[string]interface{}, eventCard *Card, targets []Target) []Target {
+-	if effectValue != nil && eventCard != nil {
++	if effectValue != nil {
+ 		if amountSource, ok := effectValue["amount_source"].(map[string]interface{}); ok {
+ 			switch amountSource["property"] {
+ 			case "mana_value":
+-				effectValue["amount"] = eventCard.ManaCost.CMC()
++				if eventCard != nil {
++					effectValue["amount"] = eventCard.ManaCost.CMC()
++				}
++			case "hand_size":
++				if amountSource["referent"] == "target" {
++					effectValue["amount"] = gs.handSizeOfFirstPlayerTarget(targets)
++				}
+ 			}
+ 		}
+ 	}
+@@ -3277,6 +3299,20 @@ func (gs *GameState) resolveReferentTargetController(targets []Target) []Target
+ 	return resolved
+ }
+ 
++// handSizeOfFirstPlayerTarget returns the number of cards in the hand of
++// the first TargetPlayer entry in targets — the "target player" referent
++// resolveRecipientFromEventCard folds for
++// damage_amount_referent_target_hand_size above. Returns 0 when targets
++// contains no player target (honest no-op, never a guessed amount).
++func (gs *GameState) handSizeOfFirstPlayerTarget(targets []Target) int {
++	for _, t := range targets {
++		if t.Type == TargetPlayer && t.PlayerIdx >= 0 && t.PlayerIdx < len(gs.Players) {
++			return len(gs.Players[t.PlayerIdx].Hand.Cards)
++		}
++	}
++	return 0
++}
++
+ // resolvePumpReferentSpellManaValue implements the
+ // pump_referent_dynamic_amount_until_eot primitive (ticket
+ // engine.auto-pump-referent-dynamic-amount-until-eot-b195cfdc04, Erratic
+diff --git a/backend/game/factory_ng_5b58aa258c_test.go b/backend/game/factory_ng_5b58aa258c_test.go
+new file mode 100644
+index 000000000..0b96329eb
+--- /dev/null
++++ b/backend/game/factory_ng_5b58aa258c_test.go
+@@ -0,0 +1,59 @@
++package game
++
++import "testing"
++
++// TestFactoryNGDamageAmountReferentTargetHandSize covers the
++// damage_amount_referent_target_hand_size_5b58aa258c primitive (ticket
++// engine.auto-damage-amount-referent-target-hand-size-5b58aa258c, Storm
++// Seeker class: "~ deals damage to target player equal to the number of
++// cards in that player's hand."). Verifies resolveRecipientFromEventCard
++// folds effectValue["amount"] to the TARGETED player's hand size (not the
++// source's own hand) and that the folded amount actually reduces that
++// player's life through the standard damage pipeline. Also verifies a
++// fixed literal damage amount (no amount_source key at all) is left
++// completely unaffected by this fold.
++func TestFactoryNGDamageAmountReferentTargetHandSize(t *testing.T) {
++	gs := NewGame("P0", "P1", false)
++
++	source := NewCreature("Storm Seeker Test Source", ManaCost{}, 1, 1, 1)
++	source.Owner, source.Controller = 0, 0
++	gs.Battlefield.AddCard(source)
++
++	// Target player (P1) holds 4 cards; the caster's own hand stays empty,
++	// so a bug that read the caster's hand instead of the target's would
++	// fold "amount" to 0 rather than 4.
++	gs.Players[1].Hand.Cards = []*Card{
++		NewCreature("Hand Card A", ManaCost{}, 1, 1, 1),
++		NewCreature("Hand Card B", ManaCost{}, 1, 1, 1),
++		NewCreature("Hand Card C", ManaCost{}, 1, 1, 1),
++		NewCreature("Hand Card D", ManaCost{}, 1, 1, 1),
++	}
++
++	targets := []Target{{Type: TargetPlayer, PlayerIdx: 1}}
++	effectValue := map[string]interface{}{
++		"amount_source": map[string]interface{}{"referent": "target", "property": "hand_size"},
++	}
++
++	gs.resolveRecipientFromEventCard(effectValue, nil, targets)
++
++	amount, ok := effectValue["amount"].(int)
++	if !ok || amount != 4 {
++		t.Fatalf("expected amount folded to target's hand size 4, got %#v", effectValue["amount"])
++	}
++
++	life0 := gs.Players[1].Life
++	if err := DamageTargetFromSource(targets[0], amount, source, gs); err != nil {
++		t.Fatalf("DamageTargetFromSource: %v", err)
++	}
++	if got := gs.Players[1].Life; got != life0-4 {
++		t.Fatalf("expected target player to lose 4 life, life %d -> %d", life0, got)
++	}
++
++	// Negative example: a fixed literal damage amount (no amount_source key
++	// at all) must remain completely unaffected by this fold.
++	fixedValue := map[string]interface{}{"amount": 3}
++	gs.resolveRecipientFromEventCard(fixedValue, nil, targets)
++	if amt, _ := fixedValue["amount"].(int); amt != 3 {
++		t.Fatalf("fixed literal amount must remain unaffected, got %#v", fixedValue["amount"])
++	}
++}
+-- 
+2.43.0
+

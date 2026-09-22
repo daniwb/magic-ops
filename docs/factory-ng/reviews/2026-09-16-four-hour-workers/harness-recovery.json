@@ -1,0 +1,2216 @@
+{
+  "schema": "factory.reviewed-harness-recovery/v1",
+  "batch": "reviewed-harness-corrections-2026-09-16",
+  "max_active": 24,
+  "reason": "Finite operator review of pre-semantic failures. Exact context/canonical delimiter correction and scope-checked gofmt are implemented and tested. Preserve original semantic contract and retry ancestry; current source and Oracle revalidation required.",
+  "tickets": [
+    {
+      "ticket_id": "ticket:engine.auto-ability-pump-all-filtered-until-eot-379d089d8a/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-06T083201Z-engine-auto-ability-pump-all-filtered-until-eot-379d089d8a-v2-claude.json",
+      "receipt_sha256": "sha256:ccba030de664ec6e8af5387303e6e59a9a7d055b0a1506d6a749fc62001f996f",
+      "ticket_sha256": "sha256:0a1f7a21918bf44db888b18a736345a4f5662b26f431067c0f45db99df7a82e7",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-activated-dual-target-fight-027d7f8816/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T111452Z-engine-auto-activated-dual-target-fight-027d7f8816-v2-codex.json",
+      "receipt_sha256": "sha256:45e0518412ef2159add166b99f471e836e4c708d43270a83796b01e60a95eb42",
+      "ticket_sha256": "sha256:8dd861224f85f3b706426dffee25a51def172e6886b70a40570b1e9ac73872d7",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-activated-linked-referent-ce14cd2f0c/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T012235Z-engine-auto-activated-linked-referent-ce14cd2f0c-v2-codex.json",
+      "receipt_sha256": "sha256:774adc95cf80f01848692870954f0646863fd47397436fc3d1aa442378bb63e0",
+      "ticket_sha256": "sha256:376edd603522438d9f193b367e6c686d3b9cabfd3f14a0f643b7633ba367227f",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-add-stun-counter-to-target-ee8fe19b4f/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T205008Z-engine-auto-add-stun-counter-to-target-ee8fe19b4f-v2-codex.json",
+      "receipt_sha256": "sha256:cd08a9aff240f066a212d9f6535fbc9f6b16037c70be4bd8a06542851bfd05bc",
+      "ticket_sha256": "sha256:74b4da57cad1b48a2627dc6a556a13f4c163dd3273efa6b713cafc9a03e82c55",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-amount-count-chosen-color-permanents-controlled--318f73e158/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T183453Z-engine-auto-amount-count-chosen-color-permanents-controlled--318f73e158-v3-codex.json",
+      "receipt_sha256": "sha256:2bf7e7b91997974aade11de73224c819a9768eb982771224b049ab3658b9da32",
+      "ticket_sha256": "sha256:828d767cbe475aa0d6b38516581ab7455fec64ecbd7a61b559ea81358edcb6c7",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-amount-count-triggering-damage-dealt-5a4f9abe83/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T212908Z-engine-auto-amount-count-triggering-damage-dealt-5a4f9abe83-v3-codex.json",
+      "receipt_sha256": "sha256:82491951cc07d2ec40893b4fa296d0b2665402111f706eca22fef497cdbe81f1",
+      "ticket_sha256": "sha256:8221659adabe9729e78958f4e95f4b69b2aa2a028552c4df4f7073b9b5abcb89",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-atomic-self-exile-with-dependent-trigger-c1f4fa5986/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T225219Z-engine-auto-atomic-self-exile-with-dependent-trigger-c1f4fa5986-v2-codex.json",
+      "receipt_sha256": "sha256:548753cb98f499570a5063a89001047604fefb489c5658d015b215545007453e",
+      "ticket_sha256": "sha256:0703abfef83e78080e611685ecceabc10befe298da06c9297eee1543ee8e125f",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-bind-auto-returned-card-as-sequence-damage-sourc-d9c54f289d/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T032722Z-engine-auto-bind-auto-returned-card-as-sequence-damage-sourc-d9c54f289d-v2-codex.json",
+      "receipt_sha256": "sha256:59b714a53f28f9fd4cb28d570bb5f6d22c04f25b35908368968da8cce9ceb0d3",
+      "ticket_sha256": "sha256:f713e34eb25e2f190bbf44cb8d7b29ec4769644d8a858ece440f915cd4c5ed81",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-blocking-creature-target-filter-8e3b517eca/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T223827Z-engine-auto-blocking-creature-target-filter-8e3b517eca-v2-codex.json",
+      "receipt_sha256": "sha256:56645fc005b05b71721ad8198ae00a9c4dea7f7b23846ecb3559eb42d69ddff6",
+      "ticket_sha256": "sha256:7ba65e0c688633672389d09a7fc0ffc9803057bf2e6664708d4fdf0c51efb495",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-bounce-attached-and-its-auras-dispatch-f2f4ade41d/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T160017Z-engine-auto-bounce-attached-and-its-auras-dispatch-f2f4ade41d-v2-codex.json",
+      "receipt_sha256": "sha256:6ed3d5c3a37513c973d5a25c240b52c5bc3d7d671f9eca78c0d5617539cdf0db",
+      "ticket_sha256": "sha256:0e13c2317baa8a0cc312909ff9d918cceeeea3cacb99651c3fa28eddeb80262d",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-bounce-cards-from-graveyard-to-hand-49633d7255/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T130544Z-engine-auto-bounce-cards-from-graveyard-to-hand-49633d7255-v2-codex.json",
+      "receipt_sha256": "sha256:9a7a18ceb223ef4d982db47a1ea4817af17afaff61ba7f34860444e1526d7284",
+      "ticket_sha256": "sha256:704a085da8abf0207e41c244a5b957cecb38ce4ed8e0f9f55b6fc3b7f95214ef",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-bounce-nonhistoric-nonland-permanent-2e74a03231/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T124829Z-engine-auto-bounce-nonhistoric-nonland-permanent-2e74a03231-v2-codex.json",
+      "receipt_sha256": "sha256:0e02eb0f8215054aff00bf5b698a70cb62868bc2fb52aba1ae5122294786614b",
+      "ticket_sha256": "sha256:4986f9bc2692c87473a45c9721ea3f52a18359f505fbb907b2d37c7af3c37dfa",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-bounce-referent-targeted-spell-bbdb869edf/v3",
+      "attempts": 2,
+      "receipt": "docs/factory-ng/runs/2026-09-10T205616Z-engine-auto-bounce-referent-targeted-spell-bbdb869edf-v3-codex.json",
+      "receipt_sha256": "sha256:e75dd9f3feb6382dd3043340a496c82d70dea7a81918f9bae774cd39eb21c5c7",
+      "ticket_sha256": "sha256:3f8edc93fd5fe2d63cbf3bde214994f6d49a5c359f5d4c0de3c54fbad706aaa4",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-bounce-same-name-as-target-5bbab98fd4/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-14T143238Z-engine-auto-bounce-same-name-as-target-5bbab98fd4-v2-codex.json",
+      "receipt_sha256": "sha256:6335284abe0f98ac30295e540b6ff0bff1840890e42a67b9d3a3ec86226ba014",
+      "ticket_sha256": "sha256:1cefebdca8b025d35f8ce033716ae5a4ad352147e74bcfaf6c7e52679f47f267",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-bounce-target-lesser-mana-value-than-event-card-877d99129b/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T121445Z-engine-auto-bounce-target-lesser-mana-value-than-event-card-877d99129b-v2-codex.json",
+      "receipt_sha256": "sha256:5ef6e34def420d2e07dee4284385f1737f5ead6528b592f98e394abbb0dc83cd",
+      "ticket_sha256": "sha256:0f4476083791aa6a38e92650562e19cf89993b37a0f91e3138d5169590c7d5e4",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-bounce-two-independent-targets-8ee0aad41a/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T123318Z-engine-auto-bounce-two-independent-targets-8ee0aad41a-v2-codex.json",
+      "receipt_sha256": "sha256:c4611b8de93ba0320899481a59e4d5174c5be12a26c3d30a0b0f1081e41f5923",
+      "ticket_sha256": "sha256:6f8ef79ff15e05a197ab42db362f0ce87753e6a3e645c69474c8f1aa196b1243",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-bounce-with-mana-value-filter-4bf6a351c2/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T092341Z-engine-auto-bounce-with-mana-value-filter-4bf6a351c2-v3-codex.json",
+      "receipt_sha256": "sha256:bee20c905fdb0816f16c8670b26255dabea6a4781776cd408922cf23ad39b8ef",
+      "ticket_sha256": "sha256:6a7e717bfd52d780f25e5600527edfb3a6655d29362efb263df247a23902645a",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-cards-discarded-this-turn-dynamic-count-322055373a/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T111317Z-engine-auto-cards-discarded-this-turn-dynamic-count-322055373a-v2-codex.json",
+      "receipt_sha256": "sha256:6d4296ee75a94da888556ba5eb51c953279ecbc2ca86f0bcb695e0444adb1f56",
+      "ticket_sha256": "sha256:b159f6ed060f779b551971d405c66066de226396b2df90fd865eaafb48021980",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-chosen-creature-power-damage-to-chosen-creature-c1d9f3f071/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T052037Z-engine-auto-chosen-creature-power-damage-to-chosen-creature-c1d9f3f071-v2-codex.json",
+      "receipt_sha256": "sha256:ccdae310d5475df86031b0ae60bc3c69b73154532f5b0d9e71cfda022bf16620",
+      "ticket_sha256": "sha256:771712b1c8ed8be746c1d76c30c87eb1390c13db1a55e8470e12d702e30483ef",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-chosen-target-power-as-damage-amount-4488cd587c/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T073420Z-engine-auto-chosen-target-power-as-damage-amount-4488cd587c-v2-codex.json",
+      "receipt_sha256": "sha256:927b70d46c1ccc1cab1261a46aebaea099d699521de32d712f091d5a43630c32",
+      "ticket_sha256": "sha256:1162b01ccdade8433477741b289e00205f30515d5e465ad79751fa98cef6b201",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-colored-mana-may-pay-gate-631629ee49/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T001702Z-engine-auto-colored-mana-may-pay-gate-631629ee49-v3-codex.json",
+      "receipt_sha256": "sha256:5074276058410dd829cc1ad45918f508952d53658998b8569a5a0456d516dcf8",
+      "ticket_sha256": "sha256:9fabb60b3dd7ed560865bfb1e834d6bfa726f2eb26d5fb54b4a12a15b72ee23e",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-conditional-counter-target-spell-by-creature-cou-411ef36050/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T211247Z-engine-auto-conditional-counter-target-spell-by-creature-cou-411ef36050-v3-codex.json",
+      "receipt_sha256": "sha256:2a31e3667ddf17d30837462c51dfc54b71988c2b4dd74b92bd7e1c5e307278e6",
+      "ticket_sha256": "sha256:06d4c0fcf401de8bdbde7e234c01078de224869de84c0b2d562b6d9b35396dc9",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-conditional-damage-to-referent-77b2852095/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T133156Z-engine-auto-conditional-damage-to-referent-77b2852095-v2-codex.json",
+      "receipt_sha256": "sha256:779466e138eed5e92e351d34080ee52a2f5d4b1af8638d41cec0610615d07b0e",
+      "ticket_sha256": "sha256:7166be379b6d2f9aa5302600edd3e1f10131a39c4ce49db3e3b6daf7ed375dc4",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-conditional-destroy-by-predicate-f0d32ade7a/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T012557Z-engine-auto-conditional-destroy-by-predicate-f0d32ade7a-v3-codex.json",
+      "receipt_sha256": "sha256:5f46a2a394446596dbde6af1785b9d57eaa5bd64451c4d70e3b3e0398ead7113",
+      "ticket_sha256": "sha256:8aa2a2d45d32189e690dde8b2e29ddc304480badead08856ff9e4ca3b1930fe9",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-conditional-destroy-target-by-mana-spent-86f551a847/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T174149Z-engine-auto-conditional-destroy-target-by-mana-spent-86f551a847-v3-codex.json",
+      "receipt_sha256": "sha256:a754149e3b20971a8a075e5050c216175a183d041eff0d02fed24151f2894d23",
+      "ticket_sha256": "sha256:9a316efb3f726b4640b8c8f7d95e3149d61db6dd3327cd2aa991a738cdcf0a7a",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-conditional-discarded-card-power-damage-c9b4bae1a6/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T154212Z-engine-auto-conditional-discarded-card-power-damage-c9b4bae1a6-v2-codex.json",
+      "receipt_sha256": "sha256:f58726b6c6cb3b0bd4776d252ec7df4bfa8a851afc8d9eb0fa721f4c21eb72ee",
+      "ticket_sha256": "sha256:56d16b5bfb7c6d9bfc015f7ba67322c9dbb1ceb3c6952a9bf540a261a0101ee1",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-conditional-grant-on-sacrificed-permanent-type-c540489e62/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T202931Z-engine-auto-conditional-grant-on-sacrificed-permanent-type-c540489e62-v2-codex.json",
+      "receipt_sha256": "sha256:cc1e9a071c70f64b2a29ff48b5dcc428ae3a1c242166cd331758e03f1a4ca3d6",
+      "ticket_sha256": "sha256:5b059cf2fd96d1cd3ab94c0fde29fa60ebfabd9c4a2dbd6fee01e4f0a4eb1864",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-conditional-put-counters-control-artifact-and-en-5861ae267c/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T215653Z-engine-auto-conditional-put-counters-control-artifact-and-en-5861ae267c-v2-codex.json",
+      "receipt_sha256": "sha256:37cf14d111bad64e6f96abd4b884b2e1d9f415cd0e9b5d01e37ccd00fde41c58",
+      "ticket_sha256": "sha256:722d5267772c1e9ffb1dab5369a1a59c86db764d042054d231375908f5e2c994",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-conditional-put-counters-on-attached-color-da83525c4d/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T011205Z-engine-auto-conditional-put-counters-on-attached-color-da83525c4d-v3-qwen-agentic.json",
+      "receipt_sha256": "sha256:5431914f587ea9f212d2510cee80ac023febf2f4ff1dd03e366c3138c0460e2a",
+      "ticket_sha256": "sha256:c6053e223247e434cc6093add03823fc67165644915ff003f97da89cf6dedca0",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-conditional-sacrifice-self-counter-threshold-7309b1dfac/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T030445Z-engine-auto-conditional-sacrifice-self-counter-threshold-7309b1dfac-v3-codex.json",
+      "receipt_sha256": "sha256:4921cb905c87c97949e959f86fb061dccc594cb2bc037a7e129c8bf14d3c33c3",
+      "ticket_sha256": "sha256:81014e8a88ac5bae1eb09d33969e97003778f57618079e92747e9dd492f715ae",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-copy-all-controlled-stack-objects-f0627c34c8/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T092640Z-engine-auto-copy-all-controlled-stack-objects-f0627c34c8-v3-codex.json",
+      "receipt_sha256": "sha256:5fc99cde36398b1ce2cde7ece97cd9bb301dd59fe86c14702f84f0ae950fdfb7",
+      "ticket_sha256": "sha256:f9fc6d17c8a56b33d5f7444723c9800c60154db8c45be213efabf44ca6db44a8",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-copy-implicit-triggering-ability-7269c7d3f5/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T092916Z-engine-auto-copy-implicit-triggering-ability-7269c7d3f5-v2-codex.json",
+      "receipt_sha256": "sha256:bb1c90c5dcf34b92ec84df1f1d376623a7e00e9145e681cc9582043b6828e2ad",
+      "ticket_sha256": "sha256:ae68b18a7b71eac53dc6f867872efcae26bf5137e77d75c0afe6cf9377512a9e",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-copy-spell-as-artifact-token-cd2b069ce2/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T182137Z-engine-auto-copy-spell-as-artifact-token-cd2b069ce2-v2-codex.json",
+      "receipt_sha256": "sha256:ebbf28ded70351747ffc546d007a7a562166288b57d256296e69e385d87be5ea",
+      "ticket_sha256": "sha256:196ef6df66f3ee12b9f75e66faa40f56defb0ade1c2efd94c711587178e4dcb6",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-copy-target-ability-you-ctl-artifact-source-8f5f743d55/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T013252Z-engine-auto-copy-target-ability-you-ctl-artifact-source-8f5f743d55-v3-codex.json",
+      "receipt_sha256": "sha256:9e5ad30629f5f3609ce6a4c68ca51eb780bcfb493e973aa2e1a66a5d42880887",
+      "ticket_sha256": "sha256:0611db431e2c432b0f31b73cdd15450a938536ec827064d211c65c743e10365b",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-copy-target-mana-value-equals-x-dispatch-7858a4f31c/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T144037Z-engine-auto-copy-target-mana-value-equals-x-dispatch-7858a4f31c-v3-codex.json",
+      "receipt_sha256": "sha256:3f53b847ab8e87e0bfcaf8c9ae8bd6aaaedc78c2cd8e01a8efbd8ca522c199de",
+      "ticket_sha256": "sha256:29e949bb13db851ee90e6bc4523ba69dce2ce72e3efd180120455a7c182b772f",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-copy-triggered-ability-24533351a1/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T171301Z-engine-auto-copy-triggered-ability-24533351a1-v2-codex.json",
+      "receipt_sha256": "sha256:7468c51e4c4b91bcecfc1f1296cef5827ddce6d0bd49e711c28ff76390f5247d",
+      "ticket_sha256": "sha256:8b9cb679b7224e5a54f5a763420e302c32abd6e18e3401fb2e282ec27715d663",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-count-controller-auras-attached-to-event-subject-8a6b440ed5/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T170050Z-engine-auto-count-controller-auras-attached-to-event-subject-8a6b440ed5-v2-codex.json",
+      "receipt_sha256": "sha256:3b370fa8dfb515efae3d4fff1578582abe5690fd052d47b613d699b32f12cc74",
+      "ticket_sha256": "sha256:3fc33ddded78c9049f11dfe969cd530423e793f9bdc933525bddc2c45c32d825",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-count-named-battlefield-permanents-310cdbb906/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T083636Z-engine-auto-count-named-battlefield-permanents-310cdbb906-v2-codex.json",
+      "receipt_sha256": "sha256:5b9f89a189a082d51fcde57512471fd873589861bcce47d801e74838a16a17d6",
+      "ticket_sha256": "sha256:feea081fd129dde2fb522dce3ba66839ecfddb957a84e741af27c810f431b32c",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-count-named-creatures-controlled-9b848e9f72/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T115858Z-engine-auto-count-named-creatures-controlled-9b848e9f72-v2-codex.json",
+      "receipt_sha256": "sha256:007a802d84a1481f1efba4f4483bde50aa824d8ff27dab9cdea2a85045ab8dc0",
+      "ticket_sha256": "sha256:263da698acd8b2c844f65a539a2c1311f6ef9b2e1ff8e8ece75083349a9adf4c",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-count-opponents-by-turn-event-threshold-dacec159a2/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T110033Z-engine-auto-count-opponents-by-turn-event-threshold-dacec159a2-v2-codex.json",
+      "receipt_sha256": "sha256:fe8426c9b4da99541cd7965ef998967efeee878081fb7e1917a5018401831cd1",
+      "ticket_sha256": "sha256:e8aaca6f8662e2e41274cf40691d3a561472bf5d313cac89a20bf53fb6e50098",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-count-opponents-dealt-combat-damage-this-turn-a88a3d02eb/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T020933Z-engine-auto-count-opponents-dealt-combat-damage-this-turn-a88a3d02eb-v2-codex.json",
+      "receipt_sha256": "sha256:65980f2f1d32e02d9f0cc818de64ca1f2259c0371f41e8c72cbdb2d5f89bfb0f",
+      "ticket_sha256": "sha256:424d8062423384bb26491e9be1d7e1ff0881304683059b86373d7f2f6ff4a094",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-count-prior-effect-referent-set-c795136ec2/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T114205Z-engine-auto-count-prior-effect-referent-set-c795136ec2-v2-codex.json",
+      "receipt_sha256": "sha256:23986a7eb0ab2577cc75f53aebd67fe87e513516c3d26c17f72cfd2cba1f4bf4",
+      "ticket_sha256": "sha256:90e0200b51dc0d98db52429c0ade5379ea3be60f87fe89e89fc0dec8e92e0f80",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-count-trigger-spell-colors-974680a6c3/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-06T232229Z-engine-auto-count-trigger-spell-colors-974680a6c3-v2-claude.json",
+      "receipt_sha256": "sha256:3ad2a644cb9c925689e8ad53c3d36002f944de5fc44f48a1caa3e83ec91dc194",
+      "ticket_sha256": "sha256:7fe5e60b18491765eca429963f71d136987cdf46d411458b3c30c8dfd7162042",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-counter-target-activated-ability-only-1c26359a8e/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T100517Z-engine-auto-counter-target-activated-ability-only-1c26359a8e-v2-codex.json",
+      "receipt_sha256": "sha256:2eb9c0eb39b2ace47be4a78e08c61fdf864fe1ddb2392ac3abf5a52a0afe7468",
+      "ticket_sha256": "sha256:e3c5f23041f6960500e48be58e60ac4e2f6861945f9939dec9450cc7b9fad3a9",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-counter-target-color-filtered-spell-019369fe34/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T101117Z-engine-auto-counter-target-color-filtered-spell-019369fe34-v2-codex.json",
+      "receipt_sha256": "sha256:e07a9163d90d79464fdbc4acc6e1c8acf6f22283c4b69e08e9dcce5489d5fdb3",
+      "ticket_sha256": "sha256:4db56a288da91d36c34750f29b25c9c2fc77dfc5a429844b97ce2e194f6ad21b",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-counter-target-filter-spell-targets-permanent-yo-df5d0712b2/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T125708Z-engine-auto-counter-target-filter-spell-targets-permanent-yo-df5d0712b2-v2-codex.json",
+      "receipt_sha256": "sha256:7eff41d828ff4fdaba1c2145d96113d7bd0105bd09919f79a35869d65936df38",
+      "ticket_sha256": "sha256:f8ffd802e692090271c9db3f0e013f79de22584a2a631df65914e669d276ea92",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-counter-target-spell-color-filter-67b64430fb/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T102124Z-engine-auto-counter-target-spell-color-filter-67b64430fb-v2-codex.json",
+      "receipt_sha256": "sha256:c5d153e7d68257777d1b2c590bf274dda709f65df1fdb2dd935e5c45c593e064",
+      "ticket_sha256": "sha256:47131f57f9852f5685315a3ea82b0f182f0c601769c8d63b7042ba4d9110ba6f",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-counter-target-spell-color-filter-8a87fd4563/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T132745Z-engine-auto-counter-target-spell-color-filter-8a87fd4563-v2-codex.json",
+      "receipt_sha256": "sha256:56b276f0fb64260af6f6f6476eb56d5dfea0ff1a8f59d333272c2240c5aec4eb",
+      "ticket_sha256": "sha256:97e928a918376c7cd70236837d201ef3639a6495661bbe2f300042e950037d37",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-counter-target-spell-or-ability-class-choice-4b9aa52311/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T083959Z-engine-auto-counter-target-spell-or-ability-class-choice-4b9aa52311-v2-codex.json",
+      "receipt_sha256": "sha256:700ee97a385bbd0159c348f719b7372b88ce8bed3ba1c2b96b56f05195f73d75",
+      "ticket_sha256": "sha256:34b70a2a23de03b695953c4eca797b66588fe2ca206300bff74dd7957ee1293a",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-counter-target-spell-targets-creature-filter-22bc76cf05/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T151405Z-engine-auto-counter-target-spell-targets-creature-filter-22bc76cf05-v2-codex.json",
+      "receipt_sha256": "sha256:11e3c90b6248291958031854b006ccaaa28043cb8ccaf61bf59921acd9079c3e",
+      "ticket_sha256": "sha256:1d931cf0d278c04d26c698e86bdca9b1abca2e184444daa269e97e5acdaeb428",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-counter-target-spell-that-targets-creature-958c4bcef9/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T104424Z-engine-auto-counter-target-spell-that-targets-creature-958c4bcef9-v2-codex.json",
+      "receipt_sha256": "sha256:6b1e7a5ba0acefb8ffef34881c4733f764f88bb0cf2a8ad8eb5d727ca2223e4a",
+      "ticket_sha256": "sha256:29358dd76121402c9a705fc7c82a246abd91ad8dda5692c9b84be4145b294e8f",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-create-custom-token-by-graveyard-card-types-a81c51d943/v4",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-03T184053Z-engine-auto-create-custom-token-by-graveyard-card-types-a81c51d943-v4-claude.json",
+      "receipt_sha256": "sha256:a07cd0a3df3dc010626e8f04749704ae682c1f0b0e3a68d693ea026a4947683f",
+      "ticket_sha256": "sha256:2249049e0c86a7245fabfd9990821e5afcc4c457ce088464a27fa0d81da2b02b",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-create-tapped-attacking-token-copy-of-exiled-car-536947bb90/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T041538Z-engine-auto-create-tapped-attacking-token-copy-of-exiled-car-536947bb90-v2-codex.json",
+      "receipt_sha256": "sha256:7e4f4f431993669946507eea7624759268d8bcfd9552b3b919aed0e10c6c82a1",
+      "ticket_sha256": "sha256:6542800d84334d053aa5efd90313faa46e940c003a1edf2016ee570a22345b27",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-create-tokens-from-exiled-card-toughness-0500112401/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T070845Z-engine-auto-create-tokens-from-exiled-card-toughness-0500112401-v2-codex.json",
+      "receipt_sha256": "sha256:bc9845364dcd114aff9436b3441bfee7b5146ef0d3896d235facf6f1fe2b512f",
+      "ticket_sha256": "sha256:cabeeec1e17d9da4bd10a5cc630f5d4e8402540b8b4ace70c82305b5488ce974",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-create-vehicle-token-with-crew-af28c3cafa/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T001054Z-engine-auto-create-vehicle-token-with-crew-af28c3cafa-v2-codex.json",
+      "receipt_sha256": "sha256:3e458ec49c80c3400a9361d66f94a2aca042d3ff1afb1e63696839401117eb77",
+      "ticket_sha256": "sha256:6f37db0c5e5516f3eac1140e02b0da4ddd98ae17149cbaffeee3b4556925e51a",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-creature-blocked-by-source-90d668547b/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T194237Z-engine-auto-creature-blocked-by-source-90d668547b-v2-codex.json",
+      "receipt_sha256": "sha256:b1287d09e4ef0049c3bea7890c6e9ebb8f48061c48c4699f055ef5780a57bb1c",
+      "ticket_sha256": "sha256:6ae0faabd4c07843b5c27ca5951e3e25caf66187e74e653de283d3cb3628f1ce",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-amount-formula-hand-size-subtracted-24ab5ad428/v3",
+      "attempts": 2,
+      "receipt": "docs/factory-ng/runs/2026-09-09T051401Z-engine-auto-damage-amount-formula-hand-size-subtracted-24ab5ad428-v3-codex.json",
+      "receipt_sha256": "sha256:93838b0761bbd6e415df19929b052904658a7a72d735802e751a193f1acd742e",
+      "ticket_sha256": "sha256:34c398e48d97b2f910f71405c0ccb5280054ae51e3a7597543a0e92fc1b35f45",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-amount-from-second-target-power-108c761051/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T152117Z-engine-auto-damage-amount-from-second-target-power-108c761051-v2-codex.json",
+      "receipt_sha256": "sha256:cb830c6074017dce817c1747ec3951c46d3e2c588c0006f84b2d716e8b553899",
+      "ticket_sha256": "sha256:839630e4250c9774ce2582e1af678f4996b9cb56509272282d7e29e444f5859f",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-amount-from-second-target-power-5d7eb2745f/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T231530Z-engine-auto-damage-amount-from-second-target-power-5d7eb2745f-v2-codex.json",
+      "receipt_sha256": "sha256:c494a89ec502576c020f875f25d4565684af332f2bc7b2e0560f23e5263e4481",
+      "ticket_sha256": "sha256:cc2a081c29a0bbcd6db04297a9414f2fbffbfb9e883f69ab1658b7954222fc0c",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-amount-graveyard-name-match-count-e5076d7d4a/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-04T002104Z-engine-auto-damage-amount-graveyard-name-match-count-e5076d7d4a-v3-claude.json",
+      "receipt_sha256": "sha256:8190d7b4e45b465f5359607d8015d9f2d99f3195d829f0696e15c4e7ac924c7b",
+      "ticket_sha256": "sha256:c33d287fa26dbffebfbe4f5565e065ec473e68e7c9098ad83f65bda5005003bc",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-amount-mana-spent-total-ee8d93819e/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T154039Z-engine-auto-damage-amount-mana-spent-total-ee8d93819e-v2-codex.json",
+      "receipt_sha256": "sha256:b6eb5085be02923fc40c4d48f6b8c44287d79ba792674ccbd45a1ff5df593041",
+      "ticket_sha256": "sha256:42f23a5ff7d473da21d64782edf9fe8ace8882e3da911e88b9b56171260c9d98",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-amount-max-with-constant-and-dynamic-stat-2198c0d725/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T201338Z-engine-auto-damage-amount-max-with-constant-and-dynamic-stat-2198c0d725-v2-codex.json",
+      "receipt_sha256": "sha256:7122b127560172cfe3f2e00d43c41d3039509b94ee6bbd29c8d50fd5d5b32e2a",
+      "ticket_sha256": "sha256:e8660138c462e697727fb33df1d7d73f79541a785d55590b0fd26f6eee682980",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-amount-scaled-by-permanent-count-c4977fb795/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T175309Z-engine-auto-damage-amount-scaled-by-permanent-count-c4977fb795-v2-codex.json",
+      "receipt_sha256": "sha256:58f7f6c29db995a90b7d54365c61fb82ae0c58a9a8ee5182894470e245c5738a",
+      "ticket_sha256": "sha256:dd83063827200f9941df3a8fc3aef9d7eb1bb20263d2c34fb72648f3dae5bd42",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-at-end-of-combat-3364884d78/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T093348Z-engine-auto-damage-at-end-of-combat-3364884d78-v2-codex.json",
+      "receipt_sha256": "sha256:10b5f0ab91f0787aba053ddf118ef1fbf7f348aeb724c0b311dceb04a28e67df",
+      "ticket_sha256": "sha256:fffbadd20500508a16bb086bf0b092ce7c7e5a5f6f6a07a5ee5aac581289789c",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-attacking-creature-without-flying-d09bd29968/v4",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-05T075835Z-engine-auto-damage-attacking-creature-without-flying-d09bd29968-v4-claude-agentic.json",
+      "receipt_sha256": "sha256:e59404b789f9e5e93a7e1b79a524899a68dea2e4f215ceed4528db6d0bccf97e",
+      "ticket_sha256": "sha256:b1ff9074950a19ad29d183fd1d4492a7e1da3ddeddd4fefa2025ed3114da83ca",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-by-distinct-sequence-targets-51778c0a3b/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T052908Z-engine-auto-damage-by-distinct-sequence-targets-51778c0a3b-v2-codex.json",
+      "receipt_sha256": "sha256:73055f271ef0c86c207f8a71758faf961e15936f2ef5cdb45fa611e9ea707838",
+      "ticket_sha256": "sha256:0b80863922ee69e5a52f3748da575111e6d44d07f53396c2e9dbc94f808a1c1c",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-by-each-source-power-to-target-01c6401d0f/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T062142Z-engine-auto-damage-by-each-source-power-to-target-01c6401d0f-v2-codex.json",
+      "receipt_sha256": "sha256:4e8b3c222768e82fb46b82ad5933e049b17070442d925d20679c4b988412f979",
+      "ticket_sha256": "sha256:479393f1b0c0c00ad292a9f82c84e10afa09f936558068bd84226ac69353a413",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-by-prior-chosen-target-power-b5ec4751bb/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T220715Z-engine-auto-damage-by-prior-chosen-target-power-b5ec4751bb-v2-codex.json",
+      "receipt_sha256": "sha256:0f2f9166bd962f4266fdaf7ac3207b7d731d4848e6b1ecf2cddd7c05df78946c",
+      "ticket_sha256": "sha256:8a2c57bf80cd292caa99297294802d702f1cc5f5274449a32b1c8218408e4740",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-by-sequence-referent-power-to-controller-dc9ad508e3/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T152947Z-engine-auto-damage-by-sequence-referent-power-to-controller-dc9ad508e3-v2-codex.json",
+      "receipt_sha256": "sha256:b43e2acae7ac74cbd92792a4ec988c2746089c9eaa9bff057dafd822801d7943",
+      "ticket_sha256": "sha256:e8e65b28e8c1bceb2da280f909b803c2dfca8ded52e60c3f2dec9236baeef484",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-by-target-source-power-mapping-024a5245b3/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T235255Z-engine-auto-damage-by-target-source-power-mapping-024a5245b3-v2-codex.json",
+      "receipt_sha256": "sha256:2e1cc13aa763319a100c1da7f50b7a4a5d6ce12a207227617dba15d79af5dc14",
+      "ticket_sha256": "sha256:5358d98ddfe32924540fbc090af75987f507db541da9f6e4df208a6fa69a4f6d",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-each-creature-blocking-source-d498dbb363/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T111025Z-engine-auto-damage-each-creature-blocking-source-d498dbb363-v2-codex.json",
+      "receipt_sha256": "sha256:56a3cfd7141aa1ebcecb70523704d83f5afac11e98ac82fc1b4d426922e4100c",
+      "ticket_sha256": "sha256:9d6b4ffec5235582d82867fe3729d65a9bcd2c5f3176af7b97f7640c72a7bd84",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-each-creature-without-horsemanship-3f89ee6c67/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T093944Z-engine-auto-damage-each-creature-without-horsemanship-3f89ee6c67-v2-codex.json",
+      "receipt_sha256": "sha256:ba8e4bbc7d3a80a5670c6a2281799d1e024d6d35dc90b4cbe832f9f8b3f93d36",
+      "ticket_sha256": "sha256:5afbb83869cd77aebf4ae6b38976b6049d1a3a55a6d8345b502586771f1bec75",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-equal-to-source-power-to-flying-creature-4efc529ec4/v2",
+      "attempts": 4,
+      "receipt": "docs/factory-ng/runs/2026-09-15T223720Z-engine-auto-damage-equal-to-source-power-to-flying-creature-4efc529ec4-v2-codex.json",
+      "receipt_sha256": "sha256:d86b0db046a3a94dac7c459799f42191f12a980799868d591372e91a2a8ceadb",
+      "ticket_sha256": "sha256:a14eb34eef8292dc29064d4d73bdef9017532b51427b8d0438f001dbd1442d69",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-from-chosen-creature-to-each-other-creatu-46c3459d77/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T080152Z-engine-auto-damage-from-chosen-creature-to-each-other-creatu-46c3459d77-v2-codex.json",
+      "receipt_sha256": "sha256:846a88b4d6d95dd7aa01c5ee13334df7590043389cfb56ba6e4c3de36882763e",
+      "ticket_sha256": "sha256:a443da1823e5aae4504c1e043db90998890f6136d10c4a34b474568e3de8d8cc",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-from-sequence-referent-to-source-f78d16e401/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T222655Z-engine-auto-damage-from-sequence-referent-to-source-f78d16e401-v3-codex.json",
+      "receipt_sha256": "sha256:9fc2cccd7ed33cdc63bf7071903382a09c4cc382b3327c9eb1214eba5e1672b9",
+      "ticket_sha256": "sha256:2a9e8db7253fc7bcb3b41e0044f5af1c8187d4cc7d54ab7c40fc104e97a47a4b",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-recipient-prior-target-controller-5464e8cd79/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T185545Z-engine-auto-damage-recipient-prior-target-controller-5464e8cd79-v2-codex.json",
+      "receipt_sha256": "sha256:069dadd20b1944008c8af2d129efa866e402e8a7237bdf91e4b5aab46513f464",
+      "ticket_sha256": "sha256:d1f00cc6be56c7478be5e4c3ee2011baf4cf10a529a690989440110304c7bcc7",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-recipients-dealt-damage-this-game-76c9531a8b/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T095150Z-engine-auto-damage-recipients-dealt-damage-this-game-76c9531a8b-v2-codex.json",
+      "receipt_sha256": "sha256:71a7fe266f889ed50667cd2d48e91112324b5be8d2f0e736a0ec03c0934ef134",
+      "ticket_sha256": "sha256:4d249e64087b65761fb079e72043199c5b838d84406cf5532f28a84f037d6553",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-target-creature-subtype-40e3628dbc/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T184020Z-engine-auto-damage-target-creature-subtype-40e3628dbc-v2-codex.json",
+      "receipt_sha256": "sha256:e0568e927e9dfd68596f3395acec532556b8af461f2bdb6cb9e0fddd890b171e",
+      "ticket_sha256": "sha256:6a6f8c3d40176486c5d9fc05acfe3d99a5e5e4ae942bf9c8856970195d85499b",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-target-player-or-battle-82cd1f839e/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T181236Z-engine-auto-damage-target-player-or-battle-82cd1f839e-v2-codex.json",
+      "receipt_sha256": "sha256:95388bc9c6c451c336bd865edde4df19fc27c95ddcded8877baf9208f3263b9e",
+      "ticket_sha256": "sha256:50069ce89122772f65036621999c62441b45466c0c79dffcbb6d2b739a827474",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-to-referent-controller-equal-to-died-crea-93a6e54e30/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T190450Z-engine-auto-damage-to-referent-controller-equal-to-died-crea-93a6e54e30-v3-codex.json",
+      "receipt_sha256": "sha256:7c0f7b220fdcb4089554a1682634337788450e5ab793ebc0e3520cbab362b27b",
+      "ticket_sha256": "sha256:26caf5210b61fb671338865c41542795aef7b4f2c4223e46d088e172a242cd45",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-to-referent-permanent-controller-de9f1e2ec8/v4",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-04T053256Z-engine-auto-damage-to-referent-permanent-controller-de9f1e2ec8-v4-claude.json",
+      "receipt_sha256": "sha256:7dd5e392c9cbb1279c260f8bea6b16edbfe25099b2d34c61326661dfacb69356",
+      "ticket_sha256": "sha256:eb4764f6ceea7755d0635193fee217379181c756356cf6fa0b7eff3acb2a2548",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-to-scratch-controller-145579db75/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T183221Z-engine-auto-damage-to-scratch-controller-145579db75-v3-claude.json",
+      "receipt_sha256": "sha256:a25f330e9359822dc7912a28e92cd1f6a4834a81210a0fcd6810a435a27789b8",
+      "ticket_sha256": "sha256:938332f7f8aa5498102867e02004aecdd99e60eafcbee4af9fd2e55ff9fbd277",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-unless-recipient-pays-95e9a651d3/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-07T192432Z-engine-auto-damage-unless-recipient-pays-95e9a651d3-v2-claude-agentic.json",
+      "receipt_sha256": "sha256:e22f59b0996818d38ca9ecd850758b4d808df2b90dc1e93755560cd68200a89f",
+      "ticket_sha256": "sha256:fe25b2abfccbae8b11d90f068406335f73a123d7ea64ef0411d80ab7d691db7f",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-delay-effect-until-end-of-combat-e23ae95575/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T033237Z-engine-auto-delay-effect-until-end-of-combat-e23ae95575-v3-codex.json",
+      "receipt_sha256": "sha256:b8c77a373f196b103e54df3d517b0858545139b17cd3b70fb6540404cce5dd05",
+      "ticket_sha256": "sha256:c5ebf183bbe77b1d2cbbe44b7bc3b68b7d68d4599d0616728b018b75cf1d5b14",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-delayed-mass-return-grant-keywords-next-combat-782e164c78/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T165045Z-engine-auto-delayed-mass-return-grant-keywords-next-combat-782e164c78-v3-codex.json",
+      "receipt_sha256": "sha256:a1feff2cbcce7aa73689079deaa65193b34eee99844c2580d0a5db2fcddafcc3",
+      "ticket_sha256": "sha256:8e33dfa1ab45955a1e82db5af5cdc310d5cd04146205e4da1b370c0e22c8c41b",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-delayed-sacrifice-created-object-82cb875a89/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T072413Z-engine-auto-delayed-sacrifice-created-object-82cb875a89-v2-codex.json",
+      "receipt_sha256": "sha256:5ea6b649c0fdbef3df4fbea492f5b5c937216e85e921ea19d772b53200838093",
+      "ticket_sha256": "sha256:bc49bbc18ee8c0023bb49874d95ec6159c3b65591f1f19720c863c1f9ddff064",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-delayed-trigger-referent-attacks-monarch-grant-k-a0661f7bf9/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T181127Z-engine-auto-delayed-trigger-referent-attacks-monarch-grant-k-a0661f7bf9-v2-codex.json",
+      "receipt_sha256": "sha256:3092dd6aa12d135141a1e8bd74d97f5931dc7083389e784073baff88e41933d9",
+      "ticket_sha256": "sha256:f022cf3664268431456289bda192377000aa119466835b5f9c7cfc0ede76324c",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-any-number-targets-total-mv-bound-480ba37e3e/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T045650Z-engine-auto-destroy-any-number-targets-total-mv-bound-480ba37e3e-v3-codex.json",
+      "receipt_sha256": "sha256:70cb47bf60c8917d5e15715bb3e30c6900af0b36eb3401900b5650e9acf107b2",
+      "ticket_sha256": "sha256:aeb99f776f4a01f44c6037d1221fdb05ccd183d62eea39a90810ee826b387ab2",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-attached-to-trigger-referent-b254572a82/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T200907Z-engine-auto-destroy-attached-to-trigger-referent-b254572a82-v2-codex.json",
+      "receipt_sha256": "sha256:1a0ff57e582ebb9d97003b84bbb4c1445841ed3f5dbf5693864c5a94731fe381",
+      "ticket_sha256": "sha256:8136455c3cd50bb5cc9db1d603489650dae6fcec6c03f3039a510c4d6be8b6d4",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-color-filter-d3ab00301b/v4",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-03T152324Z-engine-auto-destroy-color-filter-d3ab00301b-v4-claude.json",
+      "receipt_sha256": "sha256:07ae3ae74755160b36afc651833016b6d2ec2dec6400d29667d9693e01d99e08",
+      "ticket_sha256": "sha256:d28ea1698b2e44bf020b91488af3c2260d7ae209c578481ecb4a2e32621e78d1",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-filter-not-all-colors-creature-2c9316a97f/v4",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-04T095231Z-engine-auto-destroy-filter-not-all-colors-creature-2c9316a97f-v4-claude.json",
+      "receipt_sha256": "sha256:987ab181087182fe34ddbfbf8078fad1734e9aeaa1a735a63c53fbd628d77c4d",
+      "ticket_sha256": "sha256:9940c075cb0432c1230cbc75ce71256540ce51a6bf840250c4376dcb32a1e983",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-permanents-with-attribute-equal-to-count-cd9a3837ad/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T045813Z-engine-auto-destroy-permanents-with-attribute-equal-to-count-cd9a3837ad-v3-codex.json",
+      "receipt_sha256": "sha256:655f741200e2cf03f9a888f242f6b877561799cad78ed71b20e0c3fbf57603d7",
+      "ticket_sha256": "sha256:b156808b97edd933116f7e9fc5a57fc3a3d2527118e75e574da6d16fc568b62b",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-target-and-same-name-1f861597f0/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T222420Z-engine-auto-destroy-target-and-same-name-1f861597f0-v2-codex.json",
+      "receipt_sha256": "sha256:ef3a2dfdc992a4afadce510081d4d1f50556cffdfbfff939a5367742234b4cc0",
+      "ticket_sha256": "sha256:0e87d095f8ba020930af976d63889a43a1ccae9009fc01a43a371c042b1b7d4e",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-target-dealt-damage-this-turn-114047a5b7/v4",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-04T035743Z-engine-auto-destroy-target-dealt-damage-this-turn-114047a5b7-v4-claude.json",
+      "receipt_sha256": "sha256:375af2a5fa063579346d5ed081bf931b9de58fc848d7dad5b39fa741f1a9faf1",
+      "ticket_sha256": "sha256:3ede766db071f2ae3987aef1c472e2483da6cc6ee10e8c19ce415d2188593801",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-target-with-mana-value-equal-to-x-0dc016c91c/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T202638Z-engine-auto-destroy-target-with-mana-value-equal-to-x-0dc016c91c-v2-codex.json",
+      "receipt_sha256": "sha256:3a091661df1d7177200592942124efc034242c149db11647aef27772c3b23693",
+      "ticket_sha256": "sha256:ec7f90a6787bdb38fbb13a3b68d0dacead7dadd898023fe0bdc1e2f0f067b750",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-trigger-block-counterpart-referent-09d08a014b/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T163747Z-engine-auto-destroy-trigger-block-counterpart-referent-09d08a014b-v2-codex.json",
+      "receipt_sha256": "sha256:60c8d33b06a2726a3173da8f51416f82f2f1201f58e7ebc0ba19b0dc90acf00f",
+      "ticket_sha256": "sha256:5be56e43a5254dad44e396c9ff1d09607d1d73d8499bbc67cbb1c4758e550a79",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-unless-pay-mana-or-life-real-choice-e9e8a725d1/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T170603Z-engine-auto-destroy-unless-pay-mana-or-life-real-choice-e9e8a725d1-v2-codex.json",
+      "receipt_sha256": "sha256:0ecd5cb52ed9c816748d48c0cf6a0f919940e1592029c8390b77779f2e54d479",
+      "ticket_sha256": "sha256:f2890d442fb0c80fce8ca9cffbe1d1a25374d9679d5579737554b5f379d9b555",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-discard-each-player-hand-f1b4071e1b/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T035135Z-engine-auto-discard-each-player-hand-f1b4071e1b-v2-codex.json",
+      "receipt_sha256": "sha256:0c3344d69d2fa2e749295f451873108b7110cd21d967c39272cbbd9ff483e542",
+      "ticket_sha256": "sha256:63752d777515fd7f0aa837e8516793a0fdb4c8afd0a2c462a4aae7ce07e5efe1",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-discard-to-target-controller-f0db96bf3c/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T120205Z-engine-auto-discard-to-target-controller-f0db96bf3c-v2-codex.json",
+      "receipt_sha256": "sha256:4e3fb2e7e39e23afdfb88a999ef2443185f80e01f8a339f2715466817ff630ad",
+      "ticket_sha256": "sha256:724a9a422164757a3d2a292c3ccf0df56cb82f56c438cc347e1fe4eec5df5f15",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-dispatch-untap-amount-count-cap-86b3679388/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T222018Z-engine-auto-dispatch-untap-amount-count-cap-86b3679388-v2-codex.json",
+      "receipt_sha256": "sha256:cb3a849ad07b2565c5a38c89e33d4a0db3739001730656996cc790a8904c4dab",
+      "ticket_sha256": "sha256:c2d4c11428ac73fd5774a921e75bbd09add1e275fcd33def80d2d557e8962a2c",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-distinct-card-types-among-spells-cast-this-turn-e7f7c949ca/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T105231Z-engine-auto-distinct-card-types-among-spells-cast-this-turn-e7f7c949ca-v2-codex.json",
+      "receipt_sha256": "sha256:9b32ada29da6d72c595d7d6b27638e276748d9d7c5e7600ca5c4cea04792a1e4",
+      "ticket_sha256": "sha256:03a13591922da2ab52aa7b451eb65e8a8cea92b42b78207330db51315aded305",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-draw-amount-from-chosen-opponent-tapped-creature-4ff36f946e/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T105332Z-engine-auto-draw-amount-from-chosen-opponent-tapped-creature-4ff36f946e-v2-codex.json",
+      "receipt_sha256": "sha256:52c026fc1d77c769982c850137847f5f431b1449e59379a84c68d2a516325e64",
+      "ticket_sha256": "sha256:5a5e677f4dba15b6bebd34fecec387a413f38e5258fe0297921b875d5a3e6c3d",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-dual-target-creature-pair-effects-7090d15344/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-14T162050Z-engine-auto-dual-target-creature-pair-effects-7090d15344-v2-codex.json",
+      "receipt_sha256": "sha256:f91bb2c200adef88b87c7bdd437824e6d7d40b3496f5aab176c142b8fc62313f",
+      "ticket_sha256": "sha256:0e6b173d2c307193f023cc0259ce4e498a0f539ab8041d5b7ad4723e8271a9fc",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-dual-target-fight-atom-c63ae8f425/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T225619Z-engine-auto-dual-target-fight-atom-c63ae8f425-v2-codex.json",
+      "receipt_sha256": "sha256:3148227861a694a3238540696c328c919c6543a7970da1bf754bf7cd54c23197",
+      "ticket_sha256": "sha256:a8331b7c5897df7ecf1da494aa8970fd38adebf72cc29499064ecb04daa5e7f9",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-dual-target-fight-blocking-targets-941cf594a3/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T231158Z-engine-auto-dual-target-fight-blocking-targets-941cf594a3-v2-codex.json",
+      "receipt_sha256": "sha256:6d347936e92a58f3eb2fef60d852072f4e83e6572b9d330b974b5a8ce452e93f",
+      "ticket_sha256": "sha256:f62009aea6143eae9cc1d878cc253c6b9684dcde549f25d29520a9f7ed478c77",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-dual-target-fight-selection-b1977807f8/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T220643Z-engine-auto-dual-target-fight-selection-b1977807f8-v3-codex.json",
+      "receipt_sha256": "sha256:cb0e02a70d1719ddf3a3e8e70fdeb92654c174c5968723553b13cabf68a9569f",
+      "ticket_sha256": "sha256:be0f902803da9a095616c15851d5b8444be73eecd75eee9b9c3fcf23a7928978",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-dynamic-amount-zone-count-filter-5ee1de954e/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T043058Z-engine-auto-dynamic-amount-zone-count-filter-5ee1de954e-v3-codex.json",
+      "receipt_sha256": "sha256:8744ce88afb0ebc580fa70aaa780786370329c2c1464cd9d55b09b929839cd5e",
+      "ticket_sha256": "sha256:3bffbc845b3f8e217fef8841b7441fa743f90fe8976bf9f335112ce4f4bcb6cb",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-dynamic-damage-count-893a650ed5/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T132544Z-engine-auto-dynamic-damage-count-893a650ed5-v2-codex.json",
+      "receipt_sha256": "sha256:85cc1930736265181f24ebfda9cb3f5a3624c769fd4028f5730b04d4b692e301",
+      "ticket_sha256": "sha256:16b10d39d2cbb4aa3a4d20f59b08a427aff03e9a5667a11d1140d0134c784b12",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-dynamic-draw-from-controller-spells-cast-this-tu-de2cdbe631/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T032545Z-engine-auto-dynamic-draw-from-controller-spells-cast-this-tu-de2cdbe631-v2-codex.json",
+      "receipt_sha256": "sha256:81e6cb2cd7ecf95c162ddf3bb0260c987e21564e602f7ffc5a85bf256fb32ad4",
+      "ticket_sha256": "sha256:e21b9555bb62ccf1bdd1a88eca2e0bc0f41b6bad2a0f3e3a812d4da80a3aeab4",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-edict-sacrifice-exclude-attached-referent-2adee79113/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T181035Z-engine-auto-edict-sacrifice-exclude-attached-referent-2adee79113-v3-codex.json",
+      "receipt_sha256": "sha256:bff19ba1f61993279f8a5c0ea6c8166b9f5645219211bae8e2a9c416473b7754",
+      "ticket_sha256": "sha256:6a18a9f0117aa23d4a15d6900807c184fc930b93b3f726807ebf5c5b9718954d",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-edict-sacrifice-greatest-power-311b54a57d/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T011229Z-engine-auto-edict-sacrifice-greatest-power-311b54a57d-v2-codex.json",
+      "receipt_sha256": "sha256:489c01cb3c9740c46d6741d159b4c20e517b1d773155b555d9e9391bfaf15a11",
+      "ticket_sha256": "sha256:2ef745ee94e3bca2bb0ad90a48d37faa02a337faf4b2bc3e51b26403226a97d7",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-edict-sacrifice-unless-payment-3c1b7bb166/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T085225Z-engine-auto-edict-sacrifice-unless-payment-3c1b7bb166-v2-codex.json",
+      "receipt_sha256": "sha256:6274852531ef33faec3d154cceafe5c50a8d88fef6395734321fd05747be3d50",
+      "ticket_sha256": "sha256:487bb15ca2dc96ddcd377727e8604e236394c07b2089a12973870066d71185b1",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-energy-arc-shared-any-number-target-set-3a3ecff6d5/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-14T204636Z-engine-auto-energy-arc-shared-any-number-target-set-3a3ecff6d5-v2-codex.json",
+      "receipt_sha256": "sha256:0b5a36f7f4cd27db5be7b81bfdeaa89eb5085ba3e46a3d8b869cc4dcacf18754",
+      "ticket_sha256": "sha256:0556baf6de3bd41e063029273f0c7dcb23985ecad7a726b9e3a4fe1e101366ba",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-exchange-control-until-eot-c914100b69/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T181810Z-engine-auto-exchange-control-until-eot-c914100b69-v3-codex.json",
+      "receipt_sha256": "sha256:6fc5c20e11bdd26b142720f28ca46f6788cd70ae537e64ebf39f29249213922d",
+      "ticket_sha256": "sha256:794058518a12a98e0c47f92c05f6c22114777f0c46c923b47115c41debf52fca",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-exile-by-mana-value-f99d570d8b/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T075658Z-engine-auto-exile-by-mana-value-f99d570d8b-v3-codex.json",
+      "receipt_sha256": "sha256:9555e3e6309c6cbfb8de46c5647e399e8d2141b7f13b83acc385f575d224cb81",
+      "ticket_sha256": "sha256:090e123e73f4355debb4768c7f181b474e4891e3d96b7526f52f641f473c2433",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-exile-cards-from-graveyard-cfa2487637/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-03T105418Z-engine-auto-exile-cards-from-graveyard-cfa2487637-v3-claude.json",
+      "receipt_sha256": "sha256:ea500a0f7e8969292deb5bdf89962f13bb78e111c2c30021168fd2146020b3f7",
+      "ticket_sha256": "sha256:7e05e74b1400ab88c0022d895fd8dc22cc00c0620daf4eb71e43b57f20f2cb08",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-exile-created-token-at-end-of-combat-c561ff752a/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T133641Z-engine-auto-exile-created-token-at-end-of-combat-c561ff752a-v2-codex.json",
+      "receipt_sha256": "sha256:b528ed64d0665f1dfcbada80bf4a0aadb80519cbba186b061eb2af51128cace0",
+      "ticket_sha256": "sha256:0a1a2adce111afc746ac593736c5ce3a97bd3feb173e5ea880b972fa4e0a8e2a",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-exile-creature-unless-keyword-only-dc154f319f/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T180746Z-engine-auto-exile-creature-unless-keyword-only-dc154f319f-v2-codex.json",
+      "receipt_sha256": "sha256:4281838f478f1f935e03a7c6dbb2358388b40c6cad510a05346b67f8a818b156",
+      "ticket_sha256": "sha256:97d1fd2e67325a5ad28ab4dfdb25d56066687bc52c629067dbfcb45557e5472e",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-exile-player-graveyard-56bee2bbbc/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T095414Z-engine-auto-exile-player-graveyard-56bee2bbbc-v3-codex.json",
+      "receipt_sha256": "sha256:8ae9edee106c8af079caa82c51a8f7a14652123de44a9a11862dd92dcd53c494",
+      "ticket_sha256": "sha256:39b6cdbde7457c0f6228f4999ea3d1cf6b0abd67439ad5bf264d1227bd35b267",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-exile-referenced-players-graveyard-6f0b2e74cf/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T180816Z-engine-auto-exile-referenced-players-graveyard-6f0b2e74cf-v2-codex.json",
+      "receipt_sha256": "sha256:2d96c694b3f8465b621a02b344a04c525ddcdc75b9da1804e6105ce83412d10a",
+      "ticket_sha256": "sha256:85997b3e1e9c8c60d35f706e4dbfba5cf9d62edb74f29fbb35a77036517110f9",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-exile-source-card-030403d0a2/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T050633Z-engine-auto-exile-source-card-030403d0a2-v3-codex.json",
+      "receipt_sha256": "sha256:1115242854382dd626b11d9d8396a31ab8bd8cf414d20e665e44c9e828ae9610",
+      "ticket_sha256": "sha256:29e3ced7facd4f1de72968dcb42f1231fad7f866455ecb85fe33dff0e92bb399",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-exile-target-players-graveyard-b376fdb31a/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T090620Z-engine-auto-exile-target-players-graveyard-b376fdb31a-v2-codex.json",
+      "receipt_sha256": "sha256:7e953368e8c56dac45cef9d318b5cbb9167e0cdaf0745af461f8c67f57282eb4",
+      "ticket_sha256": "sha256:f0f99175a11f3320114ddd01c44e8ff0c049a7c97a05bacadda51bf34f6be3ed",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-fight-attached-creature-8575a14e03/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T045132Z-engine-auto-fight-attached-creature-8575a14e03-v2-codex.json",
+      "receipt_sha256": "sha256:03f13ada62661166e736df273a1b9807fc87db1bea9230112b348323be1f718c",
+      "ticket_sha256": "sha256:b0bf0083e4107fd241207baac13954371233de92c86b890bd289b816af0c0759",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-fight-attached-referent-1622bc7a24/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T214529Z-engine-auto-fight-attached-referent-1622bc7a24-v2-codex.json",
+      "receipt_sha256": "sha256:dcff0c3457a0f84173f87bcac1b9e0a96c96d2bf8cea1cb1bc2fc5e1b20f9f38",
+      "ticket_sha256": "sha256:6239f189e6620fe4aad10cee4af6d4046e1296ddbb4b92974cbb45f7a9aea578",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-fight-attached-referent-5a4f076b84/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T113402Z-engine-auto-fight-attached-referent-5a4f076b84-v2-codex.json",
+      "receipt_sha256": "sha256:0de405096e465d8d133d3533385d91dbf5d497f82abe497678fde89b361868dc",
+      "ticket_sha256": "sha256:8ed400344be4b3039e2589ab6417907c04add94ad72d8b1e9ce54c6b2f22ea47",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-filter-attacking-or-blocking-creature-a6777e6b1d/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T174643Z-engine-auto-filter-attacking-or-blocking-creature-a6777e6b1d-v2-codex.json",
+      "receipt_sha256": "sha256:8b92e3cd536a429344ae9e7bf175468cc940dedd768fb4cf1114952e118dfe3a",
+      "ticket_sha256": "sha256:e8fafdc1cad97494c0b6829f9c9a65ac00d752c79ed59bba5ef202c1be28bbc1",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-flying-attacking-or-blocking-target-628d6120f2/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T170043Z-engine-auto-flying-attacking-or-blocking-target-628d6120f2-v2-codex.json",
+      "receipt_sha256": "sha256:9e1e5c3a33691a3b72ddac8b01f356ddb128e82266c8a398d23b460a20690bf4",
+      "ticket_sha256": "sha256:87b4230052566bb3759a92e1ba4344fec64aca99a6368c4fa5818414e25f618f",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-gain-control-until-eot-untap-haste-db1c0653ee/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T003629Z-engine-auto-gain-control-until-eot-untap-haste-db1c0653ee-v2-codex.json",
+      "receipt_sha256": "sha256:50df8524b598bacaa7e36c17af7f72c41097eda5ea909c9008d144448bac97c0",
+      "ticket_sha256": "sha256:2fe68c5652be43225affcd705342b5e11692a9d1598308ad7d904adf76c02824",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-goad-each-creature-target-player-controls-c151c074ae/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T050953Z-engine-auto-goad-each-creature-target-player-controls-c151c074ae-v2-codex.json",
+      "receipt_sha256": "sha256:9ff815aff606d5c8ed21138fd1d4d6b36e7ccb9b5569cc5adeed465ed43788d3",
+      "ticket_sha256": "sha256:944ec55969977d7571a45ddfde0f4a559a3a7f22d83be92a82c4ea8ff5eef68b",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-goad-mass-filter-enchanted-by-aura-controller-d8550635a3/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T155223Z-engine-auto-goad-mass-filter-enchanted-by-aura-controller-d8550635a3-v2-codex.json",
+      "receipt_sha256": "sha256:1dc5fbd20b8ebf9f60ce9a5ecd08f6b5daa566be94451d81074fb0a97c3b4009",
+      "ticket_sha256": "sha256:edf3de3bf023b8a1a6dedef2c027f96aa8d6a48cd7dad939380ee4d7f4979a4d",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-goad-sequence-referent-ec28edcd2e/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T062034Z-engine-auto-goad-sequence-referent-ec28edcd2e-v3-codex.json",
+      "receipt_sha256": "sha256:697fbfbad6cb9034cc92f1d3a8dd4e8b3d19eab58f8621a4ce4efe3aa83b768e",
+      "ticket_sha256": "sha256:35854e7a3b45e9ee49df7d47d88d9cc4b6f89d1e0c29f010ebaa57ef6e43b3f5",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-grant-activated-power-damage-ability-until-eot-e4cff78415/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T170714Z-engine-auto-grant-activated-power-damage-ability-until-eot-e4cff78415-v2-codex.json",
+      "receipt_sha256": "sha256:4e9e85ffcbf488b92e8de8c5364090f1bd7e61eb8a2f3f37a97b59a3cde4113a",
+      "ticket_sha256": "sha256:f4be0e7e06bbc9953a498525cf7e48ea606ceb786e3bcfbd180f93e718186986",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-grant-dynamic-keyword-eot-4c8621edfa/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T092545Z-engine-auto-grant-dynamic-keyword-eot-4c8621edfa-v3-codex.json",
+      "receipt_sha256": "sha256:26214a2f892730aa5448af836febd5ed68dd4c5bee80b40b189b627750bb6e31",
+      "ticket_sha256": "sha256:4f037ba6db6da0f44fe9b5aea5a28a208508058db36f05d80cc35cd588b7b9dd",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-grant-flashback-until-eot-to-graveyard-card-530c6cc5f6/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T185754Z-engine-auto-grant-flashback-until-eot-to-graveyard-card-530c6cc5f6-v2-codex.json",
+      "receipt_sha256": "sha256:9a0dd4c496cfc0dea14cf92672f706c1a21d9cdbd7b5497589ff5aa1104049aa",
+      "ticket_sha256": "sha256:aee04c026a9f1c3db2b32e8954fe65bae9994dce2d16e21545e14d05e79f960c",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-grant-keyword-and-hand-mana-value-count-pump-unt-7d30c0c841/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T004440Z-engine-auto-grant-keyword-and-hand-mana-value-count-pump-unt-7d30c0c841-v2-codex.json",
+      "receipt_sha256": "sha256:48ff835d77bf5edbff2e5b96a77564eae7c56f1bab5d9dff85f9895204a02171",
+      "ticket_sha256": "sha256:d67982db5d8fd5f13e643539f24b7d71fc432fc1921d07b1a34272632dd9a053",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-grant-keyword-if-spell-mana-spent-eot-1866e2a81c/v3",
+      "attempts": 2,
+      "receipt": "docs/factory-ng/runs/2026-09-14T211124Z-engine-auto-grant-keyword-if-spell-mana-spent-eot-1866e2a81c-v3-codex.json",
+      "receipt_sha256": "sha256:a3d312799b7b5cdb3d1528b40cba95812fc52df5fd92af0f4c036be6183d4de0",
+      "ticket_sha256": "sha256:b666784914017f0f01e9b855a445013f5130361441d668295784d96158b9ac4e",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-grant-keyword-until-eot-conditional-on-recipient-17062148b9/v4",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-04T094644Z-engine-auto-grant-keyword-until-eot-conditional-on-recipient-17062148b9-v4-claude.json",
+      "receipt_sha256": "sha256:3721d3670b5641c07deb73ccf515515dd24e7754ea4878d386d9bb737fbc765d",
+      "ticket_sha256": "sha256:11f8fe6e4209f01c76d87c166ba016d8a41342af79dc46b3919a45c79c9ea406",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-grant-keyword-with-dynamic-power-until-eot-761900c56c/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T170048Z-engine-auto-grant-keyword-with-dynamic-power-until-eot-761900c56c-v2-codex.json",
+      "receipt_sha256": "sha256:a0c0968ca353cee8bcf17ce92e9e1d9ab9e6401376ed11a966263eb733841da4",
+      "ticket_sha256": "sha256:5818c12eee267ff77443ea8782ddcfc13371c09f170d68fa16d24b7d654d9c6d",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-grant-keywords-choice-until-eot-2c91b306d3/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T045337Z-engine-auto-grant-keywords-choice-until-eot-2c91b306d3-v3-codex.json",
+      "receipt_sha256": "sha256:f700d80f8cd1b7398d9968ff09b58d243fc9fc23b728ea0b41b05bf2a3b69c4d",
+      "ticket_sha256": "sha256:139007168315eb78a95720f965f2bb0706ac5ea4d7c9701d396f07f0dffef0d8",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-grant-keywords-until-eot-conditional-205e618cf1/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T054553Z-engine-auto-grant-keywords-until-eot-conditional-205e618cf1-v3-qwen-agentic.json",
+      "receipt_sha256": "sha256:e23d39e6342e61c4edd74ea34201c2cad89d7532ce0cfe23cfa10f4edcf925b6",
+      "ticket_sha256": "sha256:a2b632d4ca7bc6e5ac096159d11bea5efb2ff8962a0d4648ed99fbec3a1bd6c4",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-grant-keywords-until-eot-conditional-on-bargain-0f64b39cbd/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T061734Z-engine-auto-grant-keywords-until-eot-conditional-on-bargain-0f64b39cbd-v2-codex.json",
+      "receipt_sha256": "sha256:e5370d50778b8364ecab958de548221f6dfe4c06cc4625173c94998904a0edb7",
+      "ticket_sha256": "sha256:81811eea761d18944903896accf5335fad08ef55c183abc7060e884eff8e81de",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-grant-keywords-until-eot-power-filtered-group-7076dd9843/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T101737Z-engine-auto-grant-keywords-until-eot-power-filtered-group-7076dd9843-v2-codex.json",
+      "receipt_sha256": "sha256:6936374722a97951b11974356c8a7b6fcad41dfb6d0243bdaad80a5a3baff65f",
+      "ticket_sha256": "sha256:f71ded671ba1996af3315cfe4838883af2e570caa313a67554c0bb2907ac19e0",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-grant-protection-from-chosen-card-type-until-eot-7e2b94082b/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T190803Z-engine-auto-grant-protection-from-chosen-card-type-until-eot-7e2b94082b-v2-codex.json",
+      "receipt_sha256": "sha256:c3d55a782dbe1ddc3be706759b0a0664d7f39272e1ae5ec40c75e99c7b82c09d",
+      "ticket_sha256": "sha256:5d59228827a38ddaf1e5506100a433085edad9d94e334eb627369976beafc5c9",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-grant-pt-color-and-keywords-until-eot-897943eedf/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T194934Z-engine-auto-grant-pt-color-and-keywords-until-eot-897943eedf-v2-codex.json",
+      "receipt_sha256": "sha256:c51f1c94e21b29e73cb12e58ab0c194f6aa9476e8df4c21ca6d838a8e9f3c316",
+      "ticket_sha256": "sha256:41425090eb41330e6b0d8c370bfc05f493f03513d63c06a2f7975312ff181e42",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-grant-triggered-ability-until-eot-da00167c1f/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T045728Z-engine-auto-grant-triggered-ability-until-eot-da00167c1f-v3-codex.json",
+      "receipt_sha256": "sha256:9a7329f8b1a0ac37bd514669b3e9bb55240ff8de0543e65f5d01823aff056f8d",
+      "ticket_sha256": "sha256:ddd8cf055623f64e0067431aed5196b12def518e1b1db8136c2fd2135fd6a4ca",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-independent-multi-target-pump-until-eot-2186477e72/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T094054Z-engine-auto-independent-multi-target-pump-until-eot-2186477e72-v2-codex.json",
+      "receipt_sha256": "sha256:42b035392c31639ff0e64dd679d9f935c6cae43f7b2cdbd32f0be618de2b6ebd",
+      "ticket_sha256": "sha256:c8496f73f31716eb4f9bb953f77f37c865fbb79a8d96d57e48ea497159adbcd7",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-independent-spell-sequence-target-routing-6822090f67/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T164431Z-engine-auto-independent-spell-sequence-target-routing-6822090f67-v2-codex.json",
+      "receipt_sha256": "sha256:2d4437245ffb686e07299afcf6ecc1306f3ec90fdd8744293de7417b2d39302b",
+      "ticket_sha256": "sha256:fb39acfe784df8baa4963346d884c8b9b5fb88e3b3fd1017d3a780538a7c1885",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-instant-sorcery-spells-cast-this-turn-count-c1c90dbdbc/v2",
+      "attempts": 2,
+      "receipt": "docs/factory-ng/runs/2026-09-12T194740Z-engine-auto-instant-sorcery-spells-cast-this-turn-count-c1c90dbdbc-v2-codex.json",
+      "receipt_sha256": "sha256:c4da8081b7dda2758154d4d5e09c522353617000c2530417c06f3bb5048ecd04",
+      "ticket_sha256": "sha256:1b78ceeef1c0a7b7ea094786f2817cef6f7f88f81fe9ad87242bf9001c1506f3",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-instant-sorcery-spells-cast-this-turn-other-than-33a04af2dc/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T222426Z-engine-auto-instant-sorcery-spells-cast-this-turn-other-than-33a04af2dc-v2-codex.json",
+      "receipt_sha256": "sha256:a4e2c914f1e5754c6644f54cc31ed9952c0fe312f7ff53df09f0c54ddebf6af7",
+      "ticket_sha256": "sha256:e4314649a8c610bff8342c8f08a1776290e8cbab549268902dd4ae766134e80d",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-life-gain-amount-count-target-opponent-1e86726b3a/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T215732Z-engine-auto-life-gain-amount-count-target-opponent-1e86726b3a-v2-codex.json",
+      "receipt_sha256": "sha256:ed859b4c9ea882090bda0978d06eccf57099ff12149e65076d0a67ccfe42e536",
+      "ticket_sha256": "sha256:fc5c1946e35a44cc86a966e7a172714c3ac3c28084bcfcaf57dcb20a41aa17bb",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-life-gain-count-target-opponent-multicolor-perma-0353d0b1ab/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T171616Z-engine-auto-life-gain-count-target-opponent-multicolor-perma-0353d0b1ab-v2-codex.json",
+      "receipt_sha256": "sha256:4d257ff3e40be29ae68eb7df7868e2d5d97081bdd1ea92215357e28639ef5ecf",
+      "ticket_sha256": "sha256:7291eefa3d931ac7216d4fb45d115b0aff6e97f3de7b284b2a1563b528cc5b07",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-linked-exile-source-referent-26e65d0aaf/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T160301Z-engine-auto-linked-exile-source-referent-26e65d0aaf-v2-codex.json",
+      "receipt_sha256": "sha256:8ee6540b44510ddefc9db93475e282e466c8218f030348e1b903bdb4acbcef90",
+      "ticket_sha256": "sha256:ab3768a0f4323d0fee277720ad92182fa3806a20bc132e63fa227f8677395062",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-linked-source-exile-bulk-return-e7fa778cd0/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-14T164315Z-engine-auto-linked-source-exile-bulk-return-e7fa778cd0-v2-codex.json",
+      "receipt_sha256": "sha256:e7f0ef13d6d616e1dfce6755131897181f28fb6f452aaba44c4453e7be3ef29b",
+      "ticket_sha256": "sha256:c73afda0aaf251689500d1a8d495dbcba0dcad315c654c3309fe78ff9edeaa9e",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-mass-damage-exclude-source-ecd06fa7e5/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T051140Z-engine-auto-mass-damage-exclude-source-ecd06fa7e5-v3-codex.json",
+      "receipt_sha256": "sha256:6fb9f777caf16192a65d16be852c8ff77ffd17f2a06ceda6167983660557dac3",
+      "ticket_sha256": "sha256:f769ea1d54ea86e0d5d61075256bdc37c5c319df8ac808cd375fc587461548f7",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-mass-destroy-color-of-choice-filter-598a870c34/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T013305Z-engine-auto-mass-destroy-color-of-choice-filter-598a870c34-v3-codex.json",
+      "receipt_sha256": "sha256:650e616267bd0c93c3e9ccea658ccf7eb8ef8d0005d58b0dab48a5e28866a953",
+      "ticket_sha256": "sha256:a674b6ce72490a30f3e2047094bb6941147db13a914cc2a3a59da13f71d2a098",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-mass-destroy-excluding-commanders-d577a5aac5/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T094118Z-engine-auto-mass-destroy-excluding-commanders-d577a5aac5-v2-codex.json",
+      "receipt_sha256": "sha256:ee86b4ff81d7dbba33b8ff35be79b1e8f4598886e95317cba4e89e44a07cf40c",
+      "ticket_sha256": "sha256:1f02692bb24d3a230e69c47a4f7b7333a165b2abdfc967d99d91cad81c43bb27",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-mass-destroy-target-opponent-scope-f7984ec21f/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T061933Z-engine-auto-mass-destroy-target-opponent-scope-f7984ec21f-v3-codex.json",
+      "receipt_sha256": "sha256:c73a9d191dba7edcfb6de4bfc011dd257fe78c3c47cdb15860731649697158aa",
+      "ticket_sha256": "sha256:9d2a2112974ad2070d746d2e94f89c1477edcb7b290eaff12979795c22853603",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-mass-exile-nonland-nonlegendary-permanents-a4a0d48edf/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T101328Z-engine-auto-mass-exile-nonland-nonlegendary-permanents-a4a0d48edf-v2-codex.json",
+      "receipt_sha256": "sha256:fdc94bd116f7acf30921530b4ac51fc73403f8d38d63fb78f2b2c1076c892573",
+      "ticket_sha256": "sha256:826bfd6b9385626567889ccd39c066183021f29f0664d527380f3ba38b5c8128",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-max-power-union-battlefield-graveyard-3096f702dd/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T094900Z-engine-auto-max-power-union-battlefield-graveyard-3096f702dd-v2-codex.json",
+      "receipt_sha256": "sha256:8ebdd37608397a20f9c21b6e4e9912ee73d67b5d4f7eca892598282b0530f3bb",
+      "ticket_sha256": "sha256:c75b484712a7df0bb0ae9cf631cf66750ca31fa0e272dd39c2075267095f4d2d",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-mill-amount-from-trigger-event-value-7689625252/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T194035Z-engine-auto-mill-amount-from-trigger-event-value-7689625252-v3-codex.json",
+      "receipt_sha256": "sha256:8930937b13800c957660e25a05babcadd4e316788d60451b9090b9ca059a4d7e",
+      "ticket_sha256": "sha256:76dbb1c7c29e2c6c663b82250f4248458fa9ca60299afe56ba87d243161a83c1",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-milled-card-mana-value-be927b059e/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T183221Z-engine-auto-milled-card-mana-value-be927b059e-v3-codex.json",
+      "receipt_sha256": "sha256:9e3a3733f5c06a6bbcdba9a99c1d4aef8513393a2afab40cb83a8f87a53bcd19",
+      "ticket_sha256": "sha256:1edea945e33a00349e8f70cf718235888d910b6e79e0ddd01aec8c27543503bf",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-mv-leq-source-power-filter-5225a2ea66/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T055823Z-engine-auto-mv-leq-source-power-filter-5225a2ea66-v3-codex.json",
+      "receipt_sha256": "sha256:fb4c2aa330afd216656a47f0579928890bf0e91e7eff7db3cfe7223e60dc7670",
+      "ticket_sha256": "sha256:1d90c6c3c4c17400334f4dedb711363a55b593fc06bb22e6abe1524c3ff9bbfe",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-optional-colored-payment-conditional-sequence-d53b2e4afe/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T105854Z-engine-auto-optional-colored-payment-conditional-sequence-d53b2e4afe-v2-codex.json",
+      "receipt_sha256": "sha256:7b0e0d49090bb8d66522da85854c7ca2c2dc4bd6b5cff596def9c25075fedc48",
+      "ticket_sha256": "sha256:92e9504d5250177c0c8e3752e95a8f28b96478303522162d0c0a481199adacb7",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-optional-mana-payment-8c269e8577/v2",
+      "attempts": 2,
+      "receipt": "docs/factory-ng/runs/2026-09-11T001224Z-engine-auto-optional-mana-payment-8c269e8577-v2-codex.json",
+      "receipt_sha256": "sha256:e2893a8c127e1eeacafa362c8d9b7a60e33ba6430b5dcd26f0c0322105a27063",
+      "ticket_sha256": "sha256:97cda4c669498af0cf4ccf7fddf134de804116baabd100f3bd947ad7112f9f65",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-optional-sacrifice-or-discard-conditional-draw-14caf8ea1a/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T042117Z-engine-auto-optional-sacrifice-or-discard-conditional-draw-14caf8ea1a-v3-codex.json",
+      "receipt_sha256": "sha256:3ed8c7ced150f25c8065967ce6439174cab6969a6af0bca8d746af68d049ef56",
+      "ticket_sha256": "sha256:8081dec6703862744c57b75987cb7c866d70b6600e531441d03fbb0583e36a1c",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-per-player-discard-count-token-creation-6874304694/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T072040Z-engine-auto-per-player-discard-count-token-creation-6874304694-v2-codex.json",
+      "receipt_sha256": "sha256:e25a4558b905d96feec280e4188f03cbcc39605f78ab854a2e14460b396836ed",
+      "ticket_sha256": "sha256:10a1fcbb465cd110c931ac126816f531a068cb3d31131a583c91ee0dd8fc3106",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-perpetual-returned-card-power-boost-c061176b2c/v4",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-03T181245Z-engine-auto-perpetual-returned-card-power-boost-c061176b2c-v4-claude.json",
+      "receipt_sha256": "sha256:a2b50fd54c47aa9d272fb567d2c7be9d46da06fff39ab381473fa2adbbac081f",
+      "ticket_sha256": "sha256:395a4691c122b9afde52bcacc09b2b0a73c9cf8c1fe5f16914d0fc615038d5c2",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-prevent-all-damage-by-creatures-this-turn-84972e97c2/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T142854Z-engine-auto-prevent-all-damage-by-creatures-this-turn-84972e97c2-v2-codex.json",
+      "receipt_sha256": "sha256:dcf79aeb9337e3db507231a413edd7fab80fcec99e743ef6e0ed1d1df389b8dc",
+      "ticket_sha256": "sha256:2b50fcf22a2c4ea86f1def3aa8a5188d55d385acf9f17bc97c67562e221dd272",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-prevent-all-damage-this-turn-by-source-subtype-e-a32dabcd26/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T220618Z-engine-auto-prevent-all-damage-this-turn-by-source-subtype-e-a32dabcd26-v2-codex.json",
+      "receipt_sha256": "sha256:ddafa0c39b317222c7ad1672c8e29e259dc653b5c7c4e213dbfa4394c4ab5fd2",
+      "ticket_sha256": "sha256:47ab6ce0e8e113a0ecb2e887e0608086521312ddbaefe5869f3b054856bf7a0a",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-prevent-all-damage-to-filtered-creatures-this-tu-f832678d88/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T152513Z-engine-auto-prevent-all-damage-to-filtered-creatures-this-tu-f832678d88-v3-codex.json",
+      "receipt_sha256": "sha256:8cf07d61454306b92d1a2613250b57c95fefe43a5159a3ef73abcb13693f7d3f",
+      "ticket_sha256": "sha256:62b618bafd030b5b7c85f3d1698b7bac1fa5cfb138a8c08019686520e1ba6254",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-prevent-all-damage-to-power-threshold-target-17d9124fc8/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T164409Z-engine-auto-prevent-all-damage-to-power-threshold-target-17d9124fc8-v2-codex.json",
+      "receipt_sha256": "sha256:0321ffec7e9a6cfbdfb8728879f82ce58ba823a0e5a665027bc80cd8e7833ba6",
+      "ticket_sha256": "sha256:4687ebbfee49fbce9aeca1f8d77e9365df435bbb76233ff513be4348bfe9eabc",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-prevent-all-damage-to-target-until-eot-e4116fdc32/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T134238Z-engine-auto-prevent-all-damage-to-target-until-eot-e4116fdc32-v2-codex.json",
+      "receipt_sha256": "sha256:4f5b3b3e9c773db77d193f9ebad81e12a16f09f6502fb595900a5e5db23e3d0e",
+      "ticket_sha256": "sha256:7d4c4e2ac843474bcf82abfff5357fd02bab8155208577b3f249a03280214fce",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-prevent-combat-damage-from-attacking-creatures-0e1e73d55a/v3",
+      "attempts": 3,
+      "receipt": "docs/factory-ng/runs/2026-09-16T160256Z-engine-auto-prevent-combat-damage-from-attacking-creatures-0e1e73d55a-v3-codex.json",
+      "receipt_sha256": "sha256:69c9b8c5c7b7d051fdaed828fd9dd9f40ce2b5006c344d57e244db0cb5d058d9",
+      "ticket_sha256": "sha256:bee756a0b86a4c08f8fb7dc9500d43357b6555bfbac5ba877961848c355402f1",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-prevent-combat-damage-from-other-creatures-8ecb9e4fb3/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T170417Z-engine-auto-prevent-combat-damage-from-other-creatures-8ecb9e4fb3-v2-codex.json",
+      "receipt_sha256": "sha256:f03a1bd31675437a9ab12bf5a1af0c837bdc2af80908c0ecd0777cf86f61f73c",
+      "ticket_sha256": "sha256:b64c27a6b62faac7dc1217c42d92d090c470b84dd1235829afc047853b252e42",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-prevent-combat-damage-from-sources-power-four-or-ad7d2c8d40/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T134034Z-engine-auto-prevent-combat-damage-from-sources-power-four-or-ad7d2c8d40-v2-codex.json",
+      "receipt_sha256": "sha256:389bd2eac735a3e70fe4e3a84ad363d415374991ae557930505d7768285add0f",
+      "ticket_sha256": "sha256:05a71829c65c2b2e98973116b37dd5bb2d1de651d2a7217fe19490da7604bd64",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-prevent-damage-from-chosen-source-matching-exile-5f9a39a581/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T194740Z-engine-auto-prevent-damage-from-chosen-source-matching-exile-5f9a39a581-v2-codex.json",
+      "receipt_sha256": "sha256:f5587c4ca34695f880016e6c879d3ba1f41e570e4da7d272d0221a6e03ae0195",
+      "ticket_sha256": "sha256:718fc49043907feecfde1e14d3cd3f0e54bcf7d3acacd1c23ae4c1cd98a8ae88",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-affects-same-named-creatures-b15f77e6cd/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-14T054629Z-engine-auto-pump-affects-same-named-creatures-b15f77e6cd-v2-codex.json",
+      "receipt_sha256": "sha256:c42836a6ffaf827484dec6c93411cc40e9cde027414d1d3bbf39ef68a653a6be",
+      "ticket_sha256": "sha256:aa7ba422e856eccf7d951ba6cb6119b90a82b579e75a865ec3c3f04f18ee3653",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-amount-devotion-to-color-ba3c68a444/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T041414Z-engine-auto-pump-amount-devotion-to-color-ba3c68a444-v3-codex.json",
+      "receipt_sha256": "sha256:240ad34acfff28be6aec6b92b854688868def662032798fb33228d29a9ae619d",
+      "ticket_sha256": "sha256:365503f8fcc0d213e92d391b541157428119d813787a6cee0c3c509c442073a8",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-amount-from-hand-count-e10861f03a/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-08T204650Z-engine-auto-pump-amount-from-hand-count-e10861f03a-v3-codex.json",
+      "receipt_sha256": "sha256:7afc5fafa5d9b0451bb8c2cc4a7d9d44d469404e30340b9cefc80c9eca03432b",
+      "ticket_sha256": "sha256:4ca330d7b02e85fa15cc55a257ef2cf7eb8104108f01257261ee5eb970742e7f",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-attacking-creatures-until-eot-995b07ce1f/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T043403Z-engine-auto-pump-attacking-creatures-until-eot-995b07ce1f-v3-codex.json",
+      "receipt_sha256": "sha256:c91a95bd8befe8fe8f5c7daba954c15fe4d09bcaf2d8e7daba088def276fa039",
+      "ticket_sha256": "sha256:a0b303e237c70c24e93fb4d54552d28b61d92f483cc83f990fb98086b05f2b00",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-until-eot-all-creatures-you-control-63ebcf17a9/v2",
+      "attempts": 4,
+      "receipt": "docs/factory-ng/runs/2026-09-16T072021Z-engine-auto-pump-until-eot-all-creatures-you-control-63ebcf17a9-v2-codex.json",
+      "receipt_sha256": "sha256:39c982c87b3be677c49ef4dee39c402183850c65c5044f6c15cc72da470b08f2",
+      "ticket_sha256": "sha256:14330116980934eb24c955cd7b6ecf970c6b84b61149e51af5ab4872cef29f73",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-until-eot-chosen-creature-type-424570aeee/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T200907Z-engine-auto-pump-until-eot-chosen-creature-type-424570aeee-v2-codex.json",
+      "receipt_sha256": "sha256:3e1524d2f3b03b939c1fcdc92db3651f2b0716b314590249dcf3acf055f39658",
+      "ticket_sha256": "sha256:30465a8f43c988bcb3650752217605ef321fba604feff6285b453cc9994b3dd8",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-until-eot-defending-player-land-count-4853deb9b5/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T010700Z-engine-auto-pump-until-eot-defending-player-land-count-4853deb9b5-v2-codex.json",
+      "receipt_sha256": "sha256:0bf492c18dfecfa662397ee47057ac217f00e7dc3ccf5358216633ca10a85cb4",
+      "ticket_sha256": "sha256:73ba6dc50176aaee2155e5873f9cf2cd745ac53250ecc7e91125f4784c6faaec",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-until-eot-filter-recipient-f48f327ee9/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-04T061544Z-engine-auto-pump-until-eot-filter-recipient-f48f327ee9-v3-claude.json",
+      "receipt_sha256": "sha256:ab03b618da56138258b2a6aa780ffafffa1a71f86418327ac7b493832c5420da",
+      "ticket_sha256": "sha256:a6a531dd9242110776de531ccfb90ba3a82ce1fcf45cb765ccfc8d700b9d00d3",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-until-eot-from-sacrificed-toughness-ed23e98c36/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T225812Z-engine-auto-pump-until-eot-from-sacrificed-toughness-ed23e98c36-v2-codex.json",
+      "receipt_sha256": "sha256:256aee1d7c0918b4f8b7659cb0a78a10dc9b965d0e869d08106aaff85036d0e1",
+      "ticket_sha256": "sha256:200f5e27b7e3fa326130ddff9a0f53496df6138e361066632b24c886a92d065c",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-until-eot-mana-value-ef4455961d/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-04T062720Z-engine-auto-pump-until-eot-mana-value-ef4455961d-v2-claude.json",
+      "receipt_sha256": "sha256:7e323d062385964264c323fb26d98b77f5a8002c1e35ee5edfdd00ff1de3a82a",
+      "ticket_sha256": "sha256:38376244725c268b714fbc978db4ce316cb841f6a0a0d3b9ec1f10cf7a117a8a",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-until-eot-self-dynamic-count-a6ca8ab3b5/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T061732Z-engine-auto-pump-until-eot-self-dynamic-count-a6ca8ab3b5-v3-codex.json",
+      "receipt_sha256": "sha256:462f86ff6b813d44f979114039227227870621367430a441aeafb68970e38ee6",
+      "ticket_sha256": "sha256:3815ae6bf13b1380a8262bc7376ffbecf4cbf4356d47be9b17c5b1b5eeb751d1",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-until-eot-untargeted-filter-7e01f629e6/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T133156Z-engine-auto-pump-until-eot-untargeted-filter-7e01f629e6-v2-codex.json",
+      "receipt_sha256": "sha256:7223cbc99a52e175112b1cf5fe1dd289ec5af3342a9c695510dccb91574ee6cc",
+      "ticket_sha256": "sha256:f4252a670a8129df7de1ae06e28dceada0b9457c8c59870ab92cbe189fb7ce71",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-put-counter-at-end-of-combat-a866c23ab5/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T000339Z-engine-auto-put-counter-at-end-of-combat-a866c23ab5-v3-codex.json",
+      "receipt_sha256": "sha256:f966944723668de83b69e27f12da7d9cbc13d234f5a7a1cebc6f4b8e0acb88c9",
+      "ticket_sha256": "sha256:663dcb2fe66ee3dd74afa96524d1ef14e0a0671c4e12073a699bb0a0fdc6dda1",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-put-counters-choose-permanent-you-control-67d2706f4c/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T172512Z-engine-auto-put-counters-choose-permanent-you-control-67d2706f4c-v2-codex.json",
+      "receipt_sha256": "sha256:2a83382af38f0583235ad73f2834f4582201ea07f885f1321ff15bcd98b99597",
+      "ticket_sha256": "sha256:d3e37507757ca4f11ce7becc2382600420f008bedf988f4980018286262b4193",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-put-counters-conditional-amount-target-subtype-bd397d354f/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T101234Z-engine-auto-put-counters-conditional-amount-target-subtype-bd397d354f-v2-codex.json",
+      "receipt_sha256": "sha256:dc36c9be43357500da5d1c35b6a345e5e61d89a284b945cb9eec57ba25f41b58",
+      "ticket_sha256": "sha256:28c6b46328462837180478e08baef53138ada8481a89eb009b55b76c263c6f1d",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-put-counters-each-multi-subtype-entered-this-tur-d6a042542b/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T170826Z-engine-auto-put-counters-each-multi-subtype-entered-this-tur-d6a042542b-v2-codex.json",
+      "receipt_sha256": "sha256:d686d5e0368141e5dc266591328070a0cf0f59d5ea9fc3495c6b783c6f066e57",
+      "ticket_sha256": "sha256:d6543bc54c863dfad61b72238fe648a168384060deab8174a9cf41c60ff999bc",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-put-counters-on-group-event-sources-8eb6b9a76c/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T131915Z-engine-auto-put-counters-on-group-event-sources-8eb6b9a76c-v3-codex.json",
+      "receipt_sha256": "sha256:91775832c62f48158857b3f01aa23ba1aa727d8706405c23505c6a748c1fb27c",
+      "ticket_sha256": "sha256:f2488372878ae6885bb4c345d748086cd3709c79d44b7dc868664db6bd60343d",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-reanimate-attacking-5390a2afd2/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T005128Z-engine-auto-reanimate-attacking-5390a2afd2-v2-codex.json",
+      "receipt_sha256": "sha256:81b107d70e3ae7f605db2b7ae1912d0894dc3b28ab1461a733eed571373c6621",
+      "ticket_sha256": "sha256:b24d67dd045767176687e6f5e8cfd52895c98f77ce12bb200e18e47f5d4d0ddd",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-regenerate-attached-permanent-0d5dda7a83/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T010218Z-engine-auto-regenerate-attached-permanent-0d5dda7a83-v2-codex.json",
+      "receipt_sha256": "sha256:b958bc19c4ccc514c8ad13b334891c97094e0ac2111fb1dd71022de3a55dc187",
+      "ticket_sha256": "sha256:5a2a7b98afca87285f6e3167eea540a4e72c7f105906775014b00a9bda3dde81",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-regenerate-attached-permanent-a72b4fbf15/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T014509Z-engine-auto-regenerate-attached-permanent-a72b4fbf15-v3-codex.json",
+      "receipt_sha256": "sha256:59a8f90ee06befbab8d70c22a59e4f12f112981a99d2c48838ee18cebd794e22",
+      "ticket_sha256": "sha256:fe3be5f310b5c43917d90adbb40458f294ef74e0864950b08b2afd8de0783998",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-regenerate-target-color-filter-6f1012fdaa/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T054832Z-engine-auto-regenerate-target-color-filter-6f1012fdaa-v2-codex.json",
+      "receipt_sha256": "sha256:717858f673576fd231a106c8206b5300d3f4e6ce4518ffb062e285179270cd0d",
+      "ticket_sha256": "sha256:74ff6868bb7a4c05b67097c352d03b9f852e89f67b055a2a6d5f316777592d7d",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-register-copy-self-spell-choose-new-target-87f58e5009/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T191723Z-engine-auto-register-copy-self-spell-choose-new-target-87f58e5009-v2-codex.json",
+      "receipt_sha256": "sha256:fc19d7717c54ea19d32c4eaf9c142ae5510e4004395ac32999f579b39a5508bb",
+      "ticket_sha256": "sha256:fe77e645ec42ff1083f8ee38747d5f7cd8ec03fedf3b03b7bd0484d03b2f9437",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-register-pump-all-referent-controller-spell-c80d043064/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T180838Z-engine-auto-register-pump-all-referent-controller-spell-c80d043064-v3-codex.json",
+      "receipt_sha256": "sha256:f47a2a48e1dab6e33bc56fffb3e5dffddab4a4425935ddaf797623808b7ddb6f",
+      "ticket_sha256": "sha256:54c600d0db1e09b3410bbb813e4fb1f577f517cc403b17d6a8e8bccc580b2ebd",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-remove-counter-targeted-spell-referent-d71e64f22d/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T101223Z-engine-auto-remove-counter-targeted-spell-referent-d71e64f22d-v2-codex.json",
+      "receipt_sha256": "sha256:89a4fb82a0cbc172b4120ae04d8262e454c6e4b85d6403512dfe067cf64a899b",
+      "ticket_sha256": "sha256:2fcc0cde48eb664c54681d6d014a0ba0b4207d353da02db87d884e5b80aa2eda",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-remove-keyword-until-eot-66dc1bfcc7/v2",
+      "attempts": 2,
+      "receipt": "docs/factory-ng/runs/2026-09-14T061447Z-engine-auto-remove-keyword-until-eot-66dc1bfcc7-v2-codex.json",
+      "receipt_sha256": "sha256:be09901d855bfa006a432d95c19f5c02e3cfb18f69b905c985d12b09b729fd88",
+      "ticket_sha256": "sha256:44732fb28e6241c008d734e353b0cbde643c7775276634f5c932aab65e0fbc7f",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-attach-source-mana-value-f-da8ebaf35a/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T192049Z-engine-auto-return-from-graveyard-attach-source-mana-value-f-da8ebaf35a-v2-codex.json",
+      "receipt_sha256": "sha256:73376548799a0fc9939df1a1bc555698e8fcee0aa2d12b704b8a69684774cb3c",
+      "ticket_sha256": "sha256:80a897140b5b5ac2ff7b9086e77fd2e6c4c4f7a680054c912af97e6ee5ea89c2",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-attach-to-trigger-object-d-64a3885610/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T224110Z-engine-auto-return-from-graveyard-attach-to-trigger-object-d-64a3885610-v2-codex.json",
+      "receipt_sha256": "sha256:c98f69101170836812c22391238cd92c3e655e8bc40df376663b33f843d3298d",
+      "ticket_sha256": "sha256:2f089d4e02aaf9b9938b15becfc98f4b00006634f36c8be081c641939a208de8",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-attached-to-matching-type-1595222f2c/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T090433Z-engine-auto-return-from-graveyard-attached-to-matching-type-1595222f2c-v2-codex.json",
+      "receipt_sha256": "sha256:e5e128beec1555edc33796b8fe8e55da83eb7c677b3436dbe69f774250c23549",
+      "ticket_sha256": "sha256:e997267eeb29a773d787c067af45b6f28fb8fb05193d915cbf945c445d675fde",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-count-limit-6137802c4c/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T221029Z-engine-auto-return-from-graveyard-count-limit-6137802c4c-v3-codex.json",
+      "receipt_sha256": "sha256:8287c552024f1446237e0ee42ea743ed8f8971cf146532f165a89ae754d10bdb",
+      "ticket_sha256": "sha256:830f22fb34af5b38cc34e1447c1dadc3635381f40f47e8cc48b98463f7131f8a",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-distinct-mana-values-249cd286f4/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T175436Z-engine-auto-return-from-graveyard-distinct-mana-values-249cd286f4-v3-codex.json",
+      "receipt_sha256": "sha256:b5fa13fc9040a9fd8c49b5f24033359ac50abee20f0fe0d6c8785c64d2bd4ea2",
+      "ticket_sha256": "sha256:9290b7145ed9f9d409d179c6e38e3a41ba322bd61f24b5f62f5e626e82a46035",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-exile-non-aura-filter-9e61bca4d1/v2",
+      "attempts": 3,
+      "receipt": "docs/factory-ng/runs/2026-09-15T082305Z-engine-auto-return-from-graveyard-exile-non-aura-filter-9e61bca4d1-v2-codex.json",
+      "receipt_sha256": "sha256:5dcd528df394ebc1a75e6ce7c225212c15231d55ade968531ee85ab25a0884b2",
+      "ticket_sha256": "sha256:61cda7fcab74ec474449ff68be3d75645b4b88e1dcc8a51a04254c84458393ee",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-finality-counter-a79c8c1a4c/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-07T191417Z-engine-auto-return-from-graveyard-finality-counter-a79c8c1a4c-v2-claude-agentic.json",
+      "receipt_sha256": "sha256:54992305ad6e4401afde7e10c5d174e6942afb9b607e92880d3b0bd0d82495a0",
+      "ticket_sha256": "sha256:4a50042740ffc15f348367a401ac34591d38e16f4bde105db0893bf78fcb5a11",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-mana-value-filter-40a5f5303a/v4",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T164521Z-engine-auto-return-from-graveyard-mana-value-filter-40a5f5303a-v4-codex.json",
+      "receipt_sha256": "sha256:bc9cc9ef54dd3d287877793e160bb4bc6509853cf0e308045544049fac52f2c2",
+      "ticket_sha256": "sha256:d20082c5b756fb5673b5769ae493b00bbbb9825b5e1a33eed99c50f1fe5b4847",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-multi-target-amount-f8cb94fb74/v4",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T044344Z-engine-auto-return-from-graveyard-multi-target-amount-f8cb94fb74-v4-codex.json",
+      "receipt_sha256": "sha256:5f0b09664b03721273ba4050c2aba5e3a3837af633ff4a93587fe02c89a1ac61",
+      "ticket_sha256": "sha256:0404504be0c66e45b949942a4575d70b1b0aa0b1bd96eecc5ecd2b5fcee09d2f",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-mv-budget-e111ba8ab7/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T182856Z-engine-auto-return-from-graveyard-mv-budget-e111ba8ab7-v2-codex.json",
+      "receipt_sha256": "sha256:23245a9323f3fe35968068709815e26abf3c88de99da0b38fa0b21d8f2e50684",
+      "ticket_sha256": "sha256:5bff010f2f53a777fbc13f6dd3449472fd81726f76e7c85103d85d294e10b3a9",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-random-x-count-92f1edec46/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T163552Z-engine-auto-return-from-graveyard-random-x-count-92f1edec46-v2-codex.json",
+      "receipt_sha256": "sha256:e1ad0725073518c3e9a0301f84d6a3e91a5ee50c2b2e80d54520a802ea207f3b",
+      "ticket_sha256": "sha256:2aede0a076e02015075ef2d19348c60b94f0187bd858bf44ecb49fe64035611d",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-sacrifice-referenced-permanent-unless-pay-mana-v-fde650153e/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T104229Z-engine-auto-sacrifice-referenced-permanent-unless-pay-mana-v-fde650153e-v2-codex.json",
+      "receipt_sha256": "sha256:fc86e7fcdaefbb82072328753029ac6aee8cad364e597427c1044341a275bbd8",
+      "ticket_sha256": "sha256:bb840ccba39b115e60f143c7698cc0e5ef86ec37b1da2ce148b88295fff35499",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-sacrifice-referent-created-tokens-b5e6032091/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T055356Z-engine-auto-sacrifice-referent-created-tokens-b5e6032091-v3-codex.json",
+      "receipt_sha256": "sha256:c365afdceb8f143611b8134d4d40d6707302fb7eccc1ecbb515470dc2db8470c",
+      "ticket_sha256": "sha256:fdf183f5bb9198c413c37827ff88adc8c0af41355ad0949cdc2ac09d13cdbc42",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-sacrifice-self-unless-exile-top-graveyard-creatu-3a70f7b905/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T115148Z-engine-auto-sacrifice-self-unless-exile-top-graveyard-creatu-3a70f7b905-v2-codex.json",
+      "receipt_sha256": "sha256:da9ef332ece963b68d14760fb20f6caf28ed50e493f3a68c54bcd8244a44cfc6",
+      "ticket_sha256": "sha256:9ab528ff14217d63e3738a7647f5e03397bfe78b49cf174526ba15fea70a6653",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-sacrifice-self-unless-mana-was-spent-to-cast-27a0dcb09b/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T093133Z-engine-auto-sacrifice-self-unless-mana-was-spent-to-cast-27a0dcb09b-v3-codex.json",
+      "receipt_sha256": "sha256:b49efa81d4c9ca4e216fb7119a61e69d5d8e2015a725bd7f9b3a14837ef4f35e",
+      "ticket_sha256": "sha256:983782c718a4a18bb01acae6a1a9ca870b738893ffb76f68729b1ececb8ea91d",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-sacrifice-source-self-referent-9c6fae8e05/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T021229Z-engine-auto-sacrifice-source-self-referent-9c6fae8e05-v2-codex.json",
+      "receipt_sha256": "sha256:d1e3682c7f77341a35715c4679d655106628b2dafffd95cd0ebafe06db1eec1b",
+      "ticket_sha256": "sha256:5cc87ac2214256e165e2bb5521add9450f807110d90507f3d7a0e80a5e6d26c6",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-sacrifice-unless-alternate-action-e07d23b8b5/v3",
+      "attempts": 3,
+      "receipt": "docs/factory-ng/runs/2026-09-10T103100Z-engine-auto-sacrifice-unless-alternate-action-e07d23b8b5-v3-codex.json",
+      "receipt_sha256": "sha256:c8b16da5ad05879a48b104cd9481432958a4fc850f52fabdc60957deef52d7c0",
+      "ticket_sha256": "sha256:7af506ebd6c87e0aa0caf4cbf82d65620beeccb246b7fe9a337bc526a1b44d40",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-sacrifice-unless-alternative-2a8dfad998/v3",
+      "attempts": 2,
+      "receipt": "docs/factory-ng/runs/2026-09-10T101515Z-engine-auto-sacrifice-unless-alternative-2a8dfad998-v3-codex.json",
+      "receipt_sha256": "sha256:22e73acda4cc0cc62de57b5b69ec994dc24370afb19fc5af99506cc51273af9d",
+      "ticket_sha256": "sha256:8ca9de74b530304c09d91f5ec9f05f4968967f841533a4de15fb7280374aaeeb",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-sacrifice-unless-alternative-cost-be80636dc7/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T045029Z-engine-auto-sacrifice-unless-alternative-cost-be80636dc7-v3-codex.json",
+      "receipt_sha256": "sha256:206bceced5134dce73290370afe01718aede7d3e88e801a5ba2b7a019ba52284",
+      "ticket_sha256": "sha256:0947c0248ccea06709eb655fd8391ec082b92746e51e2dad66ea0b28bb531eb2",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-sacrifice-unless-alternative-sacrifice-5ce2311600/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T040817Z-engine-auto-sacrifice-unless-alternative-sacrifice-5ce2311600-v3-codex.json",
+      "receipt_sha256": "sha256:ee2a916ca1bb58520dc078e8f8a43f1ab6dac07a0edd30fcf61cf705c5fdf785",
+      "ticket_sha256": "sha256:1f0c5fbe5d132a826f1d51e62bd06629131f0f474149864b216b4ea6e56a3945",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-sacrifice-unless-discard-alternative-1aab2e3d82/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T051927Z-engine-auto-sacrifice-unless-discard-alternative-1aab2e3d82-v3-codex.json",
+      "receipt_sha256": "sha256:3224159787dd50e71d9e5d7fcb748d635eae8bc9f436ab26ad45e2db67784b10",
+      "ticket_sha256": "sha256:99b14798c6775015b4e425831dd4b0ce5eb03a8eddc62ad5be9a576a5d9be210",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-sacrifice-unless-pay-cost-624a864f1a/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T062133Z-engine-auto-sacrifice-unless-pay-cost-624a864f1a-v3-codex.json",
+      "receipt_sha256": "sha256:9056c084f3988994a2ca78cb5881e0b64da146c2b0c62427fe4db5b92c0c0ded",
+      "ticket_sha256": "sha256:8d6f9d9a4db7ff1617d7a7cef8222a57d8ec40515620f1aa11c7e6212b2ab0dc",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-sacrifice-unless-player-alternative-2da79135d4/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T022442Z-engine-auto-sacrifice-unless-player-alternative-2da79135d4-v2-codex.json",
+      "receipt_sha256": "sha256:08ea5dbdb90df878a7e8c4b95a0850e4aa1e1213521e847b031d311c85362e7f",
+      "ticket_sha256": "sha256:a16537da669fb4700101b29e4c6e68329d526b6de71932088ccb5b5e688de5f2",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-sacrifice-unless-sacrifice-filtered-f90fc6ccb5/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T124553Z-engine-auto-sacrifice-unless-sacrifice-filtered-f90fc6ccb5-v3-codex.json",
+      "receipt_sha256": "sha256:a900cf0157317b2ff40e5499430c539718e0b613add2c666e1bb4e4fa8d3600f",
+      "ticket_sha256": "sha256:2fac16942fcf21ea6378de6aad68b2bdd211837c8d93503cec93ef6392147d90",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-search-filter-dynamic-mv-paid-x-cff1685fa1/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T195841Z-engine-auto-search-filter-dynamic-mv-paid-x-cff1685fa1-v3-codex.json",
+      "receipt_sha256": "sha256:c39fedb67faafd8e022da235c5a37ecf66ed8c01a00f9696ad6b3e60d435c4b2",
+      "ticket_sha256": "sha256:4ec40292fe51a1f19e428a6758d5f8d3e2b0cd7091bf4ee57354bc81a7770f7e",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-set-base-power-toughness-until-eot-9ec1e9fa2f/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T224606Z-engine-auto-set-base-power-toughness-until-eot-9ec1e9fa2f-v2-codex.json",
+      "receipt_sha256": "sha256:67d85a45920c4744d15766b40e87e565ea40d5dab2c9c31c395a059f3e8ce799",
+      "ticket_sha256": "sha256:ec9be45ef4222c2519919ac2976a1d2c6eb30bb5d372ff70a4c44169c81db61e",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-spell-destroy-opponent-chosen-secondary-wiring-21ead46050/v2",
+      "attempts": 2,
+      "receipt": "docs/factory-ng/runs/2026-09-11T015613Z-engine-auto-spell-destroy-opponent-chosen-secondary-wiring-21ead46050-v2-codex.json",
+      "receipt_sha256": "sha256:20b0de54461a96fc26a3e121adb7197a0b44768e48f6992a0a60fc8ffe357fa8",
+      "ticket_sha256": "sha256:adddeec9007fa225fd8c10725ac6f82c3178bc6a76dc63fc63ce675739483259",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-spell-independent-second-target-50dc456e3b/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T203235Z-engine-auto-spell-independent-second-target-50dc456e3b-v3-codex.json",
+      "receipt_sha256": "sha256:13ffa5aee9b1250e639e62549931296be10eb1a6fad969dff5559a59e99abb76",
+      "ticket_sha256": "sha256:4b1d0a21f84f84896a3b7f73b8ce1b1b137df75dfb8f150c90829e16d0795a08",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-spell-sequence-dual-target-fight-247b89e418/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T214920Z-engine-auto-spell-sequence-dual-target-fight-247b89e418-v2-codex.json",
+      "receipt_sha256": "sha256:da9c6dbc7eeb6e1d2abf79eb6794c9467cedb5cbde6b8b8555dfcffb48b7494b",
+      "ticket_sha256": "sha256:1ad3f32e6669fd1343b2171008d9e1c2bb1805868c7634e861195da5bd9572c5",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-spell-sequence-targeted-put-counters-548bfc74c8/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T030746Z-engine-auto-spell-sequence-targeted-put-counters-548bfc74c8-v2-codex.json",
+      "receipt_sha256": "sha256:696d5c145654b2fb036414058b2e1babffad63e00eeec16ba8137f54700a07a3",
+      "ticket_sha256": "sha256:e5ed760605133a8884d3b9209db383952cc9e31df8894091fb106c1d8323c3b1",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-spell-two-target-role-filters-20443676d0/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T015035Z-engine-auto-spell-two-target-role-filters-20443676d0-v2-codex.json",
+      "receipt_sha256": "sha256:edc11c87a11aa2fe5dd204e2b870a366afc5f475b6330af06240494d7c56fffb",
+      "ticket_sha256": "sha256:c42e9da304627ebf7315551c40ab462b0a23c754d0cef6b55e7bceb77c23845b",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-tally-mass-destroyed-permanents-for-sequence-cou-b86249e3e5/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T124311Z-engine-auto-tally-mass-destroyed-permanents-for-sequence-cou-b86249e3e5-v2-codex.json",
+      "receipt_sha256": "sha256:e8b13c8eba283bc43cc3a8d1668e9bc8d3971f0744ce9dd24bdca38f16b68a53",
+      "ticket_sha256": "sha256:84bf324bfba28d81a17b5dc3ef07a8c705d76056cd2fef0d40d5452c078691a3",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-tap-all-filtered-permanents-7e17906098/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T054100Z-engine-auto-tap-all-filtered-permanents-7e17906098-v3-codex.json",
+      "receipt_sha256": "sha256:f1f9d7cbcd8439a3e4afcdd2756c1de14fe9a6dbff3f289dea6d607ee48bfb6a",
+      "ticket_sha256": "sha256:546c007d0312bd9f842a99f7b76c72b422829c7e300d89bef2f2cbfb0d6c0367",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-tap-choose-untapped-creature-you-control-4f198661e0/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T003435Z-engine-auto-tap-choose-untapped-creature-you-control-4f198661e0-v2-codex.json",
+      "receipt_sha256": "sha256:25be5ef4e7389ce943eec54c7b18e3694b5e6576f68370c7f620965078269d19",
+      "ticket_sha256": "sha256:7553cf7d989a6abff7df5e76a012f8d115782f80c6f0606c1a102ae1f7d770dc",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-tap-count-select-untapped-creatures-you-control-4a316999de/v4",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-03T195311Z-engine-auto-tap-count-select-untapped-creatures-you-control-4a316999de-v4-claude.json",
+      "receipt_sha256": "sha256:0664a2938529cc818bba2aefa2666fd73875c61ecdfd568f9310e103d1b20665",
+      "ticket_sha256": "sha256:cf7b138075a7a2dac2335a665f6cdbe4cf91374d3255fecd06e71c0e53c18b9e",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-tap-filter-without-flying-0c850febac/v4",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-03T194520Z-engine-auto-tap-filter-without-flying-0c850febac-v4-claude.json",
+      "receipt_sha256": "sha256:458cc1d617c5b22c21b3dcf5ada3ce08be199ce6a882a155930503f0ff9f571a",
+      "ticket_sha256": "sha256:c26a2679da69d94896fbc6e8aa5a5db4dc6bc6ccaa7853fcafb04da8d15e0912",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-tap-lands-matching-triggered-mana-types-6b79299f39/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T160301Z-engine-auto-tap-lands-matching-triggered-mana-types-6b79299f39-v2-codex.json",
+      "receipt_sha256": "sha256:6b53990ec1702c00257070d2aadf879af184a97e236ebaf6d8e61cdd66b9275b",
+      "ticket_sha256": "sha256:0d03ba1d4bf6ad1cd04f8eb8a0c0b7cb2a3f1923f1a01ea1df6ea0b83d74ee05",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-tap-referent-target-21039dcdf4/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T071439Z-engine-auto-tap-referent-target-21039dcdf4-v2-codex.json",
+      "receipt_sha256": "sha256:5b6ef41c8f00f0e0644e734413f9143e1dccb046aa6781c518635120aa025f5f",
+      "ticket_sha256": "sha256:3b6b2eec43ba76523ca0cce4ace01a29170b529a6596808a39d5e2abd90527e0",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-tap-self-unless-pay-life-0f3906559b/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T114643Z-engine-auto-tap-self-unless-pay-life-0f3906559b-v2-codex.json",
+      "receipt_sha256": "sha256:a9b0d521bdb43b611fbc55c098f7968788f323d30e688f5571983d63861cc703",
+      "ticket_sha256": "sha256:0cc8086ccc383513d2f49f47b52b9b88fbe4037fb992df4f4597dd08bef1e240",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-target-attacking-creature-with-keyword-1dc4dffff9/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T163315Z-engine-auto-target-attacking-creature-with-keyword-1dc4dffff9-v2-codex.json",
+      "receipt_sha256": "sha256:848ef5d228d2e53f9dc3b0894d8cc07164ae921acbf44224fb4bf40ac54bac90",
+      "ticket_sha256": "sha256:20261e7cfa2a688a525a88ec7b3ef4219c04c222862bb04c55d10ecbebec80e8",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-target-filter-blocked-by-legendary-this-turn-104753effb/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T011335Z-engine-auto-target-filter-blocked-by-legendary-this-turn-104753effb-v3-codex.json",
+      "receipt_sha256": "sha256:e325ee95015a0252672122dc6d1065421cc68411218ec6704dc3da652e480982",
+      "ticket_sha256": "sha256:ee5d042346cc2a9c527e183014627b4815be46a98caa31f8a86457b3061cd92e",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-target-filter-dealt-damage-to-you-this-turn-e1b3a7daad/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T131844Z-engine-auto-target-filter-dealt-damage-to-you-this-turn-e1b3a7daad-v2-codex.json",
+      "receipt_sha256": "sha256:9ee1635e22c6872f2f3ddc0537de4611cf4bd369d687ceb0d9e9c89ee9b641e7",
+      "ticket_sha256": "sha256:bd28ce77bfa1489cdbc75f698347ed365077bd541e4dbbcb82f60720f5b3f8d2",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-target-filter-mana-value-matches-trigger-spell-4a033b6ace/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T085449Z-engine-auto-target-filter-mana-value-matches-trigger-spell-4a033b6ace-v3-codex.json",
+      "receipt_sha256": "sha256:8c015e3077ff45aaa79d604e9766936997d04c4c21e8734d55b06da41c45ead7",
+      "ticket_sha256": "sha256:10fc255d389599ada693d48304bb26f2bff103d88953a12d498b32cc6f7b09db",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-target-filter-optional-max-count-a661f13c8e/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T150630Z-engine-auto-target-filter-optional-max-count-a661f13c8e-v2-codex.json",
+      "receipt_sha256": "sha256:f594d0b34edd330753053f654258bbbfbdfe330256770f88c11c4bce63ce4e83",
+      "ticket_sha256": "sha256:675b27a60c3ef5472025725be7bf7ff659c963e0da488888eda0aa589059b215",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-target-filter-owner-and-controller-you-00a56e4297/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-06T040610Z-engine-auto-target-filter-owner-and-controller-you-00a56e4297-v2-claude.json",
+      "receipt_sha256": "sha256:2ed547660e21c649e680484defeb03437624db88a77229b7e7c5a34f5fe27e74",
+      "ticket_sha256": "sha256:ae16a5f31e2ae50b492deef81c5452f7b98b79fb3c8994e503dfa651e9ff3341",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-target-filter-player-dealt-combat-damage-by-n-su-2ef792d007/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T134219Z-engine-auto-target-filter-player-dealt-combat-damage-by-n-su-2ef792d007-v3-codex.json",
+      "receipt_sha256": "sha256:7bad4248e45d1c28facc7cc42ade5744ef6b7ed255c9997e786dd179e34b1033",
+      "ticket_sha256": "sha256:dc70d720268b839b2540fb40ab908c9cb1f18af769ac2f04e2316dcde57096d5",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-target-power-as-second-target-damage-amount-339503f076/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T075100Z-engine-auto-target-power-as-second-target-damage-amount-339503f076-v2-codex.json",
+      "receipt_sha256": "sha256:7b101d8e21e0fe74e4ec2ef232c43e2c7a5831501126cef8283f0b26395804b4",
+      "ticket_sha256": "sha256:9619d3b84f20c404a6f7ae4d4a202d8923a05e7fc4e160fc43c284cac96714bc",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-target-power-lte-source-power-53e5e26216/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T122048Z-engine-auto-target-power-lte-source-power-53e5e26216-v3-codex.json",
+      "receipt_sha256": "sha256:1000cf5446a1eb6019501df3410b715e3bb3cc0d8bf50e8cfa2a90e787e3fdb8",
+      "ticket_sha256": "sha256:3fbf2d8f06ae86a22eacc0a2ea9cc5caa4fa8f91fa62b6ad9d3162129f949bea",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-target-token-entered-this-turn-b1f143be46/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T090840Z-engine-auto-target-token-entered-this-turn-b1f143be46-v2-codex.json",
+      "receipt_sha256": "sha256:7f4cd98eab7a6b56abf87214f1a30a1c983c15fc09c9fa903a053666d7cbb322",
+      "ticket_sha256": "sha256:b03aeb7acc61201900c31911065b4a3786daff728b9f41c5a838818ec2c62d09",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-target-type-conditional-mode-override-f46b00f9dd/v4",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T052619Z-engine-auto-target-type-conditional-mode-override-f46b00f9dd-v4-codex.json",
+      "receipt_sha256": "sha256:8ed5269c25af65ea1c2b4c6b9e91a552c1ed6a9059bcdddf2817188f7e77449f",
+      "ticket_sha256": "sha256:23e395fbc6d616a34ffce4402ef8e3a4f2d977881ed424d1b9e4b362691876ba",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-targeted-random-discard-4015edde20/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T121800Z-engine-auto-targeted-random-discard-4015edde20-v2-codex.json",
+      "receipt_sha256": "sha256:fc44baa558ace1247c05a6f224870d0b18eb6689d1408b0cf8f067ce0953ab5e",
+      "ticket_sha256": "sha256:8b4daf32f949cb2acf4a5b76cdf78ce8d4af5e4f4baa0076dc81301f12ab4190",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-token-copy-add-keyword-9cff243761/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-12T235033Z-engine-auto-token-copy-add-keyword-9cff243761-v2-codex.json",
+      "receipt_sha256": "sha256:eeb75859bca1566386f4f2ea7bbd6a508699f7217770fc9bb046f4ee4b56cf32",
+      "ticket_sha256": "sha256:477bd21fbda98c9fc63e22c693505d4e6f1ddf3743d417b8ccc6c7591d1bab0b",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-token-copy-additional-card-type-2c598deaab/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T075510Z-engine-auto-token-copy-additional-card-type-2c598deaab-v2-codex.json",
+      "receipt_sha256": "sha256:8c2cf5162d8170c34d4b82fe541d946d57b390acb6d995dc69d2aa1218741671",
+      "ticket_sha256": "sha256:4229e80c329edc48977c86295ac52fb0faaf63d98386eec7c5a20fc9289b7444",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-token-copy-color-keyword-override-19858a25e2/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T115242Z-engine-auto-token-copy-color-keyword-override-19858a25e2-v2-codex.json",
+      "receipt_sha256": "sha256:d9d23d426cb6a82f3f73160bd221a66fb10cb245a8dd89a7aca39d06f74f0914",
+      "ticket_sha256": "sha256:aff0c44897b77fabf771375acfad7287b1dfdd9b3816d2dd816155c1d2b48559",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-token-copy-keyword-override-a62993984b/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T055215Z-engine-auto-token-copy-keyword-override-a62993984b-v2-codex.json",
+      "receipt_sha256": "sha256:6543aa1e308d61438457cdb4d20ec375152621a280a02bae43c5227f31097018",
+      "ticket_sha256": "sha256:bbeb6f71b4a9a75ff5272d21190027f567a20c2ef4c3419898ef6e27f1ac9bf1",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-token-copy-linked-to-source-f8dfe4af26/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T181545Z-engine-auto-token-copy-linked-to-source-f8dfe4af26-v2-codex.json",
+      "receipt_sha256": "sha256:c196da4e706e54e1d5b9766c20d2183f98f8049cd352f7f569f4a806e0c03441",
+      "ticket_sha256": "sha256:987f569ae6c954c7ec13a08fdb32d4cedc30cf295d3339c03ecd5a5ad27cb518",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-token-copy-target-creature-mana-value-x-or-less-471eb84b87/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T053002Z-engine-auto-token-copy-target-creature-mana-value-x-or-less-471eb84b87-v2-codex.json",
+      "receipt_sha256": "sha256:8c45f111851e946068850e699c048ddcfa6209436d2b788b224d1488cdbb21a9",
+      "ticket_sha256": "sha256:f78954d8d54da943fd8929dbcb88fb831e245c4a733d87e78837e65d749954b5",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-trigger-linked-count-amount-df6aa26576/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T140607Z-engine-auto-trigger-linked-count-amount-df6aa26576-v2-codex.json",
+      "receipt_sha256": "sha256:8de1dc23c4b6db76045160b043263903756af81997eabe6094723380ef2345c7",
+      "ticket_sha256": "sha256:8c7efa86c2e3dfb7102e8d32eeae0176de7fd8388625db739088dc9243b7f374",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-trigger-optional-pay-cost-gate-8ceb73b35c/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T193517Z-engine-auto-trigger-optional-pay-cost-gate-8ceb73b35c-v3-codex.json",
+      "receipt_sha256": "sha256:e80f186393cc1061ac806aadffde2f631e8021d11ac940cd6656b41c820a78e4",
+      "ticket_sha256": "sha256:2ee37e654a08506f28c953a0db4a5d4c24f53c81733a5d9d060b81c8d7e40341",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-trigger-receiver-creature-filter-29a14cae85/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T012946Z-engine-auto-trigger-receiver-creature-filter-29a14cae85-v2-codex.json",
+      "receipt_sha256": "sha256:426c23d5cde317e3d7de9e49d2871a1ebda60c02c4354c799f7e1864172222b0",
+      "ticket_sha256": "sha256:39b59965fca543081235856c64fdc9da9ee3ef3f00090aee9567c80d862f9156",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-trigger-subject-each-opponent-upkeep-dd70dd4d7d/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-13T101516Z-engine-auto-trigger-subject-each-opponent-upkeep-dd70dd4d7d-v2-codex.json",
+      "receipt_sha256": "sha256:3d6e022fa8b5f68a289d3f45d2ac0af7ce9a019ce6e392358e2eb6e2a182a6ed",
+      "ticket_sha256": "sha256:7fb3402f4d2b5b7bcf22d0fd2c0c5870be9ffde3b79da553c6e2d6849298ccc2",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-trigger-unless-pay-life-959277691c/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T094556Z-engine-auto-trigger-unless-pay-life-959277691c-v3-codex.json",
+      "receipt_sha256": "sha256:23282c7ed9ba21f6f02d137ef0a1dd54e6ace85a662cfb9efce0e2871dd69eaa",
+      "ticket_sha256": "sha256:95fe21f4e1ce32a7bb91b4e463c0236cda9563345e4a49bdd23c21ccd04e7706",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-trigger-unless-poison-threshold-7d94de309c/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T094908Z-engine-auto-trigger-unless-poison-threshold-7d94de309c-v2-codex.json",
+      "receipt_sha256": "sha256:031a8fbe5ad0958f8dd4e465bb38108f52ff80ec8f271ea5daf6b0a16a243252",
+      "ticket_sha256": "sha256:25c1e58487fe8e8a724e78aae38cb7abc6784401d30435c5367dc3f1031f8062",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-triggered-may-pay-x-5746f396e1/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T102144Z-engine-auto-triggered-may-pay-x-5746f396e1-v2-codex.json",
+      "receipt_sha256": "sha256:fae82b24d67e7b2499a39d2fb99a1526886e6a29361a3a762e2f478f4f1c1651",
+      "ticket_sha256": "sha256:a7e364c82bb0fb9e35fb8d8d45074b9d0409e09e5742056770a30e4f9ee360c3",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-triggered-pump-dynamic-count-e0aecbb6cd/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T192855Z-engine-auto-triggered-pump-dynamic-count-e0aecbb6cd-v2-codex.json",
+      "receipt_sha256": "sha256:e1b92d437dd57feb125ee63d79b22cc949161b6cc4e0f4c5dbd2c25bcdf4f851",
+      "ticket_sha256": "sha256:438dbd5d70744ab6690b732b321ff0d7d16d95597dc344ad4d8cd3ed051e8a67",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-triggered-single-target-destroy-with-delayed-ref-cb843af841/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-09T182103Z-engine-auto-triggered-single-target-destroy-with-delayed-ref-cb843af841-v2-codex.json",
+      "receipt_sha256": "sha256:31eef4acd79be8a9dc58eaeb66f3bf8670e380b281877d2b9ef4f970bd279d51",
+      "ticket_sha256": "sha256:171b99a8f8566390e2f99db62a89d0f25991e226eb68055b57c83f72ab68b13e",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-triggered-tap-untapped-exclude-subtype-49d9920a62/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T193403Z-engine-auto-triggered-tap-untapped-exclude-subtype-49d9920a62-v2-codex.json",
+      "receipt_sha256": "sha256:239daceff0fd8f8538d50db4df0e537878b506c01559ae2a78b513a8e5fa1015",
+      "ticket_sha256": "sha256:d3b9d809671fdca269e18927c713c0a30e982ee25058956a9dd4c7d4a9e3aba7",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-triggered-target-untapped-qualifier-cf2dbff208/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T112038Z-engine-auto-triggered-target-untapped-qualifier-cf2dbff208-v2-codex.json",
+      "receipt_sha256": "sha256:721f4583c2c9aa05c6781e50fc77c4cadbcbcc0f42a4f081fc9580a98c70a6f9",
+      "ticket_sha256": "sha256:e9e1fdd5c54c3b349711167d3e6fd56dbadb3c64d530f006c2f663ba5002462f",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-triggered-up-to-x-multi-target-choice-2f778f09bb/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T181309Z-engine-auto-triggered-up-to-x-multi-target-choice-2f778f09bb-v3-codex.json",
+      "receipt_sha256": "sha256:c368d0aaab8bea5e887ea17f308f4e082a8075e2cb3b0d9f1e42c33bddb1d624",
+      "ticket_sha256": "sha256:c431c70bc8eb412209d496169f0cd4281d8b5ae8991232ce81ba5de84de180fa",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-unless-discard-creature-card-668a9cc548/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-10T155355Z-engine-auto-unless-discard-creature-card-668a9cc548-v3-codex.json",
+      "receipt_sha256": "sha256:882d4ef337dd8160b7808e3d19454cfb58d9a5fa64d2565522b383562dae7198",
+      "ticket_sha256": "sha256:3f82e7a2f68d18aa67a0d0e45dd9aa6fc516f073c0624a481c753816eef452ec",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-untap-all-chosen-creature-type-32e1721e12/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T093620Z-engine-auto-untap-all-chosen-creature-type-32e1721e12-v2-codex.json",
+      "receipt_sha256": "sha256:90b6c290a07ad82ebf2f4cf3625d5a6290f02de7caf8fb54b23522c15f9ed41f",
+      "ticket_sha256": "sha256:6d7f3bfacff7cc3e5d62d7e1cca93103fe7dca0fd8a314949dacd63a70f56243",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-untap-and-remove-source-from-combat-0fcbad69ed/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-11T132012Z-engine-auto-untap-and-remove-source-from-combat-0fcbad69ed-v2-codex.json",
+      "receipt_sha256": "sha256:04aa9297eaee9fed0925302170214505113d7d4f3f347b3b8598093d6ebced89",
+      "ticket_sha256": "sha256:2bcea7561d5496712be9ba9c15e857f1a5100c1d84de6166bf0ee975b77d4aad",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-untap-choose-up-to-n-c3975cd2cb/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-15T183611Z-engine-auto-untap-choose-up-to-n-c3975cd2cb-v2-codex.json",
+      "receipt_sha256": "sha256:1e2752c07839d84de562ca1049e52d6435494fc2bc4e9a6f3914a17fa2bf3f3c",
+      "ticket_sha256": "sha256:4a17c6d17533ba9e52585483d27e1d5382afab38c26e5514e3e8d85ac151ec38",
+      "kind": "patch_protocol"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-untap-referent-previous-targets-f33b5c1c71/v3",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T053752Z-engine-auto-untap-referent-previous-targets-f33b5c1c71-v3-codex.json",
+      "receipt_sha256": "sha256:977699edfcb5d4532463b430dc7929de5853ba93e04d980af0f69a22add90870",
+      "ticket_sha256": "sha256:ee30d3ed8f593f8eada2ecb8caee094d866700d858f415a18574fb36d4113139",
+      "kind": "formatting"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-untap-variable-amount-x-target-filter-036fe05cdc/v2",
+      "attempts": 1,
+      "receipt": "docs/factory-ng/runs/2026-09-16T093558Z-engine-auto-untap-variable-amount-x-target-filter-036fe05cdc-v2-codex.json",
+      "receipt_sha256": "sha256:c26338cf7e1ea222837ba76fe5ccca4ac92aaa88294ae22eedb59eb0d84eb216",
+      "ticket_sha256": "sha256:da2027cca6f7886fbc81c709b31826fc7e03c152e6e9ca1ed3ac97bbd6550c55",
+      "kind": "patch_protocol"
+    }
+  ]
+}

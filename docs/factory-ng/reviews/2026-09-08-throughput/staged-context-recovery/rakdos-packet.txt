@@ -1,0 +1,811 @@
+# FACTORY NG MAP TASK — prepared direct, no tools
+
+Ticket: ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v2
+Title: Staged card trial: Rakdos Roustabout
+
+The TicketSpec below is authoritative. Stay within its allowed paths and emit
+only the exact block protocol. Do not assume an Engine overlay unless the
+TicketSpec names one; do not edit backend/ or corpus data. Engine source below
+is read-only evidence for the mapping. Reuse the integrated representation;
+a new NEEDS_PRIMITIVE must identify behavior it still cannot perform. Parser
+eligibility alone does not verify that the complete card uses that behavior.
+
+## TicketSpec
+{
+  "evidence": [
+    {
+      "fact": "The blocked member was revalidated after its Engine dependency integrated.",
+      "path": "docs/factory-ng/measurements/dependency-resume-122e3637fa.json"
+    },
+    {
+      "fact": "The existing damage primitive is registered with executor game/ability_effects.go executeDamageEffect (triggered) + cards/converter.go case \"damage\" -> SpellEffect (spell) and shape test TestShape_ETB_DamageOpponent.",
+      "path": "backend/cards/registry.go"
+    },
+    {
+      "anchor": "1469-1808",
+      "fact": "map_atom is the bounded parser seam; Engine files are outside this ticket.",
+      "path": "scripts/paragraph/reparse.py",
+      "sha256": "sha256:370e91fa9a9fa2c886ea82d62ac777a224caa7a1e0bcddda830448717ed579f8"
+    },
+    {
+      "anchor": "5047-5077",
+      "fact": "Verified declaration game.GameState.ExecuteAbilityEffect#case:damage in source revision c2596268735df4fc8dd88b7033d4da211b27dea0; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"damage\" AND \"recipient\" AND \"attacked\" AND \"target\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "damage",
+            "recipient",
+            "attacked",
+            "target"
+          ],
+          "query": "damage_recipient_attacked_target",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "damage_recipient_attacked_target",
+            "request_id": "125d2a11717f4b0e9164b83d29f9d90b",
+            "ticket": "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v2"
+          },
+          "request_id": "125d2a11717f4b0e9164b83d29f9d90b",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"damage\" AND \"recipient\" AND \"attacked\" AND \"target\"",
+            "\"damage\" AND \"recipient\" AND \"attacked\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "damage",
+            "recipient",
+            "attacked",
+            "target"
+          ],
+          "query": "damage_recipient_attacked_target",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "damage_recipient_attacked_target",
+            "request_id": "0fa59c2475da48b2aa5aff72ff249082",
+            "ticket": "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v2"
+          },
+          "request_id": "0fa59c2475da48b2aa5aff72ff249082",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "applySpellEffectCore#case:damage",
+              "doc": "",
+              "end": 3808,
+              "kind": "engine",
+              "name": "damage",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.applySpellEffectCore#case:damage",
+              "receiver": "GameState",
+              "signature": "applySpellEffectCore#case:damage",
+              "start": 3791,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.applySpellEffectCore#case:damage",
+              "symbol_kind": "case",
+              "title": "damage"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:damage",
+              "doc": "",
+              "end": 5077,
+              "kind": "engine",
+              "name": "damage",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:damage",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:damage",
+              "start": 5047,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:damage",
+              "symbol_kind": "case",
+              "title": "damage"
+            }
+          ],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "damage"
+          ],
+          "query": "damage",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "damage",
+            "request_id": "b5bee49d1d1d4f57b5aeed5888fb4e86",
+            "ticket": "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v2"
+          },
+          "request_id": "b5bee49d1d1d4f57b5aeed5888fb4e86",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:dfc2f019359bb28d2f0c7f5a6c15d8ab4ec807cd7121f3c547d2e8978cccf1d3",
+      "symbol": {
+        "description": "ExecuteAbilityEffect#case:damage",
+        "discovery_role": "operation_only",
+        "doc": "",
+        "end": 5077,
+        "kind": "engine",
+        "name": "damage",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.ExecuteAbilityEffect#case:damage",
+        "receiver": "GameState",
+        "request_id": "b5bee49d1d1d4f57b5aeed5888fb4e86",
+        "signature": "ExecuteAbilityEffect#case:damage",
+        "start": 5047,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:damage",
+        "symbol_kind": "case",
+        "title": "damage"
+      }
+    },
+    {
+      "fact": "This historical dependency did NOT complete. The audit found reusable runtime behavior. Verify that behavior; do not assume the failed/parked patch is present. Reuse recipient_from=attacked_defender; generated alias absence does not establish a runtime gap.",
+      "path": "docs/factory-ng/reviews/2026-09-08-throughput/fts5-miss-audit.md"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "parser_probes": [
+      {
+        "card": "Rakdos Roustabout",
+        "function": "reparse_card"
+      }
+    ],
+    "profile_policy": "exact",
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "Controlled five-card staged cohort; no automatic adapter fallback.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "cd scripts/paragraph && python3 -m unittest test_factory_ng_8c3132d96a",
+    "git diff --check",
+    "git status --porcelain adds or changes only scripts/paragraph/reparse.py and scripts/paragraph/test_factory_ng_8c3132d96a.py",
+    "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/dependency-resume-122e3637fa.json reports zero remaining pinned members"
+  ],
+  "id": "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v2",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Compile any new validated atomic dependency automatically; otherwise retain the terminal verdict and advance discovery.",
+  "parents": [
+    "plan:verb_unmapped:damage",
+    "ticket:engine.auto-damage-recipient-attacked-target-8aa9c754cc/v3"
+  ],
+  "production": {
+    "key": "staged-five-card-2026-09-08:map:roustabout",
+    "producer": "staged-five-card-trial",
+    "retry_reason": "dependency_resume",
+    "trial_card": "Rakdos Roustabout",
+    "trial_id": "staged-five-card-2026-09-08"
+  },
+  "required_behavior": [
+    "Map the exact current verb_unmapped:damage miss on Rakdos Roustabout through the already-registered damage primitive without losing any Oracle semantics.",
+    "The pinned card loses this miss and retains no new or silently swallowed miss.",
+    "Add a focused positive test plus an adjacent negative that must remain unmapped.",
+    "If the exact amount, recipient, filter, referent, or duration cannot execute through existing runtime behavior, return NEEDS_PRIMITIVE with one atomic CAPABILITY_JSON instead of a partial Map patch.",
+    "Do not edit Engine, converter, corpus data, or use a card-name special case.",
+    "The Engine dependency landing is not proof this card is fixed. Verify the complete Oracle mapping against its runtime representation, including every ability, even if parsing is already eligible.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Fresh parse, convert and trigger from actual block declaration against player and planeswalker.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Multiple blockers produce the correct trigger count.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Check removal from combat/source leaving battlefield and last-known attacked recipient against card wording.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Retain all other card abilities and pass full card gates."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "scripts/paragraph/reparse.py",
+      "scripts/paragraph/test_factory_ng_8c3132d96a.py"
+    ],
+    "forbidden_paths": [
+      "backend/",
+      "backend/data/",
+      "scripts/paragraph/slotparse_oneshot.py"
+    ]
+  },
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "source": {
+    "clean": true,
+    "repository": "/opt/development/test/openmagic",
+    "revision": "c2596268735df4fc8dd88b7033d4da211b27dea0"
+  },
+  "supersedes": "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v1",
+  "title": "Staged card trial: Rakdos Roustabout",
+  "work_type": "map"
+}
+
+## Exact source excerpts
+### scripts/paragraph/reparse.py:1633-1652 (current parser handoff/verb branch)
+ 1633 def map_atom(verb, args, allow_multi_search=False, kind=None, card_name=None):
+ 1634     """-> (effect, value, target_filter|None) or None if unmappable.
+ 1635 
+ 1636     kind (optional): 'activated' | 'triggered' | 'spell_oneshot', the calling
+ 1637     paragraph's classification. Only consulted where a verb's mappable target
+ 1638     shape genuinely differs by kind (see 'exile' and 'copy' below) — every
+ 1639     other verb ignores it, so omitting it keeps their existing behavior
+ 1640     unchanged.
+ 1641     """
+ 1642     if args is None:
+ 1643         return None
+ 1644     if verb == 'reanimate':
+ 1645         # ticket map.plan-reanimate-patch-up-db7e26257e (verb_unmapped:reanimate):
+ 1646         # "Return up to three target creature cards with total mana value 3
+ 1647         # or less from your graveyard to the battlefield." (Patch Up) is a
+ 1648         # REAL up-to-N multi-target reanimate — mirrors tap's "up to two
+ 1649         # target creatures" optional+max_count target-filter convention
+ 1650         # (ticket map.plan-tap-feeling-of-dread-5e1cc3cd8a) plus the newly
+ 1651         # landed engine.auto-return-from-graveyard-total-mana-value-cap-
+ 1652         # f3dac44f3a value.max_total_mana_value cap on the chosen targets'
+
+### scripts/paragraph/reparse.py:8442-8480 (current parser handoff/verb branch)
+ 8442 def _damage_x_count(ch, kind=None, card_name=None):
+ 8443     ch = ch.strip()
+ 8444     ch, rider_n = _DAMAGE_X_GAIN_RIDER_RE.subn('', ch)
+ 8445     if rider_n > 1 or ' and you gain ' in ch.lower():
+ 8446         return None
+ 8447     ch, rider_scry_n = _DAMAGE_X_SCRY_RIDER_RE.subn('', ch)
+ 8448     if rider_scry_n > 1 or ' and you scry ' in ch.lower():
+ 8449         return None
+ 8450     if rider_n and rider_scry_n:
+ 8451         return None  # two riders at once: not a shape seen yet, stay honest
+ 8452     m = _DAMAGE_X_COUNT_SPLIT_RE.match(ch)
+ 8453     if not m:
+ 8454         return None
+ 8455     head = m.group(1)
+ 8456     tail = (m.group(2) or m.group(3) or '').strip().rstrip('.').strip()
+ 8457     if not tail:
+ 8458         return None
+ 8459     spec = _addmana_count_spec(tail, card_name=card_name)
+ 8460     if spec is None:
+ 8461         return None
+ 8462     head_norm = re.sub(r'^deals? x damage\b', 'deals 1 damage', head, flags=re.IGNORECASE)
+ 8463     hv, ht = O.parse_atom(head_norm)
+ 8464     if hv != 'damage' or not ht:
+ 8465         return None
+ 8466     base = map_atom(hv, ht, kind=kind)
+ 8467     if base is None or base[0] != 'damage':
+ 8468         return None
+ 8469     eff, value, tgt = base
+ 8470     if '_rider_gain_life' in value:
+ 8471         return None
+ 8472     new_value = {k: v for k, v in value.items() if k != 'amount'}
+ 8473     new_value['amount_count'] = spec
+ 8474     if rider_n:
+ 8475         # dict(spec): the rider's life_gain atom must own an independent
+ 8476         # copy — the fold rewrites amount_count in place per atom.
+ 8477         new_value['_rider_gain_life'] = {'amount_count': dict(spec)}
+ 8478     if rider_scry_n:
+ 8479         new_value['_rider_scry'] = {'amount_count': dict(spec)}
+ 8480     return (eff, new_value, tgt)
+
+### scripts/paragraph/reparse.py:2353-2361 (current parser handoff/verb branch)
+ 2353     if verb == 'damage':
+ 2354         if any(
+ 2355             isinstance(value, str)
+ 2356             and value.strip().rstrip('.,').lower().endswith(
+ 2357                 'target creature with flying'
+ 2358             )
+ 2359             for value in args.values()
+ 2360         ):
+ 2361             return ('damage', {'amount': 6}, {'filter': 'flying_creature'})
+
+### scripts/paragraph/reparse.py:3642-3781 (current parser handoff/verb branch)
+ 3642     if verb == 'damage':
+ 3643         raw_amt = args.get('amount')
+ 3644         n = _amt(raw_amt)
+ 3645         to = args.get('to') or {}
+ 3646         raw = (args.get('raw_to') or '').strip().rstrip('.').lower()
+ 3647         _raw_rider_gl = args.get('_rider_gain_life')
+ 3648         # ticket #5330 (verb_unmapped:damage / "deals x damage" family): a
+ 3649         # literal 'x' rider amount (Consume Spirit/Swallowing Plague class:
+ 3650         # "~ deals X damage to <target> and you gain X life", no "where X
+ 3651         # is..." tail — the rider shares the SAME dynamic X as the main
+ 3652         # damage, not a separate fixed amount). _amt('x') deliberately
+ 3653         # returns None (not yet emittable as a literal), which used to make
+ 3654         # `rider_gl` falsy and silently DROP this rider entirely — the
+ 3655         # "not rider_gl" gates below would happily take the bare-X path
+ 3656         # thinking no rider existed at all (caught verifying Swallowing
+ 3657         # Plague's proposed record: the "gain X life" clause never shipped).
+ 3658         # Tracked separately so the gates can tell "no rider" from "rider
+ 3659         # present but not a literal number" apart.
+ 3660         rider_gl_same_x = bool(_raw_rider_gl) and str(_raw_rider_gl).strip().lower() == 'x'
+ 3661         rider_gl = _amt(_raw_rider_gl) if _raw_rider_gl and not rider_gl_same_x else None
+ 3662         # task-2378 (verb_unmapped:damage): a literal 'X' amount with no
+ 3663         # defining "where X is..." tail (that shape is split off into its own
+ 3664         # amount_count atom by _damage_x_count before map_atom ever runs) is
+ 3665         # the SPELL's own announced {X} (Rule 107.3a) — StackObject.
+ 3666         # EffectValue["x_value"], read via SpellEffect.AmountFrom ->
+ 3667         # resolveSpellAmount (game/gamestate.go), already proven correct for
+ 3668         # this exact shape (Banefire's existing v1 record). That resolver
+ 3669         # only fires on the struct-typed v1 SpellEffect path (buildMainSpell-
+ 3670         # Effect's "damage" case, cards/converter.go) a single non-sequence
+ 3671         # spell atom rides — so this must stay confined to a bare 'target'-
+ 3672         # dict atom (never 'each'/'controller'/player-string scoping, which
+ 3673         # force the sequence walker's executeDamageEffect, whose
+ 3674         # getIntValue("amount",...) never reads amount_from) and to
+ 3675         # kind=='spell_oneshot' (activated/triggered mirror x_value too, but
+ 3676         # ExecuteAbilityEffect has no amount_from fold — X there stays an
+ 3677         # honest miss).
+ 3678         use_x_value = (n is None and kind == 'spell_oneshot' and not rider_gl and not rider_gl_same_x
+ 3679                        and str(raw_amt).strip().lower() == 'x' and bool(to.get('target')))
+ 3680         # task-2428 (verb_unmapped:damage): the SAME bare-X-is-the-spell's-own-
+ 3681         # {X} reasoning as use_x_value just above, but for the MASS-SWEEP
+ 3682         # shapes ("~ deals X damage to each creature[ with/without flying][
+ 3683         # and each player]." — Earthquake/Hurricane/Crypt Rats class) instead
+ 3684         # of a single explicit target. Those always ride the v2 SEQUENCE path
+ 3685         # (multi-key 'all'/'filter'/'each' value dicts never fit the v1
+ 3686         # struct SpellEffect), so — unlike use_x_value's amount_from, which
+ 3687         # only the struct path reads — this rides amount_count:{'count':
+ 3688         # 'x_value'} instead, the SAME closed spec EvalDynamicAmountEv already
+ 3689         # folds generically at the sequence-walker chokepoint (proven by
+ 3690         # _damage_x_count's identical amount_count use for the "where X is
+ 3691         # ..." tail shape below).
+ 3692         #
+ 3693         # ticket #5330 (verb_unmapped:damage / "deals x damage" family): ALSO
+ 3694         # admit kind=='activated' here — the SAME widening pump's own
+ 3695         # symmetric-X branch already carries (task-2449, "+X/+X" ->
+ 3696         # pt_amount_count:{'count':'x_value'} for kind in ('spell_oneshot',
+ 3697         # 'activated'), reparse.py's pump verb above). An activated ability's
+ 3698         # bare X is unambiguous exactly when the ability announces its OWN
+ 3699         # {X} as part of ITS OWN cost (Latulla/Boommobile/Crypt Rats/Silklash
+ 3700         # Spider class: "{X}[, ...], {T}: ~ deals X damage to ...") —
+ 3701         # activated_abilities.go mirrors that paid X onto StackObject.
+ 3702         # EffectValue["x_value"] the identical way a spell's announced {X}
+ 3703         # does (Card.XValue, read by dynamic_amount.go's "x_value" case), and
+ 3704         # ExecuteAbilityEffect folds amount_count generically for ANY effect
+ 3705         # BEFORE the switch dispatch (ability_effects.go ~line 2063) — the
+ 3706         # same chokepoint pump_self_eot/pump_until_eot already prove this
+ 3707         # exact spec resolves correctly off an activated ability's source.
+ 3708         # Still excluded: 'triggered' — a triggered ability has no activation
+ 3709         # cost of its own to announce an X with, so a bare X there remains an
+ 3710         # unbound referent (honest miss).
+ 3711         use_x_sweep = (n is None and kind in ('spell_oneshot', 'activated') and not rider_gl and not rider_gl_same_x
+ 3712                        and str(raw_amt).strip().lower() == 'x' and not to.get('target'))
+ 3713         # ticket #5330: the single-explicit-TARGET sibling of use_x_sweep's
+ 3714         # activated widening just above (Latulla, Keldon Overseer/Knollspine
+ 3715         # Invocation/Crimson Hellkite/Nin, the Pain Artist class — "{X}[, ...
+ 3716         # ]: ~ deals X damage to any target/target creature."). Can't reuse
+ 3717         # use_x_value's amount_from (struct-typed spell-only path, per the
+ 3718         # comment above) — activated rides amount_count instead, identically
+ 3719         # to use_x_sweep, just with an explicit target dict rather than a
+ 3720         # mass sweep.
+ 3721         use_x_activated_target = (n is None and kind == 'activated' and not rider_gl and not rider_gl_same_x
+ 3722                        and str(raw_amt).strip().lower() == 'x' and bool(to.get('target')))
+ 3723         # ticket #5330: the SAME bare-X-explicit-target shape as use_x_value
+ 3724         # just above, but WITH a same-X "and you gain X life" rider attached
+ 3725         # (Consume Spirit/Swallowing Plague class). A rider FORCES the
+ 3726         # sequence walker (two atoms: damage + life_gain, never the single-
+ 3727         # struct SpellEffect path use_x_value's amount_from depends on), so
+ 3728         # this rides amount_count:{'count':'x_value'} instead — identically
+ 3729         # to use_x_sweep/use_x_activated_target above, just gated on the
+ 3730         # rider's presence rather than kind.
+ 3731         use_x_value_rider = (n is None and kind == 'spell_oneshot' and rider_gl_same_x
+ 3732                        and str(raw_amt).strip().lower() == 'x' and bool(to.get('target')))
+ 3733         # task-2378 (verb_unmapped:damage): "This creature deals damage equal
+ 3734         # to its power/toughness to <target>" — SELF_REF_RE already
+ 3735         # normalized the clause's own subject ("This creature"/the card's own
+ 3736         # name) to '~' before O.parse_atom ever saw this text, so 'its' here
+ 3737         # unambiguously binds to that SAME '~' subject, never an event
+ 3738         # antecedent (contrast the event_subject_power ref_atom block below,
+ 3739         # which fires on a DIFFERENT clause shape — a ", where X is that
+ 3740         # creature's power" tail hung off a trigger-established non-self
+ 3741         # subject). Resolves via the source_power/source_toughness
+ 3742         # amount_count specs (game/dynamic_amount.go), folded generically at
+ 3743         # BOTH dispatch chokepoints (ExecuteAbilityEffect AND
+ 3744         # ApplySpellEffectWithRuntime), so — unlike the x_value shape above,
+ 3745         # confined to the struct-typed spell path — this works for activated
+ 3746         # and triggered alike. Not spell_oneshot: a spell has no "This
+ 3747         # creature" self subject to normalize (SELF_REF_RE only fires on
+ 3748         # activated/triggered bodies), so amount_expr wouldn't take this
+ 3749         # shape there anyway.
+ 3750         amount_expr = str(args.get('amount_expr') or '').strip().lower()
+ 3751         use_source_count = None
+ 3752         # raw_amt (not n): 'amount' is entirely ABSENT from args for this
+ 3753         # clause shape (the VERBS regex captures amount_expr/to instead, no
+ 3754         # numeral group at all) — _amt(None) returns its default of 1, which
+ 3755         # would silently ship a hardcoded amount:1 instead of routing through
+ 3756         # amount_count if this checked `n is None` instead.
+ 3757         if raw_amt is None and kind in ('activated', 'triggered') and amount_expr in ('its power', 'its toughness'):
+ 3758             # task-2395 (verb_unmapped:damage_by): the 'damage_by' delegation
+ 3759             # below (event-subject referent case — "it deals damage equal to
+ 3760             # its power to X" where 'it' is a DIFFERENT card the trigger
+ 3761             # established, Warstorm Surge class) sets event_subject_amount so
+ 3762             # 'its power' resolves off the triggering event's subject card
+ 3763             # instead of the ability's own source — using source_power here
+ 3764             # would silently read the WRONG creature's power (usually the
+ 3765             # noncreature permanent carrying the trigger itself, e.g.
+ 3766             # Warstorm Surge's own 0 power).
+ 3767             if args.get('event_subject_amount'):
+ 3768                 use_source_count = 'event_subject_power' if amount_expr == 'its power' else 'event_subject_toughness'
+ 3769             else:
+ 3770                 use_source_count = 'source_power' if amount_expr == 'its power' else 'source_toughness'
+ 3771         # task-2373 (grant_nested_triggered spot-check): an UNRECOGNIZED
+ 3772         # amount_expr ("that spell's mana value", "the number of...", ...)
+ 3773         # left raw_amt None and use_source_count None, but `n` had already
+ 3774         # silently defaulted to 1 via _amt(None)'s default=1 fallback — the
+ 3775         # exact trap the comment above warns about, just one gate too late.
+ 3776         # The `n is None` bailout below never caught it (n was 1, not None),
+ 3777         # so an unmappable dynamic amount shipped as a hardcoded amount:1
+ 3778         # (Passionate Archaeologist: "deals damage equal to that spell's
+ 3779         # mana value" -> flat 1 damage, verified wrong against Oracle text).
+ 3780         # raw_amt is None only for this amount_expr clause shape (the plain-
+ 3781         # number VERBS pattern always captures a numeral/'x' into raw_amt),
+
+### scripts/paragraph/slotparse_oneshot.py:228-230 (actual upstream atom parser)
+  228  ('damage',    rf'^deals? ({NUM}) damage to (.+?) and you gain ({NUM}) life$',
+  229                lambda m: {'amount': m.group(1), 'to': parse_object(m.group(2)), 'raw_to': m.group(2),
+  230                           '_rider_gain_life': m.group(3)} if parse_object(m.group(2)) else None),
+
+### scripts/paragraph/slotparse_oneshot.py:236-237 (actual upstream atom parser)
+  236  ('damage',    rf'^deals? ({NUM}) damage to (.+?)( and ({NUM}) damage to (.+))?$',
+  237                lambda m: {'amount': m.group(1), 'to': parse_object(m.group(2)), 'raw_to': m.group(2)} if parse_object(m.group(2)) else None),
+
+### scripts/paragraph/slotparse_oneshot.py:289-290 (actual upstream atom parser)
+  289  ('damage',    rf'^deals? damage equal to (.{{3,50}}) to (.+)$',
+  290                lambda m: {'amount_expr': m.group(1)[:40], 'to': parse_object(m.group(2)), 'raw_to': m.group(2)} if parse_object(m.group(2)) else None),
+
+### scripts/paragraph/slotparse_oneshot.py:296-297 (actual upstream atom parser)
+  296  ('damage',    rf'^deals? damage to (.+?) equal to (.{{3,80}})$',
+  297                lambda m: {'to': parse_object(m.group(1)), 'raw_to': m.group(1), 'amount_expr': m.group(2)[:60]} if parse_object(m.group(1)) else None),
+
+### scripts/paragraph/slotparse_oneshot.py:769-816 (actual upstream atom parser)
+  769 def parse_atom(cl):
+  770     """one clause -> (verb, typed|None) or (None, None) if verb unknown"""
+  771     c = cl.strip().rstrip('.').strip()
+  772     if not c: return ('empty', {})
+  773     l = c.lower()
+  774     # normalize leading "you" subject only — "it"/"~" are meaningful referents for pump/grant
+  775     l = re.sub(r'^(you|~) ', '', l) if re.match(r'^(you|~) (draw|gain \d|gain x|lose|deal|create|mill|scry|surveil|may)', l) else l
+  776     # task-2826 (verb_unmapped:? / until end of): a leading "until end of
+  777     # turn, " duration prefix (e.g. "until end of turn, this creature gets
+  778     # +2/+2 and gains lifelink") is printed FIRST but semantically modifies
+  779     # the whole clause.  The pump/grant_eot/becomes_creature verb patterns
+  780     # expect "until end of turn" as a trailing suffix, so move the prefix
+  781     # to the end: "this creature gets +2/+2 and gains lifelink until end of
+  782     # turn".  This preserves the printed semantics exactly — the duration
+  783     # still applies to the same effect — while letting the existing regex
+  784     # verbs fire without widening each one individually.
+  785     _dur = None
+  786     dm = re.match(r'^(until end of turn),\s+', l)
+  787     if dm:
+  788         _dur = dm.group(1)
+  789         l = l[dm.end():]
+  790     first = None
+  791     for verb, rx, fn in VERBS:
+  792         m = re.match(rx, l)
+  793         if m:
+  794             try:
+  795                 t = fn(m)
+  796             except Exception:
+  797                 t = None
+  798             if t is not None:
+  799                 return (verb, t)          # first verb whose args fully type wins
+  800             if first is None:
+  801                 first = (verb, None)      # remember verb-recognized/args-raw fallback
+  802     # If we stripped a leading "until end of turn, " and no verb fully
+  803     # matched the bare clause, retry with " until end of turn" appended —
+  804     # pump/grant_eot patterns require the suffix to anchor their regex.
+  805     if _dur and first is None:
+  806         l2 = l + ' until end of turn'
+  807         for verb, rx, fn in VERBS:
+  808             m2 = re.match(rx, l2)
+  809             if m2:
+  810                 try:
+  811                     t2 = fn(m2)
+  812                 except Exception:
+  813                     t2 = None
+  814                 if t2 is not None:
+  815                     return (verb, t2)
+  816     return first or (None, None)
+
+### scripts/paragraph/reparse.py:19041-19086 (actual upstream atom parser)
+19041                 # controller QUALIFIER of the copy target instead of the
+19042                 # target itself. Scoped to the token_copy phrase only:
+19043                 # map_atom's token_copy branch accepts the rewritten
+19044                 # "an opponent controls" suffix TRIGGERED-only, riding
+19045                 # TriggerTargetFilter.Controller=="opponent" (task-2418's
+19046                 # filterTargetsByTriggerQualifier already filters it).
+19047                 ch = re.sub(r"^(create a token that's a copy of target "
+19048                             r"[a-z][a-z\- ]*?) that player controls\b",
+19049                             r'\1 an opponent controls', ch)
+19050                 # ticket map.plan-tap-nature-s-will-4b94ed47c0
+19051                 # (verb_unmapped:tap): "tap all lands that player controls
+19052                 # and untap all lands you control" (Nature's Will) — same
+19053                 # 2-player pin-down as the substitutions above ("that
+19054                 # player" is never the trigger controller under
+19055                 # opp_established), rendered as the mass tap's controller
+19056                 # tail. map_atom's tap_all branch already collapses "an
+19057                 # opponent controls" to controller:'opponent' for its
+19058                 # {'each':...} shape (the same vocabulary untap_all's mass
+19059                 # branch uses), so rewriting the tail here lets that path
+19060                 # fire instead of an honest miss on the unrecognized "that
+19061                 # player controls" phrase.
+19062                 ch = re.sub(r'\ball lands that player controls\b',
+19063                             'all lands an opponent controls', ch)
+19064             # ticket-2827 ("spend this mana" family, Abstract Paintmage class):
+19065             # strip and decode the RestrictedMana marker _merge_addmana_
+19066             # restriction fused onto this clause (if any), same as the
+19067             # activated-body loop below — the marker bytes would otherwise
+19068             # corrupt add-mana's own regexes.
+19069             mana_restrict = None
+19070             if _MANARESTRICT_MARK in ch:
+19071                 ch, _, _enc = ch.partition(_MANARESTRICT_MARK)
+19072                 mana_restrict = json.loads(_enc)
+19073             verb, typed = O.parse_atom(ch)
+19074             # triggered abilities execute via ability_effects.go too — same
+19075             # Remaining-based multi-pick search support as activated (task 1864).
+19076             mapped = map_atom(verb, typed, allow_multi_search=True, kind='triggered') if verb else None
+19077             if mapped is None and verb == 'put_counters':
+19078                 mapped = _put_counters_per_count(ch, kind='triggered')
+19079             if mapped is None and verb == 'damage':
+19080                 mapped = _damage_x_count(ch, kind='triggered', card_name=name)
+19081             if mapped is None and verb == 'pump':
+19082                 mapped = _pump_attacking_opponent_other(ch, kind='triggered')
+19083             if mapped is None and verb == 'pump':
+19084                 mapped = _recover_selfref_tribal_pump(ch, name, kind='triggered')
+19085             if mana_restrict is not None and mapped and mapped[0] == 'add_mana':
+19086                 meff, mval, mtgt = mapped
+
+### scripts/paragraph/reparse.py:1469-1600
+ 1469                 value['untap'] = True
+ 1470                 idx += 1
+ 1471             else:
+ 1472                 verb, typed = O.parse_atom(ch)
+ 1473                 if verb == 'untap' and typed and typed.get('obj') == {'object': {'filter': 'referent'}}:
+ 1474                     value['untap'] = True
+ 1475                     idx += 1
+ 1476     if idx < len(clauses):
+ 1477         link, may, ch = clauses[idx]
+ 1478         if not may and link == 'seq':
+ 1479             # task-2452 (round 4): leading-duration compound rider — "Until
+ 1480             # end of turn, it gains KW[, KW...] and becomes a <Subtype> in
+ 1481             # addition to its other types." (Coercive Recruiter). The
+ 1482             # subtype grant rides ContinuousEffect.AddSubType (Life and
+ 1483             # Limb's Rule 613 Layer 4 additive field — live-evaluated,
+ 1484             # reverts with the effect), registered AffectsSpecific +
+ 1485             # UntilEOT exactly like the keyword rider, so it shares the
+ 1486             # keyword rider's bundling rationale (a standalone
+ 1487             # grant_subtype atom can't be target-threaded to the stolen
+ 1488             # creature). canon_subtype gates the word against the real
+ 1489             # subtype list — same honesty rule as the target-subtype form.
+ 1490             bm = re.match(r'^until end of turn, (?:it|that creature) gains '
+ 1491                           r'([a-z][a-z ,]*?) and becomes an? ([a-z]+) in '
+ 1492                           r'addition to its other types\.?$', ch.strip())
+ 1493             bst = canon_subtype(bm.group(2)) if bm else None
+ 1494             bkws = (_split_kw_list(bm.group(1)) if bm else [])
+ 1495             if bm and bst and bkws and all(KW_CANON.match(k) for k in bkws):
+ 1496                 value['keywords'] = bkws
+ 1497                 value['add_subtype'] = bst
+ 1498                 idx += 1
+ 1499             else:
+ 1500                 verb, typed = O.parse_atom(ch)
+ 1501                 if verb == 'grant_eot' and typed and typed.get('obj') == {'object': {'filter': 'referent'}}:
+ 1502                     kws = _split_kw_list(str(typed.get('what', '')))
+ 1503                     if kws and all(KW_CANON.match(k) for k in kws):
+ 1504                         value['keywords'] = kws
+ 1505                         idx += 1
+ 1506     atom = {'effect': 'gain_control', 'target': tgt}
+ 1507     if value:
+ 1508         atom['value'] = value
+ 1509     return atom, idx
+ 1510 
+ 1511 # task-1874: "untap ..." shares parse_subject's per-word type-collapse trap
+ 1512 # with exile (see exile's own comment) — an uncomma'd run of >=1 type words
+ 1513 # ("artifact creature", "creatures and lands") only ever survives as the
+ 1514 # LAST one, silently dropping any earlier restriction. Two-or-more real type
+ 1515 # words anywhere in the raw remainder means the typed dict already lost
+ 1516 # information map_atom can't recover, so both the single-target and mass
+ 1517 # ('each'/'all') untap branches below refuse to emit rather than ship a
+ 1518 # narrowed (or widened) filter.
+ 1519 _UNTAP_TYPE_WORD_RE = re.compile(
+ 1520     r'\b(creature|artifact|enchantment|land|permanent|planeswalker|spell|card|'
+ 1521     r'token|aura|equipment|vehicle|instant|sorcery|battle)s?\b')
+ 1522 def _untap_raw_ambiguous(raw):
+ 1523     return len(_UNTAP_TYPE_WORD_RE.findall(str(raw or ''))) >= 2
+ 1524 
+ 1525 # subtype-corruption round 2 (2026-08-10, Aku Djinn: "put a +1/+1 counter
+ 1526 # on each creature EACH OPPONENT CONTROLS"): T.parse_subject's tail regex
+ 1527 # (slotparse_triggered.py) only strips a controller clause ("you control"/
+ 1528 # "an opponent controls"/...) when it is the very LAST thing in the subject
+ 1529 # phrase, and the LEADING modifier-word loop only strips a leading "each"
+ 1530 # once — so a mid-clause "each opponent controls" (the object's OWN "each"
+ 1531 # plus the controller clause) never gets recognized as a controller clause
+ 1532 # at all and instead falls into the per-word loop as three bogus pipe-joined
+ 1533 # subtype tokens ('Each','Opponent','Controls'). That's exactly the
+ 1534 # "You"/"That"/"Each" corruption class the clean_subject guard below now
+ 1535 # catches and turns into an honest miss — correct, but put_counters' each-
+ 1536 # shape executor (executePutCounterEffect, game/ability_effects.go) already
+ 1537 # understands controller:'opponent' just fine (task-1979: "your opponents
+ 1538 # control"/"you don't control" already route there). Recovering the
+ 1539 # controller HERE — by re-testing the leaked subtype tokens against the same
+ 1540 # controller-phrase vocabulary, rather than widening the shared parse_subject
+ 1541 # tail regex (out of this pass's write scope: reparse.py + carddb only) —
+ 1542 # lets that already-wired case actually fire instead of an avoidable miss.
+ 1543 _EACH_CONTROLLER_TAIL_RE = re.compile(
+ 1544     r'^(you control|you own|an opponent controls|each opponent controls|'
+ 1545     r'your opponents control|opponents control)$')
+ 1546 
+ 1547 def _recover_each_controller(e):
+ 1548     """T.parse_subject dict -> same dict with a controller clause that
+ 1549     leaked into 'subtype' as raw pipe-joined words (because it wasn't at the
+ 1550     tail of the WHOLE subject phrase, just of this object's own "each X ...
+ 1551     controls" clause) resolved into 'controller' instead; the input
+ 1552     unchanged for every other shape (already has a 'controller', has no
+ 1553     'subtype', or the joined subtype text isn't one of the exact recognized
+ 1554     controller phrases)."""
+ 1555     if not isinstance(e, dict) or e.get('controller') or not e.get('subtype'):
+ 1556         return e
+ 1557     phrase = ' '.join(t.lower() for t in e['subtype'].split('|'))
+ 1558     if _EACH_CONTROLLER_TAIL_RE.match(phrase):
+ 1559         e = dict(e)
+ 1560         del e['subtype']
+ 1561         e['controller'] = 'you' if 'you control' in phrase or 'you own' in phrase else 'opponent'
+ 1562     return e
+ 1563 
+ 1564 # ticket map.plan-pump-moonshaker-cavalry-6aa494fa4a (verb_unmapped:pump):
+ 1565 # "creatures you control gain KEYWORD and get +X/+X until end of turn, where
+ 1566 # X is the number of creatures you control" (Moonshaker Cavalry class). The
+ 1567 # pump regex's non-greedy object group backtracks past the mid-clause "you
+ 1568 # control gain KEYWORD" (a controller clause immediately followed by the
+ 1569 # keyword-grant verb — the regex's own trailing "and gains K" tail only
+ 1570 # recognizes that AFTER the P/T, never before it) straight into
+ 1571 # O.parse_object, which falls through to parse_subject's per-word loop:
+ 1572 # parse_subject only strips a controller clause when it's the very TAIL of
+ 1573 # the phrase (same gap _recover_each_controller documents above), so a
+ 1574 # mid-clause one has nowhere to land and instead leaks as bogus pipe-joined
+ 1575 # subtype tokens ('You','Control','Gain',<KEYWORD words>). Recognize that
+ 1576 # exact leaked prefix and recover the real mass recipient plus the granted
+ 1577 # keyword phrase; anything else (no leaked prefix, a real subtype word ahead
+ 1578 # of it, an unrecognized keyword tail) stays an honest miss.
+ 1579 _PUMP_MASS_LEAKED_YOU_CONTROL_GAIN = ('you', 'control', 'gain')
+ 1580 
+ 1581 def _recover_pump_mass_where_x_keyword(o):
+ 1582     """parse_object's {'object': {...}} dict for a mass pump's leaked
+ 1583     "creatures you control gain KEYWORD and" text -> (recipient filter dict,
+ 1584     keyword phrase) or (None, None) if it isn't that exact leaked shape."""
+ 1585     if not isinstance(o, dict) or o.get('filter') != 'creature' or not o.get('subtype'):
+ 1586         return None, None
+ 1587     parts = [p.lower() for p in o['subtype'].split('|')]
+ 1588     if len(parts) < 4 or tuple(parts[:3]) != _PUMP_MASS_LEAKED_YOU_CONTROL_GAIN:
+ 1589         return None, None
+ 1590     kw = ' '.join(parts[3:])
+ 1591     if not KW_CANON.match(kw):
+ 1592         return None, None
+ 1593     return {'filter': 'creature', 'controller': 'you'}, kw
+ 1594 
+ 1595 # ticket map.plan-grant-eot-plague-nurse-70d47d5362 (verb_unmapped:grant_eot):
+ 1596 # "Each other creature you control with toxic gains toxic N until end of
+ 1597 # turn" (Plague Nurse class) — a VALUED keyword grant ("toxic N", not a plain
+ 1598 # boolean keyword) to a mass "other creature you control with toxic"
+ 1599 # recipient. parse_subject (slotparse_triggered.py) has no vocabulary for a
+ 1600 # mid-clause "with toxic" keyword-possession qualifier (its KEYWORD_QUAL_RE
+
+### backend/game/ability_effects.go:4991-5021 [game.GameState.ExecuteAbilityEffect#case:damage; ebbdca7d10a642d1061b8502f415815283fad570]
+ 4991 	case "damage", "deal_damage_target", "damage_target_player":
+ 4992 		// deal_damage_target is a Speed-1 spelling variant (task-2121,
+ 4993 		// [deal_damage_target] Chandra, Legacy of Fire class): the parser
+ 4994 		// names an explicit "deals N damage to target ..." line after the
+ 4995 		// target it names, distinct from the bare "damage" line already
+ 4996 		// registered — same executor, both already accept targets.
+ 4997 		//
+ 4998 		// damage_target_player is the player-half sibling of that same
+ 4999 		// variant family (ticket #4938, REPARSE-MAP fixed_numeric_damage /
+ 5000 		// capability 117, Annie Joins Up class): "deals N damage to target
+ 5001 		// player/opponent". It routes into the SAME executeDamageEffect,
+ 5002 		// whose explicit-player-target branch (Target.IsPlayer) reduces
+ 5003 		// that player's life by exactly N — no separate executor.
+ 5004 		//
+ 5005 		// fixed_numeric_damage referent round (ticket #4671, Ashmouth Hound
+ 5006 		// class: "Whenever this creature blocks or becomes blocked by a
+ 5007 		// creature, this creature deals 1 damage to that creature."): a
+ 5008 		// referential damage atom whose printed target is the ANTECEDENT
+ 5009 		// "that creature" carries target_ref=="event_subject". When no
+ 5010 		// player-chosen target survived conversion, bind that antecedent
+ 5011 		// directly from the stamped trigger-event subject
+ 5012 		// (stackObj.EventCard) before dispatching — exactly like the
+ 5013 		// exile_then_return local fallback above — so the atom resolves
+ 5014 		// against the blocked/blocking creature instead of silently
+ 5015 		// no-op'ing on an empty target list (Rule 608.2b analog).
+ 5016 		if len(targets) == 0 {
+ 5017 			if ref, _ := effectValue["target_ref"].(string); ref == "event_subject" && stackObj != nil && stackObj.EventCard != nil {
+ 5018 				targets = []Target{{IsCard: true, CardID: stackObj.EventCard.ID}}
+ 5019 			}
+ 5020 		}
+ 5021 		return gs.executeDamageEffect(controller, source, effectValue, targets)
+
+## Exact parser probes from this source revision
+Oracle text for 'Rakdos Roustabout' -> "Whenever this creature becomes blocked, it deals 1 damage to the player or planeswalker it's attacking."
+reparse_card(load_card('Rakdos Roustabout')) -> {"abilities": [], "eligible": false, "keywords": [], "misses": [["verb_unmapped:damage", "~ deals 1 damage to the player or planeswalker it's attacking."]], "name": "Rakdos Roustabout"}
+Actual map_atom calls during this card parse (use these argument shapes, not guessed ones):
+[
+  {
+    "args": null,
+    "atom_parser": {
+      "clause": "~ deals 1 damage to the player or planeswalker it's attacking.",
+      "function": "parse_atom",
+      "path": "scripts/paragraph/slotparse_oneshot.py",
+      "verb": "damage"
+    },
+    "caller_line": 19076,
+    "clause": "~ deals 1 damage to the player or planeswalker it's attacking.",
+    "kind": "triggered",
+    "result": null,
+    "verb": "damage"
+  }
+]
+
+## Required new paths
+scripts/paragraph/test_factory_ng_8c3132d96a.py
+Every path listed above does not exist in this clone and MUST use
+`<<<NEWFILE path`, never `<<<FILE` with SEARCH/REPLACE.
+
+## OUTPUT FORMAT
+Return either a structured verdict or only edit blocks. `NEEDS_PRIMITIVE` is
+legal only for one atomic missing behavior shared by the ticket scope:
+VERDICT: NEEDS_PRIMITIVE|SEMANTIC_GAP|AMBIGUOUS|NOT_A_SHAPE
+For NEEDS_PRIMITIVE add exactly one single-line JSON object and one reason:
+CAPABILITY_JSON: {"key":"lowercase_snake_case","summary":"short description","specification":{"required_behavior":"one precise atomic behavior","source_misses":[{"card":"exact card name","paragraph":"exact Oracle paragraph","required_behavior":"same precise atomic behavior"}],"negative_examples":["adjacent behavior that must not change"],"expected_unlock":0}}
+REASON: one line
+
+Otherwise return only edit blocks:
+<<<FILE path/relative/to/repo
+<<<SEARCH
+exact existing lines
+===REPLACE
+replacement lines
+>>>END
+<<<NEWFILE path/relative/to/repo
+full file content
+>>>END
+
+Do not use Markdown fences, Git conflict markers, prose, or tool calls.
+Keep each SEARCH region to the smallest unique 3-12 exact lines; never copy a
+whole evidence excerpt into SEARCH.
+

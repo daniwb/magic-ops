@@ -1,0 +1,12 @@
+[
+  {
+    "ticket_id": "ticket:map.operator-scarab-feast-recovery-sep15/v1",
+    "ticket_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/scarab-feast/ticket.json",
+    "proposal": "docs/factory-ng/candidates/proposal-076eaf007349495eb606fba662e03f41.json",
+    "identity": {
+      "worker": "operator",
+      "model": "operator-correction-no-worker-provider-run",
+      "profile": "codex-constrained@1.1.0"
+    }
+  }
+]

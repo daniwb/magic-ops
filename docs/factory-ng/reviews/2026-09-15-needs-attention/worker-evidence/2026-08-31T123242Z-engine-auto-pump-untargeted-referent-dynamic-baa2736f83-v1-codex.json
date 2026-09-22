@@ -1,0 +1,67 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-engine-auto-pump-untargeted-referent-dynamic-baa2736f83-v1-taesh4g_",
+    "candidate_commit": "edccfbd20b7c852d5cc40afb58da6bfb648a5f80",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "422dec148baa9f543115eb890764cdcab25bdfb9",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "codex-constrained@1.0.0",
+    "resolved_model": "gpt-5.6-luna",
+    "telemetry": {
+      "bounded_repair_attempted": true,
+      "cache_read_tokens": 19968,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 24445,
+      "input_tokens": 45964,
+      "output_tokens": 1346,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      }
+    },
+    "worker": "codex"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed_model_protocol",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-31T123242Z-engine-auto-pump-untargeted-referent-dynamic-baa2736f83-v1-codex.raw.json",
+      "sha256": "sha256:7cdbe082e047f5b983496b7756e80d2d968383401109d202a5d626c03e47a243"
+    },
+    {
+      "kind": "bounded_repair",
+      "path": "docs/factory-ng/runs/2026-08-31T123242Z-engine-auto-pump-untargeted-referent-dynamic-baa2736f83-v1-codex.repair.raw.json",
+      "sha256": "sha256:2a73a5968fd7631e6d017d1445c23020900a0259b1ec639ed54e2592e7608262"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-pump-untargeted-referent-dynamic-baa2736f83/v1",
+    "path": "docs/factory-ng/tickets/engine-auto-pump-untargeted-referent-dynamic-baa2736f83-v1.json",
+    "sha256": "sha256:7489c2fe01e58f7de0cf4a2c9538a32513ac46d4932456dedaa1298123ca2f96"
+  }
+}

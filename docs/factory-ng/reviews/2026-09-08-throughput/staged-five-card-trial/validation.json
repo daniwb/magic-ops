@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-08T19:52:51.375626+00:00",
+  "test_counts": {
+    "cohort": 7,
+    "controller": 65,
+    "reliability": 19,
+    "repair_lineage": 8,
+    "staged_runner": 15
+  },
+  "total": 114,
+  "profiles_passed": 5,
+  "checks": [
+    "Python compile",
+    "scoped git diff --check",
+    "controller suite uses isolated source checkout"
+  ],
+  "live_controller_previous_pid": 3002181,
+  "live_reload": "SIGHUP under dispatcher-admin; worker and integration children retained",
+  "configuration": "secondary staged worker accepts only cohort Map work plus Engine; primary agentic unchanged",
+  "deployment": false
+}

@@ -1,0 +1,67 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-engine-auto-return-from-graveyard-attach-5f9eabcbcc-v2-fsyxg1c0",
+    "candidate_commit": "46e57eea4a80fb8b129dd2245be4e77f8d9fd26d",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "46e57eea4a80fb8b129dd2245be4e77f8d9fd26d",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "codex-constrained@1.0.0",
+    "resolved_model": "gpt-5.6-luna",
+    "telemetry": {
+      "bounded_repair_attempted": true,
+      "cache_read_tokens": 19968,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 24052,
+      "input_tokens": 45464,
+      "output_tokens": 1257,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      }
+    },
+    "worker": "codex"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed_model_protocol",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-01T063806Z-engine-auto-return-from-graveyard-attach-5f9eabcbcc-v2-codex.raw.json",
+      "sha256": "sha256:7aff3c861997b4eda8a7b980b1d86f019eed8f2ed07d9d39a7cc95a10cafa40a"
+    },
+    {
+      "kind": "bounded_repair",
+      "path": "docs/factory-ng/runs/2026-09-01T063806Z-engine-auto-return-from-graveyard-attach-5f9eabcbcc-v2-codex.repair.raw.json",
+      "sha256": "sha256:095b7ab094f7821996e6fd9e04f5812fcf0a4bf380a76fb3620e7897f3af6abd"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-return-from-graveyard-attach-5f9eabcbcc/v2",
+    "path": "docs/factory-ng/tickets/engine-auto-return-from-graveyard-attach-5f9eabcbcc-v2.json",
+    "sha256": "sha256:2a83d12986bcb401742211056886b09b4489dc72bfe08011cc86d2f29c164aa4"
+  }
+}

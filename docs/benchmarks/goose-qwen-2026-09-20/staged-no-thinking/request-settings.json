@@ -1,0 +1,11 @@
+{
+  "model": "halogen-qwen3.8-flash-next",
+  "temperature": 0.699999988079071,
+  "max_tokens": 16000,
+  "stream": true,
+  "stream_options": {
+    "include_usage": true
+  },
+  "enable_thinking": false,
+  "tools_count": 0
+}

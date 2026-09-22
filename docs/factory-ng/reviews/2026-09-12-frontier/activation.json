@@ -1,0 +1,38 @@
+{
+  "checked_at": "2026-09-12T09:17:10.534187+00:00",
+  "tickets": {
+    "ticket:map.plan-prevent-auriok-replica-5e80304cef/v1": {
+      "miss_count": 1,
+      "state": "working",
+      "worker": "codex-2",
+      "started_at": "2026-09-12T09:16:23Z",
+      "receipt": null,
+      "integration_receipt": null
+    },
+    "ticket:map.plan-prevent-al-abara-s-carpet-721179c50b/v1": {
+      "miss_count": 1,
+      "state": "blocked",
+      "worker": "codex",
+      "started_at": "2026-09-12T09:15:45Z",
+      "receipt": "docs/factory-ng/runs/2026-09-12T091545Z-map-plan-prevent-al-abara-s-carpet-721179c50b-v1-codex.json",
+      "integration_receipt": null
+    },
+    "ticket:map.plan-prevent-arachnogenesis-2eaecc603a/v1": {
+      "miss_count": 1,
+      "state": "integrating",
+      "worker": "codex",
+      "started_at": "2026-09-12T09:13:47Z",
+      "receipt": "docs/factory-ng/runs/2026-09-12T091347Z-map-plan-prevent-arachnogenesis-2eaecc603a-v1-codex.json",
+      "integration_receipt": null
+    },
+    "ticket:map.plan-prevent-benalish-missionary-3619d1677a/v1": {
+      "miss_count": 1,
+      "state": "working",
+      "worker": "codex",
+      "started_at": "2026-09-12T09:17:02Z",
+      "receipt": null,
+      "integration_receipt": null
+    }
+  },
+  "canonical_status": ""
+}

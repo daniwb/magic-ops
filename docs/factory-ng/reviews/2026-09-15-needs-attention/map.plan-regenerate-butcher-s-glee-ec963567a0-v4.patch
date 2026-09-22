@@ -1,0 +1,89 @@
+From fe6aec5a2bbf5a116c9dbb89b84afc93d6009ed9 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Sun, 13 Sep 2026 01:46:09 +0000
+Subject: [PATCH] factory-ng: supervised engine observation
+
+---
+ scripts/paragraph/reparse.py                  | 15 +++++++
+ .../paragraph/test_factory_ng_ec963567a0.py   | 43 +++++++++++++++++++
+ 2 files changed, 58 insertions(+)
+ create mode 100644 scripts/paragraph/test_factory_ng_ec963567a0.py
+
+diff --git a/scripts/paragraph/reparse.py b/scripts/paragraph/reparse.py
+index fc939a10f..7736f2988 100644
+--- a/scripts/paragraph/reparse.py
++++ b/scripts/paragraph/reparse.py
+@@ -8058,6 +8058,21 @@ def map_atom(verb, args, allow_multi_search=False, kind=None, card_name=None):
+             # this is the source Aura's own attachment, not an arbitrary
+             # chosen target, so it rides the same self-only primitive.
+             return ('regenerate', {'target_attached': True}, None)
++        # ticket engine.auto-regenerate-sequence-referent-target-d88eb42991
++        # (verb_unmapped:regenerate): "Regenerate it." referencing a creature
++        # target established by a PRECEDING atom in the same spell-effect
++        # sequence (Butcher's Glee: "Target creature gets +3/+0 and gains
++        # lifelink until end of turn. Regenerate it."). Mirrors pump's
++        # identical spell_oneshot referent branch (grant_keywords_referent_eot,
++        # below in this file): the landed Engine dependency lets the v2
++        # spell-effect-sequence walker apply the already-registered
++        # regenerate_target primitive to the preceding atom's target
++        # referent, so no new target is chosen here (target_filter=None).
++        # Only spell_oneshot: a triggered/activated ability's own "it" is a
++        # different referent (its own trigger/target establishment) with no
++        # such wiring and stays an honest miss.
++        if kind == 'spell_oneshot' and o.get('object') == {'filter': 'referent'}:
++            return ('regenerate_target', {}, None)
+         # ticket #3858 (REPARSE-MAP verb_unmapped:regenerate): the targeted
+         # "Regenerate target X" family (Accursed Duneyard, Asceticism,
+         # Blessing of Leeches, Baron Sengir, Black Poplar Shaman) — the
+diff --git a/scripts/paragraph/test_factory_ng_ec963567a0.py b/scripts/paragraph/test_factory_ng_ec963567a0.py
+new file mode 100644
+index 000000000..a853414aa
+--- /dev/null
++++ b/scripts/paragraph/test_factory_ng_ec963567a0.py
+@@ -0,0 +1,43 @@
++import unittest
++
++import reparse
++
++
++class ButchersGleeRegenerateTest(unittest.TestCase):
++    def test_butchers_glee_maps_complete_sequence(self):
++        result = reparse.reparse_card(reparse.load_card("Butcher's Glee"))
++        self.assertTrue(result["eligible"], result)
++        self.assertEqual(result["misses"], [])
++
++    def test_pump_atom_still_maps_pt_and_lifelink(self):
++        args = {
++            'also': 'lifelink',
++            'obj': {'target': {'filter': 'creature'}},
++            'pt': '+3/+0',
++            'where_x': None,
++        }
++        result = reparse.map_atom('pump', args, kind='spell_oneshot')
++        self.assertEqual(result, (
++            'pump_until_eot',
++            {'_rider_keywords': ['Lifelink'], 'power': 3, 'toughness': 0},
++            {'filter': 'creature'},
++        ))
++
++    def test_regenerate_referent_maps_to_regenerate_target(self):
++        args = {'obj': {'object': {'filter': 'referent'}}}
++        result = reparse.map_atom('regenerate', args, kind='spell_oneshot')
++        self.assertEqual(result, ('regenerate_target', {}, None))
++
++    def test_regenerate_referent_stays_unmapped_outside_spell_sequence(self):
++        # Adjacent negative: the landed Engine dependency only covers the
++        # spell-effect-sequence referent chokepoint used by chained
++        # spell_oneshot atoms (e.g. Butcher's Glee). A triggered or
++        # activated ability's own "it" is a different referent with no
++        # such wiring and must remain an honest miss.
++        args = {'obj': {'object': {'filter': 'referent'}}}
++        self.assertIsNone(reparse.map_atom('regenerate', args, kind='triggered'))
++        self.assertIsNone(reparse.map_atom('regenerate', args, kind='activated'))
++
++
++if __name__ == '__main__':
++    unittest.main()
+-- 
+2.43.0
+

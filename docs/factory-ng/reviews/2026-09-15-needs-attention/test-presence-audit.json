@@ -1,0 +1,611 @@
+[
+  {
+    "id": "ticket:engine.auto-remove-all-source-counters-with-linked-amount-efe3e9ca1c/v1",
+    "tests": [
+      "TestFactoryNGRemoveAllSourceCountersWithLinkedAmount_efe3e9ca1c"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-sequence-excess-damage-token-count-109b0ec3af/v2",
+    "tests": [
+      "TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-combat-damage-recipient-creature-filter-bb8e92c7a7/v1",
+    "tests": [
+      "TestFactoryNGCombatDamageRecipientCreatureFilter_bb8e92c7a7"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-put-counters-on-combat-related-creatures-7fda0f0882/v3",
+    "tests": [
+      "TestFactoryNGPutCountersOnCombatRelatedCreatures_7fda0f0882"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-fractional-filtered-sacrifice-half-rounded-up-febb727aef/v1",
+    "tests": [
+      "TestFactoryNGFractionalFilteredSacrificeHalfRoundedUp_febb727aef"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-put-counters-independent-multi-target-sequence-a8e4b194e3/v1",
+    "tests": [
+      "TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-target-player-compound-sacrifice-damage-99c146a20f/v1",
+    "tests": [
+      "TestFactoryNGTargetPlayerCompoundSacrificeDamage_99c146a20f"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-copy-all-controlled-stack-objects-f0627c34c8/v1",
+    "tests": [
+      "TestFactoryNGCopyAllControlledStackObjects_f0627c34c8"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-prevent-combat-damage-to-and-by-referent-123447f8f0/v3",
+    "tests": [
+      "TestFactoryNGPreventCombatDamageToAndByReferent_123447f8f0"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-damage-enchanted-attached-creature-9b5f19f1fc/v2",
+    "tests": [
+      "TestFactoryNGDamageEnchantedAttachedCreature_9b5f19f1fc"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-sacrifice-self-unless-mill-4b119c08d6/v1",
+    "tests": [
+      "TestFactoryNGSacrificeSelfUnlessMill_4b119c08d6"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-damage-enchanted-player-or-controlled-planeswalk-d9c6b90b0e/v2",
+    "tests": [
+      "TestFactoryNGDamageEnchantedPlayerOrControlledPlaneswalkerChoice_d9c6b90b0e"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-mass-damage-exclude-source-ecd06fa7e5/v2",
+    "tests": [
+      "TestFactoryNGMassDamageExcludeSource_ecd06fa7e5"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-damage-each-of-x-targets-spell-registration-d078b33904/v1",
+    "tests": [
+      "TestFactoryNGDamageEachOfXTargetsSpellRegistration"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-grant-ability-until-eot-8ec4b633a2/v1",
+    "tests": [
+      "TestFactoryNGGrantAbilityUntilEot"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-ability-pump-filtered-no-target-1e97812a5d/v4",
+    "tests": [
+      "TestFactoryNGAbilityPumpFilteredNoTarget"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-exile-complex-filter-6e01106bce/v2",
+    "tests": [
+      "TestFactoryNGExileComplexFilter"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-copy-triggering-permanent-spell-9e4be89001/v1",
+    "tests": [
+      "TestFactoryNGCopyTriggeringPermanentSpell"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-bounce-permanent-sharing-type-1626ffcfbf/v3",
+    "tests": [
+      "TestFactoryNGBouncePermanentSharingType"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-conditional-damage-to-referent-player-768261106f/v2",
+    "tests": [
+      "TestFactoryNGConditionalDamageToReferentPlayer"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-damage-equal-to-source-power-to-flying-creature-4efc529ec4/v2",
+    "tests": [
+      "TestFactoryNGDamageEqualToSourcePowerToFlyingCreature"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-damage-punisher-choice-e36bbf48c8/v2",
+    "tests": [
+      "TestFactoryNGDamagePunisherChoice"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-grant-keywords-until-eot-enchanted-shared-type-a70040c6e5/v3",
+    "tests": [
+      "TestFactoryNGGrantKeywordsUntilEotEnchantedSharedType"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-controller-filter-referent-triggering-player-76c02b824f/v2",
+    "tests": [
+      "TestFactoryNGControllerFilterReferentTriggeringPlayer"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-counter-target-spell-mana-value-threshold-98c3884b4c/v2",
+    "tests": [
+      "TestFactoryNGCounterTargetSpellManaValueThreshold"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-create-token-dynamic-counter-a0d2ceedb7/v2",
+    "tests": [
+      "TestFactoryNGCreateTokenDynamicCounter"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-damage-to-defending-player-9a47b7025e/v1",
+    "tests": [
+      "TestFactoryNGDamageToDefendingPlayer"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-destroy-attached-equipment-at-end-of-combat-1a39af850c/v2",
+    "tests": [
+      "TestFactoryNGDestroyAttachedEquipmentAtEndOfCombat"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-destroy-target-creature-that-dealt-damage-this-t-2dd7f03acd/v2",
+    "tests": [
+      "TestFactoryNGDestroyTargetCreatureThatDealtDamageThisTurn"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-dynamic-graveyard-mana-value-filter-3f054094e5/v1",
+    "tests": [
+      "TestFactoryNGDynamicGraveyardManaValueFilter"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-exile-crewed-creatures-filter-dd5f27d519/v2",
+    "tests": [
+      "TestFactoryNGExileCrewedCreaturesFilter"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-gain-control-duration-source-permanent-50db4d2e53/v2",
+    "tests": [
+      "TestFactoryNGGainControlDurationSourcePermanent"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-pump-self-source-dynamic-sac-power-576cf4aa49/v2",
+    "tests": [
+      "TestFactoryNGPumpSelfSourceDynamicSacPower"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-pump-until-eot-untargeted-dynamic-c37bccdec1/v1",
+    "tests": [
+      "TestFactoryNGPumpUntilEotUntargetedDynamic"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-return-from-graveyard-attach-5f9eabcbcc/v2",
+    "tests": [
+      "TestFactoryNGReturnFromGraveyardAttach"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-return-from-graveyard-lesser-toughness-filter-cfeba54e07/v2",
+    "tests": [
+      "TestFactoryNGReturnFromGraveyardLesserToughnessFilter"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-search-attach-to-target-c74e339814/v2",
+    "tests": [
+      "TestFactoryNGSearchAttachToTarget"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-search-dynamic-mana-value-cap-a5b3c243f2/v1",
+    "tests": [
+      "TestFactoryNGSearchDynamicManaValueCap"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-source-referent-pump-until-eot-8b8ac7ccb7/v1",
+    "tests": [
+      "TestFactoryNGSourceReferentPumpUntilEot"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-tap-all-filtered-permanents-7e17906098/v2",
+    "tests": [
+      "TestFactoryNGTapAllFilteredPermanents"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-untap-referent-previous-targets-f33b5c1c71/v2",
+    "tests": [
+      "TestFactoryNGUntapReferentPreviousTargets"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-conditional-payment-unless-pays-mana-8f85c47b3e/v1",
+    "tests": [
+      "TestFactoryNGConditionalPaymentUnlessPaysMana"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-grant-dynamic-keyword-eot-4c8621edfa/v1",
+    "tests": [
+      "TestFactoryNGGrantDynamicKeywordEot"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-return-from-graveyard-with-counters-77c5905163/v1",
+    "tests": [
+      "TestFactoryNGReturnFromGraveyardWithCounters"
+    ],
+    "all_present": true
+  },
+  {
+    "id": "ticket:engine.auto-put-counters-amount-from-trigger-damage-cc03cdb048/v1",
+    "tests": [
+      "TestFactoryNGPutCountersAmountFromTriggerDamage"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-grant-triggered-ability-until-eot-938952c6e2/v1",
+    "tests": [
+      "TestFactoryNGGrantTriggeredAbilityUntilEot"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-bounce-with-mana-value-filter-4bf6a351c2/v1",
+    "tests": [
+      "TestFactoryNGBounceWithManaValueFilter"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-bounce-filter-nonland-permanent-entered-this-tur-76dd65401b/v1",
+    "tests": [
+      "TestFactoryNGBounceFilterNonlandPermanentEnteredThisTurnOther"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-exile-player-graveyard-56bee2bbbc/v1",
+    "tests": [
+      "TestFactoryNGExilePlayerGraveyard"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-destroy-multi-target-optional-a6ba6fb044/v1",
+    "tests": [
+      "TestFactoryNGDestroyMultiTargetOptional"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-return-from-graveyard-attached-to-matching-type-1595222f2c/v1",
+    "tests": [
+      "TestFactoryNGReturnFromGraveyardAttachedToMatchingType"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-destroy-n-target-filter-5aef2d6f94/v1",
+    "tests": [
+      "TestFactoryNGDestroyNTargetFilter"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-destroy-unless-controller-pays-205cf02727/v1",
+    "tests": [
+      "TestFactoryNGDestroyUnlessControllerPays"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-dynamic-amount-distinct-counter-kinds-controlled-46440abfac/v1",
+    "tests": [
+      "TestFactoryNGDynamicAmountDistinctCounterKindsControlled"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-pump-until-eot-unconditional-filter-959af8d8e3/v1",
+    "tests": [
+      "TestFactoryNGPumpUntilEotUnconditionalFilter"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-pump-until-eot-all-creatures-you-control-63ebcf17a9/v2",
+    "tests": [
+      "TestFactoryNGPumpUntilEotAllCreaturesYouControl"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-damage-amount-chroma-red-mana-symbols-dafa42ca0a/v1",
+    "tests": [
+      "TestFactoryNGDamageAmountChromaRedManaSymbols"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-target-filter-power-threshold-72615893da/v2",
+    "tests": [
+      "TestFactoryNGTargetFilterPowerThreshold"
+    ],
+    "all_present": true
+  },
+  {
+    "id": "ticket:engine.auto-return-from-graveyard-attach-to-source-05cf182b14/v2",
+    "tests": [
+      "TestFactoryNGReturnFromGraveyardAttachToSource"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-filter-creature-with-tap-activated-ability-839a37bf06/v2",
+    "tests": [
+      "TestFactoryNGFilterCreatureWithTapActivatedAbility"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-pump-all-controller-filter-until-eot-753299440a/v3",
+    "tests": [
+      "TestFactoryNGPumpAllControllerFilterUntilEot"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-target-filter-mana-value-threshold-5abb67184a/v3",
+    "tests": [
+      "TestFactoryNGTargetFilterManaValueThreshold"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-delayed-destroy-at-end-of-combat-c4e51f7648/v3",
+    "tests": [
+      "TestFactoryNGDelayedDestroyAtEndOfCombat"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-grant-keyword-to-creatures-with-power-equal-to-p-cb482d4bb8/v3",
+    "tests": [
+      "TestFactoryNGGrantKeywordToCreaturesWithPowerEqualToPaidCost"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-damage-amount-equals-trigger-creature-count-d7ae562dbc/v3",
+    "tests": [
+      "TestFactoryNGDamageAmountEqualsTriggerCreatureCount"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-damage-amount-runtime-count-686e9699e6/v3",
+    "tests": [
+      "TestFactoryNGDamageAmountRuntimeCount"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-pump-all-other-creatures-no-target-f3ef75632a/v3",
+    "tests": [
+      "TestFactoryNGPumpAllOtherCreaturesNoTarget"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-ability-pump-filter-all-23b3b60c38/v3",
+    "tests": [
+      "TestFactoryNGAbilityPumpFilterAll"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-destroy-blocking-or-blocked-creatures-bd51bb2a55/v3",
+    "tests": [
+      "TestFactoryNGDestroyBlockingOrBlockedCreatures"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-tap-doesnt-untap-next-untap-step-6f26ccc5c2/v3",
+    "tests": [
+      "TestFactoryNGTapDoesntUntapNextUntapStep"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-conditional-grant-keywords-until-eot-d97d5d518c/v3",
+    "tests": [
+      "TestFactoryNGConditionalGrantKeywordsUntilEot"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-grant-effects-until-eot-1fc9545bbb/v3",
+    "tests": [
+      "TestFactoryNGGrantEffectsUntilEot"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-pump-until-eot-all-a0f16e387d/v3",
+    "tests": [
+      "TestFactoryNGPumpUntilEotAll"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-pump-until-eot-dynamic-amount-471184ae88/v3",
+    "tests": [
+      "TestFactoryNGPumpUntilEotDynamicAmount"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-damage-to-each-battle-protected-36b6c50579/v1",
+    "tests": [
+      "TestFactoryNGDamageToEachBattleProtected"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-delayed-referent-destroy-f4ed1aabb4/v1",
+    "tests": [
+      "TestFactoryNGDelayedReferentDestroy"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-execute-pump-until-eot-no-target-5eb89fc696/v3",
+    "tests": [
+      "TestFactoryNGExecutePumpUntilEotNoTarget"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-pump-until-eot-dynamic-count-789a23ad0c/v2",
+    "tests": [
+      "TestFactoryNGPumpUntilEotDynamicCount"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-exile-zone-ce4b8ad676/v3",
+    "tests": [
+      "TestFactoryNGExileZone"
+    ],
+    "all_present": true
+  },
+  {
+    "id": "ticket:engine.auto-bounce-target-creature-and-attached-auras-e20af02124/v2",
+    "tests": [
+      "TestFactoryNGBounceTargetCreatureAndAttachedAuras"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-return-from-graveyard-creature-subtype-filter-b70311209e/v2",
+    "tests": [
+      "TestFactoryNGReturnFromGraveyardCreatureSubtypeFilter"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-triggered-destroy-enchanted-referent-91096471c1/v1",
+    "tests": [
+      "TestFactoryNGTriggeredDestroyEnchantedReferent"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-destroy-delayed-end-of-combat-403991530b/v2",
+    "tests": [
+      "TestFactoryNGDestroyDelayedEndOfCombat"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-return-from-graveyard-unique-names-75e6465f75/v2",
+    "tests": [
+      "TestFactoryNGReturnFromGraveyardUniqueNames"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-pump-untargeted-referent-dynamic-baa2736f83/v1",
+    "tests": [
+      "TestFactoryNGPumpUntargetedReferentDynamic"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-exile-target-players-graveyard-aab2a6ee8a/v2",
+    "tests": [
+      "TestFactoryNGExileTargetPlayersGraveyard"
+    ],
+    "all_present": false
+  },
+  {
+    "id": "ticket:engine.auto-exile-target-return-next-end-step-8d20b29883/v1",
+    "tests": [
+      "TestFactoryNGExileTargetReturnNextEndStep"
+    ],
+    "all_present": false
+  }
+]

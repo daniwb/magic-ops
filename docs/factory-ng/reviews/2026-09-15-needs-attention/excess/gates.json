@@ -1,0 +1,51 @@
+{
+  "gates": [
+    {
+      "id": "scope",
+      "outcome": "passed",
+      "detail": "changed=backend/game/ability_effects.go,backend/game/dynamic_amount.go,backend/game/targeting.go,backend/cards/registry_factory_ng_109b0ec3af.go,backend/cards/shape_sequence_excess_damage_test.go,backend/game/factory_ng_109b0ec3af_test.go"
+    },
+    {
+      "id": "engine-vocabulary-handoff",
+      "outcome": "passed",
+      "detail": "All newly added public effects are registered.",
+      "elapsed_ms": 726
+    },
+    {
+      "id": "ticket-gate-0",
+      "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+      "outcome": "passed",
+      "elapsed_ms": 777,
+      "detail": ""
+    },
+    {
+      "id": "ticket-gate-1",
+      "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af$' -count=1",
+      "outcome": "passed",
+      "elapsed_ms": 395002,
+      "detail": "=== RUN   TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af\n=== RUN   TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af/excess\n--- PASS: TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af/excess (0.00s)\n=== RUN   TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af/exact_lethal\n--- PASS: TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af/exact_lethal (0.00s)\n=== RUN   TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af/sublethal\n--- PASS: TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af/sublethal (0.00s)\n=== RUN   TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af/marked_damage\n--- PASS: TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af/marked_damage (0.00s)\n=== RUN   TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af/partial_prevention\n--- PASS: TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af/partial_prevention (0.01s)\n=== RUN   TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af/all_prevented\n--- PASS: TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af/all_prevented (0.01s)\n=== RUN   TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af/deathtouch\n--- PASS: TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af/deathtouch (0.00s)\n=== RUN   TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af/deathtouch_prevented\n--- PASS: TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af/deathtouch_prevented (0.00s)\n=== RUN   TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af/infect\n--- PASS: TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af/infect (0.00s)\n=== RUN   TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af/missing_source\n--- PASS: TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af/missing_source (0.01s)\n=== RUN   TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af/protection_checks_creature_source\n--- PASS: TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af/protection_checks_creature_source (0.00s)\n--- PASS: TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af (0.04s)\nPASS\nok  \tmagic-backend/game\t0.090s\n=== RUN   TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af\n--- PASS: TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af (0.01s)\nPASS\nok  \tmagic-backend/cards\t0.049s\nNamed test gate: 13 test(s) passed for '^TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af$'"
+    },
+    {
+      "id": "ticket-gate-2",
+      "command": "cd backend && go test ./game ./cards",
+      "outcome": "passed",
+      "elapsed_ms": 243092,
+      "detail": "ok  \tmagic-backend/game\t0.486s\nok  \tmagic-backend/cards\t220.164s"
+    },
+    {
+      "id": "ticket-gate-3",
+      "command": "git diff --check",
+      "outcome": "passed",
+      "elapsed_ms": 246,
+      "detail": ""
+    }
+  ],
+  "changed": [
+    "backend/game/ability_effects.go",
+    "backend/game/dynamic_amount.go",
+    "backend/game/targeting.go",
+    "backend/cards/registry_factory_ng_109b0ec3af.go",
+    "backend/cards/shape_sequence_excess_damage_test.go",
+    "backend/game/factory_ng_109b0ec3af_test.go"
+  ]
+}

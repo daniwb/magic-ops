@@ -1,0 +1,156 @@
+{
+  "capability": {
+    "expected_unlock": 1,
+    "negative_examples": [
+      "Literal-amount damage effects such as TestShape_ETB_DamageOpponent must continue to use the existing literal-amount damage primitive.",
+      "Power-based damage targeting a non-flying creature (e.g., 'deals damage equal to its power to target creature') must not be silently absorbed by this primitive.",
+      "Static triggered damage to attacking/blocking creatures covered by the existing 'attacking_or_blocking_creature' branch must not be re-routed through this primitive."
+    ],
+    "required_behavior": "Resolve a triggered or activated ability that deals damage equal to the source creature's current power to a single target creature with flying, preserving the source-relative dynamic amount and the flying-evasion filter.",
+    "source_misses": [
+      {
+        "card": "Jagged-Scar Archers",
+        "oracle_text_sha256": "755e3f00483b60028728c91c6c32caeb3409fc3f1bdcbd0261a5cbe6595804c0",
+        "paragraph": "{T}: This creature deals damage equal to its power to target creature with flying.",
+        "required_behavior": "Deal damage equal to the source creature's current power to a single target creature with flying."
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "key": "damage_equal_to_source_power_to_flying_creature",
+        "specification": {
+          "expected_unlock": 1,
+          "negative_examples": [
+            "Literal-amount damage effects such as TestShape_ETB_DamageOpponent must continue to use the existing literal-amount damage primitive.",
+            "Power-based damage targeting a non-flying creature (e.g., 'deals damage equal to its power to target creature') must not be silently absorbed by this primitive.",
+            "Static triggered damage to attacking/blocking creatures covered by the existing 'attacking_or_blocking_creature' branch must not be re-routed through this primitive."
+          ],
+          "required_behavior": "Resolve a triggered or activated ability that deals damage equal to the source creature's current power to a single target creature with flying, preserving the source-relative dynamic amount and the flying-evasion filter.",
+          "source_misses": [
+            {
+              "card": "Jagged-Scar Archers",
+              "oracle_text_sha256": "755e3f00483b60028728c91c6c32caeb3409fc3f1bdcbd0261a5cbe6595804c0",
+              "paragraph": "{T}: This creature deals damage equal to its power to target creature with flying.",
+              "required_behavior": "Deal damage equal to the source creature's current power to a single target creature with flying."
+            }
+          ]
+        },
+        "summary": "Source deals damage equal to its current power to a single target creature with flying"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-01T193619Z-map-plan-damage-jagged-scar-archers-d06fa31959-v1-openrouter.json"
+    },
+    {
+      "anchor": "5-75",
+      "fact": "Current source contains the nearest bounded seam matching capability tokens damage, equal, source, power, flying, creature.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:1795fe3b386e68f3a436bac42ab5e9ef00ff43ca512f640abdf5f5b17bb4ba21"
+    },
+    {
+      "anchor": "1-37",
+      "fact": "Current source contains the nearest bounded seam matching capability tokens damage, equal, source, power, flying, creature.",
+      "path": "backend/game/dynamic_amount.go",
+      "sha256": "sha256:07c514d74935fce87d2eebbf7da347a0f4be738088f738cfa731bfc83551e6a2"
+    },
+    {
+      "anchor": "1-48",
+      "fact": "Current source contains the nearest bounded seam matching capability tokens damage, equal, source, power, flying, creature.",
+      "path": "backend/game/effects.go",
+      "sha256": "sha256:283a75ac596319d6422f91838cd413c5b1f1cc7b074a1c8f26b1a9a1955ed269"
+    },
+    {
+      "anchor": "1-51",
+      "fact": "Current source contains the nearest bounded seam matching capability tokens damage, equal, source, power, flying, creature.",
+      "path": "backend/game/card.go",
+      "sha256": "sha256:4cb1df58b8b56e8d060e0c1b3e8b304678c4c4517f33dd5d5671337164e9d91f"
+    },
+    {
+      "fact": "The previous candidate compiled/ran and failed this exact gate: ticket-gate-0: ; ticket-gate-1: FAIL\tmagic-backend/game [build failed]\nok  \tmagic-backend/cards\t0.020s [no tests to run]\nFAIL\n# magic-backend/game [magic-backend/game.test]\ngame/factory_ng_4efc529ec4_test.go:67:56: source.Power undefined (type *Card has no field or method Power)\ngame/factory_ng_4efc529ec4_test.go:75:28: source.Power undefined (type *Card has no field or method Power)\ngame/factory_ng_4efc529ec4_test.go:76:66: source.Power undefined (type *Card has no field or method Power); ticket-gate-2: FAIL\tmagic-backend/game [build failed]\nok  \tmagic-backend/cards\t48.522s\nFAIL\n# magic-backend/game [magic-backend/game.test]\ngame/factory_ng_4efc529ec4_test.go:67:56: source.Power undefined (type *Card has no field or method Power)\ngame/factory_ng_4efc529ec4_test.go:75:28: source.Power undefined (type *Card has no field or method Power)\ngame/factory_ng_4efc529ec4_test.go:76:66: source.Power undefined (type *Card has no field or method Power). Fix only this defect; do not restructure unrelated code or revisit already-passing behavior.",
+      "path": "docs/factory-ng/runs/2026-09-02T013451Z-engine-auto-damage-equal-to-source-power-to-flying-creature-4efc529ec4-v1-claude.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "One bounded gate-failure repair: the prior candidate was substantively close but failed a specific behavior or build gate.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGDamageEqualToSourcePowerToFlyingCreature$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.operator-source-power-flying-recovery-sep15/v1",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Retain the terminal receipt and continue independent discovery; do not request manual source transcription.",
+  "parents": [
+    "ticket:engine.auto-damage-equal-to-source-power-to-flying-creature-4efc529ec4/v2"
+  ],
+  "production": {
+    "key": "capability:damage_equal_to_source_power_to_flying_creature:sha256:4efc529ec437ce890539ac616e21601ecb68857059702e901d0d7a4134b21be2:gate-repair-v1",
+    "producer": "capability-dependencies",
+    "retry_reason": "semantic_gate_repair"
+  },
+  "required_behavior": [
+    "Resolve a triggered or activated ability that deals damage equal to the source creature's current power to a single target creature with flying, preserving the source-relative dynamic amount and the flying-evasion filter.",
+    "Preserve these adjacent behaviors: Literal-amount damage effects such as TestShape_ETB_DamageOpponent must continue to use the existing literal-amount damage primitive.; Power-based damage targeting a non-flying creature (e.g., 'deals damage equal to its power to target creature') must not be silently absorbed by this primitive.; Static triggered damage to attacking/blocking creatures covered by the existing 'attacking_or_blocking_creature' branch must not be re-routed through this primitive.",
+    "Add a discriminating behavior test named TestFactoryNGDamageEqualToSourcePowerToFlyingCreature; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_4efc529ec4_test.go",
+      "backend/cards/factory_ng_4efc529ec4_test.go",
+      "backend/cards/registry_factory_ng_4efc529ec4.go",
+      "backend/game/activated_abilities.go",
+      "backend/game/flying_damage_target.go",
+      "backend/cards/shape_source_power_flying_test.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "30bcd8feb647a7cefd52307b7a134e10ca875204",
+    "clean": true
+  },
+  "supersedes": "ticket:engine.auto-damage-equal-to-source-power-to-flying-creature-4efc529ec4/v1",
+  "title": "Enforce flying targets for source-power damage abilities",
+  "work_type": "engine",
+  "operator_recovery": {
+    "authorization": "User requested fixing all needs-attention tickets.",
+    "original_ticket": "docs/factory-ng/tickets/engine-auto-damage-equal-to-source-power-to-flying-creature-4efc529ec4-v2.json",
+    "original_ticket_sha256": "sha256:a14eb34eef8292dc29064d4d73bdef9017532b51427b8d0438f001dbd1442d69",
+    "additional_provider_runs": 0,
+    "counter_resets": false,
+    "scope_addition_reason": "Retains ordinary damage/source_power runtime, preserves the flying qualifier through native/legacy conversion, validates before activation costs and at resolution, and recognizes effective flying. Public activation and trigger choices cover both controllers and adjacent plain/literal damage."
+  }
+}

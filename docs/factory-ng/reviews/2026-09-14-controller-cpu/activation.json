@@ -1,0 +1,13 @@
+{
+  "previous_pid": 2775102,
+  "active_pid": 2824556,
+  "activation": "supervised controller already restarted during concurrent verification work; no second reload needed",
+  "observed_at": "2026-09-14T08:35:25Z",
+  "controller_sha256": "5ee0112c24860e608ffc5099c29b5966739f45af18d9048b18e378fb72256853",
+  "live_sample_seconds": 8,
+  "live_controller_cpu_percent": 15.6,
+  "initial_controller_cpu_percent": 99.8,
+  "canonical_source_clean": true,
+  "observed_phase": "producing_ticket",
+  "worker_dispatch_observed": true
+}

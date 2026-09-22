@@ -1,0 +1,218 @@
+From da07f37ebf250fc44e6f5a9c37a85ae187c15409 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Tue, 8 Sep 2026 19:06:52 +0000
+Subject: [PATCH] factory-ng: supervised engine observation
+
+---
+ backend/game/ability_effects.go            |  27 ++++-
+ backend/game/factory_ng_d32bfbcd7a_test.go | 111 +++++++++++++++++++++
+ backend/game/gamestate.go                  |  14 ++-
+ 3 files changed, 148 insertions(+), 4 deletions(-)
+ create mode 100644 backend/game/factory_ng_d32bfbcd7a_test.go
+
+diff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go
+index 5aee04810..e8b7f486a 100644
+--- a/backend/game/ability_effects.go
++++ b/backend/game/ability_effects.go
+@@ -4282,7 +4282,7 @@ func (gs *GameState) ExecuteAbilityEffect(stackObj *StackObject) error {
+ 			return nil
+ 		}
+ 		filter := "permanent_mv_eq_" + strconv.Itoa(stackObj.EventCard.ManaCost.CMC())
+-		return gs.destroyAllMatching(controller, filter, "", false, "", false)
++		return gs.destroyAllMatching(controller, filter, "", false, "", false, "")
+ 	}
+ 
+ 	// tap_untap_shared_creature_type_referent primitive (Faces of the
+@@ -6124,9 +6124,32 @@ func (gs *GameState) ExecuteAbilityEffect(stackObj *StackObject) error {
+ 					filter = filter + "_mv_eq_" + strconv.Itoa(mv)
+ 				}
+ 			}
++			// destroy_attached_to_referent (ticket
++			// engine.auto-destroy-attached-to-referent-d32bfbcd7a, Turn to Slag
++			// class: "~ deals 5 damage to target creature. Destroy all
++			// Equipment attached to that creature."). "That creature" is
++			// whatever card a PRECEDING atom in this SAME sequence most
++			// recently acted on (gs.seqSlotsStr["referent"], armed by
++			// effect_sequence.go's noteSeqReferent), mirroring
++			// destroy_delayed_referent's referent read elsewhere in this
++			// file. Absent an armed referent, this no-ops rather than
++			// falling back to the unscoped mass-destroy sweep — a plain
++			// "destroy all Equipment" (no attached_to_referent flag) is
++			// completely untouched and keeps sweeping the whole battlefield
++			// (negative example: unscoped mass destroy must not be narrowed).
++			var attachedTo string
++			if attachedToReferent, _ := effectValue["attached_to_referent"].(bool); attachedToReferent {
++				if gs.seqSlotsStr == nil {
++					return nil
++				}
++				attachedTo = gs.seqSlotsStr["referent"]
++				if attachedTo == "" {
++					return nil
++				}
++			}
+ 			return gs.destroyAllMatching(controller,
+ 				filter,
+-				getStringValue(effectValue, "controller", ""), cantBeRegenerated, excludeID, tokensOnly)
++				getStringValue(effectValue, "controller", ""), cantBeRegenerated, excludeID, tokensOnly, attachedTo)
+ 		}
+ 		// cant_be_regenerated on a single-target destroy (ticket #3976,
+ 		// REPARSE-MAP destroy_single_target_regen_gap / "destroy target X
+diff --git a/backend/game/factory_ng_d32bfbcd7a_test.go b/backend/game/factory_ng_d32bfbcd7a_test.go
+new file mode 100644
+index 000000000..bb8a119fa
+--- /dev/null
++++ b/backend/game/factory_ng_d32bfbcd7a_test.go
+@@ -0,0 +1,111 @@
++package game
++
++import "testing"
++
++// TestFactoryNGDestroyAttachedToReferent exercises the
++// destroy_attached_to_referent primitive (ticket
++// engine.auto-destroy-attached-to-referent-d32bfbcd7a, Turn to Slag class:
++// "~ deals 5 damage to target creature. Destroy all Equipment attached to
++// that creature."). Only Equipment attached to the cross-atom referent
++// creature is destroyed; Equipment attached to a different creature, and
++// the referent creature itself, must survive.
++func TestFactoryNGDestroyAttachedToReferent(t *testing.T) {
++	gs := NewGame("P0", "P1", false)
++
++	source := NewCreature("Turn to Slag Shape Source", ManaCost{}, 0, 0, 0)
++	source.Owner, source.Controller = 0, 0
++	gs.Battlefield.AddCard(source)
++
++	target := NewCreature("Slag Target Creature", ManaCost{}, 2, 2, 1)
++	target.Owner, target.Controller = 1, 1
++	gs.Battlefield.AddCard(target)
++
++	attachedEquipment := NewCard("Slag Bound Blade", TypeArtifact, ManaCost{}, 1)
++	attachedEquipment.SubTypes = []string{"Equipment"}
++	gs.Battlefield.AddCard(attachedEquipment)
++	if err := attachedEquipment.AttachTo(target); err != nil {
++		t.Fatalf("AttachTo: %v", err)
++	}
++
++	other := NewCreature("Bystander Creature", ManaCost{}, 2, 2, 1)
++	other.Owner, other.Controller = 1, 1
++	gs.Battlefield.AddCard(other)
++
++	looseEquipment := NewCard("Loose Blade", TypeArtifact, ManaCost{}, 1)
++	looseEquipment.SubTypes = []string{"Equipment"}
++	gs.Battlefield.AddCard(looseEquipment)
++	if err := looseEquipment.AttachTo(other); err != nil {
++		t.Fatalf("AttachTo: %v", err)
++	}
++
++	// Arm the cross-atom referent slot the way effect_sequence.go's
++	// noteSeqReferent does once a preceding atom (the "deals 5 damage to
++	// target creature" atom) has acted on the target.
++	gs.seqSlotsStr = map[string]string{"referent": target.ID}
++
++	obj := &StackObject{
++		Card:        source,
++		Controller:  0,
++		IsAbility:   true,
++		Text:        "destroy",
++		EffectValue: map[string]interface{}{"all": true, "filter": "equipment", "attached_to_referent": true},
++	}
++	if err := gs.ExecuteAbilityEffect(obj); err != nil {
++		t.Fatalf("ExecuteAbilityEffect(destroy attached_to_referent): %v", err)
++	}
++
++	if _, err := gs.Battlefield.GetCard(attachedEquipment.ID); err == nil {
++		t.Fatalf("equipment attached to the referent creature was not destroyed")
++	}
++	if _, err := gs.Battlefield.GetCard(looseEquipment.ID); err != nil {
++		t.Fatalf("equipment attached to a DIFFERENT creature was destroyed (scoping must not sweep unrelated equipment)")
++	}
++	if _, err := gs.Battlefield.GetCard(target.ID); err != nil {
++		t.Fatalf("the referent creature itself was destroyed; only attached Equipment should be")
++	}
++}
++
++// TestFactoryNGDestroyAttachedToReferent_UnscopedStillSweepsAll confirms the
++// ticket's negative example: "Destroy all Equipment" with no
++// attached_to_referent flag must still destroy every Equipment on the
++// battlefield, not just ones attached to some referent.
++func TestFactoryNGDestroyAttachedToReferent_UnscopedStillSweepsAll(t *testing.T) {
++	gs := NewGame("P0", "P1", false)
++
++	source := NewCreature("Wrath Shape Source", ManaCost{}, 0, 0, 0)
++	source.Owner, source.Controller = 0, 0
++	gs.Battlefield.AddCard(source)
++
++	unattached := NewCard("Free Standing Blade", TypeArtifact, ManaCost{}, 1)
++	unattached.SubTypes = []string{"Equipment"}
++	gs.Battlefield.AddCard(unattached)
++
++	creature := NewCreature("Some Creature", ManaCost{}, 2, 2, 1)
++	creature.Owner, creature.Controller = 1, 1
++	gs.Battlefield.AddCard(creature)
++
++	attached := NewCard("Attached Blade", TypeArtifact, ManaCost{}, 1)
++	attached.SubTypes = []string{"Equipment"}
++	gs.Battlefield.AddCard(attached)
++	if err := attached.AttachTo(creature); err != nil {
++		t.Fatalf("AttachTo: %v", err)
++	}
++
++	obj := &StackObject{
++		Card:        source,
++		Controller:  0,
++		IsAbility:   true,
++		Text:        "destroy",
++		EffectValue: map[string]interface{}{"all": true, "filter": "equipment"},
++	}
++	if err := gs.ExecuteAbilityEffect(obj); err != nil {
++		t.Fatalf("ExecuteAbilityEffect(destroy all equipment): %v", err)
++	}
++
++	if _, err := gs.Battlefield.GetCard(unattached.ID); err == nil {
++		t.Fatalf("unattached equipment survived an unscoped 'destroy all Equipment'")
++	}
++	if _, err := gs.Battlefield.GetCard(attached.ID); err == nil {
++		t.Fatalf("attached equipment survived an unscoped 'destroy all Equipment'")
++	}
++}
+diff --git a/backend/game/gamestate.go b/backend/game/gamestate.go
+index a0a5692dd..f6a7b080e 100644
+--- a/backend/game/gamestate.go
++++ b/backend/game/gamestate.go
+@@ -4310,7 +4310,7 @@ func (gs *GameState) resolveMassDestroy(card *Card) error {
+ 		return nil
+ 	}
+ 	return gs.destroyAllMatching(card.Controller, card.SpellEffect.Filter,
+-		card.SpellEffect.Controller, card.SpellEffect.CantBeRegenerated, "", false)
++		card.SpellEffect.Controller, card.SpellEffect.CantBeRegenerated, "", false, "")
+ }
+ 
+ // destroyAllMatching destroys every battlefield permanent matching filter
+@@ -4324,7 +4324,7 @@ func (gs *GameState) resolveMassDestroy(card *Card) error {
+ // SpellEffect.All) and the v2 sequence-atom path (executeMassDestroyEffect,
+ // a "destroy" atom with effect_value.all inside a multi-atom spell sequence
+ // — task-1876 round 2: "Destroy all creatures. Draw a card." class).
+-func (gs *GameState) destroyAllMatching(caster int, filter, scope string, cantBeRegenerated bool, excludeID string, tokensOnly bool) error {
++func (gs *GameState) destroyAllMatching(caster int, filter, scope string, cantBeRegenerated bool, excludeID string, tokensOnly bool, attachedTo string) error {
+ 	filter = strings.ToLower(strings.TrimSpace(filter))
+ 	scope = strings.ToLower(strings.TrimSpace(scope))
+ 
+@@ -4336,6 +4336,16 @@ func (gs *GameState) destroyAllMatching(caster int, filter, scope string, cantBe
+ 		if excludeID != "" && c.ID == excludeID {
+ 			continue
+ 		}
++		// destroy_attached_to_referent (ticket
++		// engine.auto-destroy-attached-to-referent-d32bfbcd7a, Turn to Slag
++		// class: "Destroy all Equipment attached to that creature."): when a
++		// referent card ID is supplied, the sweep is narrowed to permanents
++		// currently attached to it, on top of the ordinary filter/scope
++		// checks below. Empty attachedTo (the overwhelmingly common case)
++		// leaves the sweep unrestricted, matching every existing caller.
++		if attachedTo != "" && c.AttachedTo != attachedTo {
++			continue
++		}
+ 		if tokensOnly && !c.IsToken {
+ 			continue
+ 		}
+-- 
+2.43.0
+

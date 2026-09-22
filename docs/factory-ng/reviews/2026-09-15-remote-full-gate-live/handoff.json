@@ -1,0 +1,56 @@
+{
+  "checked_at": "2026-09-15T16:19:42Z",
+  "remote_policy": {
+    "enabled": true,
+    "id": "ryzen-395-full-gate",
+    "host": "dani@192.168.1.251",
+    "root": "/data/factory-ng",
+    "image": "sha256:e8565fa265f973c06f0515fac7aa9d102edae01b5677d69216900b84029c6ad0",
+    "cpus": [
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ],
+    "go_parallelism": 4
+  },
+  "current_integrating_jobs": {
+    "ticket:engine.auto-counter-all-other-spells-nontargeted-1e302db346/v3": {
+      "pid": 378845,
+      "state": "integrating"
+    },
+    "ticket:engine.auto-damage-amount-from-triggering-spell-color-count-9c767464b3/v1": {
+      "pid": 378845,
+      "state": "integrating"
+    },
+    "ticket:engine.auto-exile-source-and-target-permanent-d05ea83480/v1": {
+      "pid": 378845,
+      "state": "integrating"
+    },
+    "ticket:engine.auto-prevent-combat-damage-to-and-from-referent-creat-61d1eeee89/v1": {
+      "pid": 378845,
+      "state": "integrating"
+    },
+    "ticket:map.plan-destroy-miracle-worker-5b9794a981/v3": {
+      "pid": 378845,
+      "state": "integrating"
+    },
+    "ticket:map.plan-exile-glare-of-heresy-4973f2753d/v3": {
+      "pid": 378845,
+      "state": "integrating"
+    },
+    "ticket:map.plan-exile-undead-slayer-3452f52045/v2": {
+      "pid": 378845,
+      "state": "integrating"
+    },
+    "ticket:map.plan-pump-hurska-sweet-tooth-3c018cefc9/v3": {
+      "pid": 378845,
+      "state": "integrating"
+    }
+  },
+  "first_live_remote_receipt_observed": false
+}

@@ -1,0 +1,97 @@
+--- a/scripts/factory-ng-produce-build-plan.py
++++ b/scripts/factory-ng-produce-build-plan.py
+@@ -39,10 +39,12 @@
+ VERB_EFFECT = {
+     "draw": "draw",
+     "p_draw": "draw",
++    "draw_eq": "draw",
+     "gain_life": "life_gain",
+     "lose_life": "life_loss",
+     "discard": "discard",
+     "p_discard": "discard",
++    "p_discard_hand": "discard",
+     "mill": "mill",
+     "damage": "damage",
+     "damage_by": "damage",
+@@ -63,7 +65,24 @@
+     "copy": "copy",
+     "gain_control": "gain_control",
+     "sacrifice": "sacrifice",
++    "p_sacrifice": "edict_sacrifice",
+     "prevent": "prevent_damage_this_turn_scoped",
++    "token_copy": "token_copy",
++    "add_mana": "add_mana",
++    "regenerate": "regenerate",
++    "remove_counter": "remove_counter",
++    "goad": "goad",
++}
++
++VERB_REQUIREMENTS = {
++    'draw_eq': 'Evaluate the exact live count at resolution, preserving its owner, zone, filters and variable/referent binding. A guessed or fixed draw amount is not equivalent.',
++    'p_discard_hand': 'Discard the specified player\'s entire hand using that player\'s current hand size, preserving each-player scope and sequence timing; never substitute the controller\'s or one opponent\'s hand count for another player.',
++    'p_sacrifice': 'Preserve the sacrificing player, their choice, permanent filter, count and any greatest/least/fraction constraint. Sacrifice is not destruction, and the caster must not choose the opponent\'s permanents. Unsupported selectors require an Engine dependency.',
++    'token_copy': 'Preserve the copied object\'s identity, controller, copyable characteristics and all stated exceptions, token count, entry state and duration. Copying a spell or creating a generic token is not equivalent. Linked delayed exile/sacrifice requires executable referent binding.',
++    'add_mana': 'Preserve colors, amount, who chooses colors, any-combination versus one-color choice, spending restrictions and mana lifetime. Preserve whether the ability uses the stack and is a mana ability. Unsupported payment or choice behavior requires an Engine dependency.',
++    'regenerate': 'The regenerate effect is self-only; use the separately registered regenerate_target effect for explicit targets. Preserve controller/type restrictions and shield lifetime. Group/referent shapes require an Engine dependency if unsupported; regeneration is not indestructibility.',
++    'remove_counter': 'The documented remove_counter executor is self-only. Preserve counter type, amount, chosen object/player and whether removal is an effect or a cost; never substitute source counters for target counters. Unsupported target/choice shapes require an Engine dependency.',
++    'goad': 'Preserve each chosen creature, controller restrictions, duration, must-attack and attack-another-player behavior. Never replace goad with haste or an unconditional forced attack; unsupported filters or duration require an Engine dependency.',
+ }
+ 
+ ACTIVE_STATES = {"queued", "working", "awaiting_integration", "integrating"}
+@@ -559,7 +578,17 @@
+                 },
+                 "on_failure": "Record a structured verdict. NEEDS_PRIMITIVE creates one Engine dependency; invalid or mixed premises are terminal and discovery advances to another candidate.",
+             }
+-            if verb in ('draw', 'p_draw', 'gain_life', 'lose_life', 'discard', 'p_discard', 'mill'):
++            if verb in VERB_REQUIREMENTS:
++                ticket['required_behavior'].append(VERB_REQUIREMENTS[verb])
++            if verb == 'regenerate' and 'regenerate_target' in effects:
++                ticket['required_behavior'][0] = (
++                    'Map the exact current regenerate miss on %s through regenerate for self or regenerate_target for an explicit target, only where the documented runtime supports the complete Oracle semantics.' % name)
++                target_registry = effects['regenerate_target']
++                ticket['evidence'].append({
++                    'path': target_registry['path'],
++                    'fact': 'The separate regenerate_target effect has executor %s and shape test %s; use it only for its supported explicit-target shapes.' %
++                            (target_registry['executor'], target_registry['shape_test'])})
++            if verb in ('draw', 'p_draw', 'draw_eq', 'gain_life', 'lose_life', 'discard', 'p_discard', 'p_discard_hand', 'mill'):
+                 ticket['required_behavior'].append(
+                     'Preserve the exact player (controller, opponent, chosen target or each player), quantity, variable binding and choice timing. Discard choice versus random discard and mill destination must remain exact. Registry membership alone does not prove these argument shapes; request an atomic Engine dependency when the public resolution/choice path is missing.')
+             if verb == 'prevent':
+--- a/config/factory-ng-producers.json
++++ b/config/factory-ng-producers.json
+@@ -45,7 +45,7 @@
+         "--lane",
+         "fresh",
+         "--plan",
+-        "docs/factory-ng/measurements/producer-frontier-2026-09-12.jsonl"
++        "docs/factory-ng/measurements/producer-frontier-2026-09-12-evening.jsonl"
+       ],
+       "timeout_seconds": 180
+     },
+@@ -62,7 +62,7 @@
+         "--max-active",
+         "2",
+         "--plan",
+-        "docs/factory-ng/measurements/producer-frontier-2026-09-12.jsonl"
++        "docs/factory-ng/measurements/producer-frontier-2026-09-12-evening.jsonl"
+       ],
+       "timeout_seconds": 180
+     },
+@@ -75,7 +75,7 @@
+         "--lane",
+         "conflict",
+         "--plan",
+-        "docs/factory-ng/measurements/producer-frontier-2026-09-12.jsonl"
++        "docs/factory-ng/measurements/producer-frontier-2026-09-12-evening.jsonl"
+       ]
+     },
+     {
+@@ -87,7 +87,7 @@
+         "--lane",
+         "repair",
+         "--plan",
+-        "docs/factory-ng/measurements/producer-frontier-2026-09-12.jsonl"
++        "docs/factory-ng/measurements/producer-frontier-2026-09-12-evening.jsonl"
+       ]
+     },
+     {

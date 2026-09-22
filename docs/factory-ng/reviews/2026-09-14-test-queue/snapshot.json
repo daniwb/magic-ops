@@ -1,0 +1,24 @@
+{
+  "checked_at": "2026-09-14T10:06:31.949861+00:00",
+  "current_job_counts": {
+    "failed": 1412,
+    "completed": 1147,
+    "parked": 338,
+    "awaiting_verification": 4,
+    "integration_failed": 5,
+    "integrating": 5,
+    "queued": 3,
+    "working": 4,
+    "blocked": 854
+  },
+  "integrating_tickets": [
+    "ticket:engine.auto-overload-effect-registration-df8fc7ae96/v1",
+    "ticket:map.plan-damage-cinderheart-giant-d7b092318b/v3",
+    "ticket:map.plan-destroy-dwindle-17735d8be0/v2",
+    "ticket:map.plan-pump-electrostatic-pummeler-38701e02ec/v2",
+    "ticket:map.plan-pump-exhilarating-elocution-8b9605ad4a/v2"
+  ],
+  "compilation": {
+    "enabled": true
+  }
+}

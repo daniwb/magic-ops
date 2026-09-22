@@ -1,0 +1,10 @@
+{
+  "ticket_id": "ticket:engine.auto-spell-exile-target-filter-subtype-or-keyword-or--568a57939f/v1",
+  "receipt": "docs/factory-ng/runs/2026-09-16T085922Z-engine-auto-spell-exile-target-filter-subtype-or-keyword-or--568a57939f-v1-codex.json",
+  "receipt_sha256": "sha256:8b5b6cf0baf764ff744f2ece257243f156751338290863d36725ffa6efd4d705",
+  "raw_artifact": {
+    "path": "docs/factory-ng/runs/2026-09-16T085922Z-engine-auto-spell-exile-target-filter-subtype-or-keyword-or--568a57939f-v1-codex.raw.json",
+    "sha256": "sha256:b9c4eab264a31edb7e807861c52218d3bd21099f31d851e57a8a2abe7afdd1a9"
+  },
+  "finding": "Explicit Luna capacity rejection before any patch; Terra configured and functioning since previous recovery. One attempt, original scope and all gates required."
+}

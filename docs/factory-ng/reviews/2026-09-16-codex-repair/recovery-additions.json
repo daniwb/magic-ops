@@ -1,0 +1,198 @@
+[
+  {
+    "ticket_id": "ticket:map.plan-exile-scarab-feast-d952117a2a/v5",
+    "attempts": 1,
+    "receipt": "docs/factory-ng/runs/2026-09-16T082649Z-map-plan-exile-scarab-feast-d952117a2a-v5-codex.json",
+    "started_at": "2026-09-16T08:26:48Z",
+    "ticket_sha256": "sha256:a69dccdb7ad1ef365d88bb6f8b22f5ff509a5d4e633540aa5eabb214a03c1bb1",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-codex-repair/map.plan-exile-scarab-feast-d952117a2a-v5.review.json",
+    "evidence_sha256": "sha256:d3c0d716eacd13811bea17a132809109c2aab5df72e5f88b9d427f5cdbeecb39",
+    "reason": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged.",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "reviewed_state": "queued"
+  },
+  {
+    "ticket_id": "ticket:engine.auto-active-damage-receiver-type-gate-3b7d9305ad/v2",
+    "attempts": 1,
+    "receipt": "docs/factory-ng/runs/2026-09-16T104907Z-engine-auto-active-damage-receiver-type-gate-3b7d9305ad-v2-codex.json",
+    "started_at": "2026-09-16T10:49:07Z",
+    "ticket_sha256": "sha256:a7dab4195e78cb53e768aa8dcd7a4a5a40d138f778ea8d205619cab809fa236b",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-codex-repair/engine.auto-active-damage-receiver-type-gate-3b7d9305ad-v2.review.json",
+    "evidence_sha256": "sha256:c0147bc546f6cadd9279746d00efb611cde4b19159d4c183fb5a4f1a45771fda",
+    "reason": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged.",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "reviewed_state": "queued"
+  },
+  {
+    "ticket_id": "ticket:engine.auto-untap-target-attached-b1b7838292/v1",
+    "attempts": 1,
+    "receipt": "docs/factory-ng/runs/2026-09-16T050452Z-engine-auto-untap-target-attached-b1b7838292-v1-codex.json",
+    "started_at": "2026-09-16T05:04:51Z",
+    "ticket_sha256": "sha256:fddca4bf05319b71c7e8c53264cf72b0304c687500a0daa0248e044dcbc8b3a0",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-codex-repair/engine.auto-untap-target-attached-b1b7838292-v1.review.json",
+    "evidence_sha256": "sha256:6e3d47dcccbd52e7f3d4a366f840055095e96fa1a6b3932b4c02f344aac56ebe",
+    "reason": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged.",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "reviewed_state": "queued"
+  },
+  {
+    "ticket_id": "ticket:engine.auto-tap-or-untap-attached-choice-7e9017ab8c/v1",
+    "attempts": 1,
+    "receipt": "docs/factory-ng/runs/2026-09-16T061814Z-engine-auto-tap-or-untap-attached-choice-7e9017ab8c-v1-codex.json",
+    "started_at": "2026-09-16T06:18:13Z",
+    "ticket_sha256": "sha256:9a4e64dae4429329475177640e35f28b8b00310fab4ca8cd6a2c23cbe8a8b17c",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-codex-repair/engine.auto-tap-or-untap-attached-choice-7e9017ab8c-v1.review.json",
+    "evidence_sha256": "sha256:edff2647f35be6a2d525d0206be1483429aff48771d0c89d945039ec604627a9",
+    "reason": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged.",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "reviewed_state": "queued"
+  },
+  {
+    "ticket_id": "ticket:engine.auto-become-creature-with-pt-and-keywords-until-eot-0ace9f1b94/v1",
+    "attempts": 2,
+    "receipt": "docs/factory-ng/runs/2026-09-15T183143Z-engine-auto-become-creature-with-pt-and-keywords-until-eot-0ace9f1b94-v1-claude.json",
+    "started_at": "2026-09-15T18:31:41Z",
+    "ticket_sha256": "sha256:acbe6a9b73316cc9e0867a04ddfd6aadde110817e33ca76e9791c00553d090c7",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-codex-repair/engine.auto-become-creature-with-pt-and-keywords-until-eot-0ace9f1b94-v1.review.json",
+    "evidence_sha256": "sha256:69a6d89dce408e7b3f59a4c585389c50576508d75d61540301f4bc3a6e773c48",
+    "reason": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged.",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "reviewed_state": "queued"
+  },
+  {
+    "ticket_id": "ticket:engine.auto-counter-target-creature-spell-78cf9b4a60/v2",
+    "attempts": 1,
+    "receipt": "docs/factory-ng/runs/2026-09-16T104611Z-engine-auto-counter-target-creature-spell-78cf9b4a60-v2-codex.json",
+    "started_at": "2026-09-16T10:46:11Z",
+    "ticket_sha256": "sha256:aeaf34f5d1852843c5e7f4d9bb9722eb70bb9c7dc3bbd9d14d5127e8afb5b774",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-codex-repair/engine.auto-counter-target-creature-spell-78cf9b4a60-v2.review.json",
+    "evidence_sha256": "sha256:ef8dc318247c951eb62adb82f36fd18634d2194410eaab99b9da43e3ad5163a1",
+    "reason": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged.",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "reviewed_state": "queued"
+  },
+  {
+    "ticket_id": "ticket:engine.auto-flying-attacking-or-blocking-target-628d6120f2/v1",
+    "attempts": 1,
+    "receipt": "docs/factory-ng/runs/2026-09-16T064310Z-engine-auto-flying-attacking-or-blocking-target-628d6120f2-v1-codex.json",
+    "started_at": "2026-09-16T06:43:09Z",
+    "ticket_sha256": "sha256:117cc18e562159c2a5369070b010d0dbcffabae024a8de0cd0c46cbe7c58d9f4",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-codex-repair/engine.auto-flying-attacking-or-blocking-target-628d6120f2-v1.review.json",
+    "evidence_sha256": "sha256:07ca7a45dbd4612e3d95d31c09c1593b165c91a1f6cedfddec298901ce09efd1",
+    "reason": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged.",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "reviewed_state": "queued"
+  },
+  {
+    "ticket_id": "ticket:engine.auto-prevent-combat-damage-from-attacking-creatures-0e1e73d55a/v3",
+    "attempts": 2,
+    "receipt": "docs/factory-ng/runs/2026-09-12T180033Z-engine-auto-prevent-combat-damage-from-attacking-creatures-0e1e73d55a-v3-claude.json",
+    "started_at": "2026-09-12T18:00:33Z",
+    "ticket_sha256": "sha256:bee756a0b86a4c08f8fb7dc9500d43357b6555bfbac5ba877961848c355402f1",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-codex-repair/engine.auto-prevent-combat-damage-from-attacking-creatures-0e1e73d55a-v3.review.json",
+    "evidence_sha256": "sha256:9ccffddce65b4efd4212c1d850266b1c4a8b3c89c996da914906f9d154984c98",
+    "reason": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged.",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "reviewed_state": "queued"
+  },
+  {
+    "ticket_id": "ticket:engine.auto-register-untap-up-to-literal-count-effect-af5116bc30/v1",
+    "attempts": 1,
+    "receipt": "docs/factory-ng/runs/2026-09-16T073501Z-engine-auto-register-untap-up-to-literal-count-effect-af5116bc30-v1-codex.json",
+    "started_at": "2026-09-16T07:35:01Z",
+    "ticket_sha256": "sha256:40737ce9ae4a11888b51b39cb1a234235d242e80d89c946b3058e28c7b65a710",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-codex-repair/engine.auto-register-untap-up-to-literal-count-effect-af5116bc30-v1.review.json",
+    "evidence_sha256": "sha256:396595bfe7f1c66b6d1f9a5f309d4e5189f7054596838d610f802d83f1e77f2f",
+    "reason": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged.",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "reviewed_state": "queued"
+  },
+  {
+    "ticket_id": "ticket:engine.auto-remove-counter-at-end-of-combat-0a0868121b/v1",
+    "attempts": 2,
+    "receipt": "docs/factory-ng/runs/2026-09-13T025040Z-engine-auto-remove-counter-at-end-of-combat-0a0868121b-v1-claude.json",
+    "started_at": "2026-09-13T02:50:40Z",
+    "ticket_sha256": "sha256:ed40746e657067d4215fa8bd53c5d3089a1a99f390e928dbce8068e84d6da8d8",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-codex-repair/engine.auto-remove-counter-at-end-of-combat-0a0868121b-v1.review.json",
+    "evidence_sha256": "sha256:d99d69f8cfdd5bdd783cf453d5658db0390981fcbcc6f130f7189c3d66635ae2",
+    "reason": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged.",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "reviewed_state": "queued"
+  },
+  {
+    "ticket_id": "ticket:engine.auto-return-from-graveyard-lesser-toughness-filter-cfeba54e07/v3",
+    "attempts": 1,
+    "receipt": "docs/factory-ng/runs/2026-09-16T053442Z-engine-auto-return-from-graveyard-lesser-toughness-filter-cfeba54e07-v3-codex.json",
+    "started_at": "2026-09-16T05:34:41Z",
+    "ticket_sha256": "sha256:452baba5f38dcadc99416938632cf7e3938f77771676ef895486026932971191",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-codex-repair/engine.auto-return-from-graveyard-lesser-toughness-filter-cfeba54e07-v3.review.json",
+    "evidence_sha256": "sha256:01a5cb7cc3dcf49f543a0791f7abe9c31ac644ad46171546a71bd037ae86ad3b",
+    "reason": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged.",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "reviewed_state": "queued"
+  },
+  {
+    "ticket_id": "ticket:engine.auto-tap-preceding-mass-damage-referent-38d1cb4ec9/v1",
+    "attempts": 1,
+    "receipt": "docs/factory-ng/runs/2026-09-16T070204Z-engine-auto-tap-preceding-mass-damage-referent-38d1cb4ec9-v1-codex.json",
+    "started_at": "2026-09-16T07:02:03Z",
+    "ticket_sha256": "sha256:428158986e0dc28e64a008979cc6a28ec56b88da9803c1b92c19154d585476eb",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-codex-repair/engine.auto-tap-preceding-mass-damage-referent-38d1cb4ec9-v1.review.json",
+    "evidence_sha256": "sha256:52cfd92665bfc89c3c231adb374b20442f73e21e0f17e5f73c55bd91935c9674",
+    "reason": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged.",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "reviewed_state": "queued"
+  },
+  {
+    "ticket_id": "ticket:engine.auto-target-attacking-alone-creature-edef446e2c/v2",
+    "attempts": 1,
+    "receipt": "docs/factory-ng/runs/2026-09-16T101351Z-engine-auto-target-attacking-alone-creature-edef446e2c-v2-codex.json",
+    "started_at": "2026-09-16T10:13:50Z",
+    "ticket_sha256": "sha256:3f1b8889bd27b1c03b86d5b57d309547f69f1b0f9b1ab5f4b5f2d96ac8651659",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-codex-repair/engine.auto-target-attacking-alone-creature-edef446e2c-v2.review.json",
+    "evidence_sha256": "sha256:8c19288a3f70c06025da4c23f13a418cd05a676d69b002824c140a7f29668816",
+    "reason": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged.",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "reviewed_state": "queued"
+  },
+  {
+    "ticket_id": "ticket:engine.auto-target-player-graveyard-filtered-exile-count-2e44bf1a94/v2",
+    "attempts": 2,
+    "receipt": "docs/factory-ng/runs/2026-09-15T020255Z-engine-auto-target-player-graveyard-filtered-exile-count-2e44bf1a94-v2-codex.json",
+    "started_at": "2026-09-15T02:02:53Z",
+    "ticket_sha256": "sha256:d16cc4c9a384e804660b631b318af12d068166fe21a98d294fb6b2a659eeeb2d",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-codex-repair/engine.auto-target-player-graveyard-filtered-exile-count-2e44bf1a94-v2.review.json",
+    "evidence_sha256": "sha256:9215d33aa693d44c62e342f21cfbbbba645b33fa9e094a422432fbaad0d6a81d",
+    "reason": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged.",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "reviewed_state": "queued"
+  }
+]

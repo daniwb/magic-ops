@@ -1,0 +1,10 @@
+{
+  "ticket_id": "ticket:map.plan-pump-wick-s-patrol-efe6841c5e/v4",
+  "receipt": "docs/factory-ng/runs/2026-09-16T085837Z-map-plan-pump-wick-s-patrol-efe6841c5e-v4-codex.json",
+  "receipt_sha256": "sha256:944cb3ac851028b07caa931cdddeec499542865202d50ad119c1ad04678e74d7",
+  "raw_artifact": {
+    "path": "docs/factory-ng/runs/2026-09-16T085837Z-map-plan-pump-wick-s-patrol-efe6841c5e-v4-codex.raw.json",
+    "sha256": "sha256:074964ed0da8026da18a8801db0fa2dc01fd0240f49f052fa33fefa264d9cd3c"
+  },
+  "finding": "Explicit Luna capacity rejection before any patch; Terra configured and functioning since previous recovery. One attempt, original scope and all gates required."
+}

@@ -21,7 +21,7 @@ OPS="${OPS:-/opt/development/magic-ops}"
 REPO="${REPO:-/opt/development/test/openmagic}"
 CLONE="${CLONE:-/tmp/work/pipe-clone}"
 MODEL="${PIPE_MODEL:-claude-sonnet-5}"
-GO=/usr/local/go/bin/go
+GO=/opt/development/magic-ops/scripts/go-cache-run.sh
 export GOCACHE=/opt/development/.gocache-magic
 LOG="/tmp/orch/pipeline-$TICKET.log"
 : > "$LOG"
@@ -167,7 +167,7 @@ import json, sys
 p = sys.stdin.read()
 body = {
     'model': '$MODEL',
-    'max_tokens': ${PIPE_MAX_TOKENS_CAP:-8000},
+    'max_tokens': ${PIPE_MAX_TOKENS_CAP:-16000},
     'stream': False,
     'reasoning': {'max_tokens': ${PIPE_REASONING_TOKENS:-3000}, 'exclude': True},
     'messages': [
@@ -215,7 +215,7 @@ print(json.dumps(body))")
   if [ "${PIPE_ENGINE:-}" = openrouter-agentic ]; then
     python3 "$OPS/scripts/openrouter-agentic-call.py" --repo "$PWD" \
       --base-url "${PIPE_BASE_URL:-https://openrouter.ai/api/v1}" --model "$MODEL" \
-      --max-turns "${PIPE_AGENTIC_MAX_TURNS:-25}" --max-tokens "${PIPE_MAX_TOKENS_CAP:-8000}" \
+      --max-turns "${PIPE_AGENTIC_MAX_TURNS:-25}" --max-tokens "${PIPE_MAX_TOKENS_CAP:-16000}" \
       --reasoning-tokens "${PIPE_REASONING_TOKENS:-3000}" \
       2>>"$LOG"
     return
@@ -236,7 +236,7 @@ print(json.dumps(body))")
   if [ "${PIPE_ENGINE:-}" = qwen-agentic ]; then
     python3 "$OPS/scripts/qwen-agentic-call.py" --repo "$PWD" \
       --base-url "${PIPE_BASE_URL:-http://192.168.1.251:8080}" --model "$MODEL" \
-      --max-turns "${PIPE_AGENTIC_MAX_TURNS:-25}" --max-tokens "${PIPE_MAX_TOKENS_CAP:-8000}" \
+      --max-turns "${PIPE_AGENTIC_MAX_TURNS:-25}" --max-tokens "${PIPE_MAX_TOKENS_CAP:-16000}" \
       2>>"$LOG"
     return
   fi
@@ -367,11 +367,13 @@ attempt=1
 PROMPT_FILE="$PACK"
 while [ $attempt -le 2 ]; do
   log "model call $attempt (model $MODEL)"
-  OUT=$(model_call < "$PROMPT_FILE")
+  OUT=$(model_call < "$PROMPT_FILE"); call_rc=$?
+  [ "$call_rc" -eq 76 ] && { log "OpenRouter 429 cooldown recorded"; exit 76; }
   if [ -z "$OUT" ]; then
     ST=$(jq -r '.subtype // "?"' "/tmp/orch/pipeline-$TICKET-raw-last.json" 2>/dev/null)
     log "empty model reply (subtype=$ST, raw saved) — retrying once"
-    OUT=$(model_call < "$PROMPT_FILE")
+    OUT=$(model_call < "$PROMPT_FILE"); call_rc=$?
+    [ "$call_rc" -eq 76 ] && { log "OpenRouter cooldown still active"; exit 76; }
     [ -z "$OUT" ] && { log "empty twice — abort"; exit 1; }
   fi
   printf '%s\n' "$OUT" > "/tmp/orch/pipeline-$TICKET-reply-$attempt.md"
@@ -455,7 +457,8 @@ $(printf '%s\n%s\n%s' "${BUILD_OUT:-}" "${TEST_OUT:-}" "${WAVE_OUT:-}" | tail -c
           echo "End with EXPECT: <one line>."
         } > "$BFP"
         log "bugfix call $bfx"
-        BOUT=$(model_call < "$BFP")
+        BOUT=$(model_call < "$BFP"); call_rc=$?
+        [ "$call_rc" -eq 76 ] && { log "OpenRouter 429 cooldown recorded during repair"; exit 76; }
         [ -z "$BOUT" ] && break
         BAPPLY=$(printf '%s' "$BOUT" | python3 "$OPS/scripts/map-pipeline-apply.py" --overwrite); brc=$?
         if [ $brc -ne 0 ]; then GATE_TAIL="Correction blocks failed to apply: $BAPPLY"; bfx=$((bfx+1)); continue; fi

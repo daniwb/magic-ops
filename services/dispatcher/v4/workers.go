@@ -28,7 +28,7 @@ import (
 	"os/exec"
 )
 
-var workersConfigPath = envOr("WORKERS_CONFIG", "/opt/development/magic-ops/config/workers.json")
+var workersConfigPath = envOr("WORKERS_CONFIG", factoryNGRoot+"/config/workers.json")
 
 type workerConfig struct {
 	Name            string `json:"name"`
@@ -58,7 +58,7 @@ func loadWorkerConfigs() ([]workerConfig, error) {
 // place that knows how to determine whether a worker is actually running
 // (tmux window or, for untracked stragglers, a matching process).
 func workerCtlStatus() (map[string]bool, error) {
-	out, err := exec.Command("python3", "/opt/development/magic-ops/scripts/worker_ctl.py",
+	out, err := exec.Command("python3", factoryNGRoot+"/scripts/worker_ctl.py",
 		"status", "--json").Output()
 	if err != nil {
 		return nil, err
@@ -155,7 +155,7 @@ func startWorker(name string) error {
 	if !found {
 		return fmt.Errorf("unknown worker %q — not in %s", name, workersConfigPath)
 	}
-	cmd := exec.Command("python3", "/opt/development/magic-ops/scripts/worker_ctl.py", "start", name)
+	cmd := exec.Command("python3", factoryNGRoot+"/scripts/worker_ctl.py", "start", name)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		return fmt.Errorf("%s: %s", err, string(out))
@@ -183,7 +183,7 @@ func stopWorker(name string) error {
 	if !found {
 		return fmt.Errorf("unknown worker %q — not in %s", name, workersConfigPath)
 	}
-	cmd := exec.Command("python3", "/opt/development/magic-ops/scripts/worker_ctl.py", "stop", name)
+	cmd := exec.Command("python3", factoryNGRoot+"/scripts/worker_ctl.py", "stop", name)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		return fmt.Errorf("%s: %s", err, string(out))

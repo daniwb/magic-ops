@@ -1,0 +1,12 @@
+[
+  {
+    "ticket_id": "ticket:engine.operator-attached-control-recovery-sep15/v2",
+    "ticket_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/attached-control-v2/ticket.json",
+    "proposal": "docs/factory-ng/candidates/proposal-5753049d707743d4ac72bc372d59fe2f.json",
+    "identity": {
+      "worker": "operator",
+      "model": "operator-correction-no-worker-provider-run",
+      "profile": "codex-constrained@1.1.0"
+    }
+  }
+]

@@ -1,0 +1,562 @@
+<title>Capability Coverage Atlas</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --page:      #f3f5f8;
+    --surface:   #ffffff;
+    --surface-2: #eaeef3;
+    --ink:       #10141c;
+    --ink-soft:  #48536b;
+    --ink-mute:  #7c8494;
+    --hair:      rgba(16,20,28,0.11);
+    --hair-strong: rgba(16,20,28,0.22);
+    --accent:    #2a78d6;
+    --accent-ink:#ffffff;
+    --good:      #0ca30c;
+    --warning:   #c98500;
+    --critical:  #d03b3b;
+    --good-bg:   rgba(12,163,12,0.10);
+    --warning-bg:rgba(201,133,0,0.12);
+    --critical-bg:rgba(208,59,59,0.09);
+    --shadow: 0 1px 2px rgba(16,20,28,0.06), 0 8px 24px -12px rgba(16,20,28,0.18);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --page:      #0a0d13;
+      --surface:   #11151d;
+      --surface-2: #171c26;
+      --ink:       #eef1f6;
+      --ink-soft:  #aab4c8;
+      --ink-mute:  #7c8494;
+      --hair:      rgba(238,241,246,0.10);
+      --hair-strong: rgba(238,241,246,0.22);
+      --accent:    #5aa3ec;
+      --accent-ink:#08131f;
+      --good:      #35c25a;
+      --warning:   #fab219;
+      --critical:  #f0776a;
+      --good-bg:   rgba(53,194,90,0.14);
+      --warning-bg:rgba(250,178,25,0.14);
+      --critical-bg:rgba(240,119,106,0.13);
+      --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 8px 28px -12px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"] {
+    --page:      #0a0d13;
+    --surface:   #11151d;
+    --surface-2: #171c26;
+    --ink:       #eef1f6;
+    --ink-soft:  #aab4c8;
+    --ink-mute:  #7c8494;
+    --hair:      rgba(238,241,246,0.10);
+    --hair-strong: rgba(238,241,246,0.22);
+    --accent:    #5aa3ec;
+    --accent-ink:#08131f;
+    --good:      #35c25a;
+    --warning:   #fab219;
+    --critical:  #f0776a;
+    --good-bg:   rgba(53,194,90,0.14);
+    --warning-bg:rgba(250,178,25,0.14);
+    --critical-bg:rgba(240,119,106,0.13);
+    --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 8px 28px -12px rgba(0,0,0,0.6);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--page); }
+  body {
+    color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 24px 28px 80px; }
+
+  nav.topnav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+  nav.topnav a { color: var(--ink-mute); text-decoration: none; font-size: 12.5px; font-family: "IBM Plex Mono", monospace; }
+  nav.topnav a:hover { color: var(--accent); }
+  #stamp { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--ink-mute); }
+  #stamp .live { color: var(--good); }
+  #stamp .live:before { content: '●'; margin-right: 5px; }
+
+  .eyebrow {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  h1 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(28px, 4vw, 40px);
+    letter-spacing: -0.01em;
+    margin: 6px 0 10px;
+    text-wrap: balance;
+  }
+  .lede {
+    max-width: 68ch;
+    color: var(--ink-soft);
+    font-size: 16px;
+    margin: 0 0 4px;
+  }
+  .meta-line {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    color: var(--ink-mute);
+    margin-top: 14px;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin: 32px 0 8px;
+  }
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--hair);
+    border-radius: 10px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+  }
+  .stat .label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-mute);
+    font-weight: 600;
+  }
+  .stat .value {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 30px;
+    font-weight: 600;
+    margin-top: 6px;
+    letter-spacing: -0.01em;
+  }
+  .stat .value.critical { color: var(--critical); }
+  .stat .sub { font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; }
+
+  section.panelblock { margin-top: 44px; }
+  .panelblock h2 {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 21px;
+    font-weight: 600;
+    margin: 0 0 4px;
+  }
+  .panelblock .sec-sub { color: var(--ink-soft); font-size: 13.5px; margin: 0 0 18px; max-width: 74ch; }
+
+  .zones {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: var(--zone-cols, 1fr 1fr 1fr);
+  }
+  @media (max-width: 860px) {
+    .zones { grid-template-columns: 1fr; }
+  }
+  .zone-panel {
+    background: var(--surface);
+    border: 1px solid var(--hair);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .zone-head {
+    padding: 14px 16px 12px;
+    border-bottom: 1px solid var(--hair);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .zone-title { display: flex; align-items: center; gap: 8px; }
+  .zone-dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+  .zone-name { font-weight: 600; font-size: 14.5px; }
+  .zone-figure { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; color: var(--ink-mute); text-align: right; }
+  .zone-figure b { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+  .treemap {
+    position: relative;
+    width: 100%;
+    height: 360px;
+    background: var(--surface-2);
+  }
+  .cell {
+    position: absolute;
+    border-radius: 3px;
+    overflow: hidden;
+    cursor: pointer;
+    outline: 1px solid var(--surface);
+    transition: filter 0.12s ease, outline-color .12s ease;
+    display: flex;
+    align-items: flex-end;
+  }
+  .cell:hover { filter: brightness(1.08); outline: 1.5px solid var(--hair-strong); z-index: 5; }
+  .cell .cell-label {
+    padding: 5px 6px;
+    font-size: 11px;
+    line-height: 1.25;
+    color: var(--accent-ink);
+    font-weight: 600;
+    pointer-events: none;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  }
+  .cell .cell-label .n { display: block; font-family: "IBM Plex Mono", monospace; font-weight: 500; opacity: 0.88; font-variant-numeric: tabular-nums; }
+  .cell.zone-idle { background: var(--critical); }
+  .cell.zone-active { background: var(--warning); }
+  .cell.zone-producing { background: var(--good); }
+  .cell .badge {
+    position: absolute; top: 3px; right: 3px;
+    width: 15px; height: 15px; border-radius: 50%;
+    background: rgba(0,0,0,0.28);
+    color: #fff; font-size: 10px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    font-family: "IBM Plex Mono", monospace;
+  }
+
+  .legend { display: flex; gap: 18px; flex-wrap: wrap; margin: 16px 2px 0; font-size: 12.5px; color: var(--ink-soft); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .legend i.idle { background: var(--critical); }
+  .legend i.active { background: var(--warning); }
+  .legend i.producing { background: var(--good); }
+  .legend i.gap { background: var(--accent); }
+
+  .tooltip {
+    position: fixed;
+    pointer-events: none;
+    background: var(--ink);
+    color: var(--page);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    max-width: 300px;
+    box-shadow: 0 12px 30px -8px rgba(0,0,0,0.45);
+    z-index: 50;
+    opacity: 0;
+    transition: opacity 0.08s ease;
+    line-height: 1.45;
+  }
+  .tooltip.show { opacity: 1; }
+  .tooltip .t-item { font-weight: 600; font-family: "IBM Plex Mono", monospace; font-size: 12.5px; margin-bottom: 4px; }
+  .tooltip .t-row { display: flex; justify-content: space-between; gap: 14px; color: color-mix(in srgb, var(--page) 78%, transparent); font-size: 11.5px; }
+  .tooltip .t-samples { margin-top: 6px; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: color-mix(in srgb, var(--page) 65%, transparent); word-break: break-all; }
+  .tooltip .t-note { margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.15); color: var(--warning); font-size: 11px; }
+
+  .callout {
+    margin-top: 18px;
+    border: 1px solid color-mix(in srgb, var(--critical) 35%, var(--hair));
+    background: var(--critical-bg);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 13.5px;
+    color: var(--ink);
+    display: flex;
+    gap: 10px;
+  }
+  .callout b { color: var(--critical); }
+
+  table.idle-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  table.idle-table th {
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-mute);
+    font-weight: 600;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--hair-strong);
+    position: sticky; top: 0;
+    background: var(--surface);
+  }
+  table.idle-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--hair);
+    vertical-align: middle;
+  }
+  table.idle-table tr:hover td { background: var(--surface-2); }
+  .rank-cell { font-family: "IBM Plex Mono", monospace; color: var(--ink-mute); font-variant-numeric: tabular-nums; width: 46px; }
+  .unlock-cell { font-family: "IBM Plex Mono", monospace; font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; width: 76px; }
+  .item-cell { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; }
+  .item-cell .tag { color: var(--ink-mute); }
+  .bar-cell { width: 220px; }
+  .minibar { display: flex; height: 8px; border-radius: 3px; overflow: hidden; background: var(--surface-2); }
+  .minibar div { height: 100%; }
+  .table-card {
+    background: var(--surface);
+    border: 1px solid var(--hair);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .table-scroll { max-height: 480px; overflow-y: auto; }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 18px;
+    border-top: 1px solid var(--hair);
+    color: var(--ink-mute);
+    font-size: 12px;
+    font-family: "IBM Plex Mono", monospace;
+    line-height: 1.7;
+  }
+</style>
+
+<div class="wrap">
+  <nav class="topnav">
+    <a href="/dashboard">← Magic Factory NG</a>
+    <span id="stamp">loading…</span>
+  </nav>
+
+  <div class="eyebrow">Factory NG · Capability Coverage</div>
+  <h1>The Coverage Atlas</h1>
+  <p class="lede">Measured cards with one remaining parser miss, grouped by miss family and linked ticket history. These counts describe candidates at the measured revision; each card still needs semantic validation.</p>
+  <div class="meta-line" id="meta-line"></div>
+
+  <div class="stats" id="stat-row"></div>
+
+  <section class="panelblock">
+    <h2>Where the measured candidates sit</h2>
+    <p class="sec-sub">Each tile is one parser verb or structural class, sized by its measured candidate count. Colors describe ticket history, not whether work is running now. Broad classes such as unknown verbs and replacements need narrower, evidence-backed tasks.</p>
+    <div class="zones" id="zones"></div>
+    <div class="legend">
+      <span><i class="idle"></i> No linked history</span>
+      <span><i class="active"></i> Attempted — no completed job yet</span>
+      <span><i class="producing"></i> Has completed work — may be idle now</span>
+    </div>
+    <div class="callout" id="headline-callout"></div>
+  </section>
+
+  <section class="panelblock">
+    <h2>Families without linked tickets</h2>
+    <p class="sec-sub">No ticket declares this exact family as a plan parent. A large count does not prove that a compatible producer or runtime implementation exists. Older tickets may use a different parent.</p>
+    <div class="table-card">
+      <div class="table-scroll">
+        <table class="idle-table" id="idle-table">
+          <thead><tr><th>Rank</th><th>Shape</th><th style="text-align:right">Candidates</th><th>Examples pinned</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="panelblock">
+    <h2>Attempted families without completed work</h2>
+    <p class="sec-sub">Families with linked ticket history and no completed job. Bars show states across ticket versions, including historical failures.</p>
+    <div class="table-card">
+      <div class="table-scroll">
+        <table class="idle-table" id="active-table">
+          <thead><tr><th>Rank</th><th>Shape</th><th style="text-align:right">Candidates</th><th>Ticket versions</th><th>Outcome mix</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Ticket↔shape matching reads each ticket's own declared <code>plan:&lt;shape&gt;</code> parent reference — the same field the build-plan producer writes — not a keyword guess. Zone = idle (0 matched tickets) / active (matched, no job in <code>completed</code> state) / producing (≥1 <code>completed</code> job). This page polls <code>/factory-ng/coverage.json</code> every 30s; that snapshot is regenerated by <code>scripts/factory-ng-coverage-snapshot.py</code> periodically. The candidate measurement date is separate from the ticket-history refresh time.
+  </footer>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+(function () {
+  let DATA = [];
+  const zoneMeta = {
+    idle:      { label: 'No linked history' },
+    active:    { label: 'Attempted' },
+    producing: { label: 'Has completed work' }
+  };
+  const EVIDENCE_GAP = new Set();
+
+  const tooltip = document.getElementById('tooltip');
+  function showTip(evt, d) {
+    const outcomeText = Object.keys(d.states).length
+      ? Object.entries(d.states).map(([k, v]) => k + ' ' + v).join(' · ')
+      : 'no tickets produced';
+    let html = '<div class="t-item">' + d.item + '</div>' +
+      '<div class="t-row"><span>rank</span><span>#' + d.rank + '</span></div>' +
+      '<div class="t-row"><span>measured candidates</span><span>' + d.unlock + ' cards</span></div>' +
+      '<div class="t-row"><span>tickets matched</span><span>' + d.matched + '</span></div>' +
+      '<div class="t-row"><span>outcomes</span><span>' + outcomeText + '</span></div>';
+    if (d.samples && d.samples.length) {
+      html += '<div class="t-samples">' + d.samples.slice(0, 3).join('<br>') + '</div>';
+    }
+    if (EVIDENCE_GAP.has(d.item)) {
+      html += '<div class="t-note">⚠ Recurring pattern: Claude parks these AMBIGUOUS — evidence packet omits the core executor body it needs to confirm.</div>';
+    }
+    tooltip.innerHTML = html;
+    tooltip.classList.add('show');
+    moveTip(evt);
+  }
+  function moveTip(evt) {
+    const pad = 14;
+    let left = evt.clientX + pad, top = evt.clientY + pad;
+    tooltip.style.left = '0px'; tooltip.style.top = '0px';
+    const tw = tooltip.offsetWidth, th = tooltip.offsetHeight;
+    if (left + tw > window.innerWidth - 8) left = evt.clientX - tw - pad;
+    if (top + th > window.innerHeight - 8) top = evt.clientY - th - pad;
+    tooltip.style.left = Math.max(8, left) + 'px';
+    tooltip.style.top = Math.max(8, top) + 'px';
+  }
+  function hideTip() { tooltip.classList.remove('show'); }
+
+  function squarify(items, x, y, w, h) {
+    const total = items.reduce((s, d) => s + d.unlock, 0) || 1;
+    const scale = (w * h) / total;
+    const scaled = items.map(d => ({ item: d, area: Math.max(d.unlock * scale, 0.001) }));
+    const out = [];
+    function worst(row, side) {
+      const s = row.reduce((a, b) => a + b.area, 0);
+      const rmax = Math.max.apply(null, row.map(r => r.area));
+      const rmin = Math.min.apply(null, row.map(r => r.area));
+      return Math.max((side * side * rmax) / (s * s), (s * s) / (side * side * rmin));
+    }
+    function layout(list, x, y, w, h) {
+      let remaining = list.slice();
+      while (remaining.length) {
+        const side = Math.min(w, h);
+        let row = [remaining[0]];
+        let i = 1;
+        while (i < remaining.length) {
+          const trial = row.concat([remaining[i]]);
+          if (worst(trial, side) <= worst(row, side)) { row = trial; i++; } else break;
+        }
+        remaining = remaining.slice(row.length);
+        const rowSum = row.reduce((a, b) => a + b.area, 0);
+        if (w >= h) {
+          const rowWidth = rowSum / h;
+          let oy = y;
+          row.forEach(it => {
+            const rh = h * (it.area / rowSum);
+            out.push({ item: it.item, x: x, y: oy, w: rowWidth, h: rh });
+            oy += rh;
+          });
+          x += rowWidth; w -= rowWidth;
+        } else {
+          const rowHeight = rowSum / w;
+          let ox = x;
+          row.forEach(it => {
+            const rw = w * (it.area / rowSum);
+            out.push({ item: it.item, x: ox, y: y, w: rw, h: rowHeight });
+            ox += rw;
+          });
+          y += rowHeight; h -= rowHeight;
+        }
+        if (w <= 0.5 || h <= 0.5) break;
+      }
+    }
+    layout(scaled, x, y, w, h);
+    return out;
+  }
+
+  function renderZone(container, list) {
+    const w = container.clientWidth, h = container.clientHeight;
+    if (!w || !h) return;
+    container.innerHTML = '';
+    const sorted = list.slice().sort((a, b) => b.unlock - a.unlock);
+    const rects = squarify(sorted, 0, 0, w, h);
+    rects.forEach(r => {
+      const d = r.item;
+      const cell = document.createElement('div');
+      cell.className = 'cell zone-' + d.zone;
+      cell.style.left = r.x.toFixed(1) + 'px';
+      cell.style.top = r.y.toFixed(1) + 'px';
+      cell.style.width = Math.max(r.w - 2, 0).toFixed(1) + 'px';
+      cell.style.height = Math.max(r.h - 2, 0).toFixed(1) + 'px';
+      const showLabel = r.w > 54 && r.h > 30;
+      if (showLabel) {
+        cell.innerHTML = '<div class="cell-label">' + d.item.replace(/^verb_unmapped:|^kind_unsupported:/, '') + '<span class="n">' + d.unlock + '</span></div>';
+      }
+      if (EVIDENCE_GAP.has(d.item) && r.w > 20 && r.h > 20) {
+        cell.innerHTML += '<div class="badge">!</div>';
+      }
+      cell.addEventListener('mouseenter', evt => showTip(evt, d));
+      cell.addEventListener('mousemove', moveTip);
+      cell.addEventListener('mouseleave', hideTip);
+      container.appendChild(cell);
+    });
+  }
+
+  const stateColor = {
+    completed: 'var(--good)', queued: 'var(--accent)', working: 'var(--accent)',
+    parked: 'var(--warning)', blocked: 'var(--critical)', failed: 'var(--critical)',
+    integrating: 'var(--good)', integration_failed: 'var(--critical)',
+    awaiting_integration: 'var(--good)',
+  };
+
+  function renderAll() {
+    const zones = { idle: [], active: [], producing: [] };
+    let totalUnlock = 0;
+    DATA.forEach(d => { zones[d.zone].push(d); totalUnlock += d.unlock; });
+    const totals = {};
+    Object.keys(zones).forEach(z => { totals[z] = zones[z].reduce((s, d) => s + d.unlock, 0); });
+    const idleShare = totalUnlock ? Math.round((totals.idle / totalUnlock) * 100) : 0;
+
+    document.getElementById('stat-row').innerHTML = [
+      { label: 'Tracked capability gaps', value: DATA.length, sub: 'ranked shapes in the coverage plan' },
+      { label: 'Measured one-miss candidates', value: totalUnlock.toLocaleString(), sub: 'at the measured revision across ' + DATA.length + ' shapes' },
+      { label: 'Candidates without linked history', value: totals.idle.toLocaleString(), sub: zones.idle.length + ' shapes, ' + idleShare + '% of all potential', critical: true },
+      { label: 'Families without linked history', value: zones.idle.length + ' / ' + DATA.length, sub: 'no matching plan parent in ticket history', critical: true },
+    ].map(s => '<div class="stat"><div class="label">' + s.label + '</div><div class="value' + (s.critical ? ' critical' : '') + '">' + s.value + '</div><div class="sub">' + s.sub + '</div></div>').join('');
+
+    document.getElementById('headline-callout').textContent =
+      idleShare + '% of measured candidates have no linked family ticket. This is a discovery frontier. Runnable supply also depends on producer scope, existing ticket history, runtime support and worker availability.';
+
+    const zonesEl = document.getElementById('zones');
+    zonesEl.style.setProperty('--zone-cols', ['idle', 'active', 'producing'].map(z => Math.max(totals[z], 1) + 'fr').join(' '));
+    zonesEl.innerHTML = ['idle', 'active', 'producing'].map(z =>
+      '<div class="zone-panel"><div class="zone-head"><div class="zone-title"><span class="zone-dot" style="background:var(--' + (z === 'idle' ? 'critical' : z === 'active' ? 'warning' : 'good') + ')"></span><span class="zone-name">' + zoneMeta[z].label + '</span></div>' +
+      '<div class="zone-figure"><b>' + totals[z].toLocaleString() + '</b> unlock<br>' + zones[z].length + ' shapes</div></div>' +
+      '<div class="treemap" data-zone="' + z + '"></div></div>'
+    ).join('');
+    document.querySelectorAll('.treemap').forEach(el => renderZone(el, zones[el.dataset.zone]));
+
+    document.querySelector('#idle-table tbody').innerHTML = zones.idle.slice().sort((a, b) => b.unlock - a.unlock).map(d =>
+      '<tr><td class="rank-cell">#' + d.rank + '</td><td class="item-cell">' + d.item + '</td><td class="unlock-cell">' + d.unlock + '</td><td>' + d.examples + '</td></tr>'
+    ).join('');
+
+    document.querySelector('#active-table tbody').innerHTML = zones.active.slice().sort((a, b) => b.unlock - a.unlock).map(d => {
+      const total = Object.values(d.states).reduce((a, b) => a + b, 0) || 1;
+      const bar = Object.entries(d.states).map(([k, v]) =>
+        '<div style="width:' + (v / total * 100).toFixed(1) + '%;background:' + (stateColor[k] || 'var(--ink-mute)') + '" title="' + k + ' ' + v + '"></div>'
+      ).join('');
+      return '<tr><td class="rank-cell">#' + d.rank + '</td><td class="item-cell">' + d.item + (EVIDENCE_GAP.has(d.item) ? ' <span class="tag">⚠</span>' : '') + '</td><td class="unlock-cell">' + d.unlock + '</td><td>' + d.matched + '</td><td class="bar-cell"><div class="minibar">' + bar + '</div></td></tr>';
+    }).join('');
+  }
+
+  let rTimer;
+  window.addEventListener('resize', () => { clearTimeout(rTimer); rTimer = setTimeout(renderAll, 120); });
+
+  async function load() {
+    try {
+      const r = await fetch('/factory-ng/coverage.json');
+      const d = await r.json();
+      if (d.error || !d.generated_at) {
+        document.getElementById('stamp').innerHTML = '<span style="color:var(--warning)">snapshot not generated yet</span>';
+        return;
+      }
+      DATA = d.shapes || [];
+      document.getElementById('meta-line').textContent =
+        'Measured: ' + (d.measured_at || 'date unavailable') +
+        ' · source ' + (d.source_revision || 'unknown').slice(0, 12) +
+        ' · ' + DATA.length + ' families · ' + (d.total_tickets || 0).toLocaleString() + ' ticket versions.';
+      document.getElementById('stamp').innerHTML = '<span class="live">live</span> updated ' + new Date(d.generated_at).toLocaleTimeString();
+      renderAll();
+    } catch (e) {
+      document.getElementById('stamp').innerHTML = '<span style="color:var(--critical)">data unavailable</span>';
+    }
+  }
+  load();
+  setInterval(load, 30000);
+})();
+</script>

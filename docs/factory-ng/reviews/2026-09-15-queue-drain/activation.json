@@ -1,0 +1,8 @@
+{
+  "activated_at": "2026-09-15T16:51:43Z",
+  "remote_semantics": true,
+  "local_verification_slots": 2,
+  "controller_reload_pids": [
+    287275
+  ]
+}

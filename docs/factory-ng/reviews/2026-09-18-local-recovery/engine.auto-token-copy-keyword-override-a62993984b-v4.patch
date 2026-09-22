@@ -1,0 +1,193 @@
+From b79b3e584352e9af887318edb0257802485e17d1 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Thu, 17 Sep 2026 06:12:19 +0000
+Subject: [PATCH] factory-ng: focused batch proposal
+
+---
+ backend/cards/converter.go                  |   9 +-
+ backend/cards/factory_ng_a62993984b_test.go | 102 ++++++++++++++++++++
+ backend/game/card.go                        |   7 +-
+ backend/game/gamestate.go                   |  13 ++-
+ 4 files changed, 125 insertions(+), 6 deletions(-)
+ create mode 100644 backend/cards/factory_ng_a62993984b_test.go
+
+diff --git a/backend/cards/converter.go b/backend/cards/converter.go
+index 13ccfb39e..590ed3871 100644
+--- a/backend/cards/converter.go
++++ b/backend/cards/converter.go
+@@ -3554,13 +3554,20 @@ func (def *CardDefinition) buildMainSpellEffect() *game.SpellEffect {
+ 						}
+ 					}
+ 				}
+-				if raw, ok := ability.Value["keywords"].([]interface{}); ok {
++				if keyword, ok := ability.Value["keyword"].(string); ok && keyword != "" {
++					eff.Keywords = append(eff.Keywords, keyword)
++				}
++				switch raw := ability.Value["keywords"].(type) {
++				case []string:
++					eff.Keywords = append(eff.Keywords, raw...)
++				case []interface{}:
+ 					for _, keyword := range raw {
+ 						if name, ok := keyword.(string); ok && name != "" {
+ 							eff.Keywords = append(eff.Keywords, name)
+ 						}
+ 					}
+ 				}
++				eff.TokenCopyStripLegendary, _ = ability.Value["strip_legendary"].(bool)
+ 				if ability.Target != nil && ability.Target.Filter != "" {
+ 					if ability.Target.Filter == "creature" && ability.Target.Controller == "you" {
+ 						eff.SpellTargetType = game.TargetCreatureYouCtl
+diff --git a/backend/cards/factory_ng_a62993984b_test.go b/backend/cards/factory_ng_a62993984b_test.go
+new file mode 100644
+index 000000000..f11266405
+--- /dev/null
++++ b/backend/cards/factory_ng_a62993984b_test.go
+@@ -0,0 +1,102 @@
++package cards
++
++import (
++	"testing"
++
++	"magic-backend/game"
++)
++
++// CAPABILITY_ASSESSMENT: {"classification":"connection","existing_symbols":["cards.CardDefinition.buildMainSpellEffect","game.GameState.applySpellEffectCore"],"remaining_gap":"token-copy spell conversion and resolution lost the nonlegendary exception and canonical keyword form","verification":"public converter, cast, stack, and resolution path"}
++func TestFactoryNGTokenCopyKeywordOverride_a62993984b(t *testing.T) {
++	makeSpell := func(name string, value map[string]interface{}) *game.Card {
++		t.Helper()
++		def := &CardDefinition{
++			Name:  name,
++			Type:  "Sorcery",
++			Types: []string{"Sorcery"},
++			Abilities: []AbilityDSL{{
++				Type:   "spell",
++				Effect: "token_copy",
++				Target: &TargetFilter{Filter: "creature", Controller: "you"},
++				Value:  value,
++			}},
++			Status: StatusManual,
++		}
++		spell, err := def.ToGameCard(0)
++		if err != nil {
++			t.Fatalf("ToGameCard: %v", err)
++		}
++		return spell
++	}
++
++	resolveCopy := func(t *testing.T, gs *game.GameState, spell, target *game.Card) {
++		t.Helper()
++		gs.Players[0].Hand.AddCard(spell)
++		if err := gs.CastSpellWithTargets(0, spell.ID, []game.Target{{IsCard: true, CardID: target.ID}}); err != nil {
++			t.Fatalf("CastSpellWithTargets: %v", err)
++		}
++		if err := gs.ResolveTopOfStack(); err != nil {
++			t.Fatalf("ResolveTopOfStack: %v", err)
++		}
++	}
++
++	t.Run("permanent flying composes with nonlegendary exception", func(t *testing.T) {
++		gs := game.NewGame("P0", "P1", false)
++		gs.PhaseManager.CurrentPhase = game.Phase{Type: game.PhaseMain1, Step: game.StepMain}
++		gs.PrioritySystem.SetActivePlayer(0)
++		gs.PrioritySystem.GivePriority(0)
++
++		target := game.NewCreature("Factory Legendary Hasty Wizard", game.ManaCost{}, 3, 4, 0)
++		target.SubTypes = []string{"Legendary", "Wizard"}
++		target.Colors = []game.Color{game.Blue}
++		target.Keywords = []game.Keyword{game.Haste}
++		gs.Battlefield.AddCard(target)
++
++		resolveCopy(t, gs, makeSpell("Factory Vile Duplication", map[string]interface{}{
++			"keywords":        []interface{}{"flying"},
++			"strip_legendary": true,
++		}), target)
++
++		var token *game.Card
++		for _, card := range gs.Battlefield.GetAll() {
++			if card.IsToken && card.Name == target.Name {
++				token = card
++				break
++			}
++		}
++		if token == nil {
++			t.Fatal("token_copy did not create a token")
++		}
++		if !token.HasKeyword(game.Flying) || !token.HasKeyword(game.Haste) {
++			t.Fatalf("token keywords = %v, want preserved haste plus permanent flying", token.Keywords)
++		}
++		if token.HasSubType("Legendary") || !token.HasSubType("Wizard") {
++			t.Fatalf("token subtypes = %v, want Wizard without Legendary", token.SubTypes)
++		}
++		if token.GetPower() != 3 || token.GetToughness() != 4 || len(token.Colors) != 1 || token.Colors[0] != game.Blue {
++			t.Fatalf("token characteristics were not preserved: %#v", token)
++		}
++
++		gs.CleanupEndOfTurnEffects()
++		if !token.HasKeyword(game.Flying) {
++			t.Fatal("token-copy flying exception expired at end of turn")
++		}
++	})
++
++	t.Run("ordinary copy has no keyword exception", func(t *testing.T) {
++		gs := game.NewGame("P0", "P1", false)
++		gs.PhaseManager.CurrentPhase = game.Phase{Type: game.PhaseMain1, Step: game.StepMain}
++		gs.PrioritySystem.SetActivePlayer(0)
++		gs.PrioritySystem.GivePriority(0)
++
++		target := game.NewCreature("Factory Grounded Copy Source", game.ManaCost{}, 2, 2, 0)
++		gs.Battlefield.AddCard(target)
++		resolveCopy(t, gs, makeSpell("Factory Plain Duplication", nil), target)
++
++		for _, card := range gs.Battlefield.GetAll() {
++			if card.IsToken && card.Name == target.Name && card.HasKeyword(game.Flying) {
++				t.Fatal("ordinary token_copy unexpectedly gained flying")
++			}
++		}
++	})
++}
+diff --git a/backend/game/card.go b/backend/game/card.go
+index 462692fdc..0a1736a27 100644
+--- a/backend/game/card.go
++++ b/backend/game/card.go
+@@ -2508,9 +2508,10 @@ type SpellEffect struct {
+ 	Keywords    []string `json:"keywords,omitempty"`     // For temporary keyword-grant spell effects
+ 	// AdditionalCardTypes are card types added to a token copy while retaining
+ 	// every copied characteristic and existing type.
+-	AdditionalCardTypes   []string `json:"additional_card_types,omitempty"`
+-	ConditionCreatureType string   `json:"condition_creature_type,omitempty"` // Optional resolution-time recipient subtype/type gate
+-	Radiance              bool     `json:"radiance,omitempty"`                // Expand the chosen creature to creatures sharing a color
++	AdditionalCardTypes     []string `json:"additional_card_types,omitempty"`
++	ConditionCreatureType   string   `json:"condition_creature_type,omitempty"` // Optional resolution-time recipient subtype/type gate
++	Radiance                bool     `json:"radiance,omitempty"`                // Expand the chosen creature to creatures sharing a color
++	TokenCopyStripLegendary bool     `json:"token_copy_strip_legendary,omitempty"`
+ 	// BasePower/BaseToughness are the Layer 7b values for a targeted
+ 	// temporary creature animation.
+ 	BasePower     int `json:"base_power,omitempty"`
+diff --git a/backend/game/gamestate.go b/backend/game/gamestate.go
+index ac6e6b4d5..7fa1c6595 100644
+--- a/backend/game/gamestate.go
++++ b/backend/game/gamestate.go
+@@ -5233,9 +5233,18 @@ func (gs *GameState) applySpellEffectCore(card *Card, targets []Target, runtime
+ 					tok := cloneToken(c, card.Controller)
+ 					tok.SummoningSick = true
+ 					tok.AddAdditionalCardTypes(card.SpellEffect.AdditionalCardTypes...)
++					if card.SpellEffect.TokenCopyStripLegendary {
++						kept := make([]string, 0, len(tok.SubTypes))
++						for _, subtype := range tok.SubTypes {
++							if subtype != "Legendary" {
++								kept = append(kept, subtype)
++							}
++						}
++						tok.SubTypes = kept
++					}
+ 					for _, keyword := range card.SpellEffect.Keywords {
+-						kw := Keyword(keyword)
+-						if !tok.HasKeyword(kw) {
++						kw := tokenSpecKeyword(strings.ToLower(strings.TrimSpace(keyword)))
++						if kw != "" && !tok.HasKeyword(kw) {
+ 							tok.Keywords = append(tok.Keywords, kw)
+ 						}
+ 					}
+-- 
+2.55.0
+

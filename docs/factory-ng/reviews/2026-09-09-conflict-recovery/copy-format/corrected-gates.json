@@ -1,0 +1,35 @@
+[
+  {
+    "id": "scope",
+    "outcome": "passed",
+    "detail": "changed=backend/cards/converter.go,backend/game/ability_effects.go,backend/cards/factory_ng_b4a4facffb_test.go"
+  },
+  {
+    "id": "ticket-gate-0",
+    "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "outcome": "passed",
+    "elapsed_ms": 306,
+    "detail": ""
+  },
+  {
+    "id": "ticket-gate-1",
+    "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGCopyTriggeringReferent$' -count=1",
+    "outcome": "passed",
+    "elapsed_ms": 149067,
+    "detail": "testing: warning: no tests to run\nPASS\nok  \tmagic-backend/game\t0.009s [no tests to run]\n=== RUN   TestFactoryNGCopyTriggeringReferent\n--- PASS: TestFactoryNGCopyTriggeringReferent (0.00s)\nPASS\nok  \tmagic-backend/cards\t0.026s\nNamed test gate: 1 test(s) passed for '^TestFactoryNGCopyTriggeringReferent$'"
+  },
+  {
+    "id": "ticket-gate-2",
+    "command": "cd backend && go test ./game ./cards",
+    "outcome": "passed",
+    "elapsed_ms": 77976,
+    "detail": "ok  \tmagic-backend/game\t(cached)\nok  \tmagic-backend/cards\t66.741s"
+  },
+  {
+    "id": "ticket-gate-3",
+    "command": "git diff --check",
+    "outcome": "passed",
+    "elapsed_ms": 106,
+    "detail": ""
+  }
+]

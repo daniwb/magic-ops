@@ -1,0 +1,1005 @@
+{
+  "snapshot_end": "2026-09-08T12:42:22Z",
+  "cutoff": "2026-09-07T12:42:22Z",
+  "counts": {
+    "attempts": 4432,
+    "integrations": 468,
+    "jobs": 3917,
+    "tickets": 3924
+  },
+  "ticket_types": {
+    "engine": 1850,
+    "evidence": 4,
+    "map": 2070
+  },
+  "job_states_all": {
+    "failed": 1387,
+    "completed": 437,
+    "parked": 847,
+    "blocked": 930,
+    "integration_failed": 76,
+    "working": 1,
+    "queued": 239
+  },
+  "job_states_unsuperseded": {
+    "failed": 1096,
+    "completed": 437,
+    "parked": 230,
+    "blocked": 800,
+    "integration_failed": 51,
+    "working": 1,
+    "queued": 239
+  },
+  "attempts_24h": {
+    "n": 197,
+    "unique_tickets": 160,
+    "outcomes": {
+      "accepted_for_dependent_observation": 61,
+      "gate_failed": 77,
+      "blocked_by_capability": 9,
+      "infrastructure_failed": 38,
+      "infrastructure_failed_model_protocol": 4,
+      "invalid_capability_demand": 1,
+      "parked": 7
+    },
+    "numeric_usage": 194,
+    "zero_usage": 0,
+    "input_output_median": 33541.5,
+    "input_output_p90": 60835,
+    "input_output_over_500k": 0,
+    "totals": {
+      "input_tokens": 5177898,
+      "output_tokens": 1950750,
+      "cache_read_tokens": 119008775,
+      "cache_write_tokens": 4576931,
+      "elapsed_ms": 87415091
+    }
+  },
+  "profiles_24h": {
+    "claude-agentic@1.0.0": {
+      "n": 38,
+      "unique_tickets": 38,
+      "outcomes": {
+        "accepted_for_dependent_observation": 24,
+        "blocked_by_capability": 3,
+        "gate_failed": 11
+      },
+      "numeric_usage": 38,
+      "zero_usage": 0,
+      "input_output_median": 28730.5,
+      "input_output_p90": 55367,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 594688,
+        "output_tokens": 699268,
+        "cache_read_tokens": 57152887,
+        "cache_write_tokens": 2598362,
+        "elapsed_ms": 8456770
+      }
+    },
+    "claude-staged@1.0.0": {
+      "n": 42,
+      "unique_tickets": 42,
+      "outcomes": {
+        "accepted_for_dependent_observation": 24,
+        "gate_failed": 10,
+        "parked": 7,
+        "infrastructure_failed_model_protocol": 1
+      },
+      "numeric_usage": 42,
+      "zero_usage": 0,
+      "input_output_median": 20179.5,
+      "input_output_p90": 30615,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 168,
+        "output_tokens": 888568,
+        "cache_read_tokens": 1033565,
+        "cache_write_tokens": 1978569,
+        "elapsed_ms": 9186115
+      }
+    },
+    "operator-reviewed-recovery": {
+      "n": 2,
+      "unique_tickets": 2,
+      "outcomes": {
+        "blocked_by_capability": 2
+      },
+      "numeric_usage": 0,
+      "zero_usage": 0,
+      "input_output_median": null,
+      "input_output_p90": null,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "elapsed_ms": 0
+      }
+    },
+    "qwen-prepared-direct@1.0.2": {
+      "n": 28,
+      "unique_tickets": 28,
+      "outcomes": {
+        "accepted_for_dependent_observation": 7,
+        "gate_failed": 13,
+        "infrastructure_failed_model_protocol": 3,
+        "invalid_capability_demand": 1,
+        "blocked_by_capability": 4
+      },
+      "numeric_usage": 28,
+      "zero_usage": 0,
+      "input_output_median": 9739.0,
+      "input_output_p90": 21520,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 331284,
+        "output_tokens": 51942,
+        "cache_read_tokens": 80561,
+        "cache_write_tokens": 0,
+        "elapsed_ms": 7546343
+      }
+    },
+    "qwen-prepared-local@1.0.1": {
+      "n": 87,
+      "unique_tickets": 60,
+      "outcomes": {
+        "accepted_for_dependent_observation": 6,
+        "infrastructure_failed": 38,
+        "gate_failed": 43
+      },
+      "numeric_usage": 86,
+      "zero_usage": 0,
+      "input_output_median": 47494.5,
+      "input_output_p90": 79892,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 4251758,
+        "output_tokens": 310972,
+        "cache_read_tokens": 60741762,
+        "cache_write_tokens": 0,
+        "elapsed_ms": 62225863
+      }
+    }
+  },
+  "daily": {
+    "2026-08-28": {
+      "n": 23,
+      "unique_tickets": 17,
+      "outcomes": {
+        "parked_needs_primitive": 6,
+        "accepted_for_dependent_observation": 4,
+        "gate_failed_contract_selector": 1,
+        "infrastructure_failed_before_proposal": 2,
+        "warning_stopped_without_terminal_verdict": 1,
+        "infrastructure_failed_no_provider_response": 1,
+        "infrastructure_failed_packet_timeout": 1,
+        "infrastructure_failed_after_bounded_need": 1,
+        "gate_failed_semantic_layering": 1,
+        "infrastructure_failed_no_provider_payload": 1,
+        "infrastructure_failed_session_quota": 1,
+        "gate_failed_contract_boundary_and_repair_protocol": 1,
+        "gate_failed_missing_engine_registry_bridge": 1,
+        "gate_failed; Qwen's semantic parser hunk is retained only as an explicitly named overlay for the next bounded repair, never integrated": 1
+      },
+      "numeric_usage": 19,
+      "zero_usage": 2,
+      "input_output_median": 3567,
+      "input_output_p90": 53896,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 269851,
+        "output_tokens": 99582,
+        "cache_read_tokens": 6031633,
+        "cache_write_tokens": 749647,
+        "elapsed_ms": 1400789
+      }
+    },
+    "2026-08-29": {
+      "n": 7,
+      "unique_tickets": 7,
+      "outcomes": {
+        "accepted_for_dependent_observation": 4,
+        "gate_failed": 3
+      },
+      "numeric_usage": 7,
+      "zero_usage": 0,
+      "input_output_median": 7386,
+      "input_output_p90": 7896,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 41580,
+        "output_tokens": 10795,
+        "cache_read_tokens": 32838,
+        "cache_write_tokens": 38862,
+        "elapsed_ms": 457780
+      }
+    },
+    "2026-08-30": {
+      "n": 423,
+      "unique_tickets": 355,
+      "outcomes": {
+        "infrastructure_failed": 5,
+        "gate_failed": 87,
+        "parked": 139,
+        "infrastructure_failed_model_protocol": 79,
+        "blocked_by_capability": 88,
+        "invalid_capability_demand": 16,
+        "accepted_for_dependent_observation": 9
+      },
+      "numeric_usage": 420,
+      "zero_usage": 25,
+      "input_output_median": 24211.5,
+      "input_output_p90": 55964,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 11836437,
+        "output_tokens": 1904514,
+        "cache_read_tokens": 10038067,
+        "cache_write_tokens": 3725228,
+        "elapsed_ms": 37707241
+      }
+    },
+    "2026-08-31": {
+      "n": 1119,
+      "unique_tickets": 591,
+      "outcomes": {
+        "blocked_by_capability": 142,
+        "gate_failed": 204,
+        "infrastructure_failed_model_protocol": 547,
+        "parked": 175,
+        "accepted_for_dependent_observation": 43,
+        "invalid_capability_demand": 8
+      },
+      "numeric_usage": 1119,
+      "zero_usage": 409,
+      "input_output_median": 7622,
+      "input_output_p90": 54161,
+      "input_output_over_500k": 3,
+      "totals": {
+        "input_tokens": 25676518,
+        "output_tokens": 2958018,
+        "cache_read_tokens": 17056911,
+        "cache_write_tokens": 2595295,
+        "elapsed_ms": 68056055
+      }
+    },
+    "2026-09-01": {
+      "n": 534,
+      "unique_tickets": 487,
+      "outcomes": {
+        "parked": 98,
+        "blocked_by_capability": 140,
+        "gate_failed": 215,
+        "accepted_for_dependent_observation": 22,
+        "infrastructure_failed_model_protocol": 48,
+        "invalid_capability_demand": 7,
+        "infrastructure_failed_rate_limited": 1,
+        "infrastructure_failed": 3
+      },
+      "numeric_usage": 528,
+      "zero_usage": 4,
+      "input_output_median": 11037.5,
+      "input_output_p90": 43191,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 5152221,
+        "output_tokens": 4237583,
+        "cache_read_tokens": 14535557,
+        "cache_write_tokens": 5259710,
+        "elapsed_ms": 70918741
+      }
+    },
+    "2026-09-02": {
+      "n": 832,
+      "unique_tickets": 829,
+      "outcomes": {
+        "parked": 157,
+        "gate_failed": 245,
+        "infrastructure_failed": 6,
+        "blocked_by_capability": 316,
+        "accepted_for_dependent_observation": 80,
+        "invalid_capability_demand": 26,
+        "infrastructure_failed_model_protocol": 1,
+        "infrastructure_failed_rate_limited": 1
+      },
+      "numeric_usage": 832,
+      "zero_usage": 0,
+      "input_output_median": 7412.0,
+      "input_output_p90": 20992,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 4014183,
+        "output_tokens": 5155649,
+        "cache_read_tokens": 26048652,
+        "cache_write_tokens": 12307661,
+        "elapsed_ms": 100397541
+      }
+    },
+    "2026-09-03": {
+      "n": 581,
+      "unique_tickets": 575,
+      "outcomes": {
+        "blocked_by_capability": 189,
+        "accepted_for_dependent_observation": 69,
+        "gate_failed": 154,
+        "invalid_capability_demand": 21,
+        "parked": 132,
+        "infrastructure_failed_rate_limited": 1,
+        "infrastructure_failed": 10,
+        "infrastructure_failed_model_protocol": 5
+      },
+      "numeric_usage": 579,
+      "zero_usage": 3,
+      "input_output_median": 7890,
+      "input_output_p90": 29229,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 2974219,
+        "output_tokens": 4619215,
+        "cache_read_tokens": 32895109,
+        "cache_write_tokens": 12023791,
+        "elapsed_ms": 89831376
+      }
+    },
+    "2026-09-04": {
+      "n": 263,
+      "unique_tickets": 214,
+      "outcomes": {
+        "gate_failed": 91,
+        "infrastructure_failed": 36,
+        "accepted_for_dependent_observation": 38,
+        "parked": 73,
+        "infrastructure_failed_model_protocol": 22,
+        "infrastructure_failed_rate_limited": 2,
+        "blocked_by_capability": 1
+      },
+      "numeric_usage": 248,
+      "zero_usage": 18,
+      "input_output_median": 17970.5,
+      "input_output_p90": 52680,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 3295284,
+        "output_tokens": 2895855,
+        "cache_read_tokens": 56335295,
+        "cache_write_tokens": 6765569,
+        "elapsed_ms": 77703179
+      }
+    },
+    "2026-09-05": {
+      "n": 193,
+      "unique_tickets": 188,
+      "outcomes": {
+        "accepted_for_dependent_observation": 63,
+        "gate_failed": 60,
+        "blocked_by_capability": 56,
+        "infrastructure_failed_model_protocol": 9,
+        "invalid_capability_demand": 1,
+        "parked": 4
+      },
+      "numeric_usage": 193,
+      "zero_usage": 4,
+      "input_output_median": 25214,
+      "input_output_p90": 46896,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 2159634,
+        "output_tokens": 3550888,
+        "cache_read_tokens": 334774492,
+        "cache_write_tokens": 13366443,
+        "elapsed_ms": 45404679
+      }
+    },
+    "2026-09-06": {
+      "n": 220,
+      "unique_tickets": 219,
+      "outcomes": {
+        "accepted_for_dependent_observation": 85,
+        "gate_failed": 57,
+        "parked": 61,
+        "infrastructure_failed_model_protocol": 6,
+        "invalid_capability_demand": 1,
+        "blocked_by_capability": 9,
+        "infrastructure_failed": 1
+      },
+      "numeric_usage": 219,
+      "zero_usage": 1,
+      "input_output_median": 17187,
+      "input_output_p90": 34157,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 1081329,
+        "output_tokens": 3113361,
+        "cache_read_tokens": 133666117,
+        "cache_write_tokens": 11223480,
+        "elapsed_ms": 36586036
+      }
+    },
+    "2026-09-07": {
+      "n": 186,
+      "unique_tickets": 164,
+      "outcomes": {
+        "accepted_for_dependent_observation": 75,
+        "gate_failed": 62,
+        "parked": 13,
+        "infrastructure_failed": 22,
+        "blocked_by_capability": 9,
+        "infrastructure_failed_model_protocol": 4,
+        "invalid_capability_demand": 1
+      },
+      "numeric_usage": 182,
+      "zero_usage": 0,
+      "input_output_median": 24811.0,
+      "input_output_p90": 52875,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 3165978,
+        "output_tokens": 2309330,
+        "cache_read_tokens": 114131249,
+        "cache_write_tokens": 6452567,
+        "elapsed_ms": 58822139
+      }
+    },
+    "2026-09-08": {
+      "n": 51,
+      "unique_tickets": 34,
+      "outcomes": {
+        "accepted_for_dependent_observation": 5,
+        "gate_failed": 28,
+        "infrastructure_failed": 18
+      },
+      "numeric_usage": 51,
+      "zero_usage": 0,
+      "input_output_median": 48246,
+      "input_output_p90": 79433,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 2427257,
+        "output_tokens": 206585,
+        "cache_read_tokens": 35174758,
+        "cache_write_tokens": 75496,
+        "elapsed_ms": 36451199
+      }
+    }
+  },
+  "all_attempts": {
+    "n": 4432,
+    "unique_tickets": 3638,
+    "outcomes": {
+      "parked_needs_primitive": 6,
+      "accepted_for_dependent_observation": 497,
+      "gate_failed_contract_selector": 1,
+      "infrastructure_failed_before_proposal": 2,
+      "warning_stopped_without_terminal_verdict": 1,
+      "infrastructure_failed_no_provider_response": 1,
+      "infrastructure_failed_packet_timeout": 1,
+      "infrastructure_failed_after_bounded_need": 1,
+      "gate_failed_semantic_layering": 1,
+      "infrastructure_failed_no_provider_payload": 1,
+      "infrastructure_failed_session_quota": 1,
+      "gate_failed_contract_boundary_and_repair_protocol": 1,
+      "gate_failed_missing_engine_registry_bridge": 1,
+      "gate_failed; Qwen's semantic parser hunk is retained only as an explicitly named overlay for the next bounded repair, never integrated": 1,
+      "gate_failed": 1206,
+      "infrastructure_failed": 101,
+      "parked": 852,
+      "infrastructure_failed_model_protocol": 721,
+      "blocked_by_capability": 950,
+      "invalid_capability_demand": 81,
+      "infrastructure_failed_rate_limited": 5
+    },
+    "numeric_usage": 4397,
+    "zero_usage": 466,
+    "input_output_median": 10768,
+    "input_output_p90": 48551,
+    "input_output_over_500k": 3,
+    "totals": {
+      "input_tokens": 62094491,
+      "output_tokens": 31061375,
+      "cache_read_tokens": 780720678,
+      "cache_write_tokens": 74583749,
+      "elapsed_ms": 623736755
+    }
+  },
+  "accepted_profiles_24h": {
+    "claude-agentic@1.0.0": {
+      "n": 24,
+      "unique_tickets": 24,
+      "outcomes": {
+        "accepted_for_dependent_observation": 24
+      },
+      "numeric_usage": 24,
+      "zero_usage": 0,
+      "input_output_median": 27774.5,
+      "input_output_p90": 50228,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 396151,
+        "output_tokens": 352898,
+        "cache_read_tokens": 25554584,
+        "cache_write_tokens": 1467033,
+        "elapsed_ms": 4182070
+      }
+    },
+    "claude-staged@1.0.0": {
+      "n": 24,
+      "unique_tickets": 24,
+      "outcomes": {
+        "accepted_for_dependent_observation": 24
+      },
+      "numeric_usage": 24,
+      "zero_usage": 0,
+      "input_output_median": 20897.0,
+      "input_output_p90": 29487,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 96,
+        "output_tokens": 522689,
+        "cache_read_tokens": 586373,
+        "cache_write_tokens": 1105647,
+        "elapsed_ms": 5366422
+      }
+    },
+    "operator-reviewed-recovery": {
+      "n": 0,
+      "unique_tickets": 0,
+      "outcomes": {},
+      "numeric_usage": 0,
+      "zero_usage": 0,
+      "input_output_median": null,
+      "input_output_p90": null,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "elapsed_ms": 0
+      }
+    },
+    "qwen-prepared-direct@1.0.2": {
+      "n": 7,
+      "unique_tickets": 7,
+      "outcomes": {
+        "accepted_for_dependent_observation": 7
+      },
+      "numeric_usage": 7,
+      "zero_usage": 0,
+      "input_output_median": 9496,
+      "input_output_p90": 20707,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 87211,
+        "output_tokens": 12106,
+        "cache_read_tokens": 23347,
+        "cache_write_tokens": 0,
+        "elapsed_ms": 1774777
+      }
+    },
+    "qwen-prepared-local@1.0.1": {
+      "n": 6,
+      "unique_tickets": 6,
+      "outcomes": {
+        "accepted_for_dependent_observation": 6
+      },
+      "numeric_usage": 6,
+      "zero_usage": 0,
+      "input_output_median": 40374.0,
+      "input_output_p90": 47362,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 231555,
+        "output_tokens": 22785,
+        "cache_read_tokens": 3185344,
+        "cache_write_tokens": 0,
+        "elapsed_ms": 4109221
+      }
+    }
+  },
+  "types_24h": {
+    "map": {
+      "n": 35,
+      "unique_tickets": 34,
+      "outcomes": {
+        "accepted_for_dependent_observation": 7,
+        "gate_failed": 15,
+        "blocked_by_capability": 9,
+        "infrastructure_failed_model_protocol": 3,
+        "invalid_capability_demand": 1
+      },
+      "numeric_usage": 33,
+      "zero_usage": 0,
+      "input_output_median": 10305,
+      "input_output_p90": 26078,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 388474,
+        "output_tokens": 196717,
+        "cache_read_tokens": 13661983,
+        "cache_write_tokens": 441278,
+        "elapsed_ms": 9475647
+      }
+    },
+    "engine": {
+      "n": 162,
+      "unique_tickets": 126,
+      "outcomes": {
+        "accepted_for_dependent_observation": 54,
+        "infrastructure_failed": 38,
+        "gate_failed": 62,
+        "parked": 7,
+        "infrastructure_failed_model_protocol": 1
+      },
+      "numeric_usage": 161,
+      "zero_usage": 0,
+      "input_output_median": 37930,
+      "input_output_p90": 66670,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 4789424,
+        "output_tokens": 1754033,
+        "cache_read_tokens": 105346792,
+        "cache_write_tokens": 4135653,
+        "elapsed_ms": 77939444
+      }
+    }
+  },
+  "integration_outcomes_24h": {
+    "pushed_full_production_gate_green": 36,
+    "no_integratable_candidates": 4
+  },
+  "integrated_unique_tickets_24h": 85,
+  "integrated_types_24h": {
+    "map": 6,
+    "engine": 79
+  },
+  "integration_exclusions_24h": {
+    "full_gate_failed": 34,
+    "candidate_conflict": 16
+  },
+  "integration_gate_hours_24h": {
+    "candidate-apply": 0.008,
+    "composed-ticket-1": 4.048,
+    "reparse-flip": 1.105,
+    "reparse-import": 0.227,
+    "go-build": 1.406,
+    "game-tests": 0.229,
+    "focused-go": 0.296,
+    "full-sharded-suite": 1.999,
+    "push": 0.029,
+    "composed-ticket-0": 0.003,
+    "composed-ticket-3": 0.007
+  },
+  "integration_failed_current": {
+    "full_gate_failed": 37,
+    "candidate_conflict": 14
+  },
+  "engine_unlock_distribution": {
+    "missing": 192,
+    "1": 1176,
+    "0": 371,
+    "190": 8,
+    "156": 4,
+    "356": 16,
+    "351": 29,
+    "92": 1,
+    "102": 2,
+    "257": 4,
+    "2": 2,
+    "3": 5,
+    "145": 1,
+    "213": 16,
+    "5": 4,
+    "206": 9,
+    "196": 2,
+    "14": 4,
+    "4": 1,
+    "125": 3
+  },
+  "accepted_24h_current_job_states": {
+    "blocked": 1,
+    "completed": 50,
+    "integration_failed": 10
+  },
+  "version_lineage_attempt_distribution": {
+    "1": 1783,
+    "2": 300,
+    "8": 7,
+    "4": 199,
+    "3": 193,
+    "9": 2,
+    "5": 59,
+    "6": 27,
+    "7": 19,
+    "10": 1
+  },
+  "most_attempted_lineages": [
+    {
+      "lineage": "ticket:engine.auto-put-counters-amount-from-same-spell-exiled-power-1fff0d7872",
+      "n": 10,
+      "unique_tickets": 4,
+      "outcomes": {
+        "infrastructure_failed_model_protocol": 6,
+        "parked": 3,
+        "gate_failed": 1
+      },
+      "numeric_usage": 10,
+      "zero_usage": 2,
+      "input_output_median": 45828.5,
+      "input_output_p90": 47056,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 279385,
+        "output_tokens": 43435,
+        "cache_read_tokens": 182568,
+        "cache_write_tokens": 89220,
+        "elapsed_ms": 557056
+      }
+    },
+    {
+      "lineage": "ticket:engine.auto-up-to-n-target-creatures-tap-492924d0eb",
+      "n": 9,
+      "unique_tickets": 4,
+      "outcomes": {
+        "parked": 3,
+        "infrastructure_failed_model_protocol": 4,
+        "gate_failed": 1,
+        "accepted_for_dependent_observation": 1
+      },
+      "numeric_usage": 9,
+      "zero_usage": 2,
+      "input_output_median": 17217,
+      "input_output_p90": 47809,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 147001,
+        "output_tokens": 53085,
+        "cache_read_tokens": 2082609,
+        "cache_write_tokens": 212772,
+        "elapsed_ms": 1246432
+      }
+    },
+    {
+      "lineage": "ticket:engine.auto-destroy-attached-equipment-at-end-of-combat-1a39af850c",
+      "n": 9,
+      "unique_tickets": 2,
+      "outcomes": {
+        "infrastructure_failed_model_protocol": 8,
+        "parked": 1
+      },
+      "numeric_usage": 9,
+      "zero_usage": 3,
+      "input_output_median": 48300,
+      "input_output_p90": 49523,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 285528,
+        "output_tokens": 7747,
+        "cache_read_tokens": 151552,
+        "cache_write_tokens": 0,
+        "elapsed_ms": 170401
+      }
+    },
+    {
+      "lineage": "ticket:engine.switch-pt",
+      "n": 8,
+      "unique_tickets": 2,
+      "outcomes": {
+        "infrastructure_failed_before_proposal": 1,
+        "warning_stopped_without_terminal_verdict": 1,
+        "accepted_for_dependent_observation": 1,
+        "parked_needs_primitive": 1,
+        "infrastructure_failed_no_provider_response": 1,
+        "infrastructure_failed_packet_timeout": 1,
+        "infrastructure_failed_after_bounded_need": 1,
+        "gate_failed_semantic_layering": 1
+      },
+      "numeric_usage": 5,
+      "zero_usage": 0,
+      "input_output_median": 53896,
+      "input_output_p90": 66158,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 196832,
+        "output_tokens": 58308,
+        "cache_read_tokens": 5922210,
+        "cache_write_tokens": 677231,
+        "elapsed_ms": 948688
+      }
+    },
+    {
+      "lineage": "ticket:engine.auto-damage-blocks-trigger-referent-839b696c9e",
+      "n": 8,
+      "unique_tickets": 4,
+      "outcomes": {
+        "parked": 2,
+        "infrastructure_failed_model_protocol": 4,
+        "gate_failed": 2
+      },
+      "numeric_usage": 8,
+      "zero_usage": 2,
+      "input_output_median": 26779.5,
+      "input_output_p90": 47917,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 140159,
+        "output_tokens": 59297,
+        "cache_read_tokens": 155464,
+        "cache_write_tokens": 131036,
+        "elapsed_ms": 676678
+      }
+    },
+    {
+      "lineage": "ticket:engine.auto-exile-graveyard-cc012546ee",
+      "n": 8,
+      "unique_tickets": 4,
+      "outcomes": {
+        "parked": 2,
+        "infrastructure_failed_model_protocol": 4,
+        "gate_failed": 1,
+        "accepted_for_dependent_observation": 1
+      },
+      "numeric_usage": 8,
+      "zero_usage": 2,
+      "input_output_median": 34734.0,
+      "input_output_p90": 55650,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 235052,
+        "output_tokens": 54146,
+        "cache_read_tokens": 146418,
+        "cache_write_tokens": 94207,
+        "elapsed_ms": 583785
+      }
+    },
+    {
+      "lineage": "ticket:engine.auto-create-custom-token-by-graveyard-card-types-a81c51d943",
+      "n": 8,
+      "unique_tickets": 4,
+      "outcomes": {
+        "infrastructure_failed_model_protocol": 4,
+        "parked": 2,
+        "gate_failed": 2
+      },
+      "numeric_usage": 8,
+      "zero_usage": 2,
+      "input_output_median": 39859.5,
+      "input_output_p90": 53781,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 187414,
+        "output_tokens": 82062,
+        "cache_read_tokens": 138523,
+        "cache_write_tokens": 91401,
+        "elapsed_ms": 844684
+      }
+    },
+    {
+      "lineage": "ticket:engine.auto-return-from-graveyard-lesser-toughness-filter-cfeba54e07",
+      "n": 8,
+      "unique_tickets": 2,
+      "outcomes": {
+        "infrastructure_failed_model_protocol": 7,
+        "parked": 1
+      },
+      "numeric_usage": 8,
+      "zero_usage": 2,
+      "input_output_median": 46161.0,
+      "input_output_p90": 46630,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 270493,
+        "output_tokens": 7410,
+        "cache_read_tokens": 140288,
+        "cache_write_tokens": 0,
+        "elapsed_ms": 156425
+      }
+    },
+    {
+      "lineage": "ticket:engine.auto-grant-keywords-until-eot-enchanted-shared-type-a70040c6e5",
+      "n": 8,
+      "unique_tickets": 3,
+      "outcomes": {
+        "infrastructure_failed_model_protocol": 5,
+        "parked": 2,
+        "infrastructure_failed": 1
+      },
+      "numeric_usage": 8,
+      "zero_usage": 4,
+      "input_output_median": 16704.5,
+      "input_output_p90": 45842,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 131125,
+        "output_tokens": 43213,
+        "cache_read_tokens": 716937,
+        "cache_write_tokens": 43133,
+        "elapsed_ms": 974609
+      }
+    },
+    {
+      "lineage": "ticket:engine.auto-exile-with-counters-8d95ed41f4",
+      "n": 8,
+      "unique_tickets": 3,
+      "outcomes": {
+        "infrastructure_failed_model_protocol": 5,
+        "parked": 3
+      },
+      "numeric_usage": 8,
+      "zero_usage": 2,
+      "input_output_median": 26065.0,
+      "input_output_p90": 47445,
+      "input_output_over_500k": 0,
+      "totals": {
+        "input_tokens": 185472,
+        "output_tokens": 14682,
+        "cache_read_tokens": 148722,
+        "cache_write_tokens": 73282,
+        "elapsed_ms": 239508
+      }
+    }
+  ],
+  "source_revisions_24h": {
+    "435aa05e3f4f0371a208167494aa2542ce7395fd": 21,
+    "d9b2ccdfb4b07614fadc714dd28ee9e71c8a05e5": 6,
+    "fcbf4313ec2942dd0c67dbdd0984236b78659545": 1,
+    "7c3e4aa4262ef6a827b143164713d139beb023d3": 3,
+    "336688dd63082152f83bbee426df06d573592e96": 2,
+    "c062b33ad3f01179a9f97533fe46a0ee7c19e526": 1,
+    "0d40d0e6895deb74767583a156c1c591eac2a547": 3,
+    "9d3ebdc567b3f1bdd09eda500ad623c4640dde91": 4,
+    "d449486c5ebacde13fa11de1c0da9d60424b1446": 3,
+    "6377366efb22afd21efd30ead910414bfcf6f0bd": 5,
+    "1aecc4b90746a8502d87a45ab42e5e3881524db0": 137,
+    "5b98df154ec0717ad79fae608b017893d3ee36d0": 2,
+    "82a9ea2ee5b972dacf935fdcf71f18ad54e3d526": 3,
+    "e03a2f8a7b6dbe553bb8b6b775acd6bb0ed9a714": 1,
+    "3f7c050b2fe0c367f9dc5d447734972e0039cddf": 3,
+    "b0e59e1485b0cf5b3c7ad8fc1b2f025ff603cfdf": 1,
+    "32e6e972ff2f84ef3dfbbb14d6f9c76eaf3f8e6e": 1
+  },
+  "integration_parent_note": "Integration parents include both ticket IDs and observation paths; only IDs joined to TicketSpecs counted.",
+  "raw_processed_profiles_24h": {
+    "claude-agentic@1.0.0": {
+      "numeric_attempts": 38,
+      "sum": 61045205,
+      "median": 1541367.5,
+      "p90": 2551780,
+      "over_500k": 32
+    },
+    "claude-staged@1.0.0": {
+      "numeric_attempts": 42,
+      "sum": 3900870,
+      "median": 92016.0,
+      "p90": 105488,
+      "over_500k": 0
+    },
+    "qwen-prepared-direct@1.0.2": {
+      "numeric_attempts": 28,
+      "sum": 383226,
+      "median": 9739.0,
+      "p90": 21520,
+      "over_500k": 0
+    },
+    "qwen-prepared-local@1.0.1": {
+      "numeric_attempts": 86,
+      "sum": 65304492,
+      "median": 657857.0,
+      "p90": 1186767,
+      "over_500k": 78
+    }
+  },
+  "source_dashboard_sha256": "438ce828f96001e4c304c1d6fef89859b10da69bc32f48b522befb36ca230b70",
+  "method_notes": [
+    "Live dashboard snapshot is not a transaction across all source files.",
+    "Window uses receipt created_at, which may indicate invocation start; this is not a completed-cohort experiment.",
+    "Current-adapter raw processed counts include cached context; they are not billed tokens, effective tokens, subscription quota, or monetary cost.",
+    "Historical telemetry adapter conventions and earlier acceptance gates varied. Missing usage is not zero.",
+    "Observed integration parents include receipt paths as well as ticket IDs; only joined TicketSpec IDs count as integrated tickets.",
+    "Card delta comes from independently sampled corpus auto totals; it does not prove semantic correctness or live deployment.",
+    "No exact per-root-mission card yield or complete stage waiting-time attribution is available in these summaries.",
+    "CSV reported sums total numeric fields only; missing observations are separately counted."
+  ]
+}

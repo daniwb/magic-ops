@@ -33,6 +33,8 @@ PACE_WEEK="${PACE_WEEK:-604800}"             # 7 Tage in s
 USAGE_CACHE="${USAGE_CACHE:-/tmp/claude-usage-gate.json}"
 USAGE_GATE_TTL="${USAGE_GATE_TTL:-180}"
 PACE_OFF_FILE="${PACE_OFF_FILE:-/tmp/orch/pace-off-until}"
+WEEKLY_GATE_MODE="${WEEKLY_GATE_MODE:-paced}"
+WEEKLY_GATE_PCT="${WEEKLY_GATE_PCT:-95}"
 
 # Interner Usage-Refresh (gecacht, TTL). Setzt _P_U5 _P_U7 (0..100).
 _pace_refresh_usage() {
@@ -58,7 +60,7 @@ _pace_refresh_usage() {
   # abgelaufene Fenster zählen als 0
   [ "$r5" -gt 0 ] && [ "$now" -ge "$r5" ] && u5=0
   [ "$r7" -gt 0 ] && [ "$now" -ge "$r7" ] && u7=0
-  _P_U5=$u5; _P_U7=$u7; _P_R7=$r7; _P_BLIND=0
+  _P_U5=$u5; _P_U7=$u7; _P_R5=$r5; _P_R7=$r7; _P_BLIND=0
 }
 
 # Nächster Wiederanlauf-Zeitpunkt (heute HH:00 CH, sonst morgen).
@@ -79,14 +81,16 @@ _pace_next_resume() {
 # Anker ist der ECHTE Quota-Reset (_P_R7 - 7d), nicht "20:00 lokal" — dadurch
 # bleiben Stufen und Quota-Fenster auch über Sommer-/Winterzeit synchron.
 _pace_day_bounds() { # $1=r7(reset-ts)
-  local r7="$1" now ws elapsed
+  local r7="$1" now ws elapsed target
+  target=$PACE_TARGET_PCT
+  [ "$WEEKLY_GATE_PCT" -lt "$target" ] && target=$WEEKLY_GATE_PCT
   now=$(date +%s)
   ws=$(( r7 - PACE_WEEK ))
   elapsed=$(( now - ws )); [ "$elapsed" -lt 0 ] && elapsed=0
   _P_DAY=$(( elapsed / 86400 + 1 )); [ "$_P_DAY" -gt 7 ] && _P_DAY=7
   # round-half-up statt Abschneiden: Tag 6 → 85.7 → 86 (nicht 85)
-  _P_ALLOWED=$(( (_P_DAY * PACE_TARGET_PCT * 10 / 7 + 5) / 10 ))
-  [ "$_P_ALLOWED" -gt "$PACE_TARGET_PCT" ] && _P_ALLOWED=$PACE_TARGET_PCT
+  _P_ALLOWED=$(( (_P_DAY * target * 10 / 7 + 5) / 10 ))
+  [ "$_P_ALLOWED" -gt "$target" ] && _P_ALLOWED=$target
   _P_NEXTDAY=$(( ws + _P_DAY * 86400 ))
   [ "$_P_NEXTDAY" -gt "$r7" ] && _P_NEXTDAY=$r7
 }
@@ -100,13 +104,18 @@ pace_ok() {
   now=$(date +%s)
   mkdir -p "$(dirname "$PACE_OFF_FILE")" 2>/dev/null || true
 
-  # (1) Anti-Flatter: laufende geplante Off-Phase → pausieren, NICHT neu bewerten
+  # Anti-flatter applies only to paced tranches. Switching to fixed/none must
+  # immediately release a hold created by the previous paced policy.
   off=$(cat "$PACE_OFF_FILE" 2>/dev/null || echo 0); off=${off:-0}
-  if [ "$off" -gt 0 ] 2>/dev/null && [ "$now" -lt "$off" ]; then return 1; fi
-  [ "$off" -gt 0 ] 2>/dev/null && rm -f "$PACE_OFF_FILE"   # abgelaufen → frei, neu bewerten
+  if [ "$WEEKLY_GATE_MODE" = "paced" ]; then
+    if [ "$off" -gt 0 ] 2>/dev/null && [ "$now" -lt "$off" ]; then return 1; fi
+    [ "$off" -gt 0 ] 2>/dev/null && rm -f "$PACE_OFF_FILE"
+  else
+    [ "$off" -gt 0 ] 2>/dev/null && rm -f "$PACE_OFF_FILE"
+  fi
 
   # (2) Usage holen (gecacht)
-  _P_U5=0; _P_U7=0; _P_R7=0; _P_BLIND=0
+  _P_U5=0; _P_U7=0; _P_R5=0; _P_R7=0; _P_BLIND=0
   _pace_refresh_usage
   [ "${_P_BLIND:-0}" = 1 ] && return 0   # keine Daten → fail-open (weiter)
 
@@ -115,7 +124,15 @@ pace_ok() {
   { [ "$nh" -ge 23 ] || [ "$nh" -lt 6 ]; } && lim5=100
   [ "${_P_U5:-0}" -ge "$lim5" ] 2>/dev/null && return 1
 
-  # (4) Tages-Stufe → Stopp-Auslöser, dann AUS bis zur nächsten Tagesgrenze
+  # Weekly policy is operator-selectable. The short 5h safety ceiling above
+  # remains active even when the weekly gate is disabled.
+  [ "$WEEKLY_GATE_MODE" = "none" ] && return 0
+  if [ "$WEEKLY_GATE_MODE" = "fixed" ]; then
+    [ "${_P_U7:-0}" -ge "$WEEKLY_GATE_PCT" ] 2>/dev/null && return 1
+    return 0
+  fi
+
+  # Paced mode: daily tranche → stop until the next quota-anchored boundary.
   if [ "${_P_R7:-0}" -gt 0 ] 2>/dev/null; then
     _pace_day_bounds "${_P_R7}"
     # -ge, NICHT -gt: bei Verbrauch == Tages-Stufe ist das Tagesbudget genau
@@ -134,17 +151,28 @@ pace_ok() {
 # Für Diagnose/CLI: kompakter Status
 pace_status() {
   local now off; now=$(date +%s)
-  _P_U5=0; _P_U7=0; _P_R7=0; _P_BLIND=0; _pace_refresh_usage
+  _P_U5=0; _P_U7=0; _P_R5=0; _P_R7=0; _P_BLIND=0; _pace_refresh_usage
   off=$(cat "$PACE_OFF_FILE" 2>/dev/null || echo 0); off=${off:-0}
   local allowed="n/a" day="?" nextday=0
   if [ "${_P_R7:-0}" -gt 0 ]; then
     _pace_day_bounds "${_P_R7}"
     allowed=$_P_ALLOWED; day=$_P_DAY; nextday=$_P_NEXTDAY
   fi
-  echo "5h=${_P_U5:-?}% 7d=${_P_U7:-?}% | Tag ${day}/7 → erlaubt ${allowed}% (Ziel ${PACE_TARGET_PCT}%)"
+  echo "5h=${_P_U5:-?}% 7d=${_P_U7:-?}% | weekly-mode=${WEEKLY_GATE_MODE} fixed=${WEEKLY_GATE_PCT}% | Tag ${day}/7 → erlaubt ${allowed}%"
   [ "$nextday" -gt 0 ] 2>/dev/null && \
     echo "nächste Stufe: $(TZ='Europe/Zurich' date -d @"$nextday" '+%F %H:%M %Z')"
-  if [ "$off" -gt 0 ] 2>/dev/null && [ "$now" -lt "$off" ]; then
+  local nh lim5
+  nh=$(TZ='Europe/Zurich' date +%H); nh=$((10#$nh)); lim5=$PACE_HARD5
+  { [ "$nh" -ge 23 ] || [ "$nh" -lt 6 ]; } && lim5=100
+  if [ "${_P_U5:-0}" -ge "$lim5" ] 2>/dev/null; then
+    echo "5H-PAUSE at ${_P_U5}% (ceiling ${lim5}%) until $(date -d @"${_P_R5:-0}" '+%F %H:%M %Z' 2>/dev/null)"
+  elif [ "$WEEKLY_GATE_MODE" = "none" ]; then
+    echo "→ läuft (weekly gate disabled; 5h safety remains active)"
+  elif [ "$WEEKLY_GATE_MODE" = "fixed" ] && [ "${_P_U7:-0}" -ge "$WEEKLY_GATE_PCT" ] 2>/dev/null; then
+    echo "FIXED-WEEKLY-PAUSE at ${_P_U7}% (ceiling ${WEEKLY_GATE_PCT}%)"
+  elif [ "$WEEKLY_GATE_MODE" = "fixed" ]; then
+    echo "→ läuft (fixed weekly ceiling ${WEEKLY_GATE_PCT}%)"
+  elif [ "$off" -gt 0 ] 2>/dev/null && [ "$now" -lt "$off" ]; then
     echo "PACE-PAUSE bis $(TZ='Europe/Zurich' date -d @"$off" '+%F %H:%M %Z')"
   elif [ "$allowed" != "n/a" ] && [ "${_P_U7:-0}" -ge "$allowed" ] 2>/dev/null; then
     echo "→ würde pausieren (aus bis $(TZ='Europe/Zurich' date -d @"$nextday" '+%F %H:%M %Z' 2>/dev/null))"

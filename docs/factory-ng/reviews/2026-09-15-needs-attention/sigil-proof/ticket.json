@@ -1,0 +1,134 @@
+{
+  "capability": {
+    "required_behavior": "Write a test-only full-card proof for Sigil of Sleep. Load the real corpus card, freshly reparse it with Python reparse_card, merge parser output into CardDefinition, call ToGameCard, then exercise public game actions and resolution. No handcrafted replacement abilities, skipped cases or weakened expectations.\nAdd the exact named test TestShape_StagedTrial_sigil in backend/cards/shape_staged_trial_sigil_test.go.\nCombat and noncombat damage from enchanted creature trigger exactly once for actual positive damage.\nPrevented damage and unrelated life loss do not trigger.\nCreature damage does not trigger this player-damage ability.\nTargets belong to actually damaged player, even if that player is also aura controller.\nStolen creature returns to its owner; controller changes or other target illegality before resolution are rechecked.\nCombat-only effects, including monarch, remain combat-only.\nNo duplicate emission across combat and generic damage paths.",
+    "source_misses": [
+      {
+        "card": "Sigil of Sleep",
+        "paragraph": "Enchant creature\nWhenever enchanted creature deals damage to a player, return target creature that player controls to its owner's hand."
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "fact": "Frozen Oracle text and complete-card checklist; all cases are required.",
+      "path": "docs/factory-ng/reviews/2026-09-08-throughput/staged-five-card-trial/manifest.json"
+    },
+    {
+      "anchor": "1-100",
+      "fact": "CardDefinition.ToGameCard is the real converter entry point.",
+      "path": "backend/cards/converter.go"
+    },
+    {
+      "anchor": "216-300",
+      "fact": "JSON CardDefinition includes the fresh abilities and keywords.",
+      "path": "backend/cards/types.go"
+    },
+    {
+      "fact": "---\nname: verify-card-behavior\ndescription: Prove a complete card through the current parser, converter and public game actions.\n---\n\nWrite discriminating tests in the allowed new shape test file. Test-only work\nis valid even when all underlying Engine capabilities already exist. Do not\nchange runtime code, parser code, corpus records, or expected Oracle behavior\nto make a test pass. A failing behavioral test is evidence of an unfinished\ncard and must retain its failure receipt.\n\nLoad the named card from backend/data/carddb in the test's checkout and run\nscripts/paragraph/reparse.py reparse_card against that actual definition.\nRequire eligible and no misses. Merge the returned abilities and keywords\n(and other emitted definition fields) into the definition, then JSON-decode\ninto cards.CardDefinition and call ToGameCard. Never substitute handcrafted\nabilities for the card under test. A test can invoke Python with os/exec from\nbackend/cards, setting cmd.Dir to ../.. and adding scripts/paragraph to\nsys.path. Use a unique helper name in each new test file.\n\nExercise casting, attachment, blocking or public event delivery as appropriate,\nthen actual target selection and stack resolution. Assert every ability and\nall the pinned checklist cases, including adjacent negative cases. Do not\nskip cases, swallow errors, or regard a successful parse/private helper as\ncomplete behavior. Run the exact named Go test, the package gates, and diff\nchecks. Request bounded source evidence when an API is unknown.\n",
+      "path": "docs/factory-ng/skills/v1/verify-card-behavior/SKILL.md"
+    },
+    {
+      "anchor": "1-180",
+      "fact": "Existing API and game setup example; primitive tests do not replace the complete-card checklist.",
+      "path": "backend/game/shape_audited_player_damage_test.go",
+      "sha256": "sha256:8eabdbcbe38768d17cabd823a58df4e99715827687180ef1492c30eafd5fcca9"
+    },
+    {
+      "anchor": "1-180",
+      "fact": "Existing API and game setup example; primitive tests do not replace the complete-card checklist.",
+      "path": "backend/cards/shape_tap_and_put_counter_test.go",
+      "sha256": "sha256:3a89ce1aa5bc7f30a8eaa279cab5c6069c278ec622c2215127bfd416314cc2af"
+    },
+    {
+      "fact": "The previous attempt parked AMBIGUOUS because its evidence pack omitted the real seam; this retry regenerates evidence from the indexed engine symbol table.",
+      "path": "docs/factory-ng/runs/2026-09-08T214248Z-engine-staged-trial-verify-sigil-v1-claude.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0"
+    ],
+    "context_requests": [
+      "scripts/paragraph/reparse.py: load_card reparse_card",
+      "backend/cards/types.go: CardDefinition",
+      "backend/cards/shape_tap_and_put_counter_test.go"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "Operator test-only correction; the failed exact-profile trial remains failed historical evidence.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "cd backend && go test ./game -run '^TestShape_ActualCombatNotifications$' -count=1",
+    "cd backend && go test ./cards -run '^TestShape_StagedTrial_sigil$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "test -z \"$(gofmt -l backend/cards/shape_staged_trial_sigil_test.go)\"",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.operator-sigil-proof-recovery-sep15/v1",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Retain the terminal receipt and continue independent discovery; do not request manual source transcription.",
+  "parents": [
+    "ticket:engine.staged-trial-verify-sigil/v2"
+  ],
+  "production": {
+    "key": "staged-five-card-2026-09-08:verify:sigil:evidence-refresh-v1",
+    "producer": "staged-five-card-trial",
+    "trial_card": "Sigil of Sleep",
+    "trial_id": "staged-five-card-2026-09-08",
+    "trial_phase": "verification",
+    "verification_context_version": "pinned-fixtures-v1"
+  },
+  "required_behavior": [
+    "Write a test-only full-card proof for Sigil of Sleep. Load the real corpus card, freshly reparse it with Python reparse_card, merge parser output into CardDefinition, call ToGameCard, then exercise public game actions and resolution. No handcrafted replacement abilities, skipped cases or weakened expectations.",
+    "Add the exact named test TestShape_StagedTrial_sigil in backend/cards/shape_staged_trial_sigil_test.go.",
+    "Combat and noncombat damage from enchanted creature trigger exactly once for actual positive damage.",
+    "Prevented damage and unrelated life loss do not trigger.",
+    "Creature damage does not trigger this player-damage ability.",
+    "Targets belong to actually damaged player, even if that player is also aura controller.",
+    "Stolen creature returns to its owner; controller changes or other target illegality before resolution are rechecked.",
+    "Combat-only effects, including monarch, remain combat-only.",
+    "No duplicate emission across combat and generic damage paths.",
+    "Prerequisite repair: retire the overriding legacy Sigil handler in favor of its freshly parsed record; emit combat-only events exactly once after actual positive damage from both combat entry points, with no false events after prevention."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/cards/shape_staged_trial_sigil_test.go",
+      "backend/cardfns/register.go",
+      "backend/game/gamestate.go",
+      "backend/game/lib_player_damage_event.go",
+      "backend/game/shape_actual_combat_notifications_test.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "verify-card-behavior",
+    "path": "docs/factory-ng/skills/v1/verify-card-behavior/SKILL.md",
+    "sha256": "sha256:e61c593f7eb664fd8ce7ba86c9843291cc45b2c5533901d790375a5e8b0b589d"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "d3271e5c644d3b38f384b013daf5237005c8c378",
+    "clean": true
+  },
+  "supersedes": "ticket:engine.staged-trial-verify-sigil/v1",
+  "title": "Restore Sigil record behavior and actual combat damage notifications with full-card proof",
+  "work_type": "engine",
+  "operator_recovery": {
+    "authorization": "User requested fixing all needs-attention tickets.",
+    "original_ticket": "docs/factory-ng/tickets/engine-staged-trial-verify-sigil-v2.json",
+    "original_ticket_sha256": "sha256:faf999dde0af7d0dd3bf965f180ce4b3c9e3f5139907e0126dfe0786b6812c0c",
+    "failed_receipt": "docs/factory-ng/runs/2026-09-15T202923Z-engine-staged-trial-verify-sigil-v2-claude.json",
+    "failed_receipt_sha256": "sha256:7d7670e943166a5352a39a470fa471e7940ae8bf2b3ea9c37ddc21bcb1403546",
+    "scope_addition_reason": "The exact full-card test exposed a legacy handler overriding the correct record and missing combat-only notifications in the public resolver. Remove the handler binding and centralize actual combat notifications; preserve the original full-card test obligations. This is not a successful staged-model trial.",
+    "additional_provider_runs": 0,
+    "counter_resets": false
+  }
+}

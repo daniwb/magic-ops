@@ -1,0 +1,149 @@
+{
+  "capability": {
+    "expected_unlock": 1,
+    "negative_examples": [
+      "Counter target spell with no mana-value restriction (e.g. a plain Counterspell-style card) must continue to be mapped by the existing unrestricted counter shape and must not require or be affected by this new mana-value-threshold filter"
+    ],
+    "required_behavior": "When countering a target spell, the legal-target filter must be able to restrict candidates to spells with mana value equal to or greater than a specified integer threshold, so the restriction is enforced at target selection (not silently ignored), preserving full Oracle semantics of 'Counter target spell with mana value N or greater.'",
+    "source_misses": [
+      {
+        "card": "Disdainful Stroke",
+        "oracle_text_sha256": "1bb148215e11596f35a118f9fb56bcb29e06fe0c42cf824ec69a6f040ee92194",
+        "paragraph": "Counter target spell with mana value 4 or greater.",
+        "required_behavior": "When countering a target spell, the legal-target filter must be able to restrict candidates to spells with mana value equal to or greater than a specified integer threshold, so the restriction is enforced at target selection (not silently ignored), preserving full Oracle semantics of 'Counter target spell with mana value N or greater.'"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "key": "counter_target_spell_mana_value_threshold",
+        "specification": {
+          "expected_unlock": 1,
+          "negative_examples": [
+            "Counter target spell with no mana-value restriction (e.g. a plain Counterspell-style card) must continue to be mapped by the existing unrestricted counter shape and must not require or be affected by this new mana-value-threshold filter"
+          ],
+          "required_behavior": "When countering a target spell, the legal-target filter must be able to restrict candidates to spells with mana value equal to or greater than a specified integer threshold, so the restriction is enforced at target selection (not silently ignored), preserving full Oracle semantics of 'Counter target spell with mana value N or greater.'",
+          "source_misses": [
+            {
+              "card": "Disdainful Stroke",
+              "oracle_text_sha256": "1bb148215e11596f35a118f9fb56bcb29e06fe0c42cf824ec69a6f040ee92194",
+              "paragraph": "Counter target spell with mana value 4 or greater.",
+              "required_behavior": "When countering a target spell, the legal-target filter must be able to restrict candidates to spells with mana value equal to or greater than a specified integer threshold, so the restriction is enforced at target selection (not silently ignored), preserving full Oracle semantics of 'Counter target spell with mana value N or greater.'"
+            }
+          ]
+        },
+        "summary": "target_filter needs a mana-value threshold restriction (e.g. mana value N or greater) usable with the counter effect's target spell selection"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-08-31T153037Z-map-plan-counter-disdainful-stroke-83ba7736e6-v1-claude.json"
+    },
+    {
+      "anchor": "6-76",
+      "fact": "Current source contains the nearest bounded seam matching capability tokens counter, target, spell, mana, value, threshold.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:1795fe3b386e68f3a436bac42ab5e9ef00ff43ca512f640abdf5f5b17bb4ba21"
+    },
+    {
+      "anchor": "1-38",
+      "fact": "Current source contains the nearest bounded seam matching capability tokens counter, target, spell, mana, value, threshold.",
+      "path": "backend/game/dynamic_amount.go",
+      "sha256": "sha256:07c514d74935fce87d2eebbf7da347a0f4be738088f738cfa731bfc83551e6a2"
+    },
+    {
+      "anchor": "15-85",
+      "fact": "Current source contains the nearest bounded seam matching capability tokens counter, target, spell, mana, value, threshold.",
+      "path": "backend/game/effects.go",
+      "sha256": "sha256:283a75ac596319d6422f91838cd413c5b1f1cc7b074a1c8f26b1a9a1955ed269"
+    },
+    {
+      "anchor": "1-59",
+      "fact": "Current source contains the nearest bounded seam matching capability tokens counter, target, spell, mana, value, threshold.",
+      "path": "backend/game/card.go",
+      "sha256": "sha256:4cb1df58b8b56e8d060e0c1b3e8b304678c4c4517f33dd5d5671337164e9d91f"
+    },
+    {
+      "fact": "The v1 worker requested exact source regions; the runner now supplies one bounded NEED continuation automatically.",
+      "path": "docs/factory-ng/runs/2026-08-31T210723Z-engine-auto-counter-target-spell-mana-value-threshold-98c3884b4c-v1-codex.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "One versioned retry exercises the newly implemented bounded Engine NEED continuation.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGCounterTargetSpellManaValueThreshold$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.operator-counter-threshold-recovery-sep15/v1",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Retain the terminal receipt and continue independent discovery; do not request manual source transcription.",
+  "parents": [
+    "ticket:engine.auto-counter-target-spell-mana-value-threshold-98c3884b4c/v2"
+  ],
+  "production": {
+    "key": "capability:counter_target_spell_mana_value_threshold:sha256:98c3884b4cd43f3470b9dc86a839cf63f2e85a7727f997d0e537e4d802f0d44c:need-continuation-v2",
+    "producer": "capability-dependencies"
+  },
+  "required_behavior": [
+    "When countering a target spell, the legal-target filter must be able to restrict candidates to spells with mana value equal to or greater than a specified integer threshold, so the restriction is enforced at target selection (not silently ignored), preserving full Oracle semantics of 'Counter target spell with mana value N or greater.'",
+    "Preserve these adjacent behaviors: Counter target spell with no mana-value restriction (e.g. a plain Counterspell-style card) must continue to be mapped by the existing unrestricted counter shape and must not require or be affected by this new mana-value-threshold filter",
+    "Add a discriminating behavior test named TestFactoryNGCounterTargetSpellManaValueThreshold; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_98c3884b4c_test.go",
+      "backend/cards/factory_ng_98c3884b4c_test.go",
+      "backend/cards/registry_factory_ng_98c3884b4c.go",
+      "backend/game/spell_mana_value_minimum.go",
+      "backend/cards/shape_counter_threshold_test.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "6351d4a33e08af239c29aaa09cea8ceec22f118e",
+    "clean": true
+  },
+  "supersedes": "ticket:engine.auto-counter-target-spell-mana-value-threshold-98c3884b4c/v1",
+  "title": "Enforce minimum mana value when choosing a counter target",
+  "work_type": "engine",
+  "operator_recovery": {
+    "authorization": "User requested fixing all needs-attention tickets.",
+    "original_ticket": "docs/factory-ng/tickets/engine-auto-counter-target-spell-mana-value-threshold-98c3884b4c-v2.json",
+    "original_ticket_sha256": "sha256:74d66ba84522cb872b2b0fd1436ddd2a40a1107aeecb3a85b93875b63fb68f0c",
+    "additional_provider_runs": 0,
+    "counter_resets": false,
+    "scope_addition_reason": "Adds a bounded spell_mv_gte_N filter, exact-one counter target bounds and chosen-X mana value checks. Preserves existing equality/plain filters; public native/legacy casting and resolution regressions."
+  }
+}

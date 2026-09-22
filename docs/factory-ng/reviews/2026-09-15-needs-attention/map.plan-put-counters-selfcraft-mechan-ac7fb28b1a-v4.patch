@@ -1,0 +1,123 @@
+From 4f790b46f49e7ed03d1314e37f7c1a8611a378c3 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Wed, 9 Sep 2026 11:20:27 +0000
+Subject: [PATCH] factory-ng: supervised engine observation
+
+---
+ scripts/paragraph/reparse.py                  | 29 ++++++++++
+ .../paragraph/test_factory_ng_ac7fb28b1a.py   | 56 +++++++++++++++++++
+ 2 files changed, 85 insertions(+)
+ create mode 100644 scripts/paragraph/test_factory_ng_ac7fb28b1a.py
+
+diff --git a/scripts/paragraph/reparse.py b/scripts/paragraph/reparse.py
+index c5384c8fb..84623dd3c 100644
+--- a/scripts/paragraph/reparse.py
++++ b/scripts/paragraph/reparse.py
+@@ -11514,6 +11514,26 @@ def _put_counters_referent_atom(va, ta, subj_est):
+             {'amount': n, 'counter_type': ta['type'], 'target_trigger_source': True},
+             None)
+ 
++def _put_counter_and_draw_atom(ch, kind=None):
++    if kind != 'triggered' or ' and ' not in ch:
++        return None
++    left, right = (part.strip() for part in ch.rstrip('.').split(' and ', 1))
++    if right != 'draw a card':
++        return None
++    pv, pt = O.parse_atom(left)
++    dv, dt = O.parse_atom(right)
++    if pv != 'put_counters' or dv != 'draw' or not pt or not dt:
++        return None
++    if _amt(dt.get('amount')) != 1:
++        return None
++    mapped = map_atom(pv, pt, kind=kind)
++    if mapped is None or mapped[0] != 'put_counters':
++        return None
++    target = mapped[2]
++    if target != {'filter': 'creature'}:
++        return None
++    return ('put_counter_and_draw_card', dict(mapped[1]), target)
++
+ # task-2368 (verb_unmapped:put_counters): "put <amt> <type> counter(s) on
+ # <obj> for each <count>" / "put X <type> counter(s) on <obj>, where X is
+ # [the number of] <count>" — parse_atom's put_counters grammar swallows the
+@@ -24969,6 +24989,15 @@ def reparse_card(card):
+                 if _is_bare_pay_gate_atom(ch, may, verb, trig_atoms):
+                     pending_bare_pay.append(ch)
+                     continue
++                atomic = _put_counter_and_draw_atom(ch, kind='triggered')
++                if atomic is not None:
++                    atom = _atom_dict(*atomic)
++                    if link in ('if_you_do', 'if_you_dont', 'then'):
++                        atom['link'] = link
++                    if may:
++                        atom['optional'] = True
++                    atoms_out.append(atom)
++                    continue
+                 split = None
+                 # task-1979: see matching comment in the activated-body loop
+                 # — try the and-split even when the verb DID parse but its
+diff --git a/scripts/paragraph/test_factory_ng_ac7fb28b1a.py b/scripts/paragraph/test_factory_ng_ac7fb28b1a.py
+new file mode 100644
+index 000000000..4492f285e
+--- /dev/null
++++ b/scripts/paragraph/test_factory_ng_ac7fb28b1a.py
+@@ -0,0 +1,56 @@
++import os
++import sys
++import unittest
++
++sys.path.insert(0, os.path.dirname(__file__))
++import reparse
++
++
++class TestSelfcraftMechan(unittest.TestCase):
++    def test_selfcraft_mechan_maps_every_oracle_clause(self):
++        result = reparse.reparse_card(reparse.load_card('Selfcraft Mechan'))
++
++        self.assertTrue(result['eligible'])
++        self.assertEqual(result['misses'], [])
++        self.assertEqual(len(result['abilities']), 1)
++
++        ability = result['abilities'][0]
++        self.assertEqual(ability['type'], 'triggered')
++        self.assertEqual(ability['trigger_v2'], {
++            'event': 'etb',
++            'subject': {'filter': 'self'},
++        })
++        self.assertEqual(ability['effects'], [
++            {
++                'effect': 'sacrifice',
++                'value': {'filter': 'artifact', 'n': 1},
++                'optional': True,
++            },
++            {
++                'effect': 'put_counter_and_draw_card',
++                'value': {'amount': 1, 'counter_type': '+1/+1'},
++                'target': {'filter': 'creature'},
++                'link': 'if_you_do',
++            },
++        ])
++
++    def test_counter_plus_two_draws_preserves_general_sequence(self):
++        text = 'put a +1/+1 counter on target creature and draw two cards.'
++        # The one-card combined primitive must never swallow a two-card draw.
++        self.assertIsNone(reparse._put_counter_and_draw_atom(text, kind='triggered'))
++        result = reparse.reparse_card({
++            'name': '', 'types': ['Creature'],
++            'text': 'When this creature enters, ' + text,
++        })
++        self.assertTrue(result['eligible'], result['misses'])
++        self.assertEqual(result['misses'], [])
++        self.assertEqual(result['abilities'][0]['effects'], [
++            {'effect': 'put_counters',
++             'value': {'amount': 1, 'counter_type': '+1/+1'},
++             'target': {'filter': 'creature'}},
++            {'effect': 'draw', 'value': {'amount': 2}, 'link': 'and'},
++        ])
++
++
++if __name__ == '__main__':
++    unittest.main()
+-- 
+2.43.0
+

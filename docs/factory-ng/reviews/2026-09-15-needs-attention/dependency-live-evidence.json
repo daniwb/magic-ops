@@ -1,0 +1,31 @@
+{
+  "ticket:engine.auto-grant-keywords-until-eot-conditional-on-target-c-97e6661211/v1": {
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "qwen-prepared-local@1.0.1",
+      "codex-constrained@1.0.0",
+      "codex-constrained@1.1.0"
+    ],
+    "created_at": "2026-09-15T20:46:19Z",
+    "preferred_profile": "claude-staged@1.0.0",
+    "production": {
+      "attention_recovery_parent": "ticket:map.plan-grant-eot-revelation-of-power-850cd79af8/v2",
+      "key": "capability:grant_keywords_until_eot_conditional_on_target_counter:sha256:97e6661211fb83b2d5ac086bc937e737ff1a0181b9e8d53cc17719a1217271de",
+      "producer": "capability-dependencies"
+    },
+    "profile": "claude-staged@1.0.0",
+    "state": "queued",
+    "ticket_id": "ticket:engine.auto-grant-keywords-until-eot-conditional-on-target-c-97e6661211/v1",
+    "ticket_path": "docs/factory-ng/tickets/engine-auto-grant-keywords-until-eot-conditional-on-target-c-97e6661211-v1.json",
+    "updated_at": "2026-09-15T20:46:19Z",
+    "usage_status": {
+      "claude": "5h=80% 7d=92% | weekly-mode=paced fixed=100% | Tag 7/7 \u2192 erlaubt 100% n\u00e4chste Stufe: 2026-09-16 20:00 CEST \u2192 l\u00e4uft (unter Tages-Stufe, Stopp bei >=)",
+      "claude-2": "5h=80% 7d=92% | weekly-mode=paced fixed=95% | Tag 7/7 \u2192 erlaubt 95% n\u00e4chste Stufe: 2026-09-16 20:00 CEST \u2192 l\u00e4uft (unter Tages-Stufe, Stopp bei >=)",
+      "codex": "primary=75% secondary=n/a% | weekly-mode=fixed fixed=95% | Tag 4 -> erlaubt 54% -> laeuft (fixed weekly ceiling 95%)",
+      "codex-2": "primary=75% secondary=n/a% | weekly-mode=fixed fixed=70% | Tag 4 -> erlaubt 40% FIXED-WEEKLY-PAUSE at 75% (ceiling 70%)",
+      "codex-3": "primary=75% secondary=n/a% | weekly-mode=fixed fixed=70% | Tag 4 -> erlaubt 40% FIXED-WEEKLY-PAUSE at 75% (ceiling 70%)",
+      "codex-4": "primary=75% secondary=n/a% | weekly-mode=fixed fixed=70% | Tag 4 -> erlaubt 40% FIXED-WEEKLY-PAUSE at 75% (ceiling 70%)"
+    },
+    "work_type": "engine"
+  }
+}

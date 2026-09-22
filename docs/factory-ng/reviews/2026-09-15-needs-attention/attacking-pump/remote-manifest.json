@@ -1,0 +1,12 @@
+[
+  {
+    "ticket_id": "ticket:engine.operator-attacking-pump-recovery-sep15/v1",
+    "ticket_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/attacking-pump/ticket.json",
+    "proposal": "docs/factory-ng/candidates/proposal-afc928c06801419ebcda21479004fb58.json",
+    "identity": {
+      "worker": "operator",
+      "model": "operator-correction-no-worker-provider-run",
+      "profile": "codex-constrained@1.1.0"
+    }
+  }
+]

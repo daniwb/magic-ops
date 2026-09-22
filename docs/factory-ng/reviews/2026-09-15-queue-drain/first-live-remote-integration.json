@@ -1,0 +1,353 @@
+{
+  "created_at": "2026-09-15T16:48:57Z",
+  "excluded_candidates": {
+    "ticket:map.plan-pump-power-matrix-374a5aa846/v2": {
+      "gates": [
+        {
+          "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/2026-09-15T142901Z-map-plan-pump-power-matrix-374a5aa846-v2.patch",
+          "detail": "Applying: factory-ng: supervised engine observation\nUsing index info to reconstruct a base tree...\nM\tscripts/paragraph/reparse.py\nFalling back to patching base and 3-way merge...\nAuto-merging scripts/paragraph/reparse.py\nCONFLICT (content): Merge conflict in scripts/paragraph/reparse.py\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\n\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch",
+          "elapsed_ms": 923,
+          "exit_code": 128,
+          "id": "candidate-apply",
+          "outcome": "failed"
+        }
+      ],
+      "reason": "error: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch\n",
+      "status": "candidate_conflict"
+    }
+  },
+  "execution": {
+    "cpus": [
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ],
+    "full_gate_host": "dani@192.168.1.251",
+    "go_parallelism": 4,
+    "image": "sha256:e8565fa265f973c06f0515fac7aa9d102edae01b5677d69216900b84029c6ad0",
+    "input_tree": "3f4c01ac08461e8382735247da6ad2e203e2b30f",
+    "manifest_sha256": "bae1d97c451af8bc3c162c906d5f3aa7c42e641be2cd8f58b39ce8643c7b7f7b",
+    "peak_memory_bytes": 5066100736,
+    "result_tree": "fa06ec48d42c40e3655fcb38699a0c6802f8daf0",
+    "semantic_checks_remote": false
+  },
+  "gates": [
+    {
+      "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/focused-983df52e4aa043d19a3a6d4099ba8a45-0.patch",
+      "detail": "Applying: factory-ng: focused batch proposal",
+      "elapsed_ms": 211,
+      "exit_code": 0,
+      "id": "candidate-apply",
+      "outcome": "passed"
+    },
+    {
+      "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/focused-e721d8ab83df478cb6b4efcde540753e-0.patch",
+      "detail": "Applying: factory-ng: focused batch proposal",
+      "elapsed_ms": 406,
+      "exit_code": 0,
+      "id": "candidate-apply",
+      "outcome": "passed"
+    },
+    {
+      "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/focused-0d254103135b4593a89a9b63dd246148-0.patch",
+      "detail": "Applying: factory-ng: focused batch proposal",
+      "elapsed_ms": 415,
+      "exit_code": 0,
+      "id": "candidate-apply",
+      "outcome": "passed"
+    },
+    {
+      "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/focused-26f1f14f3dff460ca2a98197d14263f1-0.patch",
+      "detail": "Applying: factory-ng: focused batch proposal",
+      "elapsed_ms": 241,
+      "exit_code": 0,
+      "id": "candidate-apply",
+      "outcome": "passed"
+    },
+    {
+      "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/focused-f6be7fd5a57247a88178a1f67e2803a9-0.patch",
+      "detail": "Applying: factory-ng: focused batch proposal",
+      "elapsed_ms": 215,
+      "exit_code": 0,
+      "id": "candidate-apply",
+      "outcome": "passed"
+    },
+    {
+      "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/focused-cd9eca984eb44592b2f7b31848d66ab2-0.patch",
+      "detail": "Applying: factory-ng: focused batch proposal",
+      "elapsed_ms": 402,
+      "exit_code": 0,
+      "id": "candidate-apply",
+      "outcome": "passed"
+    },
+    {
+      "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/focused-b210c3f3f4c54f43bba22efa7d2cddb8-0.patch",
+      "detail": "Applying: factory-ng: focused batch proposal",
+      "elapsed_ms": 332,
+      "exit_code": 0,
+      "id": "candidate-apply",
+      "outcome": "passed"
+    },
+    {
+      "command": "cd scripts/paragraph && python3 -m unittest test_factory_ng_abc34f23d1",
+      "detail": "/tmp/factory-ng-integrate-xjfip4dm/scripts/paragraph/reparse.py:20006: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-integrate-xjfip4dm/scripts/paragraph/../../backend/data/carddb/i.json' mode='r' encoding='UTF-8'>\n  db = json.load(open(path))\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n..\n----------------------------------------------------------------------\nRan 2 tests in 0.122s\n\nOK",
+      "elapsed_ms": 1338,
+      "exit_code": 0,
+      "id": "composed-ticket-0",
+      "outcome": "passed",
+      "ticket_id": "ticket:map.plan-multi-infernal-medusa-abc34f23d1/v2"
+    },
+    {
+      "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-abc34f23d1-v1.json reports zero remaining pinned members",
+      "detail": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-abc34f23d1-v1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:destroy\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:b831521bf95986ec4e6d5311560bc9fa4290a54458874f1bbab9d329ee4b4e9d\",\n    \"repository\": \"/tmp/factory-ng-integrate-xjfip4dm\",\n    \"revision\": \"72f0cb0fbb817415f71073e7b7422bf2c9d3349d\"\n  }\n}",
+      "elapsed_ms": 2234,
+      "exit_code": 0,
+      "id": "composed-ticket-3",
+      "outcome": "passed",
+      "ticket_id": "ticket:map.plan-multi-infernal-medusa-abc34f23d1/v2"
+    },
+    {
+      "command": "cd scripts/paragraph && python3 -m unittest test_factory_ng_8809b89852",
+      "detail": "./tmp/factory-ng-integrate-xjfip4dm/scripts/paragraph/reparse.py:20006: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-integrate-xjfip4dm/scripts/paragraph/../../backend/data/carddb/g.json' mode='r' encoding='UTF-8'>\n  db = json.load(open(path))\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n.\n----------------------------------------------------------------------\nRan 2 tests in 0.138s\n\nOK",
+      "elapsed_ms": 630,
+      "exit_code": 0,
+      "id": "composed-ticket-0",
+      "outcome": "passed",
+      "ticket_id": "ticket:map.plan-destroy-goblin-vandal-8809b89852/v3"
+    },
+    {
+      "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-8809b89852-retry1.json reports zero remaining pinned members",
+      "detail": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-8809b89852-retry1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:destroy\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:b831521bf95986ec4e6d5311560bc9fa4290a54458874f1bbab9d329ee4b4e9d\",\n    \"repository\": \"/tmp/factory-ng-integrate-xjfip4dm\",\n    \"revision\": \"72f0cb0fbb817415f71073e7b7422bf2c9d3349d\"\n  }\n}",
+      "elapsed_ms": 2027,
+      "exit_code": 0,
+      "id": "composed-ticket-3",
+      "outcome": "passed",
+      "ticket_id": "ticket:map.plan-destroy-goblin-vandal-8809b89852/v3"
+    },
+    {
+      "detail": "All newly added public effects are registered.",
+      "elapsed_ms": 460,
+      "id": "engine-vocabulary-handoff",
+      "outcome": "passed",
+      "ticket_id": "ticket:engine.auto-gain-control-multi-target-x-count-00394988c3/v2"
+    },
+    {
+      "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+      "detail": "",
+      "elapsed_ms": 186,
+      "exit_code": 0,
+      "id": "composed-ticket-0",
+      "outcome": "passed",
+      "ticket_id": "ticket:engine.auto-gain-control-multi-target-x-count-00394988c3/v2"
+    },
+    {
+      "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGGainControlMultiTargetXCount_00394988c3$' -count=1",
+      "detail": "backend/game\",\"Test\":\"TestFactoryNGGainControlMultiTargetXCount_00394988c3\",\"Output\":\"=== RUN   TestFactoryNGGainControlMultiTargetXCount_00394988c3\\n\"}\n{\"Time\":\"2026-09-15T16:43:25.080276953Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Test\":\"TestFactoryNGGainControlMultiTargetXCount_00394988c3\",\"Output\":\"--- PASS: TestFactoryNGGainControlMultiTargetXCount_00394988c3 (0.00s)\\n\"}\n{\"Time\":\"2026-09-15T16:43:25.080422626Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Test\":\"TestFactoryNGGainControlMultiTargetXCount_00394988c3\",\"Elapsed\":0}\n{\"Time\":\"2026-09-15T16:43:25.08054653Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-15T16:43:25.082276383Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.050s\\n\"}\n{\"Time\":\"2026-09-15T16:43:25.084283904Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.054}\n{\"Time\":\"2026-09-15T16:45:04.703691898Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-15T16:45:04.729768449Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-15T16:45:04.729958142Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-15T16:45:04.733178671Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.029s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-15T16:45:04.733290709Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.03}\n\nNamed test gate: 1 test(s) passed for '^TestFactoryNGGainControlMultiTargetXCount_00394988c3$'",
+      "elapsed_ms": 443805,
+      "exit_code": 0,
+      "id": "composed-ticket-1",
+      "outcome": "passed",
+      "ticket_id": "ticket:engine.auto-gain-control-multi-target-x-count-00394988c3/v2"
+    },
+    {
+      "detail": "All newly added public effects are registered.",
+      "elapsed_ms": 462,
+      "id": "engine-vocabulary-handoff",
+      "outcome": "passed",
+      "ticket_id": "ticket:engine.auto-tap-and-put-counter-type-union-controller-filter-eb0230fea8/v1"
+    },
+    {
+      "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+      "detail": "",
+      "elapsed_ms": 156,
+      "exit_code": 0,
+      "id": "composed-ticket-0",
+      "outcome": "passed",
+      "ticket_id": "ticket:engine.auto-tap-and-put-counter-type-union-controller-filter-eb0230fea8/v1"
+    },
+    {
+      "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGTapAndPutCounterTypeUnionControllerFilter_eb0230fea8$' -count=1",
+      "detail": "c-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.027s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-15T16:45:14.103350256Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.028}\n{\"Time\":\"2026-09-15T16:45:24.583831701Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-15T16:45:24.600783935Z\",\"Action\":\"run\",\"Package\":\"magic-backend/cards\",\"Test\":\"TestFactoryNGTapAndPutCounterTypeUnionControllerFilter_eb0230fea8\"}\n{\"Time\":\"2026-09-15T16:45:24.600830142Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Test\":\"TestFactoryNGTapAndPutCounterTypeUnionControllerFilter_eb0230fea8\",\"Output\":\"=== RUN   TestFactoryNGTapAndPutCounterTypeUnionControllerFilter_eb0230fea8\\n\"}\n{\"Time\":\"2026-09-15T16:45:24.602665738Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Test\":\"TestFactoryNGTapAndPutCounterTypeUnionControllerFilter_eb0230fea8\",\"Output\":\"--- PASS: TestFactoryNGTapAndPutCounterTypeUnionControllerFilter_eb0230fea8 (0.00s)\\n\"}\n{\"Time\":\"2026-09-15T16:45:24.602772042Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Test\":\"TestFactoryNGTapAndPutCounterTypeUnionControllerFilter_eb0230fea8\",\"Elapsed\":0}\n{\"Time\":\"2026-09-15T16:45:24.604032105Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-15T16:45:24.60646787Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.022s\\n\"}\n{\"Time\":\"2026-09-15T16:45:24.606508859Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.023}\n\nNamed test gate: 1 test(s) passed for '^TestFactoryNGTapAndPutCounterTypeUnionControllerFilter_eb0230fea8$'",
+      "elapsed_ms": 19103,
+      "exit_code": 0,
+      "id": "composed-ticket-1",
+      "outcome": "passed",
+      "ticket_id": "ticket:engine.auto-tap-and-put-counter-type-union-controller-filter-eb0230fea8/v1"
+    },
+    {
+      "detail": "All newly added public effects are registered.",
+      "elapsed_ms": 600,
+      "id": "engine-vocabulary-handoff",
+      "outcome": "passed",
+      "ticket_id": "ticket:engine.auto-activated-cost-discarded-card-mana-value-damage-09241130f8/v1"
+    },
+    {
+      "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+      "detail": "",
+      "elapsed_ms": 128,
+      "exit_code": 0,
+      "id": "composed-ticket-0",
+      "outcome": "passed",
+      "ticket_id": "ticket:engine.auto-activated-cost-discarded-card-mana-value-damage-09241130f8/v1"
+    },
+    {
+      "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGActivatedCostDiscardedCardManaValueDamage_09241130f8$' -count=1",
+      "detail": "c-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.038s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-15T16:45:34.740665766Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.042}\n{\"Time\":\"2026-09-15T16:45:44.735871465Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-15T16:45:44.75713823Z\",\"Action\":\"run\",\"Package\":\"magic-backend/cards\",\"Test\":\"TestFactoryNGActivatedCostDiscardedCardManaValueDamage_09241130f8\"}\n{\"Time\":\"2026-09-15T16:45:44.757188028Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Test\":\"TestFactoryNGActivatedCostDiscardedCardManaValueDamage_09241130f8\",\"Output\":\"=== RUN   TestFactoryNGActivatedCostDiscardedCardManaValueDamage_09241130f8\\n\"}\n{\"Time\":\"2026-09-15T16:45:44.758209747Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Test\":\"TestFactoryNGActivatedCostDiscardedCardManaValueDamage_09241130f8\",\"Output\":\"--- PASS: TestFactoryNGActivatedCostDiscardedCardManaValueDamage_09241130f8 (0.00s)\\n\"}\n{\"Time\":\"2026-09-15T16:45:44.758273724Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Test\":\"TestFactoryNGActivatedCostDiscardedCardManaValueDamage_09241130f8\",\"Elapsed\":0}\n{\"Time\":\"2026-09-15T16:45:44.759550326Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-15T16:45:44.762454996Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.026s\\n\"}\n{\"Time\":\"2026-09-15T16:45:44.762510341Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.027}\n\nNamed test gate: 1 test(s) passed for '^TestFactoryNGActivatedCostDiscardedCardManaValueDamage_09241130f8$'",
+      "elapsed_ms": 19423,
+      "exit_code": 0,
+      "id": "composed-ticket-1",
+      "outcome": "passed",
+      "ticket_id": "ticket:engine.auto-activated-cost-discarded-card-mana-value-damage-09241130f8/v1"
+    },
+    {
+      "detail": "All newly added public effects are registered.",
+      "elapsed_ms": 457,
+      "id": "engine-vocabulary-handoff",
+      "outcome": "passed",
+      "ticket_id": "ticket:engine.auto-unbounded-spell-target-selection-38d6b41c91/v1"
+    },
+    {
+      "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+      "detail": "",
+      "elapsed_ms": 130,
+      "exit_code": 0,
+      "id": "composed-ticket-0",
+      "outcome": "passed",
+      "ticket_id": "ticket:engine.auto-unbounded-spell-target-selection-38d6b41c91/v1"
+    },
+    {
+      "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGUnboundedSpellTargetSelection_38d6b41c91$' -count=1",
+      "detail": "\"PASS\\n\"}\n{\"Time\":\"2026-09-15T16:45:52.538730242Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.030s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-15T16:45:52.539121257Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.032}\n{\"Time\":\"2026-09-15T16:46:05.688709075Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-15T16:46:05.732390579Z\",\"Action\":\"run\",\"Package\":\"magic-backend/cards\",\"Test\":\"TestFactoryNGUnboundedSpellTargetSelection_38d6b41c91\"}\n{\"Time\":\"2026-09-15T16:46:05.73248905Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Test\":\"TestFactoryNGUnboundedSpellTargetSelection_38d6b41c91\",\"Output\":\"=== RUN   TestFactoryNGUnboundedSpellTargetSelection_38d6b41c91\\n\"}\n{\"Time\":\"2026-09-15T16:46:05.732893397Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Test\":\"TestFactoryNGUnboundedSpellTargetSelection_38d6b41c91\",\"Output\":\"--- PASS: TestFactoryNGUnboundedSpellTargetSelection_38d6b41c91 (0.00s)\\n\"}\n{\"Time\":\"2026-09-15T16:46:05.732911547Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Test\":\"TestFactoryNGUnboundedSpellTargetSelection_38d6b41c91\",\"Elapsed\":0}\n{\"Time\":\"2026-09-15T16:46:05.736918714Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-15T16:46:05.739158926Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.050s\\n\"}\n{\"Time\":\"2026-09-15T16:46:05.739245998Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.051}\n\nNamed test gate: 1 test(s) passed for '^TestFactoryNGUnboundedSpellTargetSelection_38d6b41c91$'",
+      "elapsed_ms": 20465,
+      "exit_code": 0,
+      "id": "composed-ticket-1",
+      "outcome": "passed",
+      "ticket_id": "ticket:engine.auto-unbounded-spell-target-selection-38d6b41c91/v1"
+    },
+    {
+      "detail": "All newly added public effects are registered.",
+      "elapsed_ms": 664,
+      "id": "engine-vocabulary-handoff",
+      "outcome": "passed",
+      "ticket_id": "ticket:engine.auto-prevent-combat-damage-from-target-and-blockers-854810ef0f/v1"
+    },
+    {
+      "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+      "detail": "",
+      "elapsed_ms": 274,
+      "exit_code": 0,
+      "id": "composed-ticket-0",
+      "outcome": "passed",
+      "ticket_id": "ticket:engine.auto-prevent-combat-damage-from-target-and-blockers-854810ef0f/v1"
+    },
+    {
+      "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGPreventCombatDamageFromTargetAndBlockers_854810ef0f$' -count=1",
+      "detail": ":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.024s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-15T16:46:16.465581757Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.025}\n{\"Time\":\"2026-09-15T16:46:29.797423221Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-15T16:46:29.833318025Z\",\"Action\":\"run\",\"Package\":\"magic-backend/cards\",\"Test\":\"TestFactoryNGPreventCombatDamageFromTargetAndBlockers_854810ef0f\"}\n{\"Time\":\"2026-09-15T16:46:29.833401996Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Test\":\"TestFactoryNGPreventCombatDamageFromTargetAndBlockers_854810ef0f\",\"Output\":\"=== RUN   TestFactoryNGPreventCombatDamageFromTargetAndBlockers_854810ef0f\\n\"}\n{\"Time\":\"2026-09-15T16:46:29.835339095Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Test\":\"TestFactoryNGPreventCombatDamageFromTargetAndBlockers_854810ef0f\",\"Output\":\"--- PASS: TestFactoryNGPreventCombatDamageFromTargetAndBlockers_854810ef0f (0.00s)\\n\"}\n{\"Time\":\"2026-09-15T16:46:29.835507774Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Test\":\"TestFactoryNGPreventCombatDamageFromTargetAndBlockers_854810ef0f\",\"Elapsed\":0}\n{\"Time\":\"2026-09-15T16:46:29.839040424Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-15T16:46:29.841253337Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.044s\\n\"}\n{\"Time\":\"2026-09-15T16:46:29.841419411Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.044}\n\nNamed test gate: 1 test(s) passed for '^TestFactoryNGPreventCombatDamageFromTargetAndBlockers_854810ef0f$'",
+      "elapsed_ms": 23129,
+      "exit_code": 0,
+      "id": "composed-ticket-1",
+      "outcome": "passed",
+      "ticket_id": "ticket:engine.auto-prevent-combat-damage-from-target-and-blockers-854810ef0f/v1"
+    },
+    {
+      "command": "python3 scripts/paragraph/reparse.py --flip-batch 300 --tag factory-ng-0915-1646",
+      "detail": "FLIPPED 1 cards (status review -> auto, native v2 records)\nspot-check sample -> corpus/factory-ng-0915-1646_spotcheck.txt",
+      "elapsed_ms": 12955,
+      "execution_host": "dani@192.168.1.251",
+      "exit_code": 0,
+      "id": "reparse-flip",
+      "outcome": "passed"
+    },
+    {
+      "command": "python3 scripts/paragraph/reparse.py --import-corpus --tag factory-ng-0915-1646",
+      "detail": "IMPORTED 0 new cards (reparse-R3-import)\nIMPORTED 0 new cards as review (reparse-R3-import-review, was skipped ineligible before 2026-08-11)\n  skipped keyword_args   1206\n  skipped layout         687\n  skipped mana           413\n  skipped not_legal      378\n  skipped dfc_ineligible 227\n  skipped pt             150\n  skipped dfc_keyword_args 101\n  skipped type           55\n  skipped dfc_incomplete 36\n  skipped dfc_mana       9\n  skipped basic          6\n  skipped dfc_type       5\n  skipped dfc_pt         2\n  skipped pw_loyalty     1",
+      "elapsed_ms": 3234,
+      "execution_host": "dani@192.168.1.251",
+      "exit_code": 0,
+      "id": "reparse-import",
+      "outcome": "passed"
+    },
+    {
+      "command": "/opt/development/magic-ops/scripts/go-cache-run.sh build ./...",
+      "detail": "",
+      "elapsed_ms": 17991,
+      "execution_host": "dani@192.168.1.251",
+      "exit_code": 0,
+      "id": "go-build",
+      "outcome": "passed"
+    },
+    {
+      "command": "/opt/development/magic-ops/scripts/go-cache-run.sh test ./game/ -count=1",
+      "detail": "ok  \tmagic-backend/game\t0.030s",
+      "elapsed_ms": 18101,
+      "execution_host": "dani@192.168.1.251",
+      "exit_code": 0,
+      "id": "game-tests",
+      "outcome": "passed"
+    },
+    {
+      "command": "/opt/development/magic-ops/scripts/go-cache-run.sh test ./cards/ -run TestVocabulary|TestV2|TestShape_|TestCardDBSubtypeScopes -count=1",
+      "detail": "ok  \tmagic-backend/cards\t1.388s",
+      "elapsed_ms": 21615,
+      "execution_host": "dani@192.168.1.251",
+      "exit_code": 0,
+      "id": "focused-go",
+      "outcome": "passed"
+    },
+    {
+      "command": "/opt/development/magic-ops/scripts/go-cache-run.sh exec bash scripts/test-cards-sharded.sh 6",
+      "detail": "ok  \tmagic-backend/cardfns\t0.370s\nSHARDED CARDS SUITE: ok (6 shards)",
+      "elapsed_ms": 25957,
+      "execution_host": "dani@192.168.1.251",
+      "exit_code": 0,
+      "id": "full-sharded-suite",
+      "outcome": "passed"
+    },
+    {
+      "command": "git push origin main",
+      "detail": "To github.com:daniwb/openmagic.git\n   28c1a247d..7b6d6e89b  main -> main",
+      "elapsed_ms": 4240,
+      "exit_code": 0,
+      "id": "push",
+      "outcome": "passed"
+    }
+  ],
+  "outcome": "pushed_full_production_gate_green",
+  "parents": [
+    "ticket:map.plan-multi-infernal-medusa-abc34f23d1/v2",
+    "docs/factory-ng/runs/2026-09-15T161948Z-focused-983df52e4aa043d19a3a6d4099ba8a45-0.json",
+    "ticket:map.plan-destroy-goblin-vandal-8809b89852/v3",
+    "docs/factory-ng/runs/2026-09-15T162704Z-focused-e721d8ab83df478cb6b4efcde540753e-0.json",
+    "ticket:engine.auto-gain-control-multi-target-x-count-00394988c3/v2",
+    "docs/factory-ng/runs/2026-09-15T152739Z-focused-0d254103135b4593a89a9b63dd246148-0.json",
+    "ticket:engine.auto-tap-and-put-counter-type-union-controller-filter-eb0230fea8/v1",
+    "docs/factory-ng/runs/2026-09-15T152835Z-focused-26f1f14f3dff460ca2a98197d14263f1-0.json",
+    "ticket:engine.auto-activated-cost-discarded-card-mana-value-damage-09241130f8/v1",
+    "docs/factory-ng/runs/2026-09-15T152911Z-focused-f6be7fd5a57247a88178a1f67e2803a9-0.json",
+    "ticket:engine.auto-unbounded-spell-target-selection-38d6b41c91/v1",
+    "docs/factory-ng/runs/2026-09-15T152938Z-focused-cd9eca984eb44592b2f7b31848d66ab2-0.json",
+    "ticket:engine.auto-prevent-combat-damage-from-target-and-blockers-854810ef0f/v1",
+    "docs/factory-ng/runs/2026-09-15T153322Z-focused-b210c3f3f4c54f43bba22efa7d2cddb8-0.json"
+  ],
+  "policy": {
+    "automatic": true,
+    "deploy_after_push": false,
+    "push_when_full_gate_green": true
+  },
+  "progress": {
+    "verification": "reparse wave plus complete six-shard production suite",
+    "verified_revision": "7b6d6e89b5f7032d20e923376d3bc915da9fb719"
+  },
+  "schema": "factory.integration-receipt/v1",
+  "source": {
+    "base_commit": "28c1a247dc4e7cf35b74e7d869d29847ece75367",
+    "deployed": false,
+    "pushed": true,
+    "result_commit": "7b6d6e89b5f7032d20e923376d3bc915da9fb719"
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "capability": {
+    "expected_unlock": 1,
+    "negative_examples": [
+      "Mass destroy for triggered abilities",
+      "Single-target destroy for spells"
+    ],
+    "required_behavior": "Execute a destroy effect on a single target permanent for a triggered ability",
+    "source_misses": [
+      {
+        "card": "Ragnarok, Divine Deliverance",
+        "oracle_text_sha256": "dfc99cb0507276d591696dedbd0f1e47a1234fc84049787691ce4f504163cbfe",
+        "paragraph": "When Ragnarok dies, destroy target permanent and return target nonlegendary permanent card from your graveyard to the battlefield.",
+        "required_behavior": "Execute a destroy effect on a single target permanent for a triggered ability"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "key": "triggered_single_target_destroy",
+        "specification": {
+          "expected_unlock": 1,
+          "negative_examples": [
+            "Mass destroy for triggered abilities",
+            "Single-target destroy for spells"
+          ],
+          "required_behavior": "Execute a destroy effect on a single target permanent for a triggered ability",
+          "source_misses": [
+            {
+              "card": "Ragnarok, Divine Deliverance",
+              "oracle_text_sha256": "dfc99cb0507276d591696dedbd0f1e47a1234fc84049787691ce4f504163cbfe",
+              "paragraph": "When Ragnarok dies, destroy target permanent and return target nonlegendary permanent card from your graveyard to the battlefield.",
+              "required_behavior": "Execute a destroy effect on a single target permanent for a triggered ability"
+            }
+          ]
+        },
+        "summary": "Support single-target destroy for triggered abilities"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-02T141224Z-map-plan-destroy-ragnarok-divine-deliverance-aa5decbbb2-v1-qwen.json"
+    },
+    {
+      "anchor": "1048-1113",
+      "fact": "Card-knowledge index match (engine): executeReturnFromGraveyardWithCounter is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:622a7316a1adcae36e04a3ffd901a71f97347d6c86552261fa1204ae88c14db5"
+    },
+    {
+      "anchor": "848-913",
+      "fact": "Card-knowledge index match (engine): executeReturnCreatureAndLandFromGraveyard is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:622a7316a1adcae36e04a3ffd901a71f97347d6c86552261fa1204ae88c14db5"
+    },
+    {
+      "anchor": "4986-5051",
+      "fact": "Card-knowledge index match (engine): putLegendRuleLoserIntoGraveyard is the nearest indexed seam for this capability.",
+      "path": "backend/game/gamestate.go",
+      "sha256": "sha256:f44240a2e4a4e2306e9437ae3bb4069daeac4132170da91d84467ae44fbb9f7c"
+    },
+    {
+      "anchor": "612-677",
+      "fact": "Card-knowledge index match (engine): executeDestroyTargetAndSameNameOthers is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:622a7316a1adcae36e04a3ffd901a71f97347d6c86552261fa1204ae88c14db5"
+    },
+    {
+      "fact": "The previous candidate compiled/ran and failed this exact gate: composed-ticket-1: required test filter '^TestFactoryNGTriggeredSingleTargetDestroy$' executed no passing tests\ntesting: warning: no tests to run\nPASS\nok  \tmagic-backend/game\t0.012s [no tests to run]\ntesting: warning: no tests to run\nPASS\nok  \tmagic-backend/cards\t0.023s [no tests to run]\nrequired test filter '^TestFactoryNGTriggeredSingleTargetDestroy$' executed no passing tests. Fix only this defect; do not restructure unrelated code or revisit already-passing behavior.",
+      "path": "docs/factory-ng/runs/2026-09-07T140457Z-wave-9c7e92abd77f-integration.json"
+    },
+    {
+      "fact": "Historical candidate for review/reuse, NOT applied to the current source. Verify every hunk and test against current source and the original semantic contract.\nFrom f5a99f3fe3c2711a4c2a69da7ba4dc1b5dd6666e Mon Sep 17 00:00:00 2001\nFrom: Factory NG <factory-ng@local>\nDate: Sun, 6 Sep 2026 19:32:33 +0000\nSubject: [PATCH] factory-ng: supervised engine observation\n\n---\n backend/game/ability_effects.go            | 30 ++++++++++++++++\n backend/game/factory_ng_cd8f155f56_test.go | 40 ++++++++++++++++++++++\n 2 files changed, 70 insertions(+)\n create mode 100644 backend/game/factory_ng_cd8f155f56_test.go\n\ndiff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go\nindex 17a407284..362f9f852 100644\n--- a/backend/game/ability_effects.go\n+++ b/backend/game/ability_effects.go\n@@ -660,6 +660,36 @@ func cardHasAnySubtype(card *Card, subtypes []string) bool {\n \treturn false\n }\n \n+// executeDestroyTargetPermanentEffect implements the\n+// triggered_single_target_destroy primitive (ticket\n+// engine.auto-triggered-single-target-destroy-cd8f155f56, Ragnarok,\n+// Divine Deliverance class): \"When Ragnarok dies, destroy target\n+// permanent and return target nonlegendary permanent card from your\n+// graveyard to the battlefield.\" Unlike the qualified destroy variants\n+// above (excluding subtypes, mana-value-gated, etc.), this is the plain,\n+// unconditional single-target destroy clause of a TRIGGERED ability \u2014\n+// the same DestroyTarget helper every other destroy primitive in this\n+// file uses, called once per target. A target that isn't a card or is\n+// no longer on the battlefield (already gone by resolution time, Rule\n+// 608.2b) is skipped rather than failing the whole effect, mirroring\n+// executeDestroyExcludingSubtypesEffect's per-target no-op convention\n+// just above.\n+func (gs *GameState) executeDestroyTargetPermanentEffect(targets []Target) error {\n+\tfor _, target := range targets {\n+\t\tif !target.IsCard || target.CardID == \"\" {\n+\t\t\tcontinue\n+\t\t}\n+\t\tcard, err := gs.Battlefield.GetCard(target.CardID)\n+\t\tif err != nil || card == nil {\n+\t\t\tcontinue\n+\t\t}\n+\t\tif err := DestroyTarget(Target{IsCard: true, CardID: card.ID}, gs); err != nil {\n+\t\t\treturn err\n+\t\t}\n+\t}\n+\treturn nil\n+}\n+\n // subtypesFromEffectValue normalizes an effect_value subtype list (parsed\n // from JSON, so a []interface{} of strings) into a []string. Returns nil\n // for any other shape or an empty/absent value, mirroring\ndiff --git a/backend/game/factory_ng_cd8f155f56_test.go b/backend/game/factory_ng_cd8f155f56_test.go\nnew file mode 100644\nindex 000000000..b6e6c2b6c\n--- /dev/null\n+++ b/backend/game/factory_ng_cd8f155f56_test.go\n@@ -0,0 +1,40 @@\n+package game\n+\n+import \"testing\"\n+\n+// Ticket engine.auto-triggered-single-target-destroy-cd8f155f56:\n+// executeDestroyTargetPermanentEffect must destroy a single targeted\n+// permanent (Ragnarok, Divine Deliverance's \"When Ragnarok dies, destroy\n+// target permanent\" clause) \u2014 moving it off the battlefield and into its\n+// owner's graveyard.\n+func TestExecuteDestroyTargetPermanentEffect_TriggeredSingleTarget(t *testing.T) {\n+\tgs := NewGame(\"P0\", \"P1\", false)\n+\n+\ttarget := NewCreature(\"Ragnarok Prey\", ManaCost{}, 2, 2, 1)\n+\ttarget.Owner, target.Controller = 1, 1\n+\tgs.Battlefield.AddCard(target)\n+\n+\tif err := gs.executeDestroyTargetPermanentEffect([]Target{{IsCard: true, CardID: target.ID}}); err != nil {\n+\t\tt.Fatalf(\"executeDestroyTargetPermanentEffect returned error: %v\", err)\n+\t}\n+\n+\tif _, err := gs.Battlefield.GetCard(target.ID); err == nil {\n+\t\tt.Fatalf(\"expected target removed from battlefield after destroy\")\n+\t}\n+\tif _, err := gs.Players[1].Graveyard.RemoveCard(target.ID); err != nil {\n+\t\tt.Fatalf(\"expected destroyed target to be in owner's graveyard: %v\", err)\n+\t}\n+}\n+\n+// A non-card target (or no targets at all) must be a no-op, not an error \u2014\n+// mirrors the no-target no-op convention used throughout ability_effects.go.\n+func TestExecuteDestroyTargetPermanentEffect_NoTargetIsNoOp(t *testing.T) {\n+\tgs := NewGame(\"P0\", \"P1\", false)\n+\n+\tif err := gs.executeDestroyTargetPermanentEffect(nil); err != nil {\n+\t\tt.Fatalf(\"expected nil-target no-op, got error: %v\", err)\n+\t}\n+\tif err := gs.executeDestroyTargetPermanentEffect([]Target{{IsCard: false, PlayerIdx: 0}}); err != nil {\n+\t\tt.Fatalf(\"expected non-card target no-op, got error: %v\", err)\n+\t}\n+}\n-- \n2.43.0\n\n",
+      "path": "docs/factory-ng/candidates/2026-09-06T193233Z-engine-auto-triggered-single-target-destroy-cd8f155f56-v1.patch",
+      "sha256": "sha256:5e4635d68f79dd298aac0ac2e43d0cacfd56f49f791b9b9f4684b50832a19b25"
+    },
+    {
+      "fact": "Operator-reviewed correction, September 9: Use unique new regression TestFactoryNGTriggeredSingleTargetDestroy_Contract_028abc27e0; preserve the original TestFactoryNGTriggeredSingleTargetDestroy gate as well.",
+      "path": "docs/factory-ng/reviews/2026-09-09-capacity/contract-audit.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "One bounded repair of an existing failed integration; preserve all semantic gates.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGTriggeredSingleTargetDestroy$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGTriggeredSingleTargetDestroy_Contract_028abc27e0$' -count=1"
+  ],
+  "id": "ticket:engine.auto-triggered-single-target-destroy-cd8f155f56/v3",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Retain the terminal receipt and continue independent discovery; do not request manual source transcription.",
+  "parents": [
+    "ticket:map.plan-destroy-ragnarok-divine-deliverance-aa5decbbb2/v1",
+    "ticket:engine.auto-triggered-single-target-destroy-cd8f155f56/v1",
+    "ticket:engine.auto-triggered-single-target-destroy-cd8f155f56/v2"
+  ],
+  "production": {
+    "contract_correction_batch": "2026-09-09-capacity",
+    "integration_repair_parent": "ticket:engine.auto-triggered-single-target-destroy-cd8f155f56/v1",
+    "key": "capability:triggered_single_target_destroy:sha256:cd8f155f5656ad29cb45b07940ce7009ed4798a9b89341145cec049eef0dc1d3:integration-repair-v1:reviewed-contract-sep09",
+    "producer": "capability-dependencies",
+    "retry_reason": "semantic_gate_repair"
+  },
+  "required_behavior": [
+    "Execute a destroy effect on a single target permanent for a triggered ability",
+    "Preserve these adjacent behaviors: Mass destroy for triggered abilities; Single-target destroy for spells",
+    "Add a discriminating behavior test named TestFactoryNGTriggeredSingleTargetDestroy_Contract_028abc27e0; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases.",
+    "Preserve all required gate selectors and semantic assertions. If a named test is missing, provide it with meaningful coverage of the original behavior; do not weaken or remove the gate.",
+    "Review existing current-source behavior before implementing anything. The retained candidate is evidence, not proof of correctness on this revision."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_cd8f155f56_test.go",
+      "backend/cards/factory_ng_cd8f155f56_test.go",
+      "backend/cards/registry_factory_ng_cd8f155f56.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "clean": true,
+    "repository": "/opt/development/test/openmagic",
+    "revision": "c0fac85b88da04f3d54fe2a5acd553a36662a329"
+  },
+  "supersedes": "ticket:engine.auto-triggered-single-target-destroy-cd8f155f56/v2",
+  "title": "Corrected contract: Repair after integration failure: Implement atomic capability: Support single-target destroy for triggered abilities",
+  "work_type": "engine"
+}

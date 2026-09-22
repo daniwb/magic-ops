@@ -1,0 +1,24 @@
+{
+  "ticket_id": "ticket:engine.auto-flying-attacking-or-blocking-target-628d6120f2/v1",
+  "receipt": "docs/factory-ng/runs/2026-09-16T160229Z-engine-auto-flying-attacking-or-blocking-target-628d6120f2-v1-codex.json",
+  "receipt_sha256": "sha256:2de2c3f2cc9c4541ed5f972436a54401959d5bc5e2451c8f66753e6d2f4fac91",
+  "provider_capacity_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-16T160229Z-engine-auto-flying-attacking-or-blocking-target-628d6120f2-v1-codex.raw.json",
+      "sha256": "sha256:0058afac300965fd4b2b039cdf233625464efbc306df66f59267f9fd41f372db"
+    }
+  ],
+  "prior_recovery": {
+    "admitted_at": "2026-09-16T16:02:28Z",
+    "batch": "needs-attention-2026-09-15",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-codex-repair/engine.auto-flying-attacking-or-blocking-target-628d6120f2-v1.review.json",
+    "evidence_sha256": "sha256:07ca7a45dbd4612e3d95d31c09c1593b165c91a1f6cedfddec298901ce09efd1",
+    "previous_attempts": 1,
+    "previous_receipt": "docs/factory-ng/runs/2026-09-16T064310Z-engine-auto-flying-attacking-or-blocking-target-628d6120f2-v1-codex.json",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "reason": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged."
+  },
+  "correction": "New jobs use gpt-5.6-terra after explicit Luna provider-capacity rejections. One finite retry is restricted to that different model; previous attempts, review and failed-profile history remain."
+}

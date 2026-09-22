@@ -1,0 +1,857 @@
+--- a/scripts/factory-ng-controller.py
++++ b/scripts/factory-ng-controller.py
+@@ -8,6 +8,7 @@
+ gate. Models never receive integration, push, or deploy authority.
+ """
+ import argparse
++from concurrent.futures import ThreadPoolExecutor, TimeoutError as FutureTimeout
+ import fcntl
+ import json
+ import os
+@@ -1083,12 +1084,45 @@
+                    (int(admission["map_reserve"]), engine_cap))
+ 
+ 
++_producer_last_dispatch = None
++
++
++def producer_command(command, timeout, results, queued, tick_seconds=15):
++    """Wait for producer I/O while the owning thread keeps leases moving.
++
++    Only subprocess execution leaves this thread. All job reconciliation,
++    dispatch, integration and ticket publication retain their single owner.
++    """
++    global _producer_last_dispatch
++    if _producer_last_dispatch is None:
++        _producer_last_dispatch = time.monotonic()
++    def service():
++        global _producer_last_dispatch
++        if not stopping:
++            jobs = dispatch_one(results, queued)
++            dispatch_integration(jobs, results)
++        _producer_last_dispatch = time.monotonic()
++    # The deadline spans adjacent short producers as well as a single slow one.
++    if time.monotonic() - _producer_last_dispatch >= tick_seconds:
++        service()
++    with ThreadPoolExecutor(max_workers=1) as executor:
++        future = executor.submit(subprocess.run, command, cwd=OPS,
++                                 capture_output=True, text=True, timeout=timeout)
++        while True:
++            try:
++                return future.result(timeout=max(.001, tick_seconds - (time.monotonic() - _producer_last_dispatch)))
++            except FutureTimeout:
++                if future.done():
++                    return future.result()
++                service()
++
++
+ def run_producer(producer_id, command, timeout, results, queued, admission=None):
+     """Run and persist one deterministic producer result."""
+     write_status(state="running", phase="producing_ticket", active=[{"kind": "producer", "id": producer_id}],
+                  queued=queued, results=results, message="Replenishing the automatic ground-truth queue.")
+     try:
+-        completed = subprocess.run(command, cwd=OPS, capture_output=True, text=True, timeout=timeout)
++        completed = producer_command(command, timeout, results, queued)
+         try:
+             payload = json.loads(completed.stdout)
+         except json.JSONDecodeError:
+@@ -1105,8 +1139,17 @@
+         payload = {"status": "producer_error", "reason": "timed out after %d seconds" % timeout}
+     status = payload.get("status", "producer_error")
+     ticket_id = payload.get("ticket_id")
++    if stopping:
++        return 'stopping'
+     if status == "ready":
+         try:
++            # Dispatch may have changed the reserve while the producer ran.
++            if admission is not None:
++                live_jobs, profiles = sync_jobs()
++                live_inventory = queue_inventory(live_jobs, profiles, worker_availability(profiles))
++                admission = dict(admission, runnable_engine=sum(
++                    live_jobs['jobs'].get(key, {}).get('work_type') == 'engine'
++                    for key in live_inventory['runnable']))
+             allowed, reason = producer_lane_admission(payload, admission)
+             if allowed:
+                 status, ticket_id = persist_ready(payload)
+@@ -1225,7 +1268,9 @@
+         jobs, by_profile = sync_jobs()
+         target_ready = effective_target_ready(queue_settings, by_profile)
+         max_queued = max(target_ready, int(queue_settings.get("max_queued", target_ready * 4)))
+-        reconcile_running(jobs, results)
++        jobs = dispatch_one(results, queued)
++        dispatch_integration(jobs, results)
++        jobs, by_profile = sync_jobs()
+         availability = worker_availability(by_profile)
+         inventory = queue_inventory(jobs, by_profile, availability)
+         write_status(state='running', phase='planning', active=[], queued=inventory['runnable'],
+--- a/scripts/factory-ng-produce-capability-dependency.py
++++ b/scripts/factory-ng-produce-capability-dependency.py
+@@ -16,6 +16,8 @@
+ import subprocess
+ import sys
+ from pathlib import Path
++from contextvars import ContextVar
++from factory_ng_producer_cache import ProducerCache, receipt_demand
+ from factory_ng_safety import source_problem
+ from factory_ng_recovery import engine_repair_used, map_repair_history
+ from factory_ng_context import referenced_sources, failure_detail
+@@ -59,6 +61,9 @@
+ 
+ 
+ def emit(status, **extra):
++    revision = SCAN_REVISION.get()
++    if status == 'ready' and revision and (source_revision() != revision or not source_clean()):
++        status, extra = 'source_unavailable', {'reason': 'canonical source changed during producer scan; retry on current source'}
+     print(json.dumps({"schema": "factory.ticket-production/v1", "status": status, **extra},
+                      indent=2, sort_keys=True))
+ 
+@@ -91,6 +96,11 @@
+     return not source_problem(SOURCE)
+ 
+ 
++SCAN_CACHE = ContextVar("producer_scan_cache", default=None)
++SCAN_REVISION = ContextVar("producer_scan_revision", default=None)
++SCAN_ORACLE = ContextVar("producer_scan_oracle", default=None)
++
++
+ def recover_valid_capability(receipt):
+     """Revalidate a dependency rejected by an older, now-fixed contract bug."""
+     if receipt.get("outcome") != "invalid_capability_demand":
+@@ -102,27 +112,41 @@
+     path = Path(raw_path)
+     if not path.is_absolute():
+         path = OPS / path
+-    try:
+-        raw = path.read_text(encoding="utf-8")
+-    except OSError:
+-        return None
+-    replies = []
+-    for line in raw.splitlines():
+-        try:
+-            event = json.loads(line)
+-        except json.JSONDecodeError:
+-            continue
+-        item = event.get("item", {}) if isinstance(event, dict) else {}
+-        if item.get("type") == "agent_message" and isinstance(item.get("text"), str):
+-            replies.append(item["text"])
+-    reply = replies[-1] if replies else raw
+     spec = importlib.util.spec_from_file_location(
+         "factory_ng_capability_contract_recovery", OPS / "scripts/capability-contract.py")
+     contract = importlib.util.module_from_spec(spec)
+     spec.loader.exec_module(contract)
+     try:
+-        capability = contract.extract(reply)
+-        contract.validate_oracle(capability, str(SOURCE))
++        stat = path.stat()
++        stamp = '%s:%s:%s:%s' % (stat.st_mtime_ns, stat.st_ctime_ns, stat.st_size,
++                                 digest_file(OPS / 'scripts/capability-contract.py'))
++        cache = SCAN_CACHE.get()
++        found, capability = cache.get('raw-capability-v1', path.resolve(), stamp) if cache else (False, None)
++        if not found:
++            raw = path.read_text(encoding='utf-8')
++            replies = []
++            for line in raw.splitlines():
++                try:
++                    event = json.loads(line)
++                except json.JSONDecodeError:
++                    continue
++                item = event.get('item', {}) if isinstance(event, dict) else {}
++                if item.get('type') == 'agent_message' and isinstance(item.get('text'), str):
++                    replies.append(item['text'])
++            try:
++                capability = contract.extract(replies[-1] if replies else raw)
++            except (ValueError, json.JSONDecodeError):
++                capability = None
++            if cache:
++                cache.put('raw-capability-v1', path.resolve(), stamp, capability)
++        if capability is None:
++            return None
++        records = SCAN_ORACLE.get()
++        if records is None:
++            records = contract.oracle_records(str(SOURCE))
++            if cache:
++                SCAN_ORACLE.set(records)
++        contract.validate_oracle(capability, str(SOURCE), records=records)
+         return capability
+     except (OSError, ValueError, json.JSONDecodeError):
+         return None
+@@ -160,14 +184,15 @@
+     return None, None
+ 
+ 
+-def next_version(ticket_id):
++def next_version(ticket_id, ticket_index=None):
+     match = re.fullmatch(r"(ticket:[a-z0-9][a-z0-9._-]*)/v(\d+)", ticket_id)
+     if not match:
+         raise ValueError("blocked ticket id is not versioned")
+     base = match.group(1)
+     used = set()
+-    for path in TICKETS.glob("*.json"):
+-        value = load_json(path, {}) or {}
++    values = ticket_index.values() if ticket_index is not None else (
++        load_json(path, {}) or {} for path in TICKETS.glob("*.json"))
++    for value in values:
+         found = re.fullmatch(re.escape(base) + r"/v(\d+)", value.get("id", ""))
+         if found:
+             used.add(int(found.group(1)))
+@@ -308,7 +333,7 @@
+                      for gate in failing)
+ 
+ 
+-def engine_repair(engine, job):
++def engine_repair(engine, job, ticket_index=None):
+     """One bounded repair retry after a plain gate_failed Engine attempt.
+ 
+     Mirrors the semantic_gate_repair pattern already proven on the Map side
+@@ -318,7 +343,7 @@
+     of regenerating evidence from scratch.
+     """
+     ticket = json.loads(json.dumps(engine))
+-    ticket["id"] = next_version(engine["id"])
++    ticket["id"] = next_version(engine["id"], ticket_index)
+     ticket["title"] = "Repair after gate failure: " + engine["title"]
+     ticket["supersedes"] = engine["id"]
+     ticket["parents"] = list(dict.fromkeys(engine.get("parents", []) + [engine["id"]]))
+@@ -355,7 +380,7 @@
+     return ticket
+ 
+ 
+-def engine_successor(engine, job):
++def engine_successor(engine, job, ticket_index=None):
+     """Version one parked Engine observation with a refreshed, index-grounded evidence pack.
+ 
+     Restricted to AMBIGUOUS parks by the caller: the autopsy showed ~60% of
+@@ -366,7 +391,7 @@
+     continuation note, so the retry packet is actually different.
+     """
+     ticket = json.loads(json.dumps(engine))
+-    ticket["id"] = next_version(engine["id"])
++    ticket["id"] = next_version(engine["id"], ticket_index)
+     ticket["title"] = "Retry with index-grounded evidence: " + engine["title"]
+     ticket["supersedes"] = engine["id"]
+     ticket["parents"] = list(dict.fromkeys(engine.get("parents", []) + [engine["id"]]))
+@@ -442,7 +467,7 @@
+     measurement_path = "docs/factory-ng/measurements/dependency-resume-%s.json" % suffix
+ 
+     ticket = json.loads(json.dumps(parent))
+-    ticket["id"] = next_version(parent["id"])
++    ticket["id"] = next_version(parent["id"], ticket_index)
+     ticket["title"] = "Resume after %s: %s" % (capability["key"], parent["title"])
+     ticket["supersedes"] = parent["id"]
+     ticket["parents"] = list(dict.fromkeys(parent.get("parents", []) + [engine["id"]]))
+@@ -509,7 +534,7 @@
+                 or not str(observation.get('outcome', '')).startswith('accepted')
+                 or candidate.get('status') != job.get('outcome')):
+             continue
+-        retry = engine_repair(engine, dict(job, ticket_id=key))
++        retry = engine_repair(engine, dict(job, ticket_id=key), tickets)
+         retry['title'] = 'Repair after integration failure: ' + engine['title']
+         retry['production']['key'] = engine['production']['key'] + ':integration-repair-v1'
+         retry['production']['integration_repair_parent'] = key
+@@ -522,10 +547,44 @@
+     return None
+ 
+ 
++def prepare_engine(kind, parent_id, receipt_path, capability, parent, engine, job,
++                   tickets, integration_recovery_only):
++    if kind == 'new':
++        ticket = engine_ticket(parent_id, receipt_path, capability)
++    elif kind == 'refresh':
++        ticket = engine_successor(engine, job, tickets)
++    else:
++        ticket = engine_repair(engine, job, tickets)
++    inherit_trial(parent, ticket)
++    if integration_recovery_only:
++        ticket['production']['integration_recovery_parent'] = parent_id
++    if kind == 'integration':
++        ticket['title'] = 'Repair after integration failure: ' + engine['title']
++        ticket['production']['key'] = engine['production']['key'] + ':integration-repair-v1'
++        ticket['production']['integration_repair_parent'] = engine['id']
++        ticket['execution']['selection_reason'] = 'One bounded repair of a composed-gate failure or candidate conflict, preserving the original tests.'
++    return {'ticket_id': ticket['id'], 'ticket': ticket}
++
++
+ def main(integration_recovery_only=False, completed_dependencies_only=False, engine_integration_repairs_only=False, trial_id=None):
++    cache = ProducerCache(OPS / 'state/factory-ng-producer-cache.sqlite3')
++    token = SCAN_CACHE.set(cache)
++    revision_token = SCAN_REVISION.set(None)
++    oracle_token = SCAN_ORACLE.set(None)
++    try:
++        return produce(integration_recovery_only, completed_dependencies_only, engine_integration_repairs_only, trial_id)
++    finally:
++        SCAN_CACHE.reset(token)
++        SCAN_REVISION.reset(revision_token)
++        SCAN_ORACLE.reset(oracle_token)
++        cache.close()
++
++
++def produce(integration_recovery_only=False, completed_dependencies_only=False, engine_integration_repairs_only=False, trial_id=None):
+     if not source_clean():
+         emit("source_dirty", reason="canonical source checkout is dirty")
+         return
++    SCAN_REVISION.set(source_revision())
+     jobs = (load_json(JOBS, {}) or {}).get("jobs", {})
+     # This producer used to scan and parse every TicketSpec several times for
+     # every capability receipt. Once the queue reached ~1,000 tickets that
+@@ -568,14 +627,11 @@
+     # candidate if the rest of the pass has nothing else actionable.
+     lane_full = engine_lane_likely_full() and not integration_recovery_only and not trial_id
+     deferred_engine_ready = None
+-    for receipt_path in sorted(RUNS.glob("*.json")):
+-        receipt = load_json(receipt_path, {}) or {}
+-        capability = receipt.get("capability_demand")
++    for receipt_number, receipt_path in enumerate(sorted(RUNS.glob("*.json"))):
++        if receipt_number % 250 == 0:
++            SCAN_CACHE.get().checkpoint()
++        receipt = SCAN_CACHE.get().file('receipt-demand-v1', receipt_path, receipt_demand) or {}
+         parent_id = receipt.get("ticket", {}).get("id")
+-        if receipt.get("outcome") == "invalid_capability_demand":
+-            capability = recover_valid_capability(receipt)
+-        if not isinstance(capability, dict) or not parent_id:
+-            continue
+         parent = tickets_by_id.get(parent_id)
+         if not parent:
+             continue
+@@ -593,21 +649,22 @@
+             # reach the same no-op verdict and keep resurfacing it as the
+             # last-resort fallback, crowding out an actually useful report.
+             continue
++        capability = receipt.get('capability_demand')
++        if receipt.get('outcome') == 'invalid_capability_demand':
++            capability = recover_valid_capability(receipt)
++        if not isinstance(capability, dict):
++            continue
+         engine_id, _encoded = engine_identity(capability)
+         existing_engine = tickets_by_id.get(engine_id)
+         if not existing_engine:
+             if completed_dependencies_only:
+                 continue
+-            engine = engine_ticket(parent_id, receipt_path, capability)
+-            inherit_trial(parent, engine)
+-            if integration_recovery_only:
+-                engine['production']['integration_recovery_parent'] = parent_id
++            candidate = ('new', parent_id, receipt_path, capability, parent, None, None)
+             if lane_full:
+-                if deferred_engine_ready is None:
+-                    deferred_engine_ready = {"ticket_id": engine["id"], "ticket": engine}
++                deferred_engine_ready = deferred_engine_ready or candidate
+                 waiting += 1
+                 continue
+-            emit("ready", ticket_id=engine["id"], ticket=engine)
++            emit('ready', **prepare_engine(*candidate, tickets_by_id, integration_recovery_only))
+             return
+         base = engine_id.rsplit("/v", 1)[0]
+         chain = versions_by_base.get(base, [existing_engine])
+@@ -646,16 +703,12 @@
+                 for item in chain
+             )
+             if not already_refreshed and receipt_verdict(current_job) == "AMBIGUOUS":
+-                retry = engine_successor(current_engine, current_job)
+-                inherit_trial(parent, retry)
+-                if integration_recovery_only:
+-                    retry['production']['integration_recovery_parent'] = parent_id
++                candidate = ('refresh', parent_id, receipt_path, capability, parent, current_engine, current_job)
+                 if lane_full:
+-                    if deferred_engine_ready is None:
+-                        deferred_engine_ready = {"ticket_id": retry["id"], "ticket": retry}
++                    deferred_engine_ready = deferred_engine_ready or candidate
+                     waiting += 1
+                     continue
+-                emit("ready", ticket_id=retry["id"], ticket=retry)
++                emit('ready', **prepare_engine(*candidate, tickets_by_id, integration_recovery_only))
+                 return
+             waiting += 1
+             continue
+@@ -665,36 +718,24 @@
+                 for item in chain
+             )
+             if not already_repaired and current_job.get("outcome") == "gate_failed":
+-                retry = engine_repair(current_engine, current_job)
+-                inherit_trial(parent, retry)
+-                if integration_recovery_only:
+-                    retry['production']['integration_recovery_parent'] = parent_id
++                candidate = ('repair', parent_id, receipt_path, capability, parent, current_engine, current_job)
+                 if lane_full:
+-                    if deferred_engine_ready is None:
+-                        deferred_engine_ready = {"ticket_id": retry["id"], "ticket": retry}
++                    deferred_engine_ready = deferred_engine_ready or candidate
+                     waiting += 1
+                     continue
+-                emit("ready", ticket_id=retry["id"], ticket=retry)
++                emit('ready', **prepare_engine(*candidate, tickets_by_id, integration_recovery_only))
+                 return
+             waiting += 1
+             continue
+         if child_state == "integration_failed":
+             already_repaired = engine_repair_used(chain)
+             if not already_repaired and current_job.get('outcome') in ('full_gate_failed', 'candidate_conflict'):
+-                retry = engine_repair(current_engine, current_job)
+-                inherit_trial(parent, retry)
+-                if integration_recovery_only:
+-                    retry['production']['integration_recovery_parent'] = parent_id
+-                retry['title'] = 'Repair after integration failure: ' + current_engine['title']
+-                retry['production']['key'] = current_engine['production']['key'] + ':integration-repair-v1'
+-                retry['production']['integration_repair_parent'] = current_engine['id']
+-                retry['execution']['selection_reason'] = 'One bounded repair of a composed-gate failure or candidate conflict, preserving the original tests.'
++                candidate = ('integration', parent_id, receipt_path, capability, parent, current_engine, current_job)
+                 if lane_full:
+-                    if deferred_engine_ready is None:
+-                        deferred_engine_ready = {'ticket_id': retry['id'], 'ticket': retry}
++                    deferred_engine_ready = deferred_engine_ready or candidate
+                     waiting += 1
+                     continue
+-                emit('ready', ticket_id=retry['id'], ticket=retry)
++                emit('ready', **prepare_engine(*candidate, tickets_by_id, integration_recovery_only))
+                 return
+             waiting += 1
+             continue
+@@ -704,7 +745,9 @@
+              reason="current ground truth no longer contains the blocked Map member")
+         return
+     if deferred_engine_ready is not None:
+-        emit("ready", **deferred_engine_ready)
++        # The lane estimate is conservative. Prepare at most one fallback;
++        # the controller still makes the exact admission decision.
++        emit("ready", **prepare_engine(*deferred_engine_ready, tickets_by_id, integration_recovery_only))
+         return
+     emit("awaiting_dependency" if waiting else "no_capability_demand",
+          reason=("validated dependencies already have durable lifecycle state" if waiting else
+--- a/scripts/factory-ng-produce-build-plan.py
++++ b/scripts/factory-ng-produce-build-plan.py
+@@ -20,6 +20,8 @@
+ import re
+ import subprocess
+ import sys
++import time
++from factory_ng_producer_cache import ProducerCache, digest
+ from pathlib import Path
+ from factory_ng_safety import source_problem
+ from factory_ng_recovery import map_repair_history, MAP_REPAIR_LIMIT
+@@ -36,6 +38,8 @@
+ # that the runtime behavior exists.
+ VERB_EFFECT = {
+     "damage": "damage",
++    "damage_by": "damage",
++    "fight": "fight",
+     "pump": "pump_until_eot",
+     "grant_eot": "grant_keywords_until_eot",
+     "create_token": "create_token",
+@@ -118,7 +122,11 @@
+     return (load_json(shard, {}) or {}).get(name)
+ 
+ 
+-def discover_fresh_example(source, reparse, rows, effects, history):
++class ScanPending(Exception):
++    pass
++
++
++def discover_fresh_example(source, reparse, rows, effects, history, cache=None, revision=None, budget_seconds=15):
+     """Find the best unaccounted sole-shape member beyond plan sample names."""
+     by_shape = {}
+     for row in rows:
+@@ -127,30 +135,46 @@
+         effect = VERB_EFFECT.get(verb or "")
+         if effect and effect in effects:
+             by_shape[row["item"]] = row
++    cards = []
+     for shard in sorted((source / "backend/data/carddb").glob("*.json")):
+         data = load_json(shard, {}) or {}
+-        if not isinstance(data, dict):
+-            continue
+-        for name, card in sorted(data.items()):
+-            if not isinstance(card, dict) or card.get("status") != "review":
+-                continue
+-            result = reparse.reparse_card(card)
+-            shapes = sorted({kind for kind, _ in result.get("misses", [])})
+-            if len(shapes) != 1 or shapes[0] not in by_shape:
+-                continue
++        if isinstance(data, dict):
++            cards.extend((name, card) for name, card in sorted(data.items())
++                         if isinstance(card, dict) and card.get('status') == 'review')
++    scan_key = str(source.resolve())
++    cursor = 0
++    if cache:
++        found, previous = cache.get('fresh-cursor-v1', scan_key, 'position')
++        if found:
++            cursor = next((i for i, (name, _) in enumerate(cards) if name > previous), 0)
++    started = time.monotonic()
++    ordered = cards[cursor:] + cards[:cursor]
++    for number, (name, card) in enumerate(ordered):
++        key = scan_key + ':' + name
++        stamp = str(revision) + ':' + digest(card)
++        found, result = cache.get('fresh-parse-v1', key, stamp) if cache else (False, None)
++        if not found:
++            result = {'misses': reparse.reparse_card(card).get('misses', [])}
++            if cache:
++                cache.put('fresh-parse-v1', key, stamp, result)
++        shapes = sorted({kind for kind, _ in result['misses']})
++        if cache:
++            cache.put('fresh-cursor-v1', scan_key, 'position', name)
++            if number % 50 == 0:
++                cache.checkpoint()
++        if len(shapes) == 1 and shapes[0] in by_shape:
+             row = by_shape[shapes[0]]
+-            details = [detail for kind, detail in result.get("misses", []) if kind == shapes[0]]
+-            if len(details) != 1:
+-                continue
+-            text_hash = digest_bytes((card.get("text") or "").encode())
+-            production_key = "build-plan:%s:%s" % (row["item"], text_hash)
+-            if production_key in history:
+-                continue
+-            # Alphabetical shard/name order is deterministic. Return the
+-            # first safe unaccounted member instead of rescanning all 18k
+-            # review cards merely to optimize plan rank; keeping the local
+-            # worker fed is more valuable and stays within producer timeout.
+-            return row, name
++            details = [detail for kind, detail in result['misses'] if kind == shapes[0]]
++            text_hash = digest_bytes((card.get('text') or '').encode())
++            production_key = 'build-plan:%s:%s' % (row['item'], text_hash)
++            if len(details) == 1 and production_key not in history:
++                # Cache selects candidates only. The caller reparses the exact
++                # card and verifies source identity before publishing a ticket.
++                return row, name
++        if cache and time.monotonic() - started >= budget_seconds:
++            cache.checkpoint()
++            raise ScanPending('bounded fresh scan will resume after ' + name)
++
+     return None
+ 
+ 
+@@ -321,6 +345,17 @@
+     return None
+ 
+ 
++def coverage_rows(plan_path):
++    rows = [json.loads(line) for line in plan_path.read_text().splitlines() if line.strip()]
++    # A historical top-N plan is ranking evidence, not the enabled-family list.
++    # Every explicitly supported family must remain discoverable.
++    measured = {row.get('item') for row in rows}
++    rows.extend({'item': 'verb_unmapped:' + verb, 'rank': None,
++                 'marginal_unlock': None, 'examples': []}
++                for verb in VERB_EFFECT if 'verb_unmapped:' + verb not in measured)
++    return rows
++
++
+ def main():
+     parser = argparse.ArgumentParser()
+     parser.add_argument("--repo", type=Path, default=SOURCE)
+@@ -335,6 +370,7 @@
+     if not clean_source(source):
+         emit("source_dirty", reason="canonical ground-truth checkout is dirty")
+         return
++    scan_revision = source_revision(source)
+     parser_path = source / "scripts/paragraph/reparse.py"
+     sys.path.insert(0, str(parser_path.parent))
+     import reparse  # noqa: E402
+@@ -350,9 +386,19 @@
+ 
+     effects = registry_effects(source)
+     history = production_history(args.ticket_dir, args.jobs)
+-    rows = [json.loads(line) for line in plan_path.read_text().splitlines() if line.strip()]
++    rows = coverage_rows(plan_path)
+     if args.lane == "fresh":
+-        discovered = discover_fresh_example(source, reparse, rows, effects, history)
++        cache = ProducerCache(OPS / 'state/factory-ng-producer-cache.sqlite3')
++        try:
++            discovered = discover_fresh_example(source, reparse, rows, effects, history,
++                                                cache, scan_revision)
++        except ScanPending as exc:
++            emit('scan_pending', reason=str(exc))
++            return
++        finally:
++            if source_revision(source) != scan_revision:
++                cache.db.execute("DELETE FROM cache WHERE namespace='fresh-parse-v1' AND stamp LIKE ?", (scan_revision + ':%',))
++            cache.close()
+         if discovered:
+             row, name = discovered
+             if name not in row.get("examples", []):
+@@ -508,6 +554,9 @@
+                 },
+                 "on_failure": "Record a structured verdict. NEEDS_PRIMITIVE creates one Engine dependency; invalid or mixed premises are terminal and discovery advances to another candidate.",
+             }
++            if verb in ('fight', 'damage_by'):
++                ticket['required_behavior'].append(
++                    'Preserve both participant identities, controller restrictions, damage source, live power/toughness and targeting choices. Fight deals damage in both directions; damage_by is one-way. If the existing runtime cannot express the exact source/recipient pair or choice, return NEEDS_PRIMITIVE; never replace it with damage from this spell or its controller.')
+             if retry_parent:
+                 ticket["supersedes"] = retry_parent
+                 ticket["parents"].append(retry_parent)
+@@ -519,6 +568,9 @@
+                                  if retry_reason == "integration_conflict_repair" else
+                                  "The previous local candidate and exact failed gates are retained for one bounded paid-profile repair."),
+                     })
++            if source_revision(source) != scan_revision or not clean_source(source):
++                emit('source_unavailable', reason='canonical source changed during producer scan; retry on current source')
++                return
+             emit("ready", ticket_id=ticket_id, ticket=ticket, measurement=measurement)
+             return
+         skipped["no_live_example"] += 1
+--- a/scripts/capability-contract.py
++++ b/scripts/capability-contract.py
+@@ -56,7 +56,7 @@
+     return obj
+ 
+ 
+-def validate_oracle(obj: dict, repo: str) -> None:
++def oracle_records(repo: str) -> dict:
+     records = {}
+     for path in glob.glob(os.path.join(repo, "backend/data/carddb/*.json")):
+         try:
+@@ -71,6 +71,13 @@
+             for name, record in data.items():
+                 if isinstance(record, dict):
+                     records[name] = record
++
++    return records
++
++
++def validate_oracle(obj: dict, repo: str, records=None) -> None:
++    if records is None:
++        records = oracle_records(repo)
+ 
+     def norm(value: str) -> str:
+         return " ".join(value.replace("’", "'").replace("“", '"').replace("”", '"').split())
+--- /dev/null
++++ b/scripts/factory_ng_producer_cache.py
+@@ -0,0 +1,63 @@
++"""Disposable producer read cache. Source files and live job state stay authoritative."""
++import hashlib
++import json
++import os
++import sqlite3
++from pathlib import Path
++
++
++class ProducerCache:
++    def __init__(self, path):
++        path = Path(path)
++        path.parent.mkdir(parents=True, exist_ok=True)
++        self.db = sqlite3.connect(path, timeout=10)
++        self.db.execute('PRAGMA journal_mode=WAL')
++        self.db.execute('CREATE TABLE IF NOT EXISTS cache (namespace TEXT, key TEXT, stamp TEXT, value TEXT, PRIMARY KEY(namespace,key))')
++
++    def get(self, namespace, key, stamp):
++        row = self.db.execute('SELECT value FROM cache WHERE namespace=? AND key=? AND stamp=?',
++                              (namespace, str(key), str(stamp))).fetchone()
++        return (True, json.loads(row[0])) if row else (False, None)
++
++    def put(self, namespace, key, stamp, value):
++        self.db.execute('INSERT OR REPLACE INTO cache VALUES (?,?,?,?)',
++                        (namespace, str(key), str(stamp), json.dumps(value, separators=(',', ':'))))
++
++    def file(self, namespace, path, project=lambda value: value):
++        path = Path(path)
++        stat = path.stat()
++        stamp = '%s:%s:%s' % (stat.st_mtime_ns, stat.st_ctime_ns, stat.st_size)
++        found, value = self.get(namespace, os.path.abspath(path), stamp)
++        if found:
++            return value
++        try:
++            raw = json.loads(path.read_text())
++        except OSError:
++            return None
++        except ValueError:
++            # Legacy raw logs may be JSONL despite their .json extension.
++            # Retry when the source changes, including a partial file completing.
++            self.put(namespace, os.path.abspath(path), stamp, None)
++            return None
++        value = project(raw)
++        self.put(namespace, os.path.abspath(path), stamp, value)
++        return value
++
++    def checkpoint(self):
++        self.db.commit()
++
++    def close(self):
++        self.db.commit()
++        self.db.close()
++
++
++def receipt_demand(value):
++    if not isinstance(value, dict):
++        return None
++    if not value.get('capability_demand') and value.get('outcome') != 'invalid_capability_demand':
++        return None
++    return {key: value[key] for key in ('ticket', 'outcome', 'capability_demand', 'raw_artifacts') if key in value}
++
++
++def digest(value):
++    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+--- /dev/null
++++ b/scripts/test_factory_ng_producer_performance.py
+@@ -0,0 +1,141 @@
++"""Scan performance must preserve discovery, dependency ordering and single-writer state."""
++import contextlib
++import importlib.util
++import io
++import json
++from pathlib import Path
++import subprocess
++import sys
++import tempfile
++import threading
++import unittest
++from unittest import mock
++
++from factory_ng_producer_cache import ProducerCache, receipt_demand
++
++OPS = Path(__file__).resolve().parents[1]
++
++
++def load(name):
++    spec = importlib.util.spec_from_file_location(name, OPS / 'scripts' / (name + '.py'))
++    module = importlib.util.module_from_spec(spec)
++    spec.loader.exec_module(module)
++    return module
++
++
++class ScanTest(unittest.TestCase):
++    def test_cached_projection_tracks_changes_and_retries_partial_files(self):
++        with tempfile.TemporaryDirectory() as d:
++            root = Path(d); path = root / 'receipt.json'; cache = ProducerCache(root / 'cache.db')
++            path.write_text(json.dumps({'outcome': 'accepted', 'large_raw_output': 'ignored'}))
++            self.assertIsNone(cache.file('demand', path, receipt_demand))
++            path.write_text('')
++            self.assertIsNone(cache.file('demand', path, receipt_demand))
++            path.write_text(json.dumps({'ticket': {'id': 'map'}, 'capability_demand': {'key': 'tap'}}))
++            self.assertEqual(cache.file('demand', path, receipt_demand)['capability_demand']['key'], 'tap')
++            cache.close()
++            cache = ProducerCache(root / 'cache.db')
++            with mock.patch.object(Path, 'read_text', side_effect=AssertionError('unchanged source reread')):
++                self.assertEqual(cache.file('demand', path, receipt_demand)['ticket']['id'], 'map')
++            cache.close()
++
++    def test_version_lookup_uses_all_existing_versions_without_file_scan(self):
++        m = load('factory-ng-produce-capability-dependency')
++        with mock.patch.object(Path, 'glob', side_effect=AssertionError('directory rescan')):
++            self.assertEqual(m.next_version('ticket:engine.tap/v1', {
++                'old': {'id': 'ticket:engine.tap/v1'}, 'later': {'id': 'ticket:engine.tap/v7'},
++                'other': {'id': 'ticket:engine.other/v99'}}), 'ticket:engine.tap/v8')
++
++    def run_saturated(self, with_map):
++        m = load('factory-ng-produce-capability-dependency')
++        with tempfile.TemporaryDirectory() as d, contextlib.ExitStack() as stack:
++            root = Path(d); runs = root / 'runs'; tickets = root / 'tickets'
++            runs.mkdir(); tickets.mkdir(); jobs = {}
++            for i in range(6):
++                parent = 'ticket:map.p%d/v1' % i; engine = 'ticket:engine.e%d/v1' % i
++                (tickets / ('p%d.json' % i)).write_text(json.dumps({'id': parent, 'production': {}}))
++                (tickets / ('e%d.json' % i)).write_text(json.dumps({'id': engine, 'production': {}}))
++                (runs / ('r%d.json' % i)).write_text(json.dumps({'ticket': {'id': parent}, 'capability_demand': {'key': 'e%d' % i}}))
++                jobs[engine] = {'state': 'completed' if with_map and i == 5 else 'parked'}
++            (root / 'jobs.json').write_text(json.dumps({'jobs': jobs}))
++            stack.enter_context(mock.patch.multiple(m, OPS=root, RUNS=runs, TICKETS=tickets, JOBS=root/'jobs.json'))
++            for name, value in [('source_clean', True), ('source_revision', 'pinned'), ('engine_lane_likely_full', True), ('receipt_verdict', 'AMBIGUOUS')]:
++                stack.enter_context(mock.patch.object(m, name, return_value=value))
++            stack.enter_context(mock.patch.object(m, 'engine_identity', side_effect=lambda c: ('ticket:engine.' + c['key'] + '/v1', b'')))
++            prepare = stack.enter_context(mock.patch.object(m, 'engine_successor', return_value={'id': 'ticket:engine.e0/v2', 'production': {}}))
++            stack.enter_context(mock.patch.object(m, 'resumed_map', return_value=({'id': 'ticket:map.p5/v2'}, {'members': ['p5']})))
++            out = io.StringIO()
++            with contextlib.redirect_stdout(out):m.main()
++            return json.loads(out.getvalue()), prepare.call_count
++
++    def test_saturated_engine_lane_reaches_map_without_preparing_engine_retries(self):
++        result, calls = self.run_saturated(True)
++        self.assertEqual(result['ticket_id'], 'ticket:map.p5/v2')
++        self.assertEqual(calls, 0)
++
++    def test_saturated_lane_prepares_only_one_fallback(self):
++        result, calls = self.run_saturated(False)
++        self.assertEqual(result['ticket_id'], 'ticket:engine.e0/v2')
++        self.assertEqual(calls, 1)
++
++    def test_enabled_families_survive_a_truncated_historical_plan(self):
++        m = load('factory-ng-produce-build-plan')
++        with tempfile.TemporaryDirectory() as d:
++            plan = Path(d) / 'plan.jsonl'
++            plan.write_text('{"item":"verb_unmapped:damage","rank":1,"examples":[]}\n')
++            rows = m.coverage_rows(plan)
++            self.assertEqual(len(rows), len(m.VERB_EFFECT))
++            self.assertEqual({r['item'] for r in rows}, {'verb_unmapped:' + v for v in m.VERB_EFFECT})
++            self.assertEqual(m.VERB_EFFECT['fight'], 'fight')
++            self.assertEqual(m.VERB_EFFECT['damage_by'], 'damage')
++            self.assertNotIn('counter_unless', m.VERB_EFFECT)
++
++    def test_fresh_scan_resumes_and_invalidates_on_revision_and_card_change(self):
++        m = load('factory-ng-produce-build-plan')
++        with tempfile.TemporaryDirectory() as d:
++            root = Path(d); carddb = root / 'backend/data/carddb'; carddb.mkdir(parents=True)
++            cards = {name: {'name': name, 'status': 'review', 'text': 'Tap.'} for name in ['A', 'B', 'C']}
++            path = carddb / 'a.json'; path.write_text(json.dumps(cards))
++            parser = mock.Mock(); parser.reparse_card.return_value = {'misses': [('unsupported', 'x')]}
++            cache = ProducerCache(root / 'cache.db'); rows = [{'item': 'verb_unmapped:tap'}]
++            with self.assertRaises(m.ScanPending):m.discover_fresh_example(root, parser, rows, {'tap': {}}, {}, cache, 'r1', 0)
++            self.assertEqual(parser.reparse_card.call_args[0][0]['name'], 'A')
++            with self.assertRaises(m.ScanPending):m.discover_fresh_example(root, parser, rows, {'tap': {}}, {}, cache, 'r1', 0)
++            self.assertEqual(parser.reparse_card.call_args[0][0]['name'], 'B')
++            self.assertIsNone(m.discover_fresh_example(root, parser, rows, {'tap': {}}, {}, cache, 'r1', 100))
++            self.assertEqual(parser.reparse_card.call_count, 3)
++            m.discover_fresh_example(root, parser, rows, {'tap': {}}, {}, cache, 'r1', 100)
++            self.assertEqual(parser.reparse_card.call_count, 3)
++            m.discover_fresh_example(root, parser, rows, {'tap': {}}, {}, cache, 'r2', 100)
++            self.assertEqual(parser.reparse_card.call_count, 6)
++            cards['B']['text'] = 'New text'; path.write_text(json.dumps(cards))
++            parser.reparse_card.return_value = {'misses': [('verb_unmapped:tap', 'tap it')]}
++            result = m.discover_fresh_example(root, parser, rows, {'tap': {}}, {}, cache, 'r2', 100)
++            self.assertEqual(result[1], 'B')
++            self.assertEqual(parser.reparse_card.call_count, 7)
++            cache.close()
++
++    def test_dispatch_continues_during_slow_producer_on_the_owning_thread(self):
++        m = load('factory-ng-controller'); owner = threading.get_ident(); threads = []
++        def dispatch(*args):threads.append(threading.get_ident());return {'jobs': {}}
++        with mock.patch.object(m, 'dispatch_one', side_effect=dispatch), mock.patch.object(m, 'dispatch_integration') as integrate:
++            result = m.producer_command([sys.executable, '-c', 'import time; time.sleep(.12); print("done")'], 3, [], [], .02)
++        self.assertEqual(result.stdout.strip(), 'done')
++        self.assertGreaterEqual(len(threads), 2)
++        self.assertEqual(set(threads), {owner})
++        self.assertEqual(integrate.call_count, len(threads))
++
++    def test_timeout_still_bounds_producer_with_dispatch_ticks(self):
++        m = load('factory-ng-controller')
++        with mock.patch.object(m, 'dispatch_one'), mock.patch.object(m, 'dispatch_integration'):
++            with self.assertRaises(subprocess.TimeoutExpired):
++                m.producer_command([sys.executable, '-c', 'import time; time.sleep(5)'], .08, [], [], .02)
++
++    def test_stop_during_production_does_not_publish_ticket(self):
++        m = load('factory-ng-controller')
++        with mock.patch.object(m, 'write_status'), mock.patch.object(m, 'producer_command', return_value=subprocess.CompletedProcess([], 0, '{"status":"ready"}', '')), mock.patch.object(m, 'stopping', True), mock.patch.object(m, 'persist_ready') as persist:
++            self.assertEqual(m.run_producer('fixture', [], 1, [], []), 'stopping')
++            persist.assert_not_called()
++
++
++if __name__ == '__main__':unittest.main()
+--- a/config/factory-ng-producers.json
++++ b/config/factory-ng-producers.json
+@@ -43,7 +43,9 @@
+         "python3",
+         "scripts/factory-ng-produce-build-plan.py",
+         "--lane",
+-        "fresh"
++        "fresh",
++        "--plan",
++        "docs/factory-ng/measurements/producer-frontier-2026-09-10.jsonl"
+       ],
+       "timeout_seconds": 180
+     },
+@@ -54,7 +56,9 @@
+         "python3",
+         "scripts/factory-ng-produce-build-plan.py",
+         "--lane",
+-        "conflict"
++        "conflict",
++        "--plan",
++        "docs/factory-ng/measurements/producer-frontier-2026-09-10.jsonl"
+       ]
+     },
+     {
+@@ -64,7 +68,9 @@
+         "python3",
+         "scripts/factory-ng-produce-build-plan.py",
+         "--lane",
+-        "repair"
++        "repair",
++        "--plan",
++        "docs/factory-ng/measurements/producer-frontier-2026-09-10.jsonl"
+       ]
+     },
+     {

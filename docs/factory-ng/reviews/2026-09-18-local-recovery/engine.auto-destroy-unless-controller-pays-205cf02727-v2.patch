@@ -1,0 +1,120 @@
+From b3510bc6ab78eb0a4657671ce1bbd7f32a0849a9 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Wed, 16 Sep 2026 09:24:07 +0000
+Subject: [PATCH] factory-ng: focused batch proposal
+
+---
+ backend/cards/converter.go                  |  3 +
+ backend/cards/factory_ng_205cf02727_test.go | 64 +++++++++++++++++++++
+ backend/game/gamestate.go                   | 10 ++++
+ 3 files changed, 77 insertions(+)
+ create mode 100644 backend/cards/factory_ng_205cf02727_test.go
+
+diff --git a/backend/cards/converter.go b/backend/cards/converter.go
+index 4b051df7d..9c5334611 100644
+--- a/backend/cards/converter.go
++++ b/backend/cards/converter.go
+@@ -4234,6 +4234,9 @@ func AbilityToTriggered(ability AbilityDSL, source *game.Card, index int) *game.
+ 		// patternEntersSacUnlessPayMana's emission; generic-only costs
+ 		// route to UnlessPayMana (int), colored pips to UnlessPayManaCost.
+ 		if s, ok := ability.Value["unless_pay_mana"].(string); ok {
++			if effect == "destroy" {
++				triggered.EffectValue["unless_pay_target_controller"] = true
++			}
+ 			mc := parseManaCostString(s)
+ 			if mc.White == 0 && mc.Blue == 0 && mc.Black == 0 && mc.Red == 0 && mc.Green == 0 && mc.Colorless == 0 && mc.XCount == 0 {
+ 				triggered.UnlessPayMana = mc.Generic
+diff --git a/backend/cards/factory_ng_205cf02727_test.go b/backend/cards/factory_ng_205cf02727_test.go
+new file mode 100644
+index 000000000..c72f7302c
+--- /dev/null
++++ b/backend/cards/factory_ng_205cf02727_test.go
+@@ -0,0 +1,64 @@
++package cards
++
++import (
++	"testing"
++
++	"magic-backend/game"
++)
++
++func TestFactoryNGDestroyUnlessControllerPays(t *testing.T) {
++	gs := game.NewGame("source", "target", false)
++
++	source := game.NewCreature("Plague Fiend", game.ManaCost{}, 3, 3, 0)
++	source.Owner, source.Controller = 0, 0
++	gs.Battlefield.AddCard(source)
++
++	target := game.NewCreature("Target Creature", game.ManaCost{}, 2, 2, 1)
++	target.Owner, target.Controller = 1, 1
++	gs.Battlefield.AddCard(target)
++
++	ability := AbilityToTriggered(AbilityDSL{
++		Type:   "triggered",
++		Effect: "destroy",
++		Value:  map[string]interface{}{"unless_pay_mana": "{2}"},
++	}, source, 0)
++
++	gs.Stack.PushTriggeredAbilityFull(ability)
++	gs.Stack.Peek().Targets = []game.Target{{IsCard: true, CardID: target.ID}}
++
++	gs.Players[1].ManaPool.Add(game.Colorless, 2)
++	if err := gs.ResolveTopOfStack(); err != nil {
++		t.Fatalf("resolve: %v", err)
++	}
++	if gs.PendingMayPayMana == nil || gs.PendingMayPayMana.PlayerIdx != 1 {
++		t.Fatalf("expected target controller to receive the payment choice: %+v", gs.PendingMayPayMana)
++	}
++	if err := gs.ResolveMayPayManaChoice(1, true); err != nil {
++		t.Fatalf("pay choice: %v", err)
++	}
++	if _, err := gs.Battlefield.GetCard(target.ID); err != nil {
++		t.Fatalf("target was destroyed despite controller paying: %v", err)
++	}
++
++	target2 := game.NewCreature("Target Creature 2", game.ManaCost{}, 2, 2, 1)
++	target2.Owner, target2.Controller = 1, 1
++	gs.Battlefield.AddCard(target2)
++
++	ability = AbilityToTriggered(AbilityDSL{
++		Type:   "triggered",
++		Effect: "destroy",
++		Value:  map[string]interface{}{"unless_pay_mana": "{2}"},
++	}, source, 1)
++	gs.Stack.PushTriggeredAbilityFull(ability)
++	gs.Stack.Peek().Targets = []game.Target{{IsCard: true, CardID: target2.ID}}
++
++	if err := gs.ResolveTopOfStack(); err != nil {
++		t.Fatalf("resolve decline case: %v", err)
++	}
++	if err := gs.ResolveMayPayManaChoice(1, false); err != nil {
++		t.Fatalf("decline choice: %v", err)
++	}
++	if _, err := gs.Battlefield.GetCard(target2.ID); err == nil {
++		t.Fatal("target survived after its controller declined to pay")
++	}
++}
+diff --git a/backend/game/gamestate.go b/backend/game/gamestate.go
+index 94a1ae59d..5c034625a 100644
+--- a/backend/game/gamestate.go
++++ b/backend/game/gamestate.go
+@@ -3783,6 +3783,16 @@ func (gs *GameState) ResolveTopOfStack() error {
+ 			if topObj.UnlessPayPlayerIdx != nil {
+ 				payerIdx = *topObj.UnlessPayPlayerIdx
+ 			}
++			if topObj.Text == "destroy" && topObj.EffectValue["unless_pay_target_controller"] == true &&
++				topObj.UnlessPayPlayerIdx == nil && len(topObj.Targets) > 0 {
++				target := topObj.Targets[0]
++				if target.IsCard && target.CardID != "" {
++					if card, err := gs.Battlefield.GetCard(target.CardID); err == nil &&
++						card.Controller >= 0 && card.Controller < len(gs.Players) {
++						payerIdx = card.Controller
++					}
++				}
++			}
+ 			gs.PendingMayPayMana = &PendingMayPayMana{
+ 				PlayerIdx:   payerIdx,
+ 				Mana:        topObj.UnlessPayMana,
+-- 
+2.55.0
+

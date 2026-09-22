@@ -1,0 +1,61 @@
+{
+  "schema": "factory.remote-full-gate/v1",
+  "manifest_sha256": "d16f1194be1ab0b3b6cb0976897716e82227759a75d118d4a583f28c2ce04ada",
+  "input_revision": "395dacbe761a3ab136ec4afb45ae99da4a58c177",
+  "input_tree": "14b98524fc5542f412a5e12bfcf6c604d77f21e7",
+  "gates": [
+    {
+      "id": "reparse-flip",
+      "command": "python3 scripts/paragraph/reparse.py --flip-batch 300 --tag factory-ng-0915-1542",
+      "outcome": "passed",
+      "exit_code": 0,
+      "elapsed_ms": 13046,
+      "detail": "FLIPPED 11 cards (status review -> auto, native v2 records)\nspot-check sample -> corpus/factory-ng-0915-1542_spotcheck.txt"
+    },
+    {
+      "id": "reparse-import",
+      "command": "python3 scripts/paragraph/reparse.py --import-corpus --tag factory-ng-0915-1542",
+      "outcome": "passed",
+      "exit_code": 0,
+      "elapsed_ms": 3241,
+      "detail": "IMPORTED 0 new cards (reparse-R3-import)\nIMPORTED 0 new cards as review (reparse-R3-import-review, was skipped ineligible before 2026-08-11)\n  skipped keyword_args   1206\n  skipped layout         687\n  skipped mana           413\n  skipped not_legal      378\n  skipped dfc_ineligible 227\n  skipped pt             150\n  skipped dfc_keyword_args 101\n  skipped type           55\n  skipped dfc_incomplete 36\n  skipped dfc_mana       9\n  skipped basic          6\n  skipped dfc_type       5\n  skipped dfc_pt         2\n  skipped pw_loyalty     1"
+    },
+    {
+      "id": "go-build",
+      "command": "/opt/development/magic-ops/scripts/go-cache-run.sh build ./...",
+      "outcome": "passed",
+      "exit_code": 0,
+      "elapsed_ms": 23289,
+      "detail": ""
+    },
+    {
+      "id": "game-tests",
+      "command": "/opt/development/magic-ops/scripts/go-cache-run.sh test ./game/ -count=1",
+      "outcome": "passed",
+      "exit_code": 0,
+      "elapsed_ms": 17861,
+      "detail": "ok  \tmagic-backend/game\t0.028s"
+    },
+    {
+      "id": "focused-go",
+      "command": "/opt/development/magic-ops/scripts/go-cache-run.sh test ./cards/ -run TestVocabulary|TestV2|TestShape_|TestCardDBSubtypeScopes -count=1",
+      "outcome": "passed",
+      "exit_code": 0,
+      "elapsed_ms": 21726,
+      "detail": "ok  \tmagic-backend/cards\t1.380s"
+    },
+    {
+      "id": "full-sharded-suite",
+      "command": "/opt/development/magic-ops/scripts/go-cache-run.sh exec bash scripts/test-cards-sharded.sh 6",
+      "outcome": "passed",
+      "exit_code": 0,
+      "elapsed_ms": 25255,
+      "detail": "ok  \tmagic-backend/cardfns\t0.365s\nSHARDED CARDS SUITE: ok (6 shards)"
+    }
+  ],
+  "outcome": "passed",
+  "result_tree": "7ed561f4ab172ec72291e45d27028cdb361870ec",
+  "patch_sha256": "fc52de930e7c99c0d637934950943e9c2640508dba327e0c8a8c3bd4a2032a3a",
+  "peak_memory_bytes": 5172670464,
+  "pilot_elapsed_seconds": 126.614
+}

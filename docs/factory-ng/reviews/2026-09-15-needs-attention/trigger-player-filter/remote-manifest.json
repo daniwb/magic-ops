@@ -1,0 +1,12 @@
+[
+  {
+    "ticket_id": "ticket:engine.operator-trigger-player-filter-recovery-sep15/v1",
+    "ticket_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/trigger-player-filter/ticket.json",
+    "proposal": "docs/factory-ng/candidates/proposal-7d0d172ca37e4f9795cc074240d64d61.json",
+    "identity": {
+      "worker": "operator",
+      "model": "operator-correction-no-worker-provider-run",
+      "profile": "codex-constrained@1.1.0"
+    }
+  }
+]

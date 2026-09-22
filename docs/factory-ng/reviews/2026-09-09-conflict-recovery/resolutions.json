@@ -1,0 +1,187 @@
+{
+  "schema": "factory.reviewed-merge-resolutions/v1",
+  "resolutions": {
+    "ticket:engine.auto-copy-triggering-referent-b4a4facffb/v1": {
+      "ticket_sha256": "sha256:f4ab5fab70f1fc9ef9950b2ddae781fb1cf23478ff60affead04682692135d42",
+      "original_patch_sha256": "sha256:eaeb2719ccd264f89342ae7c52d10fd4093f852ae817d2ddce58eaa6e97afda9",
+      "patch": "docs/factory-ng/reviews/2026-09-09-conflict-recovery/engine.auto-copy-triggering-referent-b4a4facffb-v1.patch",
+      "patch_sha256": "sha256:8a327b9fc6cbee328a47b309c56230625258831928e3d3a2dd2b5da399add9ae",
+      "source_revision": "da54953454066b60c3c996d5a273da0e1bafdd0a",
+      "reason": "Operator reviewed exact diff3 hunk: preserve both independent additions, with no removed semantic gates.",
+      "original_receipt": "docs/factory-ng/runs/2026-09-07T234646Z-engine-auto-copy-triggering-referent-b4a4facffb-v1-claude.json",
+      "changed_paths": [
+        "backend/game/ability_effects.go",
+        "backend/game/factory_ng_b4a4facffb_test.go"
+      ]
+    },
+    "ticket:engine.auto-damage-amount-counter-count-82dee1907b/v3": {
+      "ticket_sha256": "sha256:736366110ea444c85393acd8b5f6b208a8002911b20601c2a103b0a275c140a9",
+      "original_patch_sha256": "sha256:fce20652dcbf6366d6f190832d98b84ab0096d86410fb787a7fceeb704c4394f",
+      "patch": "docs/factory-ng/reviews/2026-09-09-conflict-recovery/engine.auto-damage-amount-counter-count-82dee1907b-v3.patch",
+      "patch_sha256": "sha256:1f8765f8c25c18ec6bc033aa540ac8369317891bfc06eb40fab42ea5d7cd7742",
+      "source_revision": "da54953454066b60c3c996d5a273da0e1bafdd0a",
+      "reason": "Operator reviewed exact diff3 hunk: preserve both independent additions, with no removed semantic gates.",
+      "original_receipt": "docs/factory-ng/runs/2026-09-07T200419Z-engine-auto-damage-amount-counter-count-82dee1907b-v3-claude.json",
+      "changed_paths": [
+        "backend/game/ability_effects.go",
+        "backend/game/factory_ng_82dee1907b_test.go"
+      ]
+    },
+    "ticket:engine.auto-damage-amount-referent-target-hand-size-5b58aa258c/v1": {
+      "ticket_sha256": "sha256:1ed24947d399235537d41ac2e74767d15c3819a0ac86e7070cf76741ad1c66db",
+      "original_patch_sha256": "sha256:6f9658fc65d81c3d788a9a2ab58f05de12f362366028366689d7f2589e55bfbe",
+      "patch": "docs/factory-ng/reviews/2026-09-09-conflict-recovery/engine.auto-damage-amount-referent-target-hand-size-5b58aa258c-v1.patch",
+      "patch_sha256": "sha256:e8af2042cebe2ce99fa3e88d7fe3e6f481aba018e3e0db5c01ac0e56f2100793",
+      "source_revision": "da54953454066b60c3c996d5a273da0e1bafdd0a",
+      "reason": "Operator reviewed exact diff3 hunk: preserve both independent additions, with no removed semantic gates.",
+      "original_receipt": "docs/factory-ng/runs/2026-09-07T235917Z-engine-auto-damage-amount-referent-target-hand-size-5b58aa258c-v1-claude.json",
+      "changed_paths": [
+        "backend/game/ability_effects.go",
+        "backend/game/factory_ng_5b58aa258c_test.go"
+      ]
+    },
+    "ticket:engine.auto-destroy-attached-to-referent-d32bfbcd7a/v1": {
+      "ticket_sha256": "sha256:6e66e93040a996aba6325ef458b34202477ade5fc1348c1d2b6eeeb2baf9f9ea",
+      "original_patch_sha256": "sha256:b70f65c3dfe6929b4a9fa5addf8a2b8af1c62be1024ae1715890231e01941d0a",
+      "patch": "docs/factory-ng/reviews/2026-09-09-conflict-recovery/engine.auto-destroy-attached-to-referent-d32bfbcd7a-v1.patch",
+      "patch_sha256": "sha256:9a2e5b4f9f7e73009974a74606e048be0f083bb6aa2060bb5939dddb82637469",
+      "source_revision": "da54953454066b60c3c996d5a273da0e1bafdd0a",
+      "reason": "Operator reviewed exact diff3 hunk: preserve both independent additions, with no removed semantic gates.",
+      "original_receipt": "docs/factory-ng/runs/2026-09-08T185732Z-engine-auto-destroy-attached-to-referent-d32bfbcd7a-v1-claude-agentic.json",
+      "changed_paths": [
+        "backend/game/ability_effects.go",
+        "backend/game/factory_ng_d32bfbcd7a_test.go",
+        "backend/game/gamestate.go"
+      ]
+    },
+    "ticket:engine.auto-destroyed-this-way-per-player-count-58304e2f98/v1": {
+      "ticket_sha256": "sha256:a907c1efac7a08a74c29399b608515fb95f47152c9a36d939319968b002a5a72",
+      "original_patch_sha256": "sha256:fed91d4ae53ab71b8a61dbf211cadec7ab4451d183ad236897bdeb0ec6f76091",
+      "patch": "docs/factory-ng/reviews/2026-09-09-conflict-recovery/engine.auto-destroyed-this-way-per-player-count-58304e2f98-v1.patch",
+      "patch_sha256": "sha256:5f22525dbea6b46593bb29264d30d1c657985126e25ed53455bfad4254be3554",
+      "source_revision": "da54953454066b60c3c996d5a273da0e1bafdd0a",
+      "reason": "Operator reviewed exact diff3 hunk: preserve both independent additions, with no removed semantic gates.",
+      "original_receipt": "docs/factory-ng/runs/2026-09-09T023632Z-engine-auto-destroyed-this-way-per-player-count-58304e2f98-v1-claude.json",
+      "changed_paths": [
+        "backend/game/ability_effects.go",
+        "backend/game/dynamic_amount.go",
+        "backend/game/factory_ng_58304e2f98_test.go"
+      ]
+    },
+    "ticket:engine.auto-exile-target-graveyard-card-and-named-matches-656434340c/v1": {
+      "ticket_sha256": "sha256:20d73bd9addc07a4bf4e897a403496e398e38770f6bc77f399004a7baaff8206",
+      "original_patch_sha256": "sha256:f739b4801b744bb7aa89581f70b217926fcc302f7f5bd5884f5dfb15bd10f5af",
+      "patch": "docs/factory-ng/reviews/2026-09-09-conflict-recovery/engine.auto-exile-target-graveyard-card-and-named-matches-656434340c-v1.patch",
+      "patch_sha256": "sha256:d11613d4d2ac795f96365bf5c148fdbec84bc6cd9b726df46acd9b3837fac9e1",
+      "source_revision": "da54953454066b60c3c996d5a273da0e1bafdd0a",
+      "reason": "Operator reviewed exact diff3 hunk: preserve both independent additions, with no removed semantic gates.",
+      "original_receipt": "docs/factory-ng/runs/2026-09-09T005900Z-engine-auto-exile-target-graveyard-card-and-named-matches-656434340c-v1-codex.json",
+      "changed_paths": [
+        "backend/game/ability_effects.go",
+        "backend/game/factory_ng_656434340c_test.go"
+      ]
+    },
+    "ticket:engine.auto-pump-all-referent-controller-spell-e7617de98a/v1": {
+      "ticket_sha256": "sha256:301668100641c4aae03814314489f1a3204268ec5d9b0f970c7db03ff48e981a",
+      "original_patch_sha256": "sha256:f114ed9c854116ed7ac4af6232cf0e8691faf61ff93a5639ebd9eb72f728dc5e",
+      "patch": "docs/factory-ng/reviews/2026-09-09-conflict-recovery/engine.auto-pump-all-referent-controller-spell-e7617de98a-v1.patch",
+      "patch_sha256": "sha256:86d0bcebfa6eb517d75a197eed798de5f0885c4db803dbbaef2e7ac5a8db9b33",
+      "source_revision": "da54953454066b60c3c996d5a273da0e1bafdd0a",
+      "reason": "Operator reviewed exact diff3 hunk: preserve both independent additions, with no removed semantic gates.",
+      "original_receipt": "docs/factory-ng/runs/2026-09-09T012442Z-engine-auto-pump-all-referent-controller-spell-e7617de98a-v1-claude.json",
+      "changed_paths": [
+        "backend/game/ability_effects.go",
+        "backend/game/factory_ng_e7617de98a_test.go"
+      ]
+    },
+    "ticket:engine.auto-pump-until-eot-untargeted-all-36523aeef0/v1": {
+      "ticket_sha256": "sha256:71bcd0bf98d5e89ec7b2754e30134f2fa7d645374b96001f54572f55359d6a9b",
+      "original_patch_sha256": "sha256:29c4dd6753b5733f8b1fc524145ecd317848a6a3bb4f0f8ef2bb741ad0c57624",
+      "patch": "docs/factory-ng/reviews/2026-09-09-conflict-recovery/engine.auto-pump-until-eot-untargeted-all-36523aeef0-v1.patch",
+      "patch_sha256": "sha256:6e23dd4f1bc66b1b46fb412f731bd2737bedf81d8345fda3c45a7406ff7153ff",
+      "source_revision": "da54953454066b60c3c996d5a273da0e1bafdd0a",
+      "reason": "Preserve both explicit group_filter and all=true exceptions; absent target with neither flag remains a no-op. Original tests retained.",
+      "original_receipt": "docs/factory-ng/runs/2026-09-08T180022Z-engine-auto-pump-until-eot-untargeted-all-36523aeef0-v1-claude.json",
+      "changed_paths": [
+        "backend/game/ability_effects.go",
+        "backend/game/factory_ng_36523aeef0_test.go"
+      ]
+    },
+    "ticket:engine.auto-return-exiled-cards-with-source-15c611c278/v1": {
+      "ticket_sha256": "sha256:e055d110981da2c0526b9d01a36d12afbc107d0c26e372f20ee866531e3258e3",
+      "original_patch_sha256": "sha256:cbcb54747d55611f3de0fae337f599d2cf48f41e7862237a5a241a0d2b2b61bf",
+      "patch": "docs/factory-ng/reviews/2026-09-09-conflict-recovery/engine.auto-return-exiled-cards-with-source-15c611c278-v1.patch",
+      "patch_sha256": "sha256:45c6a7cdbab0699f04613565c035412e60d8ed959c30e2549bd79c68c5b97f73",
+      "source_revision": "da54953454066b60c3c996d5a273da0e1bafdd0a",
+      "reason": "Operator reviewed exact diff3 hunk: preserve both independent additions, with no removed semantic gates.",
+      "original_receipt": "docs/factory-ng/runs/2026-09-08T233406Z-engine-auto-return-exiled-cards-with-source-15c611c278-v1-claude.json",
+      "changed_paths": [
+        "backend/game/ability_effects.go",
+        "backend/game/factory_ng_15c611c278_test.go"
+      ]
+    },
+    "ticket:engine.auto-sacrifice-any-number-choice-9baee341fb/v1": {
+      "ticket_sha256": "sha256:a6d8dbd0fec2e19a37831b1465d5041f39b942475cf4cb7a33cadcba805a5144",
+      "original_patch_sha256": "sha256:74d7b9f44c36a30097dff4328f2deb988730dcc8812e82585079179423009d4f",
+      "patch": "docs/factory-ng/reviews/2026-09-09-conflict-recovery/engine.auto-sacrifice-any-number-choice-9baee341fb-v1.patch",
+      "patch_sha256": "sha256:5ea564f975e61171299b2ccf9c716acea42486859072335a46a072b1576468a4",
+      "source_revision": "da54953454066b60c3c996d5a273da0e1bafdd0a",
+      "reason": "Operator reviewed exact diff3 hunk: preserve both independent additions, with no removed semantic gates.",
+      "original_receipt": "docs/factory-ng/runs/2026-09-08T234431Z-engine-auto-sacrifice-any-number-choice-9baee341fb-v1-claude.json",
+      "changed_paths": [
+        "backend/cards/factory_ng_9baee341fb_test.go",
+        "backend/game/ability_effects.go"
+      ]
+    },
+    "ticket:engine.auto-sacrifice-source-d0c00a2e90/v1": {
+      "ticket_sha256": "sha256:e2286afdf987fb2436a2cc38814871c07d896a46d9215cb40a592d88c30e40af",
+      "original_patch_sha256": "sha256:d198e76ba82490f712607c6d19d9989cdefd98b6ce0b1be67582e651c4f3ab2e",
+      "patch": "docs/factory-ng/reviews/2026-09-09-conflict-recovery/engine.auto-sacrifice-source-d0c00a2e90-v1.patch",
+      "patch_sha256": "sha256:0adfc31908b490098744e93abf3a596c53384acc31f01b576524832386c7451b",
+      "source_revision": "da54953454066b60c3c996d5a273da0e1bafdd0a",
+      "reason": "Operator reviewed exact diff3 hunk: preserve both independent additions, with no removed semantic gates.",
+      "original_receipt": "docs/factory-ng/runs/2026-09-08T232313Z-engine-auto-sacrifice-source-d0c00a2e90-v1-claude.json",
+      "changed_paths": [
+        "backend/game/ability_effects.go",
+        "backend/game/factory_ng_d0c00a2e90_test.go"
+      ]
+    },
+    "ticket:engine.auto-sacrifice-unless-alternative-action-d672580388/v1": {
+      "ticket_sha256": "sha256:5b90d7827ebad1a36ec8628c7055de771dc64d343bb0de4e0f2ac02534f79608",
+      "original_patch_sha256": "sha256:0a86d31631d4dd90d9f4359127bf1089a383f4be6f5c007bb5edf98b854f35f4",
+      "patch": "docs/factory-ng/reviews/2026-09-09-conflict-recovery/engine.auto-sacrifice-unless-alternative-action-d672580388-v1.patch",
+      "patch_sha256": "sha256:e0c3d45163f867df0cc4163a4ff15b5fc7871898591aa419933f0b02285b098e",
+      "source_revision": "da54953454066b60c3c996d5a273da0e1bafdd0a",
+      "reason": "Operator reviewed exact diff3 hunk: preserve both independent additions, with no removed semantic gates.",
+      "original_receipt": "docs/factory-ng/runs/2026-09-08T230221Z-engine-auto-sacrifice-unless-alternative-action-d672580388-v1-claude.json",
+      "changed_paths": [
+        "backend/game/ability_effects.go",
+        "backend/game/factory_ng_d672580388_test.go"
+      ]
+    },
+    "ticket:engine.auto-sacrifice-unless-discard-3e88a33648/v1": {
+      "ticket_sha256": "sha256:fbaba79b6e38bf41021842b048a6a7fbcb8a6c25500799a8214d99b6f2c699a8",
+      "original_patch_sha256": "sha256:d359316e90c5ecea7848436636f1efecc1f32e0e6f439d7bdbdcf85c94cc0f5e",
+      "patch": "docs/factory-ng/reviews/2026-09-09-conflict-recovery/engine.auto-sacrifice-unless-discard-3e88a33648-v1.patch",
+      "patch_sha256": "sha256:300bdf6cab994b66bef4be9cacf3ebc750d4ddad5f7f7e3b7d67f03276332959",
+      "source_revision": "da54953454066b60c3c996d5a273da0e1bafdd0a",
+      "reason": "Operator reviewed exact diff3 hunk: preserve both independent additions, with no removed semantic gates.",
+      "original_receipt": "docs/factory-ng/runs/2026-09-08T231836Z-engine-auto-sacrifice-unless-discard-3e88a33648-v1-claude.json",
+      "changed_paths": [
+        "backend/game/ability_effects.go",
+        "backend/game/factory_ng_3e88a33648_test.go",
+        "backend/game/gamestate.go"
+      ]
+    }
+  },
+  "deferred": [
+    {
+      "ticket": "ticket:engine.auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295/v1",
+      "reason": "Value is recorded before successful exile and only cleared on consumption; needs resolution-scoped state and a failed-exile regression."
+    },
+    {
+      "ticket": "ticket:engine.auto-pump-until-eot-ability-self-no-target-9e24f96767/v1",
+      "reason": "Self-pump default contradicts the untargeted-all negative assertion for the same no-target input; needs an explicit self discriminator."
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+From 2789afca6824f7467f85640d243595fd7f892927 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Sun, 13 Sep 2026 05:32:37 +0000
+Subject: [PATCH] factory-ng: supervised engine observation
+
+---
+ backend/cards/converter.go                  |  2 +-
+ backend/cards/factory_ng_6be50d10d1_test.go | 57 +++++++++++++++++++++
+ backend/game/gamestate.go                   | 11 ++++
+ 3 files changed, 69 insertions(+), 1 deletion(-)
+ create mode 100644 backend/cards/factory_ng_6be50d10d1_test.go
+
+diff --git a/backend/cards/converter.go b/backend/cards/converter.go
+index 3c3bdbf16..c4af71e5c 100644
+--- a/backend/cards/converter.go
++++ b/backend/cards/converter.go
+@@ -2839,7 +2839,7 @@ func (def *CardDefinition) buildMainSpellEffect() *game.SpellEffect {
+ 				}
+ 				return eff
+ 			case "each_player_discard_hand":
+-				return &game.SpellEffect{Type: "each_player_discard_hand_draw", Amount: 0}
++				return &game.SpellEffect{Type: "each_player_discard_hand"}
+ 			case "each_player_discard_hand_draw":
+ 				amount := 7
+ 				if v, ok := ability.Value["amount"]; ok {
+diff --git a/backend/cards/factory_ng_6be50d10d1_test.go b/backend/cards/factory_ng_6be50d10d1_test.go
+new file mode 100644
+index 000000000..c539fe413
+--- /dev/null
++++ b/backend/cards/factory_ng_6be50d10d1_test.go
+@@ -0,0 +1,57 @@
++package cards
++
++import (
++	"testing"
++
++	"magic-backend/game"
++)
++
++func TestFactoryNGEachPlayerDiscardHandDynamicCount_6be50d10d1(t *testing.T) {
++	def := &CardDefinition{
++		Name:  "Wheel Without Draw",
++		Type:  "Instant",
++		Types: []string{"Instant"},
++		Abilities: []AbilityDSL{{
++			Type:   "spell",
++			Effect: "each_player_discard_hand",
++		}},
++		Status: StatusManual,
++	}
++
++	spell, err := def.ToGameCard(0)
++	if err != nil {
++		t.Fatalf("ToGameCard: %v", err)
++	}
++	if spell.SpellEffect == nil || spell.SpellEffect.Type != "each_player_discard_hand" {
++		t.Fatalf("spell effect = %#v, want each_player_discard_hand", spell.SpellEffect)
++	}
++
++	gs := game.NewGame("P0", "P1", true)
++	gs.Players[0].Hand.AddCard(spell)
++	for i := 0; i < 2; i++ {
++		gs.Players[0].Hand.AddCard(game.NewCard("P0 Hand", game.CardType("Artifact"), game.ManaCost{}, 0))
++	}
++	for i := 0; i < 4; i++ {
++		gs.Players[1].Hand.AddCard(game.NewCard("P1 Hand", game.CardType("Artifact"), game.ManaCost{}, 1))
++	}
++
++	if err := gs.CastSpellWithTargets(0, spell.ID, nil); err != nil {
++		t.Fatalf("CastSpellWithTargets: %v", err)
++	}
++	if err := gs.ResolveTopOfStack(); err != nil {
++		t.Fatalf("ResolveTopOfStack: %v", err)
++	}
++
++	if got := gs.Players[0].Hand.Count(); got != 0 {
++		t.Fatalf("player 0 hand count = %d, want 0", got)
++	}
++	if got := gs.Players[1].Hand.Count(); got != 0 {
++		t.Fatalf("player 1 hand count = %d, want 0", got)
++	}
++	if got := gs.Players[0].Graveyard.Count(); got != 3 {
++		t.Fatalf("player 0 graveyard count = %d, want 3", got)
++	}
++	if got := gs.Players[1].Graveyard.Count(); got != 4 {
++		t.Fatalf("player 1 graveyard count = %d, want 4", got)
++	}
++}
+diff --git a/backend/game/gamestate.go b/backend/game/gamestate.go
+index d98ab794d..83fcd775c 100644
+--- a/backend/game/gamestate.go
++++ b/backend/game/gamestate.go
+@@ -4509,6 +4509,17 @@ func (gs *GameState) applySpellEffectCore(card *Card, targets []Target, runtime
+ 		return nil
+ 	}
+ 
++	if card.SpellEffect.Type == "each_player_discard_hand" {
++		effectValue := map[string]interface{}{
++			"target": "each_player",
++			"amount_count": map[string]interface{}{
++				"count": "hand",
++				"whose": "all",
++			},
++		}
++		return gs.executeDiscardEffect(card.Controller, effectValue, nil)
++	}
++
+ 	// Wheel effects ("Each player discards their hand, then draws N cards" —
+ 	// Reforge the Soul, Wheel of Fortune). Affects every player; doesn't target.
+ 	if card.SpellEffect.Type == "each_player_discard_hand_draw" {
+-- 
+2.43.0
+

@@ -1,0 +1,10 @@
+{
+  "ticket_id": "ticket:engine.auto-source-referent-pump-until-eot-8b8ac7ccb7/v3",
+  "receipt": "docs/factory-ng/runs/2026-09-16T085136Z-engine-auto-source-referent-pump-until-eot-8b8ac7ccb7-v3-codex.json",
+  "receipt_sha256": "sha256:5e9a5693408ce1a55b56872c599d5b8d2ae9a75047cd22f667b9376c2212dfbb",
+  "raw_artifact": {
+    "path": "docs/factory-ng/runs/2026-09-16T085136Z-engine-auto-source-referent-pump-until-eot-8b8ac7ccb7-v3-codex.raw.json",
+    "sha256": "sha256:64a6fd1b9e6663ebd1f9df3fb34b934b791fe66c80283798582e4bf2df85cdc5"
+  },
+  "finding": "Explicit Luna capacity rejection before any patch; Terra configured and functioning since previous recovery. One attempt, original scope and all gates required."
+}

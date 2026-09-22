@@ -1,0 +1,68 @@
+{
+  "created_at": "2026-09-08T16:22:25.429022+00:00",
+  "execution": {
+    "candidate_commit": "2f5d397b0b3459b785a14f6857a8a843836ca368",
+    "candidate_patch": "docs/factory-ng/reviews/2026-09-08-throughput/engine-repair-wave/engine-auto-put-counters-dynamic-zone-count-amount-c03e4c4218-v2.patch",
+    "candidate_patch_sha256": "sha256:c91e8505cd37044ac9de1841656ed4a96f7969137fe82c38f0c76de8dce33beb",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "6642351731e0c336cd220a861dd14fc212e7d192",
+    "source_tree_changed": false,
+    "verified_composition": "f3d5f64d93a0c67ccddf133ac1bc610a43c34bff"
+  },
+  "gates": [
+    {
+      "detail": "Every changed path equals declared scope; gofmt reports no files; committed diff check passed.",
+      "id": "scope-and-format",
+      "outcome": "passed"
+    },
+    {
+      "command": "cd backend && go test ./game ./cards -run '^TestShape_Audited(MillCounterAmounts|MonstrosityZero)$' -count=1",
+      "detail": "=== RUN   TestShape_AuditedMillCounterAmounts\n--- PASS: TestShape_AuditedMillCounterAmounts (0.00s)\n=== RUN   TestShape_AuditedMonstrosityZero\n--- PASS: TestShape_AuditedMonstrosityZero (0.00s)\nPASS\nok  \tmagic-backend/game\t0.010s\ntesting: warning: no tests to run\nPASS\nok  \tmagic-backend/cards\t0.026s [no tests to run]\n",
+      "id": "ticket-gate-0",
+      "outcome": "passed"
+    },
+    {
+      "command": "cd backend && go test ./game ./cards",
+      "detail": "Run once on the complete operator candidate composition: ok  \tmagic-backend/game\t0.259s\nok  \tmagic-backend/cards\t49.851s",
+      "id": "ticket-gate-1",
+      "outcome": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "detail": "",
+      "id": "ticket-gate-2",
+      "outcome": "passed"
+    }
+  ],
+  "integration": "eligible_full_gate",
+  "model": {
+    "profile": "operator-reviewed-recovery",
+    "resolved_model": "no worker invocation",
+    "worker": "operator-audited-engine-repair"
+  },
+  "next_action": "Integrate this ordered four-candidate operator wave through all normal production gates; then resume complete Map verification.",
+  "outcome": "accepted_for_dependent_observation",
+  "raw_artifacts": [
+    {
+      "kind": "operator_focused_gate",
+      "path": "docs/factory-ng/reviews/2026-09-08-throughput/engine-repair-wave/focused-0.log",
+      "sha256": "sha256:4bde67634d46edd4b6d1d9875b39af24a212f30bbbe61dc500e04239ce76e410"
+    },
+    {
+      "kind": "operator_composed_package_gates",
+      "path": "docs/factory-ng/reviews/2026-09-08-throughput/engine-repair-wave/full-package-tests.log",
+      "sha256": "sha256:ac552997fda31d7ea4c1e6873557f217bddfeb55a0f5ffd7ac933da8d161d832"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-put-counters-dynamic-zone-count-amount-c03e4c4218/v2",
+    "path": "docs/factory-ng/reviews/2026-09-08-throughput/engine-repair-wave/engine-auto-put-counters-dynamic-zone-count-amount-c03e4c4218-v2.ticket.json",
+    "sha256": "sha256:813b7b1cd16b524a4d8ceda369e5dd5a69074a70efa941e313980811f7500aea"
+  }
+}

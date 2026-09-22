@@ -1,0 +1,235 @@
+{
+  "evidence": [
+    {
+      "fact": "The blocked member was revalidated after its Engine dependency integrated.",
+      "path": "docs/factory-ng/measurements/dependency-resume-c6584e29c0.json"
+    },
+    {
+      "fact": "The existing untap primitive is registered with executor game/ability_effects.go case \"untap\" -> executeUntapEffect (targets) and shape test TestShape_Activated_TapUntapTarget.",
+      "path": "backend/cards/registry.go"
+    },
+    {
+      "anchor": "1469-1808",
+      "fact": "map_atom is the bounded parser seam; Engine files are outside this ticket.",
+      "path": "scripts/paragraph/reparse.py",
+      "sha256": "sha256:a6a6cbfa5c94a45705f91115e4e311a072710bb3fcee8eb9256dd9f04e1dba12"
+    },
+    {
+      "anchor": "13663-13664",
+      "fact": "Verified declaration game.GameState.ExecuteAbilityEffect#case:untap in source revision 0ad434f55e4d51bf02d6b6c355d051bfc69064dc; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "0ad434f55e4d51bf02d6b6c355d051bfc69064dc",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"untap\" AND \"referent\" AND \"previous\" AND \"target\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-17T04:44:46Z",
+          "indexed_revision": "0ad434f55e4d51bf02d6b6c355d051bfc69064dc",
+          "normalized_words": [
+            "untap",
+            "referent",
+            "previous",
+            "target"
+          ],
+          "query": "untap_referent_previous_targets",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "untap_referent_previous_targets",
+            "request_id": "b9efef7d70034077aed8c10865d6d29e",
+            "ticket": "ticket:map.plan-untap-jeskai-ascendancy-c925769549/v2"
+          },
+          "request_id": "b9efef7d70034077aed8c10865d6d29e",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "0ad434f55e4d51bf02d6b6c355d051bfc69064dc",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"untap\" AND \"referent\" AND \"previous\" AND \"target\"",
+            "\"untap\" AND \"referent\" AND \"previous\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-17T04:44:46Z",
+          "indexed_revision": "0ad434f55e4d51bf02d6b6c355d051bfc69064dc",
+          "normalized_words": [
+            "untap",
+            "referent",
+            "previous",
+            "target"
+          ],
+          "query": "untap_referent_previous_targets",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "untap_referent_previous_targets",
+            "request_id": "42087b8ea7cb4c6fba9e4b03cb3ed72a",
+            "ticket": "ticket:map.plan-untap-jeskai-ascendancy-c925769549/v2"
+          },
+          "request_id": "42087b8ea7cb4c6fba9e4b03cb3ed72a",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:untap",
+              "doc": "",
+              "end": 13664,
+              "kind": "engine",
+              "name": "untap",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:untap",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:untap",
+              "start": 13663,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:untap",
+              "symbol_kind": "case",
+              "title": "untap"
+            }
+          ],
+          "current_source_revision": "0ad434f55e4d51bf02d6b6c355d051bfc69064dc",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-17T04:44:46Z",
+          "indexed_revision": "0ad434f55e4d51bf02d6b6c355d051bfc69064dc",
+          "normalized_words": [
+            "untap"
+          ],
+          "query": "untap",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "untap",
+            "request_id": "a20f35c6caec42c493c8b8528e67e640",
+            "ticket": "ticket:map.plan-untap-jeskai-ascendancy-c925769549/v2"
+          },
+          "request_id": "a20f35c6caec42c493c8b8528e67e640",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:49a8e4e009a0574ee2afb2ee80533b82d58e6fd63991e8579fc3049c677392e2",
+      "symbol": {
+        "description": "ExecuteAbilityEffect#case:untap",
+        "discovery_role": "operation_only",
+        "doc": "",
+        "end": 13664,
+        "kind": "engine",
+        "name": "untap",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.ExecuteAbilityEffect#case:untap",
+        "receiver": "GameState",
+        "request_id": "a20f35c6caec42c493c8b8528e67e640",
+        "signature": "ExecuteAbilityEffect#case:untap",
+        "start": 13663,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:untap",
+        "symbol_kind": "case",
+        "title": "untap"
+      }
+    },
+    {
+      "fact": "The required atomic Engine capability passed full integration gates. Runtime contract: Map 'untap those [permanents]' to an effect that untaps the exact set of permanents targeted by the previous effect in the ability list, rather than all permanents matching a filter.",
+      "ticket": "ticket:engine.auto-untap-referent-previous-targets-f33b5c1c71/v4"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "qwen-prepared-direct@1.0.2",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "parser_probes": [
+      {
+        "card": "Jeskai Ascendancy",
+        "function": "reparse_card"
+      }
+    ],
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "A live sole-shape Map miss with exact Oracle text and a registered executor is bounded for the staged implementation worker.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "cd scripts/paragraph && python3 -m unittest test_factory_ng_c925769549",
+    "git diff --check",
+    "git status --porcelain adds or changes only scripts/paragraph/reparse.py and scripts/paragraph/test_factory_ng_c925769549.py",
+    "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-c925769549-v1.json reports zero remaining pinned members"
+  ],
+  "id": "ticket:map.operator-triggered-parser-state-isolation-sep17/v1",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Compile any new validated atomic dependency automatically; otherwise retain the terminal verdict and advance discovery.",
+  "parents": [
+    "ticket:map.plan-untap-jeskai-ascendancy-c925769549/v2"
+  ],
+  "production": {
+    "key": "build-plan:verb_unmapped:untap:sha256:6c4df1e24727d12dee71eb706d046e3bf8d9f5736ae6af3c681ef5c9050637a0:after:ticket:engine.auto-untap-referent-previous-targets-f33b5c1c71/v4",
+    "producer": "capability-dependencies",
+    "retry_reason": "dependency_resume"
+  },
+  "required_behavior": [
+    "Map the exact current verb_unmapped:untap miss on Jeskai Ascendancy through the already-registered untap primitive without losing any Oracle semantics.",
+    "The pinned card loses this miss and retains no new or silently swallowed miss.",
+    "Add a focused positive test plus an adjacent negative that must remain unmapped.",
+    "If the exact amount, recipient, filter, referent, or duration cannot execute through existing runtime behavior, return NEEDS_PRIMITIVE with one atomic CAPABILITY_JSON instead of a partial Map patch.",
+    "Do not edit Engine, converter, corpus data, or use a card-name special case.",
+    "The Engine dependency landing is not proof this card is fixed. Verify the complete Oracle mapping against its runtime representation, including every ability, even if parsing is already eligible."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "scripts/paragraph/reparse.py",
+      "scripts/paragraph/test_factory_ng_c925769549.py"
+    ],
+    "forbidden_paths": [
+      "backend/",
+      "backend/data/",
+      "scripts/paragraph/slotparse_oneshot.py"
+    ]
+  },
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "26948dbdc35f677886b0c7cfc6384fb020371676",
+    "clean": true
+  },
+  "supersedes": "ticket:map.plan-untap-jeskai-ascendancy-c925769549/v1",
+  "title": "Isolate triggered parser metadata per clause to restore dependency production",
+  "work_type": "map",
+  "operator_recovery": {
+    "authorization": "User requested fixing repeated ticket starvation and producing enough compatible work.",
+    "original_ticket": "docs/factory-ng/tickets/map-plan-untap-jeskai-ascendancy-c925769549-v2.json",
+    "original_ticket_sha256": "sha256:ef6b1932c745c61e94a7357d379db0f87d9f03cc5a1f1c6395bc3553a0a3c94c",
+    "additional_provider_runs": 0,
+    "counter_resets": false,
+    "scope_addition_reason": "No path expansion. Initialize per-clause parser metadata; retain original Jeskai gates and add actual Loki crash plus cross-clause regression in same test file."
+  }
+}

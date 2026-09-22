@@ -1,0 +1,46 @@
+{
+  "gates": [
+    {
+      "id": "scope",
+      "outcome": "passed",
+      "detail": "changed=backend/cards/converter.go,backend/game/card.go,backend/game/keyword_abilities.go,backend/game/lib_spell_target_selection.go,backend/cards/converter_damage_each_x.go,backend/cards/registry_factory_ng_d078b33904.go,backend/cards/shape_damage_each_x_test.go"
+    },
+    {
+      "id": "ticket-gate-0",
+      "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+      "outcome": "passed",
+      "elapsed_ms": 431,
+      "detail": ""
+    },
+    {
+      "id": "ticket-gate-1",
+      "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGDamageEachOfXTargetsSpellRegistration$' -count=1",
+      "outcome": "passed",
+      "elapsed_ms": 528267,
+      "detail": "testing: warning: no tests to run\nPASS\nok  \tmagic-backend/game\t0.056s [no tests to run]\n=== RUN   TestFactoryNGDamageEachOfXTargetsSpellRegistration\n=== RUN   TestFactoryNGDamageEachOfXTargetsSpellRegistration/zero\n--- PASS: TestFactoryNGDamageEachOfXTargetsSpellRegistration/zero (0.00s)\n=== RUN   TestFactoryNGDamageEachOfXTargetsSpellRegistration/one\n--- PASS: TestFactoryNGDamageEachOfXTargetsSpellRegistration/one (0.00s)\n=== RUN   TestFactoryNGDamageEachOfXTargetsSpellRegistration/two\n--- PASS: TestFactoryNGDamageEachOfXTargetsSpellRegistration/two (0.00s)\n=== RUN   TestFactoryNGDamageEachOfXTargetsSpellRegistration/one_recipient_gone\n--- PASS: TestFactoryNGDamageEachOfXTargetsSpellRegistration/one_recipient_gone (0.00s)\n=== RUN   TestFactoryNGDamageEachOfXTargetsSpellRegistration/reject_invalid_declarations_before_spending\n--- PASS: TestFactoryNGDamageEachOfXTargetsSpellRegistration/reject_invalid_declarations_before_spending (0.00s)\n=== RUN   TestFactoryNGDamageEachOfXTargetsSpellRegistration/dynamic_damage_and_ordinary_targets_stay_distinct\n--- PASS: TestFactoryNGDamageEachOfXTargetsSpellRegistration/dynamic_damage_and_ordinary_targets_stay_distinct (0.00s)\n--- PASS: TestFactoryNGDamageEachOfXTargetsSpellRegistration (0.01s)\nPASS\nok  \tmagic-backend/cards\t0.077s\nNamed test gate: 7 test(s) passed for '^TestFactoryNGDamageEachOfXTargetsSpellRegistration$'"
+    },
+    {
+      "id": "ticket-gate-2",
+      "command": "cd backend && go test ./game ./cards",
+      "outcome": "passed",
+      "elapsed_ms": 201823,
+      "detail": "ok  \tmagic-backend/game\t1.308s\nok  \tmagic-backend/cards\t164.722s"
+    },
+    {
+      "id": "ticket-gate-3",
+      "command": "git diff --check",
+      "outcome": "passed",
+      "elapsed_ms": 181,
+      "detail": ""
+    }
+  ],
+  "changed": [
+    "backend/cards/converter.go",
+    "backend/game/card.go",
+    "backend/game/keyword_abilities.go",
+    "backend/game/lib_spell_target_selection.go",
+    "backend/cards/converter_damage_each_x.go",
+    "backend/cards/registry_factory_ng_d078b33904.go",
+    "backend/cards/shape_damage_each_x_test.go"
+  ]
+}

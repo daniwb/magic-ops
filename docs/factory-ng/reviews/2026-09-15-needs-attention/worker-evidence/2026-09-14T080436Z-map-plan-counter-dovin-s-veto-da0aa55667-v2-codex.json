@@ -1,0 +1,91 @@
+{
+  "attempt_history": [],
+  "capability_assessments": [],
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-map-plan-counter-dovin-s-veto-da0aa55667-v2-e4c1v5rh",
+    "candidate_commit": "e28952a555225e6ab7491ae1345754bcd92103de",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+    "source_tree_changed": false
+  },
+  "failure_category": "model_response",
+  "gates": [
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "Provider call exited 1; see retained raw response. codex: provider process exited 1; see retained raw events\n",
+      "id": "provider-call",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "codex-constrained@1.1.0",
+    "resolved_model": "gpt-5.6-luna",
+    "telemetry": {
+      "cache_read_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter emitted no token counter"
+      },
+      "cache_write_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter emitted no token counter"
+      },
+      "elapsed_ms": 8190,
+      "input_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter emitted no token counter"
+      },
+      "model_calls": 1,
+      "output_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter emitted no token counter"
+      },
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "provider cost unavailable"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter emitted no token counter"
+      },
+      "stage_times": {
+        "attempt_wall_ms": 22795,
+        "candidate_gate_ms": 0,
+        "compilation_ms": {
+          "availability": "unavailable",
+          "reason": "go test includes package compilation; not separately timed"
+        },
+        "model_ms": 8190
+      }
+    },
+    "worker": "codex"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-14T080436Z-map-plan-counter-dovin-s-veto-da0aa55667-v2-codex.raw.json",
+      "sha256": "sha256:3fb2aa6ede73838c8b94d18be848a30b26186abab565ab800866a8ee8cee7ef3"
+    },
+    {
+      "kind": "prepared_packet",
+      "path": "docs/factory-ng/runs/2026-09-14T080436Z-map-plan-counter-dovin-s-veto-da0aa55667-v2-codex.packet.txt",
+      "sha256": "sha256:1df4cea8911da6b9a9a2373752235e535b8c6bc915a33018e7eb3f4c18bf62aa"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "ticket": {
+    "id": "ticket:map.plan-counter-dovin-s-veto-da0aa55667/v2",
+    "path": "docs/factory-ng/tickets/map-plan-counter-dovin-s-veto-da0aa55667-v2.json",
+    "sha256": "sha256:6cec1127b6ce004262a005891faecd4c244c99d79e59637cfac93d30e791eec3"
+  }
+}

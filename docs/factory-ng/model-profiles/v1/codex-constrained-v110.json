@@ -1,0 +1,44 @@
+{
+  "schema": "factory.model-profile/v1",
+  "id": "codex-constrained",
+  "version": "1.1.0",
+  "extends": "staged-baseline@1.0.0",
+  "adapter": {
+    "adapter_id": "codex-constrained-host-v1",
+    "executable": "codex exec",
+    "engine": "codex",
+    "workflow": "Operator-authorized native source reads without OS sandbox; direct checkout changes rejected; harness applies patches and owns gates.",
+    "sandbox": "disabled",
+    "allowed_tools": [
+      "read_file",
+      "grep",
+      "list_dir"
+    ],
+    "filesystem": "host-access",
+    "network": "host-access",
+    "max_turns": 1,
+    "repair": "one focused retry only after a harness failure"
+  },
+  "routing": {
+    "best_for": [
+      "well-evidenced Map/Engine implementation",
+      "focused gate repair"
+    ],
+    "escalate_when": [
+      "ticket contract demands broader architecture work"
+    ]
+  },
+  "telemetry": {
+    "source": "Codex JSON turn.completed usage",
+    "measured": [
+      "input",
+      "output",
+      "cache_read",
+      "cache_write",
+      "reasoning",
+      "elapsed"
+    ],
+    "cost": "versioned local pricing policy"
+  },
+  "operator_authorization": "2026-09-09: user explicitly authorized removing the broken sandbox and additional rights needed for source access. Worker still has no commit, push, integration, deployment or live-ticket authority; remote service tools remain disabled. Host shell access is not OS-enforced read-only."
+}

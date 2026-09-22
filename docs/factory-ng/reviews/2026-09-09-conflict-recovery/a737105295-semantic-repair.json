@@ -1,0 +1,157 @@
+{
+  "capability": {
+    "expected_unlock": 1,
+    "negative_examples": [
+      "'where X is the number of <subtype> you control' (already handled by parse_count_phrase/amount_count)",
+      "'where X is the mana value of the exiled card' when the exile was NOT performed by an earlier atom of the same spell (e.g. impulse-draw exile zones)"
+    ],
+    "required_behavior": "When a spell exiles a target permanent and a later atom in the same spell uses an amount defined as 'the mana value of the permanent exiled this way', the engine must track the exiled permanent's mana value at the exile event and expose it as a dynamic-amount count kind usable by amount_count-consuming effects (e.g. put_counters)",
+    "source_misses": [
+      {
+        "card": "Ruinous Intrusion",
+        "oracle_text_sha256": "6e664d2130eefb6e9d98c932b518311af12814a272f612274e5ddf5c5e305ceb",
+        "paragraph": "Exile target artifact or enchantment. Put X +1/+1 counters on target creature you control, where X is the mana value of the permanent exiled this way.",
+        "required_behavior": "Put X +1/+1 counters on target creature you control, where X equals the mana value of the artifact or enchantment exiled by this spell's first effect"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "key": "dynamic_amount_mana_value_of_exiled_this_way",
+        "specification": {
+          "expected_unlock": 1,
+          "negative_examples": [
+            "'where X is the number of <subtype> you control' (already handled by parse_count_phrase/amount_count)",
+            "'where X is the mana value of the exiled card' when the exile was NOT performed by an earlier atom of the same spell (e.g. impulse-draw exile zones)"
+          ],
+          "required_behavior": "When a spell exiles a target permanent and a later atom in the same spell uses an amount defined as 'the mana value of the permanent exiled this way', the engine must track the exiled permanent's mana value at the exile event and expose it as a dynamic-amount count kind usable by amount_count-consuming effects (e.g. put_counters)",
+          "source_misses": [
+            {
+              "card": "Ruinous Intrusion",
+              "oracle_text_sha256": "6e664d2130eefb6e9d98c932b518311af12814a272f612274e5ddf5c5e305ceb",
+              "paragraph": "Exile target artifact or enchantment. Put X +1/+1 counters on target creature you control, where X is the mana value of the permanent exiled this way.",
+              "required_behavior": "Put X +1/+1 counters on target creature you control, where X equals the mana value of the artifact or enchantment exiled by this spell's first effect"
+            }
+          ]
+        },
+        "summary": "Dynamic amount that resolves to the mana value of the permanent exiled earlier in the same spell's resolution"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-05T130337Z-map-plan-put-counters-ruinous-intrusion-675c0865b6-v1-claude-agentic.json"
+    },
+    {
+      "anchor": "1141-1206",
+      "fact": "Card-knowledge index match (engine): handleTrackManaValueSpent is the nearest indexed seam for this capability.",
+      "path": "backend/game/gamestate.go",
+      "sha256": "sha256:2a049e61a658cadb6de6d0b270336cba62eedc00a2a20b8076b10a6141d9473e"
+    },
+    {
+      "anchor": "4235-4300",
+      "fact": "Card-knowledge index match (engine): exileAllMatching is the nearest indexed seam for this capability.",
+      "path": "backend/game/gamestate.go",
+      "sha256": "sha256:2a049e61a658cadb6de6d0b270336cba62eedc00a2a20b8076b10a6141d9473e"
+    },
+    {
+      "anchor": "529-594",
+      "fact": "Card-knowledge index match (engine): noteSeqTally is the nearest indexed seam for this capability.",
+      "path": "backend/game/effect_sequence.go",
+      "sha256": "sha256:d203a73924f924312712e7cf0de2fec762c7def5a24705f510346749f3939405"
+    },
+    {
+      "anchor": "1040-1105",
+      "fact": "Card-knowledge index match (engine): executeCopyTargetManaValueEqualsX is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d0ac33d83a17c5e21e00829259f817523252b61afd7aa34b5e989710ebaa7a0b"
+    },
+    {
+      "path": "docs/factory-ng/runs/2026-09-09T023130Z-wave-2ee36e1316ae-integration.json",
+      "fact": "The previous candidate compiled/ran and failed this exact gate: candidate-apply: error: Failed to merge in the changes.\nback to patching base and 3-way merge...\nAuto-merging backend/game/gamestate.go\nCONFLICT (content): Merge conflict in backend/game/gamestate.go\nAuto-merging backend/game/dynamic_amount.go\nAuto-merging backend/game/ability_effects.go\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch. Fix only this defect; do not restructure unrelated code or revisit already-passing behavior."
+    },
+    {
+      "path": "docs/factory-ng/candidates/2026-09-09T021902Z-engine-auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295-v1.patch",
+      "sha256": "sha256:f189f936aaba93ed9d2e9049383103737d178804b57be053052a16b5459e61da",
+      "fact": "Historical candidate for review/reuse, NOT applied to the current source. Verify every hunk and test against current source and the original semantic contract.\nFrom c9c85b01e21434d9d784c7cd8b3363fecb02ad02 Mon Sep 17 00:00:00 2001\nFrom: Factory NG <factory-ng@local>\nDate: Wed, 9 Sep 2026 02:19:02 +0000\nSubject: [PATCH] factory-ng: supervised engine observation\n\n---\n backend/game/ability_effects.go            | 30 ++++++++++++\n backend/game/dynamic_amount.go             | 18 ++++++++\n backend/game/factory_ng_a737105295_test.go | 53 ++++++++++++++++++++++\n backend/game/gamestate.go                  | 16 +++++++\n 4 files changed, 117 insertions(+)\n create mode 100644 backend/game/factory_ng_a737105295_test.go\n\ndiff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go\nindex 17a407284..e2e13b869 100644\n--- a/backend/game/ability_effects.go\n+++ b/backend/game/ability_effects.go\n@@ -119,6 +119,31 @@ func (gs *GameState) executeDestroyTargetIfManaValueEqualsUnspentMana(controller\n \treturn nil\n }\n \n+// recordExiledThisWayManaValue captures the mana value of the target\n+// permanent an \"exile\" atom is about to exile (ticket\n+// engine.auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295,\n+// Ruinous Intrusion class), BEFORE the exile actually removes it from the\n+// battlefield, so a later atom in the same spell's resolution can read it\n+// back via the \"exiled_this_way_mana_value\" amount_count kind\n+// (dynamic_amount.go). Must run before executeExileEffect below, which is\n+// what actually moves the card out of the battlefield. Only the first\n+// matching battlefield target is recorded, matching the single-target\n+// \"exile target artifact or enchantment\" shape this feeds.\n+func (gs *GameState) recordExiledThisWayManaValue(targets []Target) {\n+\tfor _, target := range targets {\n+\t\tif !target.IsCard {\n+\t\t\tcontinue\n+\t\t}\n+\t\tfor _, c := range gs.Battlefield.GetAll() {\n+\t\t\tif c != nil && c.ID == target.CardID {\n+\t\t\t\tmv := c.ManaCost.CMC()\n+\t\t\t\tgs.exiledThisWayManaValue = &mv\n+\t\t\t\treturn\n+\t\t\t}\n+\t\t}\n+\t}\n+}\n+\n // executeReturnFromGraveyardManaValueX implements the\n // return_from_graveyard_mana_value_x primitive (ticket\n // engine.auto-return-from-graveyard-mana-value-x-3344aa7f88, Immortal\n@@ -4284,6 +4309,11 @@ func (gs *GameState) ExecuteAbilityEffect(stackObj *StackObject) error {\n \t\t// map_atom emits effect_value.mana_value alongside the ordinary\n \t\t// filter key; -1 (absent) keeps every other exile atom unrestricted.\n \t\tmanaValue := getIntValue(effectValue, \"mana_value\", -1)\n+\t\t// Stash the target's mana value BEFORE it leaves the battlefield\n+\t\t// (ticket engine.auto-dynamic-amount-mana-value-of-exiled-this-way-\n+\t\t// a737105295) so a later atom in this same spell's resolution can\n+\t\t// read it via the \"exiled_this_way_mana_value\" amount_count kind.\n+\t\tgs.recordExiledThisWayManaValue(targets)\n \t\treturn gs.executeExileEffect(targets, manaValue)\n \tcase \"exile_target_plus_named_match_tokens\":\n \t\t// exile_target_plus_named_match_tokens primitive (ticket\ndiff --git a/backend/game/dynamic_amount.go b/backend/game/dynamic_amount.go\nindex ec99d2066..ef990538a 100644\n--- a/backend/game/dynamic_amount.go\n+++ b/backend/game/dynamic_amount.go\n@@ -661,6 +661,24 @@ func (gs *GameState) evalDynamicAmountBase(spec map[string]interface{}, controll\n \t\t\treturn 0, false\n \t\t}\n \t\treturn gs.EffectManager.evaluatePerCount(e, controller), true\n+\tcase \"exiled_this_way_mana_value\":\n+\t\t// \"where X is the mana value of the permanent exiled this way\"\n+\t\t// (ticket engine.auto-dynamic-amount-mana-value-of-exiled-this-way-\n+\t\t// a737105295, Ruinous Intrusion class). Consume-once: read the\n+\t\t// value an earlier \"exile\" atom in THIS spell's resolution stashed\n+\t\t// via recordExiledThisWayManaValue (ability_effects.go), then\n+\t\t// clear it so a later, unrelated resolution can't pick up a stale\n+\t\t// value from a spell that exiled something but never itself\n+\t\t// consumed the amount. Absent (nil) \u2014 no exile atom has run yet\n+\t\t// this resolution \u2014 resolves to false/unset rather than 0,\n+\t\t// distinguishing \"no exile happened\" from \"exiled a 0-mana-value\n+\t\t// permanent\".\n+\t\tif gs.exiledThisWayManaValue == nil {\n+\t\t\treturn 0, false\n+\t\t}\n+\t\tn := *gs.exiledThisWayManaValue\n+\t\tgs.exiledThisWayManaValue = nil\n+\t\treturn n, true\n \tcase \"opponents\":\n \t\t// \"equal to the number of opponents you have\" (task-1976) \u2014 every\n \t\t// other seat, regardless of table size (2-player: always 1).\ndiff --git a/backend/game/factory_ng_a737105295_test.go b/backend/game/factory_ng_a737105295_test.go\nnew file mode 100644\nindex 000000000..7208b22a9\n--- /dev/null\n+++ b/backend/game/factory_ng_a737105295_test.go\n@@ -0,0 +1,53 @@\n+package game\n+\n+import \"testing\"\n+\n+// TestFactoryNGDynamicAmountManaValueOfExiledThisWay covers ticket\n+// engine.auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295\n+// (Ruinous Intrusion class): \"Exile target artifact or enchantment. Put X\n+// +1/+1 counters on target creature you control, where X is the mana value\n+// of the permanent exiled this way.\" Exercises the real production\n+// mechanism: executeExileEffect (the same function the \"exile\" atom case\n+// calls) alongside recordExiledThisWayManaValue, then EvalDynamicAmountFull\n+// (the same resolution entry point resolveDynamicAmountFull uses for every\n+// amount_count-consuming effect, e.g. put_counters).\n+func TestFactoryNGDynamicAmountManaValueOfExiledThisWay(t *testing.T) {\n+\tgs := NewGame(\"P0\", \"P1\", false)\n+\n+\tartifact := NewCreature(\"Test Relic\", ManaCost{}, 1, 1, 1)\n+\tartifact.Type = \"Artifact\"\n+\tartifact.Types = []string{\"Artifact\"}\n+\tgs.Battlefield.AddCard(artifact)\n+\n+\tspec := map[string]interface{}{\"count\": \"exiled_this_way_mana_value\"}\n+\n+\t// Before any exile atom has run this resolution, the amount is unset.\n+\tif _, ok := gs.EvalDynamicAmountFull(spec, 0, nil, nil, nil); ok {\n+\t\tt.Fatalf(\"exiled_this_way_mana_value resolved before any exile atom ran\")\n+\t}\n+\n+\ttargets := []Target{{IsCard: true, CardID: artifact.ID}}\n+\n+\t// Mirror the \"exile\" ExecuteAbilityEffect case: record the target's\n+\t// mana value BEFORE it leaves the battlefield, then actually exile it.\n+\tgs.recordExiledThisWayManaValue(targets)\n+\tif err := gs.executeExileEffect(targets, -1); err != nil {\n+\t\tt.Fatalf(\"executeExileEffect: %v\", err)\n+\t}\n+\n+\twant := artifact.ManaCost.CMC()\n+\tgot, ok := gs.EvalDynamicAmountFull(spec, 0, nil, nil, nil)\n+\tif !ok {\n+\t\tt.Fatalf(\"exiled_this_way_mana_value did not resolve after the exile atom ran\")\n+\t}\n+\tif got != want {\n+\t\tt.Fatalf(\"exiled_this_way_mana_value = %d, want %d (exiled permanent's mana value)\", got, want)\n+\t}\n+\n+\t// Consume-once: reading again must NOT return the same value a second\n+\t// time, guarding against a later unrelated resolution seeing a stale\n+\t// value from a spell that exiled something but never consumed it.\n+\tif _, ok := gs.EvalDynamicAmountFull(spec, 0, nil, nil, nil); ok {\n+\t\tt.Fatalf(\"exiled_this_way_mana_value resolved a second time; must be consumed once\")\n+\t}\n+}\ndiff --git a/backend/game/gamestate.go b/backend/game/gamestate.go\nindex 232af69e8..8e362959d 100644\n--- a/backend/game/gamestate.go\n+++ b/backend/game/gamestate.go\n@@ -180,6 +180,22 @@ type GameState struct {\n \tMulliganState      *MulliganState      `json:\"mulligan_state,omitempty\"` // Mulligan tracking\n \tGameStarted        bool                `json:\"game_started\"`             // True after mulligans complete\n \n+\t// exiledThisWayManaValue holds the mana value of the permanent most\n+\t// recently exiled by an \"exile\" ability-effect atom (ticket\n+\t// engine.auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295,\n+\t// Ruinous Intrusion class: \"Exile target artifact or enchantment. Put X\n+\t// +1/+1 counters ..., where X is the mana value of the permanent exiled\n+\t// this way.\"). A spell resolves its EffectAtoms sequentially with no\n+\t// intervening priority pass, so a scalar field on GameState (mirrors\n+\t// activeXCostValue's pointer-sentinel pattern) is enough to hand the\n+\t// value from an earlier atom to a later one in the SAME spell's\n+\t// resolution. nil means no exile atom has recorded a value yet; the\n+\t// \"exiled_this_way_mana_value\" amount_count kind (dynamic_amount.go)\n+\t// consumes it once (reads then clears) so an unrelated later\n+\t// resolution can never observe a stale value left behind by a spell\n+\t// that exiled something but never itself consumed the amount.\n+\texiledThisWayManaValue *int\n+\n \t// Emblems is the command zone's emblem registry (Rule 114 / 408.2). See\n \t// game/emblem.go and cardfns.CreateEmblem ([VOCAB] #1085). Append-only \u2014\n \t// emblems are never removed once created; there is deliberately no\n-- \n2.43.0\n\n"
+    },
+    {
+      "path": "docs/factory-ng/reviews/2026-09-09-conflict-recovery/audit-diff3.json",
+      "fact": "The retained candidate records mana value before executeExileEffect succeeds or applies its mana/color filters. The GameState scalar is cleared only when consumed, so an exile with no consumer leaves a value for an unrelated spell. Its zero-mana-value test manually calls the helper and does not prove public resolution wiring. Preserve current executeExileEffect color-filter arguments."
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "codex-constrained@1.1.0",
+    "selection_reason": "Operator-reviewed integration repair, preserving the one-repair allowance and all original gates.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGDynamicAmountManaValueOfExiledThisWay$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295/v2",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Retain the terminal receipt and continue independent discovery; do not request manual source transcription.",
+  "parents": [
+    "ticket:map.plan-put-counters-ruinous-intrusion-675c0865b6/v1",
+    "ticket:engine.auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295/v1"
+  ],
+  "production": {
+    "key": "capability:dynamic_amount_mana_value_of_exiled_this_way:sha256:a737105295300e396871d131f85cb90fbf2bd6d4d5c89621876c2f80b5c1145d:integration-repair-v1",
+    "producer": "capability-dependencies",
+    "retry_reason": "semantic_gate_repair",
+    "integration_repair_parent": "ticket:engine.auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295/v1"
+  },
+  "required_behavior": [
+    "When a spell exiles a target permanent and a later atom in the same spell uses an amount defined as 'the mana value of the permanent exiled this way', the engine must track the exiled permanent's mana value at the exile event and expose it as a dynamic-amount count kind usable by amount_count-consuming effects (e.g. put_counters)",
+    "Preserve these adjacent behaviors: 'where X is the number of <subtype> you control' (already handled by parse_count_phrase/amount_count); 'where X is the mana value of the exiled card' when the exile was NOT performed by an earlier atom of the same spell (e.g. impulse-draw exile zones)",
+    "Add a discriminating behavior test named TestFactoryNGDynamicAmountManaValueOfExiledThisWay; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases.",
+    "The retained candidate records mana value before executeExileEffect succeeds or applies its mana/color filters. The GameState scalar is cleared only when consumed, so an exile with no consumer leaves a value for an unrelated spell. Its zero-mana-value test manually calls the helper and does not prove public resolution wiring. Preserve current executeExileEffect color-filter arguments.",
+    "Keep the original named test and exercise public resolution with nonzero mana value. Cover successful exile and its same-spell consumer, exile rejected by mana/color filtering, an unrelated later spell after an unconsumed exile, and repeated reads within a single resolution when applicable. Carry value only for a successfully exiled object in that resolution; no global stale scalar. Add subtests under the existing required selector.",
+    "Preserve every original gate and semantic obligation; do not edit the frozen registry literal."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_a737105295_test.go",
+      "backend/cards/factory_ng_a737105295_test.go",
+      "backend/cards/registry_factory_ng_a737105295.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "da54953454066b60c3c996d5a273da0e1bafdd0a",
+    "clean": true
+  },
+  "title": "Repair semantic defect found during merge review: Implement atomic capability: Dynamic amount that resolves to the mana value of the permanent exiled earlier in the same spell's resolution",
+  "work_type": "engine",
+  "supersedes": "ticket:engine.auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295/v1"
+}

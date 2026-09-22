@@ -1,0 +1,36 @@
+{
+  "name": "",
+  "eligible": true,
+  "abilities": [
+    {
+      "type": "triggered",
+      "trigger_v2": {
+        "event": "etb",
+        "subject": {
+          "filter": "self"
+        }
+      },
+      "effects": [
+        {
+          "effect": "put_counters",
+          "value": {
+            "amount": 1,
+            "counter_type": "+1/+1"
+          },
+          "target": {
+            "filter": "creature"
+          }
+        },
+        {
+          "effect": "draw",
+          "value": {
+            "amount": 2
+          },
+          "link": "and"
+        }
+      ]
+    }
+  ],
+  "keywords": [],
+  "misses": []
+}

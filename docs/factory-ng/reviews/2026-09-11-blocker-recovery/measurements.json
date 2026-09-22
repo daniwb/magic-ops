@@ -1,0 +1,62 @@
+[
+  {
+    "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-30d5d8211c-v1.json",
+    "exit_code": 0,
+    "stdout": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-30d5d8211c-v1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:copy\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:a33c546f92e6b5dd95024be85ba976ba3adeea2ce8213f49e971c9c4a3b013af\",\n    \"repository\": \"/tmp/factory-ng-blocker-recovery-sep11\",\n    \"revision\": \"dc35bac5cc2865a9e3e90282b8158b0c4f29b316\"\n  }\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-845ba13507-v1.json",
+    "exit_code": 0,
+    "stdout": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-845ba13507-v1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:damage_by\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:a33c546f92e6b5dd95024be85ba976ba3adeea2ce8213f49e971c9c4a3b013af\",\n    \"repository\": \"/tmp/factory-ng-blocker-recovery-sep11\",\n    \"revision\": \"dc35bac5cc2865a9e3e90282b8158b0c4f29b316\"\n  }\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-3f854ae5df-v1.json",
+    "exit_code": 0,
+    "stdout": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-3f854ae5df-v1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:damage\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:a33c546f92e6b5dd95024be85ba976ba3adeea2ce8213f49e971c9c4a3b013af\",\n    \"repository\": \"/tmp/factory-ng-blocker-recovery-sep11\",\n    \"revision\": \"dc35bac5cc2865a9e3e90282b8158b0c4f29b316\"\n  }\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-032fa4cd5d-v1.json",
+    "exit_code": 0,
+    "stdout": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-032fa4cd5d-v1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:exile\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:a33c546f92e6b5dd95024be85ba976ba3adeea2ce8213f49e971c9c4a3b013af\",\n    \"repository\": \"/tmp/factory-ng-blocker-recovery-sep11\",\n    \"revision\": \"dc35bac5cc2865a9e3e90282b8158b0c4f29b316\"\n  }\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-ac7fb28b1a-v1.json",
+    "exit_code": 0,
+    "stdout": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-ac7fb28b1a-v1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:put_counters\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:a33c546f92e6b5dd95024be85ba976ba3adeea2ce8213f49e971c9c4a3b013af\",\n    \"repository\": \"/tmp/factory-ng-blocker-recovery-sep11\",\n    \"revision\": \"dc35bac5cc2865a9e3e90282b8158b0c4f29b316\"\n  }\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-b33ea3ed9d-v1.json",
+    "exit_code": 0,
+    "stdout": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-b33ea3ed9d-v1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:regrow\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:a33c546f92e6b5dd95024be85ba976ba3adeea2ce8213f49e971c9c4a3b013af\",\n    \"repository\": \"/tmp/factory-ng-blocker-recovery-sep11\",\n    \"revision\": \"dc35bac5cc2865a9e3e90282b8158b0c4f29b316\"\n  }\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-f7fb65fa2a-v1.json",
+    "exit_code": 0,
+    "stdout": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-f7fb65fa2a-v1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:sacrifice\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:a33c546f92e6b5dd95024be85ba976ba3adeea2ce8213f49e971c9c4a3b013af\",\n    \"repository\": \"/tmp/factory-ng-blocker-recovery-sep11\",\n    \"revision\": \"dc35bac5cc2865a9e3e90282b8158b0c4f29b316\"\n  }\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-ecc1126789-v1.json",
+    "exit_code": 0,
+    "stdout": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-ecc1126789-v1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:tap\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:a33c546f92e6b5dd95024be85ba976ba3adeea2ce8213f49e971c9c4a3b013af\",\n    \"repository\": \"/tmp/factory-ng-blocker-recovery-sep11\",\n    \"revision\": \"dc35bac5cc2865a9e3e90282b8158b0c4f29b316\"\n  }\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-e0c3cca63f-v1.json",
+    "exit_code": 0,
+    "stdout": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-e0c3cca63f-v1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:tap\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:a33c546f92e6b5dd95024be85ba976ba3adeea2ce8213f49e971c9c4a3b013af\",\n    \"repository\": \"/tmp/factory-ng-blocker-recovery-sep11\",\n    \"revision\": \"dc35bac5cc2865a9e3e90282b8158b0c4f29b316\"\n  }\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-70becf7c9a-retry1.json",
+    "exit_code": 0,
+    "stdout": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-70becf7c9a-retry1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:gain_control\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:a33c546f92e6b5dd95024be85ba976ba3adeea2ce8213f49e971c9c4a3b013af\",\n    \"repository\": \"/tmp/factory-ng-blocker-recovery-sep11\",\n    \"revision\": \"dc35bac5cc2865a9e3e90282b8158b0c4f29b316\"\n  }\n}\n",
+    "stderr": ""
+  }
+]

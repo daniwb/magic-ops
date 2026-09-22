@@ -1,0 +1,118 @@
+--- before/scripts/factory-ng-controller.py
++++ after/scripts/factory-ng-controller.py
+@@ -8,6 +8,7 @@
+ gate. Models never receive integration, push, or deploy authority.
+ """
+ import argparse
++from datetime import datetime
+ from concurrent.futures import ThreadPoolExecutor, TimeoutError as FutureTimeout
+ import fcntl
+ import json
+@@ -1067,6 +1068,35 @@
+     return jobs
+ 
+ 
++def integration_collection_wait(selected, jobs, settings, epoch=None):
++    """Briefly collect a wave while workers can still produce another patch.
++
++    Anchor the deadline to the oldest accepted patch, so arrivals and controller
++    restarts never extend it. Isolated retries and an idle fleet never wait.
++    """
++    window = max(0, min(300, int(settings.get('collect_seconds', 120))))
++    target = max(1, min(int(settings.get('wave_size', 8)),
++                        int(settings.get('collect_min_candidates', 3))))
++    if (not selected or len(selected) >= target or not window
++            or any(j.get('integration_isolate') for j in selected)
++            or not any(j.get('state') == 'working' and not j.get('superseded_by')
++                       for j in jobs['jobs'].values())):
++        return 0
++    epoch = time.time() if epoch is None else epoch
++    try:
++        stamps = [datetime.fromisoformat(j['finished_at'].replace('Z', '+00:00'))
++                  for j in selected]
++        # Missing/invalid timestamps must never strand legacy receipts.
++        if any(s.tzinfo is None for s in stamps):
++            return 0
++        oldest = min(s.timestamp() for s in stamps)
++    except (KeyError, TypeError, ValueError, AttributeError):
++        return 0
++    if oldest > epoch:
++        return 0
++    return max(0, int(oldest + window - epoch + 0.999))
++
++
+ def dispatch_integration(jobs, results):
+     if not policy().get('integration', {}).get('automatic', False):
+         return
+@@ -1091,6 +1121,11 @@
+         if len(selected) >= wave_size or job.get('integration_isolate'):
+             break
+     if not selected:
++        return
++    wait_seconds = integration_collection_wait(selected, jobs, policy().get('integration', {}))
++    if wait_seconds:
++        results.append({'worker': 'integration-harness', 'status': 'collecting_wave',
++                        'candidates': len(selected), 'remaining_seconds': wait_seconds})
+         return
+     result_file, log_file = job_files(selected[0]['ticket_id'] + '-integration')
+     command = [sys.executable, str(OPS / 'scripts/factory-ng-integrate.py')]
+--- before/scripts/factory-ng-integrate.py
++++ after/scripts/factory-ng-integrate.py
+@@ -133,7 +133,9 @@
+             # These complete packages run once on the final wave below.
+             continue
+         result = runner.run_ticket_gate(command, clone, ticket)
+-        gates.append(gate('composed-ticket-%d' % index, [command], result))
++        checked = gate('composed-ticket-%d' % index, [command], result)
++        checked['ticket_id'] = observation['ticket']['id']
++        gates.append(checked)
+         if result['exit_code']:
+             return False
+     return True
+@@ -256,12 +258,16 @@
+         if not clone_input.exists():
+             clone_input.symlink_to(corpus_input)
+ 
++        # A single candidate keeps its individual failure attribution. For a
++        # wave, compose first: compiling every intermediate Engine revision
++        # needlessly invalidates the shared package cache.
++        single_candidate_checks = len(observations) == 1 and not resolutions
+         for observation_path, observation in observations:
+             candidate_base = git(clone, 'rev-parse', 'HEAD')['stdout'].strip()
+             candidate_gates = []
+             try:
+                 apply_candidate(observation, clone, candidate_gates, resolutions.get(observation['ticket']['id']))
+-                if not resolutions and not semantic_gates(observation, clone, candidate_gates):
++                if single_candidate_checks and not semantic_gates(observation, clone, candidate_gates):
+                     raise ValueError('composed TicketSpec semantic gate failed')
+             except (ValueError, RuntimeError) as exc:
+                 failed_outcome = ('full_gate_failed' if any(
+@@ -284,12 +290,10 @@
+             outcome = 'no_integratable_candidates'
+             raise ValueError('every candidate was isolated with its own failure evidence')
+ 
+-        # Later candidates can change behavior checked for earlier candidates.
+-        # Recheck those contracts on the final composition before the one full wave.
+-        # Explicit reviewed batches run every original semantic gate on the final
+-        # composition once. Any failure rejects the entire wave; none can land.
+-        # Ordinary automatic waves retain their per-prefix isolation checks.
+-        if resolutions or len(included) > 1:
++        # Every original semantic contract runs on the final composition.
++        # A red wave cannot publish; the controller's existing isolated retries
++        # attribute failures and recover good candidates through all gates.
++        if not single_candidate_checks:
+             for _, observation in included:
+                 if not semantic_gates(observation, clone, gates):
+                     outcome = 'full_gate_failed'
+--- before/config/factory-ng-policy.json
++++ after/config/factory-ng-policy.json
+@@ -15,6 +15,8 @@
+     "automatic": true,
+     "wave_size": 8,
+     "push_when_full_gate_green": true,
+-    "deploy_after_push": false
++    "deploy_after_push": false,
++    "collect_seconds": 120,
++    "collect_min_candidates": 3
+   }
+ }

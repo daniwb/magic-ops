@@ -1,0 +1,254 @@
+{
+  "checked_at": "2026-09-09T06:08:52.553185+00:00",
+  "unresolved": [
+    {
+      "failed_ticket": "ticket:engine.auto-copy-triggering-referent-b4a4facffb/v1",
+      "outcome": "candidate_conflict",
+      "receipt": "docs/factory-ng/runs/2026-09-08T001227Z-wave-f3c2926a0b29-integration.json",
+      "lineage": {
+        "ticket:engine.auto-copy-triggering-referent-b4a4facffb/v1": {
+          "state": "integration_failed",
+          "outcome": "candidate_conflict",
+          "superseded_by": null,
+          "repair_blocker": null
+        }
+      }
+    },
+    {
+      "failed_ticket": "ticket:engine.auto-damage-amount-counter-count-82dee1907b/v3",
+      "outcome": "candidate_conflict",
+      "receipt": "docs/factory-ng/runs/2026-09-07T201637Z-wave-6e6b297675b5-integration.json",
+      "lineage": {
+        "ticket:engine.auto-damage-amount-counter-count-82dee1907b/v1": {
+          "state": "failed",
+          "outcome": "gate_failed",
+          "superseded_by": "ticket:engine.auto-damage-amount-counter-count-82dee1907b/v2",
+          "repair_blocker": null
+        },
+        "ticket:engine.auto-damage-amount-counter-count-82dee1907b/v2": {
+          "state": "integration_failed",
+          "outcome": "full_gate_failed",
+          "superseded_by": "ticket:engine.auto-damage-amount-counter-count-82dee1907b/v3",
+          "repair_blocker": null
+        },
+        "ticket:engine.auto-damage-amount-counter-count-82dee1907b/v3": {
+          "state": "integration_failed",
+          "outcome": "candidate_conflict",
+          "superseded_by": null,
+          "repair_blocker": {
+            "reason": "Engine integration repair limit reached (1/1); the failed card dependency remains unresolved.",
+            "receipt": "docs/factory-ng/runs/2026-09-07T201637Z-wave-6e6b297675b5-integration.json"
+          }
+        }
+      }
+    },
+    {
+      "failed_ticket": "ticket:engine.auto-damage-amount-referent-target-hand-size-5b58aa258c/v1",
+      "outcome": "candidate_conflict",
+      "receipt": "docs/factory-ng/runs/2026-09-08T001227Z-wave-f3c2926a0b29-integration.json",
+      "lineage": {
+        "ticket:engine.auto-damage-amount-referent-target-hand-size-5b58aa258c/v1": {
+          "state": "integration_failed",
+          "outcome": "candidate_conflict",
+          "superseded_by": null,
+          "repair_blocker": null
+        }
+      }
+    },
+    {
+      "failed_ticket": "ticket:engine.auto-destroy-attached-to-referent-d32bfbcd7a/v1",
+      "outcome": "candidate_conflict",
+      "receipt": "docs/factory-ng/runs/2026-09-08T191234Z-engine-auto-destroy-attached-to-referent-d32bfbcd7a-v1-integration.json",
+      "lineage": {
+        "ticket:engine.auto-destroy-attached-to-referent-d32bfbcd7a/v1": {
+          "state": "integration_failed",
+          "outcome": "candidate_conflict",
+          "superseded_by": null,
+          "repair_blocker": null
+        }
+      }
+    },
+    {
+      "failed_ticket": "ticket:engine.auto-destroyed-this-way-per-player-count-58304e2f98/v1",
+      "outcome": "candidate_conflict",
+      "receipt": "docs/factory-ng/runs/2026-09-09T031311Z-wave-4dc5e5ebb5cb-integration.json",
+      "lineage": {
+        "ticket:engine.auto-destroyed-this-way-per-player-count-58304e2f98/v1": {
+          "state": "integration_failed",
+          "outcome": "candidate_conflict",
+          "superseded_by": null,
+          "repair_blocker": null
+        }
+      }
+    },
+    {
+      "failed_ticket": "ticket:engine.auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295/v1",
+      "outcome": "candidate_conflict",
+      "receipt": "docs/factory-ng/runs/2026-09-09T023130Z-wave-2ee36e1316ae-integration.json",
+      "lineage": {
+        "ticket:engine.auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295/v1": {
+          "state": "integration_failed",
+          "outcome": "candidate_conflict",
+          "superseded_by": null,
+          "repair_blocker": null
+        }
+      }
+    },
+    {
+      "failed_ticket": "ticket:engine.auto-exile-target-graveyard-card-and-named-matches-656434340c/v1",
+      "outcome": "candidate_conflict",
+      "receipt": "docs/factory-ng/runs/2026-09-09T010610Z-engine-auto-exile-target-graveyard-card-and-named-matches-656434340c-v1-integration.json",
+      "lineage": {
+        "ticket:engine.auto-exile-target-graveyard-card-and-named-matches-656434340c/v1": {
+          "state": "integration_failed",
+          "outcome": "candidate_conflict",
+          "superseded_by": null,
+          "repair_blocker": null
+        }
+      }
+    },
+    {
+      "failed_ticket": "ticket:engine.auto-pump-all-referent-controller-spell-e7617de98a/v1",
+      "outcome": "candidate_conflict",
+      "receipt": "docs/factory-ng/runs/2026-09-09T014501Z-wave-4e81bf4d8700-integration.json",
+      "lineage": {
+        "ticket:engine.auto-pump-all-referent-controller-spell-e7617de98a/v1": {
+          "state": "integration_failed",
+          "outcome": "candidate_conflict",
+          "superseded_by": null,
+          "repair_blocker": null
+        }
+      }
+    },
+    {
+      "failed_ticket": "ticket:engine.auto-pump-until-eot-ability-self-no-target-9e24f96767/v1",
+      "outcome": "candidate_conflict",
+      "receipt": "docs/factory-ng/runs/2026-09-08T113321Z-engine-auto-pump-until-eot-ability-self-no-target-9e24f96767-v1-integration.json",
+      "lineage": {
+        "ticket:engine.auto-pump-until-eot-ability-self-no-target-9e24f96767/v1": {
+          "state": "integration_failed",
+          "outcome": "candidate_conflict",
+          "superseded_by": null,
+          "repair_blocker": null
+        }
+      }
+    },
+    {
+      "failed_ticket": "ticket:engine.auto-pump-until-eot-untargeted-all-36523aeef0/v1",
+      "outcome": "candidate_conflict",
+      "receipt": "docs/factory-ng/runs/2026-09-08T181744Z-wave-de6a928f875b-integration.json",
+      "lineage": {
+        "ticket:engine.auto-pump-until-eot-untargeted-all-36523aeef0/v1": {
+          "state": "integration_failed",
+          "outcome": "candidate_conflict",
+          "superseded_by": null,
+          "repair_blocker": null
+        }
+      }
+    },
+    {
+      "failed_ticket": "ticket:engine.auto-return-exiled-cards-with-source-15c611c278/v1",
+      "outcome": "candidate_conflict",
+      "receipt": "docs/factory-ng/runs/2026-09-08T235315Z-wave-5c2c4a8558a4-integration.json",
+      "lineage": {
+        "ticket:engine.auto-return-exiled-cards-with-source-15c611c278/v1": {
+          "state": "integration_failed",
+          "outcome": "candidate_conflict",
+          "superseded_by": null,
+          "repair_blocker": null
+        }
+      }
+    },
+    {
+      "failed_ticket": "ticket:engine.auto-return-from-graveyard-enters-with-counter-7631eaef27/v1",
+      "outcome": "full_gate_failed",
+      "receipt": "docs/factory-ng/runs/2026-09-07T224110Z-wave-ce8c5fe488d3-integration.json",
+      "lineage": {
+        "ticket:engine.auto-return-from-graveyard-enters-with-counter-7631eaef27/v1": {
+          "state": "integration_failed",
+          "outcome": "full_gate_failed",
+          "superseded_by": null,
+          "repair_blocker": null
+        }
+      }
+    },
+    {
+      "failed_ticket": "ticket:engine.auto-return-from-graveyard-with-counter-952595ec9a/v1",
+      "outcome": "full_gate_failed",
+      "receipt": "docs/factory-ng/runs/2026-09-09T003708Z-engine-auto-return-from-graveyard-with-counter-952595ec9a-v1-integration.json",
+      "lineage": {
+        "ticket:engine.auto-return-from-graveyard-with-counter-952595ec9a/v1": {
+          "state": "integration_failed",
+          "outcome": "full_gate_failed",
+          "superseded_by": null,
+          "repair_blocker": null
+        }
+      }
+    },
+    {
+      "failed_ticket": "ticket:engine.auto-sacrifice-any-number-choice-9baee341fb/v1",
+      "outcome": "candidate_conflict",
+      "receipt": "docs/factory-ng/runs/2026-09-09T002120Z-wave-2e6c4e63d205-integration.json",
+      "lineage": {
+        "ticket:engine.auto-sacrifice-any-number-choice-9baee341fb/v1": {
+          "state": "integration_failed",
+          "outcome": "candidate_conflict",
+          "superseded_by": null,
+          "repair_blocker": null
+        }
+      }
+    },
+    {
+      "failed_ticket": "ticket:engine.auto-sacrifice-source-d0c00a2e90/v1",
+      "outcome": "candidate_conflict",
+      "receipt": "docs/factory-ng/runs/2026-09-08T235315Z-wave-5c2c4a8558a4-integration.json",
+      "lineage": {
+        "ticket:engine.auto-sacrifice-source-d0c00a2e90/v1": {
+          "state": "integration_failed",
+          "outcome": "candidate_conflict",
+          "superseded_by": null,
+          "repair_blocker": null
+        }
+      }
+    },
+    {
+      "failed_ticket": "ticket:engine.auto-sacrifice-unless-alternative-action-d672580388/v1",
+      "outcome": "candidate_conflict",
+      "receipt": "docs/factory-ng/runs/2026-09-08T232728Z-wave-cf360f791cd5-integration.json",
+      "lineage": {
+        "ticket:engine.auto-sacrifice-unless-alternative-action-d672580388/v1": {
+          "state": "integration_failed",
+          "outcome": "candidate_conflict",
+          "superseded_by": null,
+          "repair_blocker": null
+        }
+      }
+    },
+    {
+      "failed_ticket": "ticket:engine.auto-sacrifice-unless-discard-3e88a33648/v1",
+      "outcome": "candidate_conflict",
+      "receipt": "docs/factory-ng/runs/2026-09-08T235315Z-wave-5c2c4a8558a4-integration.json",
+      "lineage": {
+        "ticket:engine.auto-sacrifice-unless-discard-3e88a33648/v1": {
+          "state": "integration_failed",
+          "outcome": "candidate_conflict",
+          "superseded_by": null,
+          "repair_blocker": null
+        }
+      }
+    },
+    {
+      "failed_ticket": "ticket:engine.auto-target-filter-mana-value-matches-trigger-spell-4a033b6ace/v1",
+      "outcome": "candidate_conflict",
+      "receipt": "docs/factory-ng/runs/2026-09-07T215923Z-wave-efe6c46f880e-integration.json",
+      "lineage": {
+        "ticket:engine.auto-target-filter-mana-value-matches-trigger-spell-4a033b6ace/v1": {
+          "state": "integration_failed",
+          "outcome": "candidate_conflict",
+          "superseded_by": null,
+          "repair_blocker": null
+        }
+      }
+    }
+  ]
+}

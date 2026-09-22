@@ -1,0 +1,142 @@
+CAPABILITY_ASSESSMENT: {"classification":"engine_gap","existing_symbols":["game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_return_card_from_graveyard","game.GameState.sacrificeCard"],"remaining_gap":"no existing sacrifice_self_unless_mill executor; mill is an unconditional library-to-graveyard move with no analogous case in the sacrifice_self_unless_* family","verification":"public CardDefinition.ToGameCard -> RegisterCardAbilities -> ProcessTriggeredAbilities -> ExecuteAbilityEffect path exercised by new test"}
+
+<<<FILE backend/game/ability_effects.go
+<<<SEARCH
+	case "sacrifice_self_unless_return_card_from_graveyard":
+		// "sacrifice this [source] unless you return a [filter] card from
+		// your graveyard to your hand" (Harvest Wurm class, ticket
+		// engine.auto-sacrifice-self-unless-return-card-from-graveyard-4b98beacaa).
+		// Sibling of sacrifice_self_unless_sacrifice_filtered above, but the
+		// escape valve is a graveyard-to-hand return instead of an
+		// alternate sacrifice. Deferred to
+		// ResolveSacrificeSelfUnlessReturnFromGraveyardChoice.
+		return gs.executeSacrificeSelfUnlessReturnFromGraveyard(controller, source, effectValue)
+===REPLACE
+	case "sacrifice_self_unless_return_card_from_graveyard":
+		// "sacrifice this [source] unless you return a [filter] card from
+		// your graveyard to your hand" (Harvest Wurm class, ticket
+		// engine.auto-sacrifice-self-unless-return-card-from-graveyard-4b98beacaa).
+		// Sibling of sacrifice_self_unless_sacrifice_filtered above, but the
+		// escape valve is a graveyard-to-hand return instead of an
+		// alternate sacrifice. Deferred to
+		// ResolveSacrificeSelfUnlessReturnFromGraveyardChoice.
+		return gs.executeSacrificeSelfUnlessReturnFromGraveyard(controller, source, effectValue)
+
+	case "sacrifice_self_unless_mill":
+		// "sacrifice this [source] unless you mill two cards" (Deep Spawn
+		// class, ticket engine.auto-sacrifice-self-unless-mill-4b119c08d6).
+		// Unlike the sacrifice/return-from-graveyard escape valves above,
+		// milling isn't a choice among candidates — it's an unconditional
+		// library-to-graveyard move, so it resolves immediately with no
+		// pending choice. The source only survives if the library actually
+		// yields two cards; a short library still costs the source.
+		if source == nil {
+			return nil
+		}
+		player := gs.Players[controller]
+		milled := 0
+		for milled < 2 && len(player.Library) > 0 {
+			top := len(player.Library) - 1
+			card := player.Library[top]
+			player.Library = player.Library[:top]
+			player.Graveyard = append(player.Graveyard, card)
+			milled++
+		}
+		if milled != 2 {
+			gs.sacrificeCard(source, controller)
+		}
+		return nil
+>>>END
+
+<<<NEWFILE backend/cards/registry_factory_ng_4b119c08d6.go
+package cards
+
+func init() {
+	regEffect("sacrifice_self_unless_mill", Primitive{
+		Executor:  "game/ability_effects.go ExecuteAbilityEffect case \"sacrifice_self_unless_mill\" -> moves up to 2 cards from the controller's Library to their Graveyard, then sacrifices the source via GameState.sacrificeCard unless exactly 2 cards were milled (library too small)",
+		ShapeTest: "TestFactoryNGSacrificeSelfUnlessMill_4b119c08d6",
+	})
+}
+>>>END
+
+<<<NEWFILE backend/cards/factory_ng_4b119c08d6_test.go
+package cards
+
+import (
+	"testing"
+
+	"magic-backend/game"
+)
+
+func sacrificeSelfUnlessMillDef() *CardDefinition {
+	return &CardDefinition{
+		Name: "Factory Deep Spawn",
+		Type: "Creature", Types: []string{"Creature"},
+		Power: intPtr(3), Toughness: intPtr(3),
+		Abilities: []AbilityDSL{{
+			Type: "triggered", Trigger: "etb",
+			Effect: "sacrifice_self_unless_mill",
+		}},
+		Status: StatusManual,
+	}
+}
+
+func TestFactoryNGSacrificeSelfUnlessMill_4b119c08d6(t *testing.T) {
+	t.Run("survives and mills exactly two when the library has enough cards", func(t *testing.T) {
+		source, err := sacrificeSelfUnlessMillDef().ToGameCard(0)
+		if err != nil {
+			t.Fatalf("ToGameCard: %v", err)
+		}
+		gs := game.NewGame("P0", "P1", false)
+		source.Owner, source.Controller = 0, 0
+		gs.Battlefield.AddCard(source)
+		gs.RegisterCardAbilities(source)
+
+		player := gs.Players[0]
+		for i := 0; i < 5; i++ {
+			player.Library = append(player.Library, game.NewCreature("Factory Filler", game.ManaCost{}, 1, 1, 0))
+		}
+		graveyardBefore := len(player.Graveyard)
+		libraryBefore := len(player.Library)
+
+		gs.ProcessTriggeredAbilities(game.CreateETBEvent(source, 0))
+		if err := gs.ResolveTopOfStack(); err != nil {
+			t.Fatalf("ResolveTopOfStack: %v", err)
+		}
+
+		if _, err := gs.Battlefield.GetCard(source.ID); err != nil {
+			t.Fatalf("source was sacrificed despite a large enough library: %v", err)
+		}
+		if got := libraryBefore - len(player.Library); got != 2 {
+			t.Fatalf("expected exactly 2 cards milled from library, got %d", got)
+		}
+		if got := len(player.Graveyard) - graveyardBefore; got != 2 {
+			t.Fatalf("expected exactly 2 cards added to graveyard, got %d", got)
+		}
+	})
+
+	t.Run("sacrifices when the library cannot provide two cards", func(t *testing.T) {
+		source, err := sacrificeSelfUnlessMillDef().ToGameCard(0)
+		if err != nil {
+			t.Fatalf("ToGameCard: %v", err)
+		}
+		gs := game.NewGame("P0", "P1", false)
+		source.Owner, source.Controller = 0, 0
+		gs.Battlefield.AddCard(source)
+		gs.RegisterCardAbilities(source)
+
+		gs.Players[0].Library = append(gs.Players[0].Library, game.NewCreature("Factory Filler", game.ManaCost{}, 1, 1, 0))
+
+		gs.ProcessTriggeredAbilities(game.CreateETBEvent(source, 0))
+		if err := gs.ResolveTopOfStack(); err != nil {
+			t.Fatalf("ResolveTopOfStack: %v", err)
+		}
+
+		if _, err := gs.Battlefield.GetCard(source.ID); err == nil {
+			t.Fatal("source survived despite an insufficient library")
+		}
+	})
+}
+>>>END
+
+EXPECT: sacrifice_self_unless_mill now mills exactly two cards from the controller's library to their graveyard and only sacrifices the source when the library can't supply two cards, registered via regEffect and covered by a new behavior test.

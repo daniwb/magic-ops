@@ -1,0 +1,29 @@
+{
+  "gates": [
+    {
+      "id": "scope",
+      "outcome": "passed",
+      "detail": "changed=backend/cards/converter.go,backend/game/card.go,backend/game/gamestate.go,backend/cards/shape_exile_complex_filter_test.go"
+    },
+    {
+      "id": "ticket-gate-0",
+      "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+      "outcome": "passed",
+      "elapsed_ms": 298,
+      "detail": ""
+    },
+    {
+      "id": "ticket-gate-1",
+      "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGExileComplexFilter$' -count=1",
+      "outcome": "failed",
+      "elapsed_ms": 918483,
+      "detail": "shape_exile_complex_filter_test.go:97: target that lost disturb was still exiled\n--- FAIL: TestFactoryNGExileComplexFilter/lost_ability_rechecked_at_resolution (0.00s)\n--- FAIL: TestFactoryNGExileComplexFilter (0.01s)\ntesting: warning: no tests to run\nPASS\nok  \tmagic-backend/game\t0.094s [no tests to run]\n=== RUN   TestFactoryNGExileComplexFilter\n=== RUN   TestFactoryNGExileComplexFilter/spirit_creature/legacy\n--- PASS: TestFactoryNGExileComplexFilter/spirit_creature/legacy (0.00s)\n=== RUN   TestFactoryNGExileComplexFilter/spirit_noncreature/legacy\n--- PASS: TestFactoryNGExileComplexFilter/spirit_noncreature/legacy (0.00s)\n=== RUN   TestFactoryNGExileComplexFilter/disturb_creature/legacy\n--- PASS: TestFactoryNGExileComplexFilter/disturb_creature/legacy (0.00s)\n=== RUN   TestFactoryNGExileComplexFilter/enchantment/legacy\n--- PASS: TestFactoryNGExileComplexFilter/enchantment/legacy (0.00s)\n=== RUN   TestFactoryNGExileComplexFilter/ordinary_creature/legacy\n--- PASS: TestFactoryNGExileComplexFilter/ordinary_creature/legacy (0.00s)\n=== RUN   TestFactoryNGExileComplexFilter/disturb_noncreature/legacy\n--- PASS: TestFactoryNGExileComplexFilter/disturb_noncreature/legacy (0.00s)\n=== RUN   TestFactoryNGExileComplexFilter/ordinary_artifact/legacy\n--- PASS: TestFactoryNGExileComplexFilter/ordinary_artifact/legacy (0.00s)\n=== RUN   TestFactoryNGExileComplexFilter/text_only/legacy\n--- PASS: TestFactoryNGExileComplexFilter/text_only/legacy (0.00s)\n=== RUN   TestFactoryNGExileComplexFilter/spirit_creature/native\n--- PASS: TestFactoryNGExileComplexFilter/spirit_creature/native (0.00s)\n=== RUN   TestFactoryNGExileComplexFilter/spirit_noncreature/native\n--- PASS: TestFactoryNGExileComplexFilter/spirit_noncreature/native (0.00s)\n=== RUN   TestFactoryNGExileComplexFilter/disturb_creature/native\n--- PASS: TestFactoryNGExileComplexFilter/disturb_creature/native (0.00s)\n=== RUN   TestFactoryNGExileComplexFilter/enchantment/native\n--- PASS: TestFactoryNGExileComplexFilter/enchantment/native (0.00s)\n=== RUN   TestFactoryNGExileComplexFilter/ordinary_creature/native\n--- PASS: TestFactoryNGExileComplexFilter/ordinary_creature/native (0.00s)\n=== RUN   TestFactoryNGExileComplexFilter/disturb_noncreature/native\n--- PASS: TestFactoryNGExileComplexFilter/disturb_noncreature/native (0.00s)\n=== RUN   TestFactoryNGExileComplexFilter/ordinary_artifact/native\n--- PASS: TestFactoryNGExileComplexFilter/ordinary_artifact/native (0.00s)\n=== RUN   TestFactoryNGExileComplexFilter/text_only/native\n--- PASS: TestFactoryNGExileComplexFilter/text_only/native (0.00s)\n=== RUN   TestFactoryNGExileComplexFilter/lost_ability_rechecked_at_resolution\n    shape_exile_complex_filter_test.go:97: target that lost disturb was still exiled\n--- FAIL: TestFactoryNGExileComplexFilter/lost_ability_rechecked_at_resolution (0.00s)\n=== RUN   TestFactoryNGExileComplexFilter/plain_creature\n--- PASS: TestFactoryNGExileComplexFilter/plain_creature (0.00s)\n=== RUN   TestFactoryNGExileComplexFilter/plain_enchantment\n--- PASS: TestFactoryNGExileComplexFilter/plain_enchantment (0.00s)\n--- FAIL: TestFactoryNGExileComplexFilter (0.01s)\nFAIL\nFAIL\tmagic-backend/cards\t0.074s"
+    }
+  ],
+  "changed": [
+    "backend/cards/converter.go",
+    "backend/game/card.go",
+    "backend/game/gamestate.go",
+    "backend/cards/shape_exile_complex_filter_test.go"
+  ]
+}

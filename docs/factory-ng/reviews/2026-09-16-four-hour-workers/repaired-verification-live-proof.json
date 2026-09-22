@@ -1,0 +1,63 @@
+[
+  {
+    "ticket": "ticket:engine.auto-bounce-with-mana-value-filter-4bf6a351c2/v4",
+    "state": "integrating",
+    "proposal": "docs/factory-ng/candidates/proposal-48ce2d9510e44b8cb4e96ad4e60b6ecd.json",
+    "parent_hash_valid": true,
+    "parent_model_calls": 2,
+    "corrected_model_calls": 3,
+    "parent_repair_used": false,
+    "corrected_repair_used": true,
+    "receipt": "docs/factory-ng/runs/2026-09-16T212554Z-focused-23acf62cd75b456f854c72d56c963b10-0.json",
+    "outcome": "accepted_for_dependent_observation",
+    "host": "dani@192.168.1.251",
+    "all_gates_passed": true,
+    "all_required_gates_recorded": true,
+    "artifact_kinds": [
+      "saved_proposal",
+      "gate_repair",
+      "prior_compile_failure",
+      null,
+      "remote_verification_input",
+      "remote_verification_input",
+      "remote_verification_input",
+      "remote_verification_input",
+      "remote_verification_input",
+      "remote_verification_input",
+      "remote_verification_input"
+    ],
+    "attempt_history_stages": [
+      "before_gate_repair"
+    ]
+  },
+  {
+    "ticket": "ticket:engine.auto-conditional-destroy-by-predicate-f0d32ade7a/v4",
+    "state": "integrating",
+    "proposal": "docs/factory-ng/candidates/proposal-d38c93a61fc046918f64d25d50122aec.json",
+    "parent_hash_valid": true,
+    "parent_model_calls": 2,
+    "corrected_model_calls": 3,
+    "parent_repair_used": false,
+    "corrected_repair_used": true,
+    "receipt": "docs/factory-ng/runs/2026-09-16T212625Z-focused-55bc92f5da104470a27a36835e70048a-0.json",
+    "outcome": "accepted_for_dependent_observation",
+    "host": "dani@192.168.1.251",
+    "all_gates_passed": true,
+    "all_required_gates_recorded": true,
+    "artifact_kinds": [
+      "saved_proposal",
+      "gate_repair",
+      "prior_compile_failure",
+      null,
+      "remote_verification_input",
+      "remote_verification_input",
+      "remote_verification_input",
+      "remote_verification_input",
+      "remote_verification_input",
+      "remote_verification_input"
+    ],
+    "attempt_history_stages": [
+      "before_gate_repair"
+    ]
+  }
+]

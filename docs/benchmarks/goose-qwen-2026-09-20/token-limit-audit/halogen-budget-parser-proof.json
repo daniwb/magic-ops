@@ -1,0 +1,37 @@
+[
+  {
+    "sent": {},
+    "resolved_max_tokens": 8192,
+    "answer_room": 1228
+  },
+  {
+    "sent": {
+      "options": {
+        "num_predict": 16000
+      }
+    },
+    "resolved_max_tokens": 8192,
+    "answer_room": 1228
+  },
+  {
+    "sent": {
+      "max_tokens": 16000
+    },
+    "resolved_max_tokens": 16000,
+    "answer_room": 2400
+  },
+  {
+    "sent": {
+      "max_completion_tokens": 16000
+    },
+    "resolved_max_tokens": 16000,
+    "answer_room": 2400
+  },
+  {
+    "sent": {
+      "max_output_tokens": 16000
+    },
+    "resolved_max_tokens": 16000,
+    "answer_room": 2400
+  }
+]

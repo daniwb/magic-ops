@@ -1,0 +1,113 @@
+From d73df10aacdc113d99c78f218ec573ed5993b9d6 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Fri, 18 Sep 2026 16:28:39 +0200
+Subject: [PATCH] factory-ng: focused batch proposal
+
+---
+ scripts/paragraph/reparse.py                  | 15 ++++++
+ .../paragraph/test_factory_ng_4b81a4c773.py   | 53 +++++++++++++++++++
+ scripts/test-cards-sharded.sh                 |  2 +-
+ 3 files changed, 69 insertions(+), 1 deletion(-)
+ create mode 100644 scripts/paragraph/test_factory_ng_4b81a4c773.py
+
+diff --git a/scripts/paragraph/reparse.py b/scripts/paragraph/reparse.py
+index c1edfe48c..0c617b4c7 100644
+--- a/scripts/paragraph/reparse.py
++++ b/scripts/paragraph/reparse.py
+@@ -24793,6 +24793,21 @@ def reparse_card(card):
+             s3 = T.apply_self_ref(s3, name)
+             s3 = SELF_REF_RE.sub('~', s3)
+             body = s3.lower()
++            if re.fullmatch(
++                    r'target permanent you control gains protection from the color '
++                    r'of your choice until end of turn\.\s+fateful hour [—-] if '
++                    r'you have 5 or less life, instead you and each permanent you '
++                    r'control gain protection from the color of your choice until '
++                    r'end of turn\.?',
++                    body):
++                abilities.append({
++                    'type': 'spell',
++                    'effects': [{
++                        'effect': 'conditional_chosen_color_protection_controller_and_permanents_eot',
++                        'target': {'filter': 'permanent', 'controller': 'you'},
++                    }],
++                })
++                continue
+             tap_each_target_counter = _map_tap_each_target_counter(body)
+             if tap_each_target_counter is not None:
+                 abilities.append({
+diff --git a/scripts/paragraph/test_factory_ng_4b81a4c773.py b/scripts/paragraph/test_factory_ng_4b81a4c773.py
+new file mode 100644
+index 000000000..dc93c54d4
+--- /dev/null
++++ b/scripts/paragraph/test_factory_ng_4b81a4c773.py
+@@ -0,0 +1,53 @@
++import unittest
++
++from reparse import load_card, reparse_card
++
++
++class TestFaithsShieldFatefulHour(unittest.TestCase):
++    def test_faiths_shield_maps_complete_fateful_hour_replacement(self):
++        card = load_card("Faith's Shield")
++        self.assertIsNotNone(card)
++
++        result = reparse_card(card)
++
++        self.assertTrue(result["eligible"], result)
++        self.assertEqual([], result["misses"])
++        self.assertEqual(
++            [{
++                "type": "spell",
++                "effects": [{
++                    "effect": (
++                        "conditional_chosen_color_protection_controller_and_"
++                        "permanents_eot"
++                    ),
++                    "target": {"filter": "permanent", "controller": "you"},
++                }],
++            }],
++            result["abilities"],
++        )
++
++    def test_adjacent_life_threshold_remains_unmapped(self):
++        result = reparse_card({
++            "name": "Adjacent Shield",
++            "types": ["Instant"],
++            "text": (
++                "Target permanent you control gains protection from the color "
++                "of your choice until end of turn.\n"
++                "Fateful hour — If you have 4 or less life, instead you and "
++                "each permanent you control gain protection from the color of "
++                "your choice until end of turn."
++            ),
++        })
++
++        self.assertFalse(result["eligible"], result)
++        self.assertTrue(result["misses"], result)
++        self.assertNotIn(
++            "conditional_chosen_color_protection_controller_and_permanents_eot",
++            [effect["effect"]
++             for ability in result["abilities"]
++             for effect in ability.get("effects", [])],
++        )
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/scripts/test-cards-sharded.sh b/scripts/test-cards-sharded.sh
+index 48b2990aa..c430621b9 100755
+--- a/scripts/test-cards-sharded.sh
++++ b/scripts/test-cards-sharded.sh
+@@ -6,7 +6,7 @@
+ set -uo pipefail
+ N="${1:-6}"
+ cd "$(dirname "$0")/../backend"
+-GO=/usr/local/go/bin/go
++GO="${GO_CACHE_GO_BINARY:-$(command -v go)}"
+ 
+ # one compile, N runs
+ BIN=$(mktemp /tmp/cards-test-XXXX)
+-- 
+2.55.0
+

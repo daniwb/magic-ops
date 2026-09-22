@@ -1,0 +1,143 @@
+{
+  "capability": {
+    "expected_unlock": 1,
+    "negative_examples": [
+      "exile target creature or planeswalker an opponent controls until ~ leaves the battlefield (Banisher Priest class) must keep using its own until_leaves_battlefield return path, unaffected by this flag"
+    ],
+    "required_behavior": "ExecuteAbilityEffect's 'exile' case must route to executeExileUntilMonarchChangeEffect when effectValue carries an until-monarch-change duration flag, and BecomeMonarch (game/monarch.go) must call CheckMonarchChangeExileReturns whenever the monarch designation changes, so a permanent exiled this way actually returns when an opponent becomes the monarch",
+    "source_misses": [
+      {
+        "card": "Palace Jailer",
+        "oracle_text_sha256": "ebef798daae41e516d20804a13f774ad65fd9776aaa9e2c47829be7b8cddaf44",
+        "paragraph": "When this creature enters, exile target creature an opponent controls until an opponent becomes the monarch.",
+        "required_behavior": "exile target creature an opponent controls until an opponent becomes the monarch, with automatic return the moment that condition is met"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "key": "wire_exile_until_monarch_change_dispatch",
+        "specification": {
+          "expected_unlock": 1,
+          "negative_examples": [
+            "exile target creature or planeswalker an opponent controls until ~ leaves the battlefield (Banisher Priest class) must keep using its own until_leaves_battlefield return path, unaffected by this flag"
+          ],
+          "required_behavior": "ExecuteAbilityEffect's 'exile' case must route to executeExileUntilMonarchChangeEffect when effectValue carries an until-monarch-change duration flag, and BecomeMonarch (game/monarch.go) must call CheckMonarchChangeExileReturns whenever the monarch designation changes, so a permanent exiled this way actually returns when an opponent becomes the monarch",
+          "source_misses": [
+            {
+              "card": "Palace Jailer",
+              "oracle_text_sha256": "ebef798daae41e516d20804a13f774ad65fd9776aaa9e2c47829be7b8cddaf44",
+              "paragraph": "When this creature enters, exile target creature an opponent controls until an opponent becomes the monarch.",
+              "required_behavior": "exile target creature an opponent controls until an opponent becomes the monarch, with automatic return the moment that condition is met"
+            }
+          ]
+        },
+        "summary": "Wire the existing executeExileUntilMonarchChangeEffect primitive into the actual effect dispatch and monarch-change flow"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-06T085943Z-map-plan-exile-palace-jailer-363de03e34-v2-claude-agentic.json"
+    },
+    {
+      "anchor": "1788-1853",
+      "fact": "Card-knowledge index match (engine): executeExileUntilMonarchChangeEffect is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d0ac33d83a17c5e21e00829259f817523252b61afd7aa34b5e989710ebaa7a0b"
+    },
+    {
+      "anchor": "1788-1853",
+      "fact": "Card-knowledge index match (engine): CheckMonarchChangeExileReturns is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d0ac33d83a17c5e21e00829259f817523252b61afd7aa34b5e989710ebaa7a0b"
+    },
+    {
+      "anchor": "1-64",
+      "fact": "Card-knowledge index match (engine): BecomeMonarch is the nearest indexed seam for this capability.",
+      "path": "backend/game/monarch.go",
+      "sha256": "sha256:7b360fa2d09316d15666966bdef4692d5dc34a80b6b76721add1840f7fb6e317"
+    },
+    {
+      "anchor": "227-292",
+      "fact": "Card-knowledge index match (engine): resolveTappedArtifactsAmount is the nearest indexed seam for this capability.",
+      "path": "backend/game/dynamic_amount.go",
+      "sha256": "sha256:88872f42903e113a901a273d60eba9740cc9a614eceaeb65c8e75ae3a3a48b88"
+    },
+    {
+      "fact": "Operator-reviewed correction, September 9: Authorize the explicitly required BecomeMonarch hook in backend/game/monarch.go.",
+      "path": "docs/factory-ng/reviews/2026-09-09-capacity/contract-audit.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "An Oracle-validated Map block has been compiled into one bounded Engine dependency.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGWireExileUntilMonarchChangeDispatch$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.auto-wire-exile-until-monarch-change-dispatch-033f7e061a/v2",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Record an immutable bounded verdict; automatic discovery continues with independent work.",
+  "parents": [
+    "ticket:map.plan-exile-palace-jailer-363de03e34/v2",
+    "ticket:engine.auto-wire-exile-until-monarch-change-dispatch-033f7e061a/v1"
+  ],
+  "production": {
+    "contract_correction_batch": "2026-09-09-capacity",
+    "key": "capability:wire_exile_until_monarch_change_dispatch:sha256:033f7e061a90b5587ebae2ff90078adaa41382ef03adeffd978aba5998b37cad:reviewed-contract-sep09",
+    "producer": "capability-dependencies"
+  },
+  "required_behavior": [
+    "ExecuteAbilityEffect's 'exile' case must route to executeExileUntilMonarchChangeEffect when effectValue carries an until-monarch-change duration flag, and BecomeMonarch (game/monarch.go) must call CheckMonarchChangeExileReturns whenever the monarch designation changes, so a permanent exiled this way actually returns when an opponent becomes the monarch",
+    "Preserve these adjacent behaviors: exile target creature or planeswalker an opponent controls until ~ leaves the battlefield (Banisher Priest class) must keep using its own until_leaves_battlefield return path, unaffected by this flag",
+    "Add a discriminating behavior test named TestFactoryNGWireExileUntilMonarchChangeDispatch; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_033f7e061a_test.go",
+      "backend/cards/factory_ng_033f7e061a_test.go",
+      "backend/cards/registry_factory_ng_033f7e061a.go",
+      "backend/game/monarch.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "clean": true,
+    "repository": "/opt/development/test/openmagic",
+    "revision": "c0fac85b88da04f3d54fe2a5acd553a36662a329"
+  },
+  "supersedes": "ticket:engine.auto-wire-exile-until-monarch-change-dispatch-033f7e061a/v1",
+  "title": "Corrected contract: Implement atomic capability: Wire the existing executeExileUntilMonarchChangeEffect primitive into the actual effect dispatch and monarch-change flow",
+  "work_type": "engine"
+}

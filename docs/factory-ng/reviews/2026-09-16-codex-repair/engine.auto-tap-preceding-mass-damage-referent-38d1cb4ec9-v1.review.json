@@ -1,0 +1,20 @@
+{
+  "ticket_id": "ticket:engine.auto-tap-preceding-mass-damage-referent-38d1cb4ec9/v1",
+  "codex_receipt": "docs/factory-ng/runs/2026-09-16T070204Z-engine-auto-tap-preceding-mass-damage-referent-38d1cb4ec9-v1-codex.json",
+  "codex_receipt_sha256": "sha256:043dc874f9329e52edb209d693e7786d70f53db872685373f2f0967ef9cda1cc",
+  "current_receipt": "docs/factory-ng/runs/2026-09-16T070204Z-engine-auto-tap-preceding-mass-damage-referent-38d1cb4ec9-v1-codex.json",
+  "current_receipt_sha256": "sha256:043dc874f9329e52edb209d693e7786d70f53db872685373f2f0967ef9cda1cc",
+  "initial_gates": [
+    {
+      "detail": "nd/cards/converter.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\nbackend/cards/converter.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\nbackend/game/gamestate.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\nbackend/game/effect_sequence.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\nbackend/game/effect_sequence.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\nbackend/game/ability_effects.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\nbackend/game/ability_effects.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\nbackend/game/ability_effects.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\nbackend/game/ability_effects.go: unexpected edit marker inside block content\n",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "correction": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged."
+}

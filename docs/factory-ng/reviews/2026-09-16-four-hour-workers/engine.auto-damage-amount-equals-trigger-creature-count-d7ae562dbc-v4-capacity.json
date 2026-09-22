@@ -1,0 +1,10 @@
+{
+  "ticket_id": "ticket:engine.auto-damage-amount-equals-trigger-creature-count-d7ae562dbc/v4",
+  "receipt": "docs/factory-ng/runs/2026-09-16T091318Z-engine-auto-damage-amount-equals-trigger-creature-count-d7ae562dbc-v4-codex.json",
+  "receipt_sha256": "sha256:111e9dd0ceb4ba8b8932ee22beb67cea1201eee7ccc4f3a4e301919b6ab660a0",
+  "raw_artifact": {
+    "path": "docs/factory-ng/runs/2026-09-16T091318Z-engine-auto-damage-amount-equals-trigger-creature-count-d7ae562dbc-v4-codex.raw.json",
+    "sha256": "sha256:0707a6739422b6c57236f0183a9f8623426343ad3b7594cb096d1982bea4dd8d"
+  },
+  "finding": "Explicit Luna capacity rejection before any patch; Terra configured and functioning since previous recovery. One attempt, original scope and all gates required."
+}

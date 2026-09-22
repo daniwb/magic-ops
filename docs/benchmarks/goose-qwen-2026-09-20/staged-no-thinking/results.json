@@ -1,0 +1,21 @@
+{
+  "no_thinking": {
+    "generation_seconds": 252.032,
+    "input_tokens": 7236,
+    "output_tokens": 3462,
+    "total_tokens": 10698,
+    "passed": false,
+    "failure": "Strict patch application failed: SEARCH text not found; NEWFILE targeted existing ability_effects.go",
+    "validation_seconds": 0.021
+  },
+  "thinking": {
+    "generation_seconds": 860.261,
+    "input_tokens": 7273,
+    "output_tokens": 15218,
+    "total_tokens": 22491,
+    "passed": true,
+    "validation_seconds": 69.898
+  },
+  "decision": "Enable qwen-goose-staged@1.0.0 with provider default thinking enabled. No-thinking failed.",
+  "timing_caveat": "Single trials on shared inference hardware; not a controlled throughput benchmark."
+}

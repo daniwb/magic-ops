@@ -1,0 +1,20 @@
+{
+  "ticket_id": "ticket:engine.auto-tap-or-untap-attached-choice-7e9017ab8c/v1",
+  "codex_receipt": "docs/factory-ng/runs/2026-09-16T061814Z-engine-auto-tap-or-untap-attached-choice-7e9017ab8c-v1-codex.json",
+  "codex_receipt_sha256": "sha256:33cf7750651094f34761beeb822f8b07a321e9395cb8095645ee54d29f94af5c",
+  "current_receipt": "docs/factory-ng/runs/2026-09-16T061814Z-engine-auto-tap-or-untap-attached-choice-7e9017ab8c-v1-codex.json",
+  "current_receipt_sha256": "sha256:33cf7750651094f34761beeb822f8b07a321e9395cb8095645ee54d29f94af5c",
+  "initial_gates": [
+    {
+      "detail": "backend/cards/converter.go: SEARCH text ambiguous (2 matches) \u2014 include more context lines\n",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "correction": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged."
+}

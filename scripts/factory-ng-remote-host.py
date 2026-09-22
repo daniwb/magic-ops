@@ -1,0 +1,95 @@
+#!/usr/bin/env python3
+"""Run one transported verification job in a bounded rootless container."""
+import fcntl
+import json
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+
+
+def run(job):
+    job = Path(job).resolve()
+    root = job.parent.parent
+    if job.parent.name != 'jobs' or not job.name.startswith('verify-'):
+        raise ValueError('invalid isolated job directory')
+    settings = json.loads((job / 'remote-job.json').read_text())
+    name = 'factory-ng-' + job.name
+    with (root / ('verification-%d.lock' % settings.get('slot', 0))).open('a') as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        mirror = root / 'source.git'
+        def git(*args):
+            subprocess.run(['git', *map(str, args)], check=True, capture_output=True, timeout=300)
+        source = job / 'source'
+        with (root / 'source.lock').open('a') as source_lock:
+            fcntl.flock(source_lock, fcntl.LOCK_EX)
+            if not mirror.exists():
+                git('init', '--bare', mirror)
+            bundle = job / 'source.bundle'
+            if bundle.exists():
+                git('-C', mirror, 'fetch', bundle, '+refs/heads/pinned:refs/heads/snapshot')
+            git('clone', '--quiet', '--no-hardlinks', mirror, source)
+            git('-C', source, 'checkout', '--quiet', '--detach', settings['revision'])
+        if (root / 'AtomicCards.json.gz').exists():
+            (source / 'corpus').mkdir(exist_ok=True)
+            shutil.copyfile(root / 'AtomicCards.json.gz', source / 'corpus/AtomicCards.json.gz')
+        (job / 'tmp').mkdir()
+        command = ['podman', 'run', '--rm', '--name', name, '--network=none',
+                   '--timeout=10800', '--label=factory-ng-role=verification',
+                   '--memory=16g', '--pids-limit=512',
+                   '-v', str(job / 'ops') + ':/opt/development/magic-ops:Z',
+                   '-v', str(source) + ':/opt/development/test/openmagic:ro,Z',
+                   '-v', str(job / 'tmp') + ':/tmp:Z',
+                   '-v', str(root / 'toolchain') + ':/usr/local/go:ro,z',
+                   '-v', str(root / 'gomod') + ':/cache/gomod:z',
+                   '-v', str(root / 'build-cache') + ':/cache/build:z',
+                   '-e', 'GOTOOLCHAIN=local', '-e', 'GOMODCACHE=/cache/gomod',
+                   '-e', 'GOPROXY=off', '-e', 'GO_CACHE_ROOT=/cache/build',
+                   '-e', 'GOMAXPROCS=' + str(settings['go_parallelism']),
+                   '-e', 'GOFLAGS=-p=' + str(settings['go_parallelism']),
+                   '-w', '/opt/development/magic-ops', settings['image'],
+                   'sh', '-c',
+                   'ln -s /usr/local/go/bin/go /usr/local/bin/go && ln -s /usr/local/go/bin/gofmt /usr/local/bin/gofmt && '
+                   'exec python3 scripts/factory_ng_quiet.py --exec '
+                   'python3 scripts/factory-ng-verify-batch.py --manifest manifest.json']
+        cache_lock = (root / 'cache-active.lock').open('a')
+        fcntl.flock(cache_lock, fcntl.LOCK_SH)
+        try:
+            with (job / 'ops/result.json').open('w') as output, (job / 'container.log').open('w') as log:
+                result = subprocess.run(command, stdout=output, stderr=log, timeout=10800)
+            if result.returncode:
+                raise RuntimeError('verification container exited %d: %s' % (
+                    result.returncode, (job / 'container.log').read_text()[-2400:]))
+            payload = json.loads((job / 'ops/result.json').read_text())
+            out = job / 'out'
+            out.mkdir()
+            shutil.copyfile(job / 'ops/result.json', out / 'result.json')
+            for result in payload.get('ticket_results', {}).values():
+                if result.get('receipt'):
+                    path = job / 'ops' / result['receipt']
+                    receipt = json.loads(path.read_text())
+                    for relative in (result['receipt'], receipt['execution']['candidate_patch']):
+                        target = out / relative
+                        target.parent.mkdir(parents=True, exist_ok=True)
+                        shutil.copyfile(job / 'ops' / relative, target)
+        finally:
+            subprocess.run(['podman', 'rm', '--force', '--ignore', name], capture_output=True, timeout=60)
+            # Cleanup is exclusive across all slots, never beneath a running Go job.
+            fcntl.flock(cache_lock, fcntl.LOCK_UN)
+            try:
+                fcntl.flock(cache_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                cache = root / 'build-cache'
+                size = int(subprocess.check_output(['du', '-sk', cache], text=True).split()[0]) * 1024
+                orphans = subprocess.check_output(['podman', 'ps', '-q', '--filter',
+                                                  'label=factory-ng-role=verification'], text=True).strip()
+                if not orphans and (size > 40 * 1024**3 or (shutil.disk_usage(root).free < 30 * 1024**3 and size > 1024**3)):
+                    shutil.rmtree(cache)
+                    cache.mkdir()
+            except BlockingIOError:
+                pass
+            finally:
+                cache_lock.close()
+
+
+if __name__ == '__main__':
+    run(sys.argv[1])

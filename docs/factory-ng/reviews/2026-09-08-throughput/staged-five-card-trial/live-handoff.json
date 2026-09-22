@@ -1,0 +1,28 @@
+{
+  "checked_at": "2026-09-08T19:53:34.985537+00:00",
+  "controller_pid": 3006669,
+  "trial_jobs": {
+    "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2": {
+      "state": "queued",
+      "worker": null,
+      "dispatch_profile": null,
+      "compatible_profiles": [
+        "claude-staged@1.0.0"
+      ],
+      "pid": null
+    },
+    "ticket:map.plan-put-counters-siegfried-famed-swordsman-77e58aca02/v2": {
+      "state": "working",
+      "worker": "claude-2",
+      "dispatch_profile": "claude-staged@1.0.0",
+      "compatible_profiles": [
+        "claude-staged@1.0.0"
+      ],
+      "pid": 3004120
+    }
+  },
+  "canonical_revision": "1593438ed4c508f8f81a33a4b3661fb0126ec4fa",
+  "canonical_clean": true,
+  "deployment": false,
+  "decision": "Trial running. No completed-card cost claim or global staged promotion yet."
+}

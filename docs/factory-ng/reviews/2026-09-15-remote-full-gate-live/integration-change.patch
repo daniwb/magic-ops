@@ -1,0 +1,87 @@
+--- /tmp/factory-ng-integrate-before-remote.py	2026-09-15 16:05:57.989464682 +0000
++++ scripts/factory-ng-integrate.py	2026-09-15 16:10:52.931305093 +0000
+@@ -96,6 +96,30 @@
+     return retry
+ 
+ 
++def full_gate_commands(tag):
++    return [
++        ("reparse-flip", [sys.executable, "scripts/paragraph/reparse.py", "--flip-batch", "300", "--tag", tag], 1800),
++        ("reparse-import", [sys.executable, "scripts/paragraph/reparse.py", "--import-corpus", "--tag", tag], 1800),
++        ("go-build", [GO, "build", "./..."], 1800),
++        ("game-tests", [GO, "test", "./game/", "-count=1"], 1800),
++        ("focused-go", [GO, "test", "./cards/", "-run", "TestVocabulary|TestV2|TestShape_|TestCardDBSubtypeScopes", "-count=1"], 1800),
++        ("full-sharded-suite", [GO, "exec", "bash", "scripts/test-cards-sharded.sh", "6"], 7200),
++    ]
++
++
++def run_full_gates(clone, gates, tag):
++    for identifier, command, timeout in full_gate_commands(tag):
++        cwd = clone / "backend" if identifier in ("go-build", "focused-go", "game-tests") else clone
++        if identifier.startswith("reparse-"):
++            result = call(command, cwd, timeout=timeout)
++            gates.append(gate(identifier, command, result))
++        else:
++            result = cached_gate(identifier, command, cwd, gates, timeout)
++        if result["exit_code"]:
++            return False
++    return True
++
++
+ def lock(name, wait=False):
+     Path("/tmp/orch").mkdir(parents=True, exist_ok=True)
+     handle = open("/tmp/orch/%s.lock" % name, "a+")
+@@ -246,6 +270,7 @@
+     base = "unavailable"
+     result_commit = "unavailable"
+     pushed = False
++    full_gate_execution = {"full_gate_host": "local"}
+     outcome = "infrastructure_failed"
+     reason = ""
+     try:
+@@ -314,30 +339,13 @@
+                     outcome = 'full_gate_failed'
+                     raise ValueError('combined wave invalidated a TicketSpec semantic gate')
+         tag = "factory-ng-" + time.strftime("%m%d-%H%M", time.gmtime())
+-        commands = [
+-            ("reparse-flip", [sys.executable, "scripts/paragraph/reparse.py", "--flip-batch", "300", "--tag", tag], 1800),
+-            ("reparse-import", [sys.executable, "scripts/paragraph/reparse.py", "--import-corpus", "--tag", tag], 1800),
+-            ("go-build", [GO, "build", "./..."], 1800),
+-            ("game-tests", [GO, "test", "./game/", "-count=1"], 1800),
+-            ("focused-go", [GO, "test", "./cards/", "-run", "TestVocabulary|TestV2|TestShape_|TestCardDBSubtypeScopes", "-count=1"], 1800),
+-        ]
+-        for identifier, command, timeout in commands:
+-            cwd = clone / "backend" if identifier in ("go-build", "focused-go", "game-tests") else clone
+-            if identifier in ("go-build", "focused-go", "game-tests"):
+-                result = cached_gate(identifier, command, cwd, gates, timeout)
+-            else:
+-                result = call(command, cwd, timeout=timeout)
+-                gates.append(gate(identifier, command, result))
+-            if result["exit_code"] != 0:
+-                outcome = "full_gate_failed"
+-                reason = "%s failed" % identifier
+-                break
+-        if outcome != "full_gate_failed":
+-            shard_command = [GO, "exec", "bash", "scripts/test-cards-sharded.sh", "6"]
+-            shard = cached_gate("full-sharded-suite", shard_command, clone, gates, 7200)
+-            if shard["exit_code"] != 0:
+-                outcome = "full_gate_failed"
+-                reason = "full sharded suite failed"
++        from factory_ng_full_gate_remote import run_with_fallback
++        passed, full_gate_execution = run_with_fallback(
++            clone, gates, tag, settings,
++            local_runner=run_full_gates, commands=full_gate_commands(tag))
++        if not passed:
++            outcome = "full_gate_failed"
++            reason = "full production gate failed"
+ 
+         if outcome != "full_gate_failed":
+             git(clone, "add", "-A", "backend/data/carddb")
+@@ -388,6 +396,7 @@
+             "source": {"base_commit": base, "result_commit": result_commit,
+                        "pushed": pushed, "deployed": False},
+             "gates": gates,
++            "execution": full_gate_execution,
+             "excluded_candidates": excluded,
+             "progress": {"verified_revision": result_commit if outcome != "full_gate_failed" else "unavailable",
+                          "verification": "reparse wave plus complete six-shard production suite"},

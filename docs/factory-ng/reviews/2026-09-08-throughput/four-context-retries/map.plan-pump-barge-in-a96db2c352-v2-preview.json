@@ -1,0 +1,105 @@
+{
+  "evidence": [
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "anchor": "7457-7596",
+      "sha256": "sha256:fceea0027749cb7b025f75c37bb301f2ff5db104266b79023b2157a64f731533",
+      "fact": "Current exact pump branch; inspect the complete-card probe before editing."
+    },
+    {
+      "fact": "Barge In is a current sole verb_unmapped:pump miss with pinned Oracle text.",
+      "path": "docs/factory-ng/measurements/build-plan-a96db2c352-v1.json"
+    },
+    {
+      "fact": "The existing pump_until_eot primitive is registered with executor cards/converter.go case \"pump_until_eot\" -> SpellEffect + game/gamestate.go resolution (UntilEOT ContinuousEffect); ability tier: game/ability_effects.go case \"pump_until_eot\" -> executePumpEffect, TARGETED ONLY (no-target atoms no-op \u2014 see case comment) and shape test TestShape_Spell_PumpUntilEOT / TestShape_Modal_TargetedModes.",
+      "path": "backend/cards/registry.go"
+    },
+    {
+      "path": "docs/factory-ng/runs/2026-09-03T030542Z-map-plan-pump-barge-in-a96db2c352-v1-claude.json",
+      "fact": "Context-only failure retained; fresh source answers are required. Current pinned-card audit: [{\"card\": \"Barge In\", \"eligible\": false, \"misses\": [[\"verb_unmapped:pump\", \"target attacking creature gets +2/+2 until end of turn\"]], \"oracle_text\": \"Target attacking creature gets +2/+2 until end of turn. Each attacking non-Human creature gains trample until end of turn.\", \"status\": \"review\"}]"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "qwen-prepared-direct@1.0.2",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "parser_probes": [
+      {
+        "card": "Barge In",
+        "function": "reparse_card"
+      }
+    ],
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "One bounded successor for a proven missing-source failure, with the original questions resolved against current source.",
+    "warning_reflection_threshold": 500000,
+    "context_requests": [
+      "scripts/paragraph/reparse.py \u2014 full contents (or at minimum every region matching `verb == 'pump'` / `'pump_until_eot'` / `'pump'` argument-key handling, plus the function's leading `def map_atom` context already shown and any helper functions it calls for target-filter phrases like \"target attacking creature\"). The excerpt provided (lines 1469-1808) only covers `grant_eot`, `bounce`, and part of `exile`; it does not show whether a `pump` verb branch already exists elsewhere in the file, what argument keys/values `pump` atoms carry (e.g. amount string, target phrase), or what filter token corresponds to \"attacking creature\" elsewhere in this file (e.g. is there already an `attacking_creature` filter constant used by another verb, given `grant_eot` uses filters like `legendary_creature`/`modified_creature`). I need this to write a minimally-scoped SEARCH/REPLACE edit that fits the file's existing pump-verb dispatch pattern (or add a new `if verb == 'pump':` block in the correct place) without guessing at argument key names or filter tokens, and to write an accurate positive/negative test in the new test file."
+    ]
+  },
+  "gates": [
+    "cd scripts/paragraph && python3 -m unittest test_factory_ng_a96db2c352",
+    "git diff --check",
+    "git status --porcelain adds or changes only scripts/paragraph/reparse.py and scripts/paragraph/test_factory_ng_a96db2c352.py",
+    "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-a96db2c352-v1.json reports zero remaining pinned members"
+  ],
+  "id": "ticket:map.plan-pump-barge-in-a96db2c352/v2",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Record a structured verdict. NEEDS_PRIMITIVE creates one Engine dependency; invalid or mixed premises are terminal and discovery advances to another candidate.",
+  "parents": [
+    "plan:verb_unmapped:pump",
+    "ticket:map.plan-pump-barge-in-a96db2c352/v1"
+  ],
+  "production": {
+    "key": "build-plan:verb_unmapped:pump:sha256:81ea82d7f7182c4db5e0830a040f21dffdde755185fc8f62b1bce64d9ac236a2",
+    "plan_rank": 4,
+    "predicted_class_unlock": 351,
+    "producer": "build-plan-integration-recovery",
+    "retry_generation": 0,
+    "integration_repair_generation": 1,
+    "retry_reason": "context_repair",
+    "context_repair_version": "python-handoff-v2"
+  },
+  "required_behavior": [
+    "Map the exact current verb_unmapped:pump miss on Barge In through the already-registered pump_until_eot primitive without losing any Oracle semantics.",
+    "The pinned card loses this miss and retains no new or silently swallowed miss.",
+    "Add a focused positive test plus an adjacent negative that must remain unmapped.",
+    "If the exact amount, recipient, filter, referent, or duration cannot execute through existing runtime behavior, return NEEDS_PRIMITIVE with one atomic CAPABILITY_JSON instead of a partial Map patch.",
+    "Do not edit Engine, converter, corpus data, or use a card-name special case.",
+    "The prior observation is historical evidence, not proof that its patch is still correct. Preserve every current valid mapping. Do not restore an obsolete negative assertion for a shape now implemented.",
+    "Keep every original gate command and allowed path. Add or repair the named positive and adjacent-negative tests on this revision; assert all Oracle clauses, counts, choices, controller restrictions and durations, not just eligibility or one removed miss.",
+    "A pinned card already marked auto must still be reparsed and tested. If the implementation is already correct, return only meaningful regression-test changes; do not duplicate parser branches.",
+    "If the miss moved to spell_seq_targeted or a required runtime behavior is absent, return a validated atomic NEEDS_PRIMITIVE demand. Do not hide the new miss, drop a clause, or force status auto."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "scripts/paragraph/reparse.py",
+      "scripts/paragraph/test_factory_ng_a96db2c352.py"
+    ],
+    "forbidden_paths": [
+      "backend/",
+      "backend/data/",
+      "scripts/paragraph/slotparse_oneshot.py"
+    ]
+  },
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "source": {
+    "repository": "/tmp/factory-four-context-bbklt5l6/source",
+    "revision": "54609c76ee6064d1b7081e26461618744c3e926a",
+    "clean": true
+  },
+  "title": "Repair failed integration: Map one proven verb_unmapped:pump class member: Barge In",
+  "work_type": "map",
+  "supersedes": "ticket:map.plan-pump-barge-in-a96db2c352/v1"
+}

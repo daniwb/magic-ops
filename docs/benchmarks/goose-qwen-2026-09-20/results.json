@@ -1,0 +1,28 @@
+[
+  {
+    "mode": "staged",
+    "runtime_seconds": 213.864,
+    "validation_seconds": 50.076,
+    "requests": 1,
+    "input_tokens": 7270,
+    "output_tokens": 8192,
+    "total_tokens": 15462,
+    "reported_cache_read_tokens": null,
+    "tool_calls": 0,
+    "result": "truncated response; required test missing",
+    "passed": false
+  },
+  {
+    "mode": "agentic",
+    "runtime_seconds": 1143.215,
+    "validation_seconds": 0.011,
+    "requests": 25,
+    "input_tokens": 981290,
+    "output_tokens": 42853,
+    "total_tokens": 1024143,
+    "reported_cache_read_tokens": 905426,
+    "tool_calls": 48,
+    "result": "turn limit reached; no file changes",
+    "passed": false
+  }
+]

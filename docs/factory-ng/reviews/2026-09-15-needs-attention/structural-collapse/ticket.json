@@ -1,0 +1,236 @@
+{
+  "capability": {
+    "negative_examples": [
+      "A standalone damage clause referring to an unestablished that player must remain unmapped.",
+      "A sacrifice clause with unsupported selectors or a caster-selected opponent permanent must remain unmapped."
+    ],
+    "required_behavior": "Resolve a spell sequence where a target player chooses one artifact and one land to sacrifice, then receives 2 damage, reusing the same single player target and preserving ordering and ownership.",
+    "source_misses": [
+      {
+        "card": "Structural Collapse",
+        "oracle_text_sha256": "4b2f6252a74586065295d51ad923cfe7e333f318dd14d6148d7c4068ed3fbbb3",
+        "paragraph": "Target player sacrifices an artifact and a land of their choice. Structural Collapse deals 2 damage to that player.",
+        "required_behavior": "Reuse one chosen player target across the artifact sacrifice, land sacrifice, and linked 2 damage effect."
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "expected_unlock": 0,
+        "key": "target_player_compound_sacrifice_damage",
+        "specification": {
+          "negative_examples": [
+            "A standalone damage clause referring to an unestablished that player must remain unmapped.",
+            "A sacrifice clause with unsupported selectors or a caster-selected opponent permanent must remain unmapped."
+          ],
+          "required_behavior": "Resolve a spell sequence where a target player chooses one artifact and one land to sacrifice, then receives 2 damage, reusing the same single player target and preserving ordering and ownership.",
+          "source_misses": [
+            {
+              "card": "Structural Collapse",
+              "oracle_text_sha256": "4b2f6252a74586065295d51ad923cfe7e333f318dd14d6148d7c4068ed3fbbb3",
+              "paragraph": "Target player sacrifices an artifact and a land of their choice. Structural Collapse deals 2 damage to that player.",
+              "required_behavior": "Reuse one chosen player target across the artifact sacrifice, land sacrifice, and linked 2 damage effect."
+            }
+          ]
+        },
+        "summary": "Reuse one chosen player target across compound sacrifices and linked damage"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-14T163136Z-map-plan-multi-structural-collapse-0b596d45ea-v1-codex.json"
+    },
+    {
+      "anchor": "2361-2377",
+      "fact": "Verified declaration game.GameState.matchesTapOtherType in source revision 5e8ce2866f3b71d291ca44ef4a50b9a22480d729; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"target\" AND \"player\" AND \"compound\" AND \"sacrifice\" AND \"damage\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T07:42:47Z",
+          "indexed_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+          "normalized_words": [
+            "target",
+            "player",
+            "compound",
+            "sacrifice",
+            "damage"
+          ],
+          "query": "target_player_compound_sacrifice_damage",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "target_player_compound_sacrifice_damage",
+            "request_id": "99377bd28c9c425cbc40d8ae03e50341",
+            "ticket": "ticket:engine.auto-target-player-compound-sacrifice-damage-99c146a20f/v1"
+          },
+          "request_id": "99377bd28c9c425cbc40d8ae03e50341",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "matchesTapOtherType checks if a card is a valid tap-other cost target.",
+              "doc": "matchesTapOtherType checks if a card is a valid tap-other cost target.\nThe card must be untapped (the cost is tapping it), under the player's\ncontrol, and match the type filter. Compound filters join with underscore\n(e.g. \"legendary_creature\" \u2192 Legendary + Creature; \"blue_creature\" \u2192 Blue\ncolor + Creature type \u2014 see matchSimpleTapType's color qualifiers).\n",
+              "end": 2377,
+              "kind": "engine",
+              "name": "matchesTapOtherType",
+              "package": "game",
+              "path": "backend/game/activated_abilities.go",
+              "qualified": "game.GameState.matchesTapOtherType",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) matchesTapOtherType(card *Card, tapType string) bool",
+              "start": 2361,
+              "symbol_id": "backend/game/activated_abilities.go::game.GameState.matchesTapOtherType",
+              "symbol_kind": "function",
+              "title": "matchesTapOtherType"
+            }
+          ],
+          "current_source_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"target\" AND \"player\" AND \"compound\" AND \"sacrifice\" AND \"damage\"",
+            "\"target\" AND \"player\" AND \"compound\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T07:42:47Z",
+          "indexed_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+          "normalized_words": [
+            "target",
+            "player",
+            "compound",
+            "sacrifice",
+            "damage"
+          ],
+          "query": "target_player_compound_sacrifice_damage",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "target_player_compound_sacrifice_damage",
+            "request_id": "52211b88f8254f8aa66b1063f3868d4b",
+            "ticket": "ticket:engine.auto-target-player-compound-sacrifice-damage-99c146a20f/v1"
+          },
+          "request_id": "52211b88f8254f8aa66b1063f3868d4b",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "explicit_leading_terms"
+        }
+      ],
+      "path": "backend/game/activated_abilities.go",
+      "sha256": "sha256:edf6d170ea88ccbc08b0b16fcbb97e43a47e12b5d16e242255def0ce1028fac1",
+      "symbol": {
+        "description": "matchesTapOtherType checks if a card is a valid tap-other cost target.",
+        "discovery_role": "label_fallback",
+        "doc": "matchesTapOtherType checks if a card is a valid tap-other cost target.\nThe card must be untapped (the cost is tapping it), under the player's\ncontrol, and match the type filter. Compound filters join with underscore\n(e.g. \"legendary_creature\" \u2192 Legendary + Creature; \"blue_creature\" \u2192 Blue\ncolor + Creature type \u2014 see matchSimpleTapType's color qualifiers).\n",
+        "end": 2377,
+        "kind": "engine",
+        "name": "matchesTapOtherType",
+        "package": "game",
+        "path": "backend/game/activated_abilities.go",
+        "qualified": "game.GameState.matchesTapOtherType",
+        "receiver": "GameState",
+        "request_id": "52211b88f8254f8aa66b1063f3868d4b",
+        "signature": "func (gs *GameState) matchesTapOtherType(card *Card, tapType string) bool",
+        "start": 2361,
+        "symbol_id": "backend/game/activated_abilities.go::game.GameState.matchesTapOtherType",
+        "symbol_kind": "function",
+        "title": "matchesTapOtherType"
+      }
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "An Oracle-validated Map block has been compiled into one bounded Engine dependency.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGTargetPlayerCompoundSacrificeDamage_99c146a20f$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.operator-structural-collapse-recovery-sep15/v1",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Record an immutable bounded verdict; automatic discovery continues with independent work.",
+  "parents": [
+    "ticket:engine.auto-target-player-compound-sacrifice-damage-99c146a20f/v1"
+  ],
+  "production": {
+    "key": "capability:target_player_compound_sacrifice_damage:sha256:99c146a20f45f64e1a2d01722060c8adf346994ea7ea3c75b099bd435f7517d1",
+    "producer": "capability-dependencies"
+  },
+  "required_behavior": [
+    "Resolve a spell sequence where a target player chooses one artifact and one land to sacrifice, then receives 2 damage, reusing the same single player target and preserving ordering and ownership.",
+    "Preserve these adjacent behaviors: A standalone damage clause referring to an unestablished that player must remain unmapped.; A sacrifice clause with unsupported selectors or a caster-selected opponent permanent must remain unmapped.",
+    "Add a discriminating behavior test named TestFactoryNGTargetPlayerCompoundSacrificeDamage_99c146a20f; a compile-only assertion is insufficient.",
+    "Register every new public effect using regEffect in the allowed registry_*.go file, with executor and runtime test metadata; never edit the frozen registry literal.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_99c146a20f_test.go",
+      "backend/cards/factory_ng_99c146a20f_test.go",
+      "backend/cards/registry_factory_ng_99c146a20f.go",
+      "backend/game/gamestate_choice.go",
+      "backend/game/effect_sequence.go",
+      "backend/game/edict_sequence.go",
+      "backend/cards/converter_sacrifice_damage.go",
+      "backend/cards/shape_sacrifice_damage_test.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "8777a731a2512ca56a76e977ac3137b7668a23d7",
+    "clean": true
+  },
+  "title": "Pause compound sacrifice sequences until each player choice completes",
+  "work_type": "engine",
+  "operator_recovery": {
+    "authorization": "User requested fixing all needs-attention tickets.",
+    "original_ticket": "docs/factory-ng/tickets/engine-auto-target-player-compound-sacrifice-damage-99c146a20f-v1.json",
+    "original_ticket_sha256": "sha256:f5d09997b813572d6aaff71b64030d138c8d9a05f12747a09cdbce2016386dd8",
+    "additional_provider_runs": 0,
+    "counter_resets": false,
+    "scope_addition_reason": "Existing edict and damage primitives reused. Choice continuation is required to prevent later instructions overwriting pending sacrifices or dealing damage early. Bounded converter recognizes one player across the exact three-instruction shape. Public action tests preserve original exact gate and full tests."
+  }
+}

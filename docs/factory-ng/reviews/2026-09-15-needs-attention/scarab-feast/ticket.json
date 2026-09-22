@@ -1,0 +1,1070 @@
+{
+  "evidence": [
+    {
+      "anchor": "2208-2347",
+      "fact": "Current exact exile branch; inspect the complete-card probe before editing.",
+      "path": "scripts/paragraph/reparse.py",
+      "sha256": "sha256:1e485e542c1172d1e29e4a84f953985d676d66413191c6b07008b4a2c87b3b42"
+    },
+    {
+      "anchor": "4593-4732",
+      "fact": "Current exact exile branch; inspect the complete-card probe before editing.",
+      "path": "scripts/paragraph/reparse.py",
+      "sha256": "sha256:1e485e542c1172d1e29e4a84f953985d676d66413191c6b07008b4a2c87b3b42"
+    },
+    {
+      "fact": "The blocked member was revalidated after its Engine dependency integrated.",
+      "path": "docs/factory-ng/measurements/dependency-resume-bfdb12d129.json"
+    },
+    {
+      "fact": "The existing exile primitive is registered with executor game/ability_effects.go case \"exile\" -> executeExileEffect (battlefield targets; effect-cleanup + unregister) and shape test TestShape_Activated_ExileTarget.",
+      "path": "backend/cards/registry.go"
+    },
+    {
+      "anchor": "2265-2277",
+      "fact": "Verified declaration game.GameState.exileFromGraveyard in source revision a99afd41669ee88235623bda59fa9396ce04c76d; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"exile\" AND \"from\" AND \"graveyard\" AND \"up\" AND \"n\" AND \"card\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T03:45:16Z",
+          "indexed_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "normalized_words": [
+            "exile",
+            "from",
+            "graveyard",
+            "up",
+            "n",
+            "card"
+          ],
+          "query": "exile_from_graveyard_up_to_n_cards",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "exile_from_graveyard_up_to_n_cards",
+            "request_id": "ee2145172a084c169675dae2a14d0c61",
+            "ticket": "ticket:map.plan-exile-scarab-feast-d952117a2a/v2"
+          },
+          "request_id": "ee2145172a084c169675dae2a14d0c61",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "exileFromGraveyard moves a card from its owner's graveyard to the exile zone.",
+              "doc": "exileFromGraveyard moves a card from its owner's graveyard to the exile zone.\nUsed by costs like \"Exile this card from your graveyard\" (Onakke Oathkeeper,\nFaerie Dreamthief, Rot-Curse Rakshasa \u2014 \"exile this from your GY: effect\").\n",
+              "end": 2277,
+              "kind": "engine",
+              "name": "exileFromGraveyard",
+              "package": "game",
+              "path": "backend/game/activated_abilities.go",
+              "qualified": "game.GameState.exileFromGraveyard",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) exileFromGraveyard(card *Card, playerIdx int)",
+              "start": 2265,
+              "symbol_id": "backend/game/activated_abilities.go::game.GameState.exileFromGraveyard",
+              "symbol_kind": "function",
+              "title": "exileFromGraveyard"
+            },
+            {
+              "description": "executeExileFromGraveyardTargetEffect implements the",
+              "doc": "executeExileFromGraveyardTargetEffect implements the\nexile_target_from_graveyard primitive (ticket\nengine.auto-exile-from-graveyard-3fefe932a6, Scour the Desert class):\n\"Exile target creature card from your graveyard.\" Unlike\nexecuteExileFromGraveyardEffect's amount-based auto-select (no target,\nfront-of-graveyard order) and executeExileEffect's battlefield-target\nremoval, this moves a single player-CHOSEN graveyard card to exile.\neffectValue[\"whose\"] selects which player's graveyard holds the legal\ntarget \u2014 \"you\" (default, the ability's controller) or \"opponent\" (first\nother player), mirroring executeExileFromGraveyardEffect's own \"whose\"\nconvention. An optional effectValue[\"filter\"] (matchesPermanentFilter's\nvocabulary, e.g. \"creature\") narrows what may be exiled. Mirrors\nexecuteReturnCardFromGraveyardSubsetToHand's GetCard/filter/RemoveCard\nidiom, just moving to Exile instead of Hand. No target, no matching\nplayer, an absent card, or a filter mismatch is a no-op \u2014 never an error\n(Rule 601.2c-style illegal/absent target tolerance).\n",
+              "end": 1613,
+              "kind": "engine",
+              "name": "executeExileFromGraveyardTargetEffect",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeExileFromGraveyardTargetEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeExileFromGraveyardTargetEffect(controller int, effectValue map[string]interface{}, targets []Target) error",
+              "start": 1579,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeExileFromGraveyardTargetEffect",
+              "symbol_kind": "function",
+              "title": "executeExileFromGraveyardTargetEffect"
+            },
+            {
+              "description": "sweepCommandersFromGraveyardAndExile moves any commander sitting in a",
+              "doc": "sweepCommandersFromGraveyardAndExile moves any commander sitting in a\ngraveyard or exile to its owner's command zone (Rule 903.9). Covers death,\ndestroy-to-exile, and mill; hand and library are intentionally left alone.\n",
+              "end": 197,
+              "kind": "engine",
+              "name": "sweepCommandersFromGraveyardAndExile",
+              "package": "game",
+              "path": "backend/game/commander.go",
+              "qualified": "game.GameState.sweepCommandersFromGraveyardAndExile",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) sweepCommandersFromGraveyardAndExile()",
+              "start": 179,
+              "symbol_id": "backend/game/commander.go::game.GameState.sweepCommandersFromGraveyardAndExile",
+              "symbol_kind": "function",
+              "title": "sweepCommandersFromGraveyardAndExile"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:exile_target_from_graveyard",
+              "doc": "",
+              "end": 5481,
+              "kind": "engine",
+              "name": "exile_target_from_graveyard",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:exile_target_from_graveyard",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:exile_target_from_graveyard",
+              "start": 5475,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:exile_target_from_graveyard",
+              "symbol_kind": "case",
+              "title": "exile_target_from_graveyard"
+            }
+          ],
+          "current_source_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"exile\" AND \"from\" AND \"graveyard\" AND \"up\" AND \"n\" AND \"card\"",
+            "\"exile\" AND \"from\" AND \"graveyard\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T03:45:16Z",
+          "indexed_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "normalized_words": [
+            "exile",
+            "from",
+            "graveyard",
+            "up",
+            "n",
+            "card"
+          ],
+          "query": "exile_from_graveyard_up_to_n_cards",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "exile_from_graveyard_up_to_n_cards",
+            "request_id": "12ea720e8f194b2695993ea371b967f4",
+            "ticket": "ticket:map.plan-exile-scarab-feast-d952117a2a/v2"
+          },
+          "request_id": "12ea720e8f194b2695993ea371b967f4",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "applySpellEffectCore#case:exile",
+              "doc": "",
+              "end": 4074,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.applySpellEffectCore#case:exile",
+              "receiver": "GameState",
+              "signature": "applySpellEffectCore#case:exile",
+              "start": 4071,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.applySpellEffectCore#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            },
+            {
+              "description": "routeCardTo#case:exile",
+              "doc": "",
+              "end": 566,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/gamestate_tutor.go",
+              "qualified": "game.GameState.routeCardTo#case:exile",
+              "receiver": "GameState",
+              "signature": "routeCardTo#case:exile",
+              "start": 565,
+              "symbol_id": "backend/game/gamestate_tutor.go::game.GameState.routeCardTo#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            },
+            {
+              "description": "evaluateConditionRaw#case:exile",
+              "doc": "",
+              "end": 631,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/condition.go",
+              "qualified": "game.GameState.evaluateConditionRaw#case:exile",
+              "receiver": "GameState",
+              "signature": "evaluateConditionRaw#case:exile",
+              "start": 630,
+              "symbol_id": "backend/game/condition.go::game.GameState.evaluateConditionRaw#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            }
+          ],
+          "current_source_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T03:45:16Z",
+          "indexed_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "normalized_words": [
+            "exile"
+          ],
+          "query": "exile",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "exile",
+            "request_id": "2be564b76b4b4a8187b2dfa6f1dc377c",
+            "ticket": "ticket:map.plan-exile-scarab-feast-d952117a2a/v2"
+          },
+          "request_id": "2be564b76b4b4a8187b2dfa6f1dc377c",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/activated_abilities.go",
+      "sha256": "sha256:edf6d170ea88ccbc08b0b16fcbb97e43a47e12b5d16e242255def0ce1028fac1",
+      "symbol": {
+        "description": "exileFromGraveyard moves a card from its owner's graveyard to the exile zone.",
+        "discovery_role": "label_fallback",
+        "doc": "exileFromGraveyard moves a card from its owner's graveyard to the exile zone.\nUsed by costs like \"Exile this card from your graveyard\" (Onakke Oathkeeper,\nFaerie Dreamthief, Rot-Curse Rakshasa \u2014 \"exile this from your GY: effect\").\n",
+        "end": 2277,
+        "kind": "engine",
+        "name": "exileFromGraveyard",
+        "package": "game",
+        "path": "backend/game/activated_abilities.go",
+        "qualified": "game.GameState.exileFromGraveyard",
+        "receiver": "GameState",
+        "request_id": "12ea720e8f194b2695993ea371b967f4",
+        "signature": "func (gs *GameState) exileFromGraveyard(card *Card, playerIdx int)",
+        "start": 2265,
+        "symbol_id": "backend/game/activated_abilities.go::game.GameState.exileFromGraveyard",
+        "symbol_kind": "function",
+        "title": "exileFromGraveyard"
+      }
+    },
+    {
+      "anchor": "4071-4074",
+      "fact": "Verified declaration game.GameState.applySpellEffectCore#case:exile in source revision a99afd41669ee88235623bda59fa9396ce04c76d; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"exile\" AND \"from\" AND \"graveyard\" AND \"up\" AND \"n\" AND \"card\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T03:45:16Z",
+          "indexed_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "normalized_words": [
+            "exile",
+            "from",
+            "graveyard",
+            "up",
+            "n",
+            "card"
+          ],
+          "query": "exile_from_graveyard_up_to_n_cards",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "exile_from_graveyard_up_to_n_cards",
+            "request_id": "ee2145172a084c169675dae2a14d0c61",
+            "ticket": "ticket:map.plan-exile-scarab-feast-d952117a2a/v2"
+          },
+          "request_id": "ee2145172a084c169675dae2a14d0c61",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "exileFromGraveyard moves a card from its owner's graveyard to the exile zone.",
+              "doc": "exileFromGraveyard moves a card from its owner's graveyard to the exile zone.\nUsed by costs like \"Exile this card from your graveyard\" (Onakke Oathkeeper,\nFaerie Dreamthief, Rot-Curse Rakshasa \u2014 \"exile this from your GY: effect\").\n",
+              "end": 2277,
+              "kind": "engine",
+              "name": "exileFromGraveyard",
+              "package": "game",
+              "path": "backend/game/activated_abilities.go",
+              "qualified": "game.GameState.exileFromGraveyard",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) exileFromGraveyard(card *Card, playerIdx int)",
+              "start": 2265,
+              "symbol_id": "backend/game/activated_abilities.go::game.GameState.exileFromGraveyard",
+              "symbol_kind": "function",
+              "title": "exileFromGraveyard"
+            },
+            {
+              "description": "executeExileFromGraveyardTargetEffect implements the",
+              "doc": "executeExileFromGraveyardTargetEffect implements the\nexile_target_from_graveyard primitive (ticket\nengine.auto-exile-from-graveyard-3fefe932a6, Scour the Desert class):\n\"Exile target creature card from your graveyard.\" Unlike\nexecuteExileFromGraveyardEffect's amount-based auto-select (no target,\nfront-of-graveyard order) and executeExileEffect's battlefield-target\nremoval, this moves a single player-CHOSEN graveyard card to exile.\neffectValue[\"whose\"] selects which player's graveyard holds the legal\ntarget \u2014 \"you\" (default, the ability's controller) or \"opponent\" (first\nother player), mirroring executeExileFromGraveyardEffect's own \"whose\"\nconvention. An optional effectValue[\"filter\"] (matchesPermanentFilter's\nvocabulary, e.g. \"creature\") narrows what may be exiled. Mirrors\nexecuteReturnCardFromGraveyardSubsetToHand's GetCard/filter/RemoveCard\nidiom, just moving to Exile instead of Hand. No target, no matching\nplayer, an absent card, or a filter mismatch is a no-op \u2014 never an error\n(Rule 601.2c-style illegal/absent target tolerance).\n",
+              "end": 1613,
+              "kind": "engine",
+              "name": "executeExileFromGraveyardTargetEffect",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeExileFromGraveyardTargetEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeExileFromGraveyardTargetEffect(controller int, effectValue map[string]interface{}, targets []Target) error",
+              "start": 1579,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeExileFromGraveyardTargetEffect",
+              "symbol_kind": "function",
+              "title": "executeExileFromGraveyardTargetEffect"
+            },
+            {
+              "description": "sweepCommandersFromGraveyardAndExile moves any commander sitting in a",
+              "doc": "sweepCommandersFromGraveyardAndExile moves any commander sitting in a\ngraveyard or exile to its owner's command zone (Rule 903.9). Covers death,\ndestroy-to-exile, and mill; hand and library are intentionally left alone.\n",
+              "end": 197,
+              "kind": "engine",
+              "name": "sweepCommandersFromGraveyardAndExile",
+              "package": "game",
+              "path": "backend/game/commander.go",
+              "qualified": "game.GameState.sweepCommandersFromGraveyardAndExile",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) sweepCommandersFromGraveyardAndExile()",
+              "start": 179,
+              "symbol_id": "backend/game/commander.go::game.GameState.sweepCommandersFromGraveyardAndExile",
+              "symbol_kind": "function",
+              "title": "sweepCommandersFromGraveyardAndExile"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:exile_target_from_graveyard",
+              "doc": "",
+              "end": 5481,
+              "kind": "engine",
+              "name": "exile_target_from_graveyard",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:exile_target_from_graveyard",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:exile_target_from_graveyard",
+              "start": 5475,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:exile_target_from_graveyard",
+              "symbol_kind": "case",
+              "title": "exile_target_from_graveyard"
+            }
+          ],
+          "current_source_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"exile\" AND \"from\" AND \"graveyard\" AND \"up\" AND \"n\" AND \"card\"",
+            "\"exile\" AND \"from\" AND \"graveyard\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T03:45:16Z",
+          "indexed_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "normalized_words": [
+            "exile",
+            "from",
+            "graveyard",
+            "up",
+            "n",
+            "card"
+          ],
+          "query": "exile_from_graveyard_up_to_n_cards",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "exile_from_graveyard_up_to_n_cards",
+            "request_id": "12ea720e8f194b2695993ea371b967f4",
+            "ticket": "ticket:map.plan-exile-scarab-feast-d952117a2a/v2"
+          },
+          "request_id": "12ea720e8f194b2695993ea371b967f4",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "applySpellEffectCore#case:exile",
+              "doc": "",
+              "end": 4074,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.applySpellEffectCore#case:exile",
+              "receiver": "GameState",
+              "signature": "applySpellEffectCore#case:exile",
+              "start": 4071,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.applySpellEffectCore#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            },
+            {
+              "description": "routeCardTo#case:exile",
+              "doc": "",
+              "end": 566,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/gamestate_tutor.go",
+              "qualified": "game.GameState.routeCardTo#case:exile",
+              "receiver": "GameState",
+              "signature": "routeCardTo#case:exile",
+              "start": 565,
+              "symbol_id": "backend/game/gamestate_tutor.go::game.GameState.routeCardTo#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            },
+            {
+              "description": "evaluateConditionRaw#case:exile",
+              "doc": "",
+              "end": 631,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/condition.go",
+              "qualified": "game.GameState.evaluateConditionRaw#case:exile",
+              "receiver": "GameState",
+              "signature": "evaluateConditionRaw#case:exile",
+              "start": 630,
+              "symbol_id": "backend/game/condition.go::game.GameState.evaluateConditionRaw#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            }
+          ],
+          "current_source_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T03:45:16Z",
+          "indexed_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "normalized_words": [
+            "exile"
+          ],
+          "query": "exile",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "exile",
+            "request_id": "2be564b76b4b4a8187b2dfa6f1dc377c",
+            "ticket": "ticket:map.plan-exile-scarab-feast-d952117a2a/v2"
+          },
+          "request_id": "2be564b76b4b4a8187b2dfa6f1dc377c",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/gamestate.go",
+      "sha256": "sha256:548618e98c62dab00f9d5d050393e40f8e9234bc87ee78237f102b6bb022062a",
+      "symbol": {
+        "description": "applySpellEffectCore#case:exile",
+        "discovery_role": "operation_only",
+        "doc": "",
+        "end": 4074,
+        "kind": "engine",
+        "name": "exile",
+        "package": "game",
+        "path": "backend/game/gamestate.go",
+        "qualified": "game.GameState.applySpellEffectCore#case:exile",
+        "receiver": "GameState",
+        "request_id": "2be564b76b4b4a8187b2dfa6f1dc377c",
+        "signature": "applySpellEffectCore#case:exile",
+        "start": 4071,
+        "symbol_id": "backend/game/gamestate.go::game.GameState.applySpellEffectCore#case:exile",
+        "symbol_kind": "case",
+        "title": "exile"
+      }
+    },
+    {
+      "anchor": "1579-1613",
+      "fact": "Verified declaration game.GameState.executeExileFromGraveyardTargetEffect in source revision a99afd41669ee88235623bda59fa9396ce04c76d; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"exile\" AND \"from\" AND \"graveyard\" AND \"up\" AND \"n\" AND \"card\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T03:45:16Z",
+          "indexed_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "normalized_words": [
+            "exile",
+            "from",
+            "graveyard",
+            "up",
+            "n",
+            "card"
+          ],
+          "query": "exile_from_graveyard_up_to_n_cards",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "exile_from_graveyard_up_to_n_cards",
+            "request_id": "ee2145172a084c169675dae2a14d0c61",
+            "ticket": "ticket:map.plan-exile-scarab-feast-d952117a2a/v2"
+          },
+          "request_id": "ee2145172a084c169675dae2a14d0c61",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "exileFromGraveyard moves a card from its owner's graveyard to the exile zone.",
+              "doc": "exileFromGraveyard moves a card from its owner's graveyard to the exile zone.\nUsed by costs like \"Exile this card from your graveyard\" (Onakke Oathkeeper,\nFaerie Dreamthief, Rot-Curse Rakshasa \u2014 \"exile this from your GY: effect\").\n",
+              "end": 2277,
+              "kind": "engine",
+              "name": "exileFromGraveyard",
+              "package": "game",
+              "path": "backend/game/activated_abilities.go",
+              "qualified": "game.GameState.exileFromGraveyard",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) exileFromGraveyard(card *Card, playerIdx int)",
+              "start": 2265,
+              "symbol_id": "backend/game/activated_abilities.go::game.GameState.exileFromGraveyard",
+              "symbol_kind": "function",
+              "title": "exileFromGraveyard"
+            },
+            {
+              "description": "executeExileFromGraveyardTargetEffect implements the",
+              "doc": "executeExileFromGraveyardTargetEffect implements the\nexile_target_from_graveyard primitive (ticket\nengine.auto-exile-from-graveyard-3fefe932a6, Scour the Desert class):\n\"Exile target creature card from your graveyard.\" Unlike\nexecuteExileFromGraveyardEffect's amount-based auto-select (no target,\nfront-of-graveyard order) and executeExileEffect's battlefield-target\nremoval, this moves a single player-CHOSEN graveyard card to exile.\neffectValue[\"whose\"] selects which player's graveyard holds the legal\ntarget \u2014 \"you\" (default, the ability's controller) or \"opponent\" (first\nother player), mirroring executeExileFromGraveyardEffect's own \"whose\"\nconvention. An optional effectValue[\"filter\"] (matchesPermanentFilter's\nvocabulary, e.g. \"creature\") narrows what may be exiled. Mirrors\nexecuteReturnCardFromGraveyardSubsetToHand's GetCard/filter/RemoveCard\nidiom, just moving to Exile instead of Hand. No target, no matching\nplayer, an absent card, or a filter mismatch is a no-op \u2014 never an error\n(Rule 601.2c-style illegal/absent target tolerance).\n",
+              "end": 1613,
+              "kind": "engine",
+              "name": "executeExileFromGraveyardTargetEffect",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeExileFromGraveyardTargetEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeExileFromGraveyardTargetEffect(controller int, effectValue map[string]interface{}, targets []Target) error",
+              "start": 1579,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeExileFromGraveyardTargetEffect",
+              "symbol_kind": "function",
+              "title": "executeExileFromGraveyardTargetEffect"
+            },
+            {
+              "description": "sweepCommandersFromGraveyardAndExile moves any commander sitting in a",
+              "doc": "sweepCommandersFromGraveyardAndExile moves any commander sitting in a\ngraveyard or exile to its owner's command zone (Rule 903.9). Covers death,\ndestroy-to-exile, and mill; hand and library are intentionally left alone.\n",
+              "end": 197,
+              "kind": "engine",
+              "name": "sweepCommandersFromGraveyardAndExile",
+              "package": "game",
+              "path": "backend/game/commander.go",
+              "qualified": "game.GameState.sweepCommandersFromGraveyardAndExile",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) sweepCommandersFromGraveyardAndExile()",
+              "start": 179,
+              "symbol_id": "backend/game/commander.go::game.GameState.sweepCommandersFromGraveyardAndExile",
+              "symbol_kind": "function",
+              "title": "sweepCommandersFromGraveyardAndExile"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:exile_target_from_graveyard",
+              "doc": "",
+              "end": 5481,
+              "kind": "engine",
+              "name": "exile_target_from_graveyard",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:exile_target_from_graveyard",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:exile_target_from_graveyard",
+              "start": 5475,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:exile_target_from_graveyard",
+              "symbol_kind": "case",
+              "title": "exile_target_from_graveyard"
+            }
+          ],
+          "current_source_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"exile\" AND \"from\" AND \"graveyard\" AND \"up\" AND \"n\" AND \"card\"",
+            "\"exile\" AND \"from\" AND \"graveyard\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T03:45:16Z",
+          "indexed_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "normalized_words": [
+            "exile",
+            "from",
+            "graveyard",
+            "up",
+            "n",
+            "card"
+          ],
+          "query": "exile_from_graveyard_up_to_n_cards",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "exile_from_graveyard_up_to_n_cards",
+            "request_id": "12ea720e8f194b2695993ea371b967f4",
+            "ticket": "ticket:map.plan-exile-scarab-feast-d952117a2a/v2"
+          },
+          "request_id": "12ea720e8f194b2695993ea371b967f4",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "applySpellEffectCore#case:exile",
+              "doc": "",
+              "end": 4074,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.applySpellEffectCore#case:exile",
+              "receiver": "GameState",
+              "signature": "applySpellEffectCore#case:exile",
+              "start": 4071,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.applySpellEffectCore#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            },
+            {
+              "description": "routeCardTo#case:exile",
+              "doc": "",
+              "end": 566,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/gamestate_tutor.go",
+              "qualified": "game.GameState.routeCardTo#case:exile",
+              "receiver": "GameState",
+              "signature": "routeCardTo#case:exile",
+              "start": 565,
+              "symbol_id": "backend/game/gamestate_tutor.go::game.GameState.routeCardTo#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            },
+            {
+              "description": "evaluateConditionRaw#case:exile",
+              "doc": "",
+              "end": 631,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/condition.go",
+              "qualified": "game.GameState.evaluateConditionRaw#case:exile",
+              "receiver": "GameState",
+              "signature": "evaluateConditionRaw#case:exile",
+              "start": 630,
+              "symbol_id": "backend/game/condition.go::game.GameState.evaluateConditionRaw#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            }
+          ],
+          "current_source_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T03:45:16Z",
+          "indexed_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "normalized_words": [
+            "exile"
+          ],
+          "query": "exile",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "exile",
+            "request_id": "2be564b76b4b4a8187b2dfa6f1dc377c",
+            "ticket": "ticket:map.plan-exile-scarab-feast-d952117a2a/v2"
+          },
+          "request_id": "2be564b76b4b4a8187b2dfa6f1dc377c",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:30f5a70bc2571fe868f7d989c2d3177665c017af6eaaae075948b0ca9cee6976",
+      "symbol": {
+        "description": "executeExileFromGraveyardTargetEffect implements the",
+        "discovery_role": "label_fallback",
+        "doc": "executeExileFromGraveyardTargetEffect implements the\nexile_target_from_graveyard primitive (ticket\nengine.auto-exile-from-graveyard-3fefe932a6, Scour the Desert class):\n\"Exile target creature card from your graveyard.\" Unlike\nexecuteExileFromGraveyardEffect's amount-based auto-select (no target,\nfront-of-graveyard order) and executeExileEffect's battlefield-target\nremoval, this moves a single player-CHOSEN graveyard card to exile.\neffectValue[\"whose\"] selects which player's graveyard holds the legal\ntarget \u2014 \"you\" (default, the ability's controller) or \"opponent\" (first\nother player), mirroring executeExileFromGraveyardEffect's own \"whose\"\nconvention. An optional effectValue[\"filter\"] (matchesPermanentFilter's\nvocabulary, e.g. \"creature\") narrows what may be exiled. Mirrors\nexecuteReturnCardFromGraveyardSubsetToHand's GetCard/filter/RemoveCard\nidiom, just moving to Exile instead of Hand. No target, no matching\nplayer, an absent card, or a filter mismatch is a no-op \u2014 never an error\n(Rule 601.2c-style illegal/absent target tolerance).\n",
+        "end": 1613,
+        "kind": "engine",
+        "name": "executeExileFromGraveyardTargetEffect",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.executeExileFromGraveyardTargetEffect",
+        "receiver": "GameState",
+        "request_id": "12ea720e8f194b2695993ea371b967f4",
+        "signature": "func (gs *GameState) executeExileFromGraveyardTargetEffect(controller int, effectValue map[string]interface{}, targets []Target) error",
+        "start": 1579,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.executeExileFromGraveyardTargetEffect",
+        "symbol_kind": "function",
+        "title": "executeExileFromGraveyardTargetEffect"
+      }
+    },
+    {
+      "anchor": "565-566",
+      "fact": "Verified declaration game.GameState.routeCardTo#case:exile in source revision a99afd41669ee88235623bda59fa9396ce04c76d; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"exile\" AND \"from\" AND \"graveyard\" AND \"up\" AND \"n\" AND \"card\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T03:45:16Z",
+          "indexed_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "normalized_words": [
+            "exile",
+            "from",
+            "graveyard",
+            "up",
+            "n",
+            "card"
+          ],
+          "query": "exile_from_graveyard_up_to_n_cards",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "exile_from_graveyard_up_to_n_cards",
+            "request_id": "ee2145172a084c169675dae2a14d0c61",
+            "ticket": "ticket:map.plan-exile-scarab-feast-d952117a2a/v2"
+          },
+          "request_id": "ee2145172a084c169675dae2a14d0c61",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "exileFromGraveyard moves a card from its owner's graveyard to the exile zone.",
+              "doc": "exileFromGraveyard moves a card from its owner's graveyard to the exile zone.\nUsed by costs like \"Exile this card from your graveyard\" (Onakke Oathkeeper,\nFaerie Dreamthief, Rot-Curse Rakshasa \u2014 \"exile this from your GY: effect\").\n",
+              "end": 2277,
+              "kind": "engine",
+              "name": "exileFromGraveyard",
+              "package": "game",
+              "path": "backend/game/activated_abilities.go",
+              "qualified": "game.GameState.exileFromGraveyard",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) exileFromGraveyard(card *Card, playerIdx int)",
+              "start": 2265,
+              "symbol_id": "backend/game/activated_abilities.go::game.GameState.exileFromGraveyard",
+              "symbol_kind": "function",
+              "title": "exileFromGraveyard"
+            },
+            {
+              "description": "executeExileFromGraveyardTargetEffect implements the",
+              "doc": "executeExileFromGraveyardTargetEffect implements the\nexile_target_from_graveyard primitive (ticket\nengine.auto-exile-from-graveyard-3fefe932a6, Scour the Desert class):\n\"Exile target creature card from your graveyard.\" Unlike\nexecuteExileFromGraveyardEffect's amount-based auto-select (no target,\nfront-of-graveyard order) and executeExileEffect's battlefield-target\nremoval, this moves a single player-CHOSEN graveyard card to exile.\neffectValue[\"whose\"] selects which player's graveyard holds the legal\ntarget \u2014 \"you\" (default, the ability's controller) or \"opponent\" (first\nother player), mirroring executeExileFromGraveyardEffect's own \"whose\"\nconvention. An optional effectValue[\"filter\"] (matchesPermanentFilter's\nvocabulary, e.g. \"creature\") narrows what may be exiled. Mirrors\nexecuteReturnCardFromGraveyardSubsetToHand's GetCard/filter/RemoveCard\nidiom, just moving to Exile instead of Hand. No target, no matching\nplayer, an absent card, or a filter mismatch is a no-op \u2014 never an error\n(Rule 601.2c-style illegal/absent target tolerance).\n",
+              "end": 1613,
+              "kind": "engine",
+              "name": "executeExileFromGraveyardTargetEffect",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeExileFromGraveyardTargetEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeExileFromGraveyardTargetEffect(controller int, effectValue map[string]interface{}, targets []Target) error",
+              "start": 1579,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeExileFromGraveyardTargetEffect",
+              "symbol_kind": "function",
+              "title": "executeExileFromGraveyardTargetEffect"
+            },
+            {
+              "description": "sweepCommandersFromGraveyardAndExile moves any commander sitting in a",
+              "doc": "sweepCommandersFromGraveyardAndExile moves any commander sitting in a\ngraveyard or exile to its owner's command zone (Rule 903.9). Covers death,\ndestroy-to-exile, and mill; hand and library are intentionally left alone.\n",
+              "end": 197,
+              "kind": "engine",
+              "name": "sweepCommandersFromGraveyardAndExile",
+              "package": "game",
+              "path": "backend/game/commander.go",
+              "qualified": "game.GameState.sweepCommandersFromGraveyardAndExile",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) sweepCommandersFromGraveyardAndExile()",
+              "start": 179,
+              "symbol_id": "backend/game/commander.go::game.GameState.sweepCommandersFromGraveyardAndExile",
+              "symbol_kind": "function",
+              "title": "sweepCommandersFromGraveyardAndExile"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:exile_target_from_graveyard",
+              "doc": "",
+              "end": 5481,
+              "kind": "engine",
+              "name": "exile_target_from_graveyard",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:exile_target_from_graveyard",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:exile_target_from_graveyard",
+              "start": 5475,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:exile_target_from_graveyard",
+              "symbol_kind": "case",
+              "title": "exile_target_from_graveyard"
+            }
+          ],
+          "current_source_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"exile\" AND \"from\" AND \"graveyard\" AND \"up\" AND \"n\" AND \"card\"",
+            "\"exile\" AND \"from\" AND \"graveyard\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T03:45:16Z",
+          "indexed_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "normalized_words": [
+            "exile",
+            "from",
+            "graveyard",
+            "up",
+            "n",
+            "card"
+          ],
+          "query": "exile_from_graveyard_up_to_n_cards",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "exile_from_graveyard_up_to_n_cards",
+            "request_id": "12ea720e8f194b2695993ea371b967f4",
+            "ticket": "ticket:map.plan-exile-scarab-feast-d952117a2a/v2"
+          },
+          "request_id": "12ea720e8f194b2695993ea371b967f4",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "applySpellEffectCore#case:exile",
+              "doc": "",
+              "end": 4074,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.applySpellEffectCore#case:exile",
+              "receiver": "GameState",
+              "signature": "applySpellEffectCore#case:exile",
+              "start": 4071,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.applySpellEffectCore#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            },
+            {
+              "description": "routeCardTo#case:exile",
+              "doc": "",
+              "end": 566,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/gamestate_tutor.go",
+              "qualified": "game.GameState.routeCardTo#case:exile",
+              "receiver": "GameState",
+              "signature": "routeCardTo#case:exile",
+              "start": 565,
+              "symbol_id": "backend/game/gamestate_tutor.go::game.GameState.routeCardTo#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            },
+            {
+              "description": "evaluateConditionRaw#case:exile",
+              "doc": "",
+              "end": 631,
+              "kind": "engine",
+              "name": "exile",
+              "package": "game",
+              "path": "backend/game/condition.go",
+              "qualified": "game.GameState.evaluateConditionRaw#case:exile",
+              "receiver": "GameState",
+              "signature": "evaluateConditionRaw#case:exile",
+              "start": 630,
+              "symbol_id": "backend/game/condition.go::game.GameState.evaluateConditionRaw#case:exile",
+              "symbol_kind": "case",
+              "title": "exile"
+            }
+          ],
+          "current_source_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T03:45:16Z",
+          "indexed_revision": "a99afd41669ee88235623bda59fa9396ce04c76d",
+          "normalized_words": [
+            "exile"
+          ],
+          "query": "exile",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "exile",
+            "request_id": "2be564b76b4b4a8187b2dfa6f1dc377c",
+            "ticket": "ticket:map.plan-exile-scarab-feast-d952117a2a/v2"
+          },
+          "request_id": "2be564b76b4b4a8187b2dfa6f1dc377c",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/gamestate_tutor.go",
+      "sha256": "sha256:10a573ee7a7d1d69918c921539a249babdf0d715e0d603de15c50384eb21e855",
+      "symbol": {
+        "description": "routeCardTo#case:exile",
+        "discovery_role": "operation_only",
+        "doc": "",
+        "end": 566,
+        "kind": "engine",
+        "name": "exile",
+        "package": "game",
+        "path": "backend/game/gamestate_tutor.go",
+        "qualified": "game.GameState.routeCardTo#case:exile",
+        "receiver": "GameState",
+        "request_id": "2be564b76b4b4a8187b2dfa6f1dc377c",
+        "signature": "routeCardTo#case:exile",
+        "start": 565,
+        "symbol_id": "backend/game/gamestate_tutor.go::game.GameState.routeCardTo#case:exile",
+        "symbol_kind": "case",
+        "title": "exile"
+      }
+    },
+    {
+      "fact": "The required atomic Engine capability passed full integration gates. Runtime contract: Resolve an exile effect whose target set is drawn from one specific player's graveyard, allow up to N cards of any type from that graveyard to be chosen by the casting/activating player, and move the chosen cards to the exile zone with no implicit return, duration, or owner-change clause.",
+      "ticket": "ticket:engine.auto-exile-from-graveyard-up-to-n-cards-ca3b90d06c/v1"
+    },
+    {
+      "fact": "Failed integration recovery; current pinned-card audit: [{\"card\": \"Scarab Feast\", \"eligible\": false, \"misses\": [[\"verb_unmapped:exile\", \"exile up to three target cards from a single graveyard.\"]], \"oracle_text\": \"Exile up to three target cards from a single graveyard.\\nCycling {B} ({B}, Discard this card: Draw a card.)\", \"status\": \"review\"}]",
+      "path": "docs/factory-ng/runs/2026-09-09T040720Z-map-plan-exile-scarab-feast-d952117a2a-v2-qwen.json"
+    },
+    {
+      "fact": "Failed integration recovery; current pinned-card audit: [{\"card\": \"Scarab Feast\", \"eligible\": false, \"misses\": [[\"verb_unmapped:exile\", \"exile up to three target cards from a single graveyard.\"]], \"oracle_text\": \"Exile up to three target cards from a single graveyard.\\nCycling {B} ({B}, Discard this card: Draw a card.)\", \"status\": \"review\"}]",
+      "path": "docs/factory-ng/runs/2026-09-09T045522Z-map-plan-exile-scarab-feast-d952117a2a-v3-codex.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "qwen-prepared-direct@1.0.2",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "parser_probes": [
+      {
+        "card": "Scarab Feast",
+        "function": "reparse_card"
+      }
+    ],
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "Rebase an accepted Map candidate against current source and verify its complete Oracle behavior; the discovery frontier no longer represents this failed obligation.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "cd scripts/paragraph && python3 -m unittest test_factory_ng_d952117a2a",
+    "git diff --check",
+    "git status --porcelain adds or changes only scripts/paragraph/reparse.py and scripts/paragraph/test_factory_ng_d952117a2a.py",
+    "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-d952117a2a-v1.json reports zero remaining pinned members"
+  ],
+  "id": "ticket:map.operator-scarab-feast-recovery-sep15/v1",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Compile any new validated atomic dependency automatically; otherwise retain the terminal verdict and advance discovery.",
+  "parents": [
+    "ticket:map.plan-exile-scarab-feast-d952117a2a/v4"
+  ],
+  "production": {
+    "integration_repair_generation": 2,
+    "key": "build-plan:verb_unmapped:exile:sha256:4351b2176e2b74ba7dfd0f693cd895100a21338a0accf8203435a85f0010658a:after:ticket:engine.auto-exile-from-graveyard-up-to-n-cards-ca3b90d06c/v1",
+    "producer": "build-plan-integration-recovery",
+    "retry_reason": "integration_conflict_repair"
+  },
+  "required_behavior": [
+    "Map the exact current verb_unmapped:exile miss on Scarab Feast through the already-registered exile primitive without losing any Oracle semantics.",
+    "The pinned card loses this miss and retains no new or silently swallowed miss.",
+    "Add a focused positive test plus an adjacent negative that must remain unmapped.",
+    "If the exact amount, recipient, filter, referent, or duration cannot execute through existing runtime behavior, return NEEDS_PRIMITIVE with one atomic CAPABILITY_JSON instead of a partial Map patch.",
+    "Do not edit Engine, converter, corpus data, or use a card-name special case.",
+    "The Engine dependency landing is not proof this card is fixed. Verify the complete Oracle mapping against its runtime representation, including every ability, even if parsing is already eligible.",
+    "The prior observation is historical evidence, not proof that its patch is still correct. Preserve every current valid mapping. Do not restore an obsolete negative assertion for a shape now implemented.",
+    "Keep every original gate command and allowed path. Add or repair the named positive and adjacent-negative tests on this revision; assert all Oracle clauses, counts, choices, controller restrictions and durations, not just eligibility or one removed miss.",
+    "A pinned card already marked auto must still be reparsed and tested. If the implementation is already correct, return only meaningful regression-test changes; do not duplicate parser branches.",
+    "If the miss moved to spell_seq_targeted or a required runtime behavior is absent, return a validated atomic NEEDS_PRIMITIVE demand. Do not hide the new miss, drop a clause, or force status auto.",
+    "Repair the observed failing contract without weakening it: [{\"command\": \"scripts/map-pipeline-apply.py\", \"detail\": \"no edit blocks and no verdict found in model output\", \"id\": \"initial-patch-apply\", \"outcome\": \"failed\"}, {\"command\": \"cd scripts/paragraph && python3 -m unittest test_factory_ng_d952117a2a\", \"detail\": \"raph/../../backend/data/carddb/s.json' mode='r' encoding='UTF-8'>\\n  db = json.load(open(path))\\nResourceWarning: Enable tracemalloc to get the object allocation traceback\\nF\\n======================================================================\\nFAIL: test_scarab_feast_positive (test_factory_ng_d952117a2a.TestScarabFeastMap.test_scarab_feast_positive)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \\\"/tmp/factory-ng-map-plan-exile-scarab-feast-d952117a2a-v2-y73u8vo3/scripts/paragraph/test_factory_ng_d952117a2a.py\\\", line 13, in test_scarab_feast_positive\\n    self.assertTrue(result['eligible'], f\\\"Expected eligible, got {result}\\\")\\nAssertionError: False is not true : Expected eligible, got {'name': 'Scarab Feast', 'eligible': False, 'abilities': [{'type': 'keyword_cost', 'effect': 'cycling', 'value': {'white': 0, 'blue': 0, 'black': 1, 'red': 0, 'green': 0, 'colorless': 0, 'generic': 0, 'x_count': 0}}], 'keywords': [], 'misses': [('verb_unmapped:exile', 'exile up to three target cards from a single graveyard.')]}\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.274s\\n\\nFAILED (failures=1)\", \"id\": \"ticket-gate-0\", \"outcome\": \"failed\"}, {\"command\": \"python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-d952117a2a-v1.json reports zero remaining pinned members\", \"detail\": \"s\\\": [\\n    {\\n      \\\"all_miss_shapes\\\": [\\n        \\\"verb_unmapped:exile\\\"\\n      ],\\n      \\\"details\\\": [\\n        \\\"exile up to three target cards from a single graveyard.\\\"\\n      ],\\n      \\\"name\\\": \\\"Scarab Feast\\\",\\n      \\\"text_sha256\\\": \\\"sha256:4351b2176e2b74ba7dfd0f693cd895100a21338a0accf8203435a85f0010658a\\\"\\n    }\\n  ],\\n  \\\"pinned_member_count\\\": 1,\\n  \\\"pinned_members_from\\\": \\\"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-d952117a2a-v1.json\\\",\\n  \\\"pinned_unresolved_count\\\": 1,\\n  \\\"pinned_unresolved_members\\\": [\\n    {\\n      \\\"misses\\\": [\\n        [\\n          \\\"verb_unmapped:exile\\\",\\n          \\\"exile up to three target cards from a single graveyard.\\\"\\n        ]\\n      ],\\n      \\\"name\\\": \\\"Scarab Feast\\\"\\n    }\\n  ],\\n  \\\"review_cards_scanned\\\": 1,\\n  \\\"schema\\\": \\\"factory.targeted-demand/v1\\\",\\n  \\\"shape\\\": \\\"verb_unmapped:exile\\\",\\n  \\\"source\\\": {\\n    \\\"parser_sha256\\\": \\\"sha256:3fb459fefa5de7e88f84881564aad33dbc91307849d02993a0533fa9fa71b429\\\",\\n    \\\"repository\\\": \\\"/tmp/factory-ng-map-plan-exile-scarab-feast-d952117a2a-v2-y73u8vo3\\\",\\n    \\\"revision\\\": \\\"a99afd41669ee88235623bda59fa9396ce04c76d\\\"\\n  }\\n}\\n\\n\\npinned remeasurement is not zero\\npinned Map card still fails complete parsing; removing one miss category is insufficient\", \"id\": \"ticket-gate-3\", \"outcome\": \"failed\"}]",
+    "The prior observation is historical evidence, not proof that its patch is still correct. Preserve every current valid mapping. Do not restore an obsolete negative assertion for a shape now implemented.",
+    "Keep every original gate command and allowed path. Add or repair the named positive and adjacent-negative tests on this revision; assert all Oracle clauses, counts, choices, controller restrictions and durations, not just eligibility or one removed miss.",
+    "A pinned card already marked auto must still be reparsed and tested. If the implementation is already correct, return only meaningful regression-test changes; do not duplicate parser branches.",
+    "If the miss moved to spell_seq_targeted or a required runtime behavior is absent, return a validated atomic NEEDS_PRIMITIVE demand. Do not hide the new miss, drop a clause, or force status auto.",
+    "Repair the observed failing contract without weakening it: [{\"command\": \"cd scripts/paragraph && python3 -m unittest test_factory_ng_d952117a2a\", \"detail\": \"./tmp/factory-ng-map-plan-exile-scarab-feast-d952117a2a-v3-s3174v4y/scripts/paragraph/reparse.py:16740: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-map-plan-exile-scarab-feast-d952117a2a-v3-s3174v4y/scripts/paragraph/../../backend/data/carddb/s.json' mode='r' encoding='UTF-8'>\\nAssertionError: False is not true : {'name': 'Scarab Feast', 'eligible': False, 'abilities': [{'type': 'keyword_cost', 'effect': 'cycling', 'value': {'white': 0, 'blue': 0, 'black': 1, 'red': 0, 'green': 0, 'colorless': 0, 'generic': 0, 'x_count': 0}}], 'keywords': [], 'misses': [('verb_unmapped:exile', 'exile up to three target cards from a single graveyard.')]}\\n./tmp/factory-ng-map-plan-exile-scarab-feast-d952117a2a-v3-s3174v4y/scripts/paragraph/reparse.py:16740: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-map-plan-exile-scarab-feast-d952117a2a-v3-s3174v4y/scripts/paragraph/../../backend/data/carddb/s.json' mode='r' encoding='UTF-8'>\\n  db = json.load(open(path))\\nResourceWarning: Enable tracemalloc to get the object allocation traceback\\nF\\n======================================================================\\nFAIL: test_scarab_feast_positive (test_factory_ng_d952117a2a.TestScarabFeastMap.test_scarab_feast_positive)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \\\"/tmp/factory-ng-map-plan-exile-scarab-feast-d952117a2a-v3-s3174v4y/scripts/paragraph/test_factory_ng_d952117a2a.py\\\", line 10, in test_scarab_feast_positive\\n    self.assertTrue(result['eligible'], result)\\nAssertionError: False is not true : {'name': 'Scarab Feast', 'eligible': False, 'abilities': [{'type': 'keyword_cost', 'effect': 'cycling', 'value': {'white': 0, 'blue': 0, 'black': 1, 'red': 0, 'green': 0, 'colorless': 0, 'generic': 0, 'x_count': 0}}], 'keywords': [], 'misses': [('verb_unmapped:exile', 'exile up to three target cards from a single graveyard.')]}\\n----------------------------------------------------------------------\\nRan 2 tests in 0.286s\\nFAILED (failures=1)\", \"id\": \"ticket-gate-0\", \"outcome\": \"failed\"}]"
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "scripts/paragraph/reparse.py",
+      "scripts/paragraph/test_factory_ng_d952117a2a.py"
+    ],
+    "forbidden_paths": [
+      "backend/",
+      "backend/data/",
+      "scripts/paragraph/slotparse_oneshot.py"
+    ]
+  },
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "761dada5eb26259920871514a3f4d4e56a4a052f",
+    "clean": true
+  },
+  "supersedes": "ticket:map.plan-exile-scarab-feast-d952117a2a/v3",
+  "title": "Preserve optional graveyard targets and cycling for Scarab Feast",
+  "work_type": "map",
+  "operator_recovery": {
+    "authorization": "User requested fixing all needs-attention tickets.",
+    "original_ticket": "docs/factory-ng/tickets/map-plan-exile-scarab-feast-d952117a2a-v4.json",
+    "original_ticket_sha256": "sha256:d544ca09881b4c2393b804483ab298d97a7f628bb564e2016848db0946e64fcf",
+    "additional_provider_runs": 0,
+    "counter_resets": false,
+    "scope_addition_reason": "No scope expansion; connects separately integrated single-graveyard runtime, preserving zero-to-three targets and cycling."
+  }
+}

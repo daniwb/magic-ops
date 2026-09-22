@@ -13,7 +13,7 @@ DISPATCHER="${DISPATCHER:-http://localhost:9999}"
 REPO_SSH="${REPO_SSH:-git@github.com:daniwb/openmagic.git}"
 LIVE_REPO="/opt/development/magic-new"
 CATALOG="$LIVE_REPO/scripts/skills/primitive-catalog.md"
-GO=/usr/local/go/bin/go
+GO=/opt/development/magic-ops/scripts/go-cache-run.sh
 export PATH="/usr/local/go/bin:$PATH"
 CLAUDE_BIN="${CLAUDE_BIN:-$HOME/.local/bin/claude}"
 # Geteilter, persistenter Go-Build-Cache (content-addressed — identische

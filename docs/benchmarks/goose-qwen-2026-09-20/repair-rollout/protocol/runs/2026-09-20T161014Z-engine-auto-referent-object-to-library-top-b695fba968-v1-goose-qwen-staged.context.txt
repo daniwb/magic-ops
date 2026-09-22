@@ -1,0 +1,321 @@
+### backend/game/ability_effects.go:19037-19038 [game.GameState.executeBounceEffectTo#case:library_top; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+19037 			case "library_top":
+19038 				owner.Library.PutOnTop(card) //nolint:errcheck
+
+### backend/game/ability_effects.go:23114-23115 [game.GameState.executeReturnFromGraveyard#case:library_top; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+23114 		case "library_top":
+23115 			player.Library.PutOnTop(c) //nolint:errcheck
+
+### backend/game/ability_effects.go:10693-10767 [game.GameState.ExecuteAbilityEffect#case:bounce; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+10693 	case "bounce":
+10694 		if handled, err := gs.executeBounceFromGraveyardTarget(targets); handled || err != nil {
+10695 			return err
+10696 		}
+10697 		if attachedAndItsAuras, _ := effectValue["target_attached_and_its_auras"].(bool); attachedAndItsAuras {
+10698 			if source == nil {
+10699 				return nil
+10700 			}
+10701 			return gs.executeBounceAttachedAndItsAuras(source.AttachedTo)
+10702 		}
+10703 		if aurasAttachedToTarget, _ := effectValue["auras_attached_to_target"].(bool); aurasAttachedToTarget {
+10704 			return gs.executeBounceAurasAttachedToTargets(targets)
+10705 		}
+10706 		// "return ~ to its owner's hand" (task-1983 spine_L2, Reinforced
+10707 		// Ronin / Thopter Assembly class): a no-target bounce of the
+10708 		// ability's own source. Mirrors executePutCounterEffect's
+10709 		// target_self read — the parser emits value.target_self for a
+10710 		// bounce whose object is the source itself (parse_atom reports
+10711 		// {'filter':'self'}), and the engine bounces the source card.
+10712 		if effectValue["target_self"] != nil {
+10713 			if source == nil {
+10714 				return nil
+10715 			}
+10716 			return gs.executeBounceEffect([]Target{{IsCard: true, CardID: source.ID}})
+10717 		}
+10718 		// "Return all/each/every [other] X[ you (don't) control] to their
+10719 		// owners' hand(s)" as one step of a v2 effect sequence (task-2392
+10720 		// round 2, mirrors destroy/exile's identical "all" mass-atom branch
+10721 		// just above/below) — filter/controller-scoped across the WHOLE
+10722 		// battlefield, unlike the ability's-own-controller-only choice just
+10723 		// below. A leading "other" (effect_value.exclude_self) excludes the
+10724 		// ability's own source from the sweep.
+10725 		if all, _ := effectValue["all"].(bool); all {
+10726 			// "Return all creatures that aren't of the chosen type to
+10727 			// their owners' hands" (Raise the Palisade class, ticket
+10728 			// engine.auto-bounce-filter-creature-not-chosen-type-0aaee2551c):
+10729 			// a DYNAMIC subtype exclusion (effectValue["subtype"], resolved
+10730 			// from a prior choose_option the same way subtype_ref already
+10731 			// folds elsewhere) — distinct from bounceAllMatching's static
+10732 			// filter-bucket vocabulary just below, which has no subtype
+10733 			// axis. exclude_subtype marks the match as NEGATED: bounce
+10734 			// every creature that does NOT have this subtype. A positive,
+10735 			// non-negated chosen_type match (exclude_subtype unset/false)
+10736 			// falls through unchanged to the existing filter/controller
+10737 			// path and stays unsupported here.
+10738 			if subtype, ok := effectValue["subtype"].(string); ok && subtype != "" {
+10739 				if excludeSubtype, _ := effectValue["exclude_subtype"].(bool); excludeSubtype {
+10740 					return gs.executeBounceAllNotSubtype(subtype)
+10741 				}
+10742 			}
+10743 			excludeSelf, _ := effectValue["exclude_self"].(bool)
+10744 			var excludeID string
+10745 			if excludeSelf && source != nil {
+10746 				excludeID = source.ID
+10747 			}
+10748 			return gs.bounceAllMatching(controller,
+10749 				getStringValue(effectValue, "filter", ""),
+10750 				getStringValue(effectValue, "controller", ""), excludeID)
+10751 		}
+10752 		// "return a/another/each other [filter] X you control to its owner's
+10753 		// hand" (task-2392): an untargeted filter-scoped choice, not MTG
+10754 		// targeting — mirrors the "sacrifice" case's identical filter/n/
+10755 		// exclude_self value shape just below. See executeBounceFiltered.
+10756 		if filter, ok := effectValue["filter"].(string); ok && filter != "" {
+10757 			return gs.executeBounceFiltered(controller, source, effectValue)
+10758 		}
+10759 		// "Return target nonland permanent with mana value X to its owner's
+10760 		// hand" (Repeal class, ticket
+10761 		// engine.auto-bounce-with-mana-value-filter-4bf6a351c2): a real MTG
+10762 		// target restricted to mana value X or less at resolution. See
+10763 		// executeBounceTargetManaValueAtMostX.
+10764 		if _, ok := effectValue["mana_value_at_most"]; ok {
+10765 			return gs.executeBounceTargetManaValueAtMostX(targets, effectValue)
+10766 		}
+10767 		return gs.executeBounceEffect(targets)
+
+### backend/game/gamestate.go:447-506 [game.GameState; f8d04f3ce658cafd9fc05a92edd2960e016e36d9; truncated at source budget]
+  447 type GameState struct {
+  448 	ID                 string              `json:"id"`
+  449 	Format             Format              `json:"format,omitempty"`
+  450 	Players            []*Player           `json:"players"`
+  451 	Battlefield        *Zone               `json:"battlefield"`
+  452 	Stack              *Stack              `json:"stack"`
+  453 	PhaseManager       *PhaseManager       `json:"phase_manager"`
+  454 	PrioritySystem     *PrioritySystem     `json:"priority_system"`
+  455 	CombatState        *CombatState        `json:"combat_state"`
+  456 	EffectManager      *EffectManager      `json:"-"` // Manages continuous effects
+  457 	EventBus           *EventBus           `json:"-"` // Event system for triggered abilities
+  458 	ReplacementManager *ReplacementManager `json:"-"` // Manages replacement effects (regeneration, prevention)
+  459 	ActivePlayerIdx    int                 `json:"active_player_idx"`
+  460 	Winner             int                 `json:"winner"` // -1 if no winner yet
+  461 	GameOver           bool                `json:"game_over"`
+  462 	DebugMode          bool                `json:"debug_mode"` // Omniscience mode
+  463 	TurnCount          int                 `json:"turn_count"`
+  464 	// NonlandPermanentsEnteredThisTurnByID records each nonland permanent's
+  465 	// entry turn for resolution-time entered-this-turn filters.
+  466 	NonlandPermanentsEnteredThisTurnByID map[string]int `json:"-"`
+  467 	MulliganState                        *MulliganState `json:"mulligan_state,omitempty"` // Mulligan tracking
+  468 	GameStarted                          bool           `json:"game_started"`             // True after mulligans complete
+  469 
+  470 	// PendingDamageUnlessSacrificeAnotherCreature holds the affected player's
+  471 	// resolution-time sacrifice choice for the corresponding damage effect.
+  472 	PendingDamageUnlessSacrificeAnotherCreature *PendingDamageUnlessSacrificeAnotherCreature `json:"pending_damage_unless_sacrifice_another_creature,omitempty"`
+  473 
+  474 	// PendingSacrificeSelfUnlessFiltered holds an in-flight
+  475 	// sacrifice_self_unless_sacrifice_filtered choice; see
+  476 	// ResolveSacrificeSelfUnlessFilteredChoice.
+  477 	PendingSacrificeSelfUnlessFiltered *PendingSacrificeSelfUnlessFiltered `json:"pending_sacrifice_self_unless_filtered,omitempty"`
+  478 
+  479 	// PendingSacrificeSelfUnlessReturnFromGraveyard holds an in-flight
+  480 	// sacrifice_self_unless_return_card_from_graveyard choice; see
+  481 	// ResolveSacrificeSelfUnlessReturnFromGraveyardChoice.
+  482 	PendingSacrificeSelfUnlessReturnFromGraveyard *PendingSacrificeSelfUnlessReturnFromGraveyard `json:"pending_sacrifice_self_unless_return_from_graveyard,omitempty"`
+  483 
+  484 	// Emblems is the command zone's emblem registry (Rule 114 / 408.2). See
+  485 	// game/emblem.go and cardfns.CreateEmblem ([VOCAB] #1085). Append-only —
+  486 	// emblems are never removed once created; there is deliberately no
+  487 	// RemoveEmblem.
+  488 	Emblems []*Emblem `json:"emblems,omitempty"`
+  489 
+  490 	// LastCreatedToken is the token most recently created by a create_token
+  491 	// effect, tracked so an immediately following "put X +1/+1 counters on
+  492 	// it" atom in the same paragraph chain (Wild Hypothesis class,
+  493 	// put_counters_on_self_created_token, ticket bf85bad357) can resolve the
+  494 	// pronoun without player-facing targeting. Cleared once consumed.
+  495 	LastCreatedToken *Card `json:"-"`
+  496 
+  497 	// referentGroupCardIDs holds the swapped creature set produced by
+  498 	// exchange_control_until_eot (ticket
+  499 	// engine.auto-exchange-control-until-eot-c914100b69, Reins of Power
+  500 	// class), so a later grant_keywords_referent_eot atom in the SAME
+  501 	// sequence can apply to every swapped creature instead of only the
+  502 	// single gs.seqSlotsStr["referent"] card. Only consulted when
+  503 	// gs.seqSlotsStr["referent_group"] == "exchange_control_until_eot" —
+  504 	// unrelated referent-establishing atoms (gain_control,
+  505 	// untap_target_permanent, ...) never touch this field, so they keep
+  506 	// using the singular referent slot untouched.
+
+### backend/game/targeting.go:237-244 [game.Target; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+  237 type Target struct {
+  238 	Type      TargetType `json:"type"`
+  239 	CardID    string     `json:"card_id,omitempty"`    // If targeting a card
+  240 	PlayerIdx int        `json:"player_idx,omitempty"` // If targeting a player (-1 if not a player)
+  241 	IsCard    bool       `json:"is_card"`              // True if targeting a card, false for player
+  242 	SpellID   string     `json:"spell_id,omitempty"`   // If targeting a spell on stack
+  243 	StackID   string     `json:"stack_id,omitempty"`   // If targeting a spell OR ability on the stack by StackObject.ID (TargetSpellOrAbility) — unlike SpellID this also reaches abilities, which have no Card.ID of their own
+  244 }
+
+### backend/game/gamestate.go:386-387 [game.cardMatchesGraveyardReturnFilter#case:card; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+  386 	case "", "card":
+  387 		return true
+
+### backend/game/gamestate.go:8053-8085 [game.GameState.ProcessTriggeredAbilities; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+ 8053 func (gs *GameState) ProcessTriggeredAbilities(event *Event) {
+ 8054 	if gs.EventBus == nil {
+ 8055 		return
+ 8056 	}
+ 8057 
+ 8058 	// Combat damage-to-permanent events carry their dealer in Source but,
+ 8059 	// unlike noncombat CreateDamageEvent callers, omit Player. Normalize the
+ 8060 	// dealer controller so ordinary source-controller damage triggers retain
+ 8061 	// their existing combat behavior.
+ 8062 	if event != nil && event.Type == EventDamageDealt &&
+ 8063 		event.Player < 0 && event.Source != nil {
+ 8064 		event.Player = event.Source.Controller
+ 8065 	}
+ 8066 
+ 8067 	triggered := gs.EventBus.Publish(event)
+ 8068 	for _, ability := range triggered {
+ 8069 		if event != nil && event.Type == EventDamageDealt &&
+ 8070 			ability.EffectValue["receiver_permanent_type"] == "creature" &&
+ 8071 			(event.Target == nil || !event.Target.IsCreature()) {
+ 8072 			continue
+ 8073 		}
+ 8074 		if event != nil && event.Type == EventPlayerDamaged &&
+ 8075 			ability.EffectValue["noncombat_damage_only"] == true &&
+ 8076 			event.Data["is_combat"] == true {
+ 8077 			continue
+ 8078 		}
+ 8079 		gs.PutTriggeredAbilityOnStackWithEvent(ability, event)
+ 8080 	}
+ 8081 
+ 8082 	// Granted triggered abilities ([VOCAB] #2404): synthesize re-sourced
+ 8083 	// copies from every active filtered grant (see triggered_grants.go).
+ 8084 	gs.processFilteredTriggeredGrants(event)
+ 8085 }
+
+### backend/game/events.go:438-469 [game.Event; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+  438 type Event struct {
+  439 	Type     EventType              `json:"type"`
+  440 	Source   *Card                  `json:"source,omitempty"`    // Card that caused the event
+  441 	Target   *Card                  `json:"target,omitempty"`    // Card affected (if any)
+  442 	Player   int                    `json:"player"`              // Player index involved
+  443 	Opponent int                    `json:"opponent,omitempty"`  // Opponent index (if relevant)
+  444 	Amount   int                    `json:"amount,omitempty"`    // For damage/life events
+  445 	Zone     ZoneType               `json:"zone,omitempty"`      // Zone involved
+  446 	FromZone ZoneType               `json:"from_zone,omitempty"` // For zone change events
+  447 	ToZone   ZoneType               `json:"to_zone,omitempty"`   // For zone change events
+  448 	Data     map[string]interface{} `json:"data,omitempty"`      // Additional event-specific data
+  449 	// SpellsThisTurn snapshots the caster's per-turn spell count at the
+  450 	// time of a spell-cast event so triggers like "your second spell each
+  451 	// turn" can match without separately consulting the GameState.
+  452 	SpellsThisTurn int `json:"spells_this_turn,omitempty"`
+  453 	// ManaSpent snapshots the total mana actually paid for a spell-cast
+  454 	// event (post cost-reduction), so triggers like "if less mana was spent
+  455 	// to cast it than its mana value" can compare against the card's CMC.
+  456 	ManaSpent int `json:"mana_spent,omitempty"`
+  457 	// CounterKind is the counter type for an EventCounterAdded event (e.g.
+  458 	// CounterPlusOnePlusOne).
+  459 	CounterKind CounterType `json:"counter_kind,omitempty"`
+  460 	// DieSides and DieResult carry an EventDieRoll's die-roll payload
+  461 	// ([VOCAB] #1186): the face count rolled and the FINAL result (after any
+  462 	// Player.DieRollModifier ran). Set once by cardfns.RollDieForPlayer
+  463 	// before Publish; observers (cardfns.OnDieRoll) only ever read these —
+  464 	// unlike a mutate-during-Publish scheme, the modifier phase is already
+  465 	// finished by the time this event is built, so subscriber ordering
+  466 	// cannot race the result.
+  467 	DieSides  int `json:"die_sides,omitempty"`
+  468 	DieResult int `json:"die_result,omitempty"`
+  469 }
+
+### backend/game/events.go:1161-1181 [game.EventBus; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+ 1161 type EventBus struct {
+ 1162 	mu          sync.RWMutex
+ 1163 	subscribers map[EventType][]EventHandler
+ 1164 	owned       map[EventType][]ownedSub
+ 1165 	abilities   []*TriggeredAbility
+ 1166 	queue       []*Event // Event queue for processing
+ 1167 
+ 1168 	// TriggerSuppressionQuery, if set, is consulted by Publish before
+ 1169 	// matching TriggeredAbility instances against an event — the negative
+ 1170 	// mirror of Card.TriggerDoubler ([VOCAB] #9: "suppress triggers by event
+ 1171 	// type"). Returning true for the event's EventType means NO triggered
+ 1172 	// ability matches this Publish call, for any player, e.g. a static
+ 1173 	// ability like "Creatures dying don't cause abilities to trigger."
+ 1174 	// Wired by GameState.SetupGlobalSubscribers (gs.isTriggerEventSuppressed)
+ 1175 	// so EventBus itself stays free of any GameState/Battlefield dependency;
+ 1176 	// nil (the default, e.g. a bare NewEventBus() in a test) means no
+ 1177 	// suppression — unchanged behavior. Only gates the TriggeredAbility
+ 1178 	// match list, not the Subscribe/SubscribeAll handler loop above — see
+ 1179 	// the SCOPE GAP note on Publish for why.
+ 1180 	TriggerSuppressionQuery func(EventType) bool
+ 1181 }
+
+### backend/game/gamestate.go:447-493 [game.GameState; f8d04f3ce658cafd9fc05a92edd2960e016e36d9; truncated at source budget]
+  447 type GameState struct {
+  448 	ID                 string              `json:"id"`
+  449 	Format             Format              `json:"format,omitempty"`
+  450 	Players            []*Player           `json:"players"`
+  451 	Battlefield        *Zone               `json:"battlefield"`
+  452 	Stack              *Stack              `json:"stack"`
+  453 	PhaseManager       *PhaseManager       `json:"phase_manager"`
+  454 	PrioritySystem     *PrioritySystem     `json:"priority_system"`
+  455 	CombatState        *CombatState        `json:"combat_state"`
+  456 	EffectManager      *EffectManager      `json:"-"` // Manages continuous effects
+  457 	EventBus           *EventBus           `json:"-"` // Event system for triggered abilities
+  458 	ReplacementManager *ReplacementManager `json:"-"` // Manages replacement effects (regeneration, prevention)
+  459 	ActivePlayerIdx    int                 `json:"active_player_idx"`
+  460 	Winner             int                 `json:"winner"` // -1 if no winner yet
+  461 	GameOver           bool                `json:"game_over"`
+  462 	DebugMode          bool                `json:"debug_mode"` // Omniscience mode
+  463 	TurnCount          int                 `json:"turn_count"`
+  464 	// NonlandPermanentsEnteredThisTurnByID records each nonland permanent's
+  465 	// entry turn for resolution-time entered-this-turn filters.
+  466 	NonlandPermanentsEnteredThisTurnByID map[string]int `json:"-"`
+  467 	MulliganState                        *MulliganState `json:"mulligan_state,omitempty"` // Mulligan tracking
+  468 	GameStarted                          bool           `json:"game_started"`             // True after mulligans complete
+  469 
+  470 	// PendingDamageUnlessSacrificeAnotherCreature holds the affected player's
+  471 	// resolution-time sacrifice choice for the corresponding damage effect.
+  472 	PendingDamageUnlessSacrificeAnotherCreature *PendingDamageUnlessSacrificeAnotherCreature `json:"pending_damage_unless_sacrifice_another_creature,omitempty"`
+  473 
+  474 	// PendingSacrificeSelfUnlessFiltered holds an in-flight
+  475 	// sacrifice_self_unless_sacrifice_filtered choice; see
+  476 	// ResolveSacrificeSelfUnlessFilteredChoice.
+  477 	PendingSacrificeSelfUnlessFiltered *PendingSacrificeSelfUnlessFiltered `json:"pending_sacrifice_self_unless_filtered,omitempty"`
+  478 
+  479 	// PendingSacrificeSelfUnlessReturnFromGraveyard holds an in-flight
+  480 	// sacrifice_self_unless_return_card_from_graveyard choice; see
+  481 	// ResolveSacrificeSelfUnlessReturnFromGraveyardChoice.
+  482 	PendingSacrificeSelfUnlessReturnFromGraveyard *PendingSacrificeSelfUnlessReturnFromGraveyard `json:"pending_sacrifice_self_unless_return_from_graveyard,omitempty"`
+  483 
+  484 	// Emblems is the command zone's emblem registry (Rule 114 / 408.2). See
+  485 	// game/emblem.go and cardfns.CreateEmblem ([VOCAB] #1085). Append-only —
+  486 	// emblems are never removed once created; there is deliberately no
+  487 	// RemoveEmblem.
+  488 	Emblems []*Emblem `json:"emblems,omitempty"`
+  489 
+  490 	// LastCreatedToken is the token most recently created by a create_token
+  491 	// effect, tracked so an immediately following "put X +1/+1 counters on
+  492 	// it" atom in the same paragraph chain (Wild Hypothesis class,
+  493 	// put_counters_on_self_created_token, ticket bf85bad357) can resolve the
+
+### backend/cards/registry.go:565-570 [cards.regEffect; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+  565 func regEffect(name string, p Primitive) {
+  566 	if _, dup := V2EffectRegistry[name]; dup {
+  567 		panic("V2EffectRegistry duplicate registration: " + name)
+  568 	}
+  569 	V2EffectRegistry[name] = p
+  570 }
+
+### backend/cards/registry.go:18-27 [cards.Primitive; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+   18 type Primitive struct {
+   19 	// Executor is a human-auditable reference to the code that implements the
+   20 	// primitive, e.g. "converter.go:convertPumpAbility" or
+   21 	// "game/effects.go:ApplyContinuousPump". Lint only checks non-emptiness —
+   22 	// the shape test is what proves the wiring.
+   23 	Executor string
+   24 	// ShapeTest names the Go test that exercises the primitive's behavior
+   25 	// once, shape-wise (convention: backend/cards/shape_behavior_test.go).
+   26 	ShapeTest string
+   27 }

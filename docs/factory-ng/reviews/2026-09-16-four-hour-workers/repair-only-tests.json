@@ -1,0 +1,8 @@
+{
+  "verification": 15,
+  "gate_priority": 9,
+  "batching": 8,
+  "focused_batch": 12,
+  "remote": 11,
+  "all_passed": true
+}

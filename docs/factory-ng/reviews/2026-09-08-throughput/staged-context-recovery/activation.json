@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-08T20:59:39.587348+00:00",
+  "previous_controller_pid": 3061331,
+  "tests_passed": 138,
+  "restart": "graceful SIGHUP under dispatcher-admin; workers retained",
+  "changes": [
+    "Python-aware source selection",
+    "upstream grammar and trigger failure tracing",
+    "compact historical lookup summaries",
+    "bounded context repair with original questions",
+    "legacy missing-context queue correction"
+  ],
+  "worker_configuration_changed": false,
+  "deployment": false,
+  "admission_followup": {
+    "at": "2026-09-08T21:02:37.517462+00:00",
+    "previous_controller_pid": 3090608,
+    "reason": "Verified context successors may supersede parked tickets; full gates, scope, exact routing and repair budget checked."
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-engine-auto-pump-until-eot-all-creatures-you-control-63ebcf17a9-v2-kj7584mb",
+    "candidate_commit": "9f7ecce65ff3e114a893afaf827d6e0f80ed8339",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "50614f094446ad9542c3498fa90920c3bf21f973",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "detail": "resolved 3 bounded source request(s)",
+      "id": "need-continuation",
+      "outcome": "passed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "claude-staged@1.0.0",
+    "resolved_model": "claude-sonnet-5",
+    "telemetry": {
+      "cache_read_tokens": 9829,
+      "cache_write_tokens": 20683,
+      "elapsed_ms": 20062,
+      "input_tokens": 2,
+      "need_continuation_attempted": true,
+      "output_tokens": 1028,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      }
+    },
+    "worker": "claude-2"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed_model_protocol",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-06T023406Z-engine-auto-pump-until-eot-all-creatures-you-control-63ebcf17a9-v2-claude.raw.json",
+      "sha256": "sha256:ef7c579f81db62838e3f3a356e6719d91d124c2e82627f4482a21002ab61f28c"
+    },
+    {
+      "kind": "need_continuation",
+      "path": "docs/factory-ng/runs/2026-09-06T023406Z-engine-auto-pump-until-eot-all-creatures-you-control-63ebcf17a9-v2-claude.continuation.raw.json",
+      "sha256": "sha256:0cdd5a35e109bd9f137450c861b2aa8c261d677c326eedd715808d105f53687a"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-pump-until-eot-all-creatures-you-control-63ebcf17a9/v2",
+    "path": "docs/factory-ng/tickets/engine-auto-pump-until-eot-all-creatures-you-control-63ebcf17a9-v2.json",
+    "sha256": "sha256:14330116980934eb24c955cd7b6ecf970c6b84b61149e51af5ab4872cef29f73"
+  }
+}

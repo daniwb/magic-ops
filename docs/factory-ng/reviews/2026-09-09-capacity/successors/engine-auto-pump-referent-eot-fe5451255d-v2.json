@@ -1,0 +1,147 @@
+{
+  "capability": {
+    "expected_unlock": 1,
+    "negative_examples": [
+      "pump_until_eot's existing plain-targeted shape (its own player-chosen target present) must keep behaving exactly as today, including its no-target no-op guard",
+      "a bare '<subject> gets +P/+T until end of turn' with no preceding target-establishing atom in the same sequence (no referent armed) must stay an honest miss, not silently pump the source"
+    ],
+    "required_behavior": "A pump atom with no target of its own reads gs.seqSlotsStr[\"referent\"] (armed generically by effect_sequence.go's noteSeqReferent whenever an earlier atom in the same activated/triggered sequence, e.g. untap, acted on a card) and applies an UntilEOT power/toughness ContinuousEffect to that referent card, only when the referent is currently a creature",
+    "source_misses": [
+      {
+        "card": "Griffin Canyon",
+        "oracle_text_sha256": "f72111947b9783d91da86624c44419a0d9b0323efce6275c2bf08650b44d367f",
+        "paragraph": "{T}: Untap target Griffin. If it's a creature, it gets +1/+1 until end of turn.",
+        "required_behavior": "Untap target Griffin, then (only if that same permanent is a creature) give it +1/+1 until end of turn, without asking the player to choose a second target"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "key": "pump_referent_eot",
+        "specification": {
+          "expected_unlock": 1,
+          "negative_examples": [
+            "pump_until_eot's existing plain-targeted shape (its own player-chosen target present) must keep behaving exactly as today, including its no-target no-op guard",
+            "a bare '<subject> gets +P/+T until end of turn' with no preceding target-establishing atom in the same sequence (no referent armed) must stay an honest miss, not silently pump the source"
+          ],
+          "required_behavior": "A pump atom with no target of its own reads gs.seqSlotsStr[\"referent\"] (armed generically by effect_sequence.go's noteSeqReferent whenever an earlier atom in the same activated/triggered sequence, e.g. untap, acted on a card) and applies an UntilEOT power/toughness ContinuousEffect to that referent card, only when the referent is currently a creature",
+          "source_misses": [
+            {
+              "card": "Griffin Canyon",
+              "oracle_text_sha256": "f72111947b9783d91da86624c44419a0d9b0323efce6275c2bf08650b44d367f",
+              "paragraph": "{T}: Untap target Griffin. If it's a creature, it gets +1/+1 until end of turn.",
+              "required_behavior": "Untap target Griffin, then (only if that same permanent is a creature) give it +1/+1 until end of turn, without asking the player to choose a second target"
+            }
+          ]
+        },
+        "summary": "+P/+T until end of turn to the sequence's referent card (established by a preceding target-consuming atom in the same ability, e.g. untap), mirroring the existing grant_keywords_referent_eot pattern"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-05T085313Z-map-plan-pump-griffin-canyon-2effac7796-v1-claude-agentic.json"
+    },
+    {
+      "anchor": "534-599",
+      "fact": "Card-knowledge index match (engine): noteSeqReferent is the nearest indexed seam for this capability.",
+      "path": "backend/game/effect_sequence.go",
+      "sha256": "sha256:d203a73924f924312712e7cf0de2fec762c7def5a24705f510346749f3939405"
+    },
+    {
+      "anchor": "2108-2173",
+      "fact": "Card-knowledge index match (engine): resolvePumpReferentSpellManaValue is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d0ac33d83a17c5e21e00829259f817523252b61afd7aa34b5e989710ebaa7a0b"
+    },
+    {
+      "anchor": "1-63",
+      "fact": "Card-knowledge index match (engine): executeGainControlEffect is the nearest indexed seam for this capability.",
+      "path": "backend/game/control_effects.go",
+      "sha256": "sha256:e05b148d7ba6ea7a9a73152aa3031bbf38c8b3dfb2da3d42755946e6df9aec82"
+    },
+    {
+      "anchor": "730-795",
+      "fact": "Card-knowledge index match (engine): resolvePumpAttachedCreatureNoTarget is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d0ac33d83a17c5e21e00829259f817523252b61afd7aa34b5e989710ebaa7a0b"
+    },
+    {
+      "fact": "Operator-reviewed correction, September 9: Mark backend/game/effect_sequence.go as read-only context: original behavior cites existing implementation, parser registration visibility, or a preserved adjacent path; it does not require editing this file.",
+      "path": "docs/factory-ng/reviews/2026-09-09-capacity/contract-audit.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "context_only_paths": [
+      "backend/game/effect_sequence.go"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "An Oracle-validated Map block has been compiled into one bounded Engine dependency.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGPumpReferentEot$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.auto-pump-referent-eot-fe5451255d/v2",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Record an immutable bounded verdict; automatic discovery continues with independent work.",
+  "parents": [
+    "ticket:map.plan-pump-griffin-canyon-2effac7796/v1",
+    "ticket:engine.auto-pump-referent-eot-fe5451255d/v1"
+  ],
+  "production": {
+    "contract_correction_batch": "2026-09-09-capacity",
+    "key": "capability:pump_referent_eot:sha256:fe5451255dfda7d60e9793fdd06db36a3cb71449fe5a6ba40fbe66a92dd42907:reviewed-contract-sep09",
+    "producer": "capability-dependencies"
+  },
+  "required_behavior": [
+    "A pump atom with no target of its own reads gs.seqSlotsStr[\"referent\"] (armed generically by effect_sequence.go's noteSeqReferent whenever an earlier atom in the same activated/triggered sequence, e.g. untap, acted on a card) and applies an UntilEOT power/toughness ContinuousEffect to that referent card, only when the referent is currently a creature",
+    "Preserve these adjacent behaviors: pump_until_eot's existing plain-targeted shape (its own player-chosen target present) must keep behaving exactly as today, including its no-target no-op guard; a bare '<subject> gets +P/+T until end of turn' with no preceding target-establishing atom in the same sequence (no referent armed) must stay an honest miss, not silently pump the source",
+    "Add a discriminating behavior test named TestFactoryNGPumpReferentEot; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_fe5451255d_test.go",
+      "backend/cards/factory_ng_fe5451255d_test.go",
+      "backend/cards/registry_factory_ng_fe5451255d.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "clean": true,
+    "repository": "/opt/development/test/openmagic",
+    "revision": "c0fac85b88da04f3d54fe2a5acd553a36662a329"
+  },
+  "supersedes": "ticket:engine.auto-pump-referent-eot-fe5451255d/v1",
+  "title": "Corrected contract: Implement atomic capability: +P/+T until end of turn to the sequence's referent card (established by a preceding target-consuming atom in the same ability, e.g. untap), mirroring the existing grant_keywords_referent_eot pattern",
+  "work_type": "engine"
+}

@@ -1,0 +1,96 @@
+From 2f5d397b0b3459b785a14f6857a8a843836ca368 Mon Sep 17 00:00:00 2001
+From: Factory NG Operator <factory-ng@local>
+Date: Tue, 8 Sep 2026 16:16:55 +0000
+Subject: [PATCH] fix: preserve resolved zero counter amounts
+
+---
+ backend/game/ability_effects.go               | 10 +++-
+ .../shape_audited_counter_amounts_test.go     | 55 +++++++++++++++++++
+ 2 files changed, 63 insertions(+), 2 deletions(-)
+ create mode 100644 backend/game/shape_audited_counter_amounts_test.go
+
+diff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go
+index 05a250a0e..693f9b848 100644
+--- a/backend/game/ability_effects.go
++++ b/backend/game/ability_effects.go
+@@ -9112,8 +9112,14 @@ func (gs *GameState) executePutCounterEffect(source *Card, effectValue map[strin
+ 		}
+ 	}
+ 	amount := getIntValue(effectValue, "amount", 1)
+-	if amount < 1 {
+-		amount = 1
++	// An omitted static amount defaults to one; an explicitly resolved zero
++	// must remain zero (the generic dynamic fold has already removed its spec).
++	if amount <= 0 {
++		amount = 0
++		if effectValue["monstrosity"] == nil {
++			return nil
++		}
++		// Monstrosity 0 still makes the creature monstrous.
+ 	}
+ 	adapt := effectValue["adapt"] != nil
+ 	monstrosity := effectValue["monstrosity"] != nil
+diff --git a/backend/game/shape_audited_counter_amounts_test.go b/backend/game/shape_audited_counter_amounts_test.go
+new file mode 100644
+index 000000000..29b5cfb89
+--- /dev/null
++++ b/backend/game/shape_audited_counter_amounts_test.go
+@@ -0,0 +1,55 @@
++package game
++
++import "testing"
++
++func TestShape_AuditedMillCounterAmounts(t *testing.T) {
++	for _, creatures := range []int{0, 2} {
++		gs := NewGame("P0", "P1", false)
++		source := NewCreature("source", ManaCost{}, 4, 4, 0)
++		gs.Battlefield.AddCard(source)
++		for i := 0; i < 3; i++ {
++			c := NewInstant("noncreature", ManaCost{}, nil, 0)
++			if i < creatures {
++				c = NewCreature("creature", ManaCost{}, 1, 1, 0)
++			}
++			gs.Players[0].Library.AddCard(c)
++		}
++		gs.Players[1].Graveyard.AddCard(NewCreature("opponent", ManaCost{}, 1, 1, 1))
++		count := map[string]interface{}{"count": "times", "factor": 2, "of": map[string]interface{}{"count": "graveyard", "card_type": "creature", "whose": "you"}}
++		atoms := []EffectAtomSpec{{Effect: "mill", EffectValue: map[string]interface{}{"amount": 3, "self": true}}, {Effect: "put_counters", EffectValue: map[string]interface{}{"target_self": true, "amount_count": count}}}
++		if err := gs.ExecuteEffectSequence(0, source, atoms, nil, 0, nil); err != nil {
++			t.Fatal(err)
++		}
++		if got := source.Counters.GetCount(CounterPlusOnePlusOne); got != 2*creatures {
++			t.Fatalf("got %d counters for %d creatures", got, creatures)
++		}
++		if gs.Players[0].Graveyard.Count() != 3 {
++			t.Fatal("mill did not happen")
++		}
++		// Unresolvable counts must not invent a counter; omitted static amount still means one.
++		if err := gs.ExecuteAbilityEffectDirect(0, source, map[string]interface{}{"effect": "put_counters", "target_self": true, "amount_count": map[string]interface{}{"count": "unknown_audit"}}, nil); err != nil {
++			t.Fatal(err)
++		}
++		if got := source.Counters.GetCount(CounterPlusOnePlusOne); got != 2*creatures {
++			t.Fatal("unknown amount added a counter")
++		}
++		if err := gs.ExecuteAbilityEffectDirect(0, source, map[string]interface{}{"effect": "put_counters", "target_self": true}, nil); err != nil {
++			t.Fatal(err)
++		}
++		if got := source.Counters.GetCount(CounterPlusOnePlusOne); got != 2*creatures+1 {
++			t.Fatal("static default changed")
++		}
++	}
++}
++
++func TestShape_AuditedMonstrosityZero(t *testing.T) {
++	gs := NewGame("P0", "P1", false)
++	source := NewCreature("source", ManaCost{}, 2, 2, 0)
++	gs.Battlefield.AddCard(source)
++	if err := gs.ExecuteAbilityEffectDirect(0, source, map[string]interface{}{"effect": "put_counters", "target_self": true, "amount": 0, "monstrosity": true}, nil); err != nil {
++		t.Fatal(err)
++	}
++	if !source.IsMonstrous || source.Counters.GetCount(CounterPlusOnePlusOne) != 0 {
++		t.Fatal("monstrosity zero must change designation without adding counters")
++	}
++}
+-- 
+2.43.0
+

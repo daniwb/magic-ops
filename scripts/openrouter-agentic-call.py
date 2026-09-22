@@ -36,13 +36,14 @@ Exit: 0 with final answer on stdout, 1 on exhaustion (empty stdout — caller
 treats this exactly like the staged branch's "empty model reply").
 """
 import argparse, json, os, re, subprocess, sys, time, urllib.request, urllib.error
+import openrouter_cooldown
 
 ap = argparse.ArgumentParser()
 ap.add_argument('--repo', required=True)
 ap.add_argument('--base-url', default='https://openrouter.ai/api/v1')
 ap.add_argument('--model', default='stealth/ox-alpha')
 ap.add_argument('--max-turns', type=int, default=25)
-ap.add_argument('--max-tokens', type=int, default=8000)
+ap.add_argument('--max-tokens', type=int, default=16000)
 ap.add_argument('--reasoning-tokens', type=int, default=3000)
 ap.add_argument('--allow-game', action='store_true',
                  help='engine tier: backend/game/ edits are allowed (mirrors map-pipeline-apply.py\'s flag)')
@@ -94,7 +95,7 @@ def run_tool(name, args):
         target = os.path.join(a.repo, args.get('path', '.'))
         if not os.path.abspath(target).startswith(os.path.abspath(a.repo)):
             return 'ERROR: path escapes repo'
-        cmd = ['grep', '-rn', '-C', str(args.get('context_lines', 3)), '--', args['pattern'], target]
+        cmd = ['rg', '-n', '-C', str(args.get('context_lines', 3)), '--', args['pattern'], target]
         try:
             out = subprocess.run(cmd, capture_output=True, text=True, timeout=15).stdout
         except Exception as e:
@@ -175,6 +176,14 @@ NUDGE_AT = max(1, a.max_turns - 6)
 tin = tout = tcr = tcw = 0
 
 for turn in range(a.max_turns):
+    cooldown = openrouter_cooldown.status()
+    if not cooldown['allowed']:
+        print('turn %d: OpenRouter cooldown active for %ds until %s' %
+              (turn, cooldown['remaining_seconds'], cooldown.get('paused_until', 'unknown')),
+              file=sys.stderr)
+        print('tokens: in=%d out=%d cache_r=%d cache_w=%d' % (tin, tout, tcr, tcw), file=sys.stderr)
+        sys.exit(76)
+    request_started = time.time()
     call_messages = messages
     if turn >= NUDGE_AT:
         call_messages = messages + [{"role": "user", "content":
@@ -182,10 +191,18 @@ for turn in range(a.max_turns):
             "final answer (edit blocks or a park verdict, exact format from the system "
             "prompt) using what you already know. Do not verify further."}]
     body = {
-        "model": a.model, "max_tokens": a.max_tokens, "tools": TOOLS,
+        "model": a.model, "max_tokens": a.max_tokens,
         "reasoning": {"max_tokens": a.reasoning_tokens, "exclude": True},
         "messages": [{"role": "system", "content": SYSTEM_PROMPT}] + call_messages,
     }
+    if turn < NUDGE_AT:
+        body["tools"] = TOOLS
+    else:
+        # A textual nudge is not a boundary while tools remain advertised:
+        # some models keep exploring or even invent a write tool.  The final
+        # phase is deliberately no-tools so the only valid action is emitting
+        # the already-specified block/verdict contract.
+        body["tool_choice"] = "none"
     req = urllib.request.Request(
         a.base_url.rstrip('/') + '/chat/completions',
         data=json.dumps(body).encode(),
@@ -200,15 +217,39 @@ for turn in range(a.max_turns):
             result = json.load(resp)
     except urllib.error.HTTPError as e:
         if e.code == 429:
-            print('turn %d: HTTP 429 rate limited, backing off 30s' % turn, file=sys.stderr)
-            time.sleep(30)
+            cooldown = openrouter_cooldown.record_rate_limit(a.model)
+            print('turn %d: HTTP 429; OpenRouter paused %ds until %s' %
+                  (turn, cooldown['cooldown_seconds'], cooldown['paused_until']), file=sys.stderr)
+            print('tokens: in=%d out=%d cache_r=%d cache_w=%d' % (tin, tout, tcr, tcw), file=sys.stderr)
+            sys.exit(76)
+        if e.code in (502, 503):
+            delay = 10
+            print('turn %d: transient HTTP %d, backing off %ds' %
+                  (turn, e.code, delay), file=sys.stderr)
+            time.sleep(delay)
             continue
         print('turn %d: HTTP %d: %s' % (turn, e.code, e.read()[:300]), file=sys.stderr)
         break
     except Exception as e:
         print('turn %d: request failed: %s' % (turn, e), file=sys.stderr)
         break
-    msg = result['choices'][0]['message']
+    choices = result.get('choices') or []
+    if not choices:
+        error = result.get('error') or {}
+        print('turn %d: OpenRouter response without choices: %s' %
+              (turn, json.dumps(result, sort_keys=True)[:1200]), file=sys.stderr)
+        if error.get('code') == 429:
+            cooldown = openrouter_cooldown.record_rate_limit(a.model)
+            print('turn %d: embedded 429; OpenRouter paused %ds until %s' %
+                  (turn, cooldown['cooldown_seconds'], cooldown['paused_until']), file=sys.stderr)
+            print('tokens: in=%d out=%d cache_r=%d cache_w=%d' % (tin, tout, tcr, tcw), file=sys.stderr)
+            sys.exit(76)
+        if error.get('code') in (502, 503):
+            time.sleep(10)
+            continue
+        break
+    openrouter_cooldown.record_success(request_started, a.model)
+    msg = choices[0]['message']
     usage = result.get('usage', {})
     tin += usage.get('prompt_tokens', 0) - usage.get('prompt_tokens_details', {}).get('cached_tokens', 0)
     tcr += usage.get('prompt_tokens_details', {}).get('cached_tokens', 0)

@@ -1,0 +1,10 @@
+{
+  "ticket_id": "ticket:engine.auto-search-dynamic-mana-value-cap-a5b3c243f2/v3",
+  "receipt": "docs/factory-ng/runs/2026-09-16T085051Z-engine-auto-search-dynamic-mana-value-cap-a5b3c243f2-v3-codex.json",
+  "receipt_sha256": "sha256:e750c98119a50d7d3c423228687689d5457161c1cfde83bc4942f8bc3da9b6d5",
+  "raw_artifact": {
+    "path": "docs/factory-ng/runs/2026-09-16T085051Z-engine-auto-search-dynamic-mana-value-cap-a5b3c243f2-v3-codex.raw.json",
+    "sha256": "sha256:a1cfa653d809d7b54dcb85337b5bbb7fbc9bdf0bf360bc84ddf292914d0f2947"
+  },
+  "finding": "Explicit Luna capacity rejection before any patch; Terra configured and functioning since previous recovery. One attempt, original scope and all gates required."
+}

@@ -58,6 +58,12 @@ usage_gate() {
     # exhausted for the day at that exact moment. Caught within minutes via
     # worker_ctl.py status showing a nonsensical "pace-gate: over daily
     # step" on a lane that has nothing to do with Claude's quota.)
+    local cooldown
+    cooldown=$(python3 "$OPS/scripts/openrouter_cooldown.py" status 2>/dev/null)
+    if [ $? -ne 0 ]; then
+      log "$(printf '%s' "$cooldown" | jq -r '"OpenRouter cooldown: \(.remaining_seconds)s remaining, 429 stage \(.consecutive_429s)"' 2>/dev/null || echo 'OpenRouter cooldown active')"
+      return 1
+    fi
     return 0
   fi
   if ! pace_ok; then log "pace-gate: over daily step — pause"; return 1; fi
@@ -93,7 +99,10 @@ wait_for_landing() { # $1 branch — poll until merged into origin/main (max 25 
 }
 
 while :; do
-  if ! usage_gate; then sleep 1800; continue; fi
+  if ! usage_gate; then
+    if [ "${PIPE_ENGINE:-}" = openrouter ] || [ "${PIPE_ENGINE:-}" = openrouter-agentic ]; then sleep 15; else sleep 1800; fi
+    continue
+  fi
   EXCL=$(command grep -oE '^[0-9]+$' "$SKIPLIST" 2>/dev/null | head -400 | paste -sd, -)
   CLAIM=$(curl -s -m 30 "$DISPATCHER/claim?worker=$WORKER_ID&tier=map&exclude=$EXCL" 2>/dev/null || echo '{}')
   TICKET=$(printf '%s' "$CLAIM" | jq -r '.id // empty' 2>/dev/null)
@@ -177,6 +186,9 @@ c=sqlite3.connect('$OPS/services/dispatcher/v4/dispatcher.db')
 c.execute(\"update tickets set priority=-10 where id=$TICKET and state='todo'\"); c.commit()" 2>/dev/null || true
       fi
       log "#$TICKET escalated (retry counter++, deprioritized)";;
+    76)
+      report "$TICKET" retry infra "" "" "OpenRouter 429 cooldown; not skiplisted" "$TOK"
+      log "#$TICKET OpenRouter rate limited — returned without skiplisting";;
     *)
       # Skiplist too (2026-08-10): without this, a ticket whose pack
       # deterministically blows the model's max-turns/empty-reply case loops

@@ -1,0 +1,10 @@
+{
+  "ticket_id": "ticket:map.plan-pump-great-oak-guardian-3d7a9a79ac/v3",
+  "receipt": "docs/factory-ng/runs/2026-09-16T085542Z-map-plan-pump-great-oak-guardian-3d7a9a79ac-v3-codex.json",
+  "receipt_sha256": "sha256:2928c64503acd9fcecd8c9b0b94a9179a26ddf6c76cc5a771eab1d2bd2d6527f",
+  "raw_artifact": {
+    "path": "docs/factory-ng/runs/2026-09-16T085542Z-map-plan-pump-great-oak-guardian-3d7a9a79ac-v3-codex.raw.json",
+    "sha256": "sha256:dff359141d3609848396479a3b0987652643d2575b0c7a53258deba30c4bfc2d"
+  },
+  "finding": "Explicit Luna capacity rejection before any patch; Terra configured and functioning since previous recovery. One attempt, original scope and all gates required."
+}

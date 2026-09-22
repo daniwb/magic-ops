@@ -1,0 +1,12 @@
+[
+  {
+    "ticket_id": "ticket:engine.operator-shared-type-bounce-recovery-sep15/v1",
+    "ticket_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/shared-type-bounce/ticket.json",
+    "proposal": "docs/factory-ng/candidates/proposal-0cecf1e2566e46578ed053138908211d.json",
+    "identity": {
+      "worker": "operator",
+      "model": "operator-correction-no-worker-provider-run",
+      "profile": "codex-constrained@1.1.0"
+    }
+  }
+]

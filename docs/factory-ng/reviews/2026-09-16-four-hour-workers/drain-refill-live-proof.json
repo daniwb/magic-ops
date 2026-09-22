@@ -1,0 +1,168 @@
+{
+  "at": "2026-09-16T20:35:11.492178+00:00",
+  "window": {
+    "start": "2026-09-16T19:02:46Z",
+    "end": "2026-09-16T23:44:56.854616Z",
+    "baseline_states": {
+      "failed": 1341,
+      "completed": 1461,
+      "parked": 402,
+      "integration_failed": 3,
+      "blocked": 921
+    },
+    "workers": [
+      "codex",
+      "codex-2",
+      "codex-3",
+      "codex-4"
+    ],
+    "requested_end": "2026-09-16T23:02:46Z",
+    "stability_start": "2026-09-16T19:44:56.854616Z",
+    "stability_baseline_states": {
+      "failed": 1316,
+      "completed": 1467,
+      "integrating": 1,
+      "parked": 403,
+      "awaiting_verification": 7,
+      "working": 9,
+      "queued": 1,
+      "awaiting_integration": 1,
+      "integration_failed": 3,
+      "blocked": 920
+    }
+  },
+  "states": {
+    "failed": 1285,
+    "completed": 1486,
+    "parked": 409,
+    "working": 8,
+    "awaiting_verification": 14,
+    "integration_failed": 5,
+    "queued": 2,
+    "blocked": 920
+  },
+  "model_leases": {
+    "codex": [
+      {
+        "ticket": "ticket:map.plan-pump-congregation-gryff-81b8f40316/v2",
+        "alive": true,
+        "repair": false
+      }
+    ],
+    "codex-2": [
+      {
+        "ticket": "ticket:engine.auto-count-opponents-by-turn-event-threshold-dacec159a2/v3",
+        "alive": true,
+        "repair": false
+      }
+    ],
+    "codex-3": [
+      {
+        "ticket": "ticket:engine.auto-add-stun-counter-to-target-ee8fe19b4f/v3",
+        "alive": true,
+        "repair": true
+      }
+    ],
+    "codex-4": [
+      {
+        "ticket": "ticket:engine.auto-bind-auto-returned-card-as-sequence-damage-sourc-d9c54f289d/v3",
+        "alive": true,
+        "repair": true
+      }
+    ]
+  },
+  "recent_occupancy": [
+    {
+      "at": "2026-09-16T20:25:10.445848+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T20:25:40.828922+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T20:26:11.287308+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T20:26:41.721768+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T20:27:12.154550+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T20:27:42.565682+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T20:28:12.990012+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T20:28:43.416265+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T20:29:13.831584+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T20:29:44.311521+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T20:30:14.712926+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T20:30:45.145153+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T20:31:15.538802+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T20:31:46.008485+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T20:32:16.454745+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T20:32:46.864586+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T20:33:17.268680+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T20:33:47.685073+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T20:34:18.154236+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T20:34:48.598494+00:00",
+      "occupied": 4
+    }
+  ],
+  "window_sample_counts": {
+    "4": 25,
+    "3": 43,
+    "2": 19,
+    "1": 9,
+    "0": 3
+  },
+  "net_completed_since_request": 25,
+  "queued": [
+    "ticket:engine.auto-count-trigger-spell-colors-974680a6c3/v3",
+    "ticket:engine.auto-counter-target-activated-ability-only-1c26359a8e/v3"
+  ]
+}

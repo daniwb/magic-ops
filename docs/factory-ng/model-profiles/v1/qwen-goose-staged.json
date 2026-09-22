@@ -1,0 +1,40 @@
+{
+  "schema": "factory.model-profile/v1",
+  "id": "qwen-goose-staged",
+  "version": "1.0.0",
+  "extends": "staged-baseline@1.0.0",
+  "adapter": {
+    "adapter_id": "qwen-goose-staged-v1",
+    "executable": "scripts/model_call.py --engine goose-qwen-staged",
+    "engine": "goose-qwen-staged",
+    "workflow": "Complete staged packet plus bounded harness-owned database/API source evidence through Goose strix_halo; isolated configuration, no model tools",
+    "allowed_tools": [],
+    "filesystem": "read-only",
+    "network": "none",
+    "max_turns": 1,
+    "max_completion_tokens": 32000,
+    "max_model_calls": 3,
+    "thinking": "provider default (enabled; no-thinking benchmark failed patch application)",
+    "repair": "One bounded NEED continuation plus one initial patch and at most one protocol OR compile/test correction. Source discovery does not consume the correction."
+  },
+  "routing": {
+    "best_for": [
+      "evidence-complete Map and bounded Engine work"
+    ],
+    "escalate_when": [
+      "missing evidence after one bounded continuation"
+    ]
+  },
+  "telemetry": {
+    "source": "Goose stream-json complete event, aggregate session usage",
+    "measured": [
+      "input",
+      "output",
+      "cache_read",
+      "cache_write",
+      "elapsed"
+    ],
+    "note": "No provider cost supplied; output includes any reasoning. Raw events retained per call."
+  },
+  "qualification_evidence": "docs/benchmarks/goose-qwen-2026-09-20/"
+}

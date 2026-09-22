@@ -1,0 +1,176 @@
+CAPABILITY_ASSESSMENT: {"classification":"engine_gap","existing_symbols":["game.GameState.executeExileEffect","game.GameState.evalDynamicAmountBase","game.GameState.resolveDynamicAmountFull"],"remaining_gap":"No sequence-scoped tracking connects successful exile to later amount_count resolution.","verification":"Public ExecuteEffectSequence behavior test with successful, filtered, stale-state, and repeated-read cases"}
+
+<<<FILE backend/game/ability_effects.go
+<<<SEARCH
+		// mana_value filter (ticket
+		// engine.auto-exile-permanent-with-mana-value-filter-29de385b25,
+		// Isolate class): "Exile target permanent with mana value N." —
+		// map_atom emits effect_value.mana_value alongside the ordinary
+		// filter key; -1 (absent) keeps every other exile atom unrestricted.
+		manaValue := getIntValue(effectValue, "mana_value", -1)
+		// color filter (ticket
+		// engine.auto-exile-color-filter-effectvalue-wiring-abf0d6f486,
+		// Devout Decree class): "Exile target creature or planeswalker
+		// that's black or red." — effectValue.colors restricts exile to
+		// permanents of that color; empty/absent keeps every other exile
+		// atom unrestricted.
+		colorFilter := exileColorFilterFromEffectValue(effectValue)
+		return gs.executeExileEffect(targets, manaValue, colorFilter...)
+===REPLACE
+		// mana_value filter (ticket
+		// engine.auto-exile-permanent-with-mana-value-filter-29de385b25,
+		// Isolate class): "Exile target permanent with mana value N." —
+		// map_atom emits effect_value.mana_value alongside the ordinary
+		// filter key; -1 (absent) keeps every other exile atom unrestricted.
+		manaValue := getIntValue(effectValue, "mana_value", -1)
+		// color filter (ticket
+		// engine.auto-exile-color-filter-effectvalue-wiring-abf0d6f486,
+		// Devout Decree class): "Exile target creature or planeswalker
+		// that's black or red." — effectValue.colors restricts exile to
+		// permanents of that color; empty/absent keeps every other exile
+		// atom unrestricted.
+		colorFilter := exileColorFilterFromEffectValue(effectValue)
+
+		// Preserve the mana value only for a permanent that this atom
+		// successfully exiles. seqSlots is reset when the enclosing spell's
+		// effect sequence starts, so an unconsumed value cannot leak into a
+		// later spell or ability.
+		before := make(map[string]int)
+		for _, target := range targets {
+			if !target.IsCard {
+				continue
+			}
+			if card, err := gs.Battlefield.GetCard(target.CardID); err == nil && card != nil {
+				before[target.CardID] = card.ManaCost.CMC()
+			}
+		}
+		err := gs.executeExileEffect(targets, manaValue, colorFilter...)
+		if err != nil {
+			return err
+		}
+		if gs.seqSlots != nil {
+			for cardID, manaValue := range before {
+				for _, player := range gs.Players {
+					if player.Exile.HasCard(cardID) {
+						gs.seqSlots["exiled_this_way_mana_value"] = manaValue
+						break
+					}
+				}
+				if _, ok := gs.seqSlots["exiled_this_way_mana_value"]; ok {
+					break
+				}
+			}
+		}
+		return nil
+>>>END
+
+<<<FILE backend/game/ability_effects.go
+<<<SEARCH
+		} else if _, resolved := gs.EvalDynamicAmountFull(spec, controller, source, stackObj.EventCard, targets); !resolved {
+			return nil
+		}
+	}
+===REPLACE
+		} else if str(spec, "count") != "exiled_this_way_mana_value" {
+			if _, resolved := gs.EvalDynamicAmountFull(spec, controller, source, stackObj.EventCard, targets); !resolved {
+				return nil
+			}
+		}
+	}
+>>>END
+
+<<<FILE backend/game/dynamic_amount.go
+<<<SEARCH
+	case "activated_x_cost":
+		// activated-ability-x-cost-amount: the X value the controller paid
+===REPLACE
+	case "exiled_this_way_mana_value":
+		if gs.seqSlots == nil {
+			return 0, false
+		}
+		n, ok := gs.seqSlots["exiled_this_way_mana_value"]
+		if !ok {
+			return 0, false
+		}
+		delete(gs.seqSlots, "exiled_this_way_mana_value")
+		return n, true
+	case "activated_x_cost":
+		// activated-ability-x-cost-amount: the X value the controller paid
+>>>END
+
+<<<NEWFILE backend/game/factory_ng_a737105295_test.go
+package game
+
+import "testing"
+
+func TestFactoryNGDynamicAmountManaValueOfExiledThisWay(t *testing.T) {
+	artifact := NewCreature("Test Relic", ManaCost{Generic: 3}, 1, 1, 0)
+	artifact.Type = "Artifact"
+	artifact.Types = []string{"Artifact"}
+
+	source := NewCreature("Test Spell", ManaCost{}, 1, 1, 0)
+	target := Target{IsCard: true, CardID: artifact.ID}
+	count := map[string]interface{}{"count": "exiled_this_way_mana_value"}
+
+	t.Run("successful exile feeds later consumer and is consumed once", func(t *testing.T) {
+		gs := NewGame("P0", "P1", false)
+		gs.Battlefield.AddCard(artifact)
+		life := gs.Players[0].Life
+
+		err := gs.ExecuteEffectSequence(0, source, []EffectAtomSpec{
+			{Effect: "exile"},
+			{Effect: "gain_life", EffectValue: map[string]interface{}{"amount_count": count}},
+			{Effect: "gain_life", EffectValue: map[string]interface{}{"amount_count": count}},
+		}, []Target{target}, 0, nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if got := gs.Players[0].Life; got != life+3 {
+			t.Fatalf("life = %d, want %d", got, life+3)
+		}
+	})
+
+	t.Run("filtered exile does not publish a value", func(t *testing.T) {
+		gs := NewGame("P0", "P1", false)
+		card := NewCreature("Filtered Relic", ManaCost{Generic: 3}, 1, 1, 0)
+		card.Type = "Artifact"
+		card.Types = []string{"Artifact"}
+		gs.Battlefield.AddCard(card)
+		life := gs.Players[0].Life
+
+		err := gs.ExecuteEffectSequence(0, source, []EffectAtomSpec{
+			{Effect: "exile", EffectValue: map[string]interface{}{"mana_value": 4}},
+			{Effect: "gain_life", EffectValue: map[string]interface{}{"amount_count": count}},
+		}, []Target{{IsCard: true, CardID: card.ID}}, 0, nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if gs.Players[0].Life != life {
+			t.Fatalf("filtered exile changed life")
+		}
+	})
+
+	t.Run("unconsumed value does not leak to a later sequence", func(t *testing.T) {
+		gs := NewGame("P0", "P1", false)
+		card := NewCreature("Unconsumed Relic", ManaCost{Generic: 2}, 1, 1, 0)
+		card.Type = "Artifact"
+		card.Types = []string{"Artifact"}
+		gs.Battlefield.AddCard(card)
+
+		if err := gs.ExecuteEffectSequence(0, source, []EffectAtomSpec{{Effect: "exile"}}, []Target{{IsCard: true, CardID: card.ID}}, 0, nil); err != nil {
+			t.Fatal(err)
+		}
+		life := gs.Players[0].Life
+		if err := gs.ExecuteEffectSequence(0, source, []EffectAtomSpec{
+			{Effect: "gain_life", EffectValue: map[string]interface{}{"amount_count": count}},
+		}, nil, 0, nil); err != nil {
+			t.Fatal(err)
+		}
+		if gs.Players[0].Life != life {
+			t.Fatalf("unrelated sequence observed stale exiled mana value")
+		}
+	})
+}
+>>>END
+
+EXPECT: Successful same-spell exile now supplies its permanent’s mana value to later amount_count consumers, while filtered, repeated, and unrelated resolutions remain isolated.

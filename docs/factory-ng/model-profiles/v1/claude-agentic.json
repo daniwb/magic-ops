@@ -1,0 +1,28 @@
+{
+  "schema": "factory.model-profile/v1",
+  "id": "claude-agentic",
+  "version": "1.0.0",
+  "extends": "staged-baseline@1.0.0",
+  "adapter": {
+    "adapter_id": "claude-agentic-v1",
+    "executable": "claude -p",
+    "engine": "claude-agentic",
+    "workflow": "Claude Code headless read-only tool loop (Read/Grep/Glob plus the FTS5 card-knowledge index) for Map and Engine work; the harness alone applies edit blocks and owns every gate",
+    "allowed_tools": ["read_file", "grep", "list_dir"],
+    "filesystem": "read-only",
+    "network": "none",
+    "max_turns": 60,
+    "output_markers": ["<<<", "@@@"]
+  },
+  "routing": {
+    "best_for": ["Engine primitive work whose evidence cannot be prepared deterministically", "Map successors after an Engine dependency integrated", "AMBIGUOUS parks caused by missing source regions"],
+    "do_not_use_when": ["the ticket is evidence-complete Map work that unmetered prepared Qwen can do"],
+    "qualification": "Controlled rollout 2026-09-04: replaces the prepared claude-staged route after ~70% of Engine tickets parked AMBIGUOUS for lack of source evidence; token cost accepted by the operator."
+  },
+  "telemetry": {
+    "source": "Claude JSON modelUsage aggregate",
+    "measured": ["input", "output", "cache_read", "cache_write", "elapsed"],
+    "unavailable": ["provider_cost", "reasoning"],
+    "note": "nested provider model usage is aggregated across every agentic turn"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "gates": [
+    {
+      "id": "scope",
+      "outcome": "passed",
+      "detail": "changed=backend/game/ability_effects.go,backend/cards/registry_factory_ng_4b119c08d6.go,backend/cards/shape_mill_unless_test.go"
+    },
+    {
+      "id": "engine-vocabulary-handoff",
+      "outcome": "passed",
+      "detail": "All newly added public effects are registered.",
+      "elapsed_ms": 1069
+    },
+    {
+      "id": "ticket-gate-0",
+      "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+      "outcome": "passed",
+      "elapsed_ms": 1200,
+      "detail": ""
+    },
+    {
+      "id": "ticket-gate-1",
+      "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGSacrificeSelfUnlessMill_4b119c08d6$' -count=1",
+      "outcome": "passed",
+      "elapsed_ms": 462550,
+      "detail": "testing: warning: no tests to run\nPASS\nok  \tmagic-backend/game\t0.029s [no tests to run]\n=== RUN   TestFactoryNGSacrificeSelfUnlessMill_4b119c08d6\n=== RUN   TestFactoryNGSacrificeSelfUnlessMill_4b119c08d6/accept\n--- PASS: TestFactoryNGSacrificeSelfUnlessMill_4b119c08d6/accept (0.00s)\n=== RUN   TestFactoryNGSacrificeSelfUnlessMill_4b119c08d6/decline\n--- PASS: TestFactoryNGSacrificeSelfUnlessMill_4b119c08d6/decline (0.00s)\n=== RUN   TestFactoryNGSacrificeSelfUnlessMill_4b119c08d6/exact\n--- PASS: TestFactoryNGSacrificeSelfUnlessMill_4b119c08d6/exact (0.00s)\n=== RUN   TestFactoryNGSacrificeSelfUnlessMill_4b119c08d6/short\n--- PASS: TestFactoryNGSacrificeSelfUnlessMill_4b119c08d6/short (0.00s)\n=== RUN   TestFactoryNGSacrificeSelfUnlessMill_4b119c08d6/empty\n--- PASS: TestFactoryNGSacrificeSelfUnlessMill_4b119c08d6/empty (0.00s)\n=== RUN   TestFactoryNGSacrificeSelfUnlessMill_4b119c08d6/library_changed\n--- PASS: TestFactoryNGSacrificeSelfUnlessMill_4b119c08d6/library_changed (0.00s)\n=== RUN   TestFactoryNGSacrificeSelfUnlessMill_4b119c08d6/source_gone\n--- PASS: TestFactoryNGSacrificeSelfUnlessMill_4b119c08d6/source_gone (0.00s)\n--- PASS: TestFactoryNGSacrificeSelfUnlessMill_4b119c08d6 (0.01s)\nPASS\nok  \tmagic-backend/cards\t0.045s\nNamed test gate: 8 test(s) passed for '^TestFactoryNGSacrificeSelfUnlessMill_4b119c08d6$'"
+    },
+    {
+      "id": "ticket-gate-2",
+      "command": "cd backend && go test ./game ./cards",
+      "outcome": "passed",
+      "elapsed_ms": 215162,
+      "detail": "ok  \tmagic-backend/game\t0.915s\nok  \tmagic-backend/cards\t189.074s"
+    },
+    {
+      "id": "ticket-gate-3",
+      "command": "git diff --check",
+      "outcome": "passed",
+      "elapsed_ms": 351,
+      "detail": ""
+    }
+  ],
+  "changed": [
+    "backend/game/ability_effects.go",
+    "backend/cards/registry_factory_ng_4b119c08d6.go",
+    "backend/cards/shape_mill_unless_test.go"
+  ]
+}

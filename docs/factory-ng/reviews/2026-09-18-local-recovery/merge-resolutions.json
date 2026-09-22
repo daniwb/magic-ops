@@ -1,0 +1,101 @@
+{
+  "schema": "factory.reviewed-merge-resolutions/v1",
+  "resolutions": {
+    "ticket:map.plan-grant-eot-faith-s-shield-4b81a4c773/v3": {
+      "original_patch_sha256": "sha256:2accb6cd550a47ef091304297b87c5dfe3ca9d5c03e2cbe314aeb81cd5f86285",
+      "ticket_sha256": "sha256:2e18901a9ced35072a1f081cf264a78636d996f26a02d03bdbcd76116c256285",
+      "patch": "docs/factory-ng/reviews/2026-09-18-local-recovery/map.plan-grant-eot-faith-s-shield-4b81a4c773-v3.patch",
+      "patch_sha256": "sha256:f79c532ec2d8626aebe17df4bba19c72bc5b50c353046d2196a671231b01f24e",
+      "source_revision": "7ab1fa0f77af4b6b6192b6ae4d8de5674963ca32",
+      "reason": "Preserve the accepted Faiths Shield parser patch and original tests; resolve the full-suite Go executable through the native toolchain PATH instead of the absent old-host path. All six shards and cardfns vet/tests remain mandatory."
+    },
+    "ticket:engine.auto-damage-by-target-source-power-mapping-024a5245b3/v5": {
+      "original_patch_sha256": "sha256:3006461798848e86daac9e7d88df52822310a963dd8854b15072f7625741a7f2",
+      "ticket_sha256": "sha256:ca6bb6a55e33e866f97ed45829d7d2a59af226db819641e414f1d93dbe0aa706",
+      "patch": "docs/factory-ng/reviews/2026-09-18-local-recovery/engine.auto-damage-by-target-source-power-mapping-024a5245b3-v5.patch",
+      "patch_sha256": "sha256:6eec27270f0309fee93a1001238e1e8e8f47db54fc7128101426e3543821fa74",
+      "source_revision": "7ab1fa0f77af4b6b6192b6ae4d8de5674963ca32",
+      "reason": "Compose independent source-creature/player damage conversion with the newer selected-source and literal untap paths; retain both independent target contracts and original end-to-end test."
+    },
+    "ticket:engine.auto-damage-equal-to-source-power-to-flying-creature-4efc529ec4/v4": {
+      "original_patch_sha256": "sha256:24f76cdfdac80b3d2b90a4ad5064ad5531cfa3372fc9429924e1d21ba6ad0975",
+      "ticket_sha256": "sha256:e71f870e21de44afcd58b63c2ed08d97b61b271cfe95131bc584825f5fa22d8b",
+      "patch": "docs/factory-ng/reviews/2026-09-18-local-recovery/engine.auto-damage-equal-to-source-power-to-flying-creature-4efc529ec4-v4-followup.patch",
+      "patch_sha256": "sha256:3336c6f83f4f5f549af77b71009a8fbab2510baa565aae1db868dc5931912952",
+      "source_revision": "2637c1ca49f9a69929f29a9ee3893cd009fdac64",
+      "reason": "Rebase reviewed source-power flying-creature conversion onto the complete recovery composition, retaining the newly integrated graveyard target conversion required by Pre-War Formalwear."
+    },
+    "ticket:engine.auto-damage-punisher-choice-e36bbf48c8/v3": {
+      "original_patch_sha256": "sha256:65598ea32f498d5288d20752be70f2a2ea0d6b19ae12a06716b1ab2ba71d68c3",
+      "ticket_sha256": "sha256:ef07581e1bb78d735914d513ed7d6f50b77fc7b8a58cec752b3ba503b83e2f76",
+      "patch": "docs/factory-ng/reviews/2026-09-18-local-recovery/engine.auto-damage-punisher-choice-e36bbf48c8-v3.patch",
+      "patch_sha256": "sha256:2a562b820996a803546ca0c6e5bab0feb49db0a3eb75704133cff9effe63491b",
+      "source_revision": "7ab1fa0f77af4b6b6192b6ae4d8de5674963ca32",
+      "reason": "Keep independent damage-choice executors together without replacing newer enchanted-player or sacrifice-another-creature behavior; retain original punisher runtime tests."
+    },
+    "ticket:engine.auto-fight-attached-creature-8575a14e03/v4": {
+      "original_patch_sha256": "sha256:dd41e05a46be57d9a0108702fc2ea4ba4adf400af5c64c9c41b7691faa22d6a5",
+      "ticket_sha256": "sha256:e42a3239a4f266c259e52d8fbe4253a1e883d22af89bd6f5e36a84e3ef45b75a",
+      "patch": "docs/factory-ng/reviews/2026-09-18-local-recovery/engine.auto-fight-attached-creature-8575a14e03-v4.patch",
+      "patch_sha256": "sha256:699d2c5c8427d962eb3840e9fddc14f7f8ee41ee96b981871670025ad69577e1",
+      "source_revision": "7ab1fa0f77af4b6b6192b6ae4d8de5674963ca32",
+      "reason": "Add attached fight referent conversion while preserving newer untap referents, source-power damage and token-copy links; original behavior gates retained."
+    },
+    "ticket:engine.auto-fight-attached-referent-1622bc7a24/v4": {
+      "original_patch_sha256": "sha256:62553f85208fe632b9b5e4d8bc83c774b87d374e0c2664a81c1c922e869e4699",
+      "ticket_sha256": "sha256:48fbb48cfbbeb4501ca5f997388e51b48d96cb87bfa14458cb1c699887e7a81e",
+      "patch": "docs/factory-ng/reviews/2026-09-18-local-recovery/engine.auto-fight-attached-referent-1622bc7a24-v4-followup.patch",
+      "patch_sha256": "sha256:805215bb4e9ecc71abfa40da04d671e8943373e339c7053378775534211b6120",
+      "source_revision": "2637c1ca49f9a69929f29a9ee3893cd009fdac64",
+      "reason": "Rebase attached-Aura fight referent onto the complete recovery composition with all prior sequence and target-routing repairs retained."
+    },
+    "ticket:engine.auto-return-from-graveyard-multi-target-amount-f8cb94fb74/v5": {
+      "original_patch_sha256": "sha256:e7c9641ca3bd0afb5f4a7658d74bd812dd9c79ac8082f16d4355c2320aabdd8f",
+      "ticket_sha256": "sha256:54a7b5bed35fc262b6dd25a181cf426b78236aa837c092e92b409eee020f9de3",
+      "patch": "docs/factory-ng/reviews/2026-09-18-local-recovery/engine.auto-return-from-graveyard-multi-target-amount-f8cb94fb74-v5.patch",
+      "patch_sha256": "sha256:6ca53df6e14e11f20278d004c1dd44fabb632d45c4d2fd74f2d24d9a13b1fc9f",
+      "source_revision": "7ab1fa0f77af4b6b6192b6ae4d8de5674963ca32",
+      "reason": "Preserve bounded tapped land reanimation target counts alongside flying-creature and graveyard target routing, independent damage and token-copy links; retain exact original multi-target tests."
+    },
+    "ticket:engine.auto-spell-two-target-role-filters-20443676d0/v4": {
+      "original_patch_sha256": "sha256:556feda462f160c9142bff662e54ecf7465361faf79e405ece383b217fc3b7b8",
+      "ticket_sha256": "sha256:2e576fa0a3f2f35509cb050203337f4bf1281aee884bcab677ec55c25ec97735",
+      "patch": "docs/factory-ng/reviews/2026-09-18-local-recovery/engine.auto-spell-two-target-role-filters-20443676d0-v4.patch",
+      "patch_sha256": "sha256:6d0d263033a756397cf8da45077b573e721546f1fc12cd73333b7234e34a3330",
+      "source_revision": "7ab1fa0f77af4b6b6192b6ae4d8de5674963ca32",
+      "reason": "Retain separate two-role target validation for your-creature/any-creature, opponent fight, artifact/enchantment and player target slots; original two-role behavior test retained."
+    },
+    "ticket:engine.auto-tap-or-untap-attached-choice-7e9017ab8c/v2": {
+      "original_patch_sha256": "sha256:db5b8918b05caf0b7089470b46ac488c03ae2a8706bd59988791ab4fa7cf4f7c",
+      "ticket_sha256": "sha256:0cfbd16b3f086570f8dbe62b0cd529fc49a42d138f2b519aebc2d13a7b8dc2d8",
+      "patch": "docs/factory-ng/reviews/2026-09-18-local-recovery/engine.auto-tap-or-untap-attached-choice-7e9017ab8c-v2.patch",
+      "patch_sha256": "sha256:e0541e9af9bc4f52a2662e5964a73cf17148c53927359d4b23c52f6345e9e1a5",
+      "source_revision": "7ab1fa0f77af4b6b6192b6ae4d8de5674963ca32",
+      "reason": "Keep distinct attached-permanent tap/untap choice dispatch alongside the newer bounded untap primitive, with original choice tests."
+    },
+    "ticket:engine.auto-token-copy-keyword-override-a62993984b/v4": {
+      "original_patch_sha256": "sha256:06972179e88bc13f359481e9a83ad45b5ade6de602c7338b87c2f7b0090f34ed",
+      "ticket_sha256": "sha256:5d8457a6167892490a96a6325006aae02d75bb3cbc11f40f32064c5cda02628b",
+      "patch": "docs/factory-ng/reviews/2026-09-18-local-recovery/engine.auto-token-copy-keyword-override-a62993984b-v4.patch",
+      "patch_sha256": "sha256:732b40bf9d3bc15ee5d2a5db8ad32bfb7178bf0206db15b598319da47b7697bc",
+      "source_revision": "7ab1fa0f77af4b6b6192b6ae4d8de5674963ca32",
+      "reason": "Compose token-copy singular/list keyword overrides and legendary stripping with newer added card types; preserve all copied characteristics and original end-to-end tests."
+    },
+    "ticket:engine.auto-damage-amount-equals-trigger-creature-count-d7ae562dbc/v5": {
+      "original_patch_sha256": "sha256:d32575cb012465f7a4fe2c22ed326b53ec05f0232899af387d2975b95e4815ae",
+      "ticket_sha256": "sha256:e04c6ac98e741c975262a8e2470dc5703cc4042b89bb03a5495c52fa1da20f48",
+      "patch": "docs/factory-ng/reviews/2026-09-18-local-recovery/engine.auto-damage-amount-equals-trigger-creature-count-d7ae562dbc-v5.patch",
+      "patch_sha256": "sha256:855db8d2f5a054bc10820597779495a62fded90f7cb8b3ef5604f50a0f3ff60e",
+      "source_revision": "7ab1fa0f77af4b6b6192b6ae4d8de5674963ca32",
+      "reason": "Deduplicate matching one-or-more attack abilities using original per-attacker events instead of publishing an extra event. Original dynamic-damage test and all seven historically failing handler selectors pass."
+    },
+    "ticket:engine.auto-destroy-unless-controller-pays-205cf02727/v2": {
+      "original_patch_sha256": "sha256:262db99a89775d3bedaa0b0bfa633eb5b108c543ca731ac94d36a1f70cc48d58",
+      "ticket_sha256": "sha256:a7a4434f4c0b8b68ed45422c9373bc7d1abbe8a7ad58bb3b1b9c9b29c4812abe",
+      "patch": "docs/factory-ng/reviews/2026-09-18-local-recovery/engine.auto-destroy-unless-controller-pays-205cf02727-v2.patch",
+      "patch_sha256": "sha256:a16605fb910816edde603e254c81d46abf4160beabb048c4dc798dc86f078654",
+      "source_revision": "7ab1fa0f77af4b6b6192b6ae4d8de5674963ca32",
+      "reason": "Mark converted destroy-unless-target-controller-pays abilities explicitly; leave legacy you-may-pay handler payer selection and explicit payer overrides unchanged. Original pay/decline behavior and all three previously failing colored-mana handler regressions pass."
+    }
+  }
+}

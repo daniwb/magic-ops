@@ -1,0 +1,164 @@
+{
+  "at": "2026-09-16T22:29:46.730781+00:00",
+  "window": {
+    "start": "2026-09-16T19:02:46Z",
+    "end": "2026-09-16T23:44:56.854616Z",
+    "baseline_states": {
+      "failed": 1341,
+      "completed": 1461,
+      "parked": 402,
+      "integration_failed": 3,
+      "blocked": 921
+    },
+    "workers": [
+      "codex",
+      "codex-2",
+      "codex-3",
+      "codex-4"
+    ],
+    "requested_end": "2026-09-16T23:02:46Z",
+    "stability_start": "2026-09-16T19:44:56.854616Z",
+    "stability_baseline_states": {
+      "failed": 1316,
+      "completed": 1467,
+      "integrating": 1,
+      "parked": 403,
+      "awaiting_verification": 7,
+      "working": 9,
+      "queued": 1,
+      "awaiting_integration": 1,
+      "integration_failed": 3,
+      "blocked": 920
+    }
+  },
+  "states": {
+    "failed": 1242,
+    "completed": 1526,
+    "parked": 419,
+    "integration_failed": 10,
+    "awaiting_verification": 15,
+    "working": 8,
+    "blocked": 909
+  },
+  "model_leases": {
+    "codex": [
+      {
+        "ticket": "ticket:engine.auto-destroy-unless-pay-mana-or-life-real-choice-e9e8a725d1/v3",
+        "alive": true,
+        "repair": false
+      }
+    ],
+    "codex-2": [
+      {
+        "ticket": "ticket:engine.auto-damage-by-prior-chosen-target-power-b5ec4751bb/v3",
+        "alive": true,
+        "repair": true
+      }
+    ],
+    "codex-3": [
+      {
+        "ticket": "ticket:engine.auto-discard-each-player-hand-f1b4071e1b/v3",
+        "alive": true,
+        "repair": false
+      }
+    ],
+    "codex-4": [
+      {
+        "ticket": "ticket:engine.auto-discard-to-target-controller-f0db96bf3c/v3",
+        "alive": true,
+        "repair": false
+      }
+    ]
+  },
+  "recent_occupancy": [
+    {
+      "at": "2026-09-16T22:19:51.295916+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T22:20:21.722103+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T22:20:52.168458+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T22:21:22.591609+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T22:21:53.009723+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T22:22:23.453974+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:22:54.193039+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T22:23:24.617116+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T22:23:55.080814+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T22:24:25.486071+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T22:24:56.026928+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T22:25:26.600146+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T22:25:57.014699+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T22:26:27.480035+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T22:26:57.939123+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T22:27:28.348376+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T22:27:58.746062+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T22:28:29.256282+00:00",
+      "occupied": 0
+    },
+    {
+      "at": "2026-09-16T22:28:59.700350+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T22:29:30.153714+00:00",
+      "occupied": 3
+    }
+  ],
+  "window_sample_counts": {
+    "4": 70,
+    "3": 92,
+    "2": 81,
+    "1": 75,
+    "0": 7
+  },
+  "net_completed_since_request": 65,
+  "queued": []
+}

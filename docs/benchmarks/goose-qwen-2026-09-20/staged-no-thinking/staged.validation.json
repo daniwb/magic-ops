@@ -1,0 +1,11 @@
+{
+  "mode": "staged",
+  "source_revision": "fcb60f31cda3285216ac60206c56cc320b8e8b16",
+  "apply": {
+    "exit_code": 6,
+    "stdout": "backend/game/ability_effects.go: SEARCH text not found (must be copied verbatim, no line numbers)\nbackend/game/ability_effects.go: NEWFILE but file already exists \u2014 use SEARCH/REPLACE\n",
+    "stderr": "",
+    "elapsed_ms": 21
+  },
+  "validation_seconds": 0.021
+}

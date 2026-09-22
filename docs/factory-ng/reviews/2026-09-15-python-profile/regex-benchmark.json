@@ -1,0 +1,44 @@
+[
+  {
+    "mode": "existing",
+    "run": 0,
+    "cpu_seconds": 0.7347116030000009,
+    "cards": 60,
+    "same_outputs": true
+  },
+  {
+    "mode": "existing",
+    "run": 1,
+    "cpu_seconds": 0.7445241120000006,
+    "cards": 60,
+    "same_outputs": true
+  },
+  {
+    "mode": "existing",
+    "run": 2,
+    "cpu_seconds": 0.7283628059999998,
+    "cards": 60,
+    "same_outputs": true
+  },
+  {
+    "mode": "bounded_cache",
+    "run": 0,
+    "cpu_seconds": 0.5423747829999996,
+    "cards": 60,
+    "same_outputs": true
+  },
+  {
+    "mode": "bounded_cache",
+    "run": 1,
+    "cpu_seconds": 0.13257513299999957,
+    "cards": 60,
+    "same_outputs": true
+  },
+  {
+    "mode": "bounded_cache",
+    "run": 2,
+    "cpu_seconds": 0.1337979659999995,
+    "cards": 60,
+    "same_outputs": true
+  }
+]

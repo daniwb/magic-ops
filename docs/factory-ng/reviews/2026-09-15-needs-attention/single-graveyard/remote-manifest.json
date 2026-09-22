@@ -1,0 +1,12 @@
+[
+  {
+    "ticket_id": "ticket:engine.operator-single-graveyard-exile-sep15/v1",
+    "ticket_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/single-graveyard/ticket.json",
+    "proposal": "docs/factory-ng/candidates/proposal-24fc6d83f31943b6803a3a562fbf86a3.json",
+    "identity": {
+      "worker": "operator",
+      "model": "operator-correction-no-worker-provider-run",
+      "profile": "codex-constrained@1.1.0"
+    }
+  }
+]

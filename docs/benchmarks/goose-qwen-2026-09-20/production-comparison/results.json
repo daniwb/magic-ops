@@ -1,0 +1,648 @@
+{
+  "method": "Unique Engine ticket versions with observation receipts on the stated UTC day. Repeated receipts deduplicated. Pushed integrations linked by matching observation receipt; excluded candidates checked. Idle/usage-gated queue entries excluded. Different tasks, dates and code revisions; not a controlled benchmark. Qwen snapshot around 14:45 UTC.",
+  "claude": {
+    "ticket_versions": 53,
+    "states": {
+      "parked": 17,
+      "gate_failed": 12,
+      "integrated": 24
+    },
+    "details": [
+      {
+        "ticket": "ticket:engine.auto-pump-affects-same-named-creatures-b15f77e6cd/v3",
+        "state": "parked",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T000202Z-engine-auto-pump-affects-same-named-creatures-b15f77e6cd-v3-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-max-power-union-battlefield-graveyard-3096f702dd/v3",
+        "state": "gate_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T000914Z-engine-auto-max-power-union-battlefield-graveyard-3096f702dd-v3-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-optional-sacrifice-or-discard-conditional-draw-14caf8ea1a/v4",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T000738Z-focused-7133c64ca32a4946a3f905fdd71d1421-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T000954Z-wave-f0f112e523ec-1789603794114769867-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-pump-until-eot-defending-player-land-count-4853deb9b5/v3",
+        "state": "parked",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T001048Z-engine-auto-pump-until-eot-defending-player-land-count-4853deb9b5-v3-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-pump-until-eot-mana-value-ef4455961d/v3",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T001955Z-focused-13dc8c63838942d7be2b7ad4aae57ed6-1.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T002204Z-wave-ff30cf5cf499-1789604524617601009-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-put-counters-choose-permanent-you-control-67d2706f4c/v3",
+        "state": "gate_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T002558Z-engine-auto-put-counters-choose-permanent-you-control-67d2706f4c-v3-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-put-counters-conditional-amount-target-subtype-bd397d354f/v3",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T002648Z-focused-b2a41678d0224ccba04c7a9d6f273ed2-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T002924Z-wave-92e355ebfcb6-1789604964107925328-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-remove-counter-targeted-spell-referent-d71e64f22d/v3",
+        "state": "parked",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T003405Z-engine-auto-remove-counter-targeted-spell-referent-d71e64f22d-v3-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-regenerate-attached-permanent-a72b4fbf15/v4",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T004150Z-focused-d8a5b03e5d094c55b937a43b6cd8d805-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T004207Z-wave-980696ea3dfd-1789605727768081560-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-regenerate-target-color-filter-6f1012fdaa/v3",
+        "state": "gate_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T004217Z-engine-auto-regenerate-target-color-filter-6f1012fdaa-v3-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-counter-target-spell-targets-creature-filter-22bc76cf05/v4",
+        "state": "gate_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T004310Z-engine-auto-counter-target-spell-targets-creature-filter-22bc76cf05-v4-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-return-from-graveyard-mv-budget-e111ba8ab7/v3",
+        "state": "gate_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T010015Z-engine-auto-return-from-graveyard-mv-budget-e111ba8ab7-v3-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-return-from-graveyard-random-x-count-92f1edec46/v3",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T010234Z-focused-ed9b9744990649758c671d6f54dfd38c-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T010310Z-wave-40ef24f24113-1789606990564312521-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-sacrifice-referenced-permanent-unless-pay-mana-v-fde650153e/v3",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T010246Z-focused-e6f564a5944f4edb8df2d7a92a93afda-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T010310Z-wave-40ef24f24113-1789606990564312521-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-return-from-graveyard-mana-value-filter-40a5f5303a/v5",
+        "state": "gate_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T010337Z-engine-auto-return-from-graveyard-mana-value-filter-40a5f5303a-v5-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-sacrifice-source-self-referent-9c6fae8e05/v3",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T010654Z-focused-54302b73fcca41518fa276697cc2a54d-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T010913Z-engine-auto-sacrifice-source-self-referent-9c6fae8e05-v3-1789607353986257763-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-sacrifice-unless-player-alternative-2da79135d4/v3",
+        "state": "parked",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T010820Z-engine-auto-sacrifice-unless-player-alternative-2da79135d4-v3-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-sacrifice-unless-alternative-2a8dfad998/v4",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T011121Z-focused-786b28e9cd2b49bdbac51102c898d24e-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T011342Z-wave-9c277a46ce42-1789607622023141298-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-sacrifice-unless-discard-alternative-1aab2e3d82/v4",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T011124Z-focused-2e4d54db97764633aefc5df1f12c133a-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T011342Z-wave-9c277a46ce42-1789607622023141298-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-sacrifice-unless-pay-cost-624a864f1a/v4",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T011839Z-focused-eae83904a0b64cfeb29d1f973de5e3ca-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T011847Z-wave-32d51066968f-1789607927983103033-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-sacrifice-unless-sacrifice-filtered-f90fc6ccb5/v4",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T011839Z-focused-eae83904a0b64cfeb29d1f973de5e3ca-2.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T011847Z-wave-32d51066968f-1789607927983103033-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-search-filter-dynamic-mv-paid-x-cff1685fa1/v4",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T012557Z-focused-1ec29b264e82430a9650c4671cc377b5-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T012831Z-wave-2f55d23ef39e-1789608511112869240-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-set-base-power-toughness-until-eot-9ec1e9fa2f/v3",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T012558Z-focused-1ec29b264e82430a9650c4671cc377b5-1.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T012831Z-wave-2f55d23ef39e-1789608511112869240-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-counter-target-spell-that-targets-creature-958c4bcef9/v4",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T012938Z-focused-aa1c6585934c4041872c8ba34f732c2b-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T013145Z-wave-dd32184b2acf-1789608705068208972-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-counter-target-spell-color-filter-67b64430fb/v4",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T013748Z-focused-5b578862c00749599b0461691adcc836-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T013828Z-wave-9e6086bdf323-1789609108686983841-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-tap-referent-target-21039dcdf4/v3",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T013452Z-focused-078d663dd7e4472d842c57a847155498-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T013556Z-wave-a1b55ded8743-1789608956884006967-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-spell-destroy-opponent-chosen-secondary-wiring-21ead46050/v3",
+        "state": "gate_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T180024Z-engine-auto-spell-destroy-opponent-chosen-secondary-wiring-21ead46050-v3-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-count-nontoken-creatures-entered-under-control-t-891ef73ee9/v2",
+        "state": "gate_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T181504Z-engine-auto-count-nontoken-creatures-entered-under-control-t-891ef73ee9-v2-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-return-from-graveyard-attach-to-trigger-object-d-237cc423c1/v1",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T182647Z-focused-64f57010def2438a97f45148de13012a-2.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T182735Z-wave-96e909624b6e-1789669655653275033-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-copy-target-ability-choose-new-targets-dispatch-9792598e61/v1",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T184344Z-focused-7a0175094c614fce818a5324a9fdb67c-1.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T184557Z-wave-e23fcf42f31b-1789670757403674237-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-activated-target-filter-optional-max-count-e3e9067d73/v1",
+        "state": "parked",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T185754Z-engine-auto-activated-target-filter-optional-max-count-e3e9067d73-v1-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-activated-target-filter-optional-max-count-e3e9067d73/v2",
+        "state": "parked",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T190442Z-engine-auto-activated-target-filter-optional-max-count-e3e9067d73-v2-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-trigger-subject-any-creature-enchanted-at-death-ac54dab920/v1",
+        "state": "parked",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T192015Z-engine-auto-trigger-subject-any-creature-enchanted-at-death-ac54dab920-v1-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-trigger-subject-any-creature-enchanted-at-death-ac54dab920/v2",
+        "state": "parked",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T192912Z-engine-auto-trigger-subject-any-creature-enchanted-at-death-ac54dab920-v2-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-counter-target-spell-color-filter-8a87fd4563/v4",
+        "state": "parked",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T194732Z-engine-auto-counter-target-spell-color-filter-8a87fd4563-v4-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-count-opponents-dealt-combat-damage-this-turn-a88a3d02eb/v4",
+        "state": "gate_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T195113Z-engine-auto-count-opponents-dealt-combat-damage-this-turn-a88a3d02eb-v4-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-fight-sequence-referent-vs-target-creature-cafa2fa7d6/v1",
+        "state": "gate_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T195414Z-engine-auto-fight-sequence-referent-vs-target-creature-cafa2fa7d6-v1-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-activated-effect-sequence-qualified-target-filte-fde3226fe4/v1",
+        "state": "parked",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T195649Z-engine-auto-activated-effect-sequence-qualified-target-filte-fde3226fe4-v1-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-pump-until-eot-other-creatures-you-control-no-ta-692ea1c6c4/v1",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T200710Z-focused-ca4281260724461180e811ebb9d5ea67-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T200914Z-wave-680de7ce44a6-1789675754105549498-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-damage-target-creature-subtype-40e3628dbc/v5",
+        "state": "gate_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T201441Z-engine-auto-damage-target-creature-subtype-40e3628dbc-v5-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-triggered-optional-x-search-filter-binding-afeeb6d9b3/v2",
+        "state": "parked",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T202235Z-engine-auto-triggered-optional-x-search-filter-binding-afeeb6d9b3-v2-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-token-copy-grant-keyword-and-delayed-sacrifice-13e991c971/v1",
+        "state": "parked",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T203042Z-engine-auto-token-copy-grant-keyword-and-delayed-sacrifice-13e991c971-v1-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-sequence-damage-by-spell-selected-source-472381f7cb/v1",
+        "state": "gate_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T204712Z-engine-auto-sequence-damage-by-spell-selected-source-472381f7cb-v1-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-count-named-battlefield-permanents-56c468ba1f/v1",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T204713Z-focused-2ecfee7ef31b41dd89a5f196d8581941-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T205029Z-wave-1fb4b8c8bbe4-1789678229968495877-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-token-copy-grant-keyword-and-delayed-sacrifice-13e991c971/v2",
+        "state": "parked",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T203913Z-engine-auto-token-copy-grant-keyword-and-delayed-sacrifice-13e991c971-v2-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-destroy-source-unless-sacrifice-named-subtype-co-69d5f6f4f5/v1",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T204839Z-focused-1dcb54ef9ba942bda259fdf281655266-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T205029Z-wave-1fb4b8c8bbe4-1789678229968495877-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-block-trigger-counterpart-lesser-power-gate-6f62a1c0b7/v1",
+        "state": "parked",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T204816Z-engine-auto-block-trigger-counterpart-lesser-power-gate-6f62a1c0b7-v1-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-untap-controller-and-target-opponent-creatures-0fe7b6d330/v1",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T205449Z-focused-35cef51fa86a4b458c6e03e520f71f86-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T205731Z-wave-f8aa9dabf23b-1789678651832336445-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-choose-card-type-for-protection-until-eot-a603744f37/v1",
+        "state": "parked",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T205153Z-engine-auto-choose-card-type-for-protection-until-eot-a603744f37-v1-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-pump-replaced-by-counters-on-target-subtype-2584410d0b/v1",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T210134Z-focused-1f28b14f2de84aa09a376d0779156611-1.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T210345Z-wave-438254b80b8d-1789679025252023127-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-block-trigger-counterpart-lesser-power-gate-6f62a1c0b7/v2",
+        "state": "parked",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T210641Z-engine-auto-block-trigger-counterpart-lesser-power-gate-6f62a1c0b7-v2-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-edict-sacrifice-unless-payment-1966d9b944/v1",
+        "state": "parked",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T211619Z-engine-auto-edict-sacrifice-unless-payment-1966d9b944-v1-claude.json",
+        "integration_receipts": [],
+        "resolved_model": "claude-sonnet-5"
+      },
+      {
+        "ticket": "ticket:engine.auto-token-copy-color-keyword-override-a98d775d10/v1",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-17T211737Z-focused-21de749fd416413b903592c6b5dc7ea3-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-17T211919Z-wave-fc403aadb977-1789679959787536404-integration.json"
+        ],
+        "resolved_model": "claude-sonnet-5"
+      }
+    ]
+  },
+  "qwen": {
+    "ticket_versions": 27,
+    "states": {
+      "parked": 2,
+      "gate_failed": 11,
+      "infrastructure_failed": 5,
+      "integrated": 6,
+      "infrastructure_failed_model_protocol": 2,
+      "integration_failed": 1
+    },
+    "details": [
+      {
+        "ticket": "ticket:engine.auto-put-any-number-from-hand-to-battlefield-37b4095ae0/v2",
+        "state": "parked",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T081500Z-engine-auto-put-any-number-from-hand-to-battlefield-37b4095ae0-v2-goose-qwen-staged.json",
+        "integration_receipts": [],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-matches-tutor-filter-basic-land-2af184f7e6/v1",
+        "state": "gate_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T073015Z-engine-auto-matches-tutor-filter-basic-land-2af184f7e6-v1-goose-qwen-staged.json",
+        "integration_receipts": [],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-targeted-graveyard-cards-to-top-of-library-order-658f24ac26/v1",
+        "state": "infrastructure_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T082243Z-engine-auto-targeted-graveyard-cards-to-top-of-library-order-658f24ac26-v1-goose-qwen-staged.json",
+        "integration_receipts": [],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-exchange-control-of-permanents-a9ea9e9e5c/v1",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T094547Z-focused-85924b21bcb74965ac2a20e9c5de7672-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-20T094808Z-engine-auto-exchange-control-of-permanents-a9ea9e9e5c-v1-1789897688840992895-integration.json"
+        ],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-matches-tutor-filter-basic-land-2af184f7e6/v2",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T080808Z-engine-auto-matches-tutor-filter-basic-land-2af184f7e6-v2-goose-qwen-staged.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-20T081500Z-engine-auto-matches-tutor-filter-basic-land-2af184f7e6-v2-1789892100270388694-integration.json"
+        ],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-put-any-number-from-hand-to-battlefield-37b4095ae0/v3",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T084230Z-focused-223c8ab7b7e44b00ac41579cd28922b3-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-20T084448Z-engine-auto-put-any-number-from-hand-to-battlefield-37b4095ae0-v3-1789893888611198054-integration.json"
+        ],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-bounce-to-library-color-qualified-target-3e0a00f5e3/v1",
+        "state": "infrastructure_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T092450Z-engine-auto-bounce-to-library-color-qualified-target-3e0a00f5e3-v1-goose-qwen-staged.json",
+        "integration_receipts": [],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-for-each-attacker-owner-choice-library-placement-02fff2db77/v1",
+        "state": "gate_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T102135Z-engine-auto-for-each-attacker-owner-choice-library-placement-02fff2db77-v1-goose-qwen-staged.json",
+        "integration_receipts": [],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-reveal-random-card-from-hand-addfaf2838/v1",
+        "state": "gate_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T100158Z-engine-auto-reveal-random-card-from-hand-addfaf2838-v1-goose-qwen-staged.json",
+        "integration_receipts": [],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-exchange-permanent-control-indefinite-7422447d3c/v1",
+        "state": "integration_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T100306Z-focused-454d3984d6aa467a89439438d885b47f-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-20T100525Z-engine-auto-exchange-permanent-control-indefinite-7422447d3c-v1-1789898725174004632-integration.json"
+        ],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-exchange-permanent-control-indefinite-7422447d3c/v2",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T102242Z-focused-5af039880a834ad98e53521c621d4333-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-20T102505Z-engine-auto-exchange-permanent-control-indefinite-7422447d3c-v2-1789899905444343434-integration.json"
+        ],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-for-each-attacker-owner-choice-library-placement-02fff2db77/v2",
+        "state": "gate_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T111404Z-engine-auto-for-each-attacker-owner-choice-library-placement-02fff2db77-v2-goose-qwen-staged.json",
+        "integration_receipts": [],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-reveal-random-card-from-hand-addfaf2838/v2",
+        "state": "gate_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T105028Z-engine-auto-reveal-random-card-from-hand-addfaf2838-v2-goose-qwen-staged.json",
+        "integration_receipts": [],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-for-each-color-optional-target-return-graveyard--d3fbd9fabe/v1",
+        "state": "infrastructure_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T112326Z-engine-auto-for-each-color-optional-target-return-graveyard--d3fbd9fabe-v1-goose-qwen-staged.json",
+        "integration_receipts": [],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-referent-object-to-library-top-b695fba968/v1",
+        "state": "gate_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T113154Z-engine-auto-referent-object-to-library-top-b695fba968-v1-goose-qwen-staged.json",
+        "integration_receipts": [],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-mill-random-typed-card-to-own-graveyard-1f7a9784d0/v1",
+        "state": "infrastructure_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T122742Z-engine-auto-mill-random-typed-card-to-own-graveyard-1f7a9784d0-v1-goose-qwen-staged.json",
+        "integration_receipts": [],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-referent-object-to-library-top-b695fba968/v2",
+        "state": "gate_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T121542Z-engine-auto-referent-object-to-library-top-b695fba968-v2-goose-qwen-staged.json",
+        "integration_receipts": [],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-for-each-loop-correlated-target-token-copy-076a15c649/v1",
+        "state": "parked",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T121557Z-engine-auto-for-each-loop-correlated-target-token-copy-076a15c649-v1-goose-qwen-staged.json",
+        "integration_receipts": [],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-restricted-color-choice-from-referent-set-1a59da27ac/v1",
+        "state": "infrastructure_failed_model_protocol",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T125501Z-engine-auto-restricted-color-choice-from-referent-set-1a59da27ac-v1-goose-qwen-staged.json",
+        "integration_receipts": [],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-put-hand-card-library-top-ab49d26a4e/v1",
+        "state": "gate_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T132536Z-engine-auto-put-hand-card-library-top-ab49d26a4e-v1-goose-qwen-staged.json",
+        "integration_receipts": [],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-graveyard-card-type-filter-to-owner-library-bott-60e6460a04/v1",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T132641Z-focused-c407d0bf375243fb9e2a427a70be7b12-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-20T132904Z-engine-auto-graveyard-card-type-filter-to-owner-library-bott-60e6460a04-v1-1789910944584568239-integration.json"
+        ],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-look-top-n-choose-one-hand-exile-rest-88b80b98a1/v1",
+        "state": "gate_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T132552Z-engine-auto-look-top-n-choose-one-hand-exile-rest-88b80b98a1-v1-goose-qwen-staged.json",
+        "integration_receipts": [],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-look-top-n-choose-one-hand-exile-rest-88b80b98a1/v2",
+        "state": "gate_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T134443Z-engine-auto-look-top-n-choose-one-hand-exile-rest-88b80b98a1-v2-goose-qwen-staged.json",
+        "integration_receipts": [],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-put-hand-card-library-top-ab49d26a4e/v2",
+        "state": "gate_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T135625Z-engine-auto-put-hand-card-library-top-ab49d26a4e-v2-goose-qwen-staged.json",
+        "integration_receipts": [],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-trigger-referent-dies-to-library-top-0f9cbf2ce0/v1",
+        "state": "integrated",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T140554Z-focused-ea34fd4ff07f4b678937b4f4e789fa3d-0.json",
+        "integration_receipts": [
+          "docs/factory-ng/runs/2026-09-20T140811Z-engine-auto-trigger-referent-dies-to-library-top-0f9cbf2ce0-v1-1789913291869747717-integration.json"
+        ],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-targeted-graveyard-cards-to-owner-library-top-or-b03850c466/v1",
+        "state": "infrastructure_failed_model_protocol",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T142323Z-engine-auto-targeted-graveyard-cards-to-owner-library-top-or-b03850c466-v1-goose-qwen-staged.json",
+        "integration_receipts": [],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      },
+      {
+        "ticket": "ticket:engine.auto-target-filter-life-greater-than-controller-2c2462be5e/v1",
+        "state": "infrastructure_failed",
+        "last_receipt": "docs/factory-ng/runs/2026-09-20T141507Z-engine-auto-target-filter-life-greater-than-controller-2c2462be5e-v1-goose-qwen-staged.json",
+        "integration_receipts": [],
+        "resolved_model": "halogen-qwen3.8-flash-next"
+      }
+    ]
+  }
+}

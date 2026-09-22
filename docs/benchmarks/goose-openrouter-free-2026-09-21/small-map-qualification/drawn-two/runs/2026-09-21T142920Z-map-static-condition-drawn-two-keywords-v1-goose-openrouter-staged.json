@@ -1,0 +1,114 @@
+{
+  "attempt_history": [],
+  "capability_assessments": [],
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-map-static-condition-drawn-two-keywords-v1-znnh740e",
+    "candidate_commit": "78171a9222d2ddce1446ffc931ebbf4945976e3a",
+    "candidate_patch": "docs/benchmarks/goose-openrouter-free-2026-09-21/small-map-qualification/drawn-two/candidates/2026-09-21T143106Z-map-static-condition-drawn-two-keywords-v1.patch",
+    "candidate_patch_sha256": "sha256:d1f67ba3d8064a0ec3e92ff18b53e1d2929c38415674b5638578cdd649c248c2",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "8dd5e06545926033d738b0b69ab8f29145275168",
+    "source_tree_changed": false
+  },
+  "failure_category": null,
+  "gates": [
+    {
+      "detail": "applied: scripts/paragraph/reparse.py\ncreated: scripts/paragraph/test_static_condition_drawn_two.py\n",
+      "id": "patch-apply",
+      "outcome": "passed"
+    },
+    {
+      "detail": "changed=scripts/paragraph/reparse.py,scripts/paragraph/test_static_condition_drawn_two.py",
+      "id": "scope",
+      "outcome": "passed"
+    },
+    {
+      "command": "cd scripts/paragraph && python3 -m unittest test_static_condition_drawn_two",
+      "detail": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\nOK",
+      "elapsed_ms": 179,
+      "id": "ticket-gate-0",
+      "outcome": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "detail": "",
+      "elapsed_ms": 31,
+      "id": "ticket-gate-1",
+      "outcome": "passed"
+    },
+    {
+      "command": "git status --porcelain adds or changes only scripts/paragraph/reparse.py and scripts/paragraph/test_static_condition_drawn_two.py",
+      "detail": "changed=scripts/paragraph/reparse.py,scripts/paragraph/test_static_condition_drawn_two.py",
+      "elapsed_ms": 6,
+      "id": "ticket-gate-2",
+      "outcome": "passed"
+    },
+    {
+      "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/static-condition-drawn-two-keywords-v1.json reports zero remaining pinned members",
+      "detail": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 6,\n  \"pinned_members_from\": \"/data/magic-stack/development/magic-ops/docs/factory-ng/measurements/static-condition-drawn-two-keywords-v1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 6,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"static_conditional\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:79bfccbb2cbc78ba87875b3056644402e26712c62dd2942cd907664daa36bf2a\",\n    \"repository\": \"/tmp/factory-ng-map-static-condition-drawn-two-keywords-v1-znnh740e\",\n    \"revision\": \"8dd5e06545926033d738b0b69ab8f29145275168\"\n  }\n}",
+      "elapsed_ms": 232,
+      "id": "ticket-gate-3",
+      "outcome": "passed"
+    }
+  ],
+  "integration": "eligible_full_gate",
+  "model": {
+    "profile": "openrouter-goose-staged@1.0.0",
+    "resolved_model": "openrouter/free",
+    "telemetry": {
+      "cache_read_tokens": 0,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 104457,
+      "input_tokens": 15278,
+      "model_calls": 1,
+      "output_tokens": 1377,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      },
+      "stage_times": {
+        "attempt_wall_ms": 106380,
+        "candidate_gate_ms": 448,
+        "compilation_ms": {
+          "availability": "unavailable",
+          "reason": "go test includes package compilation; not separately timed"
+        },
+        "model_ms": 104457
+      }
+    },
+    "worker": "goose-small-map-qualification"
+  },
+  "next_action": "Factory NG may integrate this durable patch under its configured full-gate policy.",
+  "outcome": "accepted_for_dependent_observation",
+  "raw_artifacts": [
+    {
+      "path": "docs/benchmarks/goose-openrouter-free-2026-09-21/small-map-qualification/drawn-two/runs/2026-09-21T142920Z-map-static-condition-drawn-two-keywords-v1-goose-openrouter-staged.raw.json",
+      "sha256": "sha256:627b9b6017471164a4541499a65b0efc889b8a8ba3ed2bdf4828365999d90e3e"
+    },
+    {
+      "kind": "prepared_packet",
+      "path": "docs/benchmarks/goose-openrouter-free-2026-09-21/small-map-qualification/drawn-two/runs/2026-09-21T142920Z-map-static-condition-drawn-two-keywords-v1-goose-openrouter-staged.packet.txt",
+      "sha256": "sha256:3032d128052f63ce4987549776dd4d883d133fc163891a9067572ad3a9338786"
+    },
+    {
+      "kind": "knowledge_trace",
+      "path": "docs/benchmarks/goose-openrouter-free-2026-09-21/small-map-qualification/drawn-two/runs/2026-09-21T142920Z-map-static-condition-drawn-two-keywords-v1-goose-openrouter-staged.lookup.jsonl",
+      "sha256": "sha256:4c41bedcfb26d86fd2ed6b45a11bc54b9cfbd465cec77610c933734c4f0cf2d0"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "ticket": {
+    "id": "ticket:map.static-condition-drawn-two-keywords/v1",
+    "path": "docs/factory-ng/tickets/map-static-condition-drawn-two-keywords-v1.json",
+    "sha256": "sha256:d1ac372c3aad9917b7f59d19879e508862ad158d73bbb3634df6f7b778990237"
+  }
+}

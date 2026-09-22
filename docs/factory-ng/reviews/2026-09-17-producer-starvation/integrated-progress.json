@@ -1,0 +1,104 @@
+{
+  "ticket:engine.auto-damage-recipient-prior-target-controller-5464e8cd79/v4": {
+    "job_outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-17T124841Z-wave-6ac40e590089-1789649321574581109-integration.json",
+    "integration_outcome": "pushed_full_production_gate_green",
+    "all_recorded_gates_passed": true
+  },
+  "ticket:engine.auto-pump-until-eot-defending-player-land-count-4853deb9b5/v4": {
+    "job_outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-17T125433Z-wave-cac3aa77d3f5-1789649673098703716-integration.json",
+    "integration_outcome": "pushed_full_production_gate_green",
+    "all_recorded_gates_passed": true
+  },
+  "ticket:map.plan-bounce-mark-of-eviction-2da5fac6fc/v3": {
+    "job_outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-17T124315Z-wave-79d46824293c-1789648995027894277-integration.json",
+    "integration_outcome": "pushed_full_production_gate_green",
+    "all_recorded_gates_passed": true
+  },
+  "ticket:map.plan-create-token-krenko-baron-of-tin-street-af8a6948f2/v2": {
+    "job_outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-17T125433Z-wave-cac3aa77d3f5-1789649673098703716-integration.json",
+    "integration_outcome": "pushed_full_production_gate_green",
+    "all_recorded_gates_passed": true
+  },
+  "ticket:map.plan-damage-molten-note-647f8564a8/v2": {
+    "job_outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-17T123844Z-wave-e808ea140e49-1789648724431023500-integration.json",
+    "integration_outcome": "pushed_full_production_gate_green",
+    "all_recorded_gates_passed": true
+  },
+  "ticket:map.plan-damage-structural-distortion-d089df19a9/v2": {
+    "job_outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-17T124545Z-wave-edd3b6b1b7e5-1789649145710995092-integration.json",
+    "integration_outcome": "pushed_full_production_gate_green",
+    "all_recorded_gates_passed": true
+  },
+  "ticket:map.plan-destroy-venomous-fangs-1cbf94d472/v3": {
+    "job_outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-17T125215Z-map-plan-destroy-venomous-fangs-1cbf94d472-v3-1789649535848702161-integration.json",
+    "integration_outcome": "pushed_full_production_gate_green",
+    "all_recorded_gates_passed": true
+  },
+  "ticket:map.plan-exile-body-snatcher-af3d495bb4/v2": {
+    "job_outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-17T123844Z-wave-e808ea140e49-1789648724431023500-integration.json",
+    "integration_outcome": "pushed_full_production_gate_green",
+    "all_recorded_gates_passed": true
+  },
+  "ticket:map.plan-exile-ugin-s-binding-a3c0fffb14/v3": {
+    "job_outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-17T124841Z-wave-6ac40e590089-1789649321574581109-integration.json",
+    "integration_outcome": "pushed_full_production_gate_green",
+    "all_recorded_gates_passed": true
+  },
+  "ticket:map.plan-grant-eot-legion-s-initiative-83fd416ecd/v2": {
+    "job_outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-17T123844Z-wave-e808ea140e49-1789648724431023500-integration.json",
+    "integration_outcome": "pushed_full_production_gate_green",
+    "all_recorded_gates_passed": true
+  },
+  "ticket:map.plan-pump-mindshrieker-608f938ebc/v3": {
+    "job_outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-17T124545Z-wave-edd3b6b1b7e5-1789649145710995092-integration.json",
+    "integration_outcome": "pushed_full_production_gate_green",
+    "all_recorded_gates_passed": true
+  },
+  "ticket:map.plan-pump-tip-the-scales-31157c441f/v3": {
+    "job_outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-17T125433Z-wave-cac3aa77d3f5-1789649673098703716-integration.json",
+    "integration_outcome": "pushed_full_production_gate_green",
+    "all_recorded_gates_passed": true
+  },
+  "ticket:map.plan-regrow-reap-the-past-01b85acd9f/v2": {
+    "job_outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-17T124315Z-wave-79d46824293c-1789648995027894277-integration.json",
+    "integration_outcome": "pushed_full_production_gate_green",
+    "all_recorded_gates_passed": true
+  },
+  "ticket:map.plan-sacrifice-loki-the-deceiver-56934a1f2e/v2": {
+    "job_outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-17T123627Z-wave-34c281cf06f9-1789648587533549337-integration.json",
+    "integration_outcome": "pushed_full_production_gate_green",
+    "all_recorded_gates_passed": true
+  },
+  "ticket:map.plan-sacrifice-public-thoroughfare-81cf52d005/v2": {
+    "job_outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-17T123627Z-wave-34c281cf06f9-1789648587533549337-integration.json",
+    "integration_outcome": "pushed_full_production_gate_green",
+    "all_recorded_gates_passed": true
+  },
+  "ticket:map.plan-sacrifice-thing-from-the-deep-d3d53c9e11/v2": {
+    "job_outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-17T123627Z-wave-34c281cf06f9-1789648587533549337-integration.json",
+    "integration_outcome": "pushed_full_production_gate_green",
+    "all_recorded_gates_passed": true
+  },
+  "ticket:map.plan-tap-vibrant-outburst-63984674cc/v2": {
+    "job_outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-17T124841Z-wave-6ac40e590089-1789649321574581109-integration.json",
+    "integration_outcome": "pushed_full_production_gate_green",
+    "all_recorded_gates_passed": true
+  }
+}

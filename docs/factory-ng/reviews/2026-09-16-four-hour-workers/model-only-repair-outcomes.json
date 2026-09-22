@@ -1,0 +1,329 @@
+{
+  "at": "2026-09-16T21:56:12.848347+00:00",
+  "outcomes": [
+    {
+      "ticket": "ticket:engine.auto-create-tokens-from-exiled-card-toughness-0500112401/v3",
+      "receipt": "docs/factory-ng/runs/2026-09-16T215330Z-focused-e1a47da70c6943b786442062358ac1fe-0.json",
+      "receipt_sha256": "sha256:483f11609afd56fd7cff06039ddeb3edd3cfbab4e8815766b7ac396e1260addb",
+      "outcome": "accepted_for_dependent_observation",
+      "model_calls": 2,
+      "execution": {
+        "candidate_commit": "d2d5846e8f6bdf6ca90d0e6cc1b051c5386addaf",
+        "candidate_patch": "docs/factory-ng/candidates/focused-e1a47da70c6943b786442062358ac1fe-0.patch",
+        "candidate_patch_sha256": "sha256:741a77e2aaab42e84d98c643e2e061d84dcafaa5fa33afdd32cb72b45269b047",
+        "mode": "isolated_composed_verification",
+        "source_revision": "0d1fa494665666c731bcd5af80f4a71d89842efe",
+        "source_tree_changed": false,
+        "verification_batch": "e1a47da70c6943b786442062358ac1fe",
+        "verification_cpus": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "verification_host": "dani@192.168.1.251",
+        "verification_image": "sha256:e8565fa265f973c06f0515fac7aa9d102edae01b5677d69216900b84029c6ad0",
+        "verification_slot": 1,
+        "verified_ticket_ids": [
+          "ticket:engine.auto-create-tokens-from-exiled-card-toughness-0500112401/v3"
+        ],
+        "verified_tree": "b6314254a695ef29ed0c5c070c9d1ff5736eaba8"
+      },
+      "gates": [
+        {
+          "detail": "changed=backend/cards/converter.go,backend/cards/factory_ng_0500112401_test.go",
+          "id": "scope",
+          "outcome": "passed"
+        },
+        {
+          "id": "diff-check",
+          "outcome": "passed"
+        },
+        {
+          "detail": "Formatted: backend/cards/converter.go,backend/cards/factory_ng_0500112401_test.go",
+          "id": "go-format",
+          "outcome": "passed"
+        },
+        {
+          "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+          "detail": "",
+          "elapsed_ms": 14,
+          "id": "ticket-gate-0",
+          "outcome": "passed"
+        },
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGCreateTokensFromExiledCardToughness_0500112401$' -count=1",
+          "detail": "testing: warning: no tests to run\nPASS\nok  \tmagic-backend/game\t0.004s [no tests to run]\n=== RUN   TestFactoryNGCreateTokensFromExiledCardToughness_0500112401\n--- PASS: TestFactoryNGCreateTokensFromExiledCardToughness_0500112401 (0.00s)\nPASS\nok  \tmagic-backend/cards\t0.006s\nNamed test gate: 1 test(s) passed for '^TestFactoryNGCreateTokensFromExiledCardToughness_0500112401$'",
+          "elapsed_ms": 27582,
+          "id": "ticket-gate-1",
+          "outcome": "passed"
+        },
+        {
+          "command": "cd backend && go test ./game ./cards",
+          "detail": "ok  \tmagic-backend/game\t0.035s\nok  \tmagic-backend/cards\t7.211s",
+          "elapsed_ms": 9280,
+          "id": "ticket-gate-2",
+          "outcome": "passed"
+        },
+        {
+          "command": "git diff --check",
+          "detail": "Checked against the individual patch before composition.",
+          "id": "ticket-gate-3",
+          "outcome": "passed"
+        }
+      ],
+      "raw_artifacts": [
+        {
+          "kind": "saved_proposal",
+          "path": "docs/factory-ng/candidates/proposal-3009abb3cdf44994b6654cc67ebf4dfa.json",
+          "sha256": "sha256:bdec0d9df601bef72df5e1145626ce54e57dcbe0868f6dfc8ea61e9c81f6d094"
+        },
+        {
+          "kind": "gate_repair",
+          "path": "docs/factory-ng/runs/2026-09-16T210112Z-engine-auto-create-tokens-from-exiled-card-toughness-0500112401-v3-codex.gate-repair.raw.json",
+          "sha256": "sha256:2d73cd033c1a33efbda80b2bab2a0020a467c5f82ea0e4e81a8bdd2ea210a4fa"
+        },
+        {
+          "kind": "prior_verification_failure",
+          "path": "docs/factory-ng/runs/verification-repair-evidence-f05b3904b44748239a8867d5acfc769d.json",
+          "sha256": "sha256:7d6eb647675e70ab0c36b5f64b3081611cb6dae4108b4b4debf5e2039fbff1fe"
+        },
+        {
+          "path": "docs/factory-ng/runs/2026-09-16T210112Z-engine-auto-create-tokens-from-exiled-card-toughness-0500112401-v3-codex.raw.json",
+          "sha256": "sha256:9e0abb7b6b8edc58e0a75c4dae9e1b0b2cbfe100cd07487d6fb64ae06618a128"
+        },
+        {
+          "kind": "remote_verification_input",
+          "path": "docs/factory-ng/tickets/engine-auto-create-tokens-from-exiled-card-toughness-0500112401-v3.json",
+          "sha256": "sha256:898d8bce6d0cde80793d426b57cef64d5e471231852f698bde418c273403f744"
+        },
+        {
+          "kind": "remote_verification_input",
+          "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+          "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+        },
+        {
+          "kind": "remote_verification_input",
+          "path": "docs/factory-ng/runs/2026-09-09T065839Z-engine-auto-create-tokens-from-exiled-card-toughness-0500112401-v1-codex.json",
+          "sha256": "sha256:7eb67e4769b7aa87211f3f35546d910b7f6b353ca3fbccb4ec4f2fa00cdd250c"
+        },
+        {
+          "kind": "remote_verification_input",
+          "path": "docs/factory-ng/runs/2026-09-09T045938Z-map-plan-exile-scour-the-desert-fff381e932-v3-codex.json",
+          "sha256": "sha256:c462774047fed95917c8c7eef15e1eaee821e310d1528fc4bc57cd2717b1d32f"
+        },
+        {
+          "kind": "remote_verification_input",
+          "path": "docs/factory-ng/runs/2026-09-09T070845Z-engine-auto-create-tokens-from-exiled-card-toughness-0500112401-v2-codex.json",
+          "sha256": "sha256:bc9845364dcd114aff9436b3441bfee7b5146ef0d3896d235facf6f1fe2b512f"
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-damage-amount-graveyard-name-match-count-e5076d7d4a/v4",
+      "receipt": "docs/factory-ng/runs/2026-09-16T215328Z-focused-fa423e067b494f7785cb1d9a487ece5b-0.json",
+      "receipt_sha256": "sha256:c900183ca6ef5a52b83f6001860558ead8e971520afef36806833b8018c78160",
+      "outcome": "accepted_for_dependent_observation",
+      "model_calls": 2,
+      "execution": {
+        "candidate_commit": "568ac9f96fd9aa8b6f43b53c6c0155a416276fa8",
+        "candidate_patch": "docs/factory-ng/candidates/focused-fa423e067b494f7785cb1d9a487ece5b-0.patch",
+        "candidate_patch_sha256": "sha256:4410628f913af8734529e20cfe93f4a71567391dd4cbd5a5af698b15a9cba680",
+        "mode": "isolated_composed_verification",
+        "source_revision": "1f28171c8c3fd1b12891449de77eda8208b63d2e",
+        "source_tree_changed": false,
+        "verification_batch": "fa423e067b494f7785cb1d9a487ece5b",
+        "verification_cpus": [
+          8,
+          9,
+          10,
+          11
+        ],
+        "verification_host": "dani@192.168.1.251",
+        "verification_image": "sha256:e8565fa265f973c06f0515fac7aa9d102edae01b5677d69216900b84029c6ad0",
+        "verification_slot": 2,
+        "verified_ticket_ids": [
+          "ticket:engine.auto-damage-amount-graveyard-name-match-count-e5076d7d4a/v4"
+        ],
+        "verified_tree": "40068c35382738c545ad4ba05e55c3a89612225d"
+      },
+      "gates": [
+        {
+          "detail": "changed=backend/cards/factory_ng_e5076d7d4a_test.go,backend/game/dynamic_amount.go",
+          "id": "scope",
+          "outcome": "passed"
+        },
+        {
+          "id": "diff-check",
+          "outcome": "passed"
+        },
+        {
+          "detail": "Formatted: backend/cards/factory_ng_e5076d7d4a_test.go,backend/game/dynamic_amount.go",
+          "id": "go-format",
+          "outcome": "passed"
+        },
+        {
+          "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+          "detail": "",
+          "elapsed_ms": 13,
+          "id": "ticket-gate-0",
+          "outcome": "passed"
+        },
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGDamageAmountGraveyardNameMatchCount$' -count=1",
+          "detail": "testing: warning: no tests to run\nPASS\nok  \tmagic-backend/game\t0.003s [no tests to run]\n=== RUN   TestFactoryNGDamageAmountGraveyardNameMatchCount\n--- PASS: TestFactoryNGDamageAmountGraveyardNameMatchCount (0.00s)\nPASS\nok  \tmagic-backend/cards\t0.005s\nNamed test gate: 1 test(s) passed for '^TestFactoryNGDamageAmountGraveyardNameMatchCount$'",
+          "elapsed_ms": 22429,
+          "id": "ticket-gate-1",
+          "outcome": "passed"
+        },
+        {
+          "command": "cd backend && go test ./game ./cards",
+          "detail": "ok  \tmagic-backend/game\t0.067s\nok  \tmagic-backend/cards\t8.096s",
+          "elapsed_ms": 10379,
+          "id": "ticket-gate-2",
+          "outcome": "passed"
+        },
+        {
+          "command": "git diff --check",
+          "detail": "Checked against the individual patch before composition.",
+          "id": "ticket-gate-3",
+          "outcome": "passed"
+        }
+      ],
+      "raw_artifacts": [
+        {
+          "kind": "saved_proposal",
+          "path": "docs/factory-ng/candidates/proposal-26e7739974ff4a2ba1a7e21bf84ccfed.json",
+          "sha256": "sha256:93bb9fb878ffea79488789f3b45014399f15e3b8a4838a68364beb4b7da34a9d"
+        },
+        {
+          "kind": "gate_repair",
+          "path": "docs/factory-ng/runs/2026-09-16T210821Z-engine-auto-damage-amount-graveyard-name-match-count-e5076d7d4a-v4-codex.gate-repair.raw.json",
+          "sha256": "sha256:8feb4dc7092aa4a9a3efb10a2142b5e2b70064ebc92ff77bfc20212d02944895"
+        },
+        {
+          "kind": "prior_verification_failure",
+          "path": "docs/factory-ng/runs/verification-repair-evidence-2adee0d4bebe49c4a88531d522238b9f.json",
+          "sha256": "sha256:18e94323383805ef02052fdb96dc90c7ba986fb45bc059d3a84aea78b9e166dd"
+        },
+        {
+          "path": "docs/factory-ng/runs/2026-09-16T210821Z-engine-auto-damage-amount-graveyard-name-match-count-e5076d7d4a-v4-codex.raw.json",
+          "sha256": "sha256:a302d55f815d6750386b957a672f0529a2c0fbebc1a00a0a8d2ef564f842bba7"
+        },
+        {
+          "kind": "remote_verification_input",
+          "path": "docs/factory-ng/tickets/engine-auto-damage-amount-graveyard-name-match-count-e5076d7d4a-v4.json",
+          "sha256": "sha256:6c81f05ef6b584bfacf1173e6238c2a3c22f11dc9c1e34dd18dfb9af4831b249"
+        },
+        {
+          "kind": "remote_verification_input",
+          "path": "docs/factory-ng/runs/2026-09-01T100638Z-engine-auto-damage-amount-graveyard-name-match-count-e5076d7d4a-v1-openrouter.json",
+          "sha256": "sha256:ae90379e7fa15f7cc7620824828acf4b53c53246d35d96bd7b1004cd00d36421"
+        },
+        {
+          "kind": "remote_verification_input",
+          "path": "docs/factory-ng/runs/2026-08-31T202106Z-map-plan-damage-dwarven-shrine-71323737ff-v1-claude.json",
+          "sha256": "sha256:db6e4f38f1c0206c9c06ef542ae086ad865d73d1b09e6bd726914485f2d784d8"
+        },
+        {
+          "kind": "remote_verification_input",
+          "path": "docs/factory-ng/runs/2026-09-01T112157Z-engine-auto-damage-amount-graveyard-name-match-count-e5076d7d4a-v2-claude.json",
+          "sha256": "sha256:f68290faf52fc71e43dd8373a46a735d7c1b9786398c785c82a3bbeadaaff696"
+        },
+        {
+          "kind": "remote_verification_input",
+          "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+          "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+        },
+        {
+          "kind": "remote_verification_input",
+          "path": "docs/factory-ng/runs/2026-09-04T002104Z-engine-auto-damage-amount-graveyard-name-match-count-e5076d7d4a-v3-claude.json",
+          "sha256": "sha256:8190d7b4e45b465f5359607d8015d9f2d99f3195d829f0696e15c4e7ac924c7b"
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-copy-spell-as-artifact-token-cd2b069ce2/v3",
+      "receipt": "docs/factory-ng/runs/2026-09-16T215433Z-engine-auto-copy-spell-as-artifact-token-cd2b069ce2-v3-codex.json",
+      "receipt_sha256": "sha256:7e5633f2130ca014d02951ad4a04ca751798637ccc2b021d6ea03d27534561e9",
+      "outcome": "gate_failed",
+      "model_calls": 2,
+      "execution": {
+        "candidate_clone": "/tmp/factory-ng-engine-auto-copy-spell-as-artifact-token-cd2b069ce2-v3-o816bpbe",
+        "candidate_commit": "5fd2cd9fb3834674d3458d64251a8b1f8745323e",
+        "mode": "isolated_clone_observation_only",
+        "source_revision": "5fd2cd9fb3834674d3458d64251a8b1f8745323e",
+        "source_tree_changed": false
+      },
+      "gates": [
+        {
+          "detail": "applied: backend/game/ability_effects.go\napplied: backend/game/ability_effects.go\ncreated: backend/cards/registry_factory_ng_cd2b069ce2.go\ncreated: backend/cards/factory_ng_cd2b069ce2_test.go\n",
+          "id": "patch-apply",
+          "outcome": "passed"
+        },
+        {
+          "detail": "applied: backend/game/ability_effects.go\napplied: backend/game/ability_effects.go\ncreated: backend/cards/registry_factory_ng_cd2b069ce2.go\ncreated: backend/cards/factory_ng_cd2b069ce2_test.go\n",
+          "id": "patch-apply",
+          "outcome": "passed"
+        },
+        {
+          "detail": "applied: backend/cards/factory_ng_cd2b069ce2_test.go",
+          "id": "gate-repair-apply",
+          "outcome": "passed"
+        },
+        {
+          "detail": "applied: backend/game/ability_effects.go\napplied: backend/game/ability_effects.go\ncreated: backend/cards/registry_factory_ng_cd2b069ce2.go\ncreated: backend/cards/factory_ng_cd2b069ce2_test.go\n",
+          "id": "patch-apply",
+          "outcome": "passed"
+        },
+        {
+          "detail": "changed=backend/cards/factory_ng_cd2b069ce2_test.go,backend/cards/registry_factory_ng_cd2b069ce2.go,backend/game/ability_effects.go",
+          "id": "scope",
+          "outcome": "passed"
+        },
+        {
+          "detail": "Formatted: backend/cards/factory_ng_cd2b069ce2_test.go,backend/cards/registry_factory_ng_cd2b069ce2.go,backend/game/ability_effects.go",
+          "id": "go-format",
+          "outcome": "passed"
+        },
+        {
+          "detail": "All newly added public effects are registered.",
+          "elapsed_ms": 780,
+          "id": "engine-vocabulary-handoff",
+          "outcome": "passed"
+        },
+        {
+          "detail": "Batch could not pass; verify individually: ticket:engine.auto-copy-spell-as-artifact-token-cd2b069ce2/v3: factory_ng_cd2b069ce2_test.go:45: expected copied spell on the stack\n--- FAIL: TestFactoryNGCopySpellAsArtifactToken (0.00s)\ntesting: warning: no tests to run\nPASS\nok  \tmagic-backend/game\t0.003s [no tests to run]\n=== RUN   TestFactoryNGCopySpellAsArtifactToken\n    factory_ng_cd2b069ce2_test.go:45: expected copied spell on the stack\n--- FAIL: TestFactoryNGCopySpellAsArtifactToken (0.00s)\nFAIL\nFAIL\tmagic-backend/cards\t0.005s",
+          "id": "prior-remote-test-failure",
+          "outcome": "failed"
+        }
+      ],
+      "raw_artifacts": [
+        {
+          "path": "docs/factory-ng/runs/2026-09-16T201551Z-engine-auto-copy-spell-as-artifact-token-cd2b069ce2-v3-codex.raw.json",
+          "sha256": "sha256:aebd7342c852810bf35e70ab9005f902a1d2292a66807d623dbab573080934c7"
+        },
+        {
+          "kind": "prior_verification_failure",
+          "path": "docs/factory-ng/runs/verification-repair-evidence-1175ed7a2d944047b4407a0846a90b09.json",
+          "sha256": "sha256:c2a0752eb5f15715deb2713473138c2e038ccd50235234d445bdc09c7015dd27"
+        },
+        {
+          "kind": "prepared_packet",
+          "path": "docs/factory-ng/runs/2026-09-16T201551Z-engine-auto-copy-spell-as-artifact-token-cd2b069ce2-v3-codex.packet.txt",
+          "sha256": "sha256:3a3d757e574dc0611df560497070353810361d959ba78a798d39fe2394a60294"
+        },
+        {
+          "kind": "knowledge_trace",
+          "path": "docs/factory-ng/runs/2026-09-16T201551Z-engine-auto-copy-spell-as-artifact-token-cd2b069ce2-v3-codex.lookup.jsonl",
+          "sha256": "sha256:67bf796dea6b323416015546de38321840165d487d5eb989483d5b3532c6ddd1"
+        },
+        {
+          "kind": "gate_repair",
+          "path": "docs/factory-ng/runs/2026-09-16T201551Z-engine-auto-copy-spell-as-artifact-token-cd2b069ce2-v3-codex.gate-repair.raw.json",
+          "sha256": "sha256:7888b0d564a75cbc62e7049a8478fe1afc5435549a606f86598b018995783e50"
+        }
+      ]
+    }
+  ]
+}

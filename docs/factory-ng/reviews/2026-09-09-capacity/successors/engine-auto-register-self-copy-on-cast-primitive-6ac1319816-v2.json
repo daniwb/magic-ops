@@ -1,0 +1,150 @@
+{
+  "capability": {
+    "expected_unlock": 1,
+    "negative_examples": [
+      "The existing registered 'copy' primitive (game/copy_effect.go executeCopyEffect, case \"copy\" in ability_effects.go) must keep requiring an explicit chosen Target with SpellID/StackID and a static int amount from EffectValue[\"amount\"] \u2014 do not widen it to accept a target-less self-copy or a dynamic count",
+      "Hatut Zeraze Strike Force's second paragraph, 'When this creature enters, destroy up to one target artifact or enchantment,' is already correctly mapped and must not change"
+    ],
+    "required_behavior": "Add a Primitive entry for effect 'self_copy_on_cast' (engine case in game/advanced_abilities.go executeSelfCopyOnCastEffect, helper SelfCopyOnCastAbilityByCommanderCasts in backend/cardfns/lib_spell_cast_self_copy.go) to backend/cards/registry.go or a registry_*.go init file, so reparse.py's REGISTERED gate (mirrors V2EffectRegistry) accepts a triggered ability with trigger_v2 event cast_spell/subject self and EffectValue {'count_var':'commander_casts'} for a target-less self-referential cast-trigger copy whose count is CommanderCastCount, not a static int",
+    "source_misses": [
+      {
+        "card": "Hatut Zeraze Strike Force",
+        "oracle_text_sha256": "ef598faf669352d06c3d2c198bfa4d3bda96e11203f09a61bbc35f6280264d65",
+        "paragraph": "When you cast this spell, copy it for each time you've cast your commander from the command zone this game.",
+        "required_behavior": "self-referential cast-trigger copies the casting spell itself (no chosen target) N times where N = CommanderCastCount(controller), reusing the already-built Fury Storm engine mechanism"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "key": "register_self_copy_on_cast_primitive",
+        "specification": {
+          "expected_unlock": 1,
+          "negative_examples": [
+            "The existing registered 'copy' primitive (game/copy_effect.go executeCopyEffect, case \"copy\" in ability_effects.go) must keep requiring an explicit chosen Target with SpellID/StackID and a static int amount from EffectValue[\"amount\"] \u2014 do not widen it to accept a target-less self-copy or a dynamic count",
+            "Hatut Zeraze Strike Force's second paragraph, 'When this creature enters, destroy up to one target artifact or enchantment,' is already correctly mapped and must not change"
+          ],
+          "required_behavior": "Add a Primitive entry for effect 'self_copy_on_cast' (engine case in game/advanced_abilities.go executeSelfCopyOnCastEffect, helper SelfCopyOnCastAbilityByCommanderCasts in backend/cardfns/lib_spell_cast_self_copy.go) to backend/cards/registry.go or a registry_*.go init file, so reparse.py's REGISTERED gate (mirrors V2EffectRegistry) accepts a triggered ability with trigger_v2 event cast_spell/subject self and EffectValue {'count_var':'commander_casts'} for a target-less self-referential cast-trigger copy whose count is CommanderCastCount, not a static int",
+          "source_misses": [
+            {
+              "card": "Hatut Zeraze Strike Force",
+              "oracle_text_sha256": "ef598faf669352d06c3d2c198bfa4d3bda96e11203f09a61bbc35f6280264d65",
+              "paragraph": "When you cast this spell, copy it for each time you've cast your commander from the command zone this game.",
+              "required_behavior": "self-referential cast-trigger copies the casting spell itself (no chosen target) N times where N = CommanderCastCount(controller), reusing the already-built Fury Storm engine mechanism"
+            }
+          ]
+        },
+        "summary": "Register the existing self_copy_on_cast engine effect in the V2EffectRegistry so the paragraph parser can emit it for JSON-authored cards"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-05T194054Z-map-plan-copy-hatut-zeraze-strike-force-bfec5ca2a3-v1-claude-agentic.json"
+    },
+    {
+      "anchor": "818-883",
+      "fact": "Card-knowledge index match (engine): executeSelfCopyOnCastEffect is the nearest indexed seam for this capability.",
+      "path": "backend/game/advanced_abilities.go",
+      "sha256": "sha256:275b1d443f27d4fe011df9abf3904396a7efd3bdee9c5ae8f57acc01be22d8f5"
+    },
+    {
+      "anchor": "339-404",
+      "fact": "Card-knowledge index match (engine): registerSelfCastTriggers is the nearest indexed seam for this capability.",
+      "path": "backend/game/gamestate_cast.go",
+      "sha256": "sha256:eebf2fcd5b2d4a6fd0115549b642801941dbada28600729a3b306f27816b6c79"
+    },
+    {
+      "anchor": "605-670",
+      "fact": "Card-knowledge index match (engine): Storm is the nearest indexed seam for this capability.",
+      "path": "backend/game/advanced_abilities.go",
+      "sha256": "sha256:275b1d443f27d4fe011df9abf3904396a7efd3bdee9c5ae8f57acc01be22d8f5"
+    },
+    {
+      "anchor": "751-816",
+      "fact": "Card-knowledge index match (engine): CopySpell is the nearest indexed seam for this capability.",
+      "path": "backend/game/advanced_abilities.go",
+      "sha256": "sha256:275b1d443f27d4fe011df9abf3904396a7efd3bdee9c5ae8f57acc01be22d8f5"
+    },
+    {
+      "fact": "Operator-reviewed correction, September 9: Mark backend/cardfns/lib_spell_cast_self_copy.go as read-only context: original behavior cites existing implementation, parser registration visibility, or a preserved adjacent path; it does not require editing this file. Mark backend/game/advanced_abilities.go as read-only context: original behavior cites existing implementation, parser registration visibility, or a preserved adjacent path; it does not require editing this file. Mark backend/game/copy_effect.go as read-only context: original behavior cites existing implementation, parser registration visibility, or a preserved adjacent path; it does not require editing this file. Mark scripts/paragraph/reparse.py as read-only context: original behavior cites existing implementation, parser registration visibility, or a preserved adjacent path; it does not require editing this file.",
+      "path": "docs/factory-ng/reviews/2026-09-09-capacity/contract-audit.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "context_only_paths": [
+      "backend/cardfns/lib_spell_cast_self_copy.go",
+      "backend/game/advanced_abilities.go",
+      "backend/game/copy_effect.go",
+      "scripts/paragraph/reparse.py"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "An Oracle-validated Map block has been compiled into one bounded Engine dependency.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGRegisterSelfCopyOnCastPrimitive$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.auto-register-self-copy-on-cast-primitive-6ac1319816/v2",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Record an immutable bounded verdict; automatic discovery continues with independent work.",
+  "parents": [
+    "ticket:map.plan-copy-hatut-zeraze-strike-force-bfec5ca2a3/v1",
+    "ticket:engine.auto-register-self-copy-on-cast-primitive-6ac1319816/v1"
+  ],
+  "production": {
+    "contract_correction_batch": "2026-09-09-capacity",
+    "key": "capability:register_self_copy_on_cast_primitive:sha256:6ac131981624db08e4cf3427ba12e83d87b55004ccc8f19fd25966d5927d5466:reviewed-contract-sep09",
+    "producer": "capability-dependencies"
+  },
+  "required_behavior": [
+    "Add a Primitive entry for effect 'self_copy_on_cast' (engine case in game/advanced_abilities.go executeSelfCopyOnCastEffect, helper SelfCopyOnCastAbilityByCommanderCasts in backend/cardfns/lib_spell_cast_self_copy.go) to backend/cards/registry.go or a registry_*.go init file, so reparse.py's REGISTERED gate (mirrors V2EffectRegistry) accepts a triggered ability with trigger_v2 event cast_spell/subject self and EffectValue {'count_var':'commander_casts'} for a target-less self-referential cast-trigger copy whose count is CommanderCastCount, not a static int",
+    "Preserve these adjacent behaviors: The existing registered 'copy' primitive (game/copy_effect.go executeCopyEffect, case \"copy\" in ability_effects.go) must keep requiring an explicit chosen Target with SpellID/StackID and a static int amount from EffectValue[\"amount\"] \u2014 do not widen it to accept a target-less self-copy or a dynamic count; Hatut Zeraze Strike Force's second paragraph, 'When this creature enters, destroy up to one target artifact or enchantment,' is already correctly mapped and must not change",
+    "Add a discriminating behavior test named TestFactoryNGRegisterSelfCopyOnCastPrimitive; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_6ac1319816_test.go",
+      "backend/cards/factory_ng_6ac1319816_test.go",
+      "backend/cards/registry_factory_ng_6ac1319816.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "clean": true,
+    "repository": "/opt/development/test/openmagic",
+    "revision": "c0fac85b88da04f3d54fe2a5acd553a36662a329"
+  },
+  "supersedes": "ticket:engine.auto-register-self-copy-on-cast-primitive-6ac1319816/v1",
+  "title": "Corrected contract: Implement atomic capability: Register the existing self_copy_on_cast engine effect in the V2EffectRegistry so the paragraph parser can emit it for JSON-authored cards",
+  "work_type": "engine"
+}

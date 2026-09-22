@@ -1,0 +1,74 @@
+[
+  {
+    "query": "draw_cards",
+    "strategy": "normalized_all_terms",
+    "query_ms": 206,
+    "candidates": [
+      "game.GameState.DrawCardWithEvent",
+      "game.GameState.DrawCardsWithEvent",
+      "game.Zone.DrawCard",
+      "game.Player.DrawCards"
+    ],
+    "selected": "game.GameState.DrawCardWithEvent",
+    "source": "backend/game/gamestate.go",
+    "start": 6266,
+    "end": 6299,
+    "source_revision": "6642351731e0c336cd220a861dd14fc212e7d192"
+  },
+  {
+    "query": "cards_drawn_this_turn_counter_amount",
+    "strategy": "explicit_leading_terms",
+    "query_ms": 169,
+    "candidates": [
+      "game.GameState.evalDynamicAmountBase#case:cards_drawn_this_turn",
+      "game.GameState.handleTrackCardsDrawn",
+      "game.GameState.DrawWithMiracleCheck",
+      "game.GameState.handleMonarchEndStepDraw"
+    ],
+    "selected": "game.GameState.evalDynamicAmountBase#case:cards_drawn_this_turn",
+    "source": "backend/game/dynamic_amount.go",
+    "start": 963,
+    "end": 971,
+    "source_revision": "6642351731e0c336cd220a861dd14fc212e7d192"
+  },
+  {
+    "query": "grant_keywords_until_eot",
+    "strategy": "exact_symbol",
+    "query_ms": 70,
+    "candidates": [
+      "game.GameState.applySpellEffectCore#case:grant_keywords_until_eot",
+      "game.GameState.ExecuteAbilityEffect#case:grant_keywords_until_eot"
+    ],
+    "selected": "game.GameState.applySpellEffectCore#case:grant_keywords_until_eot",
+    "source": "backend/game/gamestate.go",
+    "start": 3878,
+    "end": 3897,
+    "source_revision": "6642351731e0c336cd220a861dd14fc212e7d192"
+  },
+  {
+    "query": "ResolveSequenceChoice",
+    "strategy": "exact_symbol",
+    "query_ms": 72,
+    "candidates": [
+      "game.GameState.ResolveSequenceChoice"
+    ],
+    "selected": "game.GameState.ResolveSequenceChoice",
+    "source": "backend/game/effect_sequence.go",
+    "start": 556,
+    "end": 573,
+    "source_revision": "6642351731e0c336cd220a861dd14fc212e7d192"
+  },
+  {
+    "query": "GetPowerWithEffects",
+    "strategy": "exact_symbol",
+    "query_ms": 73,
+    "candidates": [
+      "game.Card.GetPowerWithEffects"
+    ],
+    "selected": "game.Card.GetPowerWithEffects",
+    "source": "backend/game/card.go",
+    "start": 3068,
+    "end": 3090,
+    "source_revision": "6642351731e0c336cd220a861dd14fc212e7d192"
+  }
+]

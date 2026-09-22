@@ -1,0 +1,141 @@
+{
+  "attempt_history": [],
+  "capability_assessments": [
+    {
+      "classification": "connection",
+      "existing_symbols": [
+        "game.GameState.ExecuteAbilityEffect#case:untap_referent",
+        "game.GameState.noteSeqReferent",
+        "game.GameState.executeBounceEffectTo#case:library_top"
+      ],
+      "remaining_gap": "a public no-target effect atom that consumes the already-bound sequence referent and moves it to its owner's library top",
+      "stage": "continuation",
+      "status": "worker_claim_requires_gates",
+      "verification": "TestFactoryNGReferentObjectToLibraryTop_b695fba968 exercises the public ExecuteAbilityEffect path with a referent-bound blocker and asserts owner library top / battlefield removal"
+    }
+  ],
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-engine-auto-referent-object-to-library-top-b695fba968-v1-sqogb_3q",
+    "candidate_commit": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+    "source_tree_changed": false
+  },
+  "failure_category": "model_response",
+  "gates": [
+    {
+      "detail": "resolved 3 bounded source request(s)",
+      "id": "need-continuation",
+      "outcome": "passed"
+    },
+    {
+      "detail": "backend/cards/registry_factory_ng_b695fba968.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\n",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "Provider call exited 1; see retained raw response. goose-staged: provider process failed; see retained artifact\n",
+      "id": "provider-call",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "qwen-goose-staged@1.0.0",
+    "resolved_model": "halogen-qwen3.8-flash-next",
+    "telemetry": {
+      "bounded_repair_attempted": true,
+      "cache_read_tokens": {
+        "availability": "unavailable",
+        "reason": "at least one model call omitted this counter"
+      },
+      "cache_write_tokens": {
+        "availability": "unavailable",
+        "reason": "at least one model call omitted this counter"
+      },
+      "elapsed_ms": 1200087,
+      "input_tokens": {
+        "availability": "unavailable",
+        "reason": "at least one model call omitted this counter"
+      },
+      "model_calls": 3,
+      "need_continuation_attempted": true,
+      "output_tokens": {
+        "availability": "unavailable",
+        "reason": "at least one model call omitted this counter"
+      },
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      },
+      "stage_times": {
+        "attempt_wall_ms": 1202443,
+        "candidate_gate_ms": 0,
+        "compilation_ms": {
+          "availability": "unavailable",
+          "reason": "go test includes package compilation; not separately timed"
+        },
+        "model_ms": 1200087
+      }
+    },
+    "worker": "goose-repair-benchmark"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed",
+  "raw_artifacts": [
+    {
+      "path": "docs/benchmarks/goose-qwen-2026-09-20/repair-rollout/protocol/runs/2026-09-20T161014Z-engine-auto-referent-object-to-library-top-b695fba968-v1-goose-qwen-staged.raw.json",
+      "sha256": "sha256:2f2282461de752715ecc397aa06e4547ec4fab9d850572f75a56599b1f68deef"
+    },
+    {
+      "kind": "prepared_packet",
+      "path": "docs/benchmarks/goose-qwen-2026-09-20/repair-rollout/protocol/runs/2026-09-20T161014Z-engine-auto-referent-object-to-library-top-b695fba968-v1-goose-qwen-staged.packet.txt",
+      "sha256": "sha256:291147418b1b7f04dcf148489b8c0227b8fe7db89c4d5ec32b45422aa23e184c"
+    },
+    {
+      "kind": "requested_context",
+      "path": "docs/benchmarks/goose-qwen-2026-09-20/repair-rollout/protocol/runs/2026-09-20T161014Z-engine-auto-referent-object-to-library-top-b695fba968-v1-goose-qwen-staged.context.txt",
+      "sha256": "sha256:1ff749568060e7f89152d7697d37174972d25164653595c9525ef59a5439c923"
+    },
+    {
+      "kind": "knowledge_trace",
+      "path": "docs/benchmarks/goose-qwen-2026-09-20/repair-rollout/protocol/runs/2026-09-20T161014Z-engine-auto-referent-object-to-library-top-b695fba968-v1-goose-qwen-staged.lookup.jsonl",
+      "sha256": "sha256:5481fa6fe67171a3ec7798fdb09312e47849a039d65f2aba2fbdb5d27547a551"
+    },
+    {
+      "kind": "need_continuation",
+      "path": "docs/benchmarks/goose-qwen-2026-09-20/repair-rollout/protocol/runs/2026-09-20T161014Z-engine-auto-referent-object-to-library-top-b695fba968-v1-goose-qwen-staged.continuation.raw.json",
+      "sha256": "sha256:20e4b66e5a8f8d6ddd43ed72f8b8488ba042db3b8fd55be051acd303caae230e"
+    },
+    {
+      "kind": "bounded_repair",
+      "path": "docs/benchmarks/goose-qwen-2026-09-20/repair-rollout/protocol/runs/2026-09-20T161014Z-engine-auto-referent-object-to-library-top-b695fba968-v1-goose-qwen-staged.repair.raw.json",
+      "sha256": "sha256:0885a8a13b0e8c683a1a26cf69e81485828fe2ca369e6e16b72c178c713912e0"
+    },
+    {
+      "kind": "repair_packet",
+      "path": "docs/benchmarks/goose-qwen-2026-09-20/repair-rollout/protocol/runs/2026-09-20T161014Z-engine-auto-referent-object-to-library-top-b695fba968-v1-goose-qwen-staged.repair.packet.txt",
+      "sha256": "sha256:47485840c136fe00fa6fcf7a8e198e1a740e4da23a5250c804dc40a785a64160"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-referent-object-to-library-top-b695fba968/v1",
+    "path": "docs/factory-ng/tickets/engine-auto-referent-object-to-library-top-b695fba968-v1.json",
+    "sha256": "sha256:ec85e1f292c3fa2bdaafe86126b769dac62c9a0fec7b2ce18f84d2bf76ab3f59"
+  }
+}

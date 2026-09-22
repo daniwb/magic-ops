@@ -1,0 +1,97 @@
+{
+  "active": [
+    {
+      "id": "qwen-local",
+      "kind": "worker",
+      "model": "Qwen3.8-27B-Q8_0",
+      "state": "working",
+      "ticket_id": "ticket:engine.auto-damage-count-of-color-spell-effect-3c960eba0c/v3"
+    },
+    {
+      "id": "integration-harness",
+      "kind": "integration",
+      "model": "gpt-5.6-luna",
+      "state": "integrating",
+      "ticket_id": "ticket:engine.auto-triggered-self-copy-with-token-ceasing-ff40ee46f2/v4"
+    },
+    {
+      "id": "codex",
+      "kind": "worker",
+      "model": "gpt-5.6-luna",
+      "state": "working",
+      "ticket_id": "ticket:map.plan-destroy-shattered-wings-ab4987df4b/v4"
+    }
+  ],
+  "authentication_recovery": {
+    "completed_at": "2026-08-31T10:28:37Z",
+    "explanation": "OAuth authentication failures were returned to the queue without consuming ticket attempts.",
+    "refunded_attempts": 431
+  },
+  "cache_maintenance": {
+    "cache_path": "/opt/development/.gocache-magic",
+    "finished_at": "2026-09-09T00:41:15Z",
+    "message": "Go cache cleanup completed; Go gates are available again.",
+    "requested_at": "2026-09-09T00:40:02Z",
+    "schema": "factory.go-cache-maintenance/v1",
+    "size_after_gib": 0,
+    "size_before_gib": 20.1,
+    "started_at": "2026-09-09T00:41:07Z",
+    "state": "completed",
+    "updated_at": "2026-09-09T00:41:15Z"
+  },
+  "deferred": [
+    "ticket:engine.staged-trial-verify-scorn/v2",
+    "ticket:engine.staged-trial-verify-siegfried/v2"
+  ],
+  "enabled_workers": 4,
+  "message": "Factory NG has active isolated work; final states will be retained with immutable receipts.",
+  "phase": "building",
+  "queue": {
+    "admission_cap": 10,
+    "deferred": 2,
+    "fill_target": 10,
+    "max_queued": 12,
+    "runnable": 10,
+    "target_ready": 8,
+    "total": 12
+  },
+  "queued": [
+    "ticket:engine.auto-damage-additional-to-subset-map-wiring-9fa4833208/v2",
+    "ticket:engine.auto-destroy-self-at-end-of-combat-749095683e/v2",
+    "ticket:engine.auto-pump-all-affects-exclude-subtype-e1ca07c5ec/v1",
+    "ticket:engine.auto-pump-rider-grant-triggered-ability-until-eot-a537ec5adc/v1",
+    "ticket:engine.auto-pump-until-eot-all-filter-dispatch-guard-ab3ef3fe32/v1",
+    "ticket:engine.auto-single-target-destroy-creature-excluding-multipl-bce9fe5243/v1",
+    "ticket:engine.staged-trial-verify-scorn/v2",
+    "ticket:engine.staged-trial-verify-siegfried/v2",
+    "ticket:map.plan-exile-rally-the-ancestors-1fee939f43/v1",
+    "ticket:map.plan-exile-shaun-father-of-synths-766c4134e8/v2",
+    "ticket:map.plan-pump-shiv-s-embrace-65268b1353/v2",
+    "ticket:map.plan-put-counters-smile-at-death-f91374daa6/v1"
+  ],
+  "results": [
+    {
+      "producer": "capability-dependencies",
+      "status": "queued",
+      "ticket_id": "ticket:engine.auto-damage-count-of-color-spell-effect-3c960eba0c/v3"
+    },
+    {
+      "producer": "build-plan-integration-conflict",
+      "status": "queued",
+      "ticket_id": "ticket:map.plan-destroy-shattered-wings-ab4987df4b/v4"
+    },
+    {
+      "producer": "staged-five-card-trial",
+      "status": "queued",
+      "ticket_id": "ticket:engine.staged-trial-verify-siegfried/v2"
+    },
+    {
+      "producer": "context-retry-batch",
+      "status": "no_retry_candidate"
+    }
+  ],
+  "state": "running",
+  "symbol": "\u25b6",
+  "updated_at": "2026-09-09T06:21:07Z",
+  "worker_pauses": []
+}

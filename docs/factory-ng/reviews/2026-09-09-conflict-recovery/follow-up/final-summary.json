@@ -1,0 +1,122 @@
+{
+  "checked_at": "2026-09-09T19:49:30Z",
+  "initial_conflict_lineages": 15,
+  "verified_pushed_lineages": 15,
+  "unresolved_lineages": 0,
+  "followup_integration_receipt": "docs/factory-ng/runs/2026-09-09T193506Z-engine-operator-conflict-recovery-sep09-v1-1788982506257851206-integration.json",
+  "followup_result_commit": "474e2ba6b06b7ae132afd3dcb8c9298dc507f7e5",
+  "remote_main": "474e2ba6b06b7ae132afd3dcb8c9298dc507f7e5",
+  "excluded_candidates": {},
+  "canonical_clean": true,
+  "live_deployed": false,
+  "retry_counters_unchanged": true,
+  "lineages": [
+    {
+      "ticket": "ticket:engine.auto-damage-amount-referent-target-hand-size-5b58aa258c/v3",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-09T193506Z-engine-operator-conflict-recovery-sep09-v1-1788982506257851206-integration.json",
+      "attempts": 1
+    },
+    {
+      "ticket": "ticket:engine.auto-destroyed-this-way-per-player-count-58304e2f98/v2",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-09T193506Z-engine-operator-conflict-recovery-sep09-v1-1788982506257851206-integration.json",
+      "attempts": 1
+    },
+    {
+      "ticket": "ticket:engine.auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295/v2",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-09T193506Z-engine-operator-conflict-recovery-sep09-v1-1788982506257851206-integration.json",
+      "attempts": 1
+    },
+    {
+      "ticket": "ticket:engine.auto-pump-until-eot-ability-self-no-target-9e24f96767/v3",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-09T193506Z-engine-operator-conflict-recovery-sep09-v1-1788982506257851206-integration.json",
+      "attempts": 1
+    },
+    {
+      "ticket": "ticket:engine.auto-sacrifice-unless-discard-3e88a33648/v2",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-09T193506Z-engine-operator-conflict-recovery-sep09-v1-1788982506257851206-integration.json",
+      "attempts": 1
+    }
+  ],
+  "gates": [
+    {
+      "id": "candidate-apply",
+      "outcome": "passed",
+      "elapsed_ms": 867
+    },
+    {
+      "id": "composed-ticket-1",
+      "outcome": "passed",
+      "elapsed_ms": 198882
+    },
+    {
+      "id": "composed-ticket-3",
+      "outcome": "passed",
+      "elapsed_ms": 11865
+    },
+    {
+      "id": "composed-ticket-4",
+      "outcome": "passed",
+      "elapsed_ms": 10669
+    },
+    {
+      "id": "composed-ticket-5",
+      "outcome": "passed",
+      "elapsed_ms": 11044
+    },
+    {
+      "id": "composed-ticket-6",
+      "outcome": "passed",
+      "elapsed_ms": 10366
+    },
+    {
+      "id": "composed-ticket-7",
+      "outcome": "passed",
+      "elapsed_ms": 10638
+    },
+    {
+      "id": "reparse-flip",
+      "outcome": "passed",
+      "elapsed_ms": 116253
+    },
+    {
+      "id": "reparse-import",
+      "outcome": "passed",
+      "elapsed_ms": 23857
+    },
+    {
+      "id": "go-build",
+      "outcome": "passed",
+      "elapsed_ms": 161441
+    },
+    {
+      "id": "game-tests",
+      "outcome": "passed",
+      "elapsed_ms": 28516
+    },
+    {
+      "id": "focused-go",
+      "outcome": "passed",
+      "elapsed_ms": 25584
+    },
+    {
+      "id": "full-sharded-suite",
+      "outcome": "passed",
+      "elapsed_ms": 202124
+    },
+    {
+      "id": "push",
+      "outcome": "passed",
+      "elapsed_ms": 3193
+    }
+  ]
+}

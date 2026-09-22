@@ -1,0 +1,77 @@
+{
+  "at": "2026-09-08T21:04:47.179178+00:00",
+  "controller_pids": [
+    3093467
+  ],
+  "runtime_updated_at": "2026-09-08T21:04:40Z",
+  "canonical_clean": true,
+  "watchdog_problems": [
+    "46 unresolved integration failure(s)"
+  ],
+  "trial_jobs": {
+    "ticket:map.plan-bounce-sea-god-s-scorn-f03e8b624f/v2": {
+      "state": "integrating",
+      "outcome": "accepted_for_dependent_observation",
+      "attempts": 1,
+      "worker": "claude",
+      "pid": 3091802,
+      "receipt": "docs/factory-ng/runs/2026-09-08T204402Z-map-plan-bounce-sea-god-s-scorn-f03e8b624f-v2-claude.json",
+      "superseded_by": null,
+      "waiting_reason": null
+    },
+    "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2": {
+      "state": "parked",
+      "outcome": "parked",
+      "attempts": 1,
+      "worker": "claude-2",
+      "pid": null,
+      "receipt": "docs/factory-ng/runs/2026-09-08T195944Z-map-plan-bounce-sigil-of-sleep-a3b32a7cef-v2-claude.json",
+      "superseded_by": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v3",
+      "waiting_reason": null
+    },
+    "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v3": {
+      "state": "queued",
+      "outcome": null,
+      "attempts": null,
+      "worker": null,
+      "pid": null,
+      "receipt": null,
+      "superseded_by": null,
+      "waiting_reason": null
+    },
+    "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v2": {
+      "state": "parked",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 2,
+      "worker": "claude",
+      "pid": null,
+      "receipt": "docs/factory-ng/runs/2026-09-08T203540Z-map-plan-damage-rakdos-roustabout-8c3132d96a-v2-claude.json",
+      "superseded_by": null,
+      "waiting_reason": "Recorded missing-source failure; waiting for a bounded fresh context packet."
+    },
+    "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2": {
+      "state": "blocked",
+      "outcome": "blocked_by_capability",
+      "attempts": 3,
+      "worker": "claude-2",
+      "pid": null,
+      "receipt": "docs/factory-ng/runs/2026-09-08T203052Z-map-plan-grant-eot-skittering-cicada-aaedaea801-v2-claude.json",
+      "superseded_by": null,
+      "waiting_reason": "validated atomic Engine dependency is being compiled automatically"
+    },
+    "ticket:map.plan-put-counters-siegfried-famed-swordsman-77e58aca02/v2": {
+      "state": "failed",
+      "outcome": "gate_failed",
+      "attempts": 1,
+      "worker": "claude-2",
+      "pid": null,
+      "receipt": "docs/factory-ng/runs/2026-09-08T195153Z-map-plan-put-counters-siegfried-famed-swordsman-77e58aca02-v2-claude.json",
+      "superseded_by": null,
+      "waiting_reason": null
+    }
+  },
+  "sigil_admission_evidence": [
+    "[2026-09-08T21:04:10Z] producer=build-plan-integration-conflict status=queued ticket=ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v3"
+  ],
+  "deployment": false
+}

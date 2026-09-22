@@ -1,0 +1,16 @@
+{
+  "at": "2026-09-08T20:15:33.148998+00:00",
+  "passed": {
+    "staged": 22,
+    "investigation": 4,
+    "controller": 65,
+    "reliability": 19,
+    "recovery": 8,
+    "cohort": 7
+  },
+  "total": 125,
+  "affected_claude_profiles": "pass including baseline",
+  "enabled_profiles": "pre-existing MiniMax registration/schema failure; unchanged",
+  "provider_calls_in_tests": "mocked",
+  "runner_validation": "real isolated Git clones, strict patch application, real named Go tests and gates"
+}

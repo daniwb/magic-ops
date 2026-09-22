@@ -1,0 +1,67 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-engine-auto-return-from-graveyard-creature-subtype-filter-b70311209e-v2-4_bnkb7f",
+    "candidate_commit": "72199fbb70e9441df04b4030885eeadb3b2b8b2f",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "9c435f3336ba441adca84e4064c62685c7884d07",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "codex-constrained@1.0.0",
+    "resolved_model": "gpt-5.6-luna",
+    "telemetry": {
+      "bounded_repair_attempted": true,
+      "cache_read_tokens": 22016,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 17213,
+      "input_tokens": 45577,
+      "output_tokens": 510,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      }
+    },
+    "worker": "codex"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed_model_protocol",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-31T174309Z-engine-auto-return-from-graveyard-creature-subtype-filter-b70311209e-v2-codex.raw.json",
+      "sha256": "sha256:be89b179000357348c925f79a1021971996ee533df51172d8b30580acde9e4e5"
+    },
+    {
+      "kind": "bounded_repair",
+      "path": "docs/factory-ng/runs/2026-08-31T174309Z-engine-auto-return-from-graveyard-creature-subtype-filter-b70311209e-v2-codex.repair.raw.json",
+      "sha256": "sha256:e45b8a981e702f1f74c4ce994e92464887128a1129ceadab0f1a828524e3caa4"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-return-from-graveyard-creature-subtype-filter-b70311209e/v2",
+    "path": "docs/factory-ng/tickets/engine-auto-return-from-graveyard-creature-subtype-filter-b70311209e-v2.json",
+    "sha256": "sha256:b06288b54714103a89285f0fe1a2ed05f993393acf57fba0cd33af9acc8c5784"
+  }
+}

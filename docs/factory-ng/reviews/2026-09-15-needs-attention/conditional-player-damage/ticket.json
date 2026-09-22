@@ -1,0 +1,154 @@
+{
+  "capability": {
+    "expected_unlock": 1,
+    "negative_examples": [
+      "Plain damage to 'target creature' or 'target opponent' without conditionals (already supported by the existing damage primitive).",
+      "Damage to a referent creature ('that creature') without conditionals (already supported by the existing damage primitive).",
+      "Triggered damage with no conditional gate (already supported)."
+    ],
+    "required_behavior": "The damage primitive must accept a target that resolves to a specific player via a referent (e.g., 'that player' = controller of the enchanted creature for an Aura) and must support a conditional gate ('unless' clause referencing game state such as 'that creature attacked this turn') that prevents the damage if the condition is met.",
+    "source_misses": [
+      {
+        "card": "Insubordination",
+        "oracle_text_sha256": "1af1c61b3d3666dcb85770b9b4249f6acda463f32776358317f52cae5974b321",
+        "paragraph": "At the beginning of the end step of enchanted creature's controller, this Aura deals 2 damage to that player unless that creature attacked this turn.",
+        "required_behavior": "Deal 2 damage to the controller of the enchanted creature, unless that creature attacked this turn."
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "key": "conditional_damage_to_referent_player",
+        "specification": {
+          "expected_unlock": 1,
+          "negative_examples": [
+            "Plain damage to 'target creature' or 'target opponent' without conditionals (already supported by the existing damage primitive).",
+            "Damage to a referent creature ('that creature') without conditionals (already supported by the existing damage primitive).",
+            "Triggered damage with no conditional gate (already supported)."
+          ],
+          "required_behavior": "The damage primitive must accept a target that resolves to a specific player via a referent (e.g., 'that player' = controller of the enchanted creature for an Aura) and must support a conditional gate ('unless' clause referencing game state such as 'that creature attacked this turn') that prevents the damage if the condition is met.",
+          "source_misses": [
+            {
+              "card": "Insubordination",
+              "oracle_text_sha256": "1af1c61b3d3666dcb85770b9b4249f6acda463f32776358317f52cae5974b321",
+              "paragraph": "At the beginning of the end step of enchanted creature's controller, this Aura deals 2 damage to that player unless that creature attacked this turn.",
+              "required_behavior": "Deal 2 damage to the controller of the enchanted creature, unless that creature attacked this turn."
+            }
+          ]
+        },
+        "summary": "Deal damage to a specific player resolved by a referent (e.g., the controller of an enchanted creature) with a conditional 'unless' gate referencing game state."
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-01T180138Z-map-plan-damage-insubordination-875a6e97f1-v1-openrouter.json"
+    },
+    {
+      "anchor": "19-89",
+      "fact": "Current source contains the nearest bounded seam matching capability tokens conditional, damage, referent, player.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:1795fe3b386e68f3a436bac42ab5e9ef00ff43ca512f640abdf5f5b17bb4ba21"
+    },
+    {
+      "anchor": "1-65",
+      "fact": "Current source contains the nearest bounded seam matching capability tokens conditional, damage, referent, player.",
+      "path": "backend/game/dynamic_amount.go",
+      "sha256": "sha256:07c514d74935fce87d2eebbf7da347a0f4be738088f738cfa731bfc83551e6a2"
+    },
+    {
+      "anchor": "1-53",
+      "fact": "Current source contains the nearest bounded seam matching capability tokens conditional, damage, referent, player.",
+      "path": "backend/game/effects.go",
+      "sha256": "sha256:283a75ac596319d6422f91838cd413c5b1f1cc7b074a1c8f26b1a9a1955ed269"
+    },
+    {
+      "anchor": "166-236",
+      "fact": "Current source contains the nearest bounded seam matching capability tokens conditional, damage, referent, player.",
+      "path": "backend/game/card.go",
+      "sha256": "sha256:4cb1df58b8b56e8d060e0c1b3e8b304678c4c4517f33dd5d5671337164e9d91f"
+    },
+    {
+      "fact": "The previous candidate compiled/ran and failed this exact gate: ticket-gate-1: FAIL\tmagic-backend/game [build failed]\nok  \tmagic-backend/cards\t0.021s [no tests to run]\nFAIL\n# magic-backend/game [magic-backend/game.test]\ngame/factory_ng_768261106f_test.go:33:27: gs.Battlefield.Put undefined (type *Zone has no field or method Put)\ngame/factory_ng_768261106f_test.go:43:27: gs.Battlefield.Put undefined (type *Zone has no field or method Put); ticket-gate-2: FAIL\tmagic-backend/game [build failed]\nok  \tmagic-backend/cards\t54.923s\nFAIL\n# magic-backend/game [magic-backend/game.test]\ngame/factory_ng_768261106f_test.go:33:27: gs.Battlefield.Put undefined (type *Zone has no field or method Put)\ngame/factory_ng_768261106f_test.go:43:27: gs.Battlefield.Put undefined (type *Zone has no field or method Put). Fix only this defect; do not restructure unrelated code or revisit already-passing behavior.",
+      "path": "docs/factory-ng/runs/2026-09-02T011521Z-engine-auto-conditional-damage-to-referent-player-768261106f-v1-qwen-agentic.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "One bounded gate-failure repair: the prior candidate was substantively close but failed a specific behavior or build gate.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGConditionalDamageToReferentPlayer$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.operator-conditional-player-damage-recovery-sep15/v1",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Retain the terminal receipt and continue independent discovery; do not request manual source transcription.",
+  "parents": [
+    "ticket:engine.auto-conditional-damage-to-referent-player-768261106f/v2"
+  ],
+  "production": {
+    "key": "capability:conditional_damage_to_referent_player:sha256:768261106f21cd08f6fa35ee1189f293284ad6e432a66fa2691c3858370c5eb0:gate-repair-v1",
+    "producer": "capability-dependencies",
+    "retry_reason": "semantic_gate_repair"
+  },
+  "required_behavior": [
+    "The damage primitive must accept a target that resolves to a specific player via a referent (e.g., 'that player' = controller of the enchanted creature for an Aura) and must support a conditional gate ('unless' clause referencing game state such as 'that creature attacked this turn') that prevents the damage if the condition is met.",
+    "Preserve these adjacent behaviors: Plain damage to 'target creature' or 'target opponent' without conditionals (already supported by the existing damage primitive).; Damage to a referent creature ('that creature') without conditionals (already supported by the existing damage primitive).; Triggered damage with no conditional gate (already supported).",
+    "Add a discriminating behavior test named TestFactoryNGConditionalDamageToReferentPlayer; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_768261106f_test.go",
+      "backend/cards/factory_ng_768261106f_test.go",
+      "backend/cards/registry_factory_ng_768261106f.go",
+      "backend/cards/shape_conditional_player_damage_test.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "30bcd8feb647a7cefd52307b7a134e10ca875204",
+    "clean": true
+  },
+  "supersedes": "ticket:engine.auto-conditional-damage-to-referent-player-768261106f/v1",
+  "title": "Resolve conditional damage to an attached permanent controller",
+  "work_type": "engine",
+  "operator_recovery": {
+    "authorization": "User requested fixing all needs-attention tickets.",
+    "original_ticket": "docs/factory-ng/tickets/engine-auto-conditional-damage-to-referent-player-768261106f-v2.json",
+    "original_ticket_sha256": "sha256:5156da58a5eb0daf06bd4e583538103a50c6e6a265a0a8d48542aa222b406da8",
+    "additional_provider_runs": 0,
+    "counter_resets": false,
+    "scope_addition_reason": "Reconstruct malformed retained patch and verify public Aura casting, actual attack history, end-step triggers, current controller, missing referent, damage prevention and plain adjacent damage."
+  }
+}

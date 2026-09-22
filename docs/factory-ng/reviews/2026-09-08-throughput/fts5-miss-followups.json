@@ -1,0 +1,114 @@
+{
+  "status": "reviewable work orders, not runnable TicketSpecs or live queue changes",
+  "revision": "6642351731e0c336cd220a861dd14fc212e7d192",
+  "work": [
+    {
+      "id": "target-cardinality",
+      "cards": [
+        "Tidal Surge",
+        "Sea God\u2019s Scorn"
+      ],
+      "action": "Corrected Engine successor plus separate card Map completions",
+      "contract": "Preserve declared min/max target count from parsed atom through converter to casting. Up to three means 0..3. Validate before mana payment or state mutation. Preserve ordinary required-one spells.",
+      "source_scope": [
+        "backend/cards/converter.go",
+        "backend/cards/types.go",
+        "backend/game/card.go",
+        "backend/game/effect_sequence.go",
+        "backend/game/gamestate_cast.go",
+        "backend/game/targeting.go"
+      ],
+      "acceptance": [
+        "Fresh parse and convert each actual card, then cast with 0,1,3 legal distinct targets successfully.",
+        "Reject 4 targets and duplicate selection; illegal creature types remain rejected.",
+        "Rejected casts leave hand, mana and stack unchanged.",
+        "Resolve exactly chosen targets; partial/all-invalid targets and zero-target resolution remain correct.",
+        "Exercise alternate casting paths that consume the same requirement.",
+        "Existing required-one spells still reject zero; union bounce returns to owner, not controller."
+      ]
+    },
+    {
+      "id": "zero-counter-amount",
+      "cards": [
+        "Siegfried, Famed Swordsman"
+      ],
+      "action": "Small Engine bug fix, then Map composition",
+      "contract": "Preserve resolved zero as zero through generic amount folding and counter execution. Keep omitted static amount defaulting to one. Reuse times and graveyard count.",
+      "source_scope": [
+        "backend/game/ability_effects.go",
+        "backend/game/dynamic_amount.go",
+        "new backend/game/shape_*_test.go"
+      ],
+      "acceptance": [
+        "Use ExecuteEffectSequence, not only the private counter executor: mill three then apply twice own graveyard creature count.",
+        "Zero creature cards gives zero counters; two gives four; include preexisting own graveyard creatures.",
+        "Exclude opponent graveyard and noncreatures.",
+        "Unknown count specification must not invent one counter.",
+        "Static explicit positive counters and omitted static amount retain expected behavior."
+      ]
+    },
+    {
+      "id": "event-mana-value-symmetric-pt",
+      "cards": [
+        "Skittering Cicada"
+      ],
+      "action": "Small Engine evaluator connection, then Map composition",
+      "contract": "Expose triggering-spell mana value to the existing event-aware dynamic evaluator so pt_amount_count can produce +X/+X. Compose existing keyword grant and pump atoms; avoid a combined card-specific primitive.",
+      "source_scope": [
+        "backend/game/dynamic_amount.go",
+        "new backend/game/shape_*_test.go"
+      ],
+      "acceptance": [
+        "Actual triggered sequence grants trample and +4/+4 from a four-mana-value colorless spell.",
+        "Zero mana value gives +0/+0 and still grants trample.",
+        "Both bonuses expire correctly at end of turn; repeated triggers stack.",
+        "Existing referent_spell_mana_value +X/+0 remains asymmetric.",
+        "Event source remains usable after triggering spell leaves stack; test X in casting context.",
+        "Fresh parsed card triggers only for required colorless casts and preserves its other abilities."
+      ]
+    },
+    {
+      "id": "player-damage-event",
+      "cards": [
+        "Sigil of Sleep"
+      ],
+      "action": "Correct the Engine demand to the demonstrated event gap, with explicit integration checks",
+      "contract": "Emit usable source and damaged-player context for actual noncombat player damage and connect the enchanted-creature trigger. Reuse current target choice and bounce. Preserve combat-only subscriber semantics; do not simply publish the existing combat event for noncombat damage.",
+      "source_scope": [
+        "backend/game/ability_effects.go",
+        "backend/game/events.go",
+        "backend/game/gamestate.go",
+        "backend/game/gamestate_trigger_target.go if resolution context requires it",
+        "backend/cards/converter.go if trigger conversion requires it",
+        "new focused game/cards test files"
+      ],
+      "acceptance": [
+        "Combat and noncombat damage from enchanted creature trigger exactly once for actual positive damage.",
+        "Prevented damage and unrelated life loss do not trigger.",
+        "Creature damage does not trigger this player-damage ability.",
+        "Targets belong to actually damaged player, even if that player is also aura controller.",
+        "Stolen creature returns to its owner; controller changes or other target illegality before resolution are rechecked.",
+        "Combat-only effects, including monarch, remain combat-only.",
+        "No duplicate emission across combat and generic damage paths."
+      ]
+    },
+    {
+      "id": "attacked-recipient-reuse",
+      "cards": [
+        "Rakdos Roustabout"
+      ],
+      "action": "Map/composition verification using existing engine; Engine successor only if remaining behavioral probe proves a gap",
+      "contract": "Reuse recipient_from=attacked_defender and blocked event source. Do not treat absent generated alias as absent damage behavior.",
+      "source_scope": [
+        "card Map/parser test scope",
+        "existing game resolver source as read-only evidence"
+      ],
+      "acceptance": [
+        "Fresh parse, convert and trigger from actual block declaration against player and planeswalker.",
+        "Multiple blockers produce the correct trigger count.",
+        "Check removal from combat/source leaving battlefield and last-known attacked recipient against card wording.",
+        "Retain all other card abilities and pass full card gates."
+      ]
+    }
+  ]
+}

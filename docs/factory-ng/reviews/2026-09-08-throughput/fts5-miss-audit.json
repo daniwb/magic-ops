@@ -1,0 +1,150 @@
+{
+  "schema": "factory.knowledge-miss-audit/v1",
+  "audited_at": "2026-09-08T15:47:37.248895+00:00",
+  "revision": "6642351731e0c336cd220a861dd14fc212e7d192",
+  "ticket_versions": 8,
+  "distinct_requirements": 6,
+  "live_ticket_mutations": false,
+  "entries": [
+    {
+      "card": "Rakdos Roustabout",
+      "category": "reuse_with_remaining_semantic_checks",
+      "source_symbols": [
+        "resolveRecipientFromEventCard",
+        "PutTriggeredAbilityOnStackWithEvent"
+      ],
+      "finding": "Existing blocked-event recipient path works for player and planeswalker. Map/trigger wiring and combat-removal/last-known-information cases remain; no new damage primitive justified by the search miss.",
+      "probes": [
+        "TestFTSMissAuditBlockedTriggerRecipient"
+      ],
+      "ticket_versions": [
+        {
+          "ticket": "ticket:engine.auto-damage-recipient-attacked-target-8aa9c754cc/v3",
+          "original_query": "damage_recipient_attacked_target",
+          "receipt": "docs/factory-ng/runs/2026-09-07T182134Z-engine-auto-damage-recipient-attacked-target-8aa9c754cc-v3-claude.json",
+          "historical_failure": "compile_or_vet_failure"
+        }
+      ]
+    },
+    {
+      "card": "Sea God\u2019s Scorn",
+      "category": "reuse_plus_shared_target_count_gap",
+      "source_symbols": [
+        "IsValidTarget",
+        "matchesPermanentFilterCtl",
+        "executeBounceEffectTo"
+      ],
+      "finding": "Union targeting and owner-hand bounce exist. Reuse target-cardinality follow-up shared with Tidal Surge; do not implement another bounce executor.",
+      "probes": [
+        "TestFTSMissAuditCreatureOrEnchantment"
+      ],
+      "ticket_versions": [
+        {
+          "ticket": "ticket:engine.auto-bounce-target-creature-or-enchantment-87dba8dbf5/v2",
+          "original_query": "bounce_target_creature_or_enchantment",
+          "receipt": "docs/factory-ng/runs/2026-09-07T192215Z-engine-auto-bounce-target-creature-or-enchantment-87dba8dbf5-v2-claude.json",
+          "historical_failure": "missing_evidence_or_scope"
+        }
+      ]
+    },
+    {
+      "card": "Tidal Surge",
+      "category": "confirmed_target_cardinality_gap",
+      "source_symbols": [
+        "CastSpellWithTargets",
+        "cards converter seq_target_stub"
+      ],
+      "finding": "Zero targets rejected and four accepted; correct spec to 0..3 and preserve required-one behavior for ordinary spells.",
+      "probes": [
+        "TestFTSMissAuditTargetCardinality"
+      ],
+      "ticket_versions": [
+        {
+          "ticket": "ticket:engine.auto-spell-seq-atom-up-to-n-target-cap-554092e021/v1",
+          "original_query": "spell_seq_atom_up_to_n_target_cap",
+          "receipt": "docs/factory-ng/runs/2026-09-07T192336Z-engine-auto-spell-seq-atom-up-to-n-target-cap-554092e021-v1-claude.json",
+          "historical_failure": "no_usable_response"
+        },
+        {
+          "ticket": "ticket:engine.auto-spell-seq-atom-up-to-n-target-cap-554092e021/v2",
+          "original_query": "spell_seq_atom_up_to_n_target_cap",
+          "receipt": "docs/factory-ng/runs/2026-09-07T195759Z-engine-auto-spell-seq-atom-up-to-n-target-cap-554092e021-v2-claude.json",
+          "historical_failure": "missing_evidence_or_scope"
+        },
+        {
+          "ticket": "ticket:engine.auto-spell-seq-atom-up-to-n-target-cap-554092e021/v3",
+          "original_query": "spell_seq_atom_up_to_n_target_cap",
+          "receipt": "docs/factory-ng/runs/2026-09-07T200301Z-engine-auto-spell-seq-atom-up-to-n-target-cap-554092e021-v3-claude.json",
+          "historical_failure": "missing_evidence_or_scope"
+        }
+      ]
+    },
+    {
+      "card": "Siegfried, Famed Swordsman",
+      "category": "confirmed_zero_amount_bug_in_existing_composition",
+      "source_symbols": [
+        "ExecuteEffectSequence",
+        "EvalDynamicAmountFull",
+        "resolveDynamicAmountFull",
+        "executePutCounterEffect"
+      ],
+      "finding": "Mill then times(graveyard creature count,2) works for positive counts. Generic fold deletes amount_count; executor clamps resulting zero to one. Fix zero behavior, not arithmetic engine.",
+      "probes": [
+        "TestFTSMissAuditMillThenCounters"
+      ],
+      "ticket_versions": [
+        {
+          "ticket": "ticket:engine.auto-put-counters-dynamic-zone-count-amount-c03e4c4218/v1",
+          "original_query": "put_counters_dynamic_zone_count_amount",
+          "receipt": "docs/factory-ng/runs/2026-09-07T203116Z-engine-auto-put-counters-dynamic-zone-count-amount-c03e4c4218-v1-claude.json",
+          "historical_failure": "malformed_edit_protocol"
+        }
+      ]
+    },
+    {
+      "card": "Sigil of Sleep",
+      "category": "confirmed_event_emission_gap_with_targeting_reuse",
+      "source_symbols": [
+        "putTriggeredAbilityOnStackOnce",
+        "PendingTriggerTarget",
+        "executeBounceEffectTo",
+        "executeDamageEffect"
+      ],
+      "finding": "Damaged-player target choice and owner-hand bounce work given an event. Noncombat player damage on executeDamageEffect emits life loss but neither damage event. Audit enchanted trigger and resolution legality in corrected scope.",
+      "probes": [
+        "TestFTSMissAuditDamagedPlayerTarget",
+        "TestFTSMissAuditNoncombatPlayerDamageEvent"
+      ],
+      "ticket_versions": [
+        {
+          "ticket": "ticket:engine.auto-bounce-filter-controller-damaged-player-a0c40565d9/v1",
+          "original_query": "bounce_filter_controller_damaged_player",
+          "receipt": "docs/factory-ng/runs/2026-09-07T203435Z-engine-auto-bounce-filter-controller-damaged-player-a0c40565d9-v1-claude.json",
+          "historical_failure": "framework_claim_needs_validation"
+        }
+      ]
+    },
+    {
+      "card": "Skittering Cicada",
+      "category": "small_event_mana_value_to_symmetric_pt_connection",
+      "source_symbols": [
+        "resolvePumpReferentSpellManaValue",
+        "resolveDynamicAmountFull",
+        "EvalDynamicAmountFull",
+        "grant_keywords_until_eot"
+      ],
+      "finding": "Keyword duration and +X/+0 event-MV fold exist; symmetric pt_amount_count exists but lacks an event-MV count kind. Connect existing evaluator to event mana value, retaining old asymmetric behavior.",
+      "probes": [
+        "TestFTSMissAuditEventManaValuePump"
+      ],
+      "ticket_versions": [
+        {
+          "ticket": "ticket:engine.auto-grant-keyword-plus-dynamic-pt-until-eot-db98033e77/v1",
+          "original_query": "grant_keyword_plus_dynamic_pt_until_eot",
+          "receipt": "docs/factory-ng/runs/2026-09-07T205408Z-engine-auto-grant-keyword-plus-dynamic-pt-until-eot-db98033e77-v1-claude.json",
+          "historical_failure": "compile_or_vet_failure"
+        }
+      ]
+    }
+  ]
+}

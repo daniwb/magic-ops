@@ -1,0 +1,50 @@
+{
+  "schema": "factory.model-profile/v1",
+  "id": "minimax-prepared-direct",
+  "version": "1.0.0",
+  "extends": "staged-baseline@1.0.0",
+  "adapter": {
+    "adapter_id": "minimax-prepared-direct-v1",
+    "executable": "scripts/model_call.py --engine openrouter",
+    "engine": "openrouter",
+    "workflow": "MiniMax M3 receives one deterministic no-tools prepared Map packet over OpenRouter Chat Completions; the harness may supply one bounded NEED continuation or one focused patch repair, then owns apply and every declared gate",
+    "allowed_tools": [],
+    "filesystem": "read-only",
+    "network": "none",
+    "thinking": "bounded by the adapter and excluded from response content",
+    "max_completion_tokens": 16000,
+    "max_model_calls": 2
+  },
+  "routing": {
+    "best_for": [
+      "evidence-complete Map patch",
+      "deterministic wiring",
+      "constrained repair"
+    ],
+    "do_not_use_when": [
+      "the ticket needs open-ended repository discovery",
+      "the packet has unresolved design alternatives",
+      "the required behavior cannot fit the TicketSpec's allowed paths",
+      "Engine work until an independently frozen Engine qualification passes"
+    ],
+    "promotion_evidence": "two independently frozen Map tickets passed all harness-owned gates; the Engine controlled rollout failed its protocol contract and is disabled pending an Engine qualification"
+  },
+  "telemetry": {
+    "source": "OpenRouter Chat Completions usage",
+    "measured": [
+      "input",
+      "output",
+      "cache_read",
+      "elapsed"
+    ],
+    "unavailable": [
+      "cache_write",
+      "reasoning token split"
+    ],
+    "cost": "zero for the registered :free endpoint"
+  },
+  "availability": {
+    "rate_limit_policy": "shared durable OpenRouter cooldown: 60 seconds, then 180 seconds, then 300 seconds capped",
+    "rate_limited_dispatch_consumes_ticket_retry": false
+  }
+}

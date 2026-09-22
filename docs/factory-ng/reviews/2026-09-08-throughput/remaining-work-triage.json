@@ -1,0 +1,2327 @@
+{
+  "schema": "factory.read-only-triage/v1",
+  "created_at": "2026-09-08T19:02:02.483497+00:00",
+  "jobs_updated_at": "2026-09-08T18:57:31Z",
+  "jobs_snapshot_sha256": "265893a40819ef71d83e5dfcf6728403beabca41aa518f7063ef8d614db770a3",
+  "canonical_revision": "da85419117f69262d386b2b268b30bdcbc922b28",
+  "failure_categories": {
+    "named_test_mismatch": 35,
+    "patch_conflict": 15,
+    "duplicate_test_symbol": 1,
+    "compile_error": 1
+  },
+  "superseded_integration_failures_excluded": 25,
+  "failures": [
+    {
+      "ticket_id": "ticket:engine.auto-bounce-target-filter-graveyard-zone-71195c6780/v2",
+      "cards": [
+        "Pulse of Murasa"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T15:27:46Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-bounce-target-filter-graveyard-zone-71195c6780-v2.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T230518Z-engine-auto-bounce-target-filter-graveyard-zone-71195c6780-v2-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T150321Z-wave-69725554fa20-integration.json",
+      "integration_receipt_sha256": "db96e709536694aa7fda62edd8eb17d2336f901bee234cc9a7dc5d50455c8857",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGBounceTargetFilterGraveyardZone$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T15:09:52.988538817Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T15:09:52.996766767Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T15:09:52.997364511Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T15:09:52.997983955Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.009s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T15:09:52.998046732Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.01}\n{\"Time\":\"2026-09-07T15:12:21.618581686Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T15:12:21.644485778Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T15:12:21.644624565Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T15:12:21.647429493Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.029s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T15:12:21.647504343Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.029}\n\n\nrequired test filter '^TestFactoryNGBounceTargetFilterGraveyardZone$' executed no passing tests",
+          "elapsed_ms": 178569,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T231530Z-engine-auto-bounce-target-filter-graveyard-zone-71195c6780-v2.patch",
+      "patch_sha256": "6d15f3c7c9f2b9772005677b7ff9a860780ef53aa5e182f7d6154797c7c20a4a",
+      "added_test_names": [
+        "TestBounceFromGraveyardEffect_CreatureCard"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGBounceTargetFilterGraveyardZone$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-bounce-pulse-of-murasa-797978329c/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGBounceTargetFilterGraveyardZone"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-conditional-put-counters-on-attached-color-da83525c4d/v2",
+      "cards": [
+        "Ring of Thune"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T15:53:43Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-conditional-put-counters-on-attached-color-da83525c4d-v2.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T232727Z-engine-auto-conditional-put-counters-on-attached-color-da83525c4d-v2-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T152747Z-wave-c134124178f2-integration.json",
+      "integration_receipt_sha256": "797bc5c03a6cb48016039469c1c0abc7c801dd3c877dd5704c21daada558feeb",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGConditionalPutCountersOnAttachedColor$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T15:28:29.09781859Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T15:28:29.107715169Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T15:28:29.108090143Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T15:28:29.109515567Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.011s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T15:28:29.109647975Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.012}\n{\"Time\":\"2026-09-07T15:30:55.64453729Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T15:30:55.664747257Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T15:30:55.664871097Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T15:30:55.667113689Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.022s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T15:30:55.667198382Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.023}\n\n\nrequired test filter '^TestFactoryNGConditionalPutCountersOnAttachedColor$' executed no passing tests",
+          "elapsed_ms": 176452,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T233632Z-engine-auto-conditional-put-counters-on-attached-color-da83525c4d-v2.patch",
+      "patch_sha256": "e74280802c90b7c2c1711f1db275f60d2306b721554862f3228980e4a446c2bf",
+      "added_test_names": [
+        "TestPutCounterAttachedRecipientColorCondition"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGConditionalPutCountersOnAttachedColor$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-put-counters-ring-of-thune-3e6a301689/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGConditionalPutCountersOnAttachedColor"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-copy-triggering-referent-b4a4facffb/v1",
+      "cards": [
+        "Storm King's Thunder"
+      ],
+      "category": "patch_conflict",
+      "outcome": "candidate_conflict",
+      "updated_at": "2026-09-08T00:30:24Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-copy-triggering-referent-b4a4facffb-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-07T234646Z-engine-auto-copy-triggering-referent-b4a4facffb-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-08T001227Z-wave-f3c2926a0b29-integration.json",
+      "integration_receipt_sha256": "d2ad764a426bf133ee7fce9a1cfae7216f3f5fc46c0a7d923787e86df9411c2c",
+      "failed_gates": [
+        {
+          "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/2026-09-07T235853Z-engine-auto-copy-triggering-referent-b4a4facffb-v1.patch",
+          "detail": "Applying: factory-ng: supervised engine observation\nUsing index info to reconstruct a base tree...\nM\tbackend/game/ability_effects.go\nFalling back to patching base and 3-way merge...\nAuto-merging backend/game/ability_effects.go\nCONFLICT (content): Merge conflict in backend/game/ability_effects.go\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\n\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch",
+          "elapsed_ms": 776,
+          "exit_code": 128,
+          "id": "candidate-apply",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-07T235853Z-engine-auto-copy-triggering-referent-b4a4facffb-v1.patch",
+      "patch_sha256": "eaeb2719ccd264f89342ae7c52d10fd4093f852ae817d2ddce58eaa6e97afda9",
+      "added_test_names": [
+        "TestFactoryNGCopyTriggeringReferent"
+      ],
+      "failing_selectors": [],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-copy-storm-king-s-thunder-a345bc37e5/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ]
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-amount-counter-count-82dee1907b/v3",
+      "cards": [
+        "Falkenrath Exterminator"
+      ],
+      "category": "patch_conflict",
+      "outcome": "candidate_conflict",
+      "updated_at": "2026-09-07T20:31:14Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-damage-amount-counter-count-82dee1907b-v3.json",
+      "observation": "docs/factory-ng/runs/2026-09-07T200419Z-engine-auto-damage-amount-counter-count-82dee1907b-v3-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T201637Z-wave-6e6b297675b5-integration.json",
+      "integration_receipt_sha256": "231d42c87be8791e83b1e3c023faf49b01412edea6aa970f55f8dc743c5b0b4f",
+      "failed_gates": [
+        {
+          "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/2026-09-07T201557Z-engine-auto-damage-amount-counter-count-82dee1907b-v3.patch",
+          "detail": "Applying: factory-ng: supervised engine observation\nUsing index info to reconstruct a base tree...\nM\tbackend/game/ability_effects.go\nFalling back to patching base and 3-way merge...\nAuto-merging backend/game/ability_effects.go\nCONFLICT (content): Merge conflict in backend/game/ability_effects.go\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\n\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch",
+          "elapsed_ms": 633,
+          "exit_code": 128,
+          "id": "candidate-apply",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-07T201557Z-engine-auto-damage-amount-counter-count-82dee1907b-v3.patch",
+      "patch_sha256": "fce20652dcbf6366d6f190832d98b84ab0096d86410fb787a7fceeb704c4394f",
+      "added_test_names": [
+        "TestFactoryNGDamageAmountCounterCount"
+      ],
+      "failing_selectors": [],
+      "successors": [],
+      "automatic_integration_repair_used": true,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-damage-falkenrath-exterminator-618f31f237/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ]
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-amount-formula-hand-size-subtracted-24ab5ad428/v1",
+      "cards": [
+        "Rackling"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T14:34:06Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-damage-amount-formula-hand-size-subtracted-24ab5ad428-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T191504Z-engine-auto-damage-amount-formula-hand-size-subtracted-24ab5ad428-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T140457Z-wave-9c7e92abd77f-integration.json",
+      "integration_receipt_sha256": "775881e2c2773553713b86e0ef3d6653daa98bf2320f687ab014d6a124ed275a",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGDamageAmountFormulaHandSizeSubtracted$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T14:05:40.41758307Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T14:05:40.42808336Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T14:05:40.428449131Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T14:05:40.429228502Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.011s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T14:05:40.429331192Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.012}\n{\"Time\":\"2026-09-07T14:08:04.088320056Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T14:08:04.109375751Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T14:08:04.109620888Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T14:08:04.111947236Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.023s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T14:08:04.11201761Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.024}\n\n\nrequired test filter '^TestFactoryNGDamageAmountFormulaHandSizeSubtracted$' executed no passing tests",
+          "elapsed_ms": 174501,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T192339Z-engine-auto-damage-amount-formula-hand-size-subtracted-24ab5ad428-v1.patch",
+      "patch_sha256": "da82e5169136005596f16d9a33d5a7a8122dc4d29fb05960028a1ed2a1340f5b",
+      "added_test_names": [
+        "TestDamageAmountFormulaHandSizeSubtracted"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGDamageAmountFormulaHandSizeSubtracted$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-damage-rackling-d2c3f9eb68/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGDamageAmountFormulaHandSizeSubtracted"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-amount-per-recipient-permanent-count-cd82a877db/v1",
+      "cards": [
+        "Price of Progress"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T14:04:55Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-damage-amount-per-recipient-permanent-count-cd82a877db-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T183040Z-engine-auto-damage-amount-per-recipient-permanent-count-cd82a877db-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T133450Z-wave-464bd7121c1d-integration.json",
+      "integration_receipt_sha256": "6e7498a9db905d498f93b458dc3a76f79d5cfb0ae34f8f2140d47a6d0d4f8ef9",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGDamageAmountPerRecipientPermanentCount$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T13:41:37.589181394Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T13:41:37.598447103Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T13:41:37.598789593Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T13:41:37.59973318Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.010s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T13:41:37.599824832Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.011}\n{\"Time\":\"2026-09-07T13:44:07.009256358Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T13:44:07.030785678Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T13:44:07.030935878Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T13:44:07.033695205Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.024s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T13:44:07.033770468Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.025}\n\n\nrequired test filter '^TestFactoryNGDamageAmountPerRecipientPermanentCount$' executed no passing tests",
+          "elapsed_ms": 179465,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T183944Z-engine-auto-damage-amount-per-recipient-permanent-count-cd82a877db-v1.patch",
+      "patch_sha256": "e583901a1b23ba9e270b3fbad1eceefbd9ebb7e8a251f33404272d3bf5b131ef",
+      "added_test_names": [
+        "TestExecuteDamagePerRecipientPermanentCount_NonbasicLands",
+        "TestExecuteDamagePerRecipientPermanentCount_UnknownFilterNoOp"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGDamageAmountPerRecipientPermanentCount$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-damage-price-of-progress-0487ff42da/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGDamageAmountPerRecipientPermanentCount"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-amount-referent-target-hand-size-5b58aa258c/v1",
+      "cards": [
+        "Storm Seeker"
+      ],
+      "category": "patch_conflict",
+      "outcome": "candidate_conflict",
+      "updated_at": "2026-09-08T00:30:24Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-damage-amount-referent-target-hand-size-5b58aa258c-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-07T235917Z-engine-auto-damage-amount-referent-target-hand-size-5b58aa258c-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-08T001227Z-wave-f3c2926a0b29-integration.json",
+      "integration_receipt_sha256": "d2ad764a426bf133ee7fce9a1cfae7216f3f5fc46c0a7d923787e86df9411c2c",
+      "failed_gates": [
+        {
+          "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/2026-09-08T001102Z-engine-auto-damage-amount-referent-target-hand-size-5b58aa258c-v1.patch",
+          "detail": "Applying: factory-ng: supervised engine observation\nUsing index info to reconstruct a base tree...\nM\tbackend/game/ability_effects.go\nFalling back to patching base and 3-way merge...\nAuto-merging backend/game/ability_effects.go\nCONFLICT (content): Merge conflict in backend/game/ability_effects.go\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\n\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch",
+          "elapsed_ms": 646,
+          "exit_code": 128,
+          "id": "candidate-apply",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-08T001102Z-engine-auto-damage-amount-referent-target-hand-size-5b58aa258c-v1.patch",
+      "patch_sha256": "6f9658fc65d81c3d788a9a2ab58f05de12f362366028366689d7f2589e55bfbe",
+      "added_test_names": [
+        "TestFactoryNGDamageAmountReferentTargetHandSize"
+      ],
+      "failing_selectors": [],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-damage-storm-seeker-f96e2cea20/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ]
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-all-matching-trigger-spell-mana-value-a3ccd7f284/v4",
+      "cards": [
+        "Celestial Kirin"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T16:42:16Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-destroy-all-matching-trigger-spell-mana-value-a3ccd7f284-v4.json",
+      "observation": "docs/factory-ng/runs/2026-09-04T180007Z-engine-auto-destroy-all-matching-trigger-spell-mana-value-a3ccd7f284-v4-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T161749Z-wave-9ebcf2105e0d-integration.json",
+      "integration_receipt_sha256": "64ecfff5ab6e6facb3504d016bdcb5cc97895759dd2e2a49d02c64791a50458c",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGDestroyAllMatchingTriggerSpellManaValue$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T16:31:35.109317169Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T16:31:35.121693006Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T16:31:35.122032326Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T16:31:35.123279267Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.010s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T16:31:35.123363939Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.014}\n{\"Time\":\"2026-09-07T16:34:00.207492828Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T16:34:00.227802638Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T16:34:00.227965041Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T16:34:00.230206814Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.023s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T16:34:00.230265827Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.023}\n\n\nrequired test filter '^TestFactoryNGDestroyAllMatchingTriggerSpellManaValue$' executed no passing tests",
+          "elapsed_ms": 176087,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-04T180928Z-engine-auto-destroy-all-matching-trigger-spell-mana-value-a3ccd7f284-v4.patch",
+      "patch_sha256": "5820184ecabb76e474e314d551fa2b12c479d95d06a25fbf557328d0e96b7c7d",
+      "added_test_names": [
+        "TestExecuteDestroyAllMatchingTriggerSpellManaValue"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGDestroyAllMatchingTriggerSpellManaValue$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-destroy-celestial-kirin-7430c42456/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGDestroyAllMatchingTriggerSpellManaValue"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-any-number-targets-total-mv-bound-480ba37e3e/v1",
+      "cards": [
+        "Rampaging Yao Guai"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T14:34:06Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-destroy-any-number-targets-total-mv-bound-480ba37e3e-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T195102Z-engine-auto-destroy-any-number-targets-total-mv-bound-480ba37e3e-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T140457Z-wave-9c7e92abd77f-integration.json",
+      "integration_receipt_sha256": "775881e2c2773553713b86e0ef3d6653daa98bf2320f687ab014d6a124ed275a",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGDestroyAnyNumberTargetsTotalMvBound$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T14:17:46.144600833Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T14:17:46.166833862Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T14:17:46.170563897Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T14:17:46.170933083Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.025s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T14:17:46.170989936Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.026}\n{\"Time\":\"2026-09-07T14:20:15.164468495Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T14:20:15.185083416Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T14:20:15.185234778Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T14:20:15.187941214Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.023s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T14:20:15.188008619Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.024}\n\n\nrequired test filter '^TestFactoryNGDestroyAnyNumberTargetsTotalMvBound$' executed no passing tests",
+          "elapsed_ms": 181493,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T195929Z-engine-auto-destroy-any-number-targets-total-mv-bound-480ba37e3e-v1.patch",
+      "patch_sha256": "45987f72490aa54595f670849df1e668505aa9466e1598a2c6f3cd2bb9037a8d",
+      "added_test_names": [
+        "TestDestroyAnyNumberTargetsTotalMVBound_DestroysWithinBound",
+        "TestDestroyAnyNumberTargetsTotalMVBound_MixedArtifactAndEnchantment",
+        "TestDestroyAnyNumberTargetsTotalMVBound_NoopWhenBoundExceeded",
+        "TestDestroyAnyNumberTargetsTotalMVBound_NoopOnFilterMismatch",
+        "TestDestroyAnyNumberTargetsTotalMVBound_NoopOnEmptyTargets"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGDestroyAnyNumberTargetsTotalMvBound$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-destroy-rampaging-yao-guai-711d34831e/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGDestroyAnyNumberTargetsTotalMvBound"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-at-next-end-step-286763de06/v1",
+      "cards": [
+        "Old Hob, Alleycat Blues"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T13:34:40Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-destroy-at-next-end-step-286763de06-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T094625Z-engine-auto-destroy-at-next-end-step-286763de06-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T130720Z-wave-cee5844e0742-integration.json",
+      "integration_receipt_sha256": "14859a5157efd5825fb85f9359f1362c851df7a32aee54c1ce810b6a22f7d5d3",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGDestroyAtNextEndStep$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T13:17:37.71235888Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T13:17:37.722301701Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T13:17:37.722558992Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T13:17:37.723651602Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.010s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T13:17:37.723722656Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.011}\n{\"Time\":\"2026-09-07T13:20:11.216607803Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T13:20:11.24021786Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T13:20:11.240584173Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T13:20:11.242979551Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.026s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T13:20:11.243033421Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.026}\n\n\nrequired test filter '^TestFactoryNGDestroyAtNextEndStep$' executed no passing tests",
+          "elapsed_ms": 185583,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T095528Z-engine-auto-destroy-at-next-end-step-286763de06-v1.patch",
+      "patch_sha256": "1f77e453af1449413e539d72537ccaaa6f3c1d7489725ddb17566d36f406adbd",
+      "added_test_names": [
+        "TestQueueDestroyAtNextEndStep"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGDestroyAtNextEndStep$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-destroy-old-hob-alleycat-blues-87a2aea434/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGDestroyAtNextEndStep"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-counted-multi-target-5625559477/v2",
+      "cards": [
+        "Numot, the Devastator"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T13:07:18Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-destroy-counted-multi-target-5625559477-v2.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T043519Z-engine-auto-destroy-counted-multi-target-5625559477-v2-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T123943Z-wave-82fbcdad0642-integration.json",
+      "integration_receipt_sha256": "b66226c640fd6e5f8be3efccf7cabb5b56848a425bc72321d65bddba2b849c99",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGDestroyCountedMultiTarget$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T12:49:21.78367332Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T12:49:21.792564247Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T12:49:21.792917617Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T12:49:21.793789204Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.009s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T12:49:21.793857078Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.01}\n{\"Time\":\"2026-09-07T12:51:50.177948075Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T12:51:50.198865316Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T12:51:50.19898819Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T12:51:50.201906032Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.024s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T12:51:50.201962474Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.024}\n\n\nrequired test filter '^TestFactoryNGDestroyCountedMultiTarget$' executed no passing tests",
+          "elapsed_ms": 177572,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T044237Z-engine-auto-destroy-counted-multi-target-5625559477-v2.patch",
+      "patch_sha256": "8ec28afac42866b10f7d3cffce49004061f0484230cb87770e20a4d03b6f3d3c",
+      "added_test_names": [
+        "TestExecuteDestroyCountedMultiTarget",
+        "TestExecuteDestroyCountedMultiTargetBoundedByCount"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGDestroyCountedMultiTarget$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-destroy-numot-the-devastator-07ad51f099/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGDestroyCountedMultiTarget"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-mana-value-equals-source-counters-8d2d7c2423/v2",
+      "cards": [
+        "Powder Keg"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T13:34:40Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-destroy-mana-value-equals-source-counters-8d2d7c2423-v2.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T180715Z-engine-auto-destroy-mana-value-equals-source-counters-8d2d7c2423-v2-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T130720Z-wave-cee5844e0742-integration.json",
+      "integration_receipt_sha256": "14859a5157efd5825fb85f9359f1362c851df7a32aee54c1ce810b6a22f7d5d3",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGDestroyManaValueEqualsSourceCounters$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T13:23:41.858754762Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T13:23:41.865785903Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T13:23:41.866109375Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T13:23:41.867477938Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.008s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T13:23:41.867533035Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.009}\n{\"Time\":\"2026-09-07T13:26:09.100271263Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T13:26:09.121070867Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T13:26:09.121229894Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T13:26:09.123650158Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.023s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T13:26:09.123751198Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.023}\n\n\nrequired test filter '^TestFactoryNGDestroyManaValueEqualsSourceCounters$' executed no passing tests",
+          "elapsed_ms": 177905,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T181549Z-engine-auto-destroy-mana-value-equals-source-counters-8d2d7c2423-v2.patch",
+      "patch_sha256": "2b93469933e1565d92636b24a3d0c33ee5a26dc4123e26309a74a5511146b1c7",
+      "added_test_names": [
+        "TestExecuteDestroyManaValueEqualsAmount_PowderKeg"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGDestroyManaValueEqualsSourceCounters$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-destroy-powder-keg-9b1afddf59/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGDestroyManaValueEqualsSourceCounters"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-permanents-with-attribute-equal-to-count-cd9a3837ad/v1",
+      "cards": [
+        "Ratchet Bomb"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T14:34:06Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-destroy-permanents-with-attribute-equal-to-count-cd9a3837ad-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T195934Z-engine-auto-destroy-permanents-with-attribute-equal-to-count-cd9a3837ad-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T140457Z-wave-9c7e92abd77f-integration.json",
+      "integration_receipt_sha256": "775881e2c2773553713b86e0ef3d6653daa98bf2320f687ab014d6a124ed275a",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGDestroyPermanentsWithAttributeEqualToCountersOnSource$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T14:23:41.655929728Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T14:23:41.664042269Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T14:23:41.664358024Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T14:23:41.665171154Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.008s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T14:23:41.665235045Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.009}\n{\"Time\":\"2026-09-07T14:26:10.946545123Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T14:26:10.967976169Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T14:26:10.968090415Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T14:26:10.97024767Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.024s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T14:26:10.970325012Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.024}\n\n\nrequired test filter '^TestFactoryNGDestroyPermanentsWithAttributeEqualToCountersOnSource$' executed no passing tests",
+          "elapsed_ms": 178710,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T200920Z-engine-auto-destroy-permanents-with-attribute-equal-to-count-cd9a3837ad-v1.patch",
+      "patch_sha256": "28bb587b78b38661bee95753a0fb95cc59a7adb01be2a13814c4c661497387c7",
+      "added_test_names": [
+        "TestDestroyPermanentsWithManaValueEqualToCount"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGDestroyPermanentsWithAttributeEqualToCountersOnSource$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-destroy-ratchet-bomb-5cdffabffd/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGDestroyPermanentsWithAttributeEqualToCountersOnSource"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-up-to-counter-count-23d0368a0e/v1",
+      "cards": [
+        "Serra's Liturgy"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T16:42:16Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-destroy-up-to-counter-count-23d0368a0e-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-07T011715Z-engine-auto-destroy-up-to-counter-count-23d0368a0e-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T161749Z-wave-9ebcf2105e0d-integration.json",
+      "integration_receipt_sha256": "64ecfff5ab6e6facb3504d016bdcb5cc97895759dd2e2a49d02c64791a50458c",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGDestroyUpToCounterCount$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T16:18:33.767711869Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T16:18:33.783719287Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T16:18:33.784080183Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T16:18:33.785998897Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.017s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T16:18:33.786077015Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.018}\n{\"Time\":\"2026-09-07T16:20:57.480235093Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T16:20:57.499752397Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T16:20:57.499919627Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T16:20:57.501987243Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.022s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T16:20:57.502053636Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.022}\n\n\nrequired test filter '^TestFactoryNGDestroyUpToCounterCount$' executed no passing tests",
+          "elapsed_ms": 175897,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-07T012752Z-engine-auto-destroy-up-to-counter-count-23d0368a0e-v1.patch",
+      "patch_sha256": "feb54af6eacfbf432362db0dc7a7035b6166ba44740df40ae196b3f9763e38d7",
+      "added_test_names": [
+        "TestDestroyUpToCounterCountTargets_CapAndFilter"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGDestroyUpToCounterCount$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-destroy-serra-s-liturgy-14e64cdc70/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGDestroyUpToCounterCount"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-dynamic-amount-zone-count-filter-5ee1de954e/v1",
+      "cards": [
+        "Flame On!"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T13:07:18Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-dynamic-amount-zone-count-filter-5ee1de954e-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T053601Z-engine-auto-dynamic-amount-zone-count-filter-5ee1de954e-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T123943Z-wave-82fbcdad0642-integration.json",
+      "integration_receipt_sha256": "b66226c640fd6e5f8be3efccf7cabb5b56848a425bc72321d65bddba2b849c99",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGDynamicAmountZoneCountFilter$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T12:55:50.39076775Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T12:55:50.398772307Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T12:55:50.399053455Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T12:55:50.400515602Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.009s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T12:55:50.40061Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.01}\n{\"Time\":\"2026-09-07T12:58:17.394646827Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T12:58:17.414086793Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T12:58:17.414201745Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T12:58:17.416948321Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.022s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T12:58:17.41700908Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.022}\n\n\nrequired test filter '^TestFactoryNGDynamicAmountZoneCountFilter$' executed no passing tests",
+          "elapsed_ms": 176984,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T055005Z-engine-auto-dynamic-amount-zone-count-filter-5ee1de954e-v1.patch",
+      "patch_sha256": "876fbc46055a724d4064d5d4cd5bcfac38d12b56fab98fb43f430ae0075cd985",
+      "added_test_names": [
+        "TestPutCountersGraveyardNoncreatureNonlandFilterAmount"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGDynamicAmountZoneCountFilter$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-put-counters-flame-on-1f189bdd01/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGDynamicAmountZoneCountFilter"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-dynamic-damage-calculation-19d86c29aa/v1",
+      "cards": [
+        "Road Rage"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T15:03:19Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-dynamic-damage-calculation-19d86c29aa-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T210135Z-engine-auto-dynamic-damage-calculation-19d86c29aa-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T143408Z-wave-a8bd6f6cb16c-integration.json",
+      "integration_receipt_sha256": "11949b5703c40dbbc937c200cc7b05bd2004d9632b193f9211b90c0ee6e062d6",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGDynamicDamageCalculation$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T14:43:34.908773556Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T14:43:34.919664765Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T14:43:34.919983868Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T14:43:34.921236912Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.011s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T14:43:34.921333738Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.013}\n{\"Time\":\"2026-09-07T14:45:57.215212677Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T14:45:57.236042518Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T14:45:57.236156353Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T14:45:57.238772508Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.023s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T14:45:57.238822285Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.024}\n\n\nrequired test filter '^TestFactoryNGDynamicDamageCalculation$' executed no passing tests",
+          "elapsed_ms": 171357,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T210956Z-engine-auto-dynamic-damage-calculation-19d86c29aa-v1.patch",
+      "patch_sha256": "280e8307d181378a070eedbee6523d41d40bf949328c4cdcdeecd9bfde211863",
+      "added_test_names": [
+        "TestDynamicDamage_MountsAndVehicles"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGDynamicDamageCalculation$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-damage-road-rage-f32e5d1b48/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGDynamicDamageCalculation"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-dynamic-x-count-named-copies-in-all-graveyards-aee4fdb33f/v1",
+      "cards": [
+        "Kindle"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T12:39:34Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-dynamic-x-count-named-copies-in-all-graveyards-aee4fdb33f-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-05T234917Z-engine-auto-dynamic-x-count-named-copies-in-all-graveyards-aee4fdb33f-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T121231Z-wave-6cf688c844f5-integration.json",
+      "integration_receipt_sha256": "e0f9fc23f48233026c70b9a8f3797cf3bc678ecbc23dd4cf1812dfbf5d625372",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGDynamicXCountNamedCopiesInAllGraveyards$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T12:19:12.481463795Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T12:19:12.489810649Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T12:19:12.490092188Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T12:19:12.490904441Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.009s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T12:19:12.490980314Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.01}\n{\"Time\":\"2026-09-07T12:21:25.793668567Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T12:21:25.8167791Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T12:21:25.816911579Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T12:21:25.820212081Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.026s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T12:21:25.820283065Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.027}\n\n\nrequired test filter '^TestFactoryNGDynamicXCountNamedCopiesInAllGraveyards$' executed no passing tests",
+          "elapsed_ms": 138164,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T000053Z-engine-auto-dynamic-x-count-named-copies-in-all-graveyards-aee4fdb33f-v1.patch",
+      "patch_sha256": "e1fc6c53d824ebecbb98304b8074d14ba9aa878fb7fc2e88c178c7558817cd87",
+      "added_test_names": [
+        "TestDynamicXCountNamedCopiesInAllGraveyards_Kindle"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGDynamicXCountNamedCopiesInAllGraveyards$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-damage-kindle-180265cdfe/v2",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGDynamicXCountNamedCopiesInAllGraveyards"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-exile-by-mana-value-f99d570d8b/v1",
+      "cards": [
+        "Shadows' Verdict"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T16:42:16Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-exile-by-mana-value-f99d570d8b-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-07T013313Z-engine-auto-exile-by-mana-value-f99d570d8b-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T161749Z-wave-9ebcf2105e0d-integration.json",
+      "integration_receipt_sha256": "64ecfff5ab6e6facb3504d016bdcb5cc97895759dd2e2a49d02c64791a50458c",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGExileByManaValue$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T16:25:08.33580689Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T16:25:08.347408137Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T16:25:08.347730243Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T16:25:08.349380332Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.012s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T16:25:08.349466834Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.014}\n{\"Time\":\"2026-09-07T16:27:50.899536272Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T16:27:50.920140842Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T16:27:50.920286239Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T16:27:50.922262937Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.023s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T16:27:50.92231719Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.023}\n\n\nrequired test filter '^TestFactoryNGExileByManaValue$' executed no passing tests",
+          "elapsed_ms": 196430,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-07T014412Z-engine-auto-exile-by-mana-value-f99d570d8b-v1.patch",
+      "patch_sha256": "93825787fc8263979d8277ae33f0df52789fdc291b1513ee8bdf0944fbb26ae7",
+      "added_test_names": [
+        "TestExileByManaValueEffect_PreservesPerZoneComposition"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGExileByManaValue$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-exile-shadows-verdict-a260caf424/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGExileByManaValue"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-exile-source-card-030403d0a2/v1",
+      "cards": [
+        "Reap the Past"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T15:03:19Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-exile-source-card-030403d0a2-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T202530Z-engine-auto-exile-source-card-030403d0a2-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T143408Z-wave-a8bd6f6cb16c-integration.json",
+      "integration_receipt_sha256": "11949b5703c40dbbc937c200cc7b05bd2004d9632b193f9211b90c0ee6e062d6",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGExileSourceCard$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T14:37:44.880852036Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T14:37:44.889714748Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T14:37:44.890019213Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T14:37:44.891855021Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.010s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T14:37:44.891965217Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.011}\n{\"Time\":\"2026-09-07T14:40:12.702012257Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T14:40:12.722701425Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T14:40:12.722843564Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T14:40:12.724800942Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.023s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T14:40:12.724908144Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.023}\n\n\nrequired test filter '^TestFactoryNGExileSourceCard$' executed no passing tests",
+          "elapsed_ms": 179739,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T203327Z-engine-auto-exile-source-card-030403d0a2-v1.patch",
+      "patch_sha256": "3419cb0e917a975698453473837a8d9ac3c1b32a7e4a4c7b874d0db85cee7db3",
+      "added_test_names": [
+        "TestConverter_ExileSourceCardSelf",
+        "TestConverter_ExileTargetNotSelf"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGExileSourceCard$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-exile-reap-the-past-3ff2636b33/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGExileSourceCard"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-exile-target-card-from-graveyard-d1e31b337e/v2",
+      "cards": [
+        "Lantern of the Lost"
+      ],
+      "category": "duplicate_test_symbol",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T19:47:39Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-exile-target-card-from-graveyard-d1e31b337e-v2.json",
+      "observation": "docs/factory-ng/runs/2026-09-07T193053Z-engine-auto-exile-target-card-from-graveyard-d1e31b337e-v2-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T194228Z-engine-auto-exile-target-card-from-graveyard-d1e31b337e-v2-integration.json",
+      "integration_receipt_sha256": "56f3da4a6ceea0661456d7eb2ae5dcfd029873f2dea6534147913469551e0e61",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGExileTargetCardFromGraveyard$' -count=1",
+          "detail": "c-backend/game.test]\",\"Action\":\"build-output\",\"Output\":\"# magic-backend/game [magic-backend/game.test]\\n\"}\n{\"ImportPath\":\"magic-backend/game [magic-backend/game.test]\",\"Action\":\"build-output\",\"Output\":\"game/factory_ng_d5c2a6e92f_test.go:15:6: TestFactoryNGExileTargetCardFromGraveyard redeclared in this block\\n\"}\n{\"ImportPath\":\"magic-backend/game [magic-backend/game.test]\",\"Action\":\"build-output\",\"Output\":\"\\tgame/factory_ng_d1e31b337e_test.go:12:6: other declaration of TestFactoryNGExileTargetCardFromGraveyard\\n\"}\n{\"ImportPath\":\"magic-backend/game [magic-backend/game.test]\",\"Action\":\"build-fail\"}\n{\"Time\":\"2026-09-07T19:42:56.689776452Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T19:42:56.69010357Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"FAIL\\tmagic-backend/game [build failed]\\n\"}\n{\"Time\":\"2026-09-07T19:42:56.690132748Z\",\"Action\":\"fail\",\"Package\":\"magic-backend/game\",\"Elapsed\":0,\"FailedBuild\":\"magic-backend/game [magic-backend/game.test]\"}\n{\"Time\":\"2026-09-07T19:47:16.190638253Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T19:47:16.213257982Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T19:47:16.213391772Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T19:47:16.215325464Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.024s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T19:47:16.215452071Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.025}",
+          "elapsed_ms": 278752,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-07T193900Z-engine-auto-exile-target-card-from-graveyard-d1e31b337e-v2.patch",
+      "patch_sha256": "a4e51a530646b674a71c31ca84142e10ccba59d1326252c945c98854fc5c401f",
+      "added_test_names": [
+        "TestFactoryNGExileTargetCardFromGraveyard"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGExileTargetCardFromGraveyard$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-exile-lantern-of-the-lost-8c651fc9ea/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ]
+    },
+    {
+      "ticket_id": "ticket:engine.auto-grant-dynamic-power-eot-f0aada431d/v1",
+      "cards": [
+        "Ms. Marvel, Kamala Khan"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T12:39:34Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-grant-dynamic-power-eot-f0aada431d-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T000122Z-engine-auto-grant-dynamic-power-eot-f0aada431d-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T121231Z-wave-6cf688c844f5-integration.json",
+      "integration_receipt_sha256": "e0f9fc23f48233026c70b9a8f3797cf3bc678ecbc23dd4cf1812dfbf5d625372",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGGrantDynamicPowerEot$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T12:22:18.591451873Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T12:22:18.601807988Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T12:22:18.602103202Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T12:22:18.603362374Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.011s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T12:22:18.603442113Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.012}\n{\"Time\":\"2026-09-07T12:24:49.561966133Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T12:24:49.581003425Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T12:24:49.581095832Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T12:24:49.583087905Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.021s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T12:24:49.583158529Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.021}\n\n\nrequired test filter '^TestFactoryNGGrantDynamicPowerEot$' executed no passing tests",
+          "elapsed_ms": 181694,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T001034Z-engine-auto-grant-dynamic-power-eot-f0aada431d-v1.patch",
+      "patch_sha256": "d768e7471ddae455940ae76b1b317dd04bc66e7fb5c338750db29492156e56c2",
+      "added_test_names": [
+        "TestGrantDynamicPowerEqualToHandSizeEOT"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGGrantDynamicPowerEot$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-grant-eot-ms-marvel-kamala-khan-05be10abc3/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGGrantDynamicPowerEot"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-grant-keywords-choice-until-eot-2c91b306d3/v1",
+      "cards": [
+        "Practiced Offense"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T14:04:55Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-grant-keywords-choice-until-eot-2c91b306d3-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T181555Z-engine-auto-grant-keywords-choice-until-eot-2c91b306d3-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T133450Z-wave-464bd7121c1d-integration.json",
+      "integration_receipt_sha256": "6e7498a9db905d498f93b458dc3a76f79d5cfb0ae34f8f2140d47a6d0d4f8ef9",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGGrantKeywordsChoiceUntilEot$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T13:35:31.178010735Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T13:35:31.187129959Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T13:35:31.1874716Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T13:35:31.188248427Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.009s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T13:35:31.188332Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.01}\n{\"Time\":\"2026-09-07T13:37:59.855338803Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T13:37:59.877113463Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T13:37:59.877366681Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T13:37:59.87997111Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.024s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T13:37:59.880029491Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.025}\n\n\nrequired test filter '^TestFactoryNGGrantKeywordsChoiceUntilEot$' executed no passing tests",
+          "elapsed_ms": 179928,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T182326Z-engine-auto-grant-keywords-choice-until-eot-2c91b306d3-v1.patch",
+      "patch_sha256": "846836088378a0ab83f21c21e2aff988f35b4a51110941a26d6f51a571656e95",
+      "added_test_names": [
+        "TestGrantKeywordsChoiceUntilEOT_GrantsOnlyChosenKeyword",
+        "TestGrantKeywordsChoiceUntilEOT_SkipsAlreadyPresentKeyword"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGGrantKeywordsChoiceUntilEot$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-grant-eot-practiced-offense-c912691da5/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGGrantKeywordsChoiceUntilEot"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-grant-protection-choice-until-eot-7672314b19/v1",
+      "cards": [
+        "Razor Barrier"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T15:03:19Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-grant-protection-choice-until-eot-7672314b19-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T201600Z-engine-auto-grant-protection-choice-until-eot-7672314b19-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T143408Z-wave-a8bd6f6cb16c-integration.json",
+      "integration_receipt_sha256": "11949b5703c40dbbc937c200cc7b05bd2004d9632b193f9211b90c0ee6e062d6",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGGrantProtectionChoiceUntilEot$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T14:34:48.48338109Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T14:34:48.493630835Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T14:34:48.493965807Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T14:34:48.494949533Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.011s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T14:34:48.49507718Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.012}\n{\"Time\":\"2026-09-07T14:37:12.169581017Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T14:37:12.188800142Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T14:37:12.188929816Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T14:37:12.191086766Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.021s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T14:37:12.191239021Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.022}\n\n\nrequired test filter '^TestFactoryNGGrantProtectionChoiceUntilEot$' executed no passing tests",
+          "elapsed_ms": 175491,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T202503Z-engine-auto-grant-protection-choice-until-eot-7672314b19-v1.patch",
+      "patch_sha256": "d89299128c6f4e80f3dc71ae1d6ec0dc4a26d00355a1db49a68a5fd5cb9b05e8",
+      "added_test_names": [
+        "TestGrantProtectionChoiceUntilEOT_PicksArtifactsWhenArtifactsDominate",
+        "TestGrantProtectionChoiceUntilEOT_PicksDominantColorOverArtifacts"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGGrantProtectionChoiceUntilEot$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-grant-eot-razor-barrier-e9cd950189/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGGrantProtectionChoiceUntilEot"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-lose-all-creature-types-until-eot-1b86d543cc/v1",
+      "cards": [
+        "Nameless Inversion"
+      ],
+      "category": "patch_conflict",
+      "outcome": "candidate_conflict",
+      "updated_at": "2026-09-07T16:42:16Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-lose-all-creature-types-until-eot-1b86d543cc-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T001040Z-engine-auto-lose-all-creature-types-until-eot-1b86d543cc-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T161749Z-wave-9ebcf2105e0d-integration.json",
+      "integration_receipt_sha256": "64ecfff5ab6e6facb3504d016bdcb5cc97895759dd2e2a49d02c64791a50458c",
+      "failed_gates": [
+        {
+          "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/2026-09-06T002205Z-engine-auto-lose-all-creature-types-until-eot-1b86d543cc-v1.patch",
+          "detail": "Applying: factory-ng: supervised engine observation\nUsing index info to reconstruct a base tree...\nM\tbackend/game/ability_effects.go\nFalling back to patching base and 3-way merge...\nAuto-merging backend/game/ability_effects.go\nCONFLICT (content): Merge conflict in backend/game/ability_effects.go\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\n\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch",
+          "elapsed_ms": 458,
+          "exit_code": 128,
+          "id": "candidate-apply",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T002205Z-engine-auto-lose-all-creature-types-until-eot-1b86d543cc-v1.patch",
+      "patch_sha256": "6e4eb73fffa200b2cc6dbe879c20159a5621ba5b66c8444450c270bca358817d",
+      "added_test_names": [
+        "TestFactoryNG1b86d543cc_LoseAllCreatureTypesUntilEOT",
+        "TestFactoryNG1b86d543cc_PlainPumpDoesNotStripCreatureTypes",
+        "TestFactoryNG1b86d543cc_NonPumpEffectDoesNotStripCreatureTypes"
+      ],
+      "failing_selectors": [],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-pump-nameless-inversion-4322ff017d/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ]
+    },
+    {
+      "ticket_id": "ticket:engine.auto-mass-destroy-color-of-choice-filter-598a870c34/v2",
+      "cards": [
+        "Root Greevil"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T15:53:43Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-mass-destroy-color-of-choice-filter-598a870c34-v2.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T233658Z-engine-auto-mass-destroy-color-of-choice-filter-598a870c34-v2-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T152747Z-wave-c134124178f2-integration.json",
+      "integration_receipt_sha256": "797bc5c03a6cb48016039469c1c0abc7c801dd3c877dd5704c21daada558feeb",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGMassDestroyColorOfChoiceFilter$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T15:31:25.576108912Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T15:31:25.585074682Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T15:31:25.585407146Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T15:31:25.586155903Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.009s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T15:31:25.586266875Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.01}\n{\"Time\":\"2026-09-07T15:33:47.319505144Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T15:33:47.33782331Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T15:33:47.337949477Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T15:33:47.340554709Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.021s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T15:33:47.340631626Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.021}\n\n\nrequired test filter '^TestFactoryNGMassDestroyColorOfChoiceFilter$' executed no passing tests",
+          "elapsed_ms": 171241,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T235407Z-engine-auto-mass-destroy-color-of-choice-filter-598a870c34-v2.patch",
+      "patch_sha256": "0b4083e0434460f30dc8d534e790322e61d60f28bd2c234873679178eb44725c",
+      "added_test_names": [
+        "TestExecuteDestroyAllChosenColorEffect",
+        "TestExecuteDestroyAllChosenColorEffect_NoColorNoOp"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGMassDestroyColorOfChoiceFilter$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-destroy-root-greevil-1de9f602f2/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGMassDestroyColorOfChoiceFilter"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-mv-leq-source-power-filter-5225a2ea66/v1",
+      "cards": [
+        "Sandbender Scavengers"
+      ],
+      "category": "patch_conflict",
+      "outcome": "candidate_conflict",
+      "updated_at": "2026-09-07T16:17:48Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-mv-leq-source-power-filter-5225a2ea66-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-07T003519Z-engine-auto-mv-leq-source-power-filter-5225a2ea66-v1-claude-agentic-test.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T155345Z-wave-57e57f47cd3e-integration.json",
+      "integration_receipt_sha256": "0e2f61ad9f0242a3e330838647691ea6ff79c30354eea213f169814c6435e314",
+      "failed_gates": [
+        {
+          "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/2026-09-07T004603Z-engine-auto-mv-leq-source-power-filter-5225a2ea66-v1.patch",
+          "detail": "Applying: factory-ng: supervised engine observation\nUsing index info to reconstruct a base tree...\nM\tbackend/game/ability_effects.go\nM\tbackend/game/gamestate.go\nFalling back to patching base and 3-way merge...\nAuto-merging backend/game/gamestate.go\nCONFLICT (content): Merge conflict in backend/game/gamestate.go\nAuto-merging backend/game/ability_effects.go\nCONFLICT (content): Merge conflict in backend/game/ability_effects.go\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\n\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch",
+          "elapsed_ms": 492,
+          "exit_code": 128,
+          "id": "candidate-apply",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-07T004603Z-engine-auto-mv-leq-source-power-filter-5225a2ea66-v1.patch",
+      "patch_sha256": "bbe13c9929063a75788d517766833d6d7170f26a03d33bb873297292bfd6f57f",
+      "added_test_names": [
+        "TestFactoryNGMvLeqSourcePowerFilter"
+      ],
+      "failing_selectors": [],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-reanimate-sandbender-scavengers-8d6134e82f/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ]
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-amount-devotion-to-color-ba3c68a444/v1",
+      "cards": [
+        "Nylea's Huntmaster"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T12:39:34Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-pump-amount-devotion-to-color-ba3c68a444-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T002810Z-engine-auto-pump-amount-devotion-to-color-ba3c68a444-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T121231Z-wave-6cf688c844f5-integration.json",
+      "integration_receipt_sha256": "e0f9fc23f48233026c70b9a8f3797cf3bc678ecbc23dd4cf1812dfbf5d625372",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGPumpAmountDevotionToColor$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T12:25:19.730773764Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T12:25:19.740261345Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T12:25:19.740589514Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T12:25:19.741606814Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.010s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T12:25:19.741703154Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.011}\n{\"Time\":\"2026-09-07T12:27:48.14878336Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T12:27:48.170044946Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T12:27:48.170181744Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T12:27:48.172622295Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.024s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T12:27:48.172706701Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.024}\n\n\nrequired test filter '^TestFactoryNGPumpAmountDevotionToColor$' executed no passing tests",
+          "elapsed_ms": 178118,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T003647Z-engine-auto-pump-amount-devotion-to-color-ba3c68a444-v1.patch",
+      "patch_sha256": "6c1865acfb9729271e88f3b577afbb1da55cb10b8b44bbfba3708800bc2b8a08",
+      "added_test_names": [
+        "TestDevotionToColorForController_CountsGreenPipsForController",
+        "TestResolvePumpReferentSpellManaValue_DevotionToColor",
+        "TestResolvePumpReferentSpellManaValue_StaticAmountUnaffected"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGPumpAmountDevotionToColor$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-pump-nylea-s-huntmaster-3ae76969aa/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGPumpAmountDevotionToColor"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-amount-equals-target-power-444b5b714c/v1",
+      "cards": [
+        "Nantuko Mentor"
+      ],
+      "category": "patch_conflict",
+      "outcome": "candidate_conflict",
+      "updated_at": "2026-09-07T17:08:35Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-pump-amount-equals-target-power-444b5b714c-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T002810Z-engine-auto-pump-amount-equals-target-power-444b5b714c-v1-claude-agentic.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T164218Z-wave-a90d03dda07f-integration.json",
+      "integration_receipt_sha256": "6178e6510afb3f2b60d3c755a0351a8e804b31d9d9ab3c9bcf60da5f7511f3f8",
+      "failed_gates": [
+        {
+          "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/2026-09-06T003459Z-engine-auto-pump-amount-equals-target-power-444b5b714c-v1.patch",
+          "detail": "Applying: factory-ng: supervised engine observation\nUsing index info to reconstruct a base tree...\nM\tbackend/game/ability_effects.go\nFalling back to patching base and 3-way merge...\nAuto-merging backend/game/ability_effects.go\nCONFLICT (content): Merge conflict in backend/game/ability_effects.go\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\n\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch",
+          "elapsed_ms": 1113,
+          "exit_code": 128,
+          "id": "candidate-apply",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T003459Z-engine-auto-pump-amount-equals-target-power-444b5b714c-v1.patch",
+      "patch_sha256": "e56578d8d718827754c8f0f9669dad2796eb45115d5b91c1cb9aac011e17e68a",
+      "added_test_names": [
+        "TestFactoryNGPumpAmountEqualsTargetPower"
+      ],
+      "failing_selectors": [],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-pump-nantuko-mentor-627e6e5aea/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ]
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-amount-from-hand-count-e10861f03a/v2",
+      "cards": [
+        "Oboro Envoy"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T13:07:18Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-pump-amount-from-hand-count-e10861f03a-v2.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T040803Z-engine-auto-pump-amount-from-hand-count-e10861f03a-v2-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T123943Z-wave-82fbcdad0642-integration.json",
+      "integration_receipt_sha256": "b66226c640fd6e5f8be3efccf7cabb5b56848a425bc72321d65bddba2b849c99",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGPumpAmountFromHandCount$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T12:46:24.270662445Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T12:46:24.280545584Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T12:46:24.281157798Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T12:46:24.282658384Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.011s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T12:46:24.282728847Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.012}\n{\"Time\":\"2026-09-07T12:48:51.379990885Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T12:48:51.400561344Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T12:48:51.400666829Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T12:48:51.403034895Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.022s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T12:48:51.403099584Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.023}\n\n\nrequired test filter '^TestFactoryNGPumpAmountFromHandCount$' executed no passing tests",
+          "elapsed_ms": 177763,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T041748Z-engine-auto-pump-amount-from-hand-count-e10861f03a-v2.patch",
+      "patch_sha256": "535751c95c50b87d45818ac5f33eff2c6cb511283dbf03699c1ead8a9a9cfae7",
+      "added_test_names": [
+        "TestResolvePumpAmountFromHandCount_DerivesFromHandSize",
+        "TestResolvePumpAmountFromHandCount_StaticAmountUntouched"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGPumpAmountFromHandCount$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-pump-oboro-envoy-8e588f1b9d/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGPumpAmountFromHandCount"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-and-grant-keywords-until-eot-98f4612501/v1",
+      "cards": [
+        "Rockface Village"
+      ],
+      "category": "patch_conflict",
+      "outcome": "candidate_conflict",
+      "updated_at": "2026-09-07T15:03:19Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-pump-and-grant-keywords-until-eot-98f4612501-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T211757Z-engine-auto-pump-and-grant-keywords-until-eot-98f4612501-v1-claude-agentic.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T143408Z-wave-a8bd6f6cb16c-integration.json",
+      "integration_receipt_sha256": "11949b5703c40dbbc937c200cc7b05bd2004d9632b193f9211b90c0ee6e062d6",
+      "failed_gates": [
+        {
+          "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/2026-09-06T212836Z-engine-auto-pump-and-grant-keywords-until-eot-98f4612501-v1.patch",
+          "detail": "Applying: factory-ng: supervised engine observation\nUsing index info to reconstruct a base tree...\nM\tbackend/game/ability_effects.go\nFalling back to patching base and 3-way merge...\nAuto-merging backend/game/ability_effects.go\nCONFLICT (content): Merge conflict in backend/game/ability_effects.go\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\n\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch",
+          "elapsed_ms": 547,
+          "exit_code": 128,
+          "id": "candidate-apply",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T212836Z-engine-auto-pump-and-grant-keywords-until-eot-98f4612501-v1.patch",
+      "patch_sha256": "23972ef9f8ea8bfeeaa3b81c9aa886ea50da4f59c9e5274fab94b290808b3f42",
+      "added_test_names": [
+        "TestFactoryNGPumpAndGrantKeywordsUntilEot"
+      ],
+      "failing_selectors": [],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-pump-rockface-village-f37a52aa7d/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ]
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-attacking-creatures-until-eot-995b07ce1f/v2",
+      "cards": [
+        "Roar of Resistance"
+      ],
+      "category": "patch_conflict",
+      "outcome": "candidate_conflict",
+      "updated_at": "2026-09-07T17:08:35Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-pump-attacking-creatures-until-eot-995b07ce1f-v2.json",
+      "observation": "docs/factory-ng/runs/2026-09-07T000251Z-engine-auto-pump-attacking-creatures-until-eot-995b07ce1f-v2-claude-agentic.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T164218Z-wave-a90d03dda07f-integration.json",
+      "integration_receipt_sha256": "6178e6510afb3f2b60d3c755a0351a8e804b31d9d9ab3c9bcf60da5f7511f3f8",
+      "failed_gates": [
+        {
+          "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/2026-09-07T001801Z-engine-auto-pump-attacking-creatures-until-eot-995b07ce1f-v2.patch",
+          "detail": "Applying: factory-ng: supervised engine observation\nUsing index info to reconstruct a base tree...\nM\tbackend/game/ability_effects.go\nFalling back to patching base and 3-way merge...\nAuto-merging backend/game/ability_effects.go\nCONFLICT (content): Merge conflict in backend/game/ability_effects.go\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\n\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch",
+          "elapsed_ms": 401,
+          "exit_code": 128,
+          "id": "candidate-apply",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-07T001801Z-engine-auto-pump-attacking-creatures-until-eot-995b07ce1f-v2.patch",
+      "patch_sha256": "077af329ba225a9dc4cd30eed349444bb775baaa146eb70c75bb2d1f8e1d62a8",
+      "added_test_names": [
+        "TestFactoryNGPumpAttackingCreaturesUntilEot"
+      ],
+      "failing_selectors": [],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-pump-roar-of-resistance-824c75901b/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ]
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-until-eot-ability-self-no-target-9e24f96767/v1",
+      "cards": [
+        "Terra Ravager"
+      ],
+      "category": "patch_conflict",
+      "outcome": "candidate_conflict",
+      "updated_at": "2026-09-08T11:33:44Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-pump-until-eot-ability-self-no-target-9e24f96767-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-08T111405Z-engine-auto-pump-until-eot-ability-self-no-target-9e24f96767-v1-qwen-agentic.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-08T113321Z-engine-auto-pump-until-eot-ability-self-no-target-9e24f96767-v1-integration.json",
+      "integration_receipt_sha256": "d25244d5400223dce640247b3c7b35580dbdc1f5b6ac827c0b20b451b564ab3c",
+      "failed_gates": [
+        {
+          "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/2026-09-08T113210Z-engine-auto-pump-until-eot-ability-self-no-target-9e24f96767-v1.patch",
+          "detail": "Applying: factory-ng: supervised engine observation\nUsing index info to reconstruct a base tree...\nM\tbackend/game/ability_effects.go\nFalling back to patching base and 3-way merge...\nAuto-merging backend/game/ability_effects.go\nCONFLICT (content): Merge conflict in backend/game/ability_effects.go\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\n\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch",
+          "elapsed_ms": 883,
+          "exit_code": 128,
+          "id": "candidate-apply",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-08T113210Z-engine-auto-pump-until-eot-ability-self-no-target-9e24f96767-v1.patch",
+      "patch_sha256": "c8d43ec589d72490e39c1f2fde76c788e0d70983702123d4617a17d40661c80c",
+      "added_test_names": [
+        "TestFactoryNGPumpUntilEotAbilitySelfNoTarget",
+        "TestFactoryNGPumpUntilEotAbilitySelfNoTarget_TargetedUnchanged"
+      ],
+      "failing_selectors": [],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-pump-terra-ravager-28f662d07a/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ]
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-until-eot-dynamic-self-9da29e983c/v1",
+      "cards": [
+        "Rubblebelt Rioters"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T15:53:43Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-pump-until-eot-dynamic-self-9da29e983c-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-07T000533Z-engine-auto-pump-until-eot-dynamic-self-9da29e983c-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T152747Z-wave-c134124178f2-integration.json",
+      "integration_receipt_sha256": "797bc5c03a6cb48016039469c1c0abc7c801dd3c877dd5704c21daada558feeb",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGPumpUntilEotDynamicSelf$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T15:37:16.911783197Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T15:37:16.922847004Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T15:37:16.92316486Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T15:37:16.924073138Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.011s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T15:37:16.924161712Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.012}\n{\"Time\":\"2026-09-07T15:39:40.832309825Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T15:39:40.854239279Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T15:39:40.854355369Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T15:39:40.857272052Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.025s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T15:39:40.857325116Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.025}\n\n\nrequired test filter '^TestFactoryNGPumpUntilEotDynamicSelf$' executed no passing tests",
+          "elapsed_ms": 176044,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-07T001526Z-engine-auto-pump-until-eot-dynamic-self-9da29e983c-v1.patch",
+      "patch_sha256": "34ae7e1a8f60d187ea387f3558ee94c53faa0bc4112a6f470724f33f6db4c1a4",
+      "added_test_names": [
+        "TestPumpUntilEOTDynamicSelfGreatestPower"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGPumpUntilEotDynamicSelf$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-pump-rubblebelt-rioters-b8d161c195/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGPumpUntilEotDynamicSelf"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-until-eot-self-dynamic-count-a6ca8ab3b5/v1",
+      "cards": [
+        "Sardian Avenger"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T16:17:48Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-pump-until-eot-self-dynamic-count-a6ca8ab3b5-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-07T004056Z-engine-auto-pump-until-eot-self-dynamic-count-a6ca8ab3b5-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T155345Z-wave-57e57f47cd3e-integration.json",
+      "integration_receipt_sha256": "0e2f61ad9f0242a3e330838647691ea6ff79c30354eea213f169814c6435e314",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGPumpUntilEotSelfDynamicCount$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T15:54:26.304923069Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T15:54:26.312379602Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T15:54:26.312756211Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T15:54:26.313465216Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.008s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T15:54:26.313531389Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.009}\n{\"Time\":\"2026-09-07T15:56:49.812435084Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T15:56:49.831318449Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T15:56:49.831431006Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T15:56:49.833425482Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.021s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T15:56:49.833502226Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.021}\n\n\nrequired test filter '^TestFactoryNGPumpUntilEotSelfDynamicCount$' executed no passing tests",
+          "elapsed_ms": 173651,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-07T005204Z-engine-auto-pump-until-eot-self-dynamic-count-a6ca8ab3b5-v1.patch",
+      "patch_sha256": "2e358006c3dcec3d2c892e19f103e1ce27a47153ff9346b324b5b0a975b57b60",
+      "added_test_names": [
+        "TestPumpUntilEotSelfDynamicCount_ArtifactsOpponentsControl",
+        "TestPumpUntilEotSelfDynamicCount_LeavesFixedAmountPumpUntouched"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGPumpUntilEotSelfDynamicCount$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-pump-sardian-avenger-38eac99b4b/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGPumpUntilEotSelfDynamicCount"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-until-eot-untargeted-all-36523aeef0/v1",
+      "cards": [
+        "Tip the Scales"
+      ],
+      "category": "patch_conflict",
+      "outcome": "candidate_conflict",
+      "updated_at": "2026-09-08T18:30:47Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-pump-until-eot-untargeted-all-36523aeef0-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-08T180022Z-engine-auto-pump-until-eot-untargeted-all-36523aeef0-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-08T181744Z-wave-de6a928f875b-integration.json",
+      "integration_receipt_sha256": "b7818e4c44971d8ed1816006edc6f5d40d862bf6e954ea63c051c0ffc466cf47",
+      "failed_gates": [
+        {
+          "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/2026-09-08T180714Z-engine-auto-pump-until-eot-untargeted-all-36523aeef0-v1.patch",
+          "detail": "Applying: factory-ng: supervised engine observation\nUsing index info to reconstruct a base tree...\nM\tbackend/game/ability_effects.go\nFalling back to patching base and 3-way merge...\nAuto-merging backend/game/ability_effects.go\nCONFLICT (content): Merge conflict in backend/game/ability_effects.go\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\n\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch",
+          "elapsed_ms": 1223,
+          "exit_code": 128,
+          "id": "candidate-apply",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-08T180714Z-engine-auto-pump-until-eot-untargeted-all-36523aeef0-v1.patch",
+      "patch_sha256": "29c4dd6753b5733f8b1fc524145ecd317848a6a3bb4f0f8ef2bb741ad0c57624",
+      "added_test_names": [
+        "TestFactoryNGPumpUntilEotUntargetedAll"
+      ],
+      "failing_selectors": [],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-pump-tip-the-scales-31157c441f/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ]
+    },
+    {
+      "ticket_id": "ticket:engine.auto-put-counter-and-draw-card-22b3192fb2/v1",
+      "cards": [
+        "Selfcraft Mechan"
+      ],
+      "category": "patch_conflict",
+      "outcome": "candidate_conflict",
+      "updated_at": "2026-09-07T16:17:48Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-put-counter-and-draw-card-22b3192fb2-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-07T011436Z-engine-auto-put-counter-and-draw-card-22b3192fb2-v1-claude-agentic-test.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T155345Z-wave-57e57f47cd3e-integration.json",
+      "integration_receipt_sha256": "0e2f61ad9f0242a3e330838647691ea6ff79c30354eea213f169814c6435e314",
+      "failed_gates": [
+        {
+          "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/2026-09-07T012333Z-engine-auto-put-counter-and-draw-card-22b3192fb2-v1.patch",
+          "detail": "Applying: factory-ng: supervised engine observation\nUsing index info to reconstruct a base tree...\nM\tbackend/game/ability_effects.go\nFalling back to patching base and 3-way merge...\nAuto-merging backend/game/ability_effects.go\nCONFLICT (content): Merge conflict in backend/game/ability_effects.go\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\n\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch",
+          "elapsed_ms": 555,
+          "exit_code": 128,
+          "id": "candidate-apply",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-07T012333Z-engine-auto-put-counter-and-draw-card-22b3192fb2-v1.patch",
+      "patch_sha256": "df767ecbc8f99a67ef20d60c9fa58906ec2a93e37da954f7bac225a802790ac1",
+      "added_test_names": [
+        "TestFactoryNGPutCounterAndDrawCard",
+        "TestFactoryNGPutCounterAndDrawCard_PlainPutCounterDoesNotDraw"
+      ],
+      "failing_selectors": [],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-put-counters-selfcraft-mechan-ac7fb28b1a/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ]
+    },
+    {
+      "ticket_id": "ticket:engine.auto-put-stun-counter-ab597b487f/v2",
+      "cards": [
+        "Out Cold"
+      ],
+      "category": "patch_conflict",
+      "outcome": "candidate_conflict",
+      "updated_at": "2026-09-07T13:07:18Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-put-stun-counter-ab597b487f-v2.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T041816Z-engine-auto-put-stun-counter-ab597b487f-v2-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T123943Z-wave-82fbcdad0642-integration.json",
+      "integration_receipt_sha256": "b66226c640fd6e5f8be3efccf7cabb5b56848a425bc72321d65bddba2b849c99",
+      "failed_gates": [
+        {
+          "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/2026-09-06T042944Z-engine-auto-put-stun-counter-ab597b487f-v2.patch",
+          "detail": "Applying: factory-ng: supervised engine observation\nUsing index info to reconstruct a base tree...\nM\tbackend/game/ability_effects.go\nFalling back to patching base and 3-way merge...\nAuto-merging backend/game/ability_effects.go\nCONFLICT (content): Merge conflict in backend/game/ability_effects.go\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\n\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch",
+          "elapsed_ms": 444,
+          "exit_code": 128,
+          "id": "candidate-apply",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T042944Z-engine-auto-put-stun-counter-ab597b487f-v2.patch",
+      "patch_sha256": "7ec63d858185c2131037647395d24d3a703b96a4e366ef417e92080eaebaeee6",
+      "added_test_names": [
+        "TestExecuteTapUpToTwoTargetsWithStunCounterEffect",
+        "TestExecuteTapUpToTwoTargetsWithStunCounterEffect_SkipsMissingTarget"
+      ],
+      "failing_selectors": [],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-tap-out-cold-39d9d2ecce/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ]
+    },
+    {
+      "ticket_id": "ticket:engine.auto-reanimate-with-etb-counters-93dfdd08e1/v1",
+      "cards": [
+        "Prison Break"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T14:04:55Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-reanimate-with-etb-counters-93dfdd08e1-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T184413Z-engine-auto-reanimate-with-etb-counters-93dfdd08e1-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T133450Z-wave-464bd7121c1d-integration.json",
+      "integration_receipt_sha256": "6e7498a9db905d498f93b458dc3a76f79d5cfb0ae34f8f2140d47a6d0d4f8ef9",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGReanimateWithEtbCounters$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T13:47:38.963834063Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T13:47:38.989196763Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T13:47:38.989414096Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T13:47:38.990999129Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.026s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T13:47:38.991264182Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.027}\n{\"Time\":\"2026-09-07T13:50:07.177045721Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T13:50:07.196696466Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T13:50:07.196825321Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T13:50:07.199305737Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.022s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T13:50:07.199362001Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.022}\n\n\nrequired test filter '^TestFactoryNGReanimateWithEtbCounters$' executed no passing tests",
+          "elapsed_ms": 179067,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T185409Z-engine-auto-reanimate-with-etb-counters-93dfdd08e1-v1.patch",
+      "patch_sha256": "1eec4f673160c62aaf7278713dbf72518628d4742856716fe9b99bce5261d83e",
+      "added_test_names": [
+        "TestReturnFromGraveyardWithETBCounter_PrisonBreak",
+        "TestReturnFromGraveyardWithETBCounter_UntargetedCardUnaffected"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGReanimateWithEtbCounters$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-reanimate-prison-break-cbfaab8447/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGReanimateWithEtbCounters"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-enters-with-counter-7631eaef27/v1",
+      "cards": [
+        "Soulcoil Viper"
+      ],
+      "category": "compile_error",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T22:53:07Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-return-from-graveyard-enters-with-counter-7631eaef27-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-07T221528Z-engine-auto-return-from-graveyard-enters-with-counter-7631eaef27-v1-claude-agentic.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T224110Z-wave-ce8c5fe488d3-integration.json",
+      "integration_receipt_sha256": "22fb9e2fc1015f4ea9211f46efee537d755bd2adb11a29553588acff416a0b91",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGReturnFromGraveyardEntersWithCounter$' -count=1",
+          "detail": "{\"ImportPath\":\"magic-backend/game\",\"Action\":\"build-output\",\"Output\":\"# magic-backend/game\\n\"}\n{\"ImportPath\":\"magic-backend/game\",\"Action\":\"build-output\",\"Output\":\"game/ability_effects.go:11324:17: no new variables on left side of :=\\n\"}\n{\"ImportPath\":\"magic-backend/game\",\"Action\":\"build-output\",\"Output\":\"game/ability_effects.go:11325:15: no new variables on left side of :=\\n\"}\n{\"ImportPath\":\"magic-backend/game\",\"Action\":\"build-fail\"}\n{\"Time\":\"2026-09-07T22:41:28.644259624Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T22:41:28.644813934Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T22:41:28.644853344Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"FAIL\\tmagic-backend/cards [build failed]\\n\"}\n{\"Time\":\"2026-09-07T22:41:28.644982036Z\",\"Action\":\"fail\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0,\"FailedBuild\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T22:41:28.644729804Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"FAIL\\tmagic-backend/game [build failed]\\n\"}\n{\"Time\":\"2026-09-07T22:41:28.645972413Z\",\"Action\":\"fail\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.002,\"FailedBuild\":\"magic-backend/game\"}",
+          "elapsed_ms": 5961,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-07T222231Z-engine-auto-return-from-graveyard-enters-with-counter-7631eaef27-v1.patch",
+      "patch_sha256": "4a3e1d8ca950ce29f284f051cb06866406f939a773bd00fafb62ad72ea0e43bb",
+      "added_test_names": [
+        "TestFactoryNGReturnFromGraveyardEntersWithCounter",
+        "TestFactoryNGReturnFromGraveyardEntersWithCounter_NoCounterModifier"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGReturnFromGraveyardEntersWithCounter$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-reanimate-soulcoil-viper-7c1db40145/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ]
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-finality-counter-9b181cc102/v1",
+      "cards": [
+        "Rydia, Summoner of Mist"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T15:53:43Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-return-from-graveyard-finality-counter-9b181cc102-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-07T002643Z-engine-auto-return-from-graveyard-finality-counter-9b181cc102-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T152747Z-wave-c134124178f2-integration.json",
+      "integration_receipt_sha256": "797bc5c03a6cb48016039469c1c0abc7c801dd3c877dd5704c21daada558feeb",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGReturnFromGraveyardFinalityCounter$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T15:45:49.86554119Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T15:45:49.865863944Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T15:45:49.873915315Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T15:45:49.874168609Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T15:45:49.874984999Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.009s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T15:45:49.875038281Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.01}\n{\"Time\":\"2026-09-07T15:45:49.888437996Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T15:45:49.888648264Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T15:45:49.891304752Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.025s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T15:45:49.891391788Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.026}\n\n\nrequired test filter '^TestFactoryNGReturnFromGraveyardFinalityCounter$' executed no passing tests",
+          "elapsed_ms": 20836,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-07T003537Z-engine-auto-return-from-graveyard-finality-counter-9b181cc102-v1.patch",
+      "patch_sha256": "19de5c72d3668e4cc1898423c2bda8d933f3845a0bbad127cb648c2f84b29f17",
+      "added_test_names": [
+        "TestReturnFromGraveyardFinalityCounter"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGReturnFromGraveyardFinalityCounter$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-reanimate-rydia-summoner-of-mist-c2968668c1/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGReturnFromGraveyardFinalityCounter"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-mana-value-filter-40a5f5303a/v1",
+      "cards": [
+        "Raise the Past"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T14:34:06Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-return-from-graveyard-mana-value-filter-40a5f5303a-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T193853Z-engine-auto-return-from-graveyard-mana-value-filter-40a5f5303a-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T140457Z-wave-9c7e92abd77f-integration.json",
+      "integration_receipt_sha256": "775881e2c2773553713b86e0ef3d6653daa98bf2320f687ab014d6a124ed275a",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGReturnFromGraveyardManaValueFilter$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T14:14:40.381915229Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T14:14:40.398779825Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T14:14:40.399032943Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T14:14:40.402206261Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.018s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T14:14:40.402293306Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.02}\n{\"Time\":\"2026-09-07T14:17:13.200826664Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T14:17:13.21923332Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T14:17:13.219368105Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T14:17:13.221775063Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.021s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T14:17:13.221848233Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.021}\n\n\nrequired test filter '^TestFactoryNGReturnFromGraveyardManaValueFilter$' executed no passing tests",
+          "elapsed_ms": 189156,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T194740Z-engine-auto-return-from-graveyard-mana-value-filter-40a5f5303a-v1.patch",
+      "patch_sha256": "473750e38e9370d8fbdf2c58da7d3e17cbee32bce3e74f36d966f77eb148e728",
+      "added_test_names": [
+        "TestReturnFromGraveyardManaValueOrLess"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGReturnFromGraveyardManaValueFilter$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-reanimate-raise-the-past-ed6e46c585/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGReturnFromGraveyardManaValueFilter"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-mana-value-filter-dc7c776e15/v1",
+      "cards": [
+        "Pre-War Formalwear"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T14:04:55Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-return-from-graveyard-mana-value-filter-dc7c776e15-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T182331Z-engine-auto-return-from-graveyard-mana-value-filter-dc7c776e15-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T133450Z-wave-464bd7121c1d-integration.json",
+      "integration_receipt_sha256": "6e7498a9db905d498f93b458dc3a76f79d5cfb0ae34f8f2140d47a6d0d4f8ef9",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGReturnFromGraveyardManaValueFilter$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T13:38:30.083585395Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T13:38:30.092370619Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T13:38:30.092734413Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T13:38:30.093346235Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.009s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T13:38:30.093425816Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.01}\n{\"Time\":\"2026-09-07T13:41:07.116191413Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T13:41:07.139425928Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T13:41:07.139536232Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T13:41:07.141318116Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.025s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T13:41:07.141380535Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.025}\n\n\nrequired test filter '^TestFactoryNGReturnFromGraveyardManaValueFilter$' executed no passing tests",
+          "elapsed_ms": 186791,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T183034Z-engine-auto-return-from-graveyard-mana-value-filter-dc7c776e15-v1.patch",
+      "patch_sha256": "ffa550d927e362090afb2ede83e0617143d4d8b03afd187cd248c6c3247ada29",
+      "added_test_names": [
+        "TestReturnFromGraveyardManaValueFilter"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGReturnFromGraveyardManaValueFilter$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-reanimate-pre-war-formalwear-c9f145c7a0/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGReturnFromGraveyardManaValueFilter"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-multi-target-amount-f8cb94fb74/v3",
+      "cards": [
+        "Pull Through the Weft"
+      ],
+      "category": "patch_conflict",
+      "outcome": "candidate_conflict",
+      "updated_at": "2026-09-07T18:53:10Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-return-from-graveyard-multi-target-amount-f8cb94fb74-v3.json",
+      "observation": "docs/factory-ng/runs/2026-09-07T183525Z-engine-auto-return-from-graveyard-multi-target-amount-f8cb94fb74-v3-claude-agentic.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T185245Z-engine-auto-return-from-graveyard-multi-target-amount-f8cb94fb74-v3-integration.json",
+      "integration_receipt_sha256": "19a35e7cbba5f5376de6232534c0b285d6a6e03931641dedcd9c2fe7e3344ac1",
+      "failed_gates": [
+        {
+          "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/2026-09-07T184434Z-engine-auto-return-from-graveyard-multi-target-amount-f8cb94fb74-v3.patch",
+          "detail": "Applying: factory-ng: supervised engine observation\nUsing index info to reconstruct a base tree...\nM\tbackend/game/ability_effects.go\nFalling back to patching base and 3-way merge...\nAuto-merging backend/game/ability_effects.go\nCONFLICT (content): Merge conflict in backend/game/ability_effects.go\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\n\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch",
+          "elapsed_ms": 937,
+          "exit_code": 128,
+          "id": "candidate-apply",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-07T184434Z-engine-auto-return-from-graveyard-multi-target-amount-f8cb94fb74-v3.patch",
+      "patch_sha256": "10753ac7cbc9c5d62994d8e1f8e8b3673fdf5d86c16954da7c5e8eb7e60d0569",
+      "added_test_names": [
+        "TestFactoryNGReturnFromGraveyardMultiTargetAmount",
+        "TestFactoryNGReturnFromGraveyardMultiTargetAmount_OneOfTwoOptional"
+      ],
+      "failing_selectors": [],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-reanimate-pull-through-the-weft-03937ace27/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ]
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-with-counters-b91ef21e90/v2",
+      "cards": [
+        "Perennation"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T13:34:40Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-return-from-graveyard-with-counters-b91ef21e90-v2.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T090137Z-engine-auto-return-from-graveyard-with-counters-b91ef21e90-v2-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T130720Z-wave-cee5844e0742-integration.json",
+      "integration_receipt_sha256": "14859a5157efd5825fb85f9359f1362c851df7a32aee54c1ce810b6a22f7d5d3",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGReturnFromGraveyardWithCounters$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T13:11:32.256545583Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T13:11:32.265711575Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T13:11:32.266013627Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T13:11:32.266952704Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.009s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T13:11:32.267035075Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.01}\n{\"Time\":\"2026-09-07T13:13:58.898989973Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T13:13:58.92105783Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T13:13:58.921223225Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T13:13:58.923450096Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.024s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T13:13:58.923533562Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.025}\n\n\nrequired test filter '^TestFactoryNGReturnFromGraveyardWithCounters$' executed no passing tests",
+          "elapsed_ms": 175257,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T090942Z-engine-auto-return-from-graveyard-with-counters-b91ef21e90-v2.patch",
+      "patch_sha256": "5b4fe00f556a8b8103f58809554a34a40e05403c20c97ab6a0444328d58ab68a",
+      "added_test_names": [
+        "TestReturnFromGraveyardWithCounters_MultipleNamedCounters"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGReturnFromGraveyardWithCounters$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-reanimate-perennation-6ad96618c9/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGReturnFromGraveyardWithCounters"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-with-modifier-fd2af08857/v2",
+      "cards": [
+        "Rite of the Moth"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T15:53:43Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-return-from-graveyard-with-modifier-fd2af08857-v2.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T235658Z-engine-auto-return-from-graveyard-with-modifier-fd2af08857-v2-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T152747Z-wave-c134124178f2-integration.json",
+      "integration_receipt_sha256": "797bc5c03a6cb48016039469c1c0abc7c801dd3c877dd5704c21daada558feeb",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGReturnFromGraveyardWithModifier$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T15:34:17.643243615Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T15:34:17.651895517Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T15:34:17.652159589Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T15:34:17.653280838Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.009s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T15:34:17.653349062Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.01}\n{\"Time\":\"2026-09-07T15:36:44.258007772Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T15:36:44.278068813Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T15:36:44.278222557Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T15:36:44.280475528Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.022s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T15:36:44.280573661Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.023}\n\n\nrequired test filter '^TestFactoryNGReturnFromGraveyardWithModifier$' executed no passing tests",
+          "elapsed_ms": 176540,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-07T000518Z-engine-auto-return-from-graveyard-with-modifier-fd2af08857-v2.patch",
+      "patch_sha256": "b064a97d1e61a6a849ca611cd98056cfd809b2943e1223644cb7e7edbbbd4ebb",
+      "added_test_names": [
+        "TestExecuteReturnFromGraveyardWithCounter_FinalityCounter",
+        "TestExecuteReturnFromGraveyardWithCounter_NoModifierUnchanged"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGReturnFromGraveyardWithModifier$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-reanimate-rite-of-the-moth-fc8860bf79/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGReturnFromGraveyardWithModifier"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-target-filter-dealt-damage-this-turn-7541e11849/v2",
+      "cards": [
+        "Ogre Siegebreaker"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T13:07:18Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-target-filter-dealt-damage-this-turn-7541e11849-v2.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T044247Z-engine-auto-target-filter-dealt-damage-this-turn-7541e11849-v2-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T123943Z-wave-82fbcdad0642-integration.json",
+      "integration_receipt_sha256": "b66226c640fd6e5f8be3efccf7cabb5b56848a425bc72321d65bddba2b849c99",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGTargetFilterDealtDamageThisTurn$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T12:52:11.842583671Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T12:52:11.842979742Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T12:52:11.850933247Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T12:52:11.85114739Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T12:52:11.85162603Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.008s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T12:52:11.851679963Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.009}\n{\"Time\":\"2026-09-07T12:52:11.866112777Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T12:52:11.866256259Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T12:52:11.869228044Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.026s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T12:52:11.869290111Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.026}\n\n\nrequired test filter '^TestFactoryNGTargetFilterDealtDamageThisTurn$' executed no passing tests",
+          "elapsed_ms": 21227,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T045121Z-engine-auto-target-filter-dealt-damage-this-turn-7541e11849-v2.patch",
+      "patch_sha256": "69b4131550702d37c091462f20435f2be9cd93b2ec42b7621dd17a3e17e0f653",
+      "added_test_names": [
+        "TestDestroyTargetDealtDamageThisTurn_NoControllerRestriction"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGTargetFilterDealtDamageThisTurn$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-destroy-ogre-siegebreaker-ddc3784f16/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGTargetFilterDealtDamageThisTurn"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-target-filter-mana-value-matches-trigger-spell-4a033b6ace/v1",
+      "cards": [
+        "Skyfire Kirin"
+      ],
+      "category": "patch_conflict",
+      "outcome": "candidate_conflict",
+      "updated_at": "2026-09-07T22:22:21Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-target-filter-mana-value-matches-trigger-spell-4a033b6ace-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-07T214555Z-engine-auto-target-filter-mana-value-matches-trigger-spell-4a033b6ace-v1-claude-agentic.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T215923Z-wave-efe6c46f880e-integration.json",
+      "integration_receipt_sha256": "8a57d8ededbaec28e57da579a331e1b16511de3f310f1291a09ddd5ec26b5299",
+      "failed_gates": [
+        {
+          "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/2026-09-07T215424Z-engine-auto-target-filter-mana-value-matches-trigger-spell-4a033b6ace-v1.patch",
+          "detail": "Applying: factory-ng: supervised engine observation\nUsing index info to reconstruct a base tree...\nM\tbackend/game/ability_effects.go\nFalling back to patching base and 3-way merge...\nAuto-merging backend/game/ability_effects.go\nCONFLICT (content): Merge conflict in backend/game/ability_effects.go\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\n\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch",
+          "elapsed_ms": 513,
+          "exit_code": 128,
+          "id": "candidate-apply",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-07T215424Z-engine-auto-target-filter-mana-value-matches-trigger-spell-4a033b6ace-v1.patch",
+      "patch_sha256": "f3d7a352679817669811359ad428a3f3d236da03a565345acb0642df6f673adc",
+      "added_test_names": [
+        "TestFactoryNGTargetFilterManaValueMatchesTriggerSpell"
+      ],
+      "failing_selectors": [],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-gain-control-skyfire-kirin-ca4611b5af/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ]
+    },
+    {
+      "ticket_id": "ticket:engine.auto-target-filter-max-mana-value-220f4699a9/v1",
+      "cards": [
+        "Seam Rip"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T16:17:48Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-target-filter-max-mana-value-220f4699a9-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-07T010339Z-engine-auto-target-filter-max-mana-value-220f4699a9-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T155345Z-wave-57e57f47cd3e-integration.json",
+      "integration_receipt_sha256": "0e2f61ad9f0242a3e330838647691ea6ff79c30354eea213f169814c6435e314",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGTargetFilterMaxManaValue$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T16:06:10.005013163Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T16:06:10.015202626Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T16:06:10.015479286Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T16:06:10.016792834Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.011s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T16:06:10.016938918Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.012}\n{\"Time\":\"2026-09-07T16:08:33.804408985Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T16:08:33.832897998Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T16:08:33.833036064Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T16:08:33.839090124Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.034s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T16:08:33.839355641Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.035}\n\n\nrequired test filter '^TestFactoryNGTargetFilterMaxManaValue$' executed no passing tests",
+          "elapsed_ms": 173832,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-07T011530Z-engine-auto-target-filter-max-mana-value-220f4699a9-v1.patch",
+      "patch_sha256": "1f3ae64cdebb57a555cc43a6f76cb3942731f152a3af1f4e8858e5009811909f",
+      "added_test_names": [
+        "TestExecuteExileTargetWithMaxManaValue"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGTargetFilterMaxManaValue$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-exile-seam-rip-4f5b0fab8c/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGTargetFilterMaxManaValue"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-target-type-conditional-mode-override-f46b00f9dd/v1",
+      "cards": [
+        "Regent's Authority"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T15:03:19Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-target-type-conditional-mode-override-f46b00f9dd-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T204610Z-engine-auto-target-type-conditional-mode-override-f46b00f9dd-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T143408Z-wave-a8bd6f6cb16c-integration.json",
+      "integration_receipt_sha256": "11949b5703c40dbbc937c200cc7b05bd2004d9632b193f9211b90c0ee6e062d6",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGTargetTypeConditionalModeOverride$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T14:40:42.829222186Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T14:40:42.83667787Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T14:40:42.83695446Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T14:40:42.83848585Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.008s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T14:40:42.83858615Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.009}\n{\"Time\":\"2026-09-07T14:43:05.426583694Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T14:43:05.44675972Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T14:43:05.446866541Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T14:43:05.449687925Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.023s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T14:43:05.449745494Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.023}\n\n\nrequired test filter '^TestFactoryNGTargetTypeConditionalModeOverride$' executed no passing tests",
+          "elapsed_ms": 172272,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T205632Z-engine-auto-target-type-conditional-mode-override-f46b00f9dd-v1.patch",
+      "patch_sha256": "bf48bb93df081b5526ee7668c90f3e16a8eb285b61d37ce8b1753954ad85fc4a",
+      "added_test_names": [
+        "TestConditionalTypeOverridePump_LegendaryCreature",
+        "TestConditionalTypeOverridePump_PlainCreatureUnaffected"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGTargetTypeConditionalModeOverride$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-pump-regent-s-authority-20f13b80b3/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGTargetTypeConditionalModeOverride"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-triggered-self-copy-with-token-ceasing-ff40ee46f2/v2",
+      "cards": [
+        "Sage of the Skies"
+      ],
+      "category": "patch_conflict",
+      "outcome": "candidate_conflict",
+      "updated_at": "2026-09-07T20:45:38Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-triggered-self-copy-with-token-ceasing-ff40ee46f2-v2.json",
+      "observation": "docs/factory-ng/runs/2026-09-07T200827Z-engine-auto-triggered-self-copy-with-token-ceasing-ff40ee46f2-v2-claude-agentic.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T203116Z-wave-3ce55332e462-integration.json",
+      "integration_receipt_sha256": "bc488bfe72cc9e304795802ea2d514dbeb623ac9c9118362fcbba64612462b89",
+      "failed_gates": [
+        {
+          "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/2026-09-07T201804Z-engine-auto-triggered-self-copy-with-token-ceasing-ff40ee46f2-v2.patch",
+          "detail": "Applying: factory-ng: supervised engine observation\nUsing index info to reconstruct a base tree...\nM\tbackend/game/ability_effects.go\nFalling back to patching base and 3-way merge...\nAuto-merging backend/game/ability_effects.go\nCONFLICT (content): Merge conflict in backend/game/ability_effects.go\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\n\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch",
+          "elapsed_ms": 1110,
+          "exit_code": 128,
+          "id": "candidate-apply",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-07T201804Z-engine-auto-triggered-self-copy-with-token-ceasing-ff40ee46f2-v2.patch",
+      "patch_sha256": "aa2f5aefb976d8073a12b21d854a84621869fb8d92275dc06289d1f1cb338c41",
+      "added_test_names": [
+        "TestFactoryNGTriggeredSelfCopyWithTokenCeasing"
+      ],
+      "failing_selectors": [],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-copy-sage-of-the-skies-30d5d8211c/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ]
+    },
+    {
+      "ticket_id": "ticket:engine.auto-triggered-single-target-destroy-cd8f155f56/v1",
+      "cards": [
+        "Ragnarok, Divine Deliverance"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T14:34:06Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-triggered-single-target-destroy-cd8f155f56-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T192349Z-engine-auto-triggered-single-target-destroy-cd8f155f56-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T140457Z-wave-9c7e92abd77f-integration.json",
+      "integration_receipt_sha256": "775881e2c2773553713b86e0ef3d6653daa98bf2320f687ab014d6a124ed275a",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGTriggeredSingleTargetDestroy$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T14:08:34.172500995Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T14:08:34.185049198Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T14:08:34.185345405Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T14:08:34.185660709Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.012s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T14:08:34.185765091Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.013}\n{\"Time\":\"2026-09-07T14:11:01.263495349Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T14:11:01.284450638Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T14:11:01.28455388Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T14:11:01.286780632Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.023s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T14:11:01.286836722Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.023}\n\n\nrequired test filter '^TestFactoryNGTriggeredSingleTargetDestroy$' executed no passing tests",
+          "elapsed_ms": 176713,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T193233Z-engine-auto-triggered-single-target-destroy-cd8f155f56-v1.patch",
+      "patch_sha256": "5e4635d68f79dd298aac0ac2e43d0cacfd56f49f791b9b9f4684b50832a19b25",
+      "added_test_names": [
+        "TestExecuteDestroyTargetPermanentEffect_TriggeredSingleTarget",
+        "TestExecuteDestroyTargetPermanentEffect_NoTargetIsNoOp"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGTriggeredSingleTargetDestroy$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-destroy-ragnarok-divine-deliverance-aa5decbbb2/v1",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGTriggeredSingleTargetDestroy"
+    },
+    {
+      "ticket_id": "ticket:engine.auto-untap-target-and-gain-control-until-eot-6be295ddca/v1",
+      "cards": [
+        "Goatnapper"
+      ],
+      "category": "named_test_mismatch",
+      "outcome": "full_gate_failed",
+      "updated_at": "2026-09-07T13:07:18Z",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-untap-target-and-gain-control-until-eot-6be295ddca-v1.json",
+      "observation": "docs/factory-ng/runs/2026-09-06T051659Z-engine-auto-untap-target-and-gain-control-until-eot-6be295ddca-v1-claude.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-07T123943Z-wave-82fbcdad0642-integration.json",
+      "integration_receipt_sha256": "b66226c640fd6e5f8be3efccf7cabb5b56848a425bc72321d65bddba2b849c99",
+      "failed_gates": [
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGUntapTargetAndGainControlUntilEot$' -count=1",
+          "detail": "{\"Time\":\"2026-09-07T12:52:44.256671965Z\",\"Action\":\"start\",\"Package\":\"magic-backend/game\"}\n{\"Time\":\"2026-09-07T12:52:44.269297541Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T12:52:44.2695815Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T12:52:44.270815591Z\",\"Action\":\"output\",\"Package\":\"magic-backend/game\",\"Output\":\"ok  \\tmagic-backend/game\\t0.013s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T12:52:44.270924207Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/game\",\"Elapsed\":0.014}\n{\"Time\":\"2026-09-07T12:55:19.974460567Z\",\"Action\":\"start\",\"Package\":\"magic-backend/cards\"}\n{\"Time\":\"2026-09-07T12:55:19.993219654Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"testing: warning: no tests to run\\n\"}\n{\"Time\":\"2026-09-07T12:55:19.993337223Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-09-07T12:55:19.995391102Z\",\"Action\":\"output\",\"Package\":\"magic-backend/cards\",\"Output\":\"ok  \\tmagic-backend/cards\\t0.021s [no tests to run]\\n\"}\n{\"Time\":\"2026-09-07T12:55:19.995480806Z\",\"Action\":\"pass\",\"Package\":\"magic-backend/cards\",\"Elapsed\":0.021}\n\n\nrequired test filter '^TestFactoryNGUntapTargetAndGainControlUntilEot$' executed no passing tests",
+          "elapsed_ms": 187712,
+          "exit_code": 1,
+          "id": "composed-ticket-1",
+          "outcome": "failed"
+        }
+      ],
+      "patch_path": "docs/factory-ng/candidates/2026-09-06T052601Z-engine-auto-untap-target-and-gain-control-until-eot-6be295ddca-v1.patch",
+      "patch_sha256": "3aef89234639a60922b16acc4284d438cb0a8141090a5067a7861973fd7bdc9d",
+      "added_test_names": [
+        "TestUntapTargetAndGainControlUntilEot"
+      ],
+      "failing_selectors": [
+        "cd backend && go test ./game ./cards -run '^TestFactoryNGUntapTargetAndGainControlUntilEot$' -count=1"
+      ],
+      "successors": [],
+      "automatic_integration_repair_used": false,
+      "map_parents": [
+        {
+          "id": "ticket:map.plan-grant-eot-goatnapper-8b3447fc7e/v2",
+          "state": "blocked",
+          "superseded_by": null
+        }
+      ],
+      "required_test": "TestFactoryNGUntapTargetAndGainControlUntilEot"
+    }
+  ],
+  "audited_cards": [
+    {
+      "name": "Rakdos Roustabout",
+      "source_status": "review",
+      "oracle_text": "Whenever this creature becomes blocked, it deals 1 damage to the player or planeswalker it's attacking.",
+      "map_chain": [
+        {
+          "ticket_id": "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v1",
+          "state": "blocked",
+          "outcome": "blocked_by_capability",
+          "receipt": "docs/factory-ng/runs/2026-09-02T142452Z-map-plan-damage-rakdos-roustabout-8c3132d96a-v1-claude.json",
+          "superseded_by": null,
+          "ticket_path": "docs/factory-ng/tickets/map-plan-damage-rakdos-roustabout-8c3132d96a-v1.json",
+          "production": {
+            "key": "build-plan:verb_unmapped:damage:sha256:1226a3b39a91bcf16fcacb9053774635ae765d8cfee64fa5fefb3bc5be226f64",
+            "plan_rank": 3,
+            "predicted_class_unlock": 356,
+            "producer": "build-plan-continuous",
+            "retry_generation": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sea God's Scorn",
+      "source_status": "review",
+      "oracle_text": "Return up to three target creatures and/or enchantments to their owners' hands.",
+      "map_chain": [
+        {
+          "ticket_id": "ticket:map.plan-bounce-sea-god-s-scorn-f03e8b624f/v1",
+          "state": "blocked",
+          "outcome": "blocked_by_capability",
+          "receipt": "docs/factory-ng/runs/2026-09-02T181615Z-map-plan-bounce-sea-god-s-scorn-f03e8b624f-v1-openrouter.json",
+          "superseded_by": null,
+          "ticket_path": "docs/factory-ng/tickets/map-plan-bounce-sea-god-s-scorn-f03e8b624f-v1.json",
+          "production": {
+            "key": "build-plan:verb_unmapped:bounce:sha256:fa044d25ebc4c7defa8258d08541011d98a63f41537697306bcddb6fc9e79051",
+            "plan_rank": 34,
+            "predicted_class_unlock": 156,
+            "producer": "build-plan-continuous",
+            "retry_generation": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tidal Surge",
+      "source_status": "review",
+      "oracle_text": "Tap up to three target creatures without flying.",
+      "map_chain": [
+        {
+          "ticket_id": "ticket:map.plan-tap-tidal-surge-6e2c99a204/v1",
+          "state": "integration_failed",
+          "outcome": "candidate_conflict",
+          "receipt": "docs/factory-ng/runs/2026-09-03T015520Z-map-plan-tap-tidal-surge-6e2c99a204-v1-qwen.json",
+          "superseded_by": "ticket:map.plan-tap-tidal-surge-6e2c99a204/v2",
+          "ticket_path": "docs/factory-ng/tickets/map-plan-tap-tidal-surge-6e2c99a204-v1.json",
+          "production": {
+            "key": "build-plan:verb_unmapped:tap:sha256:3b9b1b56150980269211c739cb9d82b9450f6019ad06bd1667137e3b79cc4d98",
+            "plan_rank": 24,
+            "predicted_class_unlock": 190,
+            "producer": "build-plan-continuous",
+            "retry_generation": 0
+          }
+        },
+        {
+          "ticket_id": "ticket:map.plan-tap-tidal-surge-6e2c99a204/v2",
+          "state": "failed",
+          "outcome": "gate_failed",
+          "receipt": "docs/factory-ng/runs/2026-09-07T151916Z-map-plan-tap-tidal-surge-6e2c99a204-v2-qwen.json",
+          "superseded_by": "ticket:map.plan-tap-tidal-surge-6e2c99a204/v3",
+          "ticket_path": "docs/factory-ng/tickets/map-plan-tap-tidal-surge-6e2c99a204-v2.json",
+          "production": {
+            "integration_repair_generation": 1,
+            "key": "build-plan:verb_unmapped:tap:sha256:3b9b1b56150980269211c739cb9d82b9450f6019ad06bd1667137e3b79cc4d98",
+            "plan_rank": 24,
+            "predicted_class_unlock": 190,
+            "producer": "build-plan-integration-recovery",
+            "retry_generation": 0,
+            "retry_reason": "integration_conflict_repair"
+          }
+        },
+        {
+          "ticket_id": "ticket:map.plan-tap-tidal-surge-6e2c99a204/v3",
+          "state": "blocked",
+          "outcome": "blocked_by_capability",
+          "receipt": "docs/factory-ng/runs/2026-09-07T171807Z-map-plan-tap-tidal-surge-6e2c99a204-v3-qwen.json",
+          "superseded_by": "ticket:map.plan-tap-tidal-surge-6e2c99a204/v4",
+          "ticket_path": "docs/factory-ng/tickets/map-plan-tap-tidal-surge-6e2c99a204-v3.json",
+          "production": {
+            "integration_repair_generation": 2,
+            "key": "build-plan:verb_unmapped:tap:sha256:3b9b1b56150980269211c739cb9d82b9450f6019ad06bd1667137e3b79cc4d98",
+            "plan_rank": 24,
+            "predicted_class_unlock": 190,
+            "producer": "build-plan-integration-recovery",
+            "retry_generation": 0,
+            "retry_reason": "integration_conflict_repair"
+          }
+        },
+        {
+          "ticket_id": "ticket:map.plan-tap-tidal-surge-6e2c99a204/v4",
+          "state": "blocked",
+          "outcome": "blocked_by_capability",
+          "receipt": "docs/factory-ng/runs/2026-09-07T182247Z-map-plan-tap-tidal-surge-6e2c99a204-v4-claude-agentic.json",
+          "superseded_by": "ticket:map.plan-tap-tidal-surge-6e2c99a204/v5",
+          "ticket_path": "docs/factory-ng/tickets/map-plan-tap-tidal-surge-6e2c99a204-v4.json",
+          "production": {
+            "integration_recovery_parent": "ticket:map.plan-tap-tidal-surge-6e2c99a204/v3",
+            "key": "build-plan:verb_unmapped:tap:sha256:3b9b1b56150980269211c739cb9d82b9450f6019ad06bd1667137e3b79cc4d98:after:ticket:engine.auto-tap-up-to-n-creatures-without-flying-dcadf1686f/v2",
+            "producer": "capability-dependencies",
+            "retry_reason": "integration_conflict_repair"
+          }
+        },
+        {
+          "ticket_id": "ticket:map.plan-tap-tidal-surge-6e2c99a204/v5",
+          "state": "failed",
+          "outcome": "gate_failed",
+          "receipt": "docs/factory-ng/runs/2026-09-08T164831Z-map-plan-tap-tidal-surge-6e2c99a204-v5-qwen.json",
+          "superseded_by": null,
+          "ticket_path": "docs/factory-ng/tickets/map-plan-tap-tidal-surge-6e2c99a204-v5.json",
+          "production": {
+            "integration_recovery_parent": "ticket:map.plan-tap-tidal-surge-6e2c99a204/v4",
+            "key": "build-plan:verb_unmapped:tap:sha256:3b9b1b56150980269211c739cb9d82b9450f6019ad06bd1667137e3b79cc4d98:after:ticket:engine.auto-tap-up-to-n-creatures-without-flying-dcadf1686f/v2:after:ticket:engine.auto-spell-seq-atom-up-to-n-target-cap-554092e021/v4",
+            "producer": "capability-dependencies",
+            "retry_reason": "integration_conflict_repair"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Siegfried, Famed Swordsman",
+      "source_status": "review",
+      "oracle_text": "Menace\nWhen Siegfried enters, mill three cards. Then put X +1/+1 counters on Siegfried, where X is twice the number of creature cards in your graveyard.",
+      "map_chain": [
+        {
+          "ticket_id": "ticket:map.plan-put-counters-siegfried-famed-swordsman-77e58aca02/v1",
+          "state": "blocked",
+          "outcome": "blocked_by_capability",
+          "receipt": "docs/factory-ng/runs/2026-09-02T194139Z-map-plan-put-counters-siegfried-famed-swordsman-77e58aca02-v1-claude.json",
+          "superseded_by": null,
+          "ticket_path": "docs/factory-ng/tickets/map-plan-put-counters-siegfried-famed-swordsman-77e58aca02-v1.json",
+          "production": {
+            "key": "build-plan:verb_unmapped:put_counters:sha256:8c9ea168c8a61d177d61f1e216b6815aeb32f5b741d8fd696524a6ab2e41f8f0",
+            "plan_rank": 19,
+            "predicted_class_unlock": 196,
+            "producer": "build-plan-continuous",
+            "retry_generation": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sigil of Sleep",
+      "source_status": "review",
+      "oracle_text": "Enchant creature\nWhenever enchanted creature deals damage to a player, return target creature that player controls to its owner's hand.",
+      "map_chain": [
+        {
+          "ticket_id": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v1",
+          "state": "blocked",
+          "outcome": "blocked_by_capability",
+          "receipt": "docs/factory-ng/runs/2026-09-02T194718Z-map-plan-bounce-sigil-of-sleep-a3b32a7cef-v1-claude.json",
+          "superseded_by": null,
+          "ticket_path": "docs/factory-ng/tickets/map-plan-bounce-sigil-of-sleep-a3b32a7cef-v1.json",
+          "production": {
+            "key": "build-plan:verb_unmapped:bounce:sha256:31e264c5373d46d35572c0884ff0d30880025c4b6eca654a747fd4e16804c037",
+            "plan_rank": 34,
+            "predicted_class_unlock": 156,
+            "producer": "build-plan-continuous",
+            "retry_generation": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "Skittering Cicada",
+      "source_status": "review",
+      "oracle_text": "Flash\nYou may cast colorless spells as though they had flash.\nWhenever you cast a colorless spell, until end of turn, this creature gains trample and gets +X/+X, where X is that spell's mana value.",
+      "map_chain": [
+        {
+          "ticket_id": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v1",
+          "state": "blocked",
+          "outcome": "blocked_by_capability",
+          "receipt": "docs/factory-ng/runs/2026-09-02T201530Z-map-plan-grant-eot-skittering-cicada-aaedaea801-v1-openrouter.json",
+          "superseded_by": null,
+          "ticket_path": "docs/factory-ng/tickets/map-plan-grant-eot-skittering-cicada-aaedaea801-v1.json",
+          "production": {
+            "key": "build-plan:verb_unmapped:grant_eot:sha256:ca83bafc715896705996186cacf306811a8804c304f3650960321582dc961c2d",
+            "plan_rank": 5,
+            "predicted_class_unlock": 326,
+            "producer": "build-plan-continuous",
+            "retry_generation": 0
+          }
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Receipt/source inspection; no new candidate execution or complete-card acceptance.",
+    "Factory remained active, so job snapshot and canonical revision have separate observation times.",
+    "Source status review is a corpus state, not a semantic verdict."
+  ]
+}

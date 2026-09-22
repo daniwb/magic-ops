@@ -1,0 +1,42 @@
+{
+  "schema": "factory.model-profile/v1",
+  "id": "openrouter-goose-staged",
+  "version": "1.0.0",
+  "extends": "staged-baseline@1.0.0",
+  "adapter": {
+    "adapter_id": "openrouter-goose-staged-v1",
+    "executable": "scripts/model_call.py --engine goose-openrouter-staged",
+    "engine": "goose-openrouter-staged",
+    "workflow": "Complete staged packet and bounded harness-owned source evidence through isolated no-tools Goose OpenRouter free; phase-specific system response contract v2 with worked exact-patch example",
+    "allowed_tools": [],
+    "filesystem": "read-only",
+    "network": "none",
+    "max_turns": 1,
+    "max_completion_tokens": 32000,
+    "max_model_calls": 3,
+    "thinking": "provider default",
+    "repair": "One bounded NEED continuation plus one initial patch and at most one protocol OR compile/test correction. Source discovery does not consume the correction."
+  },
+  "routing": {
+    "best_for": [
+      "evidence-complete Map and bounded Engine work"
+    ],
+    "escalate_when": [
+      "missing evidence after one bounded continuation"
+    ]
+  },
+  "telemetry": {
+    "source": "Goose stream-json complete event, aggregate session usage",
+    "measured": [
+      "input",
+      "output",
+      "cache_read",
+      "cache_write",
+      "elapsed"
+    ],
+    "note": "Router may select different free models between calls. Raw Goose events and reported cost retained; resolved model may be unavailable."
+  },
+  "qualification_evidence": "docs/benchmarks/goose-openrouter-free-2026-09-21/",
+  "operator_authorization": "2026-09-21 user authorized adding this worker for a one-hour production trial; coding quality remains under evaluation.",
+  "change_note": "2026-09-21: phase-specific response instructions and narrow marker normalization; raw response retained, strict source matching unchanged. Budget exhaustion classification fixed. Minimal live edit/test passed; frozen Engine replay still failed. Worker remains disabled."
+}

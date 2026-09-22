@@ -1,0 +1,190 @@
+package game
+
+import "testing"
+
+// Diagnostic evidence at the pinned audit revision, not acceptance tests for
+// the unfinished cards. Gap probes deliberately assert the observed defect.
+func TestFTSMissAuditTargetCardinality(t *testing.T) {
+	for _, n := range []int{0, 3, 4} {
+		gs := NewGame("P0", "P1", false)
+		gs.PrioritySystem.GivePriority(0)
+		spell := NewInstant("Audit up to three", ManaCost{}, &SpellEffect{Type: "seq_target_stub", SpellTargetType: "nonflying_creature"}, 0)
+		spell.SpellEffectSequence = []EffectAtomSpec{{Effect: "tap_target_creatures", TargetType: "nonflying_creature"}}
+		gs.Players[0].Hand.AddCard(spell)
+		targets := []Target{}
+		for i := 0; i < n; i++ {
+			c := NewCreature("target", ManaCost{}, 2, 2, 1)
+			gs.Battlefield.AddCard(c)
+			targets = append(targets, Target{Type: TargetCreature, IsCard: true, CardID: c.ID})
+		}
+		err := gs.CastSpellWithTargets(0, spell.ID, targets)
+		t.Logf("targets=%d casting error=%v", n, err)
+		if n == 0 && err == nil {
+			t.Fatal("baseline changed: expected observed zero-target rejection")
+		}
+		if n > 0 && err != nil {
+			t.Fatalf("unexpected casting failure: %v", err)
+		}
+	}
+}
+
+func TestFTSMissAuditCreatureOrEnchantment(t *testing.T) {
+	gs := NewGame("P0", "P1", false)
+	c := NewCreature("creature", ManaCost{}, 2, 2, 1)
+	e := &Card{ID: "audit-enchantment", Name: "enchantment", Type: TypeEnchantment, Owner: 1, Controller: 1}
+	for _, card := range []*Card{c, e} {
+		gs.Battlefield.AddCard(card)
+		target := Target{IsCard: true, CardID: card.ID}
+		if !IsValidTarget(target, TargetRequirement{Type: "creature_or_enchantment"}, gs, 0) {
+			t.Fatal("union rejected legal category")
+		}
+		if err := gs.ExecuteAbilityEffectDirect(0, c, map[string]interface{}{"effect": "bounce"}, []Target{target}); err != nil {
+			t.Fatal(err)
+		}
+		if !gs.Players[1].Hand.HasCard(card.ID) {
+			t.Fatal("existing bounce did not return to owner")
+		}
+	}
+	t.Log("union target type and chosen-target bounce already handle both categories")
+}
+
+func TestFTSMissAuditMillThenCounters(t *testing.T) {
+	for _, creatures := range []int{0, 2} {
+		gs := NewGame("P0", "P1", false)
+		source := NewCreature("Siegfried audit", ManaCost{}, 4, 4, 0)
+		gs.Battlefield.AddCard(source)
+		for i := 0; i < 3; i++ {
+			c := NewInstant("noncreature", ManaCost{}, nil, 0)
+			if i < creatures {
+				c = NewCreature("creature", ManaCost{}, 1, 1, 0)
+			}
+			gs.Players[0].Library.AddCard(c)
+		}
+		gs.Players[1].Graveyard.AddCard(NewCreature("opponent GY", ManaCost{}, 1, 1, 1))
+		spec := map[string]interface{}{"count": "times", "factor": 2, "of": map[string]interface{}{"count": "graveyard", "card_type": "creature", "whose": "you"}}
+		atoms := []EffectAtomSpec{{Effect: "mill", EffectValue: map[string]interface{}{"amount": 3, "self": true}}, {Effect: "put_counters", EffectValue: map[string]interface{}{"target_self": true, "amount_count": spec}}}
+		if err := gs.ExecuteEffectSequence(0, source, atoms, nil, 0, nil); err != nil {
+			t.Fatal(err)
+		}
+		want := 2 * creatures
+		if creatures == 0 {
+			want = 1
+		}
+		if got := source.Counters.GetCount(CounterPlusOnePlusOne); got != want {
+			t.Fatalf("baseline counters=%d want %d", got, want)
+		}
+		t.Logf("creatures=%d counters=%d (desired %d)", creatures, want, 2*creatures)
+		if gs.Players[0].Graveyard.Count() != 3 {
+			t.Fatal("mill did not precede count")
+		}
+	}
+	t.Log("existing sequence mills first and multiplies own graveyard count; defect: resolved zero is clamped to one")
+}
+
+func TestFTSMissAuditDamagedPlayerTarget(t *testing.T) {
+	for _, damaged := range []int{0, 1} {
+		gs := NewGame("P0", "P1", false)
+		source := NewCreature("source", ManaCost{}, 2, 2, 0)
+		gs.Battlefield.AddCard(source)
+		victim := NewCreature("victim", ManaCost{}, 2, 2, 1-damaged)
+		victim.Controller = damaged
+		gs.Battlefield.AddCard(victim)
+		ability := &TriggeredAbility{ID: "audit-trigger", SourceCard: source, Effect: "bounce", EffectSequence: []EffectAtomSpec{{Effect: "bounce", TargetType: TargetCreature, TargetQualifier: &TriggerTargetFilter{Type: "creature", Controller: "defending_player"}}}}
+		gs.PutTriggeredAbilityOnStackWithEvent(ability, CreateDealsPlayerDamageEvent(source, 0, damaged, 1))
+		pending := gs.PendingTriggerTarget
+		if pending == nil {
+			t.Fatal("no choice")
+		}
+		found := false
+		for _, target := range pending.LegalTargets {
+			c, _ := gs.Battlefield.GetCard(target.CardID)
+			if c.Controller != damaged {
+				t.Fatal("wrong controller legal")
+			}
+			found = found || c.ID == victim.ID
+		}
+		if !found {
+			t.Fatal("damaged player's creature missing")
+		}
+		if err := gs.ResolveTriggerTargetChoice(0, victim.ID); err != nil {
+			t.Fatal(err)
+		}
+		if err := gs.ResolveTopOfStack(); err != nil {
+			t.Fatal(err)
+		}
+		if !gs.Players[victim.Owner].Hand.HasCard(victim.ID) {
+			t.Fatal("bounce did not use owner")
+		}
+	}
+	t.Log("event-recipient target choice and chosen-target bounce work for either player, including stolen creatures; event emission/enchanted trigger not tested here")
+}
+
+func TestFTSMissAuditEventManaValuePump(t *testing.T) {
+	gs := NewGame("P0", "P1", false)
+	source := NewCreature("Cicada audit", ManaCost{}, 2, 2, 0)
+	gs.Battlefield.AddCard(source)
+	eventCard := NewInstant("cast spell", ManaCost{Generic: 4}, nil, 0)
+	for _, effect := range []map[string]interface{}{{"effect": "grant_keywords_until_eot", "keywords": []interface{}{"Trample"}}, {"effect": "pump_until_eot", "power_from": "referent_spell_mana_value"}} {
+		obj := &StackObject{IsAbility: true, Text: effect["effect"].(string), Controller: 0, Card: source, EventCard: eventCard, EffectValue: effect}
+		if err := gs.ExecuteAbilityEffect(obj); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if !source.HasKeywordWithEffects(Trample, gs.EffectManager) {
+		t.Fatal("keyword grant missing")
+	}
+	if p, q := source.GetPowerWithEffects(gs.EffectManager), source.GetToughnessWithEffects(gs.EffectManager); p != 6 || q != 2 {
+		t.Fatalf("closest existing fold produced %d/%d, expected baseline 6/2", p, q)
+	}
+	t.Log("existing event-MV pump supplies +X/+0; existing keyword grant works; +X/+X connection still required")
+}
+
+func TestFTSMissAuditNoncombatPlayerDamageEvent(t *testing.T) {
+	gs := NewGame("P0", "P1", false)
+	source := NewCreature("enchanted dealer", ManaCost{}, 2, 2, 0)
+	gs.Battlefield.AddCard(source)
+	seen := 0
+	gs.EventBus.Subscribe(EventDealsPlayerDamage, func(e *Event) { seen++ })
+	gs.EventBus.Subscribe(EventDamageDealt, func(e *Event) { seen++ })
+	before := gs.Players[1].Life
+	if err := gs.ExecuteAbilityEffectDirect(0, source, map[string]interface{}{"effect": "damage", "amount": 1}, []Target{{Type: TargetPlayer, PlayerIdx: 1}}); err != nil {
+		t.Fatal(err)
+	}
+	if gs.Players[1].Life != before-1 {
+		t.Fatal("damage did not happen")
+	}
+	if seen != 0 {
+		t.Fatalf("baseline changed: received %d damage events", seen)
+	}
+	t.Log("noncombat damage lowers player life but emits neither player-damage nor generic damage event on this path")
+}
+
+func TestFTSMissAuditBlockedTriggerRecipient(t *testing.T) {
+	for _, planeswalker := range []bool{false, true} {
+		gs := NewGame("P0", "P1", false)
+		source := NewCreature("Roustabout audit", ManaCost{}, 3, 4, 0)
+		source.Attacking = true
+		gs.Battlefield.AddCard(source)
+		blocker := NewCreature("blocker", ManaCost{}, 2, 2, 1)
+		gs.Battlefield.AddCard(blocker)
+		pw := NewPlaneswalker("defender", ManaCost{}, 4, 1, nil)
+		if planeswalker {
+			gs.Battlefield.AddCard(pw)
+			source.AttackTarget = pw
+		}
+		ability := &TriggeredAbility{ID: "blocked-audit", SourceCard: source, Effect: "damage", EffectValue: map[string]interface{}{"amount": 1, "recipient_from": "attacked_defender"}}
+		before := gs.Players[1].Life
+		gs.PutTriggeredAbilityOnStackWithEvent(ability, CreateBecomesBlockedEvent(source, blocker, 0))
+		if err := gs.ResolveTopOfStack(); err != nil {
+			t.Fatal(err)
+		}
+		if planeswalker {
+			if pw.Counters.GetCount(CounterLoyalty) != 3 || gs.Players[1].Life != before {
+				t.Fatal("wrong planeswalker recipient")
+			}
+		} else if gs.Players[1].Life != before-1 {
+			t.Fatal("wrong player recipient")
+		}
+	}
+	t.Log("blocked-event subject survives trigger push and resolves existing player/planeswalker recipient; combat removal/LKI not covered")
+}

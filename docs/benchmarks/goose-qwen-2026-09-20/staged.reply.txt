@@ -1,0 +1,116 @@
+I have implemented the `freeze_until_next_untap` primitive for the `ticket:engine.auto-freeze-until-next-untap-7b6fc522b0/v1` ticket, satisfying the contract to mark a permanent such that it does not untap during its controller's next untap step while ensuring the marker is cleared afterward. This implementation reuses the existing one-shot `SkipNextUntap` field and `Zone.UntapAll` lifecycle to naturally handle the duration-bound constraints and prevent any extension of duration from repeated applications.
+
+I have also added the required discriminating test `TestFactoryNGFreezeUntilNextUntap_7b6fc522b0` and registered the new effect in the allowed registry file.
+
+<<<FILE backend/game/ability_effects.go
+<<<SEARCH
+	if effect == "skip_next_untap_step" {
+		for _, tgt := range targets {
+			if !tgt.IsCard {
+				continue
+			}
+			card, err := gs.Battlefield.GetCard(tgt.CardID)
+			if err != nil || card == nil {
+				continue
+			}
+			card.SkipNextUntap = true
+		}
+		return nil
+	}
+===REPLACE
+	if effect == "skip_next_untap_step" {
+		for _, tgt := range targets {
+			if !tgt.IsCard {
+				continue
+			}
+			card, err := gs.Battlefield.GetCard(tgt.CardID)
+			if err != nil || card == nil {
+				continue
+			}
+			card.SkipNextUntap = true
+		}
+		return nil
+	}
+	// freeze_until_next_untap primitive (ticket engine.auto-freeze-until-next-untap-7b6fc522b0/v1):
+	// Marks a targeted permanent so that it does not untap during its controller's next untap step.
+	// It reuses the existing Card.SkipNextUntap field, which is a one-shot flag
+	// (Rule 701.39) consumed and cleared by Zone.UntapAll.
+	// This ensures the freeze is strictly duration-bound to the next untap step.
+	// Repeated applications before the next untap step will not extend the duration,
+	// satisfying the negative example requirement.
+	if effect == "freeze_until_next_untap" {
+		for _, tgt := range targets {
+			if !tgt.IsCard {
+				continue
+			}
+			card, err := gs.Battlefield.GetCard(tgt.CardID)
+			if err != nil || card == nil {
+				continue
+			}
+			card.SkipNextUntap = true
+		}
+		return nil
+	}
+>>>END
+
+<<<NEWFILE backend/cards/registry_factory_ng_7b6fc522b0.go
+package cards
+
+func init() {
+	regEffect("freeze_until_next_untap", Primitive{
+		Executor:  "game/ability_effects.go case \"freeze_until_next_untap\" -> Card.SkipNextUntap (exert flag, Rule 701.39; consumed+cleared by Zone.UntapAll)",
+		ShapeTest: "TestFactoryNGFreezeUntilNextUntap_7b6fc522b0",
+	})
+}
+>>>END
+
+<<<NEWFILE backend/game/factory_ng_7b6fc522b0_test.go
+package game
+
+import (
+	"testing"
+)
+
+func TestFactoryNGFreezeUntilNextUntap_7b6fc522b0(t *testing.T) {
+	gs := NewGame("P0", "P1", false)
+
+	source := NewCreature("Freeze Source", ManaCost{}, 1, 1, 1)
+	source.Owner, source.Controller = 0, 0
+	gs.Battlefield.AddCard(source)
+
+	target := NewCreature("Freeze Target", ManaCost{}, 2, 2, 2)
+	target.Owner, target.Controller = 1, 1
+	target.Tapped = true
+	gs.Battlefield.AddCard(target)
+
+	// Apply the freeze_until_next_untap effect
+	stackObj := &StackObject{
+		IsAbility:   true,
+		Text:        "freeze_until_next_untap",
+		Controller:  0,
+		Card:        source,
+		EffectValue: map[string]interface{}{},
+		Targets:     []Target{{Type: TargetCreature, CardID: target.ID, IsCard: true}},
+	}
+	if err := gs.ExecuteAbilityEffect(stackObj); err != nil {
+		t.Fatalf("ExecuteAbilityEffect: %v", err)
+	}
+
+	if !target.SkipNextUntap {
+		t.Fatalf("expected target to be marked SkipNextUntap")
+	}
+
+	// Apply the effect twice to ensure it does not extend the duration (Negative Example)
+	if err := gs.ExecuteAbilityEffect(stackObj); err != nil {
+		t.Fatalf("ExecuteAbilityEffect second call: %v", err)
+	}
+	if !target.SkipNextUntap {
+		t.Fatalf("expected target to still be marked SkipNextUntap")
+	}
+
+	// Untap Step: Target stays tapped, marker is cleared
+	if err := ExecuteUntapStep(gs.Players[1], gs.Battlefield); err != nil {
+		t.Fatalf("ExecuteUntapStep: %v", err)
+	}
+	if !target.Tapped {
+		t.Fatalf("target

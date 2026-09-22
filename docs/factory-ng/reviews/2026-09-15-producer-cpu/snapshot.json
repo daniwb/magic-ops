@@ -1,0 +1,5 @@
+{
+  "files": 777,
+  "snapshot_sha256": "ad0c4633c5a667edbf40ba19cbd85019808f0bfacb5302069ce3fabd63395208",
+  "description": "Frozen copy of canonical parser, registry, keyword and card inputs; no source mutations."
+}

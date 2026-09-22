@@ -1,0 +1,71 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-map-plan-tap-lead-astray-27a4322784-v3-fwlj28hz",
+    "candidate_commit": "9d3ebdc567b3f1bdd09eda500ad623c4640dde91",
+    "mode": "isolated_clone_observation_only",
+    "model_exit_code": 0,
+    "packet_sha256": "sha256:a2caf10a3495929700b9e92afb9cd3fae4da1e94b360eec5fc4933c121a35862",
+    "source_revision": "9d3ebdc567b3f1bdd09eda500ad623c4640dde91",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "command": "scripts/map-pipeline-apply.py",
+      "detail": "no edit blocks and no verdict found in model output",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "command": "scripts/map-pipeline-apply.py",
+      "detail": "no edit blocks and no verdict found in model output",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "qwen-prepared-direct@1.0.2",
+    "resolved_model": "Qwen3.8-27B-Q8_0",
+    "telemetry": {
+      "bounded_repair_attempted": true,
+      "cache_read_tokens": 8584,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 559501,
+      "input_tokens": 19792,
+      "output_tokens": 4000,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local provider does not report cost"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "local adapter disables thinking"
+      }
+    },
+    "worker": "qwen-local"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed_model_protocol",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-07T170314Z-map-plan-tap-lead-astray-27a4322784-v3-qwen.raw.txt",
+      "sha256": "sha256:68446e342ef5ac1ef76819b8616f8262e82937fad6703fad77fb2cfa7311bdd9"
+    },
+    {
+      "kind": "bounded_repair",
+      "path": "docs/factory-ng/runs/2026-09-07T170314Z-map-plan-tap-lead-astray-27a4322784-v3-qwen.repair.raw.txt",
+      "sha256": "sha256:f6d05f2c682727b9924ec1beb413b0dd50c8acc78202c14b4ca7e27d890b0e7b"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "ticket": {
+    "id": "ticket:map.plan-tap-lead-astray-27a4322784/v3",
+    "path": "docs/factory-ng/tickets/map-plan-tap-lead-astray-27a4322784-v3.json",
+    "sha256": "sha256:069acc51e09839ca1bc518a96748017854284ba4636f9e355f3f9b4025010013"
+  }
+}

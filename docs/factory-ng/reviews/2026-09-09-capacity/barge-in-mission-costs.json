@@ -1,0 +1,144 @@
+{
+  "current_unresolved": [],
+  "definitions": [
+    "Raw counters are retained by profile. Do not add input and cached-input across providers: inclusion semantics differ.",
+    "elapsed_ms is accumulated provider-call wall time, not total attempt duration.",
+    "Candidate gate time includes compilation, test execution and gate overhead; separate compilation remains unknown.",
+    "Unknown cost is not free. Effective quota tokens and dollars cannot be inferred from raw counters.",
+    "Each receipt is counted once per report. Shared dependencies can belong to multiple mission reports; do not add their totals.",
+    "Accepted candidates and completed tickets are not whole-card verification."
+  ],
+  "integration": {
+    "outcomes": {
+      "pushed_full_production_gate_green": 1
+    },
+    "receipts_without_timing": 0,
+    "stage_times": {
+      "explicit_build_ms": 133516,
+      "other_integration_gates_ms": 380836,
+      "test_commands_including_compile_ms": 481561
+    }
+  },
+  "mission": "ticket:map.plan-pump-barge-in-a96db2c352/v1",
+  "profiles": {
+    "claude-staged@1.0.0": {
+      "attempts": 2,
+      "counters": {
+        "cache_read_tokens": {
+          "known_attempts": 2,
+          "known_sum": 50099,
+          "unknown_attempts": 0
+        },
+        "cache_write_tokens": {
+          "known_attempts": 2,
+          "known_sum": 80382,
+          "unknown_attempts": 0
+        },
+        "elapsed_ms": {
+          "known_attempts": 2,
+          "known_sum": 289528,
+          "unknown_attempts": 0
+        },
+        "input_tokens": {
+          "known_attempts": 2,
+          "known_sum": 8,
+          "unknown_attempts": 0
+        },
+        "output_tokens": {
+          "known_attempts": 2,
+          "known_sum": 26606,
+          "unknown_attempts": 0
+        },
+        "provider_cost_usd": {
+          "known_attempts": 0,
+          "known_sum": 0,
+          "unknown_attempts": 2
+        }
+      },
+      "outcomes": {
+        "accepted_for_dependent_observation": 1,
+        "parked": 1
+      },
+      "stage_times": {
+        "attempt_wall_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 2
+        },
+        "candidate_gate_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 2
+        },
+        "compilation_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 2
+        },
+        "model_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 2
+        }
+      },
+      "ticket_versions": 2
+    }
+  },
+  "schema": "factory.cost-report/v1",
+  "since": "all history",
+  "total": {
+    "attempts": 2,
+    "counters": {
+      "cache_read_tokens": {
+        "known_attempts": 2,
+        "known_sum": 50099,
+        "unknown_attempts": 0
+      },
+      "cache_write_tokens": {
+        "known_attempts": 2,
+        "known_sum": 80382,
+        "unknown_attempts": 0
+      },
+      "elapsed_ms": {
+        "known_attempts": 2,
+        "known_sum": 289528,
+        "unknown_attempts": 0
+      },
+      "input_tokens": {
+        "known_attempts": 2,
+        "known_sum": 8,
+        "unknown_attempts": 0
+      },
+      "output_tokens": {
+        "known_attempts": 2,
+        "known_sum": 26606,
+        "unknown_attempts": 0
+      },
+      "provider_cost_usd": {
+        "known_attempts": 0,
+        "known_sum": 0,
+        "unknown_attempts": 2
+      }
+    },
+    "outcomes": {
+      "accepted_for_dependent_observation": 1,
+      "parked": 1
+    },
+    "stage_times": {
+      "attempt_wall_ms": {
+        "known_sum": 0,
+        "unknown_attempts": 2
+      },
+      "candidate_gate_ms": {
+        "known_sum": 0,
+        "unknown_attempts": 2
+      },
+      "compilation_ms": {
+        "known_sum": 0,
+        "unknown_attempts": 2
+      },
+      "model_ms": {
+        "known_sum": 0,
+        "unknown_attempts": 2
+      }
+    },
+    "ticket_versions": 2
+  },
+  "until": "2026-09-09T06:12:53Z"
+}

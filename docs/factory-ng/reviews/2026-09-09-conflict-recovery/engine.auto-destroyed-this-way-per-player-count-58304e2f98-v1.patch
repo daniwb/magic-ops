@@ -1,0 +1,187 @@
+From 223a6cbf85447d8f5e2376a724ee89ceebbfb105 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Wed, 9 Sep 2026 02:48:52 +0000
+Subject: [PATCH] factory-ng: supervised engine observation
+
+---
+ backend/game/ability_effects.go            | 68 ++++++++++++++++++++++
+ backend/game/dynamic_amount.go             | 18 ++++++
+ backend/game/factory_ng_58304e2f98_test.go | 50 ++++++++++++++++
+ 3 files changed, 136 insertions(+)
+ create mode 100644 backend/game/factory_ng_58304e2f98_test.go
+
+diff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go
+index e8b7f486a..a25f76ee6 100644
+--- a/backend/game/ability_effects.go
++++ b/backend/game/ability_effects.go
+@@ -6173,7 +6173,19 @@ func (gs *GameState) ExecuteAbilityEffect(stackObj *StackObject) error {
+ 			return gs.executeDestroyExcludingSubtypesEffect(targets, excludeSubtypes)
+ 		}
+ 		cantBeRegenerated, _ := effectValue["cant_be_regenerated"].(bool)
++		gs.noteDestroyedArtifactsPerController(targets)
+ 		return gs.executeDestroyEffect(targets, cantBeRegenerated)
++	case "damage_each_player_artifacts_destroyed_this_way":
++		// destroyed_this_way_per_player_count (ticket
++		// engine.auto-destroyed-this-way-per-player-count-58304e2f98,
++		// Builder's Bane class: "~ deals damage to each player equal to
++		// the number of artifacts they controlled that were put into a
++		// graveyard this way."). Unlike Angel's Trumpet's tapped_this_way
++		// (a single flat seqTally value applied to one recipient), each
++		// player is damaged by their OWN count, read back from the
++		// per-controller keys the preceding "destroy" atom in the same
++		// sequence wrote via noteDestroyedArtifactsPerController.
++		return gs.executeDamageEachPlayerArtifactsDestroyedThisWay()
+ 	case "bounce":
+ 		if handled, err := gs.executeBounceFromGraveyardTarget(targets); handled || err != nil {
+ 			return err
+@@ -12291,6 +12303,62 @@ func (gs *GameState) executeDestroyUpToCounterCountTargets(source *Card, targets
+ 	return nil
+ }
+ 
++// noteDestroyedArtifactsPerController records, per controller, how many of
++// the permanents about to be destroyed by this atom are artifacts, keyed
++// into gs.seqTally (the existing single-map-multi-key sequence tally,
++// effect_sequence.go's noteSeqTally) under a per-player key so a later
++// "damage to each player equal to X" atom in the same sequence can read
++// back the count for its own specific recipient rather than one flat
++// global total (ticket
++// engine.auto-destroyed-this-way-per-player-count-58304e2f98,
++// destroyed_this_way_per_player_count: Builder's Bane class). Must run
++// BEFORE the targets are actually destroyed, since Controller is read off
++// the still-live battlefield permanent.
++func (gs *GameState) noteDestroyedArtifactsPerController(targets []Target) {
++	if gs.seqTally == nil || gs.Battlefield == nil {
++		return
++	}
++	counts := map[int]int{}
++	for _, t := range targets {
++		if !t.IsCard || t.CardID == "" {
++			continue
++		}
++		perm, err := gs.Battlefield.GetCard(t.CardID)
++		if err != nil || perm == nil {
++			continue
++		}
++		if isArtifactPermanent(perm) {
++			counts[perm.Controller]++
++		}
++	}
++	for idx, n := range counts {
++		gs.seqTally["destroyed_artifact_p"+strconv.Itoa(idx)] = n
++	}
++}
++
++// executeDamageEachPlayerArtifactsDestroyedThisWay implements
++// destroyed_this_way_per_player_count's damage side: each player is dealt
++// damage equal to THEIR OWN count from noteDestroyedArtifactsPerController
++// above, read back from gs.seqTally keyed by that specific player's index
++// -- not one flat total applied to every player alike.
++func (gs *GameState) executeDamageEachPlayerArtifactsDestroyedThisWay() error {
++	if gs.seqTally == nil {
++		return nil
++	}
++	for idx, p := range gs.Players {
++		if p == nil {
++			continue
++		}
++		n, ok := gs.seqTally["destroyed_artifact_p"+strconv.Itoa(idx)]
++		if !ok || n <= 0 {
++			continue
++		}
++		p.Life -= n
++	}
++	gs.CheckStateBasedActions()
++	return nil
++}
++
+ // literally every creature, matching executeTapAllEffect's "opponent"-scope
+ // convention for the analogous tap_all effect. "amount"/"up_to" (partial-N
+ // selection, e.g. "untap up to four lands you control") would need a real
+diff --git a/backend/game/dynamic_amount.go b/backend/game/dynamic_amount.go
+index 18d84d7f1..e6d19f29a 100644
+--- a/backend/game/dynamic_amount.go
++++ b/backend/game/dynamic_amount.go
+@@ -243,6 +243,24 @@ func (gs *GameState) devotionToColorCount(controller int, color string) int {
+ // kind above: that kind's filter vocabulary has no tapped-state
+ // predicate yet, and this primitive's scope is limited to wiring exactly
+ // this one shape through.
++// isArtifactPermanent reports whether perm is an artifact, matching the
++// same primary-type-or-subtype check countTappedArtifactsControlledBy uses
++// just below.
++func isArtifactPermanent(perm *Card) bool {
++	if perm == nil {
++		return false
++	}
++	if strings.EqualFold(string(perm.Type), "Artifact") {
++		return true
++	}
++	for _, st := range perm.SubTypes {
++		if strings.EqualFold(st, "Artifact") {
++			return true
++		}
++	}
++	return false
++}
++
+ func (gs *GameState) countTappedArtifactsControlledBy(controller int) int {
+ 	if gs.Battlefield == nil {
+ 		return 0
+diff --git a/backend/game/factory_ng_58304e2f98_test.go b/backend/game/factory_ng_58304e2f98_test.go
+new file mode 100644
+index 000000000..02d9000bd
+--- /dev/null
++++ b/backend/game/factory_ng_58304e2f98_test.go
+@@ -0,0 +1,50 @@
++package game
++
++import "testing"
++
++// TestFactoryNGDestroyedThisWayPerPlayerCount exercises
++// destroyed_this_way_per_player_count (ticket
++// engine.auto-destroyed-this-way-per-player-count-58304e2f98, Builder's
++// Bane class): "Destroy X target artifacts. ~ deals damage to each player
++// equal to the number of artifacts they controlled that were put into a
++// graveyard this way." Player 0 controls one artifact destroyed this way,
++// player 1 controls two, so player 0 must take 1 damage and player 1 must
++// take 2 -- not one flat count applied to both.
++func TestFactoryNGDestroyedThisWayPerPlayerCount(t *testing.T) {
++	gs := NewGame("P0", "P1", false)
++	gs.seqTally = map[string]int{}
++
++	p0Artifact := &Card{ID: "bb-art-p0", Name: "Test Cog", Type: CardType("Artifact"), Owner: 0, Controller: 0}
++	p1ArtifactA := &Card{ID: "bb-art-p1a", Name: "Test Sprocket A", Type: CardType("Artifact"), Owner: 1, Controller: 1}
++	p1ArtifactB := &Card{ID: "bb-art-p1b", Name: "Test Sprocket B", Type: CardType("Artifact"), Owner: 1, Controller: 1}
++	gs.Battlefield.AddCard(p0Artifact)
++	gs.Battlefield.AddCard(p1ArtifactA)
++	gs.Battlefield.AddCard(p1ArtifactB)
++
++	targets := []Target{
++		{IsCard: true, CardID: p0Artifact.ID},
++		{IsCard: true, CardID: p1ArtifactA.ID},
++		{IsCard: true, CardID: p1ArtifactB.ID},
++	}
++
++	gs.noteDestroyedArtifactsPerController(targets)
++	for _, tgt := range targets {
++		if err := DestroyTarget(tgt, gs); err != nil {
++			t.Fatalf("DestroyTarget(%s): %v", tgt.CardID, err)
++		}
++	}
++
++	life0Before := gs.Players[0].Life
++	life1Before := gs.Players[1].Life
++
++	if err := gs.executeDamageEachPlayerArtifactsDestroyedThisWay(); err != nil {
++		t.Fatalf("executeDamageEachPlayerArtifactsDestroyedThisWay: %v", err)
++	}
++
++	if got := life0Before - gs.Players[0].Life; got != 1 {
++		t.Fatalf("player 0 controlled 1 artifact destroyed this way, want 1 damage, got %d", got)
++	}
++	if got := life1Before - gs.Players[1].Life; got != 2 {
++		t.Fatalf("player 1 controlled 2 artifacts destroyed this way, want 2 damage, got %d", got)
++	}
++}
+-- 
+2.43.0
+

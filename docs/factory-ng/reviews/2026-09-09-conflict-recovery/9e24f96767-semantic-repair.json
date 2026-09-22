@@ -1,0 +1,155 @@
+{
+  "capability": {
+    "expected_unlock": 1,
+    "negative_examples": [
+      "Targeted pump_until_eot abilities (with an explicit target creature/permanent) must keep resolving exactly as before, unaffected by any self-reference fallback."
+    ],
+    "required_behavior": "When a triggered ability's pump_until_eot atom has no target (i.e. it buffs the source creature itself, as in \"it gets +X/+0 until end of turn\"), executePumpEffect in game/ability_effects.go must resolve the buff against the ability's source instead of no-oping for lack of a target atom.",
+    "source_misses": [
+      {
+        "card": "Terra Ravager",
+        "oracle_text_sha256": "a9ec05a07795b850cb6a2b5f6a359887acf47550281a2033f41a0b5528a65769",
+        "paragraph": "Whenever this creature attacks, it gets +X/+0 until end of turn, where X is the number of lands defending player controls.",
+        "required_behavior": "When a triggered ability's pump_until_eot atom has no target (i.e. it buffs the source creature itself, as in \"it gets +X/+0 until end of turn\"), executePumpEffect in game/ability_effects.go must resolve the buff against the ability's source instead of no-oping for lack of a target atom."
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "key": "pump_until_eot_ability_self_no_target",
+        "specification": {
+          "expected_unlock": 1,
+          "negative_examples": [
+            "Targeted pump_until_eot abilities (with an explicit target creature/permanent) must keep resolving exactly as before, unaffected by any self-reference fallback."
+          ],
+          "required_behavior": "When a triggered ability's pump_until_eot atom has no target (i.e. it buffs the source creature itself, as in \"it gets +X/+0 until end of turn\"), executePumpEffect in game/ability_effects.go must resolve the buff against the ability's source instead of no-oping for lack of a target atom.",
+          "source_misses": [
+            {
+              "card": "Terra Ravager",
+              "oracle_text_sha256": "a9ec05a07795b850cb6a2b5f6a359887acf47550281a2033f41a0b5528a65769",
+              "paragraph": "Whenever this creature attacks, it gets +X/+0 until end of turn, where X is the number of lands defending player controls.",
+              "required_behavior": "When a triggered ability's pump_until_eot atom has no target (i.e. it buffs the source creature itself, as in \"it gets +X/+0 until end of turn\"), executePumpEffect in game/ability_effects.go must resolve the buff against the ability's source instead of no-oping for lack of a target atom."
+            }
+          ]
+        },
+        "summary": "Allow ability-tier pump_until_eot to apply to the ability's own source with no explicit target"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-03T005848Z-map-plan-pump-terra-ravager-28f662d07a-v1-claude.json"
+    },
+    {
+      "anchor": "730-795",
+      "fact": "Card-knowledge index match (engine): resolvePumpAttachedCreatureNoTarget is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d0ac33d83a17c5e21e00829259f817523252b61afd7aa34b5e989710ebaa7a0b"
+    },
+    {
+      "anchor": "2815-2880",
+      "fact": "Card-knowledge index match (engine): executePumpEffect is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d0ac33d83a17c5e21e00829259f817523252b61afd7aa34b5e989710ebaa7a0b"
+    },
+    {
+      "anchor": "1-63",
+      "fact": "Card-knowledge index match (engine): executeGainControlEffect is the nearest indexed seam for this capability.",
+      "path": "backend/game/control_effects.go",
+      "sha256": "sha256:e05b148d7ba6ea7a9a73152aa3031bbf38c8b3dfb2da3d42755946e6df9aec82"
+    },
+    {
+      "anchor": "1184-1249",
+      "fact": "Card-knowledge index match (engine): executeGrantColorUntilEOTEffect is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d0ac33d83a17c5e21e00829259f817523252b61afd7aa34b5e989710ebaa7a0b"
+    },
+    {
+      "path": "docs/factory-ng/runs/2026-09-08T113321Z-engine-auto-pump-until-eot-ability-self-no-target-9e24f96767-v1-integration.json",
+      "fact": "The previous candidate compiled/ran and failed this exact gate: candidate-apply: error: Failed to merge in the changes.\ninfo to reconstruct a base tree...\nM\tbackend/game/ability_effects.go\nFalling back to patching base and 3-way merge...\nAuto-merging backend/game/ability_effects.go\nCONFLICT (content): Merge conflict in backend/game/ability_effects.go\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch. Fix only this defect; do not restructure unrelated code or revisit already-passing behavior."
+    },
+    {
+      "path": "docs/factory-ng/candidates/2026-09-08T113210Z-engine-auto-pump-until-eot-ability-self-no-target-9e24f96767-v1.patch",
+      "sha256": "sha256:c8d43ec589d72490e39c1f2fde76c788e0d70983702123d4617a17d40661c80c",
+      "fact": "Historical candidate for review/reuse, NOT applied to the current source. Verify every hunk and test against current source and the original semantic contract.\nFrom eea11660f9e710808c40211945321bd622b35725 Mon Sep 17 00:00:00 2001\nFrom: Factory NG <factory-ng@local>\nDate: Tue, 8 Sep 2026 11:32:09 +0000\nSubject: [PATCH] factory-ng: supervised engine observation\n\n---\n backend/game/ability_effects.go            | 27 ++++---\n backend/game/factory_ng_9e24f96767_test.go | 88 ++++++++++++++++++++++\n 2 files changed, 106 insertions(+), 9 deletions(-)\n create mode 100644 backend/game/factory_ng_9e24f96767_test.go\n\ndiff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go\nindex 17a407284..352348e14 100644\n--- a/backend/game/ability_effects.go\n+++ b/backend/game/ability_effects.go\n@@ -3906,16 +3906,25 @@ func (gs *GameState) ExecuteAbilityEffect(stackObj *StackObject) error {\n \t\t// \"Target creature gets +N/+N until end of turn\" as a sequence/mode\n \t\t// atom (modal round 2, 2026-08-02) \u2014 executePumpEffect's targeted\n \t\t// branch registers exactly this UntilEOT ContinuousEffect. NO-TARGET\n-\t\t// GUARD: unlike \"pump\", a pump_until_eot atom is always the printed\n-\t\t// targeted form (the parser has no self shape for it), so with no\n-\t\t// target supplied this must stay a no-op \u2014 falling into\n-\t\t// executePumpEffect's self-pump default would silently pump the\n-\t\t// SOURCE instead of the printed target (the ~180 shipped activated/\n-\t\t// triggered records whose per-atom target never survives conversion\n-\t\t// keep their current inert behavior until target promotion exists\n-\t\t// for them).\n+\t\t// FALLBACK (pump_until_eot_ability_self_no_target primitive, ticket\n+\t\t// engine.auto-pump-until-eot-ability-self-no-target-9e24f96767,\n+\t\t// Terra Ravager class: \"Whenever this creature attacks, it gets\n+\t\t// +X/+0 until end of turn, where X is the number of lands defending\n+\t\t// player controls.\"): when a pump_until_eot atom arrives with no\n+\t\t// explicit target, the printed referent (\"this creature\" / \"it\")\n+\t\t// IS the ability's own source, so supply the source as an implicit\n+\t\t// single target instead of no-oping \u2014 the same self-reference\n+\t\t// fallback resolvePumpAttachedCreatureNoTarget already performs at\n+\t\t// the before-the-switch chokepoint for a creature source not\n+\t\t// attached to anything. A genuine \"target creature gets +N/+N\n+\t\t// until end of turn\" atom already carries a populated targets\n+\t\t// slice and keeps resolving exactly as before (unchanged path\n+\t\t// below); only the previously inert no-target shape changes.\n \t\tif len(targets) == 0 {\n-\t\t\treturn nil\n+\t\t\tif source == nil || !source.IsCreature() {\n+\t\t\t\treturn nil\n+\t\t\t}\n+\t\t\ttargets = []Target{{Type: TargetCreature, CardID: source.ID, IsCard: true}}\n \t\t}\n \t\treturn gs.executePumpEffect(controller, source, effectValue, targets)\n \tcase \"pump_all\":\ndiff --git a/backend/game/factory_ng_9e24f96767_test.go b/backend/game/factory_ng_9e24f96767_test.go\nnew file mode 100644\nindex 000000000..082cdd606\n--- /dev/null\n+++ b/backend/game/factory_ng_9e24f96767_test.go\n@@ -0,0 +1,88 @@\n+package game\n+\n+import \"testing\"\n+\n+// TestFactoryNGPumpUntilEotAbilitySelfNoTarget covers the\n+// pump_until_eot_ability_self_no_target primitive (ticket\n+// engine.auto-pump-until-eot-ability-self-no-target-9e24f96767, Terra\n+// Ravager class: \"Whenever this creature attacks, it gets +X/+0 until end\n+// of turn, where X is the number of lands defending player controls.\"):\n+// a triggered pump_until_eot atom with no explicit target must resolve\n+// the buff against the ability's own source creature instead of no-oping.\n+// Behavior test: a no-target pump_until_eot previously hit the\n+// ExecuteAbilityEffect case's no-target guard and returned nil without\n+// registering any effect; after the change the source creature's power\n+// must carry the bonus for the rest of the turn.\n+func TestFactoryNGPumpUntilEotAbilitySelfNoTarget(t *testing.T) {\n+\tgs := NewGame(\"P0\", \"P1\", false)\n+\n+\tsource := NewCreature(\"Test Terra Ravager\", ManaCost{}, 0, 4, 1)\n+\tsource.Controller, source.Owner = 0, 0\n+\tgs.Battlefield.AddCard(source)\n+\n+\t// No Targets at all \u2014 the atom names no target, only \"it\" (the\n+\t// source itself).\n+\tstackObj := &StackObject{\n+\t\tIsAbility:  true,\n+\t\tText:       \"pump_until_eot\",\n+\t\tController: 0,\n+\t\tCard:       source,\n+\t\tEffectValue: map[string]interface{}{\n+\t\t\t\"power\":     3,\n+\t\t\t\"toughness\": 0,\n+\t\t},\n+\t}\n+\n+\tif err := gs.ExecuteAbilityEffect(stackObj); err != nil {\n+\t\tt.Fatalf(\"ExecuteAbilityEffect: %v\", err)\n+\t}\n+\n+\tif got := source.GetPowerWithEffects(gs.EffectManager); got != 3 {\n+\t\tt.Fatalf(\"power = %d, want 3 (0 base + 3 from self no-target pump)\", got)\n+\t}\n+\tif got := source.GetToughnessWithEffects(gs.EffectManager); got != 4 {\n+\t\tt.Fatalf(\"toughness = %d, want 4 (unaffected \u2014 printed +3/+0)\", got)\n+\t}\n+}\n+\n+// TestFactoryNGPumpUntilEotAbilitySelfNoTarget_TargetedUnchanged is the\n+// negative example: a pump_until_eot atom WITH an explicit target\n+// creature must keep resolving exactly as before \u2014 the bonus lands on the\n+// chosen target only, never on the ability's source.\n+func TestFactoryNGPumpUntilEotAbilitySelfNoTarget_TargetedUnchanged(t *testing.T) {\n+\tgs := NewGame(\"P0\", \"P1\", false)\n+\n+\tsource := NewCreature(\"Test Terra Ravager\", ManaCost{}, 0, 4, 1)\n+\tsource.Controller, source.Owner = 0, 0\n+\tgs.Battlefield.AddCard(source)\n+\n+\ttarget := NewCreature(\"Test Target Bear\", ManaCost{}, 2, 2, 1)\n+\ttarget.Controller, target.Owner = 0, 0\n+\tgs.Battlefield.AddCard(target)\n+\n+\tstackObj := &StackObject{\n+\t\tIsAbility:  true,\n+\t\tText:       \"pump_until_eot\",\n+\t\tController: 0,\n+\t\tCard:       source,\n+\t\tEffectValue: map[string]interface{}{\n+\t\t\t\"power\":     2,\n+\t\t\t\"toughness\": 2,\n+\t\t},\n+\t\tTargets: []Target{{Type: TargetCreature, CardID: target.ID, IsCard: true}},\n+\t}\n+\n+\tif err := gs.ExecuteAbilityEffect(stackObj); err != nil {\n+\t\tt.Fatalf(\"ExecuteAbilityEffect: %v\", err)\n+\t}\n+\n+\tif got := target.GetPowerWithEffects(gs.EffectManager); got != 4 {\n+\t\tt.Fatalf(\"target power = %d, want 4 (2 base + 2 targeted pump)\", got)\n+\t}\n+\tif got := target.GetToughnessWithEffects(gs.EffectManager); got != 4 {\n+\t\tt.Fatalf(\"target toughness = %d, want 4 (2 base + 2 targeted pump)\", got)\n+\t}\n+\tif got := source.GetPowerWithEffects(gs.EffectManager); got != 0 {\n+\t\tt.Fatalf(\"source power = %d, want 0 (source must not be pumped by a targeted atom)\", got)\n+\t}\n+}\n-- \n2.43.0\n\n"
+    },
+    {
+      "path": "docs/factory-ng/reviews/2026-09-09-conflict-recovery/audit-diff3.json",
+      "fact": "The retained candidate assumes every missing target is self. This contradicts the existing pump_until_eot no-target guard and the accepted untargeted-all negative test. Distinguish a proven self referent using explicit effect metadata or actual ability target metadata; missing targets alone are NOT evidence of self. Preserve group_filter and all=true behavior. No broad implicit self fallback."
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "codex-constrained@1.1.0",
+    "selection_reason": "Operator-reviewed integration repair, preserving the one-repair allowance and all original gates.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGPumpUntilEotAbilitySelfNoTarget$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.auto-pump-until-eot-ability-self-no-target-9e24f96767/v2",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Retain the terminal receipt and continue independent discovery; do not request manual source transcription.",
+  "parents": [
+    "ticket:map.plan-pump-terra-ravager-28f662d07a/v1",
+    "ticket:engine.auto-pump-until-eot-ability-self-no-target-9e24f96767/v1"
+  ],
+  "production": {
+    "key": "capability:pump_until_eot_ability_self_no_target:sha256:9e24f9676753063b09c9a6ed84893153ecff7ecb5b9389f2718c1f28940ffc06:integration-repair-v1",
+    "producer": "capability-dependencies",
+    "retry_reason": "semantic_gate_repair",
+    "integration_repair_parent": "ticket:engine.auto-pump-until-eot-ability-self-no-target-9e24f96767/v1"
+  },
+  "required_behavior": [
+    "When a triggered ability's pump_until_eot atom has no target (i.e. it buffs the source creature itself, as in \"it gets +X/+0 until end of turn\"), executePumpEffect in game/ability_effects.go must resolve the buff against the ability's source instead of no-oping for lack of a target atom.",
+    "Preserve these adjacent behaviors: Targeted pump_until_eot abilities (with an explicit target creature/permanent) must keep resolving exactly as before, unaffected by any self-reference fallback.",
+    "Add a discriminating behavior test named TestFactoryNGPumpUntilEotAbilitySelfNoTarget; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases.",
+    "The retained candidate assumes every missing target is self. This contradicts the existing pump_until_eot no-target guard and the accepted untargeted-all negative test. Distinguish a proven self referent using explicit effect metadata or actual ability target metadata; missing targets alone are NOT evidence of self. Preserve group_filter and all=true behavior. No broad implicit self fallback.",
+    "Keep the original named test and cover explicit self pump, an explicitly targeted effect with no remaining legal targets (must not pump source), explicit group filter and all=true dispatch. Use subtests under the original required test so all assertions execute with the existing selector. Return an honest evidence gap if the self distinction cannot be established within scope.",
+    "Preserve every original gate and semantic obligation; do not edit the frozen registry literal."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_9e24f96767_test.go",
+      "backend/cards/factory_ng_9e24f96767_test.go",
+      "backend/cards/registry_factory_ng_9e24f96767.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "da54953454066b60c3c996d5a273da0e1bafdd0a",
+    "clean": true
+  },
+  "title": "Repair semantic defect found during merge review: Implement atomic capability: Allow ability-tier pump_until_eot to apply to the ability's own source with no explicit target",
+  "work_type": "engine",
+  "supersedes": "ticket:engine.auto-pump-until-eot-ability-self-no-target-9e24f96767/v1"
+}

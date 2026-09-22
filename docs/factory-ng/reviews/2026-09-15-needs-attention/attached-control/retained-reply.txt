@@ -1,0 +1,136 @@
+CAPABILITY_ASSESSMENT: {"classification":"connection","existing_symbols":["game.GameState.executeGainControlEffect","game.Card.GetAttachedCard"],"remaining_gap":"converter does not mark enchanted gain_control as target_attached and executor rejects empty targets","verification":"public converter/trigger/resolution test"}
+
+<<<FILE backend/game/control_effects.go
+<<<SEARCH
+	if len(targets) == 0 || !targets[0].IsCard || targets[0].CardID == "" {
+		return nil
+	}
+	card, err := gs.Battlefield.GetCard(targets[0].CardID)
+	if err != nil || card == nil {
+		return nil
+	}
+===
+REPLACE
+	var card *Card
+	var err error
+	if len(targets) == 0 && effectValue["target_attached"] != nil && source != nil {
+		card = source.GetAttachedCard(gs.Battlefield)
+		if card == nil {
+			return nil
+		}
+	} else {
+		if len(targets) == 0 || !targets[0].IsCard || targets[0].CardID == "" {
+			return nil
+		}
+		card, err = gs.Battlefield.GetCard(targets[0].CardID)
+		if err != nil || card == nil {
+			return nil
+		}
+	}
+>>>END
+
+<<<FILE backend/cards/converter.go
+<<<SEARCH
+	if effect == "regenerate" && ability.Affects != nil && ability.Affects.Filter == "enchanted" {
+		if effectValue == nil {
+			effectValue = map[string]interface{}{}
+		}
+		effectValue["target_attached"] = true
+	}
+
+	activated := &game.ActivatedAbility{
+===
+REPLACE
+	if (effect == "regenerate" || effect == "gain_control") && ability.Affects != nil && ability.Affects.Filter == "enchanted" {
+		if effectValue == nil {
+			effectValue = map[string]interface{}{}
+		}
+		effectValue["target_attached"] = true
+	}
+
+	activated := &game.ActivatedAbility{
+>>>END
+
+<<<FILE backend/cards/converter.go
+<<<SEARCH
+	if effect == "regenerate" && ability.Affects != nil && ability.Affects.Filter == "enchanted" {
+		if effectValue == nil {
+			effectValue = map[string]interface{}{}
+		}
+		effectValue["target_attached"] = true
+	}
+
+	triggered := &game.TriggeredAbility{
+===
+REPLACE
+	if (effect == "regenerate" || effect == "gain_control") && ability.Affects != nil && ability.Affects.Filter == "enchanted" {
+		if effectValue == nil {
+			effectValue = map[string]interface{}{}
+		}
+		effectValue["target_attached"] = true
+	}
+
+	triggered := &game.TriggeredAbility{
+>>>END
+
+<<<NEWFILE backend/cards/factory_ng_5ac3995d10_test.go
+package cards
+
+import (
+	"testing"
+
+	"magic-backend/game"
+)
+
+func TestFactoryNGGainControlTargetAttached_5ac3995d10(t *testing.T) {
+	def := &CardDefinition{
+		Name: "Frenzied Fugue",
+		Type: "Enchantment",
+		Abilities: []AbilityDSL{{
+			Type:    "triggered",
+			Trigger: "etb",
+			Effect:  "gain_control",
+			Affects: &TargetFilter{Filter: "enchanted"},
+			Value: map[string]interface{}{
+				"until_eot": true,
+				"untap":     true,
+				"keywords":  []interface{}{"Haste"},
+			},
+		}},
+		Status: StatusManual,
+	}
+	aura, err := def.ToGameCard(0)
+	if err != nil {
+		t.Fatalf("ToGameCard: %v", err)
+	}
+
+	gs := game.NewGame("P0", "P1", false)
+	creature := game.NewCreature("Enchanted Permanent", game.ManaCost{}, 2, 2, 1)
+	creature.Owner, creature.Controller = 1, 1
+	creature.Tap()
+	gs.Battlefield.AddCard(creature)
+
+	aura.AttachedTo = creature.ID
+	gs.Battlefield.AddCard(aura)
+	gs.RegisterCardAbilities(aura)
+
+	fire(t, gs, game.CreateETBEvent(aura, 0))
+
+	if creature.Controller != 0 {
+		t.Fatalf("attached permanent controller = %d, want 0", creature.Controller)
+	}
+	if creature.Tapped {
+		t.Fatal("attached permanent remained tapped")
+	}
+	if !creature.HasKeywordWithEffects(game.Haste, gs.EffectManager) {
+		t.Fatal("attached permanent did not gain haste")
+	}
+
+	gs.EventBus.Publish(game.NewEvent(game.EventCleanup))
+	if creature.Controller != 1 {
+		t.Fatalf("until-eot control was not reverted, controller = %d", creature.Controller)
+	}
+}
+>>>END
+
+EXPECT: Enchanted gain_control triggers now resolve the source’s attached permanent with the existing until-EOT, untap, and keyword riders applied to that same permanent.

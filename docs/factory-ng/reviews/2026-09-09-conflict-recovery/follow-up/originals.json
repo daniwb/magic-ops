@@ -1,0 +1,67 @@
+[
+  {
+    "ticket": "ticket:engine.auto-damage-amount-referent-target-hand-size-5b58aa258c/v3",
+    "ticket_path": "docs/factory-ng/tickets/engine-auto-damage-amount-referent-target-hand-size-5b58aa258c-v3.json",
+    "ticket_sha256": "sha256:fa7863aa3d40d2628e272930946b9accf35a63a7183f837a04dc4a7838ccd3c0",
+    "receipt": "docs/factory-ng/runs/2026-09-09T135710Z-engine-auto-damage-amount-referent-target-hand-size-5b58aa258c-v3-codex.json",
+    "receipt_sha256": "sha256:72e44d61b4616a308f69d5b8b75c206110d36f43f284a6a114d1afce6fab65f3",
+    "production": {
+      "integration_repair_parent": "ticket:engine.auto-damage-amount-referent-target-hand-size-5b58aa258c/v1",
+      "key": "capability:damage_amount_referent_target_hand_size:sha256:5b58aa258c1fee9418c66d1fe41b0ebb78d898249fbf1b2304c022dc71f55f74:integration-repair-v1:gate-repair-v1",
+      "producer": "capability-dependencies",
+      "retry_reason": "semantic_gate_repair"
+    }
+  },
+  {
+    "ticket": "ticket:engine.auto-pump-until-eot-ability-self-no-target-9e24f96767/v3",
+    "ticket_path": "docs/factory-ng/tickets/engine-auto-pump-until-eot-ability-self-no-target-9e24f96767-v3.json",
+    "ticket_sha256": "sha256:1fc39b18346db084c084a95e6761014f20193567635e4c556a9c81377db3dd0b",
+    "receipt": "docs/factory-ng/runs/2026-09-09T185754Z-engine-auto-pump-until-eot-ability-self-no-target-9e24f96767-v3-codex.json",
+    "receipt_sha256": "sha256:ed206aa42cc34872fe025eb67e19c3094e88247e66c013c3c807d2166031828c",
+    "production": {
+      "integration_repair_parent": "ticket:engine.auto-pump-until-eot-ability-self-no-target-9e24f96767/v1",
+      "key": "capability:pump_until_eot_ability_self_no_target:sha256:9e24f9676753063b09c9a6ed84893153ecff7ecb5b9389f2718c1f28940ffc06:integration-repair-v1:gate-repair-v1",
+      "producer": "capability-dependencies",
+      "retry_reason": "semantic_gate_repair"
+    }
+  },
+  {
+    "ticket": "ticket:engine.auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295/v2",
+    "ticket_path": "docs/factory-ng/tickets/engine-auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295-v2.json",
+    "ticket_sha256": "sha256:0aa2a8059f2599073728c61bf5c7d74d6546464edb7dbb73b929e4cdbfcd1a95",
+    "receipt": "docs/factory-ng/runs/2026-09-09T071108Z-engine-auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295-v2-codex.json",
+    "receipt_sha256": "sha256:e69f12795d7d3fc08f41b03d5390d47b0984e827d417e2be8b8af8d7e8f2d727",
+    "production": {
+      "integration_repair_parent": "ticket:engine.auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295/v1",
+      "key": "capability:dynamic_amount_mana_value_of_exiled_this_way:sha256:a737105295300e396871d131f85cb90fbf2bd6d4d5c89621876c2f80b5c1145d:integration-repair-v1",
+      "producer": "capability-dependencies",
+      "retry_reason": "semantic_gate_repair"
+    }
+  },
+  {
+    "ticket": "ticket:engine.auto-destroyed-this-way-per-player-count-58304e2f98/v2",
+    "ticket_path": "docs/factory-ng/tickets/engine-auto-destroyed-this-way-per-player-count-58304e2f98-v2.json",
+    "ticket_sha256": "sha256:54592706fa482eb2a75bd5278f4dd59e803295fecd451480e5bda7da141aa482",
+    "receipt": "docs/factory-ng/runs/2026-09-09T072122Z-engine-auto-destroyed-this-way-per-player-count-58304e2f98-v2-codex.json",
+    "receipt_sha256": "sha256:9f97da5106b901be81206bab1957b57721a88a1444e9dfdb3c41fc3f74e896c9",
+    "production": {
+      "integration_repair_parent": "ticket:engine.auto-destroyed-this-way-per-player-count-58304e2f98/v1",
+      "key": "capability:destroyed_this_way_per_player_count:sha256:58304e2f984f976d5f1015e46eebc32d5e50e40461a46b07567ec9cdbbefc42b:integration-repair-v1",
+      "producer": "capability-dependencies",
+      "retry_reason": "semantic_gate_repair"
+    }
+  },
+  {
+    "ticket": "ticket:engine.auto-sacrifice-unless-discard-3e88a33648/v2",
+    "ticket_path": "docs/factory-ng/tickets/engine-auto-sacrifice-unless-discard-3e88a33648-v2.json",
+    "ticket_sha256": "sha256:ff1f9518037b3579f72ac0e113f301d401f19b6e3a65cd3b1085de3b1741b03c",
+    "receipt": "docs/factory-ng/runs/2026-09-09T072321Z-engine-auto-sacrifice-unless-discard-3e88a33648-v2-codex.json",
+    "receipt_sha256": "sha256:785feb6308f0e9bcf7b07c2d9402528544d54c629272c40b4def973c4bfa41c1",
+    "production": {
+      "integration_repair_parent": "ticket:engine.auto-sacrifice-unless-discard-3e88a33648/v1",
+      "key": "capability:sacrifice_unless_discard:sha256:3e88a336483cc3f1bc70b4964f4ba27201911e84f4cbf1cd01ed1ac8ed20d184:integration-repair-v1",
+      "producer": "capability-dependencies",
+      "retry_reason": "semantic_gate_repair"
+    }
+  }
+]

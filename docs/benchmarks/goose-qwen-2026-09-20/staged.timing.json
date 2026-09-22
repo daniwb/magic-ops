@@ -1,0 +1,30 @@
+{
+  "mode": "staged",
+  "started_at": "2026-09-20T05:37:34Z",
+  "wall_seconds": 213.864,
+  "exit_code": 0,
+  "command": [
+    "goose",
+    "run",
+    "--instructions",
+    "/data/magic-stack/development/magic-ops/docs/benchmarks/goose-qwen-2026-09-20/staged.prompt.txt",
+    "--no-profile",
+    "--name",
+    "factory-benchmark-staged-provider-preflight5",
+    "--max-turns",
+    "1",
+    "--output-format",
+    "stream-json",
+    "--stats"
+  ],
+  "environment": {
+    "GOOSE_PATH_ROOT": "/tmp/goose-factory-benchmark",
+    "GOOSE_MODEL": "halogen-qwen3.8-flash-next",
+    "GOOSE_PROVIDER": "strix_halo",
+    "GOOSE_MODE": "auto",
+    "GOOSE_MAX_TOKENS": "16000",
+    "GOOSE_TEMPERATURE": "0.7",
+    "GOOSE_CONTEXT_LIMIT": "131072",
+    "CONTEXT_FILE_NAMES": "[]"
+  }
+}

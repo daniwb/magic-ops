@@ -1,0 +1,16 @@
+{
+  "checked_at": "2026-09-20T07:16:55Z",
+  "controller_state": "running",
+  "enabled_profile": "qwen-goose-staged@1.0.0",
+  "eligible_queued_jobs": 10,
+  "legacy_new_dispatch_blocked": true,
+  "thinking": "provider default enabled",
+  "max_tokens": 16000,
+  "active_jobs": [
+    {
+      "ticket_id": "ticket:engine.auto-put-any-number-from-hand-to-battlefield-37b4095ae0/v1",
+      "profile": "qwen-prepared-local@1.0.1",
+      "state": "working"
+    }
+  ]
+}

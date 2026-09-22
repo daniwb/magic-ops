@@ -3,16 +3,16 @@
   "workers": [
     {
       "id": "qwen-local",
-      "label": "Qwen local",
+      "label": "Halogen Qwen 3.8 Flash Next (local)",
       "enabled": false,
-      "profile": "qwen-prepared-direct@1.0.2",
+      "profile": "qwen-goose-staged@1.0.0",
       "alternate_profiles": [
         "qwen-prepared-local@1.0.1"
       ],
       "routing_mode": "auto",
-      "model": "Qwen3.8-27B-Q8_0",
+      "model": "halogen-qwen3.8-flash-next",
       "usage_policy": "unmetered",
-      "work": "small evidence-complete Map work plus bounded agentic Engine work"
+      "work": "Goose staged Map/Engine proposals; strix_halo OpenAI transport, 32000 completion tokens, thinking enabled. Bounded harness-owned API evidence, one NEED plus one correction. Legacy agentic route drains saved verification only."
     },
     {
       "id": "minimax-m3-free",
@@ -26,27 +26,27 @@
     },
     {
       "id": "claude",
-      "label": "Claude (agentic)",
+      "label": "Claude (staged)",
       "enabled": true,
-      "profile": "claude-agentic@1.0.0",
+      "profile": "claude-staged@1.0.0",
+      "routing_mode": "auto",
+      "model": "claude-sonnet-5",
+      "usage_policy": "claude-weekly",
+      "weekly_gate_mode": "fixed",
+      "weekly_gate_pct": 95,
+      "work": "Staged Map/Engine implementation; one coding correction. Agentic is a bounded read-only evidence helper only after explicit staged evidence failure, then implementation returns to staged."
+    },
+    {
+      "id": "claude-2",
+      "label": "Claude (secondary)",
+      "enabled": false,
+      "profile": "claude-staged@1.0.0",
       "routing_mode": "auto",
       "model": "claude-sonnet-5",
       "usage_policy": "claude-weekly",
       "weekly_gate_mode": "paced",
       "weekly_gate_pct": 95,
-      "work": "sole worker during the 2026-09-04 agentic rollout: read-only Claude Code tool loop with the FTS5 knowledge index for Map and Engine work; harness applies patches and owns gates"
-    },
-    {
-      "id": "claude-2",
-      "label": "Claude (secondary)",
-      "enabled": true,
-      "profile": "claude-staged@1.0.0",
-      "routing_mode": "engine",
-      "model": "claude-sonnet-5",
-      "usage_policy": "claude-weekly",
-      "weekly_gate_mode": "paced",
-      "weekly_gate_pct": 95,
-      "work": "re-enabled 2026-09-05: engine-pipeline-pack.py now verifies evidence anchors against live source (fix 1418caf), which closed most of the lack-of-evidence gap that originally took this lease offline on 2026-09-04 -- re-running as a cheap staged-first Engine lease alongside the claude agentic worker"
+      "work": "Staged Map and Engine worker; prioritized bounded five-card trial, with exact staged routing and complete-card verification. Normal work continues when no trial job is ready."
     },
     {
       "id": "claude-3",
@@ -70,19 +70,65 @@
       "usage_policy": "claude-weekly",
       "weekly_gate_mode": "paced",
       "weekly_gate_pct": 5,
-      "work": "experimental token-reduction test: same as the claude worker but Reads over 350 lines are shunted to the unmetered Qwen3.8 llama-server box for a summary first (docs/factory-ng/model-profiles/v1/claude-agentic-test.json); adds real latency per large read (measured >60s on a ~380-line file), disabled until compared side-by-side against claude on matched tickets"
+      "work": "controlled rollout 2026-09-05: same as the claude worker but whole-file Reads over 350 lines are shunted to a summarizer first, scoped offset/limit reads pass through untouched so exact-text SEARCH/REPLACE edits still work (docs/factory-ng/model-profiles/v1/claude-agentic-test.json); default SHUNT_BACKEND=llama-server (unmetered Qwen3.8 box, ~145s/read measured) or SHUNT_BACKEND=openrouter (minimax/minimax-m3:free via the shared openrouter-cooldown state, ~6s/read measured but shares the minimax-m3-free worker's rate-limit ceiling); 5% weekly-gate tranche so acceptance/repair rate can be compared against claude on live tickets before any wider promotion"
     },
     {
       "id": "codex",
       "label": "Codex",
-      "enabled": false,
-      "profile": "codex-constrained@1.0.0",
+      "enabled": true,
+      "profile": "codex-constrained@1.1.0",
       "routing_mode": "auto",
-      "model": "gpt-5.6-luna",
+      "model": "gpt-5.6-terra",
       "usage_policy": "codex-weekly",
-      "weekly_gate_mode": "fixed",
-      "weekly_gate_pct": 50,
+      "weekly_gate_mode": "paced",
+      "weekly_gate_pct": 60,
       "work": "well-evidenced Map/Engine work and focused repair"
+    },
+    {
+      "id": "codex-2",
+      "label": "Codex (secondary)",
+      "enabled": true,
+      "profile": "codex-constrained@1.1.0",
+      "routing_mode": "auto",
+      "model": "gpt-5.6-terra",
+      "usage_policy": "codex-weekly",
+      "weekly_gate_mode": "paced",
+      "weekly_gate_pct": 60,
+      "work": "well-evidenced Map/Engine work and focused repair"
+    },
+    {
+      "id": "codex-3",
+      "label": "Codex (third, tool-enabled)",
+      "enabled": false,
+      "profile": "codex-constrained@1.1.0",
+      "routing_mode": "auto",
+      "model": "gpt-5.6-terra",
+      "usage_policy": "codex-weekly",
+      "weekly_gate_mode": "paced",
+      "weekly_gate_pct": 60,
+      "work": "Third concurrent Codex lease: bounded source investigation, Map/Engine implementation and focused repair through the existing constrained harness; shares Codex quota and the primary Codex weekly limit."
+    },
+    {
+      "id": "codex-4",
+      "label": "Codex (fourth, staged)",
+      "enabled": false,
+      "profile": "codex-constrained@1.1.0",
+      "routing_mode": "auto",
+      "model": "gpt-5.6-terra",
+      "usage_policy": "codex-weekly",
+      "weekly_gate_mode": "paced",
+      "weekly_gate_pct": 60,
+      "work": "Fourth concurrent staged Codex lease: bounded source investigation, Map/Engine implementation and focused repair through the existing constrained harness; shares Codex quota and the primary Codex weekly limit."
+    },
+    {
+      "id": "openrouter-free-goose",
+      "label": "Goose OpenRouter Free (one-hour trial)",
+      "enabled": false,
+      "profile": "openrouter-goose-staged@1.0.0",
+      "routing_mode": "auto",
+      "model": "openrouter/free",
+      "usage_policy": "openrouter-cooldown",
+      "work": "One-hour trial completed; disabled. Results: docs/benchmarks/goose-openrouter-free-2026-09-21/trial-results.json. Expired deadline must be explicitly renewed for another trial."
     }
   ]
 }

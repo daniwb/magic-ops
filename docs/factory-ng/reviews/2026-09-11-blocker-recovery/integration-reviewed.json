@@ -1,0 +1,13 @@
+{
+  "schema": "factory.reviewed-merge-resolutions/v1",
+  "resolutions": {
+    "ticket:map.operator-registry-recovery-sep11/v1": {
+      "ticket_sha256": "sha256:1bbff418f61cb162590cf9bff11d551dd8c63d298eec79f971867e2c61d5d63e",
+      "original_patch_sha256": "sha256:b251e8719a13fde4238bcdad2e8f8f303c7657f15176a7622a1c72829cb50157",
+      "patch": "docs/factory-ng/candidates/2026-09-11T214435Z-operator-registry-recovery-sep11.patch",
+      "patch_sha256": "sha256:b251e8719a13fde4238bcdad2e8f8f303c7657f15176a7622a1c72829cb50157",
+      "reason": "Finite operator-reviewed recovery of nine parser lineages, with every original selected semantic gate and all production gates retained.",
+      "source_revision": "d705f2ef3f6d17ecec79c4a9ad1ecf6684c81572"
+    }
+  }
+}

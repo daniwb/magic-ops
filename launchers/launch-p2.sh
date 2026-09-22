@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # p2 — second staged Sonnet pipeline lane, identical to p1 (map->engine->map
 # circle per ticket). Own clone dirs + skiplist via WORKER_ID. See
-# docs/pipeline-workflows.md.
+# docs/archive/factory-evolution/pipeline-workflows-2026-08-07.md.
 W=p2
 L=/tmp/orch/pipeline-lane-$W.log
 mkdir -p /tmp/orch /tmp/work

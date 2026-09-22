@@ -1,0 +1,234 @@
+--- a/scripts/factory_ng_dashboard_index.py
++++ b/scripts/factory_ng_dashboard_index.py
+@@ -19,7 +19,39 @@
+ SCHEMAS = {"factory.ticket-spec/v1": "ticket",
+            "factory.observation-receipt/v1": "attempt",
+            "factory.integration-receipt/v1": "integration"}
+-JOB_FIELDS = "ticket_id ticket_path work_type state outcome worker started_at created_at updated_at receipt integration_receipt superseded_by waiting_reason repair_blocker".split()
++JOB_FIELDS = "ticket_id ticket_path work_type state outcome worker started_at created_at updated_at receipt integration_receipt superseded_by waiting_reason repair_blocker reason attempts integration_attempts dependency_blocker log_path".split()
++
++
++# Bump when projection fields change so unchanged receipts are reprojected once.
++PROJECTION_VERSION = "failure-diagnostics-v2"
++
++
++def failure_summary(value):
++    failed = [g for g in value.get("gates", []) if g.get("outcome") == "failed"
++              and g.get("id") != "initial-patch-apply"]
++    if not failed:
++        return {"reason": str(value.get("reason", ""))[:900]}
++    gate = failed[0]
++    detail = str(gate.get("detail") or gate.get("evidence") or "")
++    lines = detail.splitlines()
++    relevant = [line.strip() for line in lines if any(word in line for word in
++                ("UNREGISTERED", "Error:", "error:", "AssertionError", "CONFLICT", "--- FAIL:", "FAIL:"))]
++    return {"gate": gate.get("id", ""), "reason": str(value.get("reason", ""))[:900],
++            "detail": ("\n".join(relevant) if relevant else detail.strip())[:900]}
++
++
++def job_projection(job, db):
++    row = {k: job[k] for k in JOB_FIELDS if k in job}
++    path = job.get("integration_receipt") if job.get("state") == "integration_failed" else job.get("receipt")
++    if path:
++        found = db.execute("SELECT payload FROM artifacts WHERE path=?", (path,)).fetchone()
++        if found:
++            receipt = json.loads(found[0])
++            # A previous attempt's receipt may survive a later preflight exit.
++            if job.get("state") == "integration_failed" or receipt.get("created_at", "") >= job.get("started_at", ""):
++                row["failure_receipt"] = path
++                row["failure"] = receipt.get("excluded_failures", {}).get(job["ticket_id"], receipt.get("failure", {}))
++    return row
+ 
+ 
+ def timestamp(path, value):
+@@ -78,6 +110,11 @@
+                    pushed=source.get("pushed", False), deployed=source.get("deployed", False))
+     else:
+         row = {}
++    if kind in ("attempt", "integration"):
++        row["failure"] = failure_summary(value)
++        if kind == "integration":
++            row["excluded_failures"] = {key: failure_summary(item)
++                                       for key, item in value.get("excluded_candidates", {}).items()}
+     return kind, row
+ 
+ 
+@@ -90,6 +127,8 @@
+             return {"busy": True}
+         db = connect(path)
+         try:
++            version = db.execute("SELECT value FROM meta WHERE key='projection_version'").fetchone()
++            rebuild = not version or version[0] != PROJECTION_VERSION
+             known = {p: (m, s) for p, m, s in db.execute("SELECT path,mtime,size FROM artifacts")}
+             seen, changed, invalid = set(), 0, []
+             # One atomic publish: readers keep the previous snapshot during refresh.
+@@ -105,7 +144,7 @@
+                             continue
+                         rel, stat = str(artifact.relative_to(root)), artifact.stat()
+                         seen.add(rel)
+-                        if known.get(rel) == (stat.st_mtime_ns, stat.st_size):
++                        if not rebuild and known.get(rel) == (stat.st_mtime_ns, stat.st_size):
+                             continue
+                         try:
+                             value = json.loads(artifact.read_text())
+@@ -141,7 +180,7 @@
+                 stat = job_path.stat()
+                 stamp = f"current-failures-v2:{stat.st_mtime_ns}:{stat.st_size}"
+                 old = db.execute("SELECT value FROM meta WHERE key='jobs_stamp'").fetchone()
+-                if not old or old[0] != stamp:
++                if rebuild or changed or (known.keys() - seen) or not old or old[0] != stamp:
+                     jobs = json.loads(job_path.read_text()).get("jobs", {})
+                     db.execute("DELETE FROM jobs")
+                     for job in jobs.values():
+@@ -154,8 +193,9 @@
+                         attention = unresolved and (system or state == "integration_failed" or outcome == "candidate_conflict")
+                         db.execute("INSERT INTO jobs VALUES (?,?,?,?,?,?)", (
+                             job["ticket_id"], state, job.get("updated_at", ""), attention, problem,
+-                            json.dumps({k: job[k] for k in JOB_FIELDS if k in job})))
++                            json.dumps(job_projection(job, db))))
+                     db.execute("INSERT OR REPLACE INTO meta VALUES ('jobs_stamp',?)", (stamp,))
++                db.execute("INSERT OR REPLACE INTO meta VALUES ('projection_version',?)", (PROJECTION_VERSION,))
+                 now = datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z")
+                 db.execute("INSERT OR REPLACE INTO meta VALUES ('indexed_at',?)", (now,))
+                 db.execute("INSERT OR REPLACE INTO meta VALUES ('invalid_files',?)", (json.dumps(invalid),))
+@@ -196,7 +236,9 @@
+         graph_jobs = rows(f"SELECT payload FROM jobs WHERE ticket_id IN ({placeholders})", tuple(ids))
+         summary = dict(tickets=count("artifacts", "kind='ticket'"), attempts=attempt_page["total"],
+                        accepted=count("artifacts", "kind='attempt' AND outcome LIKE 'accepted%'"),
+-                       integrations=integration_page["total"], problems=count("jobs", "problem=1"))
++                       integrations=integration_page["total"], problems=count("jobs", "problem=1"),
++                       worker_failures=count("jobs", "problem=1 AND state='failed'"),
++                       integration_failures=count("jobs", "problem=1 AND state='integration_failed'"))
+         indexed_at = db.execute("SELECT value FROM meta WHERE key='indexed_at'").fetchone()[0]
+         invalid = json.loads(db.execute("SELECT value FROM meta WHERE key='invalid_files'").fetchone()[0])
+         return dict(tickets=tickets, jobs=jobs, active_jobs=active, graph_jobs=graph_jobs,
+--- a/scripts/test_factory_ng_dashboard_index.py
++++ b/scripts/test_factory_ng_dashboard_index.py
+@@ -116,6 +116,70 @@
+         self.refresh()
+         self.assertEqual(self.query()['summary']['problems'], 2)
+ 
++    def test_failure_diagnostics_and_repair_budget_survive_projection(self):
++        path = "docs/factory-ng/runs/integration.json"
++        self.write(path, {"schema": "factory.integration-receipt/v1", "outcome": "full_gate_failed",
++            "reason": "focused-go failed", "gates": [{"id": "focused-go", "outcome": "failed",
++            "detail": '--- FAIL: TestVocabularyClosedOverCardDB\nUNREGISTERED effect "tap_choice"\n' + "noise\n" * 1000}]})
++        job = dict(ticket_id="map-one", state="integration_failed", outcome="full_gate_failed",
++                   integration_receipt=path, attempts=1, integration_attempts=2,
++                   repair_blocker={"reason": "Map repair limit reached (2/2)"})
++        self.write("state/factory-ng-jobs.json", {"jobs": {"map-one": job}})
++        self.refresh()
++        result = self.query(work_filter="attention")
++        row = result["jobs"][0]
++        self.assertIn('UNREGISTERED effect "tap_choice"', row["failure"]["detail"])
++        self.assertNotIn("noise", row["failure"]["detail"])
++        self.assertEqual(row["repair_blocker"], job["repair_blocker"])
++        self.assertEqual(row["integration_attempts"], 2)
++        self.assertEqual(result["summary"]["integration_failures"], 1)
++        self.assertEqual(result["summary"]["worker_failures"], 0)
++
++    def test_excluded_candidate_does_not_inherit_another_candidates_gate_failure(self):
++        path = "docs/factory-ng/runs/wave.json"
++        self.write(path, {"schema": "factory.integration-receipt/v1", "outcome": "full_gate_failed",
++            "gates": [{"id": "focused-go", "outcome": "failed", "detail": "unrelated failure"}],
++            "excluded_candidates": {"map-one": {"outcome": "candidate_conflict",
++                "gates": [{"id": "candidate-apply", "outcome": "failed", "detail": "CONFLICT in reparse.py"}]}}})
++        self.write("state/factory-ng-jobs.json", {"jobs": {"map-one": dict(ticket_id="map-one",
++            state="integration_failed", outcome="candidate_conflict", integration_receipt=path)}})
++        self.refresh()
++        failure = self.query(work_filter="attention")["jobs"][0]["failure"]
++        self.assertEqual(failure["gate"], "candidate-apply")
++        self.assertNotIn("unrelated", failure["detail"])
++
++    def test_no_receipt_job_keeps_reason_and_stale_receipt_is_not_a_current_diagnostic(self):
++        self.write("state/factory-ng-jobs.json", {"jobs": {"map-one": dict(ticket_id="map-one",
++            state="failed", outcome="infrastructure_failed", started_at="2026-09-02T00:00:00Z",
++            receipt="docs/factory-ng/runs/attempt.json", reason="worker exited without a result", attempts=3)}})
++        self.refresh()
++        row = self.query(work_filter="attention")["jobs"][0]
++        self.assertNotIn("failure", row)
++        self.assertEqual(row["reason"], "worker exited without a result")
++        self.assertEqual(row["attempts"], 3)
++
++    def test_projection_upgrade_and_receipt_change_refresh_diagnostics(self):
++        self.write("state/factory-ng-jobs.json", {"jobs": {"map-one": dict(ticket_id="map-one",
++            state="failed", outcome="infrastructure_failed", receipt="docs/factory-ng/runs/attempt.json")}})
++        self.refresh()
++        writer = index.connect(self.db)
++        with writer:
++            writer.execute("DELETE FROM meta WHERE key='projection_version'")
++        writer.close()
++        self.assertGreater(self.refresh()["changed"], 0)
++        self.attempt.update(gates=[dict(id="provider-call", outcome="failed", detail="provider unavailable")])
++        self.write("docs/factory-ng/runs/attempt.json", self.attempt)
++        self.refresh()
++        self.assertEqual(self.query(work_filter="attention")["jobs"][0]["failure"]["detail"], "provider unavailable")
++
++    def test_repaired_initial_patch_failure_is_not_the_current_failure(self):
++        failure = index.failure_summary({"gates": [
++            dict(id="initial-patch-apply", outcome="failed", detail="historical apply"),
++            dict(id="patch-apply", outcome="passed"),
++            dict(id="ticket-gate-0", outcome="failed", detail="AssertionError: final candidate") ]})
++        self.assertEqual(failure["gate"], "ticket-gate-0")
++        self.assertIn("final candidate", failure["detail"])
++
+     def test_invalid_artifacts_visible_and_raw_transport_logs_ignored(self):
+         self.refresh()
+         (self.root / "docs/factory-ng/runs/attempt.json").write_text("partial")
+--- a/services/dispatcher/v4/dashboard.html
++++ b/services/dispatcher/v4/dashboard.html
+@@ -40,7 +40,7 @@
+     <div class="kpi"><div class="label">Running now</div><div class="value mono" id="runningCount">—</div><div class="hint" id="queueHint"></div></div>
+     <div class="kpi"><div class="label">Successful candidates</div><div class="value mono" id="accepted">—</div><div class="hint" id="attemptsHint"></div></div>
+     <div class="kpi"><div class="label">Integration waves</div><div class="value mono" id="integrations">—</div><div class="hint">full production gate records</div></div>
+-    <div class="kpi" id="problemKpi"><div class="label">System problems</div><div class="value mono" id="problems">0</div><div class="hint" id="problemHint">no current system break</div></div>
++    <div class="kpi" id="problemKpi"><div class="label">Unresolved ticket failures</div><div class="value mono" id="problems">0</div><div class="hint" id="problemHint">no unresolved ticket failures</div></div>
+   </div>
+   <section>
+     <div class="run-head"><div class="run-symbol" id="runSymbol">▶</div><div class="run-copy"><strong id="runState">Loading factory…</strong><span id="runMessage" class="muted tiny"></span></div><span class="health" id="healthBadge">checking</span><div class="controls"><button id="startFactory" onclick="factoryControl('start')">▶ Start</button><button id="stopFactory" onclick="factoryControl('stop')">■ Stop</button></div></div>
+@@ -88,8 +88,9 @@
+   if(state==='queued'&&isSystemProblem(outcome))return{label:'Retry scheduled',tone:'warn',why:'An infrastructure attempt failed, and the control loop has already queued another try.'};
+   if(state==='integrating'||state==='awaiting_integration')return{label:'Integrating',tone:'active',why:'The accepted candidate is entering the full production gate.'};
+   if(state==='queued')return{label:'Ready',tone:'',why:'The ticket is waiting for a compatible worker.'};
+-  if(isSystemProblem(outcome))return{label:'System failed',tone:'bad',why:'Provider, harness, full gate, or push failed unexpectedly.'};
+-  if(outcome==='candidate_conflict')return{label:'Needs rebase',tone:'warn',why:'A preceding integration changed the same source; an automatic latest-source repair is needed.'};
++  if(outcome==='full_gate_failed')return{label:'Integration rejected',tone:'bad',why:'The candidate failed a production gate.'};
++  if(isSystemProblem(outcome))return{label:'Worker / infrastructure failed',tone:'bad',why:'The worker, provider, harness, or publication step failed.'};
++  if(outcome==='candidate_conflict')return{label:'Needs rebase',tone:'warn',why:'A preceding integration changed the same source; the candidate needs a reviewed merge repair.'};
+   if(outcome==='pushed_full_production_gate_green')return{label:'Integrated and pushed',tone:'good',why:'The full production gate passed and the result was pushed.'};
+   if(['committed_full_production_gate_green','committed_locally_full_production_gate_green','committed_locally_fully_gated_not_pushed_or_deployed'].includes(outcome))return{label:'Integrated locally',tone:'good',why:'The full production gate passed and the result was committed locally.'};
+   if(outcome.startsWith('accepted'))return{label:'Candidate accepted',tone:'good',why:'The isolated candidate passed its ticket gates and may enter integration.'};
+@@ -115,9 +116,9 @@
+ function renderDependencyGraph(id){const tickets=ticketMap(),jobs=jobMap();if(!id||!tickets[id])id=focusId&&tickets[focusId]?focusId:(view.status.active||[]).find(x=>x.ticket_id)?.ticket_id||(view.data.jobs||[]).slice().sort((a,b)=>(b.updated_at||'').localeCompare(a.updated_at||''))[0]?.ticket_id||Object.keys(tickets)[0];focusId=id;$('#focusTicket').value=id;const t=tickets[id]||{id,parents:[]},parents=(t.parents||[]).filter(x=>tickets[x]),children=Object.values(tickets).filter(x=>(x.parents||[]).includes(id)).slice(0,6);const node=(x,focus=false)=>{const j=jobs[x.id],info=outcomeInfo(j?.outcome,j?.state);return `<button class="dag-node ${focus?'focus':''}" onclick="openDetail('${esc(x.path||j?.ticket_path||'')}','${esc(x.id)}')"><div class="title mono">${esc(x.id)}</div><div class="sub">${esc(x.work_type||j?.work_type||'ticket')} · ${esc(info.label)}</div></button>`};$('#dependencyGraph').innerHTML=`<div class="dag-col">${parents.length?parents.map(x=>node(tickets[x])).join(''):'<div class="muted tiny">No ticket parents<br>Root or plan-produced work</div>'}</div><div class="dag-arrow">→</div><div class="dag-col">${node(t,true)}</div><div class="dag-arrow">→</div><div class="dag-col">${children.length?children.map(x=>node(x)).join(''):'<div class="muted tiny">No child ticket yet<br>Terminal or still in progress</div>'}</div>`}
+ function stagePills(j){const stage=pipelineStage(j);return flowNames.map((x,i)=>`<span class="stage-pill ${i===stage?'active':i<stage?'good':''}">${i<stage?'✓ ':''}${x}</span>`).join('')}
+ function visibleJobs(){return view.data.jobs||[]}function setWorkFilter(value){workFilter=value;offsets.jobs=0;refreshData()}
+-function renderWork(){const filters=[['active','Active / ready'],['attention','Needs attention'],['recent','Recent decisions']];$('#workFilters').innerHTML=filters.map(([v,l])=>`<button class="filter ${workFilter===v?'selected':''}" onclick="setWorkFilter('${v}')">${l}</button>`).join('');const attempts=latestAttempts();$('#workList').innerHTML=visibleJobs().map(j=>{const r=attempts[j.ticket_id]||{},info=outcomeInfo(j.outcome||r.outcome,j.state),path=j.integration_receipt||j.receipt||r.receipt_path||j.ticket_path;return `<div class="work-row"><div class="work-title"><strong class="mono">${esc(j.ticket_id)}</strong><div class="work-why">${esc(info.why)}</div></div><div><span class="badge ${info.tone}">${esc(info.label)}</span><div class="muted tiny" style="margin-top:5px">${esc(j.worker||'unassigned')} · ${esc(j.work_type||'work')}</div></div><div class="stages">${stagePills(j)}</div><button class="detail-button" data-path="${esc(encodeURIComponent(path||''))}" data-ticket="${esc(j.ticket_id)}" onclick="openDetail(decodeURIComponent(this.dataset.path),this.dataset.ticket)">Details</button></div>`}).join('')||'<div class="muted">No work matches this view.</div>'}
++function renderWork(){const filters=[['active','Active / ready'],['attention','Needs attention'],['recent','Recent decisions']];$('#workFilters').innerHTML=filters.map(([v,l])=>`<button class="filter ${workFilter===v?'selected':''}" onclick="setWorkFilter('${v}')">${l}</button>`).join('');const attempts=latestAttempts();$('#workList').innerHTML=visibleJobs().map(j=>{const r=attempts[j.ticket_id]||{},info=outcomeInfo(j.outcome||r.outcome,j.state),path=j.integration_receipt||j.receipt||r.receipt_path||j.ticket_path;return `<div class="work-row"><div class="work-title"><strong class="mono">${esc(j.ticket_id)}</strong><div class="work-why">${esc(j.failure?.detail||j.reason||j.failure?.reason||info.why)}</div>${j.repair_blocker?.reason||j.waiting_reason?`<div class="work-why">${esc(j.repair_blocker?.reason||j.waiting_reason)}</div>`:''}</div><div><span class="badge ${info.tone}">${esc(info.label)}</span><div class="muted tiny" style="margin-top:5px">${esc(j.worker||'unassigned')} · ${esc(j.work_type||'work')}</div></div><div class="stages">${stagePills(j)}</div><button class="detail-button" data-path="${esc(encodeURIComponent(path||''))}" data-ticket="${esc(j.ticket_id)}" onclick="openJobDetail(this.dataset.ticket)">Details</button></div>`}).join('')||'<div class="muted">No work matches this view.</div>'}
+ function renderIntegrations(){const rows=view.data.integrations||[];$('#integrations').textContent=fmt(view.data.summary?.integrations);$('#integrationRows').innerHTML=rows.map(x=>{const info=outcomeInfo(x.outcome);return `<tr class="integration-row" onclick="openDetail('${esc(x.receipt_path)}','Integration')"><td><span class="badge ${info.tone}">${esc(info.label)}</span></td><td class="mono">${esc((x.result_commit||'').slice(0,10)||'—')}</td><td class="mono muted">${esc((x.parents||[])[0]||'—')}</td></tr>`}).join('')||'<tr><td colspan="3" class="muted">No integration waves.</td></tr>'}
+-function renderAttempts(){const a=view.data.attempts||[],summary=view.data.summary||{},problems=summary.problems||0;$('#accepted').textContent=fmt(summary.accepted);$('#attemptsHint').textContent=fmt(summary.attempts)+' recorded decisions';$('#problems').textContent=fmt(problems);$('#problemHint').textContent=problems?'unresolved failures (all ages)':'no current system break';$('#problemKpi').classList.toggle('problem',problems>0);$('#attemptRows').innerHTML=a.map(x=>{const z=x.telemetry||{},info=outcomeInfo(x.outcome);return `<tr><td>${artifactButton(x.ticket_id,x.receipt_path)}</td><td><span class="badge ${info.tone}">${esc(info.label)}</span></td><td>${esc(x.profile)}<br><span class="muted mono">${esc(x.resolved_model)}</span></td><td class="right mono">${z.input_tokens==null?'—':fmt(z.input_tokens)}</td><td class="right mono">${z.output_tokens==null?'—':fmt(z.output_tokens)}</td><td class="right mono">${z.cache_read_tokens==null?'—':fmt(z.cache_read_tokens)}</td><td class="right mono">${typeof z.provider_cost_usd==='number'?'$'+z.provider_cost_usd.toFixed(4):'—'}</td></tr>`}).join('')}
++function renderAttempts(){const a=view.data.attempts||[],summary=view.data.summary||{},problems=summary.problems||0;$('#accepted').textContent=fmt(summary.accepted);$('#attemptsHint').textContent=fmt(summary.attempts)+' recorded decisions';$('#problems').textContent=fmt(problems);$('#problemHint').textContent=problems?`${fmt(summary.worker_failures)} worker / infrastructure · ${fmt(summary.integration_failures)} integration`:'no unresolved ticket failures';$('#problemKpi').classList.toggle('problem',problems>0);$('#attemptRows').innerHTML=a.map(x=>{const z=x.telemetry||{},info=outcomeInfo(x.outcome);return `<tr><td>${artifactButton(x.ticket_id,x.receipt_path)}</td><td><span class="badge ${info.tone}">${esc(info.label)}</span></td><td>${esc(x.profile)}<br><span class="muted mono">${esc(x.resolved_model)}</span></td><td class="right mono">${z.input_tokens==null?'—':fmt(z.input_tokens)}</td><td class="right mono">${z.output_tokens==null?'—':fmt(z.output_tokens)}</td><td class="right mono">${z.cache_read_tokens==null?'—':fmt(z.cache_read_tokens)}</td><td class="right mono">${typeof z.provider_cost_usd==='number'?'$'+z.provider_cost_usd.toFixed(4):'—'}</td></tr>`}).join('')}
+ function renderWorkers(){const d=view.workers,profiles=d.profiles||[],modes=[['auto','Auto'],['map','Map only'],['engine','Engine only']];$('#workers').innerHTML=(d.workers||[]).map(w=>`<div class="worker" data-id="${esc(w.id)}"><div><strong>${esc(w.label)}</strong><div class="muted tiny">${esc(w.work)} · ${esc(w.usage_policy)}</div></div><select class="profile-select" aria-label="Execution profile">${profiles.map(p=>`<option value="${esc(p.id)}" ${p.id===w.profile?'selected':''}>${esc(p.id)} · ${esc(p.engine)}</option>`).join('')}</select><select class="routing-select" aria-label="Ticket routing">${modes.map(([value,label])=>`<option value="${value}" ${value===(w.routing_mode||'auto')?'selected':''}>${label}</option>`).join('')}</select><input value="${esc(w.model)}" maxlength="160"><div style="display:flex;gap:8px;align-items:center"><label class="toggle"><input type="checkbox" ${w.enabled?'checked':''}> enabled</label><button onclick="saveWorker(this)">Save</button></div></div>`).join('')}
+ function renderCacheMaintenance(){const c=view.status?.cache_maintenance||{},active=['requested','waiting_for_tests','cleaning'].includes(c.state),el=$('#cacheMaintenance');el.classList.toggle('active',active);el.innerHTML=active?`<span class="badge warn">${esc(c.state==='waiting_for_tests'?'draining tests':c.state)}</span><div class="cache-copy"><strong>Go cache maintenance</strong><div class="muted tiny">${esc(c.message)}</div></div><span class="cache-size mono">${c.size_before_gib==null?'':esc(c.size_before_gib)+' GiB'}</span>`:''}
+ function renderOperatorNotice(){const el=$('#operatorNotice'),pauses=view.status?.worker_pauses||[],recovery=view.status?.authentication_recovery;if(pauses.length){el.className='operator-notice';el.innerHTML=`<span class="badge warn">worker paused</span><div class="notice-copy"><strong>Provider login needs attention</strong><div class="muted">OAuth failed before model work began. The ticket was returned to the queue and its attempt was refunded. No more tickets will be sent to the affected worker until you resume it after logging in.</div><div class="mono tiny" style="margin-top:6px">${pauses.map(p=>esc(p.worker_id)+' · '+esc(p.ticket_id||'no ticket')).join(' · ')}</div></div><button onclick="resumeAuthenticationWorker()">Resume after login</button>`;return}if(recovery?.refunded_attempts>0){el.className='operator-notice good';el.innerHTML=`<span class="badge good">recovered</span><div class="notice-copy"><strong>OAuth-only attempts were repaired</strong><div class="muted">${fmt(recovery.refunded_attempts)} authentication-only dispatches were refunded. They no longer consume ticket retries, and completed work is not counted as a current system failure.</div></div>`;return}el.className='operator-notice hidden';el.innerHTML=''}
+@@ -126,8 +127,19 @@
+ async function factoryControl(action){const b=action==='start'?$('#startFactory'):$('#stopFactory');b.disabled=true;try{const r=await fetch('/factory-ng/control?action='+action,{method:'POST'});if(!r.ok)throw new Error(await r.text());await refresh()}catch(e){alert('Factory '+action+' failed: '+e.message);await refresh()}}
+ async function saveWorker(button){const row=button.closest('.worker'),profile=row.querySelector('.profile-select').value,routing_mode=row.querySelector('.routing-select').value,model=row.querySelector('input:not([type=checkbox])').value,enabled=row.querySelector('input[type=checkbox]').checked;button.disabled=true;try{const r=await fetch('/factory-ng/workers',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:row.dataset.id,profile,routing_mode,model,enabled})});if(!r.ok)throw new Error(await r.text());await refresh()}catch(e){alert('Worker setting was not saved: '+e.message)}finally{button.disabled=false}}
+ async function saveWeeklyGate(button){const row=button.closest('.weekly-gate'),weekly_gate_mode=row.querySelector('select').value,weekly_gate_pct=Number(row.querySelector('input').value);button.disabled=true;try{const r=await fetch('/factory-ng/workers',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:row.dataset.worker,weekly_gate_mode,weekly_gate_pct})});if(!r.ok)throw new Error(await r.text());await refresh()}catch(e){alert('Weekly gate was not saved: '+e.message)}finally{button.disabled=false}}
+-async function openDetail(path,title,fallback){const modal=$('#detailModal');$('#modalTitle').textContent=title||'Factory details';$('#modalPath').textContent=path||'live job state';$('#modalKind').textContent='Loading…';$('#tabSummary').innerHTML='<span class="muted">Loading artifact…</span>';$('#tabGates').innerHTML='';$('#tabJson').textContent='';showTab('summary');if(!modal.open)modal.showModal();let data=fallback||{};if(path){try{const r=await fetch('/factory-ng/detail?path='+encodeURIComponent(path));if(!r.ok)throw new Error(await r.text());data=await r.json()}catch(e){data={error:e.message,path,...fallback}}}renderModal(data,path)}
+-function renderModal(data,path){const ticket=data.ticket?.id||data.id||data.ticket_id||'',outcome=data.outcome||data.state||'',info=outcomeInfo(outcome,data.state),model=data.model?.resolved_model||data.model||data.profile||'',source=data.source||data.execution||{};$('#modalKind').textContent=data.schema||'Live factory state';const fields=[['Decision',info.label],['Ticket',ticket],['Worker / model',model],['Integration',data.integration||data.integration_outcome],['Result commit',source.result_commit||source.candidate_commit],['Artifact',path]].filter(x=>x[1]);$('#tabSummary').innerHTML=`<p>${esc(info.why)}</p><div class="summary-grid">${fields.map(x=>`<div class="summary-item"><div class="label">${esc(x[0])}</div><div class="value mono">${esc(x[1])}</div></div>`).join('')}</div>${data.reason?`<div class="gate" style="margin-top:12px"><strong>Reason</strong><pre>${esc(data.reason)}</pre></div>`:''}`;const gates=data.gates||[];$('#tabGates').innerHTML=gates.length?gates.map(g=>`<div class="gate"><div class="gate-head"><strong>${esc(g.id||g.command||'Gate')}</strong><span class="badge ${g.outcome==='passed'?'good':''}">${esc(g.outcome==='failed'?'not passed':g.outcome||'recorded')}</span></div>${g.command?`<div class="mono muted tiny">${esc(g.command)}</div>`:''}${g.detail||g.evidence?`<pre>${esc(g.detail||g.evidence)}</pre>`:''}</div>`).join(''):'<span class="muted">No gate records in this artifact.</span>';$('#tabJson').textContent=JSON.stringify(data,null,2)}
++async function openDetail(path,title,fallback){const modal=$('#detailModal');$('#modalTitle').textContent=title||'Factory details';$('#modalPath').textContent=path||'live job state';$('#modalKind').textContent='Loading…';$('#tabSummary').innerHTML='<span class="muted">Loading artifact…</span>';$('#tabGates').innerHTML='';$('#tabJson').textContent='';showTab('summary');if(!modal.open)modal.showModal();let data=fallback||{};if(path){try{const r=await fetch('/factory-ng/detail?path='+encodeURIComponent(path));if(!r.ok)throw new Error(await r.text());data=await r.json()}catch(e){data={error:e.message,path,...fallback}}}renderModal(data,path,fallback)}
++function openJobDetail(id){const job=jobMap()[id]||{ticket_id:id};const path=job.failure_receipt||(['failed','integration_failed'].includes(job.state)?'':job.receipt);return openDetail(path,id,job)}
++function gateMarkup(g){return `<div class="gate"><div class="gate-head"><strong>${esc(g.id||g.command||'Gate')}</strong><span class="badge ${g.outcome==='failed'?'bad':g.outcome==='passed'?'good':''}">${esc(g.outcome||'recorded')}</span></div>${g.command?`<div class="mono muted tiny">${esc(g.command)}</div>`:''}${g.detail||g.evidence?`<pre>${esc(g.detail||g.evidence)}</pre>`:''}</div>`}
++function renderModal(data,path,job={}){
++  const ticket=job.ticket_id||data.ticket?.id||data.id||data.ticket_id||'',excluded=data.excluded_candidates?.[ticket];
++  const evidence=excluded||data,outcome=excluded?.outcome||job.outcome||data.outcome||data.state||'',info=outcomeInfo(outcome,job.state||data.state),model=data.model?.resolved_model||(typeof data.model==='string'?data.model:'')||data.profile||job.worker||'',source=data.source||data.execution||{};
++  $('#modalKind').textContent=data.schema||'Live factory state';
++  const fields=[['Decision',info.label],['Ticket',ticket],['Worker / model',model],['Integration',data.integration||data.integration_outcome],['Result commit',source.result_commit||source.candidate_commit],['Worker attempts',job.attempts],['Integration attempts',job.integration_attempts],['Artifact',path],['Worker log',job.log_path]].filter(x=>x[1]!==undefined&&x[1]!=='');
++  const gates=evidence.gates||[],failed=gates.filter(g=>g.outcome==='failed'&&g.id!=='initial-patch-apply'),reason=evidence.reason||job.reason,blocker=job.repair_blocker?.reason||job.waiting_reason;
++  $('#tabSummary').innerHTML=`<p>${esc(info.why)}</p>${data.error?`<p class="error">${esc(data.error)}</p>`:''}${reason?`<div class="gate"><strong>Failure reason</strong><pre>${esc(reason)}</pre></div>`:''}${blocker?`<div class="gate"><strong>Recovery status</strong><pre>${esc(blocker)}</pre></div>`:''}${failed.length?'<h3>Failed checks</h3>'+failed.map(gateMarkup).join(''):job.failure?.detail?`<div class="gate"><pre>${esc(job.failure.detail)}</pre></div>`:''}<div class="summary-grid">${fields.map(x=>`<div class="summary-item"><div class="label">${esc(x[0])}</div><div class="value mono">${esc(x[1])}</div></div>`).join('')}</div>`;
++  $('#tabGates').innerHTML=gates.length?gates.map(gateMarkup).join(''):'<span class="muted">No gate records in this artifact.</span>';
++  $('#tabJson').textContent=JSON.stringify(data,null,2);
++}
+ function showTab(name){document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('selected',x.dataset.tab===name));$('#tabSummary').classList.toggle('hidden',name!=='summary');$('#tabGates').classList.toggle('hidden',name!=='gates');$('#tabJson').classList.toggle('hidden',name!=='json')}function closeDetail(){$('#detailModal').close()}function backdropClose(e){if(e.target===$('#detailModal'))closeDetail()}document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#detailModal').open)closeDetail()});
+ async function refreshData(){if(dataRequest)dataRequest.abort();const request=new AbortController();dataRequest=request;const q=new URLSearchParams({filter:workFilter,focus:focusId,search:$('#ticketSearch').value,attempts:$('#attemptsPanel').open?'1':'0',jobs_offset:offsets.jobs,attempts_offset:offsets.attempts,integrations_offset:offsets.integrations});try{const r=await fetch('/factory-ng/data?'+q,{signal:request.signal});if(!r.ok)throw new Error(await r.text());const data=await r.json();if(dataRequest!==request)return;view.data=data;const tickets=data.tickets||[];$('#focusTicket').innerHTML=tickets.map(t=>`<option value="${esc(t.id)}">${esc(t.id)}</option>`).join('');focusId=data.focus;renderDependencyGraph(focusId);renderWork();renderIntegrations();renderAttempts();['jobs','attempts','integrations'].forEach(renderPager);if(view.status.state)renderRun();const age=Math.max(0,Math.round((Date.now()-Date.parse(data.indexed_at))/1000));$('#dataFreshness').textContent='History updated '+age+'s ago'+(data.invalid_files?.length?' · '+data.invalid_files.length+' unreadable source records':'');$('#dataFreshness').className=age>60||data.invalid_files?.length?'error tiny':'muted tiny'}catch(e){if(e.name!=='AbortError'){$('#dataFreshness').textContent='History unavailable: '+e.message;$('#dataFreshness').className='error tiny'}}finally{if(dataRequest===request)dataRequest=null}}
+ async function refresh(){if(refreshing)return;refreshing=true;const failures=[];try{await Promise.allSettled([refreshData(),...['cards','status','workers','limits'].map(async key=>{try{const r=await fetch('/factory-ng/'+key,{signal:AbortSignal.timeout(25000)});if(!r.ok)throw new Error(r.status);view[key]=await r.json();if(key==='cards')renderCards();if(key==='status'){renderOperatorNotice();renderCacheMaintenance()}if(key==='workers')renderWorkers();if(key==='limits'||key==='workers')renderLimits();if(view.status.state)renderRun()}catch(e){failures.push(key);console.error(key,e)}})]);$('#stamp').textContent=failures.length?'Unavailable: '+failures.join(', '):'updated '+new Date().toLocaleTimeString()}finally{refreshing=false}}

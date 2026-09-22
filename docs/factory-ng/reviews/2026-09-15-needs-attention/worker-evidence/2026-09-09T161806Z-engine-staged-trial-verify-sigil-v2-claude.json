@@ -1,0 +1,106 @@
+{
+  "attempt_history": [],
+  "capability_assessments": [],
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-engine-staged-trial-verify-sigil-v2-oayrp6_9",
+    "candidate_commit": "8507f668f77d9856a0684bc2b00a8800fb798917",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "8507f668f77d9856a0684bc2b00a8800fb798917",
+    "source_tree_changed": false
+  },
+  "failure_category": "model_response",
+  "gates": [
+    {
+      "detail": "resolved 3 bounded source request(s)",
+      "id": "need-continuation",
+      "outcome": "passed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "claude-staged@1.0.0",
+    "resolved_model": "claude-sonnet-5",
+    "telemetry": {
+      "bounded_repair_attempted": true,
+      "cache_read_tokens": 1065038,
+      "cache_write_tokens": 187243,
+      "elapsed_ms": 847541,
+      "input_tokens": 24,
+      "model_calls": 3,
+      "need_continuation_attempted": true,
+      "output_tokens": 82116,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      },
+      "stage_times": {
+        "attempt_wall_ms": 867813,
+        "candidate_gate_ms": 0,
+        "compilation_ms": {
+          "availability": "unavailable",
+          "reason": "go test includes package compilation; not separately timed"
+        },
+        "model_ms": 847541
+      }
+    },
+    "worker": "claude"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed_model_protocol",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-09T161806Z-engine-staged-trial-verify-sigil-v2-claude.raw.json",
+      "sha256": "sha256:bcc84b171f674de3caabb83fb83b1b63c62a4d0586d9addb97eee3e6cd969b23"
+    },
+    {
+      "kind": "prepared_packet",
+      "path": "docs/factory-ng/runs/2026-09-09T161806Z-engine-staged-trial-verify-sigil-v2-claude.packet.txt",
+      "sha256": "sha256:f4671aa906f1de34555a6a5473e38b37d8f7206e3130484bd7c5f62e769b52fa"
+    },
+    {
+      "kind": "requested_context",
+      "path": "docs/factory-ng/runs/2026-09-09T161806Z-engine-staged-trial-verify-sigil-v2-claude.context.txt",
+      "sha256": "sha256:39cad63bd6ec90e8198eba5d1822b26d7a9ca241d0ac267b61765b57b6680b8f"
+    },
+    {
+      "kind": "knowledge_trace",
+      "path": "docs/factory-ng/runs/2026-09-09T161806Z-engine-staged-trial-verify-sigil-v2-claude.lookup.jsonl",
+      "sha256": "sha256:b53bc23d182edd60e67b17e1b3c1c1d439568687e6f7d7e863f9b0ac641b63e4"
+    },
+    {
+      "kind": "need_continuation",
+      "path": "docs/factory-ng/runs/2026-09-09T161806Z-engine-staged-trial-verify-sigil-v2-claude.continuation.raw.json",
+      "sha256": "sha256:e167c6d27d6cca760cc926aae88212e56d75321ad2256fda7e5aebdd45a84a30"
+    },
+    {
+      "kind": "bounded_repair",
+      "path": "docs/factory-ng/runs/2026-09-09T161806Z-engine-staged-trial-verify-sigil-v2-claude.repair.raw.json",
+      "sha256": "sha256:c79c1f6778f72558fc08b0ebd4a532507f90ca8ffb5836965a3f524f0da74a13"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "verify-card-behavior",
+    "path": "docs/factory-ng/skills/v1/verify-card-behavior/SKILL.md",
+    "sha256": "sha256:e61c593f7eb664fd8ce7ba86c9843291cc45b2c5533901d790375a5e8b0b589d"
+  },
+  "ticket": {
+    "id": "ticket:engine.staged-trial-verify-sigil/v2",
+    "path": "docs/factory-ng/tickets/engine-staged-trial-verify-sigil-v2.json",
+    "sha256": "sha256:faf999dde0af7d0dd3bf965f180ce4b3c9e3f5139907e0126dfe0786b6812c0c"
+  }
+}

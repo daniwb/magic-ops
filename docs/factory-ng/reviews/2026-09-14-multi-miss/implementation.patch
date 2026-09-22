@@ -1,0 +1,604 @@
+--- a/scripts/factory-ng-produce-build-plan.py
++++ b/scripts/factory-ng-produce-build-plan.py
+@@ -132,6 +132,42 @@
+     pass
+ 
+ 
++class ProductionHistory(dict):
++    """Index card ownership across shape changes and dependency resumes."""
++    def __init__(self):
++        super().__init__()
++        self.text_hashes = set()
++        self.multi_text_hashes = set()
++
++
++def production_text_hash(key):
++    match = re.search(r'sha256:[a-f0-9]{64}', key) if key.startswith('build-plan:') else None
++    return match.group(0) if match else None
++
++
++def owned_texts(history, multi_only=False):
++    indexed = getattr(history, 'multi_text_hashes' if multi_only else 'text_hashes', None)
++    if indexed is not None:
++        return indexed
++    return {value for key in history
++            if (not multi_only or key.startswith('build-plan:multi:'))
++            and (value := production_text_hash(key))}
++
++
++def eligible_shapes(misses, effects, miss_count=1, max_misses=None):
++    shapes = sorted({kind for kind, _ in misses})
++    if max_misses is None:
++        if len(misses) != miss_count or len(shapes) != 1:
++            return []
++    elif not 2 <= len(misses) <= max_misses:
++        return []
++    for shape in shapes:
++        match = re.fullmatch(r'verb_unmapped:([a-z0-9_]+)', shape)
++        if not match or VERB_EFFECT.get(match.group(1)) not in effects:
++            return []
++    return shapes
++
++
+ def candidate_retry(history, production_key, lane):
+     """Share admission rules between full-corpus discovery and ticket emission.
+ 
+@@ -139,6 +175,14 @@
+     classes qualify, and a successor with a different production key still
+     owns its ancestor's work.
+     """
++    if lane in ('fresh', 'all'):
++        # Widening admission never grants fresh attempts to an existing card.
++        # Conversely a multi-miss card cannot reappear in the single-miss lane
++        # after a dependency reduces its remaining misses or changes family.
++        multi = production_key.startswith('build-plan:multi:')
++        text_hash = production_text_hash(production_key)
++        if text_hash and text_hash in owned_texts(history, multi_only=not multi):
++            return None
+     chain = history.get(production_key, [])
+     if not chain:
+         return {} if lane in ('fresh', 'all') else None
+@@ -168,7 +212,7 @@
+                        'infrastructure_repair'), 'receipt': latest.get('receipt')}
+ 
+ 
+-def discover_fresh_example(source, reparse, rows, effects, history, cache=None, revision=None, budget_seconds=15, miss_count=1, lane='fresh'):
++def discover_fresh_example(source, reparse, rows, effects, history, cache=None, revision=None, budget_seconds=15, miss_count=1, lane='fresh', max_misses=None):
+     """Find a current eligible member anywhere in the corpus, including repairs."""
+     by_shape = {}
+     for row in rows:
+@@ -185,6 +229,8 @@
+                          if isinstance(card, dict) and card.get('status') == 'review')
+     scan_key = str(source.resolve()) + ":miss-count=" + str(miss_count)
+     cursor_key = scan_key if lane == 'fresh' else scan_key + ':lane=' + lane
++    if max_misses is not None:
++        cursor_key = str(source.resolve()) + ':multi-miss:2-' + str(max_misses)
+     cursor = 0
+     if cache:
+         found, previous = cache.get('fresh-cursor-v1', cursor_key, 'position')
+@@ -200,17 +246,17 @@
+             result = {'misses': reparse.reparse_card(card).get('misses', [])}
+             if cache:
+                 cache.put('fresh-parse-v1', key, stamp, result)
+-        shapes = sorted({kind for kind, _ in result['misses']})
++        shapes = eligible_shapes(result['misses'], effects, miss_count, max_misses)
+         if cache:
+             cache.put('fresh-cursor-v1', cursor_key, 'position', name)
+             if number % 50 == 0:
+                 cache.checkpoint()
+-        if len(shapes) == 1 and shapes[0] in by_shape:
++        if shapes and all(shape in by_shape for shape in shapes):
+             row = by_shape[shapes[0]]
+             details = [detail for kind, detail in result['misses'] if kind == shapes[0]]
+             text_hash = digest_bytes((card.get('text') or '').encode())
+-            production_key = 'build-plan:%s:%s' % (row['item'], text_hash)
+-            if len(details) == miss_count and candidate_retry(history, production_key, lane) is not None:
++            production_key = 'build-plan:%s:%s' % ('multi' if max_misses is not None else row['item'], text_hash)
++            if candidate_retry(history, production_key, lane) is not None:
+                 # Cache selects candidates only. The caller reparses the exact
+                 # card and verifies source identity before publishing a ticket.
+                 return row, name
+@@ -248,11 +294,16 @@
+         match = re.search(r'/v(\d+)$', str(ticket.get('id', '')))
+         return int(match.group(1)) if match else 0
+     tickets.sort(key=version)
+-    result = {}
++    result = ProductionHistory()
+     for value in tickets:
+         key = value.get("production", {}).get("key")
+         if not key:
+             continue
++        text_hash = production_text_hash(key)
++        if text_hash:
++            result.text_hashes.add(text_hash)
++            if key.startswith('build-plan:multi:'):
++                result.multi_text_hashes.add(text_hash)
+         state = (jobs.get(value.get("id"), {}) or {}).get("state")
+         job = jobs.get(value.get("id"), {}) or {}
+         result.setdefault(key, []).append({"ticket_id": value.get("id"), "state": state,
+@@ -400,6 +451,67 @@
+     return None
+ 
+ 
++def add_verb_contract(ticket, verb, effects, name):
++    if verb in VERB_REQUIREMENTS:
++        ticket['required_behavior'].append(VERB_REQUIREMENTS[verb])
++    if verb == 'regenerate' and 'regenerate_target' in effects:
++        ticket['required_behavior'][0] = (
++            'Map the exact current regenerate miss on %s through regenerate for self or regenerate_target for an explicit target, only where the documented runtime supports the complete Oracle semantics.' % name)
++        target_registry = effects['regenerate_target']
++        ticket['evidence'].append({
++            'path': target_registry['path'],
++            'fact': 'The separate regenerate_target effect has executor %s and shape test %s; use it only for its supported explicit-target shapes.' %
++                    (target_registry['executor'], target_registry['shape_test'])})
++    if verb in ('draw', 'p_draw', 'draw_eq', 'gain_life', 'lose_life', 'discard', 'p_discard', 'p_discard_hand', 'mill'):
++        ticket['required_behavior'].append(
++            'Preserve the exact player (controller, opponent, chosen target or each player), quantity, variable binding and choice timing. Discard choice versus random discard and mill destination must remain exact. Registry membership alone does not prove these argument shapes; request an atomic Engine dependency when the public resolution/choice path is missing.')
++    if verb == 'prevent':
++        ticket['required_behavior'].append(
++            'Distinguish the damage source filter from the protected recipient, combat-only from all damage, and unlimited prevention from a next-N shield. The scoped primitive proves only its documented shapes; other prevention semantics require an Engine dependency.')
++    if verb in ('fight', 'damage_by'):
++        ticket['required_behavior'].append(
++            'Preserve both participant identities, controller restrictions, damage source, live power/toughness and targeting choices. Fight deals damage in both directions; damage_by is one-way. If the existing runtime cannot express the exact source/recipient pair or choice, return NEEDS_PRIMITIVE; never replace it with damage from this spell or its controller.')
++
++
++def add_multi_contract(ticket, measurement, misses, effects, name, primary_verb):
++    """Bind every unresolved clause to the unchanged complete-card gates."""
++    shapes = sorted({kind for kind, _ in misses})
++    verbs = [shape.split(':', 1)[1] for shape in shapes]
++    for verb in verbs:
++        if verb == primary_verb:
++            continue
++        effect = VERB_EFFECT[verb]
++        registry = effects[effect]
++        ticket['evidence'].append({
++            'path': registry['path'],
++            'fact': 'The %s family uses registered effect %s, executor %s, shape test %s. Exact arguments still require runtime proof.' %
++                    (verb, effect, registry['executor'], registry['shape_test'])})
++        add_verb_contract(ticket, verb, effects, name)
++    count = len(misses)
++    ticket['title'] = 'Map complete card with %d unresolved clauses: %s' % (count, name)
++    ticket['parents'] = ['plan:' + shape for shape in shapes]
++    ticket['production'].update(multi_miss=True, miss_count=count, miss_shapes=shapes,
++                                predicted_class_unlock=1)
++    measurement.update(shapes=shapes, miss_count=count, multi_miss=True)
++    measurement['plan'].update(items=shapes, marginal_unlock=1)
++    measurement['members'][0]['misses'] = [{'shape': kind, 'detail': detail} for kind, detail in misses]
++    ticket['evidence'][0]['fact'] = (
++        '%s has %d current unresolved clauses across %s. The measurement pins every miss and the complete Oracle text.' %
++        (name, count, ', '.join(shapes)))
++    ticket['required_behavior'][:2] = [
++        'Implement the complete Oracle behavior of %s, covering all %d pinned misses across %s and preserving every already-parsed ability.' %
++        (name, count, ', '.join(shapes)),
++        'The card must become fully eligible with zero remaining misses of ANY family. Clearing only the measurement headline shape, dropping an ability, or moving a miss to another category is failure.',
++    ]
++    ticket['required_behavior'].extend([
++        'Tests must cover every pinned clause, its runtime representation, and their combined ordering, targets, quantities, choices, controller ownership, durations and linked referents. Include adjacent negative cases. Separate misses are not necessarily independent abilities.',
++        'When runtime support is missing, return one Oracle-validated atomic NEEDS_PRIMITIVE demand. Its Engine dependency will be built separately; the resumed Map retains this complete-card contract and can request the next missing dependency. Do not return a partially working Map patch.',
++    ])
++    ticket['execution']['selection_reason'] = 'One complete card with two or more measured misses in explicitly supported runtime families; atomic Engine dependencies use the existing dependency/resume pipeline.'
++    ticket['execution']['compatible_profiles'] = ['claude-staged@1.0.0', 'codex-constrained@1.0.0']
++    ticket['on_failure'] = 'Compile one validated atomic dependency and resume this whole card after integration. Retain terminal failures and advance independent discovery; never mark a partially fixed card complete.'
++
++
+ def coverage_rows(plan_path):
+     rows = [json.loads(line) for line in plan_path.read_text().splitlines() if line.strip()]
+     # A historical top-N plan is ranking evidence, not the enabled-family list.
+@@ -423,9 +535,14 @@
+                         help="exact remaining miss count; two is restricted to one verb family in the fresh lane")
+     parser.add_argument("--max-active", type=int,
+                         help="bound active fresh tickets admitted with this miss count")
++    parser.add_argument('--max-misses', type=int,
++                        help='fresh multi-miss lane: two through this many misses, including mixed supported families')
+     args = parser.parse_args()
+     if args.miss_count != 1 and args.lane != "fresh":
+         parser.error("--miss-count 2 requires --lane fresh")
++    if args.max_misses is not None and (args.lane != 'fresh' or args.miss_count != 1
++                                       or args.max_misses < 2 or args.max_active is not None):
++        parser.error('--max-misses requires --lane fresh, a bound >= 2, and no --miss-count/--max-active override; the controller bounds runnable admission')
+     if args.max_active is not None and args.max_active < 1:
+         parser.error("--max-active must be positive")
+     if args.max_active is not None:
+@@ -464,7 +581,8 @@
+         cache = ProducerCache(OPS / 'state/factory-ng-producer-cache.sqlite3')
+         try:
+             discovered = discover_fresh_example(source, reparse, rows, effects, history,
+-                                                cache, scan_revision, miss_count=args.miss_count, lane=args.lane)
++                                                cache, scan_revision, miss_count=args.miss_count, lane=args.lane,
++                                                max_misses=args.max_misses)
+         except ScanPending as exc:
+             emit('scan_pending', reason=str(exc))
+             return
+@@ -491,12 +609,13 @@
+             if not isinstance(card, dict) or card.get("status") != "review":
+                 continue
+             result = reparse.reparse_card(card)
+-            matches = [detail for kind, detail in result.get("misses", []) if kind == shape]
+-            all_shapes = sorted({kind for kind, _ in result.get("misses", [])})
+-            if len(matches) != args.miss_count or all_shapes != [shape]:
++            misses = result.get('misses', [])
++            all_shapes = eligible_shapes(misses, effects, args.miss_count, args.max_misses)
++            if not all_shapes or shape not in all_shapes:
+                 continue
++            matches = [detail for kind, detail in misses if args.max_misses is not None or kind == shape]
+             text_hash = digest_bytes((card.get("text") or "").encode())
+-            production_key = "build-plan:%s:%s" % (row["item"], text_hash)
++            production_key = "build-plan:%s:%s" % ('multi' if args.max_misses is not None else row['item'], text_hash)
+             retry = candidate_retry(history, production_key, args.lane)
+             if retry is None:
+                 skipped['already_accounted'] += 1
+@@ -507,7 +626,7 @@
+             retry_receipt = retry.get('receipt')
+ 
+             suffix = hashlib.sha256(production_key.encode()).hexdigest()[:10]
+-            base = "map.plan-%s-%s-%s" % (slug(verb), slug(name), suffix)
++            base = "map.plan-%s-%s-%s" % ('multi' if args.max_misses is not None else slug(verb), slug(name), suffix)
+             ticket_id = next_ticket_id(args.ticket_dir, base)
+             test_path = "scripts/paragraph/test_factory_ng_%s.py" % suffix
+             measurement_path = ("docs/factory-ng/measurements/build-plan-%s-v1.json" % suffix
+@@ -596,28 +715,12 @@
+                 },
+                 "on_failure": "Record a structured verdict. NEEDS_PRIMITIVE creates one Engine dependency; invalid or mixed premises are terminal and discovery advances to another candidate.",
+             }
+-            if verb in VERB_REQUIREMENTS:
+-                ticket['required_behavior'].append(VERB_REQUIREMENTS[verb])
+-            if verb == 'regenerate' and 'regenerate_target' in effects:
+-                ticket['required_behavior'][0] = (
+-                    'Map the exact current regenerate miss on %s through regenerate for self or regenerate_target for an explicit target, only where the documented runtime supports the complete Oracle semantics.' % name)
+-                target_registry = effects['regenerate_target']
+-                ticket['evidence'].append({
+-                    'path': target_registry['path'],
+-                    'fact': 'The separate regenerate_target effect has executor %s and shape test %s; use it only for its supported explicit-target shapes.' %
+-                            (target_registry['executor'], target_registry['shape_test'])})
+-            if verb in ('draw', 'p_draw', 'draw_eq', 'gain_life', 'lose_life', 'discard', 'p_discard', 'p_discard_hand', 'mill'):
+-                ticket['required_behavior'].append(
+-                    'Preserve the exact player (controller, opponent, chosen target or each player), quantity, variable binding and choice timing. Discard choice versus random discard and mill destination must remain exact. Registry membership alone does not prove these argument shapes; request an atomic Engine dependency when the public resolution/choice path is missing.')
+-            if verb == 'prevent':
+-                ticket['required_behavior'].append(
+-                    'Distinguish the damage source filter from the protected recipient, combat-only from all damage, and unlimited prevention from a next-N shield. The scoped primitive proves only its documented shapes; other prevention semantics require an Engine dependency.')
++            add_verb_contract(ticket, verb, effects, name)
+             if args.miss_count == 2:
+                 ticket['required_behavior'].append(
+                     'Both pinned misses are one bounded verb-family task. Cover both occurrences in focused tests, preserving their separate targets, amounts, timing and ordering. A patch fixing only one occurrence is incomplete and must fail the whole-card pinned gate.')
+-            if verb in ('fight', 'damage_by'):
+-                ticket['required_behavior'].append(
+-                    'Preserve both participant identities, controller restrictions, damage source, live power/toughness and targeting choices. Fight deals damage in both directions; damage_by is one-way. If the existing runtime cannot express the exact source/recipient pair or choice, return NEEDS_PRIMITIVE; never replace it with damage from this spell or its controller.')
++            if args.max_misses is not None:
++                add_multi_contract(ticket, measurement, misses, effects, name, verb)
+             if retry_parent:
+                 ticket["supersedes"] = retry_parent
+                 ticket["parents"].append(retry_parent)
+@@ -636,7 +739,10 @@
+             return
+         skipped["no_live_example"] += 1
+ 
+-    emit("exhausted_supported_plan", reason="no unaccounted engine-reachable single-family example with exactly %d misses remains" % args.miss_count,
++    reason = ('no unaccounted card with 2..%d misses entirely in supported runtime families remains' % args.max_misses
++              if args.max_misses is not None else
++              'no unaccounted engine-reachable single-family example with exactly %d misses remains' % args.miss_count)
++    emit("exhausted_supported_plan", reason=reason,
+          skipped=skipped)
+ 
+ 
+--- a/scripts/factory-ng-produce-capability-dependency.py
++++ b/scripts/factory-ng-produce-capability-dependency.py
+@@ -455,6 +455,8 @@
+         current_members.append({"name": name, "oracle_text": card.get("text") or "",
+                                 "text_sha256": digest_bytes((card.get("text") or "").encode()),
+                                 "all_miss_shapes": sorted({kind for kind, _ in misses}), "details": details})
++        if measurement.get('multi_miss'):
++            current_members[-1]['misses'] = [{'shape': kind, 'detail': detail} for kind, detail in misses]
+     if not current_members:
+         return None, None
+ 
+@@ -462,6 +464,11 @@
+     measurement = dict(measurement)
+     measurement["members"] = current_members
+     measurement["member_count"] = len(current_members)
++    if measurement.get('multi_miss'):
++        measurement.setdefault('initial_miss_count', measurement['miss_count'])
++        measurement.setdefault('initial_miss_shapes', measurement['shapes'])
++        measurement['miss_count'] = sum(len(member['misses']) for member in current_members)
++        measurement['shapes'] = sorted({kind for member in current_members for kind in member['all_miss_shapes']})
+     measurement["source"] = {"repository": str(SOURCE), "revision": source_revision(),
+                              "parser_sha256": digest_file(parser_path)}
+     measurement["dependency"] = {"ticket": engine["id"], "capability": capability["key"]}
+@@ -506,6 +513,10 @@
+     for key in ('trial_id', 'trial_card'):
+         if key in parent.get('production', {}):
+             child.setdefault('production', {})[key] = parent['production'][key]
++    if child.get('work_type') == 'map' and parent.get('production', {}).get('multi_miss'):
++        for key in ('multi_miss', 'miss_count', 'miss_shapes'):
++            if key in parent['production']:
++                child.setdefault('production', {})[key] = parent['production'][key]
+     if parent.get('execution', {}).get('profile_policy') == 'exact':
+         for key in ('profile_policy', 'selected_profile', 'compatible_profiles'):
+             child.setdefault('execution', {})[key] = parent['execution'][key]
+--- a/scripts/test_factory_ng_multi_miss.py
++++ b/scripts/test_factory_ng_multi_miss.py
+@@ -0,0 +1,174 @@
++"""Multi-clause admission must retain whole-card gates and one durable lineage."""
++import contextlib
++import importlib.util
++import io
++import json
++from pathlib import Path
++import subprocess
++import sys
++import tempfile
++import unittest
++from unittest import mock
++
++from factory_ng_producer_cache import ProducerCache
++
++OPS = Path(__file__).resolve().parents[1]
++
++
++def load(name):
++    spec = importlib.util.spec_from_file_location(name, OPS / 'scripts' / (name + '.py'))
++    module = importlib.util.module_from_spec(spec)
++    spec.loader.exec_module(module)
++    return module
++
++
++class MultiMissTests(unittest.TestCase):
++    def setUp(self):
++        self.m = load('factory-ng-produce-build-plan')
++        self.effects = {name: {'path': 'backend/cards/registry_%s.go' % name,
++                              'executor': name, 'shape_test': 'Test' + name}
++                        for name in ('draw', 'damage', 'tap')}
++        self.misses = [('verb_unmapped:draw', 'draw first'), ('verb_unmapped:damage', 'damage'),
++                       ('verb_unmapped:draw', 'draw again')]
++
++    def fixture(self, root):
++        db = root / 'backend/data/carddb'; db.mkdir(parents=True)
++        card = {'name': 'Example', 'text': 'Draw, damage, then draw again.', 'status': 'review'}
++        (db / 'e.json').write_text(json.dumps({'Example': card}))
++        parser_path = root / 'scripts/paragraph/reparse.py'; parser_path.parent.mkdir(parents=True)
++        parser_path.write_text('def map_atom(atom):\n    pass\n')
++        return card
++
++    def test_mixed_and_three_to_six_misses_are_discovered(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp); self.fixture(root)
++            rows = [{'item': 'verb_unmapped:' + verb, 'examples': []} for verb in self.effects]
++            for misses in (self.misses[:2], self.misses, self.misses * 2,
++                           [('verb_unmapped:tap', 'tap')] * 4):
++                with self.subTest(misses=misses):
++                    parser = mock.Mock(reparse_card=lambda _: {'misses': misses})
++                    args = (root, parser, rows, self.effects, {})
++                    self.assertIsNone(self.m.discover_fresh_example(*args))
++                    self.assertEqual(self.m.discover_fresh_example(*args, max_misses=6)[1], 'Example')
++
++    def test_unknown_mixed_family_missing_runtime_and_over_bound_are_excluded(self):
++        for misses in (self.misses + [('static_unmapped', 'static')],
++                       self.misses + [('verb_unmapped:?', 'unknown')],
++                       self.misses + [('verb_unmapped:mill', 'unregistered here')],
++                       self.misses * 2 + [self.misses[0]], self.misses[:1]):
++            self.assertEqual(self.m.eligible_shapes(misses, self.effects, max_misses=6), [])
++
++    def test_existing_card_never_gets_fresh_budget_under_a_new_family_set(self):
++        text_hash = self.m.digest_bytes(b'Oracle')
++        old = 'build-plan:verb_unmapped:tap:' + text_hash
++        multi = 'build-plan:multi:' + text_hash
++        for state in ('queued', 'working', 'blocked', 'failed', 'parked', 'completed'):
++            with self.subTest(state=state):
++                history = {old: [{'state': state}]}
++                self.assertIsNone(self.m.candidate_retry(history, multi, 'fresh'))
++                history = {multi + ':after:ticket:engine.draw/v1': [{'state': state}]}
++                self.assertIsNone(self.m.candidate_retry(history, old, 'fresh'))
++
++    def test_multi_cursor_is_independent_and_uses_revision_cache(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp); self.fixture(root); cache = ProducerCache(root / 'cache.db')
++            scan_key = str(root.resolve()) + ':miss-count=1'
++            cache.put('fresh-cursor-v1', scan_key, 'position', 'single cursor')
++            parser = mock.Mock(); parser.reparse_card.return_value = {'misses': self.misses}
++            args = (root, parser, [{'item': 'verb_unmapped:' + v} for v in self.effects], self.effects, {}, cache)
++            self.assertIsNotNone(self.m.discover_fresh_example(*args, revision='one', max_misses=6))
++            self.assertEqual(cache.get('fresh-cursor-v1', scan_key, 'position')[1], 'single cursor')
++            parser.reparse_card.return_value = {'misses': []}
++            self.assertIsNone(self.m.discover_fresh_example(*args, revision='two', max_misses=6))
++            cache.close()
++
++    def make_ticket(self, root, misses=None):
++        self.fixture(root); tickets = root / 'tickets'; tickets.mkdir(); jobs = root / 'jobs.json'
++        # Failed pilot dependencies must not occupy a permanent new-lane slot.
++        for i in range(2):
++            (tickets / ('pilot%d.json' % i)).write_text(json.dumps({'id': 'ticket:map.pilot%d/v1' % i,
++                'production': {'producer': 'build-plan-continuous', 'miss_count': 2}}))
++        jobs.write_text(json.dumps({'jobs': {'ticket:map.pilot%d/v1' % i: {'state': 'blocked'} for i in range(2)}}))
++        plan = root / 'plan.jsonl'; plan.write_text(json.dumps({'item': 'verb_unmapped:draw', 'examples': []}) + '\n')
++        out = io.StringIO()
++        argv = ['p', '--lane', 'fresh', '--max-misses', '6', '--repo', str(root),
++                '--ticket-dir', str(tickets), '--jobs', str(jobs), '--plan', str(plan)]
++        with mock.patch.object(sys, 'argv', argv), mock.patch.object(sys, 'path', list(sys.path)), \
++             mock.patch.dict(sys.modules, reparse=mock.Mock(reparse_card=lambda _: {'misses': misses or self.misses})), \
++             mock.patch.object(self.m, 'clean_source', return_value=True), \
++             mock.patch.object(self.m, 'source_revision', return_value='a' * 40), \
++             mock.patch.object(self.m, 'registry_effects', return_value=self.effects), \
++             mock.patch.object(self.m, 'ProducerCache', side_effect=lambda _: ProducerCache(root / 'cache.db')), \
++             contextlib.redirect_stdout(out):
++            self.m.main()
++        return json.loads(out.getvalue())
++
++    def test_ticket_pins_every_clause_and_all_runtime_evidence_despite_blocked_pilot(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            result = self.make_ticket(Path(tmp))
++            self.assertEqual(result['status'], 'ready')
++            ticket, measurement = result['ticket'], result['measurement']
++            self.assertEqual(ticket['production']['miss_count'], 3)
++            self.assertTrue(ticket['production']['multi_miss'])
++            self.assertTrue(ticket['production']['key'].startswith('build-plan:multi:'))
++            self.assertEqual(len(measurement['members'][0]['misses']), 3)
++            self.assertEqual(measurement['shapes'], ['verb_unmapped:damage', 'verb_unmapped:draw'])
++            paths = {item['path'] for item in ticket['evidence']}
++            self.assertTrue({'backend/cards/registry_damage.go', 'backend/cards/registry_draw.go'} <= paths)
++            self.assertTrue(any('ANY family' in text for text in ticket['required_behavior']))
++            self.assertTrue(any('zero remaining pinned members' in gate for gate in ticket['gates']))
++            self.assertEqual(ticket['scope']['allowed_paths'][0], 'scripts/paragraph/reparse.py')
++
++    def test_dependency_resume_preserves_whole_card_contract_and_current_remaining_misses(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp); result = self.make_ticket(root)
++            parent, measurement = result['ticket'], result['measurement']
++            path = next(item['path'] for item in parent['evidence'] if item['path'].endswith('.json'))
++            (root / path).parent.mkdir(parents=True); (root / path).write_text(json.dumps(measurement))
++            dependency = load('factory-ng-produce-capability-dependency')
++            parser = mock.Mock(reparse_card=lambda _: {'eligible': False, 'misses': [('verb_unmapped:tap', 'new remaining dependency')]})
++            with mock.patch.multiple(dependency, OPS=root, SOURCE=root), \
++                 mock.patch.object(dependency, 'source_revision', return_value='b' * 40), \
++                 mock.patch.object(dependency, 'source_evidence', return_value=[]), \
++                 mock.patch.dict(sys.modules, reparse=parser):
++                ticket, current = dependency.resumed_map(parent, {'id': 'ticket:engine.draw/v1'},
++                                                         {'key': 'draw'}, {parent['id']: parent})
++            self.assertTrue(ticket['production']['multi_miss'])
++            self.assertEqual(ticket['gates'], parent['gates'])
++            self.assertEqual(ticket['scope'], parent['scope'])
++            self.assertTrue(set(parent['required_behavior']) <= set(ticket['required_behavior']))
++            self.assertEqual(current['initial_miss_count'], 3)
++            self.assertEqual(current['miss_count'], 1)
++            self.assertEqual(current['members'][0]['misses'][0]['shape'], 'verb_unmapped:tap')
++            (root / 'tickets/resumed.json').write_text(json.dumps(ticket))
++            history = self.m.production_history(root / 'tickets', root / 'jobs.json')
++            new_key = 'build-plan:verb_unmapped:tap:' + self.m.digest_bytes(b'Draw, damage, then draw again.')
++            self.assertIsNone(self.m.candidate_retry(history, new_key, 'fresh'))
++
++    def test_real_pinned_gate_rejects_partial_or_migrated_miss_and_accepts_complete_card(self):
++        runner = load('factory-ng-run-map-ticket')
++        remote = load('factory-ng-run-engine-ticket')
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp); self.fixture(root)
++            subprocess.run(['git', 'init', '-q', str(root)], check=True)
++            subprocess.run(['git', '-C', str(root), '-c', 'user.name=Test', '-c', 'user.email=test@example.invalid',
++                            'commit', '--allow-empty', '-qm', 'fixture'], check=True)
++            pinned = root / 'pinned.json'
++            pinned.write_text(json.dumps({'schema': 'factory.targeted-demand/v1', 'shape': 'verb_unmapped:damage',
++                'shapes': ['verb_unmapped:damage', 'verb_unmapped:draw'], 'multi_miss': True,
++                'members': [{'name': 'Example', 'text_sha256': self.m.digest_bytes(b'Draw, damage, then draw again.') }]}))
++            command = 'python3 %s --repo . --members-from %s reports zero remaining pinned members' % (
++                OPS / 'scripts/factory-ng-targeted-demand.py', pinned)
++            for misses, eligible, expected in ([('verb_unmapped:draw', 'draw remains')], False, 1), \
++                                               ([('spell_seq_targeted', 'moved miss')], False, 1), ([], True, 0):
++                with self.subTest(misses=misses):
++                    (root / 'scripts/paragraph/reparse.py').write_text(
++                        'from pathlib import Path\nCARDDB = Path(__file__).resolve().parents[2] / "backend/data/carddb"\n'
++                        'def reparse_card(card):\n    return ' + repr({'eligible': eligible, 'misses': misses, 'abilities': []}) + '\n')
++                    for gate in (runner.run_ticket_gate, remote.ticket_gate):
++                        result = gate(command, root, {'work_type': 'map'})
++                        self.assertEqual(result['exit_code'], expected, result)
++
++
++if __name__ == '__main__':
++    unittest.main()
+--- a/scripts/test_factory_ng_control.py
++++ b/scripts/test_factory_ng_control.py
+@@ -320,6 +320,7 @@
+         controller = load_script("factory_ng_producer_timeout_test", "factory-ng-controller.py")
+         results = []
+         with mock.patch.object(controller, "write_status"), mock.patch.object(controller, "log"), \
++             mock.patch.object(controller, 'schedule_status', return_value={'allowed': True}), \
+              mock.patch.object(controller.subprocess, "run",
+                                side_effect=subprocess.TimeoutExpired(["slow-producer"], 90)):
+             status = controller.run_producer("slow", ["slow-producer"], 90, results, [])
+--- a/scripts/test_factory_ng_producer_performance.py
++++ b/scripts/test_factory_ng_producer_performance.py
+@@ -213,7 +213,7 @@
+ 
+     def test_stop_during_production_does_not_publish_ticket(self):
+         m = load('factory-ng-controller')
+-        with mock.patch.object(m, 'write_status'), mock.patch.object(m, 'producer_command', return_value=subprocess.CompletedProcess([], 0, '{"status":"ready"}', '')), mock.patch.object(m, 'stopping', True), mock.patch.object(m, 'persist_ready') as persist:
++        with mock.patch.object(m, 'schedule_status', return_value={'allowed': True}), mock.patch.object(m, 'write_status'), mock.patch.object(m, 'producer_command', return_value=subprocess.CompletedProcess([], 0, '{"status":"ready"}', '')), mock.patch.object(m, 'stopping', True), mock.patch.object(m, 'persist_ready') as persist:
+             self.assertEqual(m.run_producer('fixture', [], 1, [], []), 'stopping')
+             persist.assert_not_called()
+ 
+--- a/config/factory-ng-producers.json
++++ b/config/factory-ng-producers.json
+@@ -50,19 +50,17 @@
+       "timeout_seconds": 180
+     },
+     {
+-      "id": "build-plan-two-miss-pilot",
++      "id": "build-plan-multi-miss",
+       "enabled": true,
+       "command": [
+         "python3",
+         "scripts/factory-ng-produce-build-plan.py",
+         "--lane",
+         "fresh",
+-        "--miss-count",
+-        "2",
+-        "--max-active",
+-        "2",
++        "--max-misses",
++        "6",
+         "--plan",
+-        "docs/factory-ng/measurements/producer-frontier-2026-09-12-evening.jsonl"
++        "docs/factory-ng/measurements/multi-miss-frontier-2026-09-14.jsonl"
+       ],
+       "timeout_seconds": 180
+     },
+--- a/RUNBOOK.md
++++ b/RUNBOOK.md
+@@ -419,8 +419,22 @@
+ 
+ An exhausted fresh lane does not imply exhausted repair supply. Conversely,
+ old blocked or failed records are not automatically runnable: completed or
+-superseded work, exhausted repairs, and unsupported/mixed current misses remain
+-excluded. The two-miss pilot still counts blocked parents toward its bound.
++superseded work and exhausted repairs remain excluded. Unsupported or mixed
++current misses remain outside the generic single-miss repair lane.
++
++`build-plan-multi-miss` admits cards with **two through six unresolved misses**,
++including different supported verb families. This replaces the two-card,
++same-family pilot. Every miss must belong to an explicitly supported family
++with registered runtime evidence. Unknown/static/replacement catch-all misses
++and cards above six misses remain outside this lane.
++
++The ordinary runnable queue limits bound admission. Historical blocked parents
++do not occupy permanent pilot slots. Existing card history prevents reopening
++failed work under a multi-miss label, and multi-miss ownership prevents a new
++single-miss ticket when a dependency changes the remaining shape. Engine
++dependencies are built atomically; the Map successor retains all original
++whole-card gates and obligations. One fixed clause is never a completed card.
++This lane obeys the configured Factory work schedule.
+ 
+ Do not count raw queued records as available work and do not manufacture
+ manual tickets merely to make the queue counter rise.
+--- a/docs/factory-ng/CURRENT.md
++++ b/docs/factory-ng/CURRENT.md
+@@ -1,4 +1,34 @@
+ # Factory NG — Durable Handoff
++
++## 2026-09-14 multi-miss card production enabled
++
++The user explicitly requested work on cards with multiple unresolved phrases.
++`build-plan-multi-miss` now replaces the stalled same-family two-card pilot.
++It admits two through six current misses, including mixed supported families,
++under the normal runnable queue limits. The old pilot's blocked parents no
++longer stop independent multi-miss admission. Unknown/static/replacement
++catch-all misses remain outside this producer.
++
++Each ticket pins every miss and the complete Oracle text, includes runtime
++evidence for every family, and retains full-card acceptance. Missing runtime
++behavior uses the existing atomic Engine dependency/resume pipeline. History
++prevents resetting old failures or issuing duplicate single-miss work after
++a multi-miss dependency changes the remaining shape.
++
++A pinned census at `4e545cebc439944937540dc269cd86a8780a0911` found 113 card
++candidates representing 112 distinct Oracle-text production keys: 108 with
++two misses, four with three, and one with four. These are candidate inventory,
++not completed-card gains. 121 regressions passed, including both worker
++harnesses rejecting partial or migrated misses. Actual two-, three- and
++four-miss tickets passed preparation, both profile packet builders, isolated
++queue publication and scheduling to three distinct workers.
++
++Activation replaced only the producer entry atomically under dispatcher-admin.
++The configured 22:00–07:00 Europe/Zurich work window was preserved. Live worker
++dispatch of this lane therefore waits for the next allowed window. The installed
++producer's read-only probe offered Applied Geometry with mixed put_counters/token_copy
++misses; no provider runs or live enqueue bypassed the schedule. No deployment.
++[Implementation and validation](reviews/2026-09-14-multi-miss/README.md).
+ 
+ ## 2026-09-14 quiet daytime policy activated
+ 

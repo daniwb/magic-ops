@@ -1,0 +1,20 @@
+{
+  "ticket_id": "ticket:engine.auto-active-damage-receiver-type-gate-3b7d9305ad/v2",
+  "codex_receipt": "docs/factory-ng/runs/2026-09-16T104907Z-engine-auto-active-damage-receiver-type-gate-3b7d9305ad-v2-codex.json",
+  "codex_receipt_sha256": "sha256:cc5052967f36ca80eb174e7dea00aec296f773f658c90a1ebed2a4f606d8fb3c",
+  "current_receipt": "docs/factory-ng/runs/2026-09-16T104907Z-engine-auto-active-damage-receiver-type-gate-3b7d9305ad-v2-codex.json",
+  "current_receipt_sha256": "sha256:cc5052967f36ca80eb174e7dea00aec296f773f658c90a1ebed2a4f606d8fb3c",
+  "initial_gates": [
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "correction": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged."
+}

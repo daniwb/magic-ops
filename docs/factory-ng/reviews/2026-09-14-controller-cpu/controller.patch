@@ -1,0 +1,186 @@
+--- before/scripts/factory-ng-controller.py
++++ after/scripts/factory-ng-controller.py
+@@ -318,6 +318,55 @@
+ 
+ 
+ _receipt_projection_cache = {}
++_ticket_projection_cache = {}
++
++
++def cached_artifacts(directory, cache, project):
++    """Refresh changed files, checking every file even when the directory is unchanged."""
++    present = set()
++    try:
++        entries = os.scandir(directory)
++    except FileNotFoundError:
++        cache.clear()
++        return cache
++    with entries as entries:
++        for entry in entries:
++            if not entry.name.endswith('.json'):
++                continue
++            key = entry.path
++            present.add(key)
++            try:
++                stat = entry.stat()
++            except OSError:
++                cache.pop(key, None)
++                continue
++            stamp = (stat.st_ino, stat.st_size, stat.st_mtime_ns, stat.st_ctime_ns)
++            previous = cache.get(key)
++            if previous is None or previous[0] != stamp:
++                path = Path(key)
++                value = project(load_json(path))
++                reference = str(path.relative_to(OPS)) if value is not None else None
++                cache[key] = (stamp, value, reference, path)
++    for key in cache.keys() - present:
++        del cache[key]
++    return cache
++
++
++def ticket_projections():
++    """Retain only lifecycle inputs; worker packets still read complete TicketSpecs."""
++    def project(value):
++        if not isinstance(value, dict) or value.get('schema') != 'factory.ticket-spec/v1':
++            return None
++        projected = {key: value[key] for key in
++                     ('id', 'supersedes', 'lifecycle', 'work_type', 'production', 'parents')
++                     if key in value}
++        projected['execution'] = {key: value.get('execution', {})[key] for key in
++                                  ('selected_profile', 'compatible_profiles', 'profile_policy')
++                                  if key in value.get('execution', {})}
++        return projected
++    cache = cached_artifacts(TICKETS, _ticket_projection_cache, project)
++    return [(entry[3], entry[1], entry[2]) for entry in
++            sorted(cache.values(), key=lambda entry: entry[0][2]) if entry[1] is not None]
+ 
+ 
+ def receipt_projections():
+@@ -326,36 +375,22 @@
+     Stat each source on every scan so replacement, partial publication and
+     removal are visible without trusting directory timestamps or job state.
+     """
+-    present = set()
+-    for path in sorted(RUNS.glob("*.json"), key=lambda item: item.name):
+-        present.add(path)
+-        try:
+-            stat = path.stat()
+-        except OSError:
+-            _receipt_projection_cache.pop(path, None)
+-            continue
+-        stamp = (stat.st_ino, stat.st_size, stat.st_mtime_ns, stat.st_ctime_ns)
+-        cached = _receipt_projection_cache.get(path)
+-        if cached is None or cached[0] != stamp:
+-            value = load_json(path)
+-            projection = None
+-            if isinstance(value, dict) and value.get('schema') in (
+-                    'factory.observation-receipt/v1', 'factory.integration-receipt/v1'):
+-                projection = {key: value[key] for key in
+-                              ('schema', 'ticket', 'outcome', 'integration', 'parents')
+-                              if key in value}
+-            reference = str(path.relative_to(OPS)) if projection is not None else None
+-            _receipt_projection_cache[path] = (stamp, projection, reference)
+-        value = _receipt_projection_cache[path][1]
++    def project(value):
++        if isinstance(value, dict) and value.get('schema') in (
++                'factory.observation-receipt/v1', 'factory.integration-receipt/v1'):
++            return {key: value[key] for key in
++                    ('schema', 'ticket', 'outcome', 'integration', 'parents') if key in value}
++        return None
++    cache = cached_artifacts(RUNS, _receipt_projection_cache, project)
++    for key in sorted(cache):
++        value = cache[key][1]
+         if value is not None:
+-            yield _receipt_projection_cache[path][2], value
+-    for path in _receipt_projection_cache.keys() - present:
+-        del _receipt_projection_cache[path]
+-
+-
+-def observed_ticket_ids():
++            yield cache[key][2], value
++
++
++def observed_ticket_ids(receipts=None):
+     seen = {}
+-    for reference, value in receipt_projections():
++    for reference, value in receipt_projections() if receipts is None else receipts:
+         if value and value.get("schema") == "factory.observation-receipt/v1":
+             ticket_id = value.get("ticket", {}).get("id")
+             if ticket_id:
+@@ -365,9 +400,9 @@
+     return seen
+ 
+ 
+-def integrated_ticket_ids():
++def integrated_ticket_ids(receipts=None):
+     seen = {}
+-    for reference, value in receipt_projections():
++    for reference, value in receipt_projections() if receipts is None else receipts:
+         if not value or value.get("schema") != "factory.integration-receipt/v1":
+             continue
+         if value.get("outcome") not in ("pushed_full_production_gate_green",
+@@ -685,8 +720,9 @@
+     """Reconcile immutable specs/receipts into the durable operator job state."""
+     workers = (load_json(WORKERS) or {}).get("workers", [])
+     by_profile = configured_workers_by_profile(workers)
+-    observed = observed_ticket_ids()
+-    integrated = integrated_ticket_ids()
++    receipts = list(receipt_projections())
++    observed = observed_ticket_ids(receipts)
++    integrated = integrated_ticket_ids(receipts)
+     settings = policy()
+     automatic_integration = settings.get("integration", {}).get("automatic", False)
+     retry_settings = settings.get("retry", {})
+@@ -695,27 +731,24 @@
+     migrate_authentication_failures(jobs)
+     migrate_minimax_engine_protocol_retries(jobs)
+     migrate_unstarted_minimax_engine_dispatches(jobs)
+-    specs = []
++    specs = ticket_projections()
+     superseded = set()
+     superseded_by = {}
+-    for path in TICKETS.glob("*.json"):
+-        ticket = load_json(path)
+-        if ticket and ticket.get("schema") == "factory.ticket-spec/v1":
+-            specs.append((path, ticket))
+-            if ticket.get("supersedes"):
+-                superseded.add(ticket["supersedes"])
+-                superseded_by[ticket['supersedes']] = ticket['id']
++    for path, ticket, reference in specs:
++        if ticket.get("supersedes"):
++            superseded.add(ticket["supersedes"])
++            superseded_by[ticket['supersedes']] = ticket['id']
+     for ticket_id, successor in superseded_by.items():
+         if ticket_id in jobs['jobs']:
+             jobs['jobs'][ticket_id]['superseded_by'] = successor
+-    for path, ticket in sorted(specs, key=lambda item: item[0].stat().st_mtime):
++    for path, ticket, reference in specs:
+         ticket_id = ticket["id"]
+         if ticket_id in superseded or ticket.get("lifecycle") != "ready_for_observation":
+             continue
+         profile = ticket.get("execution", {}).get("selected_profile")
+         compatible_profiles = compatible_profiles_for(ticket, profile)
+         job = jobs["jobs"].setdefault(ticket_id, {
+-            "ticket_id": ticket_id, "ticket_path": str(path.relative_to(OPS)),
++            "ticket_id": ticket_id, "ticket_path": reference,
+             "work_type": ticket.get("work_type"), "profile": profile,
+             "state": "queued", "created_at": now(), "updated_at": now(),
+         })
+@@ -725,7 +758,7 @@
+         # index.  This lets the scheduler prefer evidence-backed semantic
+         # repairs over older generic/infra retries without reopening or
+         # rewriting immutable TicketSpecs.
+-        job["production"] = ticket.get("production", {})
++        job["production"] = dict(ticket.get("production", {}))
+         # Integration is also a live child process. Dropping its PID here made
+         # the next controller pass declare a healthy long-running gate dead.
+         if job.get("state") not in ("working", "integrating"):
+@@ -822,7 +855,7 @@
+         elif job.get("state") == "queued":
+             job.pop("waiting_reason", None)
+     recover_integration_failures(jobs, settings)
+-    ticket_index = {ticket['id']: ticket for _, ticket in specs}
++    ticket_index = {ticket['id']: ticket for _, ticket, _ in specs}
+     from factory_ng_context_recovery import park_legacy_context_failure
+     for ticket_id, job in jobs['jobs'].items():
+         if ticket_id in ticket_index:

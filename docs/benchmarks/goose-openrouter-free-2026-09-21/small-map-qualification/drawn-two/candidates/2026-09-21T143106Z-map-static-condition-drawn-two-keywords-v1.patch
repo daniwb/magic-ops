@@ -1,0 +1,65 @@
+From 78171a9222d2ddce1446ffc931ebbf4945976e3a Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Mon, 21 Sep 2026 16:31:06 +0200
+Subject: [PATCH] factory-ng: supervised engine observation
+
+---
+ scripts/paragraph/reparse.py                  |  7 +++++
+ .../test_static_condition_drawn_two.py        | 27 +++++++++++++++++++
+ 2 files changed, 34 insertions(+)
+ create mode 100644 scripts/paragraph/test_static_condition_drawn_two.py
+
+diff --git a/scripts/paragraph/reparse.py b/scripts/paragraph/reparse.py
+index 12d05cc62..c92ace42e 100644
+--- a/scripts/paragraph/reparse.py
++++ b/scripts/paragraph/reparse.py
+@@ -10909,6 +10909,13 @@ def parse_static_condition(text):
+     if text == 'you gained life this turn':
+         return {'kind': 'happened', 'what': 'you_gained_life'}
+ 
++    # ticket:map.static-condition-drawn-two-keywords/v1
++    # Six pinned static keyword/pump cards share the exact drawn-two condition.
++    # The runtime's existing happened/you_drew_cards condition (game/condition.go)
++    # uses the turn counter and amount.
++    if text == "you've drawn two or more cards this turn":
++        return {'kind': 'happened', 'what': 'you_drew_cards', 'amount': 2}
++
+     # ticket #5048 (static_conditional): "N or more nonland permanents
+     # entered the battlefield under your control this turn" (Armory Mice,
+     # Celebration cycle) — the happened-kind what the Go runtime already
+diff --git a/scripts/paragraph/test_static_condition_drawn_two.py b/scripts/paragraph/test_static_condition_drawn_two.py
+new file mode 100644
+index 000000000..7cf30b7d3
+--- /dev/null
++++ b/scripts/paragraph/test_static_condition_drawn_two.py
+@@ -0,0 +1,27 @@
++import pathlib
++import sys
++import unittest
++
++
++sys.path.insert(0, str(pathlib.Path(__file__).parent))
++import reparse  # noqa: E402
++
++
++class StaticConditionDrawnTwoTest(unittest.TestCase):
++    def test_drawn_two_or_more_cards_this_turn(self):
++        result = reparse.parse_static_condition("you've drawn two or more cards this turn")
++        self.assertEqual(result, {'kind': 'happened', 'what': 'you_drew_cards', 'amount': 2})
++
++    def test_drawn_one_card_this_turn_unmapped(self):
++        # Per ticket scope: do not generalize other draw quantities
++        result = reparse.parse_static_condition("you've drawn one card this turn")
++        self.assertIsNone(result)
++
++    def test_opponent_drawn_two_or_more_unmapped(self):
++        # Per ticket scope: do not generalize other actors
++        result = reparse.parse_static_condition("an opponent has drawn two or more cards this turn")
++        self.assertIsNone(result)
++
++
++if __name__ == "__main__":
++    unittest.main()
+-- 
+2.55.0
+

@@ -1,0 +1,3 @@
+# Ulalek follow-up review
+
+Current runtime has targeted `CopySpell`, `CopyAbilityOnStack`, and `CopyTargetAbility`, but no per-copy optional retargeting choice queue. Existing `copy_effect.go` explicitly documents that limitation. The all-controlled-spells/other-abilities ticket therefore cannot be closed by merely looping over current stack entries. It needs a stable pre-copy snapshot, spell-before-ability ordering, exclusion of the resolving trigger and mana abilities, and a usable optional target-choice path for every copy. Existing single-object copy behavior must remain intact. No code or accepted receipt has been created for this ticket yet.

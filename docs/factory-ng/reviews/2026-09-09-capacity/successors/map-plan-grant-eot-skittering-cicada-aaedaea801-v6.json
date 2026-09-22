@@ -1,0 +1,1953 @@
+{
+  "evidence": [
+    {
+      "anchor": "1728-1867",
+      "fact": "Current exact grant_eot branch; inspect the complete-card probe before editing.",
+      "path": "scripts/paragraph/reparse.py",
+      "sha256": "sha256:be308a9c8c7289654ef0c1627d4e67e8c576ca66d6ba63b2763e468a404bff12"
+    },
+    {
+      "anchor": "7982-8121",
+      "fact": "Current exact grant_eot branch; inspect the complete-card probe before editing.",
+      "path": "scripts/paragraph/reparse.py",
+      "sha256": "sha256:be308a9c8c7289654ef0c1627d4e67e8c576ca66d6ba63b2763e468a404bff12"
+    },
+    {
+      "fact": "The blocked member was revalidated after its Engine dependency integrated.",
+      "path": "docs/factory-ng/measurements/dependency-resume-9e491203a2.json"
+    },
+    {
+      "fact": "The existing grant_keywords_until_eot primitive is registered with executor game/ability_effects.go case \"grant_keywords_until_eot\" (activated/triggered) + cards/converter.go spell case + game/gamestate.go resolution and shape test TestShape_Activated_GrantKeywordsSelfEOT / TestShape_Spell_GrantKeywordsTargetEOT.",
+      "path": "backend/cards/registry.go"
+    },
+    {
+      "anchor": "487-528",
+      "fact": "Verified declaration game.GameState.EvalDynamicAmountFull in source revision c2596268735df4fc8dd88b7033d4da211b27dea0; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"grant\" AND \"keyword\" AND \"plus\" AND \"dynamic\" AND \"pt\" AND \"eot\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "grant",
+            "keyword",
+            "plus",
+            "dynamic",
+            "pt",
+            "eot"
+          ],
+          "query": "grant_keyword_plus_dynamic_pt_until_eot",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "grant_keyword_plus_dynamic_pt_until_eot",
+            "request_id": "edfd11dd2aa14a1f80620f62df6866e4",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2"
+          },
+          "request_id": "edfd11dd2aa14a1f80620f62df6866e4",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"grant\" AND \"keyword\" AND \"plus\" AND \"dynamic\" AND \"pt\" AND \"eot\"",
+            "\"grant\" AND \"keyword\" AND \"plus\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "grant",
+            "keyword",
+            "plus",
+            "dynamic",
+            "pt",
+            "eot"
+          ],
+          "query": "grant_keyword_plus_dynamic_pt_until_eot",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "grant_keyword_plus_dynamic_pt_until_eot",
+            "request_id": "ae8122a9ae514f708d1d34e7c5886194",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2"
+          },
+          "request_id": "ae8122a9ae514f708d1d34e7c5886194",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "EvalDynamicAmountFull is EvalDynamicAmountEv plus the resolving object's",
+              "doc": "EvalDynamicAmountFull is EvalDynamicAmountEv plus the resolving object's\ntargets (dynamic-amount round, 2026-08-08) \u2014 needed by \"stat_of_ref\" with\nref==\"target\" (\"draw cards equal to ITS power\" where \"it\" is the spell's\ntarget). Both dispatch chokepoints pass their StackObject targets through;\ncallers with no target context keep the narrower entry points, which pass\nnil here unchanged.\n",
+              "end": 528,
+              "kind": "engine",
+              "name": "EvalDynamicAmountFull",
+              "package": "game",
+              "path": "backend/game/dynamic_amount.go",
+              "qualified": "game.GameState.EvalDynamicAmountFull",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) EvalDynamicAmountFull(spec map[string]interface{}, controller int, source *Card, eventCard *Card, targets []Target) (int, bool)",
+              "start": 487,
+              "symbol_id": "backend/game/dynamic_amount.go::game.GameState.EvalDynamicAmountFull",
+              "symbol_kind": "function",
+              "title": "EvalDynamicAmountFull"
+            }
+          ],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "eval",
+            "dynamic",
+            "full"
+          ],
+          "query": "EvalDynamicAmountFull",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "EvalDynamicAmountFull",
+            "request_id": "404077e00184474e90dbdf2c2055f535",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2"
+          },
+          "request_id": "404077e00184474e90dbdf2c2055f535",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "Preserve the spell's announced mana value in trigger context, even when it",
+              "doc": "Preserve the spell's announced mana value in trigger context, even when it\nis countered before the trigger resolves. Other event subjects remain live.\n",
+              "end": 22,
+              "kind": "engine",
+              "name": "triggerEventCard",
+              "package": "game",
+              "path": "backend/game/lib_trigger_event_card.go",
+              "qualified": "game.GameState.triggerEventCard",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) triggerEventCard(event *Event) *Card",
+              "start": 5,
+              "symbol_id": "backend/game/lib_trigger_event_card.go::game.GameState.triggerEventCard",
+              "symbol_kind": "function",
+              "title": "triggerEventCard"
+            }
+          ],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "trigger",
+            "event",
+            "card"
+          ],
+          "query": "triggerEventCard",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "triggerEventCard",
+            "request_id": "db87bfd1e59b4b4fb231e0a9429c2c10",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2"
+          },
+          "request_id": "db87bfd1e59b4b4fb231e0a9429c2c10",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_eot",
+              "doc": "",
+              "end": 6303,
+              "kind": "engine",
+              "name": "grant_keyword_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_eot",
+              "start": 6264,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_eot"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "doc": "",
+              "end": 7394,
+              "kind": "engine",
+              "name": "grant_keyword_choice_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "start": 7353,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_choice_eot"
+            },
+            {
+              "description": "executeGrantValuedKeywordFilteredUntilEOT implements the",
+              "doc": "executeGrantValuedKeywordFilteredUntilEOT implements the\ngrant_valued_keyword_until_eot primitive (ticket\nengine.auto-grant-valued-keyword-until-eot-1312f3366b, Plague Nurse\nclass): \"Each other creature you control with toxic gains toxic 1 until\nend of turn.\" Extends grant_keywords_until_eot's group-grant branch (the\n\"creature\"/\"permanent\" AffectsFilter case in ExecuteAbilityEffect below)\nfor a VALUED keyword: unlike a plain presence keyword (flying, haste,\n...), which HasKeywordWithEffects reads live off the EffectManager and\nnever needs a concrete number, Toxic's amount lives on the plain\nCard.ToxicN field that combat.go's poison-counter check reads\nUNCONDITIONALLY (not through the EffectManager) \u2014 so a lazily-evaluated\nfilter effect alone can't feed it a number. Recipients are resolved NOW:\nevery OTHER creature (source itself is always excluded, matching the\n\"each other\" shape this primitive targets) the controller controls that\nALREADY has requiredKeyword (Rule 702.164b: multiple toxic instances on\none permanent COMPOUND rather than overriding, matching the \"with\ntoxic\" gate on the source Oracle text) \u2014 a creature lacking it is\nskipped entirely, not granted toxic from nothing. value is added\ndirectly onto each match's ToxicN, and one AffectsSpecific/UntilEOT\nContinuousEffect per recipient records the same delta in\nGrantKeywordValue purely so CleanupEndOfTurnEffects can subtract it\nback off when the grant expires.\n",
+              "end": 3639,
+              "kind": "engine",
+              "name": "executeGrantValuedKeywordFilteredUntilEOT",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeGrantValuedKeywordFilteredUntilEOT",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeGrantValuedKeywordFilteredUntilEOT(controller int, source *Card, keyword Keyword, value int, requiredKeyword Keyword)",
+              "start": 3616,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeGrantValuedKeywordFilteredUntilEOT",
+              "symbol_kind": "function",
+              "title": "executeGrantValuedKeywordFilteredUntilEOT"
+            },
+            {
+              "description": "RegisterGrantKeyword registers a keyword-granting effect",
+              "doc": "RegisterGrantKeyword registers a keyword-granting effect\n",
+              "end": 321,
+              "kind": "engine",
+              "name": "RegisterGrantKeyword",
+              "package": "game",
+              "path": "backend/game/testutil.go",
+              "qualified": "game.TestContext.RegisterGrantKeyword",
+              "receiver": "TestContext",
+              "signature": "func (ctx *TestContext) RegisterGrantKeyword(sourceName string, keyword Keyword, affectsSubtype string)",
+              "start": 312,
+              "symbol_id": "backend/game/testutil.go::game.TestContext.RegisterGrantKeyword",
+              "symbol_kind": "function",
+              "title": "RegisterGrantKeyword"
+            }
+          ],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "operation_only",
+          "fts_queries": [
+            "\"grant\" AND \"keyword\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "grant",
+            "keyword"
+          ],
+          "query": "grant_keyword",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "grant_keyword",
+            "request_id": "a4f5ac5ed69b4ca88396ba733dd22958",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2"
+          },
+          "request_id": "a4f5ac5ed69b4ca88396ba733dd22958",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        }
+      ],
+      "path": "backend/game/dynamic_amount.go",
+      "sha256": "sha256:fef7f4151235d6721ccdabb7b9d7d9c9fa7f60b8dc177746d5655b1ffabef6c4",
+      "symbol": {
+        "description": "EvalDynamicAmountFull is EvalDynamicAmountEv plus the resolving object's",
+        "discovery_role": "requirement_symbol",
+        "doc": "EvalDynamicAmountFull is EvalDynamicAmountEv plus the resolving object's\ntargets (dynamic-amount round, 2026-08-08) \u2014 needed by \"stat_of_ref\" with\nref==\"target\" (\"draw cards equal to ITS power\" where \"it\" is the spell's\ntarget). Both dispatch chokepoints pass their StackObject targets through;\ncallers with no target context keep the narrower entry points, which pass\nnil here unchanged.\n",
+        "end": 528,
+        "kind": "engine",
+        "name": "EvalDynamicAmountFull",
+        "package": "game",
+        "path": "backend/game/dynamic_amount.go",
+        "qualified": "game.GameState.EvalDynamicAmountFull",
+        "receiver": "GameState",
+        "request_id": "404077e00184474e90dbdf2c2055f535",
+        "signature": "func (gs *GameState) EvalDynamicAmountFull(spec map[string]interface{}, controller int, source *Card, eventCard *Card, targets []Target) (int, bool)",
+        "start": 487,
+        "symbol_id": "backend/game/dynamic_amount.go::game.GameState.EvalDynamicAmountFull",
+        "symbol_kind": "function",
+        "title": "EvalDynamicAmountFull"
+      }
+    },
+    {
+      "anchor": "5-22",
+      "fact": "Verified declaration game.GameState.triggerEventCard in source revision c2596268735df4fc8dd88b7033d4da211b27dea0; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"grant\" AND \"keyword\" AND \"plus\" AND \"dynamic\" AND \"pt\" AND \"eot\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "grant",
+            "keyword",
+            "plus",
+            "dynamic",
+            "pt",
+            "eot"
+          ],
+          "query": "grant_keyword_plus_dynamic_pt_until_eot",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "grant_keyword_plus_dynamic_pt_until_eot",
+            "request_id": "edfd11dd2aa14a1f80620f62df6866e4",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2"
+          },
+          "request_id": "edfd11dd2aa14a1f80620f62df6866e4",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"grant\" AND \"keyword\" AND \"plus\" AND \"dynamic\" AND \"pt\" AND \"eot\"",
+            "\"grant\" AND \"keyword\" AND \"plus\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "grant",
+            "keyword",
+            "plus",
+            "dynamic",
+            "pt",
+            "eot"
+          ],
+          "query": "grant_keyword_plus_dynamic_pt_until_eot",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "grant_keyword_plus_dynamic_pt_until_eot",
+            "request_id": "ae8122a9ae514f708d1d34e7c5886194",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2"
+          },
+          "request_id": "ae8122a9ae514f708d1d34e7c5886194",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "EvalDynamicAmountFull is EvalDynamicAmountEv plus the resolving object's",
+              "doc": "EvalDynamicAmountFull is EvalDynamicAmountEv plus the resolving object's\ntargets (dynamic-amount round, 2026-08-08) \u2014 needed by \"stat_of_ref\" with\nref==\"target\" (\"draw cards equal to ITS power\" where \"it\" is the spell's\ntarget). Both dispatch chokepoints pass their StackObject targets through;\ncallers with no target context keep the narrower entry points, which pass\nnil here unchanged.\n",
+              "end": 528,
+              "kind": "engine",
+              "name": "EvalDynamicAmountFull",
+              "package": "game",
+              "path": "backend/game/dynamic_amount.go",
+              "qualified": "game.GameState.EvalDynamicAmountFull",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) EvalDynamicAmountFull(spec map[string]interface{}, controller int, source *Card, eventCard *Card, targets []Target) (int, bool)",
+              "start": 487,
+              "symbol_id": "backend/game/dynamic_amount.go::game.GameState.EvalDynamicAmountFull",
+              "symbol_kind": "function",
+              "title": "EvalDynamicAmountFull"
+            }
+          ],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "eval",
+            "dynamic",
+            "full"
+          ],
+          "query": "EvalDynamicAmountFull",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "EvalDynamicAmountFull",
+            "request_id": "404077e00184474e90dbdf2c2055f535",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2"
+          },
+          "request_id": "404077e00184474e90dbdf2c2055f535",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "Preserve the spell's announced mana value in trigger context, even when it",
+              "doc": "Preserve the spell's announced mana value in trigger context, even when it\nis countered before the trigger resolves. Other event subjects remain live.\n",
+              "end": 22,
+              "kind": "engine",
+              "name": "triggerEventCard",
+              "package": "game",
+              "path": "backend/game/lib_trigger_event_card.go",
+              "qualified": "game.GameState.triggerEventCard",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) triggerEventCard(event *Event) *Card",
+              "start": 5,
+              "symbol_id": "backend/game/lib_trigger_event_card.go::game.GameState.triggerEventCard",
+              "symbol_kind": "function",
+              "title": "triggerEventCard"
+            }
+          ],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "trigger",
+            "event",
+            "card"
+          ],
+          "query": "triggerEventCard",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "triggerEventCard",
+            "request_id": "db87bfd1e59b4b4fb231e0a9429c2c10",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2"
+          },
+          "request_id": "db87bfd1e59b4b4fb231e0a9429c2c10",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_eot",
+              "doc": "",
+              "end": 6303,
+              "kind": "engine",
+              "name": "grant_keyword_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_eot",
+              "start": 6264,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_eot"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "doc": "",
+              "end": 7394,
+              "kind": "engine",
+              "name": "grant_keyword_choice_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "start": 7353,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_choice_eot"
+            },
+            {
+              "description": "executeGrantValuedKeywordFilteredUntilEOT implements the",
+              "doc": "executeGrantValuedKeywordFilteredUntilEOT implements the\ngrant_valued_keyword_until_eot primitive (ticket\nengine.auto-grant-valued-keyword-until-eot-1312f3366b, Plague Nurse\nclass): \"Each other creature you control with toxic gains toxic 1 until\nend of turn.\" Extends grant_keywords_until_eot's group-grant branch (the\n\"creature\"/\"permanent\" AffectsFilter case in ExecuteAbilityEffect below)\nfor a VALUED keyword: unlike a plain presence keyword (flying, haste,\n...), which HasKeywordWithEffects reads live off the EffectManager and\nnever needs a concrete number, Toxic's amount lives on the plain\nCard.ToxicN field that combat.go's poison-counter check reads\nUNCONDITIONALLY (not through the EffectManager) \u2014 so a lazily-evaluated\nfilter effect alone can't feed it a number. Recipients are resolved NOW:\nevery OTHER creature (source itself is always excluded, matching the\n\"each other\" shape this primitive targets) the controller controls that\nALREADY has requiredKeyword (Rule 702.164b: multiple toxic instances on\none permanent COMPOUND rather than overriding, matching the \"with\ntoxic\" gate on the source Oracle text) \u2014 a creature lacking it is\nskipped entirely, not granted toxic from nothing. value is added\ndirectly onto each match's ToxicN, and one AffectsSpecific/UntilEOT\nContinuousEffect per recipient records the same delta in\nGrantKeywordValue purely so CleanupEndOfTurnEffects can subtract it\nback off when the grant expires.\n",
+              "end": 3639,
+              "kind": "engine",
+              "name": "executeGrantValuedKeywordFilteredUntilEOT",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeGrantValuedKeywordFilteredUntilEOT",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeGrantValuedKeywordFilteredUntilEOT(controller int, source *Card, keyword Keyword, value int, requiredKeyword Keyword)",
+              "start": 3616,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeGrantValuedKeywordFilteredUntilEOT",
+              "symbol_kind": "function",
+              "title": "executeGrantValuedKeywordFilteredUntilEOT"
+            },
+            {
+              "description": "RegisterGrantKeyword registers a keyword-granting effect",
+              "doc": "RegisterGrantKeyword registers a keyword-granting effect\n",
+              "end": 321,
+              "kind": "engine",
+              "name": "RegisterGrantKeyword",
+              "package": "game",
+              "path": "backend/game/testutil.go",
+              "qualified": "game.TestContext.RegisterGrantKeyword",
+              "receiver": "TestContext",
+              "signature": "func (ctx *TestContext) RegisterGrantKeyword(sourceName string, keyword Keyword, affectsSubtype string)",
+              "start": 312,
+              "symbol_id": "backend/game/testutil.go::game.TestContext.RegisterGrantKeyword",
+              "symbol_kind": "function",
+              "title": "RegisterGrantKeyword"
+            }
+          ],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "operation_only",
+          "fts_queries": [
+            "\"grant\" AND \"keyword\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "grant",
+            "keyword"
+          ],
+          "query": "grant_keyword",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "grant_keyword",
+            "request_id": "a4f5ac5ed69b4ca88396ba733dd22958",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2"
+          },
+          "request_id": "a4f5ac5ed69b4ca88396ba733dd22958",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        }
+      ],
+      "path": "backend/game/lib_trigger_event_card.go",
+      "sha256": "sha256:86ae780b5c031ef4514d2b77391fef11d96427b8fb30b7d84b8f03eddb65f968",
+      "symbol": {
+        "description": "Preserve the spell's announced mana value in trigger context, even when it",
+        "discovery_role": "requirement_symbol",
+        "doc": "Preserve the spell's announced mana value in trigger context, even when it\nis countered before the trigger resolves. Other event subjects remain live.\n",
+        "end": 22,
+        "kind": "engine",
+        "name": "triggerEventCard",
+        "package": "game",
+        "path": "backend/game/lib_trigger_event_card.go",
+        "qualified": "game.GameState.triggerEventCard",
+        "receiver": "GameState",
+        "request_id": "db87bfd1e59b4b4fb231e0a9429c2c10",
+        "signature": "func (gs *GameState) triggerEventCard(event *Event) *Card",
+        "start": 5,
+        "symbol_id": "backend/game/lib_trigger_event_card.go::game.GameState.triggerEventCard",
+        "symbol_kind": "function",
+        "title": "triggerEventCard"
+      }
+    },
+    {
+      "anchor": "6264-6303",
+      "fact": "Verified declaration game.GameState.ExecuteAbilityEffect#case:grant_keyword_eot in source revision c2596268735df4fc8dd88b7033d4da211b27dea0; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"grant\" AND \"keyword\" AND \"plus\" AND \"dynamic\" AND \"pt\" AND \"eot\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "grant",
+            "keyword",
+            "plus",
+            "dynamic",
+            "pt",
+            "eot"
+          ],
+          "query": "grant_keyword_plus_dynamic_pt_until_eot",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "grant_keyword_plus_dynamic_pt_until_eot",
+            "request_id": "edfd11dd2aa14a1f80620f62df6866e4",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2"
+          },
+          "request_id": "edfd11dd2aa14a1f80620f62df6866e4",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"grant\" AND \"keyword\" AND \"plus\" AND \"dynamic\" AND \"pt\" AND \"eot\"",
+            "\"grant\" AND \"keyword\" AND \"plus\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "grant",
+            "keyword",
+            "plus",
+            "dynamic",
+            "pt",
+            "eot"
+          ],
+          "query": "grant_keyword_plus_dynamic_pt_until_eot",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "grant_keyword_plus_dynamic_pt_until_eot",
+            "request_id": "ae8122a9ae514f708d1d34e7c5886194",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2"
+          },
+          "request_id": "ae8122a9ae514f708d1d34e7c5886194",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "EvalDynamicAmountFull is EvalDynamicAmountEv plus the resolving object's",
+              "doc": "EvalDynamicAmountFull is EvalDynamicAmountEv plus the resolving object's\ntargets (dynamic-amount round, 2026-08-08) \u2014 needed by \"stat_of_ref\" with\nref==\"target\" (\"draw cards equal to ITS power\" where \"it\" is the spell's\ntarget). Both dispatch chokepoints pass their StackObject targets through;\ncallers with no target context keep the narrower entry points, which pass\nnil here unchanged.\n",
+              "end": 528,
+              "kind": "engine",
+              "name": "EvalDynamicAmountFull",
+              "package": "game",
+              "path": "backend/game/dynamic_amount.go",
+              "qualified": "game.GameState.EvalDynamicAmountFull",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) EvalDynamicAmountFull(spec map[string]interface{}, controller int, source *Card, eventCard *Card, targets []Target) (int, bool)",
+              "start": 487,
+              "symbol_id": "backend/game/dynamic_amount.go::game.GameState.EvalDynamicAmountFull",
+              "symbol_kind": "function",
+              "title": "EvalDynamicAmountFull"
+            }
+          ],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "eval",
+            "dynamic",
+            "full"
+          ],
+          "query": "EvalDynamicAmountFull",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "EvalDynamicAmountFull",
+            "request_id": "404077e00184474e90dbdf2c2055f535",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2"
+          },
+          "request_id": "404077e00184474e90dbdf2c2055f535",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "Preserve the spell's announced mana value in trigger context, even when it",
+              "doc": "Preserve the spell's announced mana value in trigger context, even when it\nis countered before the trigger resolves. Other event subjects remain live.\n",
+              "end": 22,
+              "kind": "engine",
+              "name": "triggerEventCard",
+              "package": "game",
+              "path": "backend/game/lib_trigger_event_card.go",
+              "qualified": "game.GameState.triggerEventCard",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) triggerEventCard(event *Event) *Card",
+              "start": 5,
+              "symbol_id": "backend/game/lib_trigger_event_card.go::game.GameState.triggerEventCard",
+              "symbol_kind": "function",
+              "title": "triggerEventCard"
+            }
+          ],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "trigger",
+            "event",
+            "card"
+          ],
+          "query": "triggerEventCard",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "triggerEventCard",
+            "request_id": "db87bfd1e59b4b4fb231e0a9429c2c10",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2"
+          },
+          "request_id": "db87bfd1e59b4b4fb231e0a9429c2c10",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_eot",
+              "doc": "",
+              "end": 6303,
+              "kind": "engine",
+              "name": "grant_keyword_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_eot",
+              "start": 6264,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_eot"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "doc": "",
+              "end": 7394,
+              "kind": "engine",
+              "name": "grant_keyword_choice_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "start": 7353,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_choice_eot"
+            },
+            {
+              "description": "executeGrantValuedKeywordFilteredUntilEOT implements the",
+              "doc": "executeGrantValuedKeywordFilteredUntilEOT implements the\ngrant_valued_keyword_until_eot primitive (ticket\nengine.auto-grant-valued-keyword-until-eot-1312f3366b, Plague Nurse\nclass): \"Each other creature you control with toxic gains toxic 1 until\nend of turn.\" Extends grant_keywords_until_eot's group-grant branch (the\n\"creature\"/\"permanent\" AffectsFilter case in ExecuteAbilityEffect below)\nfor a VALUED keyword: unlike a plain presence keyword (flying, haste,\n...), which HasKeywordWithEffects reads live off the EffectManager and\nnever needs a concrete number, Toxic's amount lives on the plain\nCard.ToxicN field that combat.go's poison-counter check reads\nUNCONDITIONALLY (not through the EffectManager) \u2014 so a lazily-evaluated\nfilter effect alone can't feed it a number. Recipients are resolved NOW:\nevery OTHER creature (source itself is always excluded, matching the\n\"each other\" shape this primitive targets) the controller controls that\nALREADY has requiredKeyword (Rule 702.164b: multiple toxic instances on\none permanent COMPOUND rather than overriding, matching the \"with\ntoxic\" gate on the source Oracle text) \u2014 a creature lacking it is\nskipped entirely, not granted toxic from nothing. value is added\ndirectly onto each match's ToxicN, and one AffectsSpecific/UntilEOT\nContinuousEffect per recipient records the same delta in\nGrantKeywordValue purely so CleanupEndOfTurnEffects can subtract it\nback off when the grant expires.\n",
+              "end": 3639,
+              "kind": "engine",
+              "name": "executeGrantValuedKeywordFilteredUntilEOT",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeGrantValuedKeywordFilteredUntilEOT",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeGrantValuedKeywordFilteredUntilEOT(controller int, source *Card, keyword Keyword, value int, requiredKeyword Keyword)",
+              "start": 3616,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeGrantValuedKeywordFilteredUntilEOT",
+              "symbol_kind": "function",
+              "title": "executeGrantValuedKeywordFilteredUntilEOT"
+            },
+            {
+              "description": "RegisterGrantKeyword registers a keyword-granting effect",
+              "doc": "RegisterGrantKeyword registers a keyword-granting effect\n",
+              "end": 321,
+              "kind": "engine",
+              "name": "RegisterGrantKeyword",
+              "package": "game",
+              "path": "backend/game/testutil.go",
+              "qualified": "game.TestContext.RegisterGrantKeyword",
+              "receiver": "TestContext",
+              "signature": "func (ctx *TestContext) RegisterGrantKeyword(sourceName string, keyword Keyword, affectsSubtype string)",
+              "start": 312,
+              "symbol_id": "backend/game/testutil.go::game.TestContext.RegisterGrantKeyword",
+              "symbol_kind": "function",
+              "title": "RegisterGrantKeyword"
+            }
+          ],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "operation_only",
+          "fts_queries": [
+            "\"grant\" AND \"keyword\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "grant",
+            "keyword"
+          ],
+          "query": "grant_keyword",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "grant_keyword",
+            "request_id": "a4f5ac5ed69b4ca88396ba733dd22958",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2"
+          },
+          "request_id": "a4f5ac5ed69b4ca88396ba733dd22958",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:dfc2f019359bb28d2f0c7f5a6c15d8ab4ec807cd7121f3c547d2e8978cccf1d3",
+      "symbol": {
+        "description": "ExecuteAbilityEffect#case:grant_keyword_eot",
+        "discovery_role": "operation_only",
+        "doc": "",
+        "end": 6303,
+        "kind": "engine",
+        "name": "grant_keyword_eot",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_eot",
+        "receiver": "GameState",
+        "request_id": "a4f5ac5ed69b4ca88396ba733dd22958",
+        "signature": "ExecuteAbilityEffect#case:grant_keyword_eot",
+        "start": 6264,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_eot",
+        "symbol_kind": "case",
+        "title": "grant_keyword_eot"
+      }
+    },
+    {
+      "anchor": "7353-7394",
+      "fact": "Verified declaration game.GameState.ExecuteAbilityEffect#case:grant_keyword_choice_eot in source revision c2596268735df4fc8dd88b7033d4da211b27dea0; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"grant\" AND \"keyword\" AND \"plus\" AND \"dynamic\" AND \"pt\" AND \"eot\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "grant",
+            "keyword",
+            "plus",
+            "dynamic",
+            "pt",
+            "eot"
+          ],
+          "query": "grant_keyword_plus_dynamic_pt_until_eot",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "grant_keyword_plus_dynamic_pt_until_eot",
+            "request_id": "edfd11dd2aa14a1f80620f62df6866e4",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2"
+          },
+          "request_id": "edfd11dd2aa14a1f80620f62df6866e4",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"grant\" AND \"keyword\" AND \"plus\" AND \"dynamic\" AND \"pt\" AND \"eot\"",
+            "\"grant\" AND \"keyword\" AND \"plus\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "grant",
+            "keyword",
+            "plus",
+            "dynamic",
+            "pt",
+            "eot"
+          ],
+          "query": "grant_keyword_plus_dynamic_pt_until_eot",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "grant_keyword_plus_dynamic_pt_until_eot",
+            "request_id": "ae8122a9ae514f708d1d34e7c5886194",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2"
+          },
+          "request_id": "ae8122a9ae514f708d1d34e7c5886194",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "EvalDynamicAmountFull is EvalDynamicAmountEv plus the resolving object's",
+              "doc": "EvalDynamicAmountFull is EvalDynamicAmountEv plus the resolving object's\ntargets (dynamic-amount round, 2026-08-08) \u2014 needed by \"stat_of_ref\" with\nref==\"target\" (\"draw cards equal to ITS power\" where \"it\" is the spell's\ntarget). Both dispatch chokepoints pass their StackObject targets through;\ncallers with no target context keep the narrower entry points, which pass\nnil here unchanged.\n",
+              "end": 528,
+              "kind": "engine",
+              "name": "EvalDynamicAmountFull",
+              "package": "game",
+              "path": "backend/game/dynamic_amount.go",
+              "qualified": "game.GameState.EvalDynamicAmountFull",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) EvalDynamicAmountFull(spec map[string]interface{}, controller int, source *Card, eventCard *Card, targets []Target) (int, bool)",
+              "start": 487,
+              "symbol_id": "backend/game/dynamic_amount.go::game.GameState.EvalDynamicAmountFull",
+              "symbol_kind": "function",
+              "title": "EvalDynamicAmountFull"
+            }
+          ],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "eval",
+            "dynamic",
+            "full"
+          ],
+          "query": "EvalDynamicAmountFull",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "EvalDynamicAmountFull",
+            "request_id": "404077e00184474e90dbdf2c2055f535",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2"
+          },
+          "request_id": "404077e00184474e90dbdf2c2055f535",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "Preserve the spell's announced mana value in trigger context, even when it",
+              "doc": "Preserve the spell's announced mana value in trigger context, even when it\nis countered before the trigger resolves. Other event subjects remain live.\n",
+              "end": 22,
+              "kind": "engine",
+              "name": "triggerEventCard",
+              "package": "game",
+              "path": "backend/game/lib_trigger_event_card.go",
+              "qualified": "game.GameState.triggerEventCard",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) triggerEventCard(event *Event) *Card",
+              "start": 5,
+              "symbol_id": "backend/game/lib_trigger_event_card.go::game.GameState.triggerEventCard",
+              "symbol_kind": "function",
+              "title": "triggerEventCard"
+            }
+          ],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "trigger",
+            "event",
+            "card"
+          ],
+          "query": "triggerEventCard",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "triggerEventCard",
+            "request_id": "db87bfd1e59b4b4fb231e0a9429c2c10",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2"
+          },
+          "request_id": "db87bfd1e59b4b4fb231e0a9429c2c10",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_eot",
+              "doc": "",
+              "end": 6303,
+              "kind": "engine",
+              "name": "grant_keyword_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_eot",
+              "start": 6264,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_eot"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "doc": "",
+              "end": 7394,
+              "kind": "engine",
+              "name": "grant_keyword_choice_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "start": 7353,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_choice_eot"
+            },
+            {
+              "description": "executeGrantValuedKeywordFilteredUntilEOT implements the",
+              "doc": "executeGrantValuedKeywordFilteredUntilEOT implements the\ngrant_valued_keyword_until_eot primitive (ticket\nengine.auto-grant-valued-keyword-until-eot-1312f3366b, Plague Nurse\nclass): \"Each other creature you control with toxic gains toxic 1 until\nend of turn.\" Extends grant_keywords_until_eot's group-grant branch (the\n\"creature\"/\"permanent\" AffectsFilter case in ExecuteAbilityEffect below)\nfor a VALUED keyword: unlike a plain presence keyword (flying, haste,\n...), which HasKeywordWithEffects reads live off the EffectManager and\nnever needs a concrete number, Toxic's amount lives on the plain\nCard.ToxicN field that combat.go's poison-counter check reads\nUNCONDITIONALLY (not through the EffectManager) \u2014 so a lazily-evaluated\nfilter effect alone can't feed it a number. Recipients are resolved NOW:\nevery OTHER creature (source itself is always excluded, matching the\n\"each other\" shape this primitive targets) the controller controls that\nALREADY has requiredKeyword (Rule 702.164b: multiple toxic instances on\none permanent COMPOUND rather than overriding, matching the \"with\ntoxic\" gate on the source Oracle text) \u2014 a creature lacking it is\nskipped entirely, not granted toxic from nothing. value is added\ndirectly onto each match's ToxicN, and one AffectsSpecific/UntilEOT\nContinuousEffect per recipient records the same delta in\nGrantKeywordValue purely so CleanupEndOfTurnEffects can subtract it\nback off when the grant expires.\n",
+              "end": 3639,
+              "kind": "engine",
+              "name": "executeGrantValuedKeywordFilteredUntilEOT",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeGrantValuedKeywordFilteredUntilEOT",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeGrantValuedKeywordFilteredUntilEOT(controller int, source *Card, keyword Keyword, value int, requiredKeyword Keyword)",
+              "start": 3616,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeGrantValuedKeywordFilteredUntilEOT",
+              "symbol_kind": "function",
+              "title": "executeGrantValuedKeywordFilteredUntilEOT"
+            },
+            {
+              "description": "RegisterGrantKeyword registers a keyword-granting effect",
+              "doc": "RegisterGrantKeyword registers a keyword-granting effect\n",
+              "end": 321,
+              "kind": "engine",
+              "name": "RegisterGrantKeyword",
+              "package": "game",
+              "path": "backend/game/testutil.go",
+              "qualified": "game.TestContext.RegisterGrantKeyword",
+              "receiver": "TestContext",
+              "signature": "func (ctx *TestContext) RegisterGrantKeyword(sourceName string, keyword Keyword, affectsSubtype string)",
+              "start": 312,
+              "symbol_id": "backend/game/testutil.go::game.TestContext.RegisterGrantKeyword",
+              "symbol_kind": "function",
+              "title": "RegisterGrantKeyword"
+            }
+          ],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "operation_only",
+          "fts_queries": [
+            "\"grant\" AND \"keyword\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "grant",
+            "keyword"
+          ],
+          "query": "grant_keyword",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "grant_keyword",
+            "request_id": "a4f5ac5ed69b4ca88396ba733dd22958",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2"
+          },
+          "request_id": "a4f5ac5ed69b4ca88396ba733dd22958",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:dfc2f019359bb28d2f0c7f5a6c15d8ab4ec807cd7121f3c547d2e8978cccf1d3",
+      "symbol": {
+        "description": "ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+        "discovery_role": "operation_only",
+        "doc": "",
+        "end": 7394,
+        "kind": "engine",
+        "name": "grant_keyword_choice_eot",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+        "receiver": "GameState",
+        "request_id": "a4f5ac5ed69b4ca88396ba733dd22958",
+        "signature": "ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+        "start": 7353,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+        "symbol_kind": "case",
+        "title": "grant_keyword_choice_eot"
+      }
+    },
+    {
+      "fact": "The required atomic Engine capability passed full integration gates. Runtime contract: EvalDynamicAmountFull supports count=event_subject_mana_value for the triggering spell. triggerEventCard preserves announced X if the spell is countered before resolution. Reuse pump_until_eot value.pt_amount_count={count:event_subject_mana_value}, target_self=true, followed or preceded by grant_keywords_until_eot value.keyword=trample. Both P/T deltas equal mana value; zero is legal, repeated triggers stack, and both effects expire at end of turn. Existing power_from=referent_spell_mana_value remains +X/+0.",
+      "ticket": "ticket:engine.auto-grant-keyword-plus-dynamic-pt-until-eot-db98033e77/v2"
+    },
+    {
+      "anchor": "6745-6759",
+      "fact": "Verified declaration game.GameState.ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot in source revision 05b8b7dc2a0247016991e3152bfc8b7c174aa7c9; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "doc": "",
+              "end": 6759,
+              "kind": "engine",
+              "name": "grant_keyword_plus_dynamic_pt_until_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "start": 6745,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_plus_dynamic_pt_until_eot"
+            }
+          ],
+          "current_source_revision": "05b8b7dc2a0247016991e3152bfc8b7c174aa7c9",
+          "discovery_role": "capability_label",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T02:31:50Z",
+          "indexed_revision": "05b8b7dc2a0247016991e3152bfc8b7c174aa7c9",
+          "normalized_words": [
+            "grant",
+            "keyword",
+            "plus",
+            "dynamic",
+            "pt",
+            "eot"
+          ],
+          "query": "grant_keyword_plus_dynamic_pt_until_eot",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "grant_keyword_plus_dynamic_pt_until_eot",
+            "request_id": "574f70a427a84b72928f88d0f318010f",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v3"
+          },
+          "request_id": "574f70a427a84b72928f88d0f318010f",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_eot",
+              "doc": "",
+              "end": 6743,
+              "kind": "engine",
+              "name": "grant_keyword_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_eot",
+              "start": 6704,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_eot"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "doc": "",
+              "end": 7850,
+              "kind": "engine",
+              "name": "grant_keyword_choice_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "start": 7809,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_choice_eot"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "doc": "",
+              "end": 6759,
+              "kind": "engine",
+              "name": "grant_keyword_plus_dynamic_pt_until_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "start": 6745,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_plus_dynamic_pt_until_eot"
+            },
+            {
+              "description": "executeGrantValuedKeywordFilteredUntilEOT implements the",
+              "doc": "executeGrantValuedKeywordFilteredUntilEOT implements the\ngrant_valued_keyword_until_eot primitive (ticket\nengine.auto-grant-valued-keyword-until-eot-1312f3366b, Plague Nurse\nclass): \"Each other creature you control with toxic gains toxic 1 until\nend of turn.\" Extends grant_keywords_until_eot's group-grant branch (the\n\"creature\"/\"permanent\" AffectsFilter case in ExecuteAbilityEffect below)\nfor a VALUED keyword: unlike a plain presence keyword (flying, haste,\n...), which HasKeywordWithEffects reads live off the EffectManager and\nnever needs a concrete number, Toxic's amount lives on the plain\nCard.ToxicN field that combat.go's poison-counter check reads\nUNCONDITIONALLY (not through the EffectManager) \u2014 so a lazily-evaluated\nfilter effect alone can't feed it a number. Recipients are resolved NOW:\nevery OTHER creature (source itself is always excluded, matching the\n\"each other\" shape this primitive targets) the controller controls that\nALREADY has requiredKeyword (Rule 702.164b: multiple toxic instances on\none permanent COMPOUND rather than overriding, matching the \"with\ntoxic\" gate on the source Oracle text) \u2014 a creature lacking it is\nskipped entirely, not granted toxic from nothing. value is added\ndirectly onto each match's ToxicN, and one AffectsSpecific/UntilEOT\nContinuousEffect per recipient records the same delta in\nGrantKeywordValue purely so CleanupEndOfTurnEffects can subtract it\nback off when the grant expires.\n",
+              "end": 3988,
+              "kind": "engine",
+              "name": "executeGrantValuedKeywordFilteredUntilEOT",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeGrantValuedKeywordFilteredUntilEOT",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeGrantValuedKeywordFilteredUntilEOT(controller int, source *Card, keyword Keyword, value int, requiredKeyword Keyword)",
+              "start": 3965,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeGrantValuedKeywordFilteredUntilEOT",
+              "symbol_kind": "function",
+              "title": "executeGrantValuedKeywordFilteredUntilEOT"
+            }
+          ],
+          "current_source_revision": "05b8b7dc2a0247016991e3152bfc8b7c174aa7c9",
+          "discovery_role": "operation_only",
+          "fts_queries": [
+            "\"grant\" AND \"keyword\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T02:31:50Z",
+          "indexed_revision": "05b8b7dc2a0247016991e3152bfc8b7c174aa7c9",
+          "normalized_words": [
+            "grant",
+            "keyword"
+          ],
+          "query": "grant_keyword",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "grant_keyword",
+            "request_id": "cd0c7163853c4580a9f56e4ae90a5bf0",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v3"
+          },
+          "request_id": "cd0c7163853c4580a9f56e4ae90a5bf0",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:0d28810eb477bcd0662031b8ecf5c913ccbca2c775bd6ba2e0a11ef7a9a3b549",
+      "symbol": {
+        "description": "ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+        "discovery_role": "capability_label",
+        "doc": "",
+        "end": 6759,
+        "kind": "engine",
+        "name": "grant_keyword_plus_dynamic_pt_until_eot",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+        "receiver": "GameState",
+        "request_id": "574f70a427a84b72928f88d0f318010f",
+        "signature": "ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+        "start": 6745,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+        "symbol_kind": "case",
+        "title": "grant_keyword_plus_dynamic_pt_until_eot"
+      }
+    },
+    {
+      "anchor": "6704-6743",
+      "fact": "Verified declaration game.GameState.ExecuteAbilityEffect#case:grant_keyword_eot in source revision 05b8b7dc2a0247016991e3152bfc8b7c174aa7c9; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "doc": "",
+              "end": 6759,
+              "kind": "engine",
+              "name": "grant_keyword_plus_dynamic_pt_until_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "start": 6745,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_plus_dynamic_pt_until_eot"
+            }
+          ],
+          "current_source_revision": "05b8b7dc2a0247016991e3152bfc8b7c174aa7c9",
+          "discovery_role": "capability_label",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T02:31:50Z",
+          "indexed_revision": "05b8b7dc2a0247016991e3152bfc8b7c174aa7c9",
+          "normalized_words": [
+            "grant",
+            "keyword",
+            "plus",
+            "dynamic",
+            "pt",
+            "eot"
+          ],
+          "query": "grant_keyword_plus_dynamic_pt_until_eot",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "grant_keyword_plus_dynamic_pt_until_eot",
+            "request_id": "574f70a427a84b72928f88d0f318010f",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v3"
+          },
+          "request_id": "574f70a427a84b72928f88d0f318010f",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_eot",
+              "doc": "",
+              "end": 6743,
+              "kind": "engine",
+              "name": "grant_keyword_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_eot",
+              "start": 6704,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_eot"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "doc": "",
+              "end": 7850,
+              "kind": "engine",
+              "name": "grant_keyword_choice_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "start": 7809,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_choice_eot"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "doc": "",
+              "end": 6759,
+              "kind": "engine",
+              "name": "grant_keyword_plus_dynamic_pt_until_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "start": 6745,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_plus_dynamic_pt_until_eot"
+            },
+            {
+              "description": "executeGrantValuedKeywordFilteredUntilEOT implements the",
+              "doc": "executeGrantValuedKeywordFilteredUntilEOT implements the\ngrant_valued_keyword_until_eot primitive (ticket\nengine.auto-grant-valued-keyword-until-eot-1312f3366b, Plague Nurse\nclass): \"Each other creature you control with toxic gains toxic 1 until\nend of turn.\" Extends grant_keywords_until_eot's group-grant branch (the\n\"creature\"/\"permanent\" AffectsFilter case in ExecuteAbilityEffect below)\nfor a VALUED keyword: unlike a plain presence keyword (flying, haste,\n...), which HasKeywordWithEffects reads live off the EffectManager and\nnever needs a concrete number, Toxic's amount lives on the plain\nCard.ToxicN field that combat.go's poison-counter check reads\nUNCONDITIONALLY (not through the EffectManager) \u2014 so a lazily-evaluated\nfilter effect alone can't feed it a number. Recipients are resolved NOW:\nevery OTHER creature (source itself is always excluded, matching the\n\"each other\" shape this primitive targets) the controller controls that\nALREADY has requiredKeyword (Rule 702.164b: multiple toxic instances on\none permanent COMPOUND rather than overriding, matching the \"with\ntoxic\" gate on the source Oracle text) \u2014 a creature lacking it is\nskipped entirely, not granted toxic from nothing. value is added\ndirectly onto each match's ToxicN, and one AffectsSpecific/UntilEOT\nContinuousEffect per recipient records the same delta in\nGrantKeywordValue purely so CleanupEndOfTurnEffects can subtract it\nback off when the grant expires.\n",
+              "end": 3988,
+              "kind": "engine",
+              "name": "executeGrantValuedKeywordFilteredUntilEOT",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeGrantValuedKeywordFilteredUntilEOT",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeGrantValuedKeywordFilteredUntilEOT(controller int, source *Card, keyword Keyword, value int, requiredKeyword Keyword)",
+              "start": 3965,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeGrantValuedKeywordFilteredUntilEOT",
+              "symbol_kind": "function",
+              "title": "executeGrantValuedKeywordFilteredUntilEOT"
+            }
+          ],
+          "current_source_revision": "05b8b7dc2a0247016991e3152bfc8b7c174aa7c9",
+          "discovery_role": "operation_only",
+          "fts_queries": [
+            "\"grant\" AND \"keyword\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T02:31:50Z",
+          "indexed_revision": "05b8b7dc2a0247016991e3152bfc8b7c174aa7c9",
+          "normalized_words": [
+            "grant",
+            "keyword"
+          ],
+          "query": "grant_keyword",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "grant_keyword",
+            "request_id": "cd0c7163853c4580a9f56e4ae90a5bf0",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v3"
+          },
+          "request_id": "cd0c7163853c4580a9f56e4ae90a5bf0",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:0d28810eb477bcd0662031b8ecf5c913ccbca2c775bd6ba2e0a11ef7a9a3b549",
+      "symbol": {
+        "description": "ExecuteAbilityEffect#case:grant_keyword_eot",
+        "discovery_role": "operation_only",
+        "doc": "",
+        "end": 6743,
+        "kind": "engine",
+        "name": "grant_keyword_eot",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_eot",
+        "receiver": "GameState",
+        "request_id": "cd0c7163853c4580a9f56e4ae90a5bf0",
+        "signature": "ExecuteAbilityEffect#case:grant_keyword_eot",
+        "start": 6704,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_eot",
+        "symbol_kind": "case",
+        "title": "grant_keyword_eot"
+      }
+    },
+    {
+      "anchor": "7809-7850",
+      "fact": "Verified declaration game.GameState.ExecuteAbilityEffect#case:grant_keyword_choice_eot in source revision 05b8b7dc2a0247016991e3152bfc8b7c174aa7c9; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "doc": "",
+              "end": 6759,
+              "kind": "engine",
+              "name": "grant_keyword_plus_dynamic_pt_until_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "start": 6745,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_plus_dynamic_pt_until_eot"
+            }
+          ],
+          "current_source_revision": "05b8b7dc2a0247016991e3152bfc8b7c174aa7c9",
+          "discovery_role": "capability_label",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T02:31:50Z",
+          "indexed_revision": "05b8b7dc2a0247016991e3152bfc8b7c174aa7c9",
+          "normalized_words": [
+            "grant",
+            "keyword",
+            "plus",
+            "dynamic",
+            "pt",
+            "eot"
+          ],
+          "query": "grant_keyword_plus_dynamic_pt_until_eot",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "grant_keyword_plus_dynamic_pt_until_eot",
+            "request_id": "574f70a427a84b72928f88d0f318010f",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v3"
+          },
+          "request_id": "574f70a427a84b72928f88d0f318010f",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_eot",
+              "doc": "",
+              "end": 6743,
+              "kind": "engine",
+              "name": "grant_keyword_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_eot",
+              "start": 6704,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_eot"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "doc": "",
+              "end": 7850,
+              "kind": "engine",
+              "name": "grant_keyword_choice_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "start": 7809,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_choice_eot"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "doc": "",
+              "end": 6759,
+              "kind": "engine",
+              "name": "grant_keyword_plus_dynamic_pt_until_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "start": 6745,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_plus_dynamic_pt_until_eot"
+            },
+            {
+              "description": "executeGrantValuedKeywordFilteredUntilEOT implements the",
+              "doc": "executeGrantValuedKeywordFilteredUntilEOT implements the\ngrant_valued_keyword_until_eot primitive (ticket\nengine.auto-grant-valued-keyword-until-eot-1312f3366b, Plague Nurse\nclass): \"Each other creature you control with toxic gains toxic 1 until\nend of turn.\" Extends grant_keywords_until_eot's group-grant branch (the\n\"creature\"/\"permanent\" AffectsFilter case in ExecuteAbilityEffect below)\nfor a VALUED keyword: unlike a plain presence keyword (flying, haste,\n...), which HasKeywordWithEffects reads live off the EffectManager and\nnever needs a concrete number, Toxic's amount lives on the plain\nCard.ToxicN field that combat.go's poison-counter check reads\nUNCONDITIONALLY (not through the EffectManager) \u2014 so a lazily-evaluated\nfilter effect alone can't feed it a number. Recipients are resolved NOW:\nevery OTHER creature (source itself is always excluded, matching the\n\"each other\" shape this primitive targets) the controller controls that\nALREADY has requiredKeyword (Rule 702.164b: multiple toxic instances on\none permanent COMPOUND rather than overriding, matching the \"with\ntoxic\" gate on the source Oracle text) \u2014 a creature lacking it is\nskipped entirely, not granted toxic from nothing. value is added\ndirectly onto each match's ToxicN, and one AffectsSpecific/UntilEOT\nContinuousEffect per recipient records the same delta in\nGrantKeywordValue purely so CleanupEndOfTurnEffects can subtract it\nback off when the grant expires.\n",
+              "end": 3988,
+              "kind": "engine",
+              "name": "executeGrantValuedKeywordFilteredUntilEOT",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeGrantValuedKeywordFilteredUntilEOT",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeGrantValuedKeywordFilteredUntilEOT(controller int, source *Card, keyword Keyword, value int, requiredKeyword Keyword)",
+              "start": 3965,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeGrantValuedKeywordFilteredUntilEOT",
+              "symbol_kind": "function",
+              "title": "executeGrantValuedKeywordFilteredUntilEOT"
+            }
+          ],
+          "current_source_revision": "05b8b7dc2a0247016991e3152bfc8b7c174aa7c9",
+          "discovery_role": "operation_only",
+          "fts_queries": [
+            "\"grant\" AND \"keyword\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T02:31:50Z",
+          "indexed_revision": "05b8b7dc2a0247016991e3152bfc8b7c174aa7c9",
+          "normalized_words": [
+            "grant",
+            "keyword"
+          ],
+          "query": "grant_keyword",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "grant_keyword",
+            "request_id": "cd0c7163853c4580a9f56e4ae90a5bf0",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v3"
+          },
+          "request_id": "cd0c7163853c4580a9f56e4ae90a5bf0",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:0d28810eb477bcd0662031b8ecf5c913ccbca2c775bd6ba2e0a11ef7a9a3b549",
+      "symbol": {
+        "description": "ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+        "discovery_role": "operation_only",
+        "doc": "",
+        "end": 7850,
+        "kind": "engine",
+        "name": "grant_keyword_choice_eot",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+        "receiver": "GameState",
+        "request_id": "cd0c7163853c4580a9f56e4ae90a5bf0",
+        "signature": "ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+        "start": 7809,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+        "symbol_kind": "case",
+        "title": "grant_keyword_choice_eot"
+      }
+    },
+    {
+      "anchor": "3965-3988",
+      "fact": "Verified declaration game.GameState.executeGrantValuedKeywordFilteredUntilEOT in source revision 05b8b7dc2a0247016991e3152bfc8b7c174aa7c9; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "doc": "",
+              "end": 6759,
+              "kind": "engine",
+              "name": "grant_keyword_plus_dynamic_pt_until_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "start": 6745,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_plus_dynamic_pt_until_eot"
+            }
+          ],
+          "current_source_revision": "05b8b7dc2a0247016991e3152bfc8b7c174aa7c9",
+          "discovery_role": "capability_label",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T02:31:50Z",
+          "indexed_revision": "05b8b7dc2a0247016991e3152bfc8b7c174aa7c9",
+          "normalized_words": [
+            "grant",
+            "keyword",
+            "plus",
+            "dynamic",
+            "pt",
+            "eot"
+          ],
+          "query": "grant_keyword_plus_dynamic_pt_until_eot",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "grant_keyword_plus_dynamic_pt_until_eot",
+            "request_id": "574f70a427a84b72928f88d0f318010f",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v3"
+          },
+          "request_id": "574f70a427a84b72928f88d0f318010f",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_eot",
+              "doc": "",
+              "end": 6743,
+              "kind": "engine",
+              "name": "grant_keyword_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_eot",
+              "start": 6704,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_eot"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "doc": "",
+              "end": 7850,
+              "kind": "engine",
+              "name": "grant_keyword_choice_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "start": 7809,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_choice_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_choice_eot"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "doc": "",
+              "end": 6759,
+              "kind": "engine",
+              "name": "grant_keyword_plus_dynamic_pt_until_eot",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "start": 6745,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:grant_keyword_plus_dynamic_pt_until_eot",
+              "symbol_kind": "case",
+              "title": "grant_keyword_plus_dynamic_pt_until_eot"
+            },
+            {
+              "description": "executeGrantValuedKeywordFilteredUntilEOT implements the",
+              "doc": "executeGrantValuedKeywordFilteredUntilEOT implements the\ngrant_valued_keyword_until_eot primitive (ticket\nengine.auto-grant-valued-keyword-until-eot-1312f3366b, Plague Nurse\nclass): \"Each other creature you control with toxic gains toxic 1 until\nend of turn.\" Extends grant_keywords_until_eot's group-grant branch (the\n\"creature\"/\"permanent\" AffectsFilter case in ExecuteAbilityEffect below)\nfor a VALUED keyword: unlike a plain presence keyword (flying, haste,\n...), which HasKeywordWithEffects reads live off the EffectManager and\nnever needs a concrete number, Toxic's amount lives on the plain\nCard.ToxicN field that combat.go's poison-counter check reads\nUNCONDITIONALLY (not through the EffectManager) \u2014 so a lazily-evaluated\nfilter effect alone can't feed it a number. Recipients are resolved NOW:\nevery OTHER creature (source itself is always excluded, matching the\n\"each other\" shape this primitive targets) the controller controls that\nALREADY has requiredKeyword (Rule 702.164b: multiple toxic instances on\none permanent COMPOUND rather than overriding, matching the \"with\ntoxic\" gate on the source Oracle text) \u2014 a creature lacking it is\nskipped entirely, not granted toxic from nothing. value is added\ndirectly onto each match's ToxicN, and one AffectsSpecific/UntilEOT\nContinuousEffect per recipient records the same delta in\nGrantKeywordValue purely so CleanupEndOfTurnEffects can subtract it\nback off when the grant expires.\n",
+              "end": 3988,
+              "kind": "engine",
+              "name": "executeGrantValuedKeywordFilteredUntilEOT",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeGrantValuedKeywordFilteredUntilEOT",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeGrantValuedKeywordFilteredUntilEOT(controller int, source *Card, keyword Keyword, value int, requiredKeyword Keyword)",
+              "start": 3965,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeGrantValuedKeywordFilteredUntilEOT",
+              "symbol_kind": "function",
+              "title": "executeGrantValuedKeywordFilteredUntilEOT"
+            }
+          ],
+          "current_source_revision": "05b8b7dc2a0247016991e3152bfc8b7c174aa7c9",
+          "discovery_role": "operation_only",
+          "fts_queries": [
+            "\"grant\" AND \"keyword\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-09T02:31:50Z",
+          "indexed_revision": "05b8b7dc2a0247016991e3152bfc8b7c174aa7c9",
+          "normalized_words": [
+            "grant",
+            "keyword"
+          ],
+          "query": "grant_keyword",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "grant_keyword",
+            "request_id": "cd0c7163853c4580a9f56e4ae90a5bf0",
+            "ticket": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v3"
+          },
+          "request_id": "cd0c7163853c4580a9f56e4ae90a5bf0",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:0d28810eb477bcd0662031b8ecf5c913ccbca2c775bd6ba2e0a11ef7a9a3b549",
+      "symbol": {
+        "description": "executeGrantValuedKeywordFilteredUntilEOT implements the",
+        "discovery_role": "operation_only",
+        "doc": "executeGrantValuedKeywordFilteredUntilEOT implements the\ngrant_valued_keyword_until_eot primitive (ticket\nengine.auto-grant-valued-keyword-until-eot-1312f3366b, Plague Nurse\nclass): \"Each other creature you control with toxic gains toxic 1 until\nend of turn.\" Extends grant_keywords_until_eot's group-grant branch (the\n\"creature\"/\"permanent\" AffectsFilter case in ExecuteAbilityEffect below)\nfor a VALUED keyword: unlike a plain presence keyword (flying, haste,\n...), which HasKeywordWithEffects reads live off the EffectManager and\nnever needs a concrete number, Toxic's amount lives on the plain\nCard.ToxicN field that combat.go's poison-counter check reads\nUNCONDITIONALLY (not through the EffectManager) \u2014 so a lazily-evaluated\nfilter effect alone can't feed it a number. Recipients are resolved NOW:\nevery OTHER creature (source itself is always excluded, matching the\n\"each other\" shape this primitive targets) the controller controls that\nALREADY has requiredKeyword (Rule 702.164b: multiple toxic instances on\none permanent COMPOUND rather than overriding, matching the \"with\ntoxic\" gate on the source Oracle text) \u2014 a creature lacking it is\nskipped entirely, not granted toxic from nothing. value is added\ndirectly onto each match's ToxicN, and one AffectsSpecific/UntilEOT\nContinuousEffect per recipient records the same delta in\nGrantKeywordValue purely so CleanupEndOfTurnEffects can subtract it\nback off when the grant expires.\n",
+        "end": 3988,
+        "kind": "engine",
+        "name": "executeGrantValuedKeywordFilteredUntilEOT",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.executeGrantValuedKeywordFilteredUntilEOT",
+        "receiver": "GameState",
+        "request_id": "cd0c7163853c4580a9f56e4ae90a5bf0",
+        "signature": "func (gs *GameState) executeGrantValuedKeywordFilteredUntilEOT(controller int, source *Card, keyword Keyword, value int, requiredKeyword Keyword)",
+        "start": 3965,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.executeGrantValuedKeywordFilteredUntilEOT",
+        "symbol_kind": "function",
+        "title": "executeGrantValuedKeywordFilteredUntilEOT"
+      }
+    },
+    {
+      "fact": "The required atomic Engine capability passed full integration gates. Runtime contract: On a trigger event (casting a spell), grant the source a named keyword (e.g. trample) and a +X/+X bonus until end of turn in the same trigger, where X equals the mana value of the spell that caused the trigger (0 is legal and yields +0/+0 while still granting the keyword), with repeated triggers stacking independently and both the keyword grant and the P/T bonus expiring together at end of turn",
+      "ticket": "ticket:engine.auto-grant-keyword-plus-dynamic-pt-until-eot-bdb265d199/v2"
+    },
+    {
+      "fact": "Failed integration recovery; current pinned-card audit: [{\"card\": \"Skittering Cicada\", \"eligible\": false, \"misses\": [[\"verb_unmapped:grant_eot\", \"until end of turn, ~ gains trample and gets +x/+x, where x is that spe\"]], \"oracle_text\": \"Flash\\nYou may cast colorless spells as though they had flash.\\nWhenever you cast a colorless spell, until end of turn, this creature gains trample and gets +X/+X, where X is that spell's mana value.\", \"status\": \"review\"}]",
+      "path": "docs/factory-ng/runs/2026-09-09T024925Z-map-plan-grant-eot-skittering-cicada-aaedaea801-v3-claude.json"
+    },
+    {
+      "fact": "Failed integration recovery; current pinned-card audit: [{\"card\": \"Skittering Cicada\", \"eligible\": false, \"misses\": [[\"verb_unmapped:grant_eot\", \"until end of turn, ~ gains trample and gets +x/+x, where x is that spe\"]], \"oracle_text\": \"Flash\\nYou may cast colorless spells as though they had flash.\\nWhenever you cast a colorless spell, until end of turn, this creature gains trample and gets +X/+X, where X is that spell's mana value.\", \"status\": \"review\"}]",
+      "path": "docs/factory-ng/runs/2026-09-09T030815Z-map-plan-grant-eot-skittering-cicada-aaedaea801-v4-claude.json"
+    },
+    {
+      "fact": "Operator-reviewed zero-model contract correction. Historical Engine gate diagnostics are read-only context, not permission for this Map worker to edit Engine code. All original gates, scope, source measurement and repair counters survive; no attempts are refunded.",
+      "path": "docs/factory-ng/reviews/2026-09-09-capacity/contract-audit.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0"
+    ],
+    "context_only_paths": [
+      "backend/game/ability_effects.go"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "parser_probes": [
+      {
+        "card": "Skittering Cicada",
+        "function": "reparse_card"
+      }
+    ],
+    "profile_policy": "exact",
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "Rebase an accepted Map candidate against current source and verify its complete Oracle behavior; the discovery frontier no longer represents this failed obligation.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "cd scripts/paragraph && python3 -m unittest test_factory_ng_aaedaea801",
+    "git diff --check",
+    "git status --porcelain adds or changes only scripts/paragraph/reparse.py and scripts/paragraph/test_factory_ng_aaedaea801.py",
+    "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/dependency-resume-d487ba25be.json reports zero remaining pinned members"
+  ],
+  "id": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v6",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Compile any new validated atomic dependency automatically; otherwise retain the terminal verdict and advance discovery.",
+  "parents": [
+    "plan:verb_unmapped:grant_eot",
+    "ticket:engine.auto-grant-keyword-plus-dynamic-pt-until-eot-db98033e77/v2",
+    "ticket:engine.auto-grant-keyword-plus-dynamic-pt-until-eot-bdb265d199/v2",
+    "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v3",
+    "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v4",
+    "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v5"
+  ],
+  "production": {
+    "contract_correction_batch": "2026-09-09-capacity",
+    "integration_recovery_parent": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2",
+    "integration_repair_generation": 2,
+    "key": "staged-five-card-2026-09-08:map:cicada:after:ticket:engine.auto-grant-keyword-plus-dynamic-pt-until-eot-bdb265d199/v2:reviewed-contract-sep09",
+    "producer": "build-plan-integration-recovery",
+    "retry_reason": "integration_conflict_repair",
+    "trial_card": "Skittering Cicada",
+    "trial_id": "staged-five-card-2026-09-08"
+  },
+  "required_behavior": [
+    "Map the exact current verb_unmapped:grant_eot miss on Skittering Cicada through the already-registered grant_keywords_until_eot primitive without losing any Oracle semantics.",
+    "The pinned card loses this miss and retains no new or silently swallowed miss.",
+    "Add a focused positive test plus an adjacent negative that must remain unmapped.",
+    "If the exact amount, recipient, filter, referent, or duration cannot execute through existing runtime behavior, return NEEDS_PRIMITIVE with one atomic CAPABILITY_JSON instead of a partial Map patch.",
+    "Do not edit Engine, converter, corpus data, or use a card-name special case.",
+    "The Engine dependency landing is not proof this card is fixed. Verify the complete Oracle mapping against its runtime representation, including every ability, even if parsing is already eligible.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Actual triggered sequence grants trample and +4/+4 from a four-mana-value colorless spell.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Zero mana value gives +0/+0 and still grants trample.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Both bonuses expire correctly at end of turn; repeated triggers stack.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Existing referent_spell_mana_value +X/+0 remains asymmetric.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Event source remains usable after triggering spell leaves stack; test X in casting context.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Fresh parsed card triggers only for required colorless casts and preserves its other abilities.",
+    "Complete-card acceptance obligation (later runtime verification is separate): All three abilities work: Cicada itself has flash, controller may cast colorless spells with flash timing, and only colorless spell casts produce its temporary pump/trample trigger.",
+    "The Engine dependency landing is not proof this card is fixed. Verify the complete Oracle mapping against its runtime representation, including every ability, even if parsing is already eligible.",
+    "The Engine dependency landing is not proof this card is fixed. Map the exact Oracle behavior to the new runtime capability and retain meaningful complete-card regression tests, even if this card already reparses as eligible.",
+    "The prior observation is historical evidence, not proof that its patch is still correct. Preserve every current valid mapping. Do not restore an obsolete negative assertion for a shape now implemented.",
+    "Keep every original gate command and allowed path. Add or repair the named positive and adjacent-negative tests on this revision; assert all Oracle clauses, counts, choices, controller restrictions and durations, not just eligibility or one removed miss.",
+    "A pinned card already marked auto must still be reparsed and tested. If the implementation is already correct, return only meaningful regression-test changes; do not duplicate parser branches.",
+    "If the miss moved to spell_seq_targeted or a required runtime behavior is absent, return a validated atomic NEEDS_PRIMITIVE demand. Do not hide the new miss, drop a clause, or force status auto.",
+    "Repair the observed failing contract without weakening it: [{\"command\": \"cd scripts/paragraph && python3 -m unittest test_factory_ng_aaedaea801\", \"detail\": \"/tmp/factory-ng-map-plan-grant-eot-skittering-cicada-aaedaea801-v3-dxrc5xkt/scripts/paragraph/reparse.py:16652: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-map-plan-grant-eot-skittering-cicada-aaedaea801-v3-dxrc5xkt/scripts/paragraph/../../backend/data/carddb/s.json' mode='r' encoding='UTF-8'>\\nAssertionError: [] is not true : expected a triggered ability for the cast-colorless-spell trigger\\n/tmp/factory-ng-map-plan-grant-eot-skittering-cicada-aaedaea801-v3-dxrc5xkt/scripts/paragraph/reparse.py:16652: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-map-plan-grant-eot-skittering-cicada-aaedaea801-v3-dxrc5xkt/scripts/paragraph/../../backend/data/carddb/s.json' mode='r' encoding='UTF-8'>\\n  db = json.load(open(path))\\nResourceWarning: Enable tracemalloc to get the object allocation traceback\\nF.\\n======================================================================\\nFAIL: test_skittering_cicada_grant_eot_maps (test_factory_ng_aaedaea801.TestGrantEotSkitteringCicada.test_skittering_cicada_grant_eot_maps)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \\\"/tmp/factory-ng-map-plan-grant-eot-skittering-cicada-aaedaea801-v3-dxrc5xkt/scripts/paragraph/test_factory_ng_aaedaea801.py\\\", line 26, in test_skittering_cicada_grant_eot_maps\\n    self.assertTrue(triggered, 'expected a triggered ability for the cast-colorless-spell trigger')\\nAssertionError: [] is not true : expected a triggered ability for the cast-colorless-spell trigger\\n----------------------------------------------------------------------\\nRan 2 tests in 0.858s\\nFAILED (failures=1)\", \"id\": \"ticket-gate-0\", \"outcome\": \"failed\"}]",
+    "The prior observation is historical evidence, not proof that its patch is still correct. Preserve every current valid mapping. Do not restore an obsolete negative assertion for a shape now implemented.",
+    "Keep every original gate command and allowed path. Add or repair the named positive and adjacent-negative tests on this revision; assert all Oracle clauses, counts, choices, controller restrictions and durations, not just eligibility or one removed miss.",
+    "A pinned card already marked auto must still be reparsed and tested. If the implementation is already correct, return only meaningful regression-test changes; do not duplicate parser branches.",
+    "If the miss moved to spell_seq_targeted or a required runtime behavior is absent, return a validated atomic NEEDS_PRIMITIVE demand. Do not hide the new miss, drop a clause, or force status auto.",
+    "Repair the observed failing contract without weakening it: [{\"detail\": \"VERDICT: NEEDS_PRIMITIVE\\nCAPABILITY_JSON: {\\\"key\\\":\\\"grant_keyword_plus_dynamic_pt_until_eot_triggered_registration\\\",\\\"summary\\\":\\\"Register grant_keyword_plus_dynamic_pt_until_eot as a recognized effect for triggered abilities, not just the ability_effects.go executor case\\\",\\\"specification\\\":{\\\"required_behavior\\\":\\\"grant_keyword_plus_dynamic_pt_until_eot must be fully registered for TRIGGERED-kind ability construction (converter/registry wiring beyond the ability_effects.go switch case) so a triggered ability using it is accepted instead of failing as verb_unregistered\\\",\\\"source_misses\\\":[{\\\"card\\\":\\\"Skittering Cicada\\\",\\\"paragraph\\\":\\\"Whenever you cast a colorless spell, until end of turn, this creature gains trample and gets +X/+X, where X is that spell's mana value.\\\",\\\"required_behavior\\\":\\\"grant_keyword_plus_dynamic_pt_until_eot must be registered for triggered-ability use so this exact clause is accepted rather than reported as verb_unregistered\\\"}],\\\"negative_examples\\\":[\\\"Existing grant_keywords_until_eot self-keyword triggered grants must keep validating as registered\\\",\\\"Activated-ability uses of grant_keyword_eot and grant_keyword_choice_eot must remain registered and unaffected\\\"],\\\"expected_unlock\\\":1}}\\nREASON: The corrected map_atom branch now returns the intended primitive tuple (confirmed by the passing map_atom assertion), but reparse_card's own downstream validation reports the effect as verb_unregistered rather than verb_unmapped, indicating the primitive's executor case exists but it is not yet accepted as a registered effect for triggered-ability construction \\u2014 a runtime registration gap outside scripts/paragraph that must be closed as its own atomic capability rather than papered over with a guessed parser change.\", \"id\": \"gate-repair-apply\", \"outcome\": \"failed\"}, {\"command\": \"cd scripts/paragraph && python3 -m unittest test_factory_ng_aaedaea801\", \"detail\": \"/tmp/factory-ng-map-plan-grant-eot-skittering-cicada-aaedaea801-v4-_qeakjf8/scripts/paragraph/reparse.py:16672: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-map-plan-grant-eot-skittering-cicada-aaedaea801-v4-_qeakjf8/scripts/paragraph/../../backend/data/carddb/s.json' mode='r' encoding='UTF-8'>\\nAssertionError: Lists differ: [('verb_unregistered:grant_keyword_plus_dy[90 chars]pe')] != []\\n/tmp/factory-ng-map-plan-grant-eot-skittering-cicada-aaedaea801-v4-_qeakjf8/scripts/paragraph/reparse.py:16672: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-map-plan-grant-eot-skittering-cicada-aaedaea801-v4-_qeakjf8/scripts/paragraph/../../backend/data/carddb/s.json' mode='r' encoding='UTF-8'>\\n  db = json.load(open(path))\\nResourceWarning: Enable tracemalloc to get the object allocation traceback\\nF.\\n======================================================================\\nFAIL: test_skittering_cicada_grant_eot_maps (test_factory_ng_aaedaea801.TestGrantEotSkitteringCicada.test_skittering_cicada_grant_eot_maps)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \\\"/tmp/factory-ng-map-plan-grant-eot-skittering-cicada-aaedaea801-v4-_qeakjf8/scripts/paragraph/test_factory_ng_aaedaea801.py\\\", line 30, in test_skittering_cicada_grant_eot_maps\\n    self.assertEqual(card.get('misses'), [])\\nAssertionError: Lists differ: [('verb_unregistered:grant_keyword_plus_dy[90 chars]pe')] != []\\nFirst list contains 1 additional elements.\\nFirst extra element 0:\\n('verb_unregistered:grant_keyword_plus_dynamic_pt_until_eot', 'until end of turn, ~ gains trample and gets +x/+x, where x is that spe')\\n+ []\\n- [('verb_unregistered:grant_keyword_plus_dynamic_pt_until_eot',\\n-   'until end of turn, ~ gains trample and gets +x/+x, where x is that spe')]\\n----------------------------------------------------------------------\\nRan 2 tests in 0.614s\\nFAILED (failures=1)\", \"id\": \"ticket-gate-0\", \"outcome\": \"failed\"}]"
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "scripts/paragraph/reparse.py",
+      "scripts/paragraph/test_factory_ng_aaedaea801.py"
+    ],
+    "forbidden_paths": [
+      "backend/",
+      "backend/data/",
+      "scripts/paragraph/slotparse_oneshot.py"
+    ]
+  },
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "source": {
+    "clean": true,
+    "repository": "/opt/development/test/openmagic",
+    "revision": "2defcc2f90d53917c3ed6fbda0f1ac44be7e0465"
+  },
+  "supersedes": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v5",
+  "title": "Repair failed integration: Repair failed integration: Resume after grant_keyword_plus_dynamic_pt_until_eot: Staged card trial: Skittering Cicada",
+  "work_type": "map"
+}

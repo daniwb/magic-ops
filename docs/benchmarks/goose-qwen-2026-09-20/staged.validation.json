@@ -1,0 +1,42 @@
+{
+  "mode": "staged",
+  "source_revision": "fcb60f31cda3285216ac60206c56cc320b8e8b16",
+  "gates": [
+    {
+      "id": "scope",
+      "outcome": "passed",
+      "detail": "changed=backend/game/ability_effects.go,backend/cards/registry_factory_ng_7b6fc522b0.go"
+    },
+    {
+      "id": "go-format",
+      "outcome": "passed",
+      "detail": "Formatted: backend/game/ability_effects.go,backend/cards/registry_factory_ng_7b6fc522b0.go"
+    },
+    {
+      "id": "engine-vocabulary-handoff",
+      "outcome": "passed",
+      "detail": "All newly added public effects are registered.",
+      "elapsed_ms": 75
+    },
+    {
+      "id": "ticket-gate-0",
+      "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+      "outcome": "passed",
+      "elapsed_ms": 128,
+      "detail": ""
+    },
+    {
+      "id": "ticket-gate-1",
+      "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGFreezeUntilNextUntap_7b6fc522b0$' -count=1",
+      "outcome": "failed",
+      "elapsed_ms": 49822,
+      "detail": "required test filter '^TestFactoryNGFreezeUntilNextUntap_7b6fc522b0$' executed no passing tests\ntesting: warning: no tests to run\nPASS\nok  \tmagic-backend/game\t0.003s [no tests to run]\ntesting: warning: no tests to run\nPASS\nok  \tmagic-backend/cards\t0.005s [no tests to run]\nrequired test filter '^TestFactoryNGFreezeUntilNextUntap_7b6fc522b0$' executed no passing tests\nProvide the required named behavioral test with the original assertions; do not remove or weaken the selector, or substitute a package-only pass."
+    }
+  ],
+  "changed": [
+    "backend/game/ability_effects.go",
+    "backend/cards/registry_factory_ng_7b6fc522b0.go"
+  ],
+  "passed": false,
+  "validation_seconds": 50.076
+}

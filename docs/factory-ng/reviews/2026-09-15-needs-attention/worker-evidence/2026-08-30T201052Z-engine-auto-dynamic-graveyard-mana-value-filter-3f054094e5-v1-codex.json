@@ -1,0 +1,67 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-engine-auto-dynamic-graveyard-mana-value-filter-3f054094e5-v1-jwlc6u6e",
+    "candidate_commit": "e79683d8a373bf49742ff4b21f051716850efaa8",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "e79683d8a373bf49742ff4b21f051716850efaa8",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "codex-constrained@1.0.0",
+    "resolved_model": "gpt-5.6-luna",
+    "telemetry": {
+      "bounded_repair_attempted": true,
+      "cache_read_tokens": 19968,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 24289,
+      "input_tokens": 45061,
+      "output_tokens": 1546,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      }
+    },
+    "worker": "codex"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed_model_protocol",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-30T201052Z-engine-auto-dynamic-graveyard-mana-value-filter-3f054094e5-v1-codex.raw.json",
+      "sha256": "sha256:33fe306b43be60f6b6a454dcd62fb76feb2e1702963f0507aa5a9417f297897f"
+    },
+    {
+      "kind": "bounded_repair",
+      "path": "docs/factory-ng/runs/2026-08-30T201052Z-engine-auto-dynamic-graveyard-mana-value-filter-3f054094e5-v1-codex.repair.raw.json",
+      "sha256": "sha256:f415eccfca64ccbb266de3064119d8f390c890caf1571be3afd55aa1e239fe3c"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-dynamic-graveyard-mana-value-filter-3f054094e5/v1",
+    "path": "docs/factory-ng/tickets/engine-auto-dynamic-graveyard-mana-value-filter-3f054094e5-v1.json",
+    "sha256": "sha256:bc8720f4ae5e54552e1f2fd1599a059037db5f0bcdab3df7f7922175e8dc74d0"
+  }
+}

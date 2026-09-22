@@ -1,0 +1,166 @@
+{
+  "at": "2026-09-16T22:10:20.767481+00:00",
+  "window": {
+    "start": "2026-09-16T19:02:46Z",
+    "end": "2026-09-16T23:44:56.854616Z",
+    "baseline_states": {
+      "failed": 1341,
+      "completed": 1461,
+      "parked": 402,
+      "integration_failed": 3,
+      "blocked": 921
+    },
+    "workers": [
+      "codex",
+      "codex-2",
+      "codex-3",
+      "codex-4"
+    ],
+    "requested_end": "2026-09-16T23:02:46Z",
+    "stability_start": "2026-09-16T19:44:56.854616Z",
+    "stability_baseline_states": {
+      "failed": 1316,
+      "completed": 1467,
+      "integrating": 1,
+      "parked": 403,
+      "awaiting_verification": 7,
+      "working": 9,
+      "queued": 1,
+      "awaiting_integration": 1,
+      "integration_failed": 3,
+      "blocked": 920
+    }
+  },
+  "states": {
+    "failed": 1252,
+    "completed": 1517,
+    "parked": 418,
+    "working": 12,
+    "integration_failed": 9,
+    "awaiting_verification": 8,
+    "integrating": 1,
+    "awaiting_integration": 2,
+    "blocked": 910
+  },
+  "model_leases": {
+    "codex": [
+      {
+        "ticket": "ticket:engine.auto-delayed-mass-return-grant-keywords-next-combat-782e164c78/v4",
+        "alive": false,
+        "repair": false
+      }
+    ],
+    "codex-2": [
+      {
+        "ticket": "ticket:engine.auto-delayed-sacrifice-created-object-82cb875a89/v3",
+        "alive": true,
+        "repair": false
+      }
+    ],
+    "codex-3": [
+      {
+        "ticket": "ticket:engine.auto-delayed-trigger-referent-attacks-monarch-grant-k-a0661f7bf9/v3",
+        "alive": true,
+        "repair": false
+      }
+    ],
+    "codex-4": [
+      {
+        "ticket": "ticket:engine.auto-damage-by-sequence-referent-power-to-controller-dc9ad508e3/v3",
+        "alive": true,
+        "repair": true
+      }
+    ]
+  },
+  "recent_occupancy": [
+    {
+      "at": "2026-09-16T22:00:33.975536+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T22:01:04.421659+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T22:01:34.832702+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:02:05.250893+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:02:35.692917+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:03:06.173027+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T22:03:36.594365+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:04:07.063161+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:04:37.503729+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:05:07.926506+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:05:38.339226+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T22:06:08.766223+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T22:06:39.203557+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T22:07:09.751730+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T22:07:40.191523+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T22:08:10.636166+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T22:08:41.111679+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T22:09:11.645221+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T22:09:42.088446+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:10:12.552615+00:00",
+      "occupied": 4
+    }
+  ],
+  "window_sample_counts": {
+    "4": 68,
+    "3": 79,
+    "2": 65,
+    "1": 70,
+    "0": 5
+  },
+  "net_completed_since_request": 56,
+  "queued": []
+}

@@ -1,0 +1,16 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const elements=new Map();const get=s=>{if(!elements.has(s))elements.set(s,{innerHTML:'',textContent:'',classList:{remove(){},add(){},toggle(){}}});return elements.get(s)};
+const context={document:{querySelector:get,querySelectorAll:()=>[]},$:get,fmt:n=>Number(n||0).toLocaleString('en'),esc:s=>String(s??'—').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'),console,Date,AbortSignal};
+vm.createContext(context);vm.runInContext(fs.readFileSync('/tmp/daily-chart.js','utf8'),context);
+const data=JSON.parse(fs.readFileSync('/opt/development/magic-ops/state/factory-ng-daily-activations.json'));
+context.renderDailyActivations(data);
+assert.equal((get('#dailyChart').innerHTML.match(/role="button"/g)||[]).length,15);
+assert(get('#dailyChart').innerHTML.includes('Goal 100'));
+assert(get('#dailyMetrics').innerHTML.includes('+1,504'));
+assert(get('#dailyDetail').innerHTML.includes('in progress'));
+context.selectDaily(2);assert(get('#dailyDetail').innerHTML.includes('+215'));assert(get('#dailyDetail').innerHTML.includes('Well above target'));
+context.selectDaily(8);assert(get('#dailyDetail').innerHTML.includes('unfinished merge'));
+const fixture={...data,rows:[{date_utc:'2026-09-11',partial_day:false,net_activated:-10,reason:{text:'<script>unsafe</script>'}},{date_utc:'2026-09-12',partial_day:true,net_activated:null}]};
+context.renderDailyActivations(fixture);context.selectDaily(0);assert(get('#dailyChart').innerHTML.includes('negative'));assert(get('#dailyDetail').innerHTML.includes('&lt;script>'));context.selectDaily(1);assert(get('#dailyDetail').innerHTML.includes('— cards'));
+context.fetch=async()=>{throw Error('offline')};
+context.refreshDailyActivations().then(()=>{assert(get('#dailyHistoryNote').textContent.includes('unavailable'));assert(get('#dailyChart').innerHTML.includes('<svg'));console.log('Daily chart rendering, selected reasons, goal, negative/missing values, escaping and failed refresh checks passed.')});

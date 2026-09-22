@@ -1,0 +1,49 @@
+{
+  "gates": [
+    {
+      "id": "scope",
+      "outcome": "passed",
+      "detail": "changed=backend/game/ability_effects.go,backend/game/counters.go,backend/cards/registry_factory_ng_7fda0f0882.go,backend/cards/shape_combat_related_counters_test.go"
+    },
+    {
+      "id": "engine-vocabulary-handoff",
+      "outcome": "passed",
+      "detail": "All newly added public effects are registered.",
+      "elapsed_ms": 786
+    },
+    {
+      "id": "ticket-gate-0",
+      "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+      "outcome": "passed",
+      "elapsed_ms": 1406,
+      "detail": ""
+    },
+    {
+      "id": "ticket-gate-1",
+      "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGPutCountersOnCombatRelatedCreatures_7fda0f0882$' -count=1",
+      "outcome": "passed",
+      "elapsed_ms": 710975,
+      "detail": "testing: warning: no tests to run\nPASS\nok  \tmagic-backend/game\t0.033s [no tests to run]\n=== RUN   TestFactoryNGPutCountersOnCombatRelatedCreatures_7fda0f0882\n=== RUN   TestFactoryNGPutCountersOnCombatRelatedCreatures_7fda0f0882/attacker\n--- PASS: TestFactoryNGPutCountersOnCombatRelatedCreatures_7fda0f0882/attacker (0.00s)\n=== RUN   TestFactoryNGPutCountersOnCombatRelatedCreatures_7fda0f0882/blocker\n--- PASS: TestFactoryNGPutCountersOnCombatRelatedCreatures_7fda0f0882/blocker (0.00s)\n=== RUN   TestFactoryNGPutCountersOnCombatRelatedCreatures_7fda0f0882/mirrors_only\n--- PASS: TestFactoryNGPutCountersOnCombatRelatedCreatures_7fda0f0882/mirrors_only (0.00s)\n--- PASS: TestFactoryNGPutCountersOnCombatRelatedCreatures_7fda0f0882 (0.01s)\nPASS\nok  \tmagic-backend/cards\t0.037s\nNamed test gate: 4 test(s) passed for '^TestFactoryNGPutCountersOnCombatRelatedCreatures_7fda0f0882$'"
+    },
+    {
+      "id": "ticket-gate-2",
+      "command": "cd backend && go test ./game ./cards",
+      "outcome": "passed",
+      "elapsed_ms": 161919,
+      "detail": "ok  \tmagic-backend/game\t0.632s\nok  \tmagic-backend/cards\t139.517s"
+    },
+    {
+      "id": "ticket-gate-3",
+      "command": "git diff --check",
+      "outcome": "passed",
+      "elapsed_ms": 231,
+      "detail": ""
+    }
+  ],
+  "changed": [
+    "backend/game/ability_effects.go",
+    "backend/game/counters.go",
+    "backend/cards/registry_factory_ng_7fda0f0882.go",
+    "backend/cards/shape_combat_related_counters_test.go"
+  ]
+}

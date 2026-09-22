@@ -1,0 +1,1519 @@
+# FACTORY NG MAP TASK — prepared direct, no tools
+
+Ticket: ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v3
+Title: Repair failed integration: Staged card trial: Sigil of Sleep
+
+The TicketSpec below is authoritative. Stay within its allowed paths and emit
+only the exact block protocol. Do not assume an Engine overlay unless the
+TicketSpec names one; do not edit backend/ or corpus data. Engine source below
+is read-only evidence for the mapping. Reuse the integrated representation;
+a new NEEDS_PRIMITIVE must identify behavior it still cannot perform. Parser
+eligibility alone does not verify that the complete card uses that behavior.
+
+## TicketSpec (historical lookup logs summarized; contract fields unchanged)
+{
+  "evidence": [
+    {
+      "anchor": "1882-2021",
+      "fact": "Current exact bounce branch; inspect the complete-card probe before editing.",
+      "path": "scripts/paragraph/reparse.py",
+      "sha256": "sha256:6ebde73cbd4d04b6fa85b9a19ad72aa247edfa2c0d6b1e76494f57246e307f03"
+    },
+    {
+      "anchor": "5301-5440",
+      "fact": "Current exact bounce branch; inspect the complete-card probe before editing.",
+      "path": "scripts/paragraph/reparse.py",
+      "sha256": "sha256:6ebde73cbd4d04b6fa85b9a19ad72aa247edfa2c0d6b1e76494f57246e307f03"
+    },
+    {
+      "fact": "The blocked member was revalidated after its Engine dependency integrated.",
+      "path": "docs/factory-ng/measurements/dependency-resume-a751641e63.json"
+    },
+    {
+      "fact": "The existing bounce primitive is registered with executor cards/converter.go case \"bounce\" -> SpellEffect + game resolution; game/ability_effects.go case \"bounce\" (triggered); value.to (task 2423) selects library_top/library_bottom instead of the default hand via game/ability_effects.go executeBounceEffectTo and shape test TestShape_Spell_BounceTargetCreature; TestShape_Spell_BounceTargetCreatureToLibraryTop / TestShape_Spell_BounceTargetCreatureToLibraryBottom.",
+      "path": "backend/cards/registry.go"
+    },
+    {
+      "anchor": "631-750",
+      "fact": "Verified declaration game.DamageTargetFromSource in source revision 1593438ed4c508f8f81a33a4b3661fb0126ec4fa; discovery is not proof of semantic suitability.",
+      "lookup_summary": {
+        "full_trace": "retained in the canonical TicketSpec and observation artifacts",
+        "historical_requests": 6,
+        "recent": [
+          {
+            "query": "executeDamageEffect",
+            "status": "found",
+            "strategy": "exact_symbol"
+          },
+          {
+            "query": "emitPlayerDamaged",
+            "status": "found",
+            "strategy": "exact_symbol"
+          },
+          {
+            "query": "bounce",
+            "status": "found",
+            "strategy": "exact_symbol"
+          }
+        ]
+      },
+      "path": "backend/game/targeting.go",
+      "sha256": "sha256:bf472548db70d3435471ddb24d272d3e42213a43be636c7a178ad02e1f3a157a",
+      "symbol": {
+        "description": "DamageTargetFromSource applies damage to a target from a specific source card",
+        "discovery_role": "requirement_symbol",
+        "doc": "DamageTargetFromSource applies damage to a target from a specific source card\nRule 702.16: Protection prevents damage (the \"D\" in DEBT)\n",
+        "end": 754,
+        "kind": "engine",
+        "name": "DamageTargetFromSource",
+        "package": "game",
+        "path": "backend/game/targeting.go",
+        "qualified": "game.DamageTargetFromSource",
+        "receiver": "",
+        "request_id": "642db2485c75409196704a030074957e",
+        "signature": "func DamageTargetFromSource(target Target, amount int, source *Card, gs *GameState) error",
+        "start": 631,
+        "symbol_id": "backend/game/targeting.go::game.DamageTargetFromSource",
+        "symbol_kind": "function",
+        "title": "DamageTargetFromSource"
+      }
+    },
+    {
+      "anchor": "8571-8690",
+      "fact": "Verified declaration game.GameState.executeDamageEffect in source revision 1593438ed4c508f8f81a33a4b3661fb0126ec4fa; discovery is not proof of semantic suitability.",
+      "lookup_summary": {
+        "full_trace": "retained in the canonical TicketSpec and observation artifacts",
+        "historical_requests": 6,
+        "recent": [
+          {
+            "query": "executeDamageEffect",
+            "status": "found",
+            "strategy": "exact_symbol"
+          },
+          {
+            "query": "emitPlayerDamaged",
+            "status": "found",
+            "strategy": "exact_symbol"
+          },
+          {
+            "query": "bounce",
+            "status": "found",
+            "strategy": "exact_symbol"
+          }
+        ]
+      },
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:1dfc9423c3f694153cd5a8b5c7943292834070822f39d56148dbf37b275f3320",
+      "symbol": {
+        "description": "executeDamageEffect - \"Deal N damage to target\"",
+        "discovery_role": "requirement_symbol",
+        "doc": "executeDamageEffect - \"Deal N damage to target\"\n",
+        "end": 8787,
+        "kind": "engine",
+        "name": "executeDamageEffect",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.executeDamageEffect",
+        "receiver": "GameState",
+        "request_id": "68ed3597217d4417a3ba6771d8506bc0",
+        "signature": "func (gs *GameState) executeDamageEffect(controller int, source *Card, effectValue map[string]interface{}, targets []Target) error",
+        "start": 8571,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.executeDamageEffect",
+        "symbol_kind": "function",
+        "title": "executeDamageEffect"
+      }
+    },
+    {
+      "anchor": "5-16",
+      "fact": "Verified declaration game.GameState.emitPlayerDamaged in source revision 1593438ed4c508f8f81a33a4b3661fb0126ec4fa; discovery is not proof of semantic suitability.",
+      "lookup_summary": {
+        "full_trace": "retained in the canonical TicketSpec and observation artifacts",
+        "historical_requests": 6,
+        "recent": [
+          {
+            "query": "executeDamageEffect",
+            "status": "found",
+            "strategy": "exact_symbol"
+          },
+          {
+            "query": "emitPlayerDamaged",
+            "status": "found",
+            "strategy": "exact_symbol"
+          },
+          {
+            "query": "bounce",
+            "status": "found",
+            "strategy": "exact_symbol"
+          }
+        ]
+      },
+      "path": "backend/game/lib_player_damage_event.go",
+      "sha256": "sha256:cb3c87381a4675f22d0ae59d89a593cf48f948da905ab08624361030186407a9",
+      "symbol": {
+        "description": "Player-damage observers use actual post-prevention damage, including infect,",
+        "discovery_role": "requirement_symbol",
+        "doc": "Player-damage observers use actual post-prevention damage, including infect,\nindependently of life loss. Combat-only observers retain their old event.\n",
+        "end": 16,
+        "kind": "engine",
+        "name": "emitPlayerDamaged",
+        "package": "game",
+        "path": "backend/game/lib_player_damage_event.go",
+        "qualified": "game.GameState.emitPlayerDamaged",
+        "receiver": "GameState",
+        "request_id": "f771992fd6f24a04a07376a5ec6d6616",
+        "signature": "func (gs *GameState) emitPlayerDamaged(source *Card, player, amount int, combat bool)",
+        "start": 5,
+        "symbol_id": "backend/game/lib_player_damage_event.go::game.GameState.emitPlayerDamaged",
+        "symbol_kind": "function",
+        "title": "emitPlayerDamaged"
+      }
+    },
+    {
+      "anchor": "3956-3963",
+      "fact": "Verified declaration game.GameState.applySpellEffectCore#case:bounce in source revision 1593438ed4c508f8f81a33a4b3661fb0126ec4fa; discovery is not proof of semantic suitability.",
+      "lookup_summary": {
+        "full_trace": "retained in the canonical TicketSpec and observation artifacts",
+        "historical_requests": 6,
+        "recent": [
+          {
+            "query": "executeDamageEffect",
+            "status": "found",
+            "strategy": "exact_symbol"
+          },
+          {
+            "query": "emitPlayerDamaged",
+            "status": "found",
+            "strategy": "exact_symbol"
+          },
+          {
+            "query": "bounce",
+            "status": "found",
+            "strategy": "exact_symbol"
+          }
+        ]
+      },
+      "path": "backend/game/gamestate.go",
+      "sha256": "sha256:7a65b6839c6a192f55e61bcba79ca3c957b7f88fa6991ac6993d36363757657d",
+      "symbol": {
+        "description": "applySpellEffectCore#case:bounce",
+        "discovery_role": "operation_only",
+        "doc": "",
+        "end": 3963,
+        "kind": "engine",
+        "name": "bounce",
+        "package": "game",
+        "path": "backend/game/gamestate.go",
+        "qualified": "game.GameState.applySpellEffectCore#case:bounce",
+        "receiver": "GameState",
+        "request_id": "acbbe45d5fc94f44bdaed62f481dce2f",
+        "signature": "applySpellEffectCore#case:bounce",
+        "start": 3956,
+        "symbol_id": "backend/game/gamestate.go::game.GameState.applySpellEffectCore#case:bounce",
+        "symbol_kind": "case",
+        "title": "bounce"
+      }
+    },
+    {
+      "fact": "The required atomic Engine capability passed full integration gates. Runtime contract: DamageTargetFromSource and executeDamageEffect publish actual post-prevention noncombat player damage through emitPlayerDamaged; combat uses the same new player_damaged event at the point damage is applied. Existing combat-only events and monarch behavior retain their meaning. Native trigger_v2={event:player_damaged,subject:{filter:enchanted}} observes only its attached creature dealing damage to a player. qualifiedTriggerTargetSupported accepts target.controller=defending_player, which resolves to the actually damaged player for this event. Reuse a bounce atom with target={filter:creature,controller:defending_player}. The selected creature returns to its owner, and control/target legality is rechecked at resolution. Prevented damage, unrelated life loss and unrelated sources do not trigger it.",
+      "ticket": "ticket:engine.auto-bounce-filter-controller-damaged-player-a0c40565d9/v2"
+    },
+    {
+      "fact": "Context-only failure retained; fresh source answers are required. Current pinned-card audit: [{\"card\": \"Sigil of Sleep\", \"eligible\": false, \"misses\": [[\"spine_L2\", \"whenever enchanted creature deals damage to a player\"]], \"oracle_text\": \"Enchant creature\\nWhenever enchanted creature deals damage to a player, return target creature that player controls to its owner's hand.\", \"status\": \"review\"}]",
+      "path": "docs/factory-ng/runs/2026-09-08T195944Z-map-plan-bounce-sigil-of-sleep-a3b32a7cef-v2-claude.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0"
+    ],
+    "context_requests": [
+      "scripts/paragraph/reparse.py \u2014 the `map_atom` branch for `verb == 'bounce'` (target/value shape, `to` handling for library_top/library_bottom) so any bounce atom I emit matches the existing convention exactly.",
+      "scripts/paragraph/reparse.py \u2014 the spine_L2 trigger-clause parser that currently misses \"whenever enchanted creature deals damage to a player\" (where the `[\"spine_L2\", ...]` miss list is produced), plus wherever `trigger_v2` dicts are already assembled for other auras, so I can see the exact key spelling for `event`, `subject.filter: enchanted`, and any existing `target.controller` values (e.g. `defending_player` vs `damaged_player`) rather than guessing the schema.",
+      "scripts/paragraph/reparse.py \u2014 any existing card mapping that already uses a `player_damaged` trigger event or a `subject: {filter: 'enchanted'}` shape (even for a different effect than bounce), to confirm I'm reusing an established pattern rather than inventing new vocabulary, per the ticket's \"reuse the integrated representation\" requirement."
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "parser_probes": [
+      {
+        "card": "Sigil of Sleep",
+        "function": "reparse_card"
+      }
+    ],
+    "profile_policy": "exact",
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "One bounded successor for a proven missing-source failure, with the original questions resolved against current source.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "cd scripts/paragraph && python3 -m unittest test_factory_ng_a3b32a7cef",
+    "git diff --check",
+    "git status --porcelain adds or changes only scripts/paragraph/reparse.py and scripts/paragraph/test_factory_ng_a3b32a7cef.py",
+    "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/dependency-resume-a751641e63.json reports zero remaining pinned members"
+  ],
+  "id": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v3",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Compile any new validated atomic dependency automatically; otherwise retain the terminal verdict and advance discovery.",
+  "parents": [
+    "plan:verb_unmapped:bounce",
+    "ticket:engine.auto-bounce-filter-controller-damaged-player-a0c40565d9/v2",
+    "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2"
+  ],
+  "production": {
+    "context_repair_version": "python-handoff-v2",
+    "integration_repair_generation": 1,
+    "key": "staged-five-card-2026-09-08:map:sigil",
+    "producer": "build-plan-integration-recovery",
+    "retry_reason": "context_repair",
+    "trial_card": "Sigil of Sleep",
+    "trial_id": "staged-five-card-2026-09-08"
+  },
+  "required_behavior": [
+    "Map the exact current verb_unmapped:bounce miss on Sigil of Sleep through the already-registered bounce primitive without losing any Oracle semantics.",
+    "The pinned card loses this miss and retains no new or silently swallowed miss.",
+    "Add a focused positive test plus an adjacent negative that must remain unmapped.",
+    "If the exact amount, recipient, filter, referent, or duration cannot execute through existing runtime behavior, return NEEDS_PRIMITIVE with one atomic CAPABILITY_JSON instead of a partial Map patch.",
+    "Do not edit Engine, converter, corpus data, or use a card-name special case.",
+    "The Engine dependency landing is not proof this card is fixed. Verify the complete Oracle mapping against its runtime representation, including every ability, even if parsing is already eligible.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Combat and noncombat damage from enchanted creature trigger exactly once for actual positive damage.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Prevented damage and unrelated life loss do not trigger.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Creature damage does not trigger this player-damage ability.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Targets belong to actually damaged player, even if that player is also aura controller.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Stolen creature returns to its owner; controller changes or other target illegality before resolution are rechecked.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Combat-only effects, including monarch, remain combat-only.",
+    "Complete-card acceptance obligation (later runtime verification is separate): No duplicate emission across combat and generic damage paths.",
+    "The prior observation is historical evidence, not proof that its patch is still correct. Preserve every current valid mapping. Do not restore an obsolete negative assertion for a shape now implemented.",
+    "Keep every original gate command and allowed path. Add or repair the named positive and adjacent-negative tests on this revision; assert all Oracle clauses, counts, choices, controller restrictions and durations, not just eligibility or one removed miss.",
+    "A pinned card already marked auto must still be reparsed and tested. If the implementation is already correct, return only meaningful regression-test changes; do not duplicate parser branches.",
+    "If the miss moved to spell_seq_targeted or a required runtime behavior is absent, return a validated atomic NEEDS_PRIMITIVE demand. Do not hide the new miss, drop a clause, or force status auto."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "scripts/paragraph/reparse.py",
+      "scripts/paragraph/test_factory_ng_a3b32a7cef.py"
+    ],
+    "forbidden_paths": [
+      "backend/",
+      "backend/data/",
+      "scripts/paragraph/slotparse_oneshot.py"
+    ]
+  },
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "source": {
+    "clean": true,
+    "repository": "/tmp/factory-context-review-mgg49evj/source",
+    "revision": "52dfe55712586b109e57f8725010e70336de546a"
+  },
+  "supersedes": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2",
+  "title": "Repair failed integration: Staged card trial: Sigil of Sleep",
+  "work_type": "map"
+}
+
+## Exact source excerpts
+### scripts/paragraph/reparse.py:1633-1652 (current parser handoff/verb branch)
+ 1633 def map_atom(verb, args, allow_multi_search=False, kind=None, card_name=None):
+ 1634     """-> (effect, value, target_filter|None) or None if unmappable.
+ 1635 
+ 1636     kind (optional): 'activated' | 'triggered' | 'spell_oneshot', the calling
+ 1637     paragraph's classification. Only consulted where a verb's mappable target
+ 1638     shape genuinely differs by kind (see 'exile' and 'copy' below) — every
+ 1639     other verb ignores it, so omitting it keeps their existing behavior
+ 1640     unchanged.
+ 1641     """
+ 1642     if args is None:
+ 1643         return None
+ 1644     if verb == 'reanimate':
+ 1645         # ticket map.plan-reanimate-patch-up-db7e26257e (verb_unmapped:reanimate):
+ 1646         # "Return up to three target creature cards with total mana value 3
+ 1647         # or less from your graveyard to the battlefield." (Patch Up) is a
+ 1648         # REAL up-to-N multi-target reanimate — mirrors tap's "up to two
+ 1649         # target creatures" optional+max_count target-filter convention
+ 1650         # (ticket map.plan-tap-feeling-of-dread-5e1cc3cd8a) plus the newly
+ 1651         # landed engine.auto-return-from-graveyard-total-mana-value-cap-
+ 1652         # f3dac44f3a value.max_total_mana_value cap on the chosen targets'
+
+### scripts/paragraph/slotparse_triggered.py:1963-2008 (actual upstream atom parser)
+ 1963             # toughness", ...) has no TargetFilter consumer wired for it —
+ 1964             # honest miss (spine_L2) rather than silently dropping it.
+ 1965             if event == 'deals_damage':
+ 1966                 # Extracted from the PRISTINE `head` (pre-comma-split, before
+ 1967                 # the MODIFIERS loop blanks "one or more" out of h2/rest —
+ 1968                 # verified live: without this, "deals damage to one or more
+ 1969                 # permanents and/or players"/"...to one or more of your
+ 1970                 # opponents" left a mangled "to  permanents.../to  of your
+ 1971                 # opponents" leftover that matched none of the safe forms
+ 1972                 # below and wrongly honest-missed those two cards). "this
+ 1973                 # creature" is already normalized to '~' by the self-ref
+ 1974                 # substitution above this function's top, so only '~' (not
+ 1975                 # 'this creature') ever appears here.
+ 1976                 _rm = re.search(r'\bdeals?\s+(?:combat\s+|noncombat\s+)?damage\s+to\s+(.+)$', head)
+ 1977                 _leftover = _rm.group(1).strip() if _rm else ''
+ 1978                 # A trailing "during X's turn" (Molten Lavamancer: "...to one
+ 1979                 # or more of your opponents during your turn") is the SAME
+ 1980                 # head_cond clause stripped from h2 elsewhere (this function,
+ 1981                 # ~line 1602) — captured separately into head_cond already,
+ 1982                 # so drop it here too rather than let it corrupt the receiver
+ 1983                 # match below.
+ 1984                 _leftover = re.sub(
+ 1985                     r"\s+during (?:your|an opponent's|each opponent's|that player's) turn$",
+ 1986                     '', _leftover)
+ 1987                 if _leftover == '~':
+ 1988                     receiver = {'filter': 'self'}
+ 1989                 elif _leftover == 'you':
+ 1990                     receiver = {'filter': 'player', 'controller': 'you'}
+ 1991                 elif _leftover in ('an opponent', 'your opponent', 'your opponents',
+ 1992                                     'opponents', 'one or more of your opponents',
+ 1993                                     'one of your opponents'):
+ 1994                     receiver = {'filter': 'player', 'controller': 'opponent'}
+ 1995                 elif _leftover in ('', 'one or more permanents and/or players'):
+ 1996                     receiver = None
+ 1997                 else:
+ 1998                     return 2, {'event': event, 'head': head, 'spec': None, 'body': body_text}
+ 1999             subject = parse_subject(pre)
+ 2000             # "dies" event regex swallows the graveyard's possessive
+ 2001             # determiner ("...put into YOUR/AN OPPONENT'S graveyard from
+ 2002             # the battlefield") as part of the event match itself, so it
+ 2003             # never reaches parse_subject via `pre` — recover it here and
+ 2004             # fold it into subject.controller (owner of the dying permanent
+ 2005             # -> the graveyard it goes to). Dropping this silently would
+ 2006             # widen "an opponent's artifact dies" into "any artifact dies"
+ 2007             # (Viridian Revel class) — a plausible-but-wrong overtrigger.
+ 2008             if event == 'dies' and isinstance(subject, dict) and 'controller' not in subject:
+
+### scripts/paragraph/slotparse_triggered.py:1529-1618 (actual upstream atom parser)
+ 1529 def slot_parse(p, card):
+ 1530     """returns (level:int, info:dict). info['spec'] carries the parsed v2
+ 1531     trigger object {event,subject,spell,modifier,condition} (partial below
+ 1532     L3); info['body'] is the effect text after the trigger head (for the
+ 1533     atom parser in reparse.py)."""
+ 1534     s = re.sub(r'\([^)]*\)', '', p).strip()
+ 1535     name = card.get('name','')
+ 1536     s = apply_self_ref(s, name)
+ 1537     m = re.match(rf'^([^—–:]{{1,40}})\s*{DASH}\s*(.+)$', s, re.S)
+ 1538     if m and not re.match(r'^[IVX]+$', m.group(1).strip()): s = m.group(2).strip()
+ 1539     s = re.sub(r'\bthis (creature|artifact|enchantment|land|permanent|card|aura|equipment|vehicle|token|planeswalker|class|saga|battle)\b', '~', s, flags=re.I)
+ 1540     l = re.sub(r'\s+', ' ', s).lower()
+ 1541 
+ 1542     # task-2005 spine_L2: Oxford-comma spell enumerations ("Whenever you cast
+ 1543     # an artifact, instant, or sorcery spell"). Rewrite the enumeration's
+ 1544     # commas to "or" BEFORE the head split (merge of 2005+2006: the rewrite
+ 1545     # runs first, then 2006's comma-aware split_head takes over).
+ 1546     l = re.sub(
+ 1547         r'\b(casts? (?:an?|your first|their first) [a-z]+(?:, [a-z]+)*, (?:or|and) [a-z]+(?: (?:creature|permanent))? spell)\b',
+ 1548         lambda m: m.group(1).replace(', or ', ' or ').replace(', and ', ' or ').replace(', ', ' or '),
+ 1549         l)
+ 1550     # task-1981 spine_L0: Oxford-comma source enumerations on
+ 1551     # ability_activated heads ("activates an ability of an artifact, creature,
+ 1552     # or land on the battlefield" — Harsh Mentor, Immolation Shaman). The
+ 1553     # event verb sits in split_head's first segment, so the task-2006
+ 1554     # comma-aware join guard refuses to extend the head and the qualifier
+ 1555     # truncates to the first type alone (a plausible-but-wrong artifact-only
+ 1556     # filter). Rewrite the enumeration's commas to "or" before the split,
+ 1557     # mirroring the cast_spell rewrite above; anchored on the "of" qualifier
+ 1558     # so an enumeration opening the BODY is never touched.
+ 1559     l = re.sub(
+ 1560         r'\b(activates? an ability of (?:an?|a) [a-z]+(?:, [a-z]+)*, (?:or|and) [a-z]+)\b',
+ 1561         lambda m: m.group(1).replace(', or ', ' or ').replace(', and ', ' or ').replace(', ', ' or '),
+ 1562         l)
+ 1563 
+ 1564     head, body_text = split_head(l)
+ 1565     # 1. event
+ 1566     event = None
+ 1567     for ev, rx in EVENTS:
+ 1568         if re.search(rx, head): event = ev; break
+ 1569     if event is None and re.match(r'^at the beginning of', head): event = 'phase_generic'
+ 1570     if event is None:
+ 1571         return 0, {'head': head, 'spec': None, 'body': body_text}
+ 1572     # "when ~ becomes level N" (task-1981 spine_L0): the event NAME carries
+ 1573     # the target level — game/class.go publishes EventType("becomes_level_N")
+ 1574     # and the closed V2TriggerEvents enum lists the concrete level strings.
+ 1575     if event == 'becomes_level':
+ 1576         lm = re.search(r'\bbecomes level (\d+)\b', head)
+ 1577         if not lm:
+ 1578             return 0, {'head': head, 'spec': None, 'body': body_text}
+ 1579         event = 'becomes_level_%s' % lm.group(1)
+ 1580     # 2. modifier (allowed anywhere in head)
+ 1581     modifier = None; unrec_mod = False
+ 1582     h2 = head
+ 1583     for mo, rx in MODIFIERS:
+ 1584         if re.search(rx, h2): modifier = mo; h2 = re.sub(rx, ' enters ' if mo=='or_attacks' else ' ', h2)
+ 1585     # first_each_turn/second_spell_each_turn's own match (above) swallows any
+ 1586     # spell-type qualifier word along with "spell each turn" itself (e.g.
+ 1587     # "their first noncreature spell each turn" — task-1871 spine_L2), so by
+ 1588     # the time the cast_spell branch below re-parses the (now-blanked) head
+ 1589     # for a spell filter there's nothing left to find. Recover the qualifier
+ 1590     # here, against the pristine `head`, for that branch's fallback to use —
+ 1591     # dropping it silently would fire the trigger on ANY spell instead of
+ 1592     # just the named type (Esper Sentinel, Shadow in the Warp, Zenith
+ 1593     # Chronicler class).
+ 1594     mod_spell_qual = None
+ 1595     if modifier == 'first_each_turn':
+ 1596         qm = re.search(r"\b(?:your|their) first ([a-z]+(?: [a-z]+)?) spell each turn\b", head)
+ 1597         if qm: mod_spell_qual = qm.group(1)
+ 1598     elif modifier == 'second_spell_each_turn':
+ 1599         qm = re.search(r"\b(?:your|their) second ([a-z]+(?: [a-z]+)?) spell each turn\b", head)
+ 1600         if qm: mod_spell_qual = qm.group(1)
+ 1601     # "during X's turn" in the head -> typed turn condition, not an unrec
+ 1602     # modifier. Canonical whose (task-2005): the old raw capture ('your',
+ 1603     # "an opponent's") never matched EvaluateCondition's yours/opponents —
+ 1604     # and head_cond was built but never MERGED into the spec at all, so
+ 1605     # every "during X's turn" trigger shipped without its turn gate
+ 1606     # (overfiring on every turn). Referent possessives ("that player's")
+ 1607     # emit of:'referent' for the downstream honest reject.
+ 1608     head_cond = None
+ 1609     h2 = h2.replace(' during each of your turns', ' during your turn')
+ 1610     mm = re.search(r"\s+during (your|an opponent's|each opponent's|that player's) turn$", h2)
+ 1611     if mm:
+ 1612         if mm.group(1) == 'your':
+ 1613             head_cond = {'kind': 'turn', 'whose': 'yours'}
+ 1614         elif mm.group(1) == "that player's":
+ 1615             head_cond = {'kind': 'turn', 'of': 'referent'}
+ 1616         else:
+ 1617             head_cond = {'kind': 'turn', 'whose': 'opponents'}
+ 1618         h2 = h2[:mm.start()]
+
+### scripts/paragraph/reparse.py:18395-18440 (actual upstream atom parser)
+18395         # T.slot_parse's deals_damage receiver check (slotparse_triggered.py)
+18396         # only recognizes a closed literal set of "to X" receivers (self/
+18397         # you/opponent-ish) and treats "defending player" as unrecognized,
+18398         # returning spine_L2 before this file's atom walker ever runs.
+18399         # Rewriting "that player controls" to "an opponent controls" (the
+18400         # way every opp_established substitution below reuses the ability-
+18401         # controller-relative 'opponent' bucket) would be WRONG here:
+18402         # "enchanted creature" need not be under this Aura's own control, so
+18403         # "that player" (whoever was actually dealt the combat damage) can
+18404         # be the Aura's own controller, not necessarily an opponent of it.
+18405         # The engine's defending_player TargetQualifier (ticket
+18406         # engine.auto-triggered-single-target-destroy-09c260322f/v3,
+18407         # game/gamestate.go putTriggeredAbilityOnStackOnce) resolves the
+18408         # correct player directly off the firing event's Opponent index
+18409         # instead, so this exact clause is built by hand — mirroring
+18410         # exactly what T.slot_parse's generic deals_combat_damage_to_player
+18411         # path would have produced (subject=parse_subject("enchanted
+18412         # creature") == {'filter':'enchanted'}) had the receiver phrase
+18413         # matched — rather than through the shared opp_established path.
+18414         _ldest = re.sub(r'\([^)]*\)', '', p).strip()
+18415         if re.match(
+18416                 r"^whenever enchanted creature deals combat damage to "
+18417                 r"defending player, you may destroy target artifact that "
+18418                 r"player controls\.?$",
+18419                 _ldest, re.I):
+18420             _emit_triggered(abilities, {
+18421                 'type': 'triggered',
+18422                 'trigger_v2': {'event': 'deals_combat_damage_to_player',
+18423                                'subject': {'filter': 'enchanted'}},
+18424                 'effects': [_atom_dict(
+18425                     'destroy', {},
+18426                     {'filter': 'artifact', 'controller': 'defending_player'},
+18427                     optional=True)],
+18428             }, {})
+18429             continue
+18430         lv, info = T.slot_parse(p, card)
+18431         if lv < 3 or not info.get('spec'):
+18432             misses.append(('spine_L%d' % lv, info.get('head', '')[:70]))
+18433             continue
+18434         spec = info['spec']
+18435         # parser-spine round 5 (2026-08-09): "This ability triggers only
+18436         # once[, each turn]." — a trailing BODY sentence (not part of the
+18437         # trigger head clause, so it's a separate field from 'modifier':
+18438         # Akki Battle Squad's head already carries modifier='one_or_more'
+18439         # AND this trailing restriction on the SAME ability — one string
+18440         # field couldn't hold both). Strip it out of the body before the
+
+### scripts/paragraph/reparse.py:1882-2021
+ 1882     if verb == 'bounce':
+ 1883         target_phrase = next(
+ 1884             (
+ 1885                 value.strip().rstrip('.,').lower()
+ 1886                 for value in args.values()
+ 1887                 if isinstance(value, str)
+ 1888                 and value.strip().rstrip('.,').lower()
+ 1889                 in (
+ 1890                     'a white or blue creature you control',
+ 1891                     'white or blue creature you control',
+ 1892                     'a blue or black creature you control',
+ 1893                     'blue or black creature you control',
+ 1894                     'a white creature you control',
+ 1895                     'white creature you control',
+ 1896                     'up to one other target creature',
+ 1897                     'up to 1 other target creature',
+ 1898                     'up to one other target nonland permanent',
+ 1899                     'up to 1 other target nonland permanent',
+ 1900                     'up to one other target permanent you control',
+ 1901                     'up to 1 other target permanent you control',
+ 1902                     'one or two target creatures',
+ 1903                     'all green permanents',
+ 1904                     'a red or green creature you control',
+ 1905                     'red or green creature you control',
+ 1906                     'a black or red creature you control',
+ 1907                     'black or red creature you control',
+ 1908                     'target legendary creature',
+ 1909                     'legendary creature',
+ 1910                     'a red creature you control',
+ 1911                     'red creature you control',
+ 1912                     'a green creature you control',
+ 1913                     'green creature you control',
+ 1914                     'a tapped land you control',
+ 1915                     'tapped land you control',
+ 1916                 )
+ 1917             ),
+ 1918             None,
+ 1919         )
+ 1920         if target_phrase == 'one or two target creatures':
+ 1921             return ('bounce', {}, {'filter': 'creature'})
+ 1922         if target_phrase == 'all green permanents':
+ 1923             return ('bounce', {}, {'filter': 'green_permanent', 'all': True})
+ 1924         if target_phrase in (
+ 1925             'up to one other target creature',
+ 1926             'up to 1 other target creature',
+ 1927         ):
+ 1928             return ('bounce', {}, {
+ 1929                 'filter': 'other_creature',
+ 1930                 'optional': True,
+ 1931             })
+ 1932         if target_phrase in (
+ 1933             'up to one other target nonland permanent',
+ 1934             'up to 1 other target nonland permanent',
+ 1935         ):
+ 1936             return ('bounce', {}, {
+ 1937                 'filter': 'other_nonland_permanent',
+ 1938                 'optional': True,
+ 1939             })
+ 1940         if target_phrase in (
+ 1941             'up to one other target permanent you control',
+ 1942             'up to 1 other target permanent you control',
+ 1943         ):
+ 1944             return ('bounce', {}, {
+ 1945                 'filter': 'other_permanent',
+ 1946                 'optional': True,
+ 1947             })
+ 1948         if target_phrase in (
+ 1949             'a white creature you control',
+ 1950             'white creature you control',
+ 1951         ):
+ 1952             return ('bounce', {}, {'filter': 'white_creature'})
+ 1953         if target_phrase in (
+ 1954             'a red or green creature you control',
+ 1955             'red or green creature you control',
+ 1956         ):
+ 1957             return ('bounce', {}, {'filter': 'red_or_green_creature'})
+ 1958         if target_phrase in (
+ 1959             'a black or red creature you control',
+ 1960             'black or red creature you control',
+ 1961         ):
+ 1962             return ('bounce', {}, {'filter': 'black_or_red_creature'})
+ 1963         if target_phrase in (
+ 1964             'target legendary creature',
+ 1965             'legendary creature',
+ 1966         ):
+ 1967             return ('bounce', {}, {'filter': 'legendary_creature'})
+ 1968         if target_phrase in (
+ 1969             'a red creature you control',
+ 1970             'red creature you control',
+ 1971         ):
+ 1972             return ('bounce', {}, {'filter': 'red_creature'})
+ 1973         if target_phrase in (
+ 1974             'a green creature you control',
+ 1975             'green creature you control',
+ 1976         ):
+ 1977             return ('bounce', {}, {'filter': 'green_creature'})
+ 1978         if target_phrase in (
+ 1979             'a tapped land you control',
+ 1980             'tapped land you control',
+ 1981         ):
+ 1982             return ('bounce', {}, {'filter': 'tapped_land'})
+ 1983         if target_phrase in (
+ 1984             'a white or blue creature you control',
+ 1985             'white or blue creature you control',
+ 1986         ):
+ 1987             return ('bounce', {}, {'filter': 'white_or_blue_creature'})
+ 1988         if target_phrase is not None:
+ 1989             return ('bounce', {}, {'filter': 'blue_or_black_creature'})
+ 1990         attached = args.get('target_attached') is True or args.get('attached') is True
+ 1991         if not attached:
+ 1992             attached = any(
+ 1993                 isinstance(value, str)
+ 1994                 and value.strip().rstrip('.').lower() == 'enchanted creature'
+ 1995                 for value in args.values()
+ 1996             )
+ 1997         if attached:
+ 1998             return ('bounce', {'target_attached': True}, None)
+ 1999     if verb == 'destroy':
+ 2000         if any(
+ 2001             isinstance(value, str)
+ 2002             and value.strip().rstrip('.,').lower()
+ 2003             == 'target artifact or enchantment that player controls'
+ 2004             for value in args.values()
+ 2005         ):
+ 2006             return ('destroy', {}, {'filter': 'artifact_or_enchantment'})
+ 2007         if any(
+ 2008             isinstance(value, str)
+ 2009             and value.strip().rstrip('.,').lower()
+ 2010             == 'target creature an opponent controls'
+ 2011             for value in args.values()
+ 2012         ):
+ 2013             # ticket ffa8a4f2ac (verb_unmapped:destroy, Patron of the Vein
+ 2014             # class): "destroy target creature an opponent controls" on a
+ 2015             # TRIGGERED ability — must use the bare composite TargetType
+ 2016             # 'creature_opp_ctrl' (game/targeting.go TargetCreatureOppCtl),
+ 2017             # NOT {'filter':'creature','controller':'opponent'}: the two-key
+ 2018             # form fails converter.go's bare-equality check and, for
+ 2019             # triggered abilities, game/gamestate.go's triggerAtomTargetReq
+ 2020             # fails closed on the resulting unsupported_target_filter
+ 2021             # TargetType (see the 'grant_eot'/gain_control comment above).
+
+### scripts/paragraph/reparse.py:5301-5440
+ 5301     if verb == 'bounce':
+ 5302         o = args.get('obj') or {}
+ 5303         # "return ~ to its owner's hand" (task-1995, Reinforced Ronin /
+ 5304         # Cryptic Coat / Squirrel Sanctuary class) — a no-target bounce of
+ 5305         # the ability's own source. parse_atom reports {'filter':'self'} for
+ 5306         # "~" (emit_static's this-<type> normalization already folded "this
+ 5307         # creature"/"this enchantment"/"this equipment" to "~" before this
+ 5308         # point). The engine bounces the source card: ability_effects.go case
+ 5309         # "bounce" reads value["target_self"] and threads source.ID through
+ 5310         # executeBounceEffect (task-1983 spine_L2 wiring). Gated to triggered/
+ 5311         # activated only — a spell card is never a permanent on the
+ 5312         # battlefield, so "~" self-bounce on a spell has no resolvable source
+ 5313         # (mirrors pump_self_eot's identical kind gate at the self branch).
+ 5314         if o.get('object') == {'filter': 'self'} and kind in ('triggered', 'activated'):
+ 5315             return ('bounce', {'target_self': True}, None)
+ 5316         # ticket-5370 (verb_unmapped:bounce): Oxford/OR base-card-type target
+ 5317         # union ("return target artifact, enchantment, or land to its
+ 5318         # owner's hand" — Hoodwink; "target artifact, creature, enchantment,
+ 5319         # or planeswalker" — Otawara, Soaring City). parse_object refuses
+ 5320         # this compound outright (no per-word union support), so this
+ 5321         # re-detects it on the untouched raw text via the SAME
+ 5322         # _target_type_union helper destroy's task-1986 union branch already
+ 5323         # proved end-to-end (game/targeting.go's IsValidTarget/
+ 5324         # GetLegalTargets fallback splits any "_or_"-joined filter string and
+ 5325         # honors each component — every word here is one of the plain
+ 5326         # HasType cases in game/gamestate.go's matchesPermanentFilter, so
+ 5327         # this can never ship a bucket that silently matches zero/wrong
+ 5328         # cards). Bare type-word list only (no qualifier/count prefix) — see
+ 5329         # _target_type_union's own guard. Must run before the o['target']
+ 5330         # pass-through below: parse_object always refuses this shape, so
+ 5331         # o.get('target') is never a dict for it anyway.
+ 5332         t_union = _target_type_union(str(args.get('raw_obj', '')).strip())
+ 5333         if t_union is not None:
+ 5334             return ('bounce', {}, {'filter': '_or_'.join(t_union)})
+ 5335         if isinstance(o.get('target'), dict):
+ 5336             t = o['target']
+ 5337             if t.get('filter') == 'referent':
+ 5338                 return None  # "return that creature/it to its owner's hand" — handled by the referent post-pass, never here
+ 5339             # task-2442 (verb_unmapped:bounce): "return up to one target X to
+ 5340             # its owner's hand" (Monk Class class) — an optional single
+ 5341             # target, TRIGGERED only, mirrors fight/tap_target's identical
+ 5342             # "_optional_up_to" rider (task-2399/2436): the triggered
+ 5343             # consumption loop pops this private key into atom['optional'],
+ 5344             # the sequence walker's PendingSequenceChoice pause, and it never
+ 5345             # ships in the record. "up to N" (N>1) / bare "N target X" has no
+ 5346             # multi-target plumbing (the single-Target ability/spell path has
+ 5347             # no Amount/count wired) and stays an honest miss; only count ==
+ 5348             # 'one' qualifies, and only for a plain single-clause target (no
+ 5349             # 'other' — "up to one OTHER target creature or planeswalker"
+ 5350             # needs an exclude-self signal this bare-target rider has nowhere
+ 5351             # to carry, so that shape stays an honest miss too).
+ 5352             up_to_one = (kind == 'triggered' and o.get('up_to') and o.get('count') == 'one'
+ 5353                          and not t.get('other'))
+ 5354             if (o.get('count') or o.get('up_to')) and not up_to_one:
+ 5355                 return None  # "N target X" / "up to N target X" — the single-
+ 5356                               # Target ability/spell path has no Amount/count
+ 5357                               # plumbed through; would silently collapse to
+ 5358                               # exactly one target (mirrors exile/goad's guard)
+ 5359             # task-2442: compose the raw {super/subtype/controller/filter}
+ 5360             # object into a shape each kind's converter path can actually
+ 5361             # carry — bounce's plain branch used to ship the raw dict
+ 5362             # unchanged, which is silently WRONG on every kind: the spell
+ 5363             # path's SpellTargetType cast (cards/converter.go case "bounce")
+ 5364             # reads ONLY .Filter (a bare TargetType string) and drops
+ 5365             # Super/Controller entirely rather than refusing them, the
+ 5366             # triggered path's qualifiedTriggerTargetSupported never
+ 5367             # recognized Super at all (fails CLOSED — ability never pushes),
+ 5368             # and 'bounce' was missing from promotable_filters below (so an
+ 5369             # ACTIVATED ability's Controller/Subtype qualifier never reached
+ 5370             # the ability-level Target the "requires a target" gate reads —
+ 5371             # activating it would ask for no target and bounce nothing).
+ 5372             # Mirrors exile's task-2413 composition (same nonland-super
+ 5373             # collapse, same canon_subtype() validation, same kind gates).
+ 5374             nonland = t.get('super') == ['nonland'] and t.get('filter') == 'permanent'
+ 5375             # ticket-5370 (verb_unmapped:bounce): "target attacking creature"
+ 5376             # (Champion's Victory/Remove class) — 'attacking_creature' is
+ 5377             # already a live matchesPermanentFilter bucket (game/gamestate.go),
+ 5378             # proven end-to-end for this exact {'super':['attacking'],
+ 5379             # 'filter':'creature'} shape by map_atom's own 'damage' verb
+ 5380             # branch just above (task-2464's identical attacking_creature
+ 5381             # target). Kept as its own bool alongside 'nonland' rather than
+ 5382             # folded into one flag — the two are mutually exclusive supers,
+ 5383             # never combined on a real card.
+ 5384             attacking = t.get('super') == ['attacking'] and t.get('filter') == 'creature'
+ 5385             if t.get('super') and not nonland and not attacking:
+ 5386                 return None  # any OTHER super word — no representable bucket on this shape yet
+ 5387             filt = 'nonland_permanent' if nonland else ('attacking_creature' if attacking else t.get('filter'))
+ 5388             subtype = t.get('subtype')
+ 5389             if subtype:
+ 5390                 canon_parts = []
+ 5391                 for tok in str(subtype).split('|'):
+ 5392                     c = canon_subtype(tok)
+ 5393                     if c is None:
+ 5394                         return None  # not a real printed subtype — honest miss, never guess
+ 5395                     canon_parts.append(c)
+ 5396                 subtype = '|'.join(canon_parts)
+ 5397             if filt not in ('creature', 'artifact', 'enchantment', 'permanent', 'nonland_permanent', 'attacking_creature'):
+ 5398                 return None
+ 5399             other = bool(t.get('other'))
+ 5400             ctrl = t.get('controller')
+ 5401             if ctrl and ctrl not in ('you', 'opponent'):
+ 5402                 return None
+ 5403             # 'other'/'subtype' ride TriggerTargetFilter via the ACTIVATED
+ 5404             # ability-level Target field ONLY (promotable_filters below,
+ 5405             # same channel exile/untap/grant_keywords_until_eot already use)
+ 5406             # — neither the spell path nor the triggered per-atom channel has
+ 5407             # anywhere to put them (mirrors untap's identical kind gate).
+ 5408             if (other or subtype) and kind != 'activated':
+ 5409                 return None
+ 5410             if up_to_one:
+ 5411                 if ctrl or subtype or other:
+ 5412                     return None  # the optional-target rider carries only a bare filter — nowhere for a qualifier
+ 5413                 return ('bounce', {'_optional_up_to': True}, {'filter': filt})
+ 5414             if kind == 'activated':
+ 5415                 tgt = {'filter': filt}
+ 5416                 if ctrl: tgt['controller'] = ctrl
+ 5417                 if other: tgt['other'] = True
+ 5418                 if subtype: tgt['subtype'] = subtype
+ 5419                 return ('bounce', {}, tgt)
+ 5420             # spell / plain triggered: a bare {filter} string is the ONLY
+ 5421             # shape either path carries (SpellTargetType's cast / the
+ 5422             # triggered exact-bare-equality fast path) — fold Controller
+ 5423             # into the SAME "_you_ctrl"/"_opp_ctrl" filter-string suffix
+ 5424             # matchesPermanentFilterCtl already recognizes (task-2413's
+ 5425             # exile precedent) rather than a separate key, so this reaches
+ 5426             # both cards/converter.go's SpellEffect.SpellTargetType passthrough
+ 5427             # and AbilityToTriggered's exact-equality check unchanged.
+ 5428             if ctrl:
+ 5429                 filt = filt + ('_you_ctrl' if ctrl == 'you' else '_opp_ctrl')
+ 5430             return ('bounce', {}, {'filter': filt})
+ 5431         # "return a/another [filter] X you control to its owner's hand" /
+ 5432         # "return each other [filter] X you control to its owner's hand"
+ 5433         # (task-2392, verb_unmapped:bounce): the ability's OWN controller
+ 5434         # chooses among their matching permanents — no MTG targeting at all
+ 5435         # (mirrors 'sacrifice's identical filter/n/exclude_self shape,
+ 5436         # task-2374, and its executor executeSacrificeFiltered exactly:
+ 5437         # game/ability_effects.go case "bounce" -> executeBounceFiltered).
+ 5438         # 'other' (another/each other) maps to exclude_self, same as
+ 5439         # sacrifice's _sacrifice_effect_spec. "each other X you control" mass
+ 5440         # phrasing rides the SAME primitive via an oversized n, mirroring
+
+### backend/game/targeting.go:631-754 [game.DamageTargetFromSource; 52dfe55712586b109e57f8725010e70336de546a]
+  631 func DamageTargetFromSource(target Target, amount int, source *Card, gs *GameState) error {
+  632 	if target.IsCard {
+  633 		card, err := gs.Battlefield.GetCard(target.CardID)
+  634 		if err != nil {
+  635 			return errors.New("target creature no longer exists")
+  636 		}
+  637 		if !card.IsCreature() && !card.IsPlaneswalker() {
+  638 			return errors.New("can only damage creatures or planeswalkers")
+  639 		}
+  640 
+  641 		// Rule 702.16: Protection prevents damage from sources with the protected quality
+  642 		if source != nil && card.HasProtectionFromCard(source) {
+  643 			return nil // Damage is prevented, but no error
+  644 		}
+  645 
+  646 		// Rule 615.6: damage-prevention shields (Fog effects, "prevent the next
+  647 		// N damage", etc.) reduce or nullify the damage before it's applied.
+  648 		dealt := amount
+  649 		if gs.ReplacementManager != nil {
+  650 			dealt = gs.ReplacementManager.PreventDamageWithContext(card.ID, -1, amount, false, source)
+  651 		}
+  652 		// Victim-scoped damage doubling ([VOCAB] #61): evaluated against the
+  653 		// originally targeted permanent's controller, AFTER
+  654 		// protection/prevention but BEFORE the card-level redirect just
+  655 		// below, mirroring applyCombatDamageToCreature's ordering
+  656 		// (combat.go) so the redirect destination (if any) still receives
+  657 		// the already-doubled amount. No-op absent a registered
+  658 		// EffectManager.VictimDamageMultiplier effect for card.Controller.
+  659 		if dealt > 0 && gs.EffectManager != nil {
+  660 			if mult := gs.EffectManager.VictimDamageMultiplier(card.Controller); mult > 1 {
+  661 				dealt *= mult
+  662 			}
+  663 		}
+  664 		// Card-level damage redirect ([VOCAB] #54): resolved AFTER
+  665 		// protection/prevention (both evaluated against the originally
+  666 		// targeted permanent — protection/hexproof-style qualities and
+  667 		// prevention shields belong to that card, not whatever it gets
+  668 		// redirected to) but BEFORE Infect/excess/DealDamage, so the actual
+  669 		// recipient of the (already-prevention-adjusted) damage is the
+  670 		// redirect destination when one is active. No-op absent a
+  671 		// registered redirect effect.
+  672 		recipient := card
+  673 		if gs.EffectManager != nil {
+  674 			recipient = gs.EffectManager.RedirectDamageTarget(card)
+  675 		}
+  676 
+  677 		// Rule 702.90c: a source with Infect marks -1/-1 counters on a
+  678 		// creature instead of damage. Planeswalkers are unaffected by Infect.
+  679 		if dealt > 0 && recipient.IsCreature() && source != nil && source.HasKeywordWithEffects(Infect, gs.EffectManager) {
+  680 			gs.AddCounters(recipient, CounterMinusOneMinusOne, dealt)
+  681 			return nil
+  682 		}
+  683 
+  684 		// [VOCAB #555] Compute excess damage BEFORE applying it: the amount
+  685 		// by which this instance of noncombat damage exceeds what was
+  686 		// needed to bring the creature to zero remaining toughness. Combat
+  687 		// damage never reaches this function, so this is inherently
+  688 		// noncombat-only (see EventExcessNoncombatDamage doc).
+  689 		excess := 0
+  690 		if dealt > 0 && recipient.IsCreature() {
+  691 			remaining := recipient.GetToughnessWithEffects(gs.EffectManager) - recipient.Damage
+  692 			if remaining < 0 {
+  693 				remaining = 0
+  694 			}
+  695 			if dealt > remaining {
+  696 				excess = dealt - remaining
+  697 			}
+  698 		}
+  699 
+  700 		recipient.DealDamage(dealt)
+  701 
+  702 		if excess > 0 && gs.EventBus != nil {
+  703 			// Put any matched "is dealt excess noncombat damage" triggers
+  704 			// (task-1981 spine_L0) on the stack.
+  705 			gs.ProcessTriggeredAbilities(CreateExcessNoncombatDamageEvent(source, recipient, excess, dealt))
+  706 		}
+  707 		return nil
+  708 	}
+  709 
+  710 	// Targeting player (protection doesn't apply to players in this context)
+  711 	if target.PlayerIdx < 0 || target.PlayerIdx >= len(gs.Players) {
+  712 		return errors.New("invalid player target")
+  713 	}
+  714 	dealt := amount
+  715 	if gs.ReplacementManager != nil {
+  716 		dealt = gs.ReplacementManager.PreventDamageWithContext("", target.PlayerIdx, amount, false, source)
+  717 	}
+  718 	// Victim-scoped damage doubling ([VOCAB] #61): resolved AFTER prevention
+  719 	// but BEFORE the player-wide redirect check just below, mirroring the
+  720 	// card-target doubling ordering above in this same function. No-op
+  721 	// absent a registered EffectManager.VictimDamageMultiplier effect for
+  722 	// this player.
+  723 	if dealt > 0 && gs.EffectManager != nil {
+  724 		if mult := gs.EffectManager.VictimDamageMultiplier(target.PlayerIdx); mult > 1 {
+  725 			dealt *= mult
+  726 		}
+  727 	}
+  728 	// Generic player-wide damage redirect ([VOCAB] #55): resolved AFTER
+  729 	// prevention but BEFORE DamageTakenThisTurn/life-loss/Infect, mirroring
+  730 	// the card-target redirect ordering above in this same function. No-op
+  731 	// absent a registered EffectManager.RedirectAllDamageDestination effect
+  732 	// for this player.
+  733 	if dealt > 0 && gs.EffectManager != nil {
+  734 		if dest := gs.EffectManager.RedirectAllDamageDestination(target.PlayerIdx); dest != nil {
+  735 			applyRedirectedPlayerDamage(gs, gs.EffectManager, source, dest, dealt, false)
+  736 			return nil
+  737 		}
+  738 	}
+  739 	if dealt > 0 {
+  740 		// DamageTakenThisTurn tracks noncombat damage dealt (post-prevention),
+  741 		// independent of whether it becomes life loss or (Infect) poison
+  742 		// counters — see field doc in player.go (VOCAB #1056).
+  743 		gs.Players[target.PlayerIdx].DamageTakenThisTurn += dealt
+  744 		defer gs.emitPlayerDamaged(source, target.PlayerIdx, dealt, false)
+  745 	}
+  746 	// Rule 702.90b: a source with Infect gives poison counters to a player
+  747 	// instead of causing life loss.
+  748 	if dealt > 0 && source != nil && source.HasKeywordWithEffects(Infect, gs.EffectManager) {
+  749 		gs.GivePoison(target.PlayerIdx, dealt)
+  750 		return nil
+  751 	}
+  752 	gs.Players[target.PlayerIdx].TakeDamage(dealt)
+  753 	return nil
+  754 }
+
+### backend/game/ability_effects.go:8594-8733 [game.GameState.executeDamageEffect; 52dfe55712586b109e57f8725010e70336de546a; truncated at source budget]
+ 8594 func (gs *GameState) executeDamageEffect(controller int, source *Card, effectValue map[string]interface{}, targets []Target) error {
+ 8595 	amount := getIntValue(effectValue, "amount", 1)
+ 8596 	// Damage-replacement modifiers (Furnace of Rath / Torbran). This is
+ 8597 	// DAMAGE — pure life-loss effects (executeLifeLossEffect) are NOT
+ 8598 	// modified, matching the rules distinction.
+ 8599 	amount = ModifyDamageAmount(gs.Battlefield, source, amount)
+ 8600 	// [VOCAB] #59: turn-scoped, controller-filtered EOTDamageMultipliers
+ 8601 	// (Isengard Unleashed class) layer on top here too, not just in combat —
+ 8602 	// this funnel is non-combat spell/ability damage, and the effect reads
+ 8603 	// "if a source you control would deal damage THIS TURN", not "combat
+ 8604 	// damage", so it must apply here as well.
+ 8605 	amount = gs.ApplyEOTDamageMultiplier(source, amount)
+ 8606 
+ 8607 	// linked_amount tally (dynamic-amount round, 2026-08-08): total damage
+ 8608 	// this atom actually applies, for a later "you gain that much life"
+ 8609 	// consumer. Deferred so every return branch below reports; no-op
+ 8610 	// outside a sequence walk.
+ 8611 	dealt := 0
+ 8612 	defer func() { gs.noteSeqTally("damage_dealt", dealt) }()
+ 8613 
+ 8614 	// Mass damage ("~ deals N damage to each creature[ and each player]" —
+ 8615 	// Pestilence/Volcanic Fallout class, task-1982): filter-scoped, not
+ 8616 	// target-scoped — mirrors destroy/exile's value.all + value.filter[/
+ 8617 	// value.controller] mass-effect shape (destroyAllMatching/
+ 8618 	// exileAllMatching, gamestate.go), reusing the SAME matchesPermanentFilter
+ 8619 	// bucket vocabulary. each_player rides alongside rather than as a second
+ 8620 	// sequence atom because both halves share one amount/damage-source
+ 8621 	// (Pestilence's "and each player" is the SAME N, not an independent
+ 8622 	// effect the walker would apply its own modifiers to twice).
+ 8623 	if all, _ := effectValue["all"].(bool); all {
+ 8624 		filter, _ := effectValue["filter"].(string)
+ 8625 		scope, _ := effectValue["controller"].(string)
+ 8626 		for _, card := range gs.Battlefield.GetAll() {
+ 8627 			if scope == "you" && card.Controller != controller {
+ 8628 				continue
+ 8629 			}
+ 8630 			if scope == "opponent" && card.Controller == controller {
+ 8631 				continue
+ 8632 			}
+ 8633 			if !matchesPermanentFilter(card, filter) {
+ 8634 				continue
+ 8635 			}
+ 8636 			recipient := card
+ 8637 			if gs.EffectManager != nil {
+ 8638 				recipient = gs.EffectManager.RedirectDamageTarget(card)
+ 8639 			}
+ 8640 			recipient.DealDamage(amount)
+ 8641 			dealt += amount
+ 8642 			if gs.EventBus != nil {
+ 8643 				gs.ProcessTriggeredAbilities(CreateDamageEvent(source, recipient, amount, controller))
+ 8644 			}
+ 8645 		}
+ 8646 		if eachPlayer, _ := effectValue["each_player"].(bool); eachPlayer {
+ 8647 			for idx := range gs.Players {
+ 8648 				gs.Players[idx].TakeDamage(amount)
+ 8649 				dealt += amount
+ 8650 				if gs.EventBus != nil {
+ 8651 					gs.ProcessTriggeredAbilities(CreateLifeLossEvent(idx, amount))
+ 8652 				}
+ 8653 			}
+ 8654 		}
+ 8655 		gs.CheckStateBasedActions()
+ 8656 		return nil
+ 8657 	}
+ 8658 
+ 8659 	// If no targets specified, check if effect targets controller or opponent
+ 8660 	if len(targets) == 0 {
+ 8661 		// Sweep shapes (damage round 2026-08-03): "deals N damage to each
+ 8662 		// creature [with/without flying]" / "to each player" / "to each
+ 8663 		// creature and each player". value.each selects the scope; the
+ 8664 		// optional keyword filters narrow the creature half.
+ 8665 		if each, ok := effectValue["each"].(string); ok && each != "" {
+ 8666 			if each == "creature" || each == "creature_and_player" {
+ 8667 				kw, _ := effectValue["each_keyword"].(string)
+ 8668 				kwWithout, _ := effectValue["each_without_keyword"].(string)
+ 8669 				// task-2428 (verb_unmapped:damage): three more optional
+ 8670 				// qualifiers on the same bare sweep — "each OTHER creature[...]"
+ 8671 				// (excludes the source itself, Raging Swordtooth/Harbinger of
+ 8672 				// the Hunt class), "each non-<SUBTYPE> creature" (Fiery
+ 8673 				// Cannonade), "each UNTAPPED creature" (Calamity of Cinders).
+ 8674 				// All AND together with the existing keyword filters in the
+ 8675 				// same loop, same as kw/kwWithout already do.
+ 8676 				other, _ := effectValue["each_other"].(bool)
+ 8677 				withoutSubtype, _ := effectValue["each_without_subtype"].(string)
+ 8678 				untapped, _ := effectValue["each_untapped"].(bool)
+ 8679 				// snapshot first — DealDamage mutates battlefield state and
+ 8680 				// CheckStateBasedActions below removes the dead
+ 8681 				for _, c := range gs.Battlefield.GetAll() {
+ 8682 					if !c.IsCreature() {
+ 8683 						continue
+ 8684 					}
+ 8685 					if kw != "" && !c.HasKeywordWithEffects(Keyword(kw), gs.EffectManager) {
+ 8686 						continue
+ 8687 					}
+ 8688 					if kwWithout != "" && c.HasKeywordWithEffects(Keyword(kwWithout), gs.EffectManager) {
+ 8689 						continue
+ 8690 					}
+ 8691 					if other && source != nil && c.ID == source.ID {
+ 8692 						continue
+ 8693 					}
+ 8694 					if withoutSubtype != "" && c.HasSubType(withoutSubtype) {
+ 8695 						continue
+ 8696 					}
+ 8697 					if untapped && c.Tapped {
+ 8698 						continue
+ 8699 					}
+ 8700 					recipient := c
+ 8701 					if gs.EffectManager != nil {
+ 8702 						recipient = gs.EffectManager.RedirectDamageTarget(c)
+ 8703 					}
+ 8704 					recipient.DealDamage(amount)
+ 8705 					dealt += amount
+ 8706 					if gs.EventBus != nil {
+ 8707 						gs.ProcessTriggeredAbilities(CreateDamageEvent(source, recipient, amount, controller))
+ 8708 					}
+ 8709 				}
+ 8710 			}
+ 8711 			if each == "player" || each == "creature_and_player" {
+ 8712 				for pi := range gs.Players {
+ 8713 					gs.Players[pi].TakeDamage(amount)
+ 8714 					dealt += amount
+ 8715 					if gs.EventBus != nil {
+ 8716 						gs.ProcessTriggeredAbilities(CreateLifeLossEvent(pi, amount))
+ 8717 					}
+ 8718 				}
+ 8719 			}
+ 8720 			gs.CheckStateBasedActions()
+ 8721 			return nil
+ 8722 		}
+ 8723 		targetPlayer := controller
+ 8724 		if targetType, ok := effectValue["target"].(string); ok {
+ 8725 			// "opponent" hits the other player; "you" (and the historical
+ 8726 			// bare default) is the controller.
+ 8727 			if targetType == "opponent" {
+ 8728 				targetPlayer = 1 - controller
+ 8729 			}
+ 8730 			// "~ deals N damage to each player." (Flame Rift/Spear Spewer) —
+ 8731 			// mirrors executeLifeLossEffect's identical each_player case.
+ 8732 			if targetType == "each_player" || targetType == "each_opponent" {
+ 8733 				// task-2544 (verb_unmapped:damage): "~ deals damage to each
+
+### backend/game/lib_player_damage_event.go:5-16 [game.GameState.emitPlayerDamaged; 52dfe55712586b109e57f8725010e70336de546a]
+    5 func (gs *GameState) emitPlayerDamaged(source *Card, player, amount int, combat bool) {
+    6 	if gs.EventBus == nil || amount <= 0 {
+    7 		return
+    8 	}
+    9 	controller := -1
+   10 	if source != nil {
+   11 		controller = source.Controller
+   12 	}
+   13 	event := NewEvent(EventPlayerDamaged).WithSource(source).WithPlayer(controller).WithOpponent(player).WithAmount(amount)
+   14 	event.Data["is_combat"] = combat
+   15 	gs.ProcessTriggeredAbilities(event)
+   16 }
+
+### backend/game/gamestate.go:3956-3959 [game.GameState.applySpellEffectCore#case:bounce; 52dfe55712586b109e57f8725010e70336de546a; truncated at source budget]
+ 3956 		case "bounce":
+ 3957 			// Targeted bounce (Unsummon, Disperse). Mass-mode (Retract)
+ 3958 			// is handled above before this loop. Destination defaults to
+ 3959 			// hand; "library_top"/"library_bottom" (Submerge, Condemn class
+
+### scripts/paragraph/reparse.py:1882-1998 (source match)
+ 1882     if verb == 'bounce':
+ 1883         target_phrase = next(
+ 1884             (
+ 1885                 value.strip().rstrip('.,').lower()
+ 1886                 for value in args.values()
+ 1887                 if isinstance(value, str)
+ 1888                 and value.strip().rstrip('.,').lower()
+ 1889                 in (
+ 1890                     'a white or blue creature you control',
+ 1891                     'white or blue creature you control',
+ 1892                     'a blue or black creature you control',
+ 1893                     'blue or black creature you control',
+ 1894                     'a white creature you control',
+ 1895                     'white creature you control',
+ 1896                     'up to one other target creature',
+ 1897                     'up to 1 other target creature',
+ 1898                     'up to one other target nonland permanent',
+ 1899                     'up to 1 other target nonland permanent',
+ 1900                     'up to one other target permanent you control',
+ 1901                     'up to 1 other target permanent you control',
+ 1902                     'one or two target creatures',
+ 1903                     'all green permanents',
+ 1904                     'a red or green creature you control',
+ 1905                     'red or green creature you control',
+ 1906                     'a black or red creature you control',
+ 1907                     'black or red creature you control',
+ 1908                     'target legendary creature',
+ 1909                     'legendary creature',
+ 1910                     'a red creature you control',
+ 1911                     'red creature you control',
+ 1912                     'a green creature you control',
+ 1913                     'green creature you control',
+ 1914                     'a tapped land you control',
+ 1915                     'tapped land you control',
+ 1916                 )
+ 1917             ),
+ 1918             None,
+ 1919         )
+ 1920         if target_phrase == 'one or two target creatures':
+ 1921             return ('bounce', {}, {'filter': 'creature'})
+ 1922         if target_phrase == 'all green permanents':
+ 1923             return ('bounce', {}, {'filter': 'green_permanent', 'all': True})
+ 1924         if target_phrase in (
+ 1925             'up to one other target creature',
+ 1926             'up to 1 other target creature',
+ 1927         ):
+ 1928             return ('bounce', {}, {
+ 1929                 'filter': 'other_creature',
+ 1930                 'optional': True,
+ 1931             })
+ 1932         if target_phrase in (
+ 1933             'up to one other target nonland permanent',
+ 1934             'up to 1 other target nonland permanent',
+ 1935         ):
+ 1936             return ('bounce', {}, {
+ 1937                 'filter': 'other_nonland_permanent',
+ 1938                 'optional': True,
+ 1939             })
+ 1940         if target_phrase in (
+ 1941             'up to one other target permanent you control',
+ 1942             'up to 1 other target permanent you control',
+ 1943         ):
+ 1944             return ('bounce', {}, {
+ 1945                 'filter': 'other_permanent',
+ 1946                 'optional': True,
+ 1947             })
+ 1948         if target_phrase in (
+ 1949             'a white creature you control',
+ 1950             'white creature you control',
+ 1951         ):
+ 1952             return ('bounce', {}, {'filter': 'white_creature'})
+ 1953         if target_phrase in (
+ 1954             'a red or green creature you control',
+ 1955             'red or green creature you control',
+ 1956         ):
+ 1957             return ('bounce', {}, {'filter': 'red_or_green_creature'})
+ 1958         if target_phrase in (
+ 1959             'a black or red creature you control',
+ 1960             'black or red creature you control',
+ 1961         ):
+ 1962             return ('bounce', {}, {'filter': 'black_or_red_creature'})
+ 1963         if target_phrase in (
+ 1964             'target legendary creature',
+ 1965             'legendary creature',
+ 1966         ):
+ 1967             return ('bounce', {}, {'filter': 'legendary_creature'})
+ 1968         if target_phrase in (
+ 1969             'a red creature you control',
+ 1970             'red creature you control',
+ 1971         ):
+ 1972             return ('bounce', {}, {'filter': 'red_creature'})
+ 1973         if target_phrase in (
+ 1974             'a green creature you control',
+ 1975             'green creature you control',
+ 1976         ):
+ 1977             return ('bounce', {}, {'filter': 'green_creature'})
+ 1978         if target_phrase in (
+ 1979             'a tapped land you control',
+ 1980             'tapped land you control',
+ 1981         ):
+ 1982             return ('bounce', {}, {'filter': 'tapped_land'})
+ 1983         if target_phrase in (
+ 1984             'a white or blue creature you control',
+ 1985             'white or blue creature you control',
+ 1986         ):
+ 1987             return ('bounce', {}, {'filter': 'white_or_blue_creature'})
+ 1988         if target_phrase is not None:
+ 1989             return ('bounce', {}, {'filter': 'blue_or_black_creature'})
+ 1990         attached = args.get('target_attached') is True or args.get('attached') is True
+ 1991         if not attached:
+ 1992             attached = any(
+ 1993                 isinstance(value, str)
+ 1994                 and value.strip().rstrip('.').lower() == 'enchanted creature'
+ 1995                 for value in args.values()
+ 1996             )
+ 1997         if attached:
+ 1998             return ('bounce', {'target_attached': True}, None)
+
+### scripts/paragraph/reparse.py:5301-5383 (source match; truncated, remaining lines 5384-5496)
+ 5301     if verb == 'bounce':
+ 5302         o = args.get('obj') or {}
+ 5303         # "return ~ to its owner's hand" (task-1995, Reinforced Ronin /
+ 5304         # Cryptic Coat / Squirrel Sanctuary class) — a no-target bounce of
+ 5305         # the ability's own source. parse_atom reports {'filter':'self'} for
+ 5306         # "~" (emit_static's this-<type> normalization already folded "this
+ 5307         # creature"/"this enchantment"/"this equipment" to "~" before this
+ 5308         # point). The engine bounces the source card: ability_effects.go case
+ 5309         # "bounce" reads value["target_self"] and threads source.ID through
+ 5310         # executeBounceEffect (task-1983 spine_L2 wiring). Gated to triggered/
+ 5311         # activated only — a spell card is never a permanent on the
+ 5312         # battlefield, so "~" self-bounce on a spell has no resolvable source
+ 5313         # (mirrors pump_self_eot's identical kind gate at the self branch).
+ 5314         if o.get('object') == {'filter': 'self'} and kind in ('triggered', 'activated'):
+ 5315             return ('bounce', {'target_self': True}, None)
+ 5316         # ticket-5370 (verb_unmapped:bounce): Oxford/OR base-card-type target
+ 5317         # union ("return target artifact, enchantment, or land to its
+ 5318         # owner's hand" — Hoodwink; "target artifact, creature, enchantment,
+ 5319         # or planeswalker" — Otawara, Soaring City). parse_object refuses
+ 5320         # this compound outright (no per-word union support), so this
+ 5321         # re-detects it on the untouched raw text via the SAME
+ 5322         # _target_type_union helper destroy's task-1986 union branch already
+ 5323         # proved end-to-end (game/targeting.go's IsValidTarget/
+ 5324         # GetLegalTargets fallback splits any "_or_"-joined filter string and
+ 5325         # honors each component — every word here is one of the plain
+ 5326         # HasType cases in game/gamestate.go's matchesPermanentFilter, so
+ 5327         # this can never ship a bucket that silently matches zero/wrong
+ 5328         # cards). Bare type-word list only (no qualifier/count prefix) — see
+ 5329         # _target_type_union's own guard. Must run before the o['target']
+ 5330         # pass-through below: parse_object always refuses this shape, so
+ 5331         # o.get('target') is never a dict for it anyway.
+ 5332         t_union = _target_type_union(str(args.get('raw_obj', '')).strip())
+ 5333         if t_union is not None:
+ 5334             return ('bounce', {}, {'filter': '_or_'.join(t_union)})
+ 5335         if isinstance(o.get('target'), dict):
+ 5336             t = o['target']
+ 5337             if t.get('filter') == 'referent':
+ 5338                 return None  # "return that creature/it to its owner's hand" — handled by the referent post-pass, never here
+ 5339             # task-2442 (verb_unmapped:bounce): "return up to one target X to
+ 5340             # its owner's hand" (Monk Class class) — an optional single
+ 5341             # target, TRIGGERED only, mirrors fight/tap_target's identical
+ 5342             # "_optional_up_to" rider (task-2399/2436): the triggered
+ 5343             # consumption loop pops this private key into atom['optional'],
+ 5344             # the sequence walker's PendingSequenceChoice pause, and it never
+ 5345             # ships in the record. "up to N" (N>1) / bare "N target X" has no
+ 5346             # multi-target plumbing (the single-Target ability/spell path has
+ 5347             # no Amount/count wired) and stays an honest miss; only count ==
+ 5348             # 'one' qualifies, and only for a plain single-clause target (no
+ 5349             # 'other' — "up to one OTHER target creature or planeswalker"
+ 5350             # needs an exclude-self signal this bare-target rider has nowhere
+ 5351             # to carry, so that shape stays an honest miss too).
+ 5352             up_to_one = (kind == 'triggered' and o.get('up_to') and o.get('count') == 'one'
+ 5353                          and not t.get('other'))
+ 5354             if (o.get('count') or o.get('up_to')) and not up_to_one:
+ 5355                 return None  # "N target X" / "up to N target X" — the single-
+ 5356                               # Target ability/spell path has no Amount/count
+ 5357                               # plumbed through; would silently collapse to
+ 5358                               # exactly one target (mirrors exile/goad's guard)
+ 5359             # task-2442: compose the raw {super/subtype/controller/filter}
+ 5360             # object into a shape each kind's converter path can actually
+ 5361             # carry — bounce's plain branch used to ship the raw dict
+ 5362             # unchanged, which is silently WRONG on every kind: the spell
+ 5363             # path's SpellTargetType cast (cards/converter.go case "bounce")
+ 5364             # reads ONLY .Filter (a bare TargetType string) and drops
+ 5365             # Super/Controller entirely rather than refusing them, the
+ 5366             # triggered path's qualifiedTriggerTargetSupported never
+ 5367             # recognized Super at all (fails CLOSED — ability never pushes),
+ 5368             # and 'bounce' was missing from promotable_filters below (so an
+ 5369             # ACTIVATED ability's Controller/Subtype qualifier never reached
+ 5370             # the ability-level Target the "requires a target" gate reads —
+ 5371             # activating it would ask for no target and bounce nothing).
+ 5372             # Mirrors exile's task-2413 composition (same nonland-super
+ 5373             # collapse, same canon_subtype() validation, same kind gates).
+ 5374             nonland = t.get('super') == ['nonland'] and t.get('filter') == 'permanent'
+ 5375             # ticket-5370 (verb_unmapped:bounce): "target attacking creature"
+ 5376             # (Champion's Victory/Remove class) — 'attacking_creature' is
+ 5377             # already a live matchesPermanentFilter bucket (game/gamestate.go),
+ 5378             # proven end-to-end for this exact {'super':['attacking'],
+ 5379             # 'filter':'creature'} shape by map_atom's own 'damage' verb
+ 5380             # branch just above (task-2464's identical attacking_creature
+ 5381             # target). Kept as its own bool alongside 'nonland' rather than
+ 5382             # folded into one flag — the two are mutually exclusive supers,
+ 5383             # never combined on a real card.
+
+### scripts/paragraph/reparse.py:10340-10360 (source match)
+10340         subj_t = spec.get('subject')
+10341         if subj_t is not None:
+10342             subj_t = clean_subject(subj_t, allow_player=True)
+10343             if subj_t is None:
+10344                 return None
+10345         trigger_v2 = {'event': spec['event']}
+10346         if subj_t:
+10347             trigger_v2['subject'] = subj_t
+10348         for k in ('spell', 'modifier', 'condition', 'fire_limit', 'receiver'):
+10349             if spec.get(k):
+10350                 trigger_v2[k] = spec[k]
+10351         return {'ability': {'type': 'triggered', 'trigger_v2': trigger_v2,
+10352                             'effects': [atom]}}
+10353     # B) activated: "{cost}: Roll a dN." (clean body only — a suffix/prefix
+10354     #    body is a different family; reject so it re-queues honestly).
+10355     mact = re.match(r'^([^:]{1,140}):\s*roll a d(\d+)\.?\s*$', norm)
+10356     if mact:
+10357         cost, cmisses = build_activated_cost(mact.group(1))
+10358         if cmisses or cost is None:
+10359             return None
+10360         atom['value']['sides'] = int(mact.group(2))
+
+### scripts/paragraph/reparse.py:20032-20052 (source match)
+20032             subj_t = clean_subject(subj_t, allow_player=True)
+20033             if subj_t is None:
+20034                 misses.append(('trigger_subject_unknown_subtype',
+20035                                str(spec.get('subject'))[:60]))
+20036                 continue
+20037         trigger_v2 = {'event': spec['event']}
+20038         if subj_t: trigger_v2['subject'] = subj_t
+20039         for k in ('spell', 'modifier', 'condition', 'fire_limit', 'receiver'):
+20040             if spec.get(k): trigger_v2[k] = spec[k]
+20041         _emit_triggered(abilities, {'type': 'triggered', 'trigger_v2': trigger_v2, 'effects': atoms_out}, spec)
+20042     # abword-conditional postpass (unclassified-wiring round 2026-08-09):
+20043     # game/gamestate.go's resolution else-if chain runs SpellEffectSequence
+20044     # IN PREFERENCE TO SpellEffect, so a record mixing a v1 single-effect
+20045     # spell ability (paragraph 1) with the new conditional SEQUENCE ability
+20046     # (paragraph 2) would silently drop the single effect at resolution.
+20047     # When (and only when) this round's conditional ability is present:
+20048     # migrate sibling single-effect spell abilities onto the sequence path
+20049     # — 'search' is the one verified-sequence-safe migration (task-2375:
+20050     # the walker dispatches through the same Remaining-based
+20051     # ability_effects.go "search" case, filter/to keys read identically) —
+20052     # and if any non-migratable single remains, withdraw the conditional
+
+### scripts/paragraph/reparse.py:18415-18433 (source match)
+18415         if re.match(
+18416                 r"^whenever enchanted creature deals combat damage to "
+18417                 r"defending player, you may destroy target artifact that "
+18418                 r"player controls\.?$",
+18419                 _ldest, re.I):
+18420             _emit_triggered(abilities, {
+18421                 'type': 'triggered',
+18422                 'trigger_v2': {'event': 'deals_combat_damage_to_player',
+18423                                'subject': {'filter': 'enchanted'}},
+18424                 'effects': [_atom_dict(
+18425                     'destroy', {},
+18426                     {'filter': 'artifact', 'controller': 'defending_player'},
+18427                     optional=True)],
+18428             }, {})
+18429             continue
+18430         lv, info = T.slot_parse(p, card)
+18431         if lv < 3 or not info.get('spec'):
+18432             misses.append(('spine_L%d' % lv, info.get('head', '')[:70]))
+18433             continue
+
+### scripts/paragraph/reparse.py:5729-5739 (source match)
+ 5729         # (game/ability_effects.go, task-3188 — shape_tap_attached_test.go
+ 5730         # TestShape_ETB_TapAttached) already reads source.AttachedTo. Bare
+ 5731         # 'enchanted'/'equipped' filter only — a controller/subtype qualifier
+ 5732         # on "enchanted" isn't grammatical English, so require the object to
+ 5733         # carry ONLY the bare filter key rather than silently drop one.
+ 5734         if o.get('object') in ({'filter': 'enchanted'}, {'filter': 'equipped'}):
+ 5735             return ('tap_target', {'target_attached': True}, None)
+ 5736         # Compound OR/Oxford single-target union (mirrors destroy's
+ 5737         # _target_type_union): "tap target artifact or creature" (Binding
+ 5738         # Mummy). parse_subject narrows a multi-type-word target to its LAST
+ 5739         # word, so the bare o['target'] below would ship a lossy single-type
+
+### scripts/paragraph/reparse.py:12124-12137 (source match)
+12124 # 'nonenchanted_creature') — zero engine changes, just wiring the phrase.
+12125 # Detected on the raw text before parse_subject ever sees it, same idiom as
+12126 # _negated_creature_combo/_subtype_mass_union above.
+12127 _NEG_CREATURE_PROPERTY_RE = re.compile(
+12128     r"^creatures? that (?:isn'?t|aren'?t) (all colors|enchanted)$")
+12129 _NEG_CREATURE_PROPERTY_BUCKETS = {
+12130     'all colors': 'not_all_colors_creature',
+12131     'enchanted': 'nonenchanted_creature',
+12132 }
+12133 
+12134 def _negated_creature_property(type_phrase):
+12135     """'creature that isn't all colors' / 'creatures that aren't enchanted'
+12136     -> the matching matchesPermanentFilter bucket, or None."""
+12137     m = _NEG_CREATURE_PROPERTY_RE.match(type_phrase.strip().rstrip('.'))
+
+### scripts/paragraph/reparse.py:14500-14510 (source match)
+14500         # toughness N/N" tail (set_base_pt) plus strip_abilities (grandfather
+14501         # vocab; v1 precedent patternEnchantedLosesAllAbilities,
+14502         # cards/patterns_static.go — both already Affects{Filter:"enchanted"}
+14503         # for this exact "Enchanted creature loses all abilities..." idiom).
+14504         power, toughness = ecla.groups()
+14505         affects = {'filter': 'enchanted'}
+14506         abilities.append({'type': 'static', 'effect': 'strip_abilities', 'affects': dict(affects)})
+14507         abilities.append({'type': 'static', 'effect': 'set_base_pt',
+14508                            'value': {'power': int(power), 'toughness': int(toughness)},
+14509                            'affects': dict(affects)})
+14510         return abilities, misses
+
+### scripts/paragraph/test_target_player_draw.py (test convention)
+    1 import pathlib
+    2 import sys
+    3 import unittest
+    4 
+    5 
+    6 sys.path.insert(0, str(pathlib.Path(__file__).parent))
+    7 import reparse  # noqa: E402
+    8 
+    9 
+   10 class TargetPlayerDrawTest(unittest.TestCase):
+   11     def map_draw(self, text):
+   12         verb, args = reparse.O.parse_atom(text)
+   13         self.assertEqual(verb, "p_draw")
+   14         return reparse.map_atom(verb, args, kind="oneshot")
+   15 
+   16     def test_target_player_draws(self):
+   17         self.assertEqual(
+   18             self.map_draw("Target player draws a card."),
+   19             ("draw", {"amount": 1}, {"filter": "player"}),
+   20         )
+   21 
+   22     def test_target_opponent_draws(self):
+   23         self.assertEqual(
+   24             self.map_draw("Target opponent draws a card."),
+   25             ("draw", {"amount": 1, "target": "opponent"}, None),
+   26         )
+   27 
+   28     def test_each_opponent_draws(self):
+   29         self.assertEqual(
+   30             self.map_draw("Each opponent draws a card."),
+   31             ("draw", {"amount": 1, "target": "opponent"}, None),
+   32         )
+   33 
+   34     def test_each_player_draws_is_unmapped(self):
+   35         self.assertIsNone(self.map_draw("Each player draws a card."))
+   36 
+   37     def test_that_player_draws_is_unmapped(self):
+   38         self.assertIsNone(self.map_draw("That player draws a card."))
+   39 
+   40 
+   41 if __name__ == "__main__":
+   42     unittest.main()
+
+## Exact parser probes from this source revision
+Oracle text for 'Sigil of Sleep' -> "Enchant creature\nWhenever enchanted creature deals damage to a player, return target creature that player controls to its owner's hand."
+reparse_card(load_card('Sigil of Sleep')) -> {"abilities": [{"effect": "enchant_target", "type": "static", "value": {"target": "creature"}}], "eligible": false, "keywords": [], "misses": [["spine_L2", "whenever enchanted creature deals damage to a player"]], "name": "Sigil of Sleep"}
+Actual parser handoffs during this card parse (map_atom arguments and failed trigger spine):
+[
+  {
+    "args": null,
+    "atom_parser": {
+      "function": "slot_parse",
+      "path": "scripts/paragraph/slotparse_triggered.py",
+      "return_line": 1998
+    },
+    "caller_line": 18430,
+    "clause": "Whenever enchanted creature deals damage to a player, return target creature that player controls to its owner's hand.",
+    "parser_values": {
+      "event": "deals_damage",
+      "receiver": null,
+      "spell": null,
+      "subject": null
+    },
+    "result": [
+      2,
+      {
+        "body": "return target creature that player controls to its owner's hand.",
+        "event": "deals_damage",
+        "head": "whenever enchanted creature deals damage to a player",
+        "spec": null
+      }
+    ],
+    "stage": "trigger_spine",
+    "verb": null
+  }
+]
+
+## Required new paths
+scripts/paragraph/test_factory_ng_a3b32a7cef.py
+Every path listed above does not exist in this clone and MUST use
+`<<<NEWFILE path`, never `<<<FILE` with SEARCH/REPLACE.
+
+## OUTPUT FORMAT
+Return either a structured verdict or only edit blocks. `NEEDS_PRIMITIVE` is
+legal only for one atomic missing behavior shared by the ticket scope:
+VERDICT: NEEDS_PRIMITIVE|SEMANTIC_GAP|AMBIGUOUS|NOT_A_SHAPE
+For NEEDS_PRIMITIVE add exactly one single-line JSON object and one reason:
+CAPABILITY_JSON: {"key":"lowercase_snake_case","summary":"short description","specification":{"required_behavior":"one precise atomic behavior","source_misses":[{"card":"exact card name","paragraph":"exact Oracle paragraph","required_behavior":"same precise atomic behavior"}],"negative_examples":["adjacent behavior that must not change"],"expected_unlock":0}}
+REASON: one line
+
+Otherwise return only edit blocks:
+<<<FILE path/relative/to/repo
+<<<SEARCH
+exact existing lines
+===REPLACE
+replacement lines
+>>>END
+<<<NEWFILE path/relative/to/repo
+full file content
+>>>END
+
+Do not use Markdown fences, Git conflict markers, prose, or tool calls.
+Keep each SEARCH region to the smallest unique 3-12 exact lines; never copy a
+whole evidence excerpt into SEARCH.
+

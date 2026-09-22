@@ -1,0 +1,133 @@
+{
+  "attempt_history": [
+    {
+      "gates": [
+        {
+          "detail": "changed=scripts/paragraph/reparse.py,scripts/paragraph/test_static_condition_graveyard_thresholds.py",
+          "id": "scope",
+          "outcome": "passed"
+        },
+        {
+          "command": "cd scripts/paragraph && python3 -m unittest test_static_condition_graveyard_thresholds",
+          "detail": "AssertionError: {'kind': 'named', 'name': 'delirium'} != {'kind': 'threshold', 'zone': 'graveyard', 'what': 'card_types', 'amount': 4}\nF.F\n======================================================================\nFAIL: test_delirium_still_named (test_static_condition_graveyard_thresholds.StaticConditionGraveyardThresholdsTest.test_delirium_still_named)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/factory-ng-map-static-condition-graveyard-thresholds-v1-3yen2mow/scripts/paragraph/test_static_condition_graveyard_thresholds.py\", line 28, in test_delirium_still_named\n    self.assertEqual(\n    ~~~~~~~~~~~~~~~~^\n        self.parse('there are four or more card types among cards in your graveyard'),\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        {'kind': 'threshold', 'zone': 'graveyard', 'what': 'card_types', 'amount': 4},\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\nAssertionError: {'kind': 'named', 'name': 'delirium'} != {'kind': 'threshold', 'zone': 'graveyard', 'what': 'card_types', 'amount': 4}\n- {'kind': 'named', 'name': 'delirium'}\n+ {'amount': 4, 'kind': 'threshold', 'what': 'card_types', 'zone': 'graveyard'}\n======================================================================\nFAIL: test_four_or_more_card_types (test_static_condition_graveyard_thresholds.StaticConditionGraveyardThresholdsTest.test_four_or_more_card_types)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/factory-ng-map-static-condition-graveyard-thresholds-v1-3yen2mow/scripts/paragraph/test_static_condition_graveyard_thresholds.py\", line 15, in test_four_or_more_card_types\n    self.assertEqual(\n    ~~~~~~~~~~~~~~~~^\n        self.parse('there are four or more card types among cards in your graveyard'),\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        {'kind': 'threshold', 'zone': 'graveyard', 'what': 'card_types', 'amount': 4},\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\nAssertionError: {'kind': 'named', 'name': 'delirium'} != {'kind': 'threshold', 'zone': 'graveyard', 'what': 'card_types', 'amount': 4}\n- {'kind': 'named', 'name': 'delirium'}\n+ {'amount': 4, 'kind': 'threshold', 'what': 'card_types', 'zone': 'graveyard'}\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\nFAILED (failures=2)",
+          "elapsed_ms": 287,
+          "id": "ticket-gate-0",
+          "outcome": "failed"
+        }
+      ],
+      "stage": "before_gate_repair"
+    }
+  ],
+  "capability_assessments": [],
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-map-static-condition-graveyard-thresholds-v1-3yen2mow",
+    "candidate_commit": "def54b5e1de4765593e830a4e4127dfcd69e7e41",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "def54b5e1de4765593e830a4e4127dfcd69e7e41",
+    "source_tree_changed": false
+  },
+  "failure_category": "model_response",
+  "gates": [
+    {
+      "detail": "applied: scripts/paragraph/reparse.py\ncreated: scripts/paragraph/test_static_condition_graveyard_thresholds.py\n",
+      "id": "patch-apply",
+      "outcome": "passed"
+    },
+    {
+      "detail": "goose-staged: Goose returned no answer; see retained artifact",
+      "id": "gate-repair-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "changed=scripts/paragraph/reparse.py,scripts/paragraph/test_static_condition_graveyard_thresholds.py",
+      "id": "scope",
+      "outcome": "passed"
+    },
+    {
+      "command": "cd scripts/paragraph && python3 -m unittest test_static_condition_graveyard_thresholds",
+      "detail": "AssertionError: {'kind': 'named', 'name': 'delirium'} != {'kind': 'threshold', 'zone': 'graveyard', 'what': 'card_types', 'amount': 4}\nF.F\n======================================================================\nFAIL: test_delirium_still_named (test_static_condition_graveyard_thresholds.StaticConditionGraveyardThresholdsTest.test_delirium_still_named)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/factory-ng-map-static-condition-graveyard-thresholds-v1-3yen2mow/scripts/paragraph/test_static_condition_graveyard_thresholds.py\", line 28, in test_delirium_still_named\n    self.assertEqual(\n    ~~~~~~~~~~~~~~~~^\n        self.parse('there are four or more card types among cards in your graveyard'),\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        {'kind': 'threshold', 'zone': 'graveyard', 'what': 'card_types', 'amount': 4},\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\nAssertionError: {'kind': 'named', 'name': 'delirium'} != {'kind': 'threshold', 'zone': 'graveyard', 'what': 'card_types', 'amount': 4}\n- {'kind': 'named', 'name': 'delirium'}\n+ {'amount': 4, 'kind': 'threshold', 'what': 'card_types', 'zone': 'graveyard'}\n======================================================================\nFAIL: test_four_or_more_card_types (test_static_condition_graveyard_thresholds.StaticConditionGraveyardThresholdsTest.test_four_or_more_card_types)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/factory-ng-map-static-condition-graveyard-thresholds-v1-3yen2mow/scripts/paragraph/test_static_condition_graveyard_thresholds.py\", line 15, in test_four_or_more_card_types\n    self.assertEqual(\n    ~~~~~~~~~~~~~~~~^\n        self.parse('there are four or more card types among cards in your graveyard'),\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        {'kind': 'threshold', 'zone': 'graveyard', 'what': 'card_types', 'amount': 4},\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\nAssertionError: {'kind': 'named', 'name': 'delirium'} != {'kind': 'threshold', 'zone': 'graveyard', 'what': 'card_types', 'amount': 4}\n- {'kind': 'named', 'name': 'delirium'}\n+ {'amount': 4, 'kind': 'threshold', 'what': 'card_types', 'zone': 'graveyard'}\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\nFAILED (failures=2)",
+      "elapsed_ms": 287,
+      "id": "ticket-gate-0",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "openrouter-goose-staged@1.0.0",
+    "resolved_model": "openrouter/free",
+    "telemetry": {
+      "bounded_repair_attempted": true,
+      "cache_read_tokens": {
+        "availability": "unavailable",
+        "reason": "at least one model call omitted this counter"
+      },
+      "cache_write_tokens": {
+        "availability": "unavailable",
+        "reason": "at least one model call omitted this counter"
+      },
+      "elapsed_ms": 9703,
+      "gate_repair_attempted": true,
+      "input_tokens": {
+        "availability": "unavailable",
+        "reason": "at least one model call omitted this counter"
+      },
+      "model_calls": 2,
+      "output_tokens": {
+        "availability": "unavailable",
+        "reason": "at least one model call omitted this counter"
+      },
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      },
+      "stage_times": {
+        "attempt_wall_ms": 11887,
+        "candidate_gate_ms": 574,
+        "compilation_ms": {
+          "availability": "unavailable",
+          "reason": "go test includes package compilation; not separately timed"
+        },
+        "model_ms": 9703
+      }
+    },
+    "worker": "goose-small-map-qualification"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "gate_failed",
+  "raw_artifacts": [
+    {
+      "path": "docs/benchmarks/goose-openrouter-free-2026-09-21/small-map-qualification/graveyard-thresholds-handoff/runs/2026-09-21T143339Z-map-static-condition-graveyard-thresholds-v1-goose-openrouter-staged.raw.json",
+      "sha256": "sha256:457c41de4115df0fa2d2cf613a21fb143bb202662ce7f85b252122c5d2b830b7"
+    },
+    {
+      "kind": "prepared_packet",
+      "path": "docs/benchmarks/goose-openrouter-free-2026-09-21/small-map-qualification/graveyard-thresholds-handoff/runs/2026-09-21T143339Z-map-static-condition-graveyard-thresholds-v1-goose-openrouter-staged.packet.txt",
+      "sha256": "sha256:dcb084327d4e0b3805c0a2b681a37b11ebba204da6fba3a2867f3c0a02548e3e"
+    },
+    {
+      "kind": "knowledge_trace",
+      "path": "docs/benchmarks/goose-openrouter-free-2026-09-21/small-map-qualification/graveyard-thresholds-handoff/runs/2026-09-21T143339Z-map-static-condition-graveyard-thresholds-v1-goose-openrouter-staged.lookup.jsonl",
+      "sha256": "sha256:2dd2db6b27d6d819ab144326396fc2bbd1773f09eb37c3dffd05716a5c8f0e69"
+    },
+    {
+      "kind": "gate_repair",
+      "path": "docs/benchmarks/goose-openrouter-free-2026-09-21/small-map-qualification/graveyard-thresholds-handoff/runs/2026-09-21T143339Z-map-static-condition-graveyard-thresholds-v1-goose-openrouter-staged.gate-repair.raw.json",
+      "sha256": "sha256:c7f1115d2f3e12dcd0449b8cf45f87abd27b4645a41f040a8f9e857c39dd19bb"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "ticket": {
+    "id": "ticket:map.static-condition-graveyard-thresholds/v1",
+    "path": "docs/factory-ng/tickets/map-static-condition-graveyard-thresholds-v1.json",
+    "sha256": "sha256:ae77e93564ed2be62f551615aab4bcf0962a4edb11969ee3b43a150c6d99dd50"
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "seconds": 6.015840785577893,
+  "roots": [
+    26697,
+    36851,
+    37496,
+    40128,
+    4055077
+  ],
+  "total_cpu_pct": 158.6,
+  "top": [
+    {
+      "pid": 39625,
+      "cpu_pct": 62.2,
+      "affinity": [
+        12,
+        19
+      ],
+      "command": "/tmp/cards-test-SAon -test.run ^Test[MNOPQR] -test.timeout 900s "
+    },
+    {
+      "pid": 39360,
+      "cpu_pct": 61.8,
+      "affinity": [
+        12,
+        19
+      ],
+      "command": "/home/dev/go/pkg/mod/golang.org/toolchain@v0.0.1-go1.25.0.linux-amd64/pkg/tool/linux_amd64/compile @/tmp/args978165025 "
+    },
+    {
+      "pid": 4055077,
+      "cpu_pct": 14.3,
+      "affinity": [
+        12,
+        19
+      ],
+      "command": "python3 scripts/factory-ng-controller.py --interval 15 --producer-interval 300 "
+    },
+    {
+      "pid": 37750,
+      "cpu_pct": 7.5,
+      "affinity": [
+        12,
+        19
+      ],
+      "command": "go test -json ./game ./cards -run ^TestFactoryNGGrantAdditionalCombatPhase_5185933e2b$ -count=1 "
+    },
+    {
+      "pid": 40886,
+      "cpu_pct": 6.6,
+      "affinity": [
+        12,
+        19
+      ],
+      "command": "/home/dev/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/bin/codex exec --json --ignore-user-config --sandbox danger-full-access -c we"
+    },
+    {
+      "pid": 38485,
+      "cpu_pct": 5.7,
+      "affinity": [
+        12,
+        19
+      ],
+      "command": "/home/dev/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/bin/codex exec --json --ignore-user-config --sandbox danger-full-access -c we"
+    },
+    {
+      "pid": 41357,
+      "cpu_pct": 0.3,
+      "affinity": [
+        12,
+        19
+      ],
+      "command": "/home/dev/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/bin/codex-code-mode-host "
+    },
+    {
+      "pid": 38901,
+      "cpu_pct": 0.2,
+      "affinity": [
+        12,
+        19
+      ],
+      "command": "/home/dev/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/bin/codex-code-mode-host "
+    },
+    {
+      "pid": 40128,
+      "cpu_pct": 0.0,
+      "affinity": [
+        12,
+        19
+      ],
+      "command": "/usr/bin/python3 /opt/development/magic-ops/scripts/factory-ng-run-engine-ticket.py --ticket /opt/development/magic-ops/docs/factory-ng/tickets/map-plan-pump-tainted-strike-ad31163770-v2.json --worker"
+    },
+    {
+      "pid": 38473,
+      "cpu_pct": 0.0,
+      "affinity": [
+        12,
+        19
+      ],
+      "command": "timeout -k 30 1200 codex exec --json --ignore-user-config --sandbox danger-full-access -c web_search=\"disabled\" --disable apps --disable browser_use --disable browser_use_external --disable computer_u"
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "capability": {
+    "expected_unlock": 1,
+    "negative_examples": [
+      "Firestorm's 'Firestorm deals X damage to each of X targets.' (the amount itself is the SAME dynamic X as the target count, not a fixed integer) must stay unmapped \u2014 this capability only covers a fixed numeric amount dealt to each of X targets, not a dynamic-amount variant."
+    ],
+    "required_behavior": "Add a V2EffectRegistry (backend/cards/registry.go or a registry_*.go init file) entry for effect 'damage_each_of_x_targets' and wire cards/converter.go's spell-atom conversion so a sorcery/instant paragraph 'deals N damage to each of X targets' produces a StackObject with Text=='damage_each_of_x_targets', a fixed integer amount, and a target requirement that collects exactly X separately-chosen any-targets (creature or player) tied to the spell's paid {X} \u2014 reusing game/ability_effects.go's already-implemented executor (which no-ops with zero recipients when X==0) instead of falling through to the plain 'damage' case, whose empty-target branch deals the damage to the controller by default and would misfire for X==0.",
+    "source_misses": [
+      {
+        "card": "Meteor Blast",
+        "oracle_text_sha256": "3f674ae5c4d4151c7a337963022a427ba601fbfd16536cec5f2949c941bdce80",
+        "paragraph": "Meteor Blast deals 4 damage to each of X targets.",
+        "required_behavior": "Map 'deals 4 damage to each of X targets' onto the registered damage_each_of_x_targets primitive with amount=4 and exactly X chosen any-targets, no-oping (not hitting the controller) when X==0."
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "key": "damage_each_of_x_targets_spell_registration",
+        "specification": {
+          "expected_unlock": 1,
+          "negative_examples": [
+            "Firestorm's 'Firestorm deals X damage to each of X targets.' (the amount itself is the SAME dynamic X as the target count, not a fixed integer) must stay unmapped \u2014 this capability only covers a fixed numeric amount dealt to each of X targets, not a dynamic-amount variant."
+          ],
+          "required_behavior": "Add a V2EffectRegistry (backend/cards/registry.go or a registry_*.go init file) entry for effect 'damage_each_of_x_targets' and wire cards/converter.go's spell-atom conversion so a sorcery/instant paragraph 'deals N damage to each of X targets' produces a StackObject with Text=='damage_each_of_x_targets', a fixed integer amount, and a target requirement that collects exactly X separately-chosen any-targets (creature or player) tied to the spell's paid {X} \u2014 reusing game/ability_effects.go's already-implemented executor (which no-ops with zero recipients when X==0) instead of falling through to the plain 'damage' case, whose empty-target branch deals the damage to the controller by default and would misfire for X==0.",
+          "source_misses": [
+            {
+              "card": "Meteor Blast",
+              "oracle_text_sha256": "3f674ae5c4d4151c7a337963022a427ba601fbfd16536cec5f2949c941bdce80",
+              "paragraph": "Meteor Blast deals 4 damage to each of X targets.",
+              "required_behavior": "Map 'deals 4 damage to each of X targets' onto the registered damage_each_of_x_targets primitive with amount=4 and exactly X chosen any-targets, no-oping (not hitting the controller) when X==0."
+            }
+          ]
+        },
+        "summary": "Register and wire the existing damage_each_of_x_targets executor for spell atoms so it actually dispatches and gets exactly X chosen targets"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-05T185334Z-map-plan-damage-meteor-blast-71819fc6f2-v2-claude-agentic.json"
+    },
+    {
+      "anchor": "6749-6814",
+      "fact": "Card-knowledge index match (engine): ExecuteAbilityEffectDirect is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d0ac33d83a17c5e21e00829259f817523252b61afd7aa34b5e989710ebaa7a0b"
+    },
+    {
+      "anchor": "1-63",
+      "fact": "Card-knowledge index match (engine): executeGainControlEffect is the nearest indexed seam for this capability.",
+      "path": "backend/game/control_effects.go",
+      "sha256": "sha256:e05b148d7ba6ea7a9a73152aa3031bbf38c8b3dfb2da3d42755946e6df9aec82"
+    },
+    {
+      "anchor": "167-232",
+      "fact": "Card-knowledge index match (engine): EvalDynamicAmountFull is the nearest indexed seam for this capability.",
+      "path": "backend/game/dynamic_amount.go",
+      "sha256": "sha256:88872f42903e113a901a273d60eba9740cc9a614eceaeb65c8e75ae3a3a48b88"
+    },
+    {
+      "anchor": "726-791",
+      "fact": "Card-knowledge index match (engine): executeGrantAbility is the nearest indexed seam for this capability.",
+      "path": "backend/game/effect_sequence.go",
+      "sha256": "sha256:d203a73924f924312712e7cf0de2fec762c7def5a24705f510346749f3939405"
+    },
+    {
+      "fact": "The previous candidate compiled/ran and failed this exact gate: initial-patch-apply: no edit blocks and no verdict found in model output; patch-apply: backend/cards/converter.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\nbackend/cards/converter.go: malformed FILE block (missing SEARCH/REPLACE/END delimiter). Fix only this defect; do not restructure unrelated code or revisit already-passing behavior.",
+      "path": "docs/factory-ng/runs/2026-09-15T202144Z-engine-auto-damage-each-of-x-targets-spell-registration-d078b33904-v1-codex.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "One bounded gate-failure repair: the prior candidate was substantively close but failed a specific behavior or build gate.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGDamageEachOfXTargetsSpellRegistration$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.operator-meteor-blast-recovery-sep15/v1",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Retain the terminal receipt and continue independent discovery; do not request manual source transcription.",
+  "parents": [
+    "ticket:engine.auto-damage-each-of-x-targets-spell-registration-d078b33904/v2"
+  ],
+  "production": {
+    "key": "capability:damage_each_of_x_targets_spell_registration:sha256:d078b33904fbcc948cebbca52122d7edafb460df74f2c3fc4aee210c492ba809:gate-repair-v1",
+    "producer": "capability-dependencies",
+    "retry_reason": "semantic_gate_repair"
+  },
+  "required_behavior": [
+    "Add a V2EffectRegistry (backend/cards/registry.go or a registry_*.go init file) entry for effect 'damage_each_of_x_targets' and wire cards/converter.go's spell-atom conversion so a sorcery/instant paragraph 'deals N damage to each of X targets' produces a StackObject with Text=='damage_each_of_x_targets', a fixed integer amount, and a target requirement that collects exactly X separately-chosen any-targets (creature or player) tied to the spell's paid {X} \u2014 reusing game/ability_effects.go's already-implemented executor (which no-ops with zero recipients when X==0) instead of falling through to the plain 'damage' case, whose empty-target branch deals the damage to the controller by default and would misfire for X==0.",
+    "Preserve these adjacent behaviors: Firestorm's 'Firestorm deals X damage to each of X targets.' (the amount itself is the SAME dynamic X as the target count, not a fixed integer) must stay unmapped \u2014 this capability only covers a fixed numeric amount dealt to each of X targets, not a dynamic-amount variant.",
+    "Add a discriminating behavior test named TestFactoryNGDamageEachOfXTargetsSpellRegistration; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_d078b33904_test.go",
+      "backend/cards/factory_ng_d078b33904_test.go",
+      "backend/cards/registry_factory_ng_d078b33904.go",
+      "backend/game/keyword_abilities.go",
+      "backend/game/lib_spell_target_selection.go",
+      "backend/cards/converter_damage_each_x.go",
+      "backend/cards/shape_damage_each_x_test.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "c0e79c16c1136f92a8cecef92e381bdf348b16fe",
+    "clean": true
+  },
+  "supersedes": "ticket:engine.auto-damage-each-of-x-targets-spell-registration-d078b33904/v1",
+  "title": "Connect fixed damage to exactly paid-X distinct targets",
+  "work_type": "engine",
+  "operator_recovery": {
+    "authorization": "User requested fixing all needs-attention tickets.",
+    "original_ticket": "docs/factory-ng/tickets/engine-auto-damage-each-of-x-targets-spell-registration-d078b33904-v2.json",
+    "original_ticket_sha256": "sha256:edb5a86c7dba05383d0fe9ed450241eeae7a698783dde20aa19d42908aeffd3b",
+    "failed_receipt": "docs/factory-ng/runs/2026-09-15T203539Z-engine-auto-damage-each-of-x-targets-spell-registration-d078b33904-v2-codex.json",
+    "failed_receipt_sha256": "sha256:9aca074694881aca32e3441f55f3f2f29c079af937fbf15bb3e3568f6045835d",
+    "scope_addition_reason": "CastXSpell and shared prepayment target validation must enforce the original exact-X requirement. New shape and conversion helper are isolated files.",
+    "additional_provider_runs": 0,
+    "counter_resets": false
+  }
+}

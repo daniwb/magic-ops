@@ -1,0 +1,88 @@
+From 8a56e3da27246fe1b65b5e6aabd61707e74f3d7f Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Mon, 7 Sep 2026 23:58:53 +0000
+Subject: [PATCH] factory-ng: supervised engine observation
+
+---
+ backend/game/ability_effects.go            | 16 +++++++++
+ backend/game/factory_ng_b4a4facffb_test.go | 41 ++++++++++++++++++++++
+ 2 files changed, 57 insertions(+)
+ create mode 100644 backend/game/factory_ng_b4a4facffb_test.go
+
+diff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go
+index 19d4a124f..b26d394be 100644
+--- a/backend/game/ability_effects.go
++++ b/backend/game/ability_effects.go
+@@ -3185,6 +3185,22 @@ func (gs *GameState) resolveRecipientFromEventCard(effectValue map[string]interf
+ 			return []Target{{IsCard: true, CardID: eventCard.AttackTarget.ID}}
+ 		}
+ 		return []Target{{Type: TargetPlayer, PlayerIdx: 1 - eventCard.Controller}}
++	case "event_subject_spell":
++		// copy_triggering_referent primitive (ticket
++		// engine.auto-copy-triggering-referent-b4a4facffb, Storm King's
++		// Thunder class: "When you next cast an instant or sorcery spell
++		// this turn, copy that spell X times."): "that spell" is an
++		// implicit referent — eventCard itself, the spell that triggered
++		// the delayed ability — resolved as a SpellID target so the
++		// existing copy executor (game/copy_effect.go executeCopyEffect)
++		// reaches its target.SpellID != "" branch and calls CopySpell,
++		// exactly like an explicit "target instant or sorcery spell"
++		// shape, without requiring a player to choose a target. Amount
++		// ("X times") is unaffected by this fold — it already arrives
++		// pre-resolved in effectValue["amount"] via the same dynamic-X
++		// machinery documented on executeReturnFromGraveyardManaValueX
++		// above, and executeCopyEffect already loops amount times.
++		return []Target{{SpellID: eventCard.ID}}
+ 	default:
+ 		return targets
+ 	}
+diff --git a/backend/game/factory_ng_b4a4facffb_test.go b/backend/game/factory_ng_b4a4facffb_test.go
+new file mode 100644
+index 000000000..e5205926e
+--- /dev/null
++++ b/backend/game/factory_ng_b4a4facffb_test.go
+@@ -0,0 +1,41 @@
++package game
++
++import "testing"
++
++// TestFactoryNGCopyTriggeringReferent covers the copy_triggering_referent
++// primitive (ticket engine.auto-copy-triggering-referent-b4a4facffb, Storm
++// King's Thunder class: "When you next cast an instant or sorcery spell
++// this turn, copy that spell X times."). The implicit referent "that
++// spell" must resolve to the triggering spell (eventCard) as a SpellID
++// target — with no explicit target selection required — while leaving
++// every other recipient_from shape, and the no-op default (targets
++// untouched when the key is absent), unaffected.
++func TestFactoryNGCopyTriggeringReferent(t *testing.T) {
++	gs := NewGame("P0", "P1", false)
++	eventCard := NewCard("Shape Storming Bolt", TypeInstant, ManaCost{}, 0)
++	eventCard.Controller = 0
++
++	targets := gs.resolveRecipientFromEventCard(
++		map[string]interface{}{"recipient_from": "event_subject_spell"},
++		eventCard,
++		nil,
++	)
++	if len(targets) != 1 || targets[0].SpellID != eventCard.ID {
++		t.Fatalf("implicit referent did not resolve to triggering spell %q, got %+v", eventCard.ID, targets)
++	}
++
++	amount := 3
++	controller := 0
++	if err := gs.executeCopyEffect(controller, targets, amount); err != nil {
++		t.Fatalf("executeCopyEffect returned error for resolved referent target: %v", err)
++	}
++
++	untouched := gs.resolveRecipientFromEventCard(
++		map[string]interface{}{},
++		eventCard,
++		[]Target{{IsCard: true, CardID: "unrelated-card"}},
++	)
++	if len(untouched) != 1 || untouched[0].CardID != "unrelated-card" {
++		t.Fatalf("resolveRecipientFromEventCard must leave targets untouched when recipient_from is absent, got %+v", untouched)
++	}
++}
+-- 
+2.43.0
+

@@ -1,0 +1,71 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-map-plan-damage-road-rage-f32e5d1b48-v2-i2yva8q0",
+    "candidate_commit": "f108b676896644411e5f6fe13ca08554bc3727ee",
+    "mode": "isolated_clone_observation_only",
+    "model_exit_code": 0,
+    "packet_sha256": "sha256:7cd3ce787e2bccac997dc05987422a9a2a6fd60313129fae64921c65a8da8337",
+    "source_revision": "f108b676896644411e5f6fe13ca08554bc3727ee",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "command": "scripts/map-pipeline-apply.py",
+      "detail": "no edit blocks and no verdict found in model output",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "command": "scripts/map-pipeline-apply.py",
+      "detail": "no edit blocks and no verdict found in model output",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "qwen-prepared-direct@1.0.2",
+    "resolved_model": "Qwen3.8-27B-Q8_0",
+    "telemetry": {
+      "bounded_repair_attempted": true,
+      "cache_read_tokens": 16397,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 596526,
+      "input_tokens": 35886,
+      "output_tokens": 4000,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local provider does not report cost"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "local adapter disables thinking"
+      }
+    },
+    "worker": "qwen-local"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed_model_protocol",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-09T010150Z-map-plan-damage-road-rage-f32e5d1b48-v2-qwen.raw.txt",
+      "sha256": "sha256:e722e1f770951de8d423e8cc324c629d3268cd0588dbc90b8863d3aeea2872f2"
+    },
+    {
+      "kind": "bounded_repair",
+      "path": "docs/factory-ng/runs/2026-09-09T010150Z-map-plan-damage-road-rage-f32e5d1b48-v2-qwen.repair.raw.txt",
+      "sha256": "sha256:e722e1f770951de8d423e8cc324c629d3268cd0588dbc90b8863d3aeea2872f2"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "ticket": {
+    "id": "ticket:map.plan-damage-road-rage-f32e5d1b48/v2",
+    "path": "docs/factory-ng/tickets/map-plan-damage-road-rage-f32e5d1b48-v2.json",
+    "sha256": "sha256:7072466b7acd3b0e1eda15b4e3796f638b64622ba66ec1030a15d39fd9fcaeb3"
+  }
+}

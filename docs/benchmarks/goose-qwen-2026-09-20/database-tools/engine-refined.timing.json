@@ -1,0 +1,22 @@
+{
+  "exit_code": 0,
+  "wall_seconds": 148.657,
+  "revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+  "checkout_status": "",
+  "command": [
+    "goose",
+    "run",
+    "--instructions",
+    "/data/magic-stack/development/magic-ops/docs/benchmarks/goose-qwen-2026-09-20/database-tools/engine-refined.prompt.txt",
+    "--no-profile",
+    "--with-extension",
+    "card-knowledge:python3 /data/magic-stack/development/magic-ops/scripts/kb-mcp-server.py",
+    "--name",
+    "database-tools-engine-refined",
+    "--max-turns",
+    "10",
+    "--output-format",
+    "stream-json",
+    "--stats"
+  ]
+}

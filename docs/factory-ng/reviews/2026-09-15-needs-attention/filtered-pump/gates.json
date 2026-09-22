@@ -1,0 +1,35 @@
+{
+  "gates": [
+    {
+      "id": "scope",
+      "outcome": "passed",
+      "detail": "changed=backend/cards/converter.go,backend/game/ability_effects.go,backend/cards/converter_untargeted_pump.go,backend/cards/shape_untargeted_pump_test.go"
+    },
+    {
+      "id": "engine-vocabulary-handoff",
+      "outcome": "passed",
+      "detail": "All newly added public effects are registered.",
+      "elapsed_ms": 465
+    },
+    {
+      "id": "ticket-gate-0",
+      "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+      "outcome": "passed",
+      "elapsed_ms": 459,
+      "detail": ""
+    },
+    {
+      "id": "ticket-gate-1",
+      "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGAbilityPumpFilteredNoTarget$' -count=1",
+      "outcome": "failed",
+      "elapsed_ms": 677013,
+      "detail": "shape_untargeted_pump_test.go:75: Recipient 0 bonus = 0/0, want 1/0\n--- FAIL: TestFactoryNGAbilityPumpFilteredNoTarget/activated/controller0 (0.01s)\n    shape_untargeted_pump_test.go:56: you don't have priority\n--- FAIL: TestFactoryNGAbilityPumpFilteredNoTarget/activated/controller1 (0.00s)\n--- FAIL: TestFactoryNGAbilityPumpFilteredNoTarget/spell/controller0 (0.00s)\n    shape_untargeted_pump_test.go:50: you don't have priority\n--- FAIL: TestFactoryNGAbilityPumpFilteredNoTarget/spell/controller1 (0.00s)\n    shape_untargeted_pump_test.go:50: can only cast non-instant spells during your main phase with empty stack\n--- FAIL: TestFactoryNGAbilityPumpFilteredNoTarget/triggered/controller0 (0.00s)\n--- FAIL: TestFactoryNGAbilityPumpFilteredNoTarget/triggered/controller1 (0.00s)\n--- FAIL: TestFactoryNGAbilityPumpFilteredNoTarget/legacy_activated/controller0 (0.00s)\n--- FAIL: TestFactoryNGAbilityPumpFilteredNoTarget/legacy_activated/controller1 (0.00s)\n--- FAIL: TestFactoryNGAbilityPumpFilteredNoTarget (0.01s)\ntesting: warning: no tests to run\nPASS\nok  \tmagic-backend/game\t0.027s [no tests to run]\n=== RUN   TestFactoryNGAbilityPumpFilteredNoTarget\n=== RUN   TestFactoryNGAbilityPumpFilteredNoTarget/activated/controller0\n    shape_untargeted_pump_test.go:75: Recipient 0 bonus = 0/0, want 1/0\n--- FAIL: TestFactoryNGAbilityPumpFilteredNoTarget/activated/controller0 (0.01s)\n=== RUN   TestFactoryNGAbilityPumpFilteredNoTarget/activated/controller1\n    shape_untargeted_pump_test.go:56: you don't have priority\n--- FAIL: TestFactoryNGAbilityPumpFilteredNoTarget/activated/controller1 (0.00s)\n=== RUN   TestFactoryNGAbilityPumpFilteredNoTarget/spell/controller0\n    shape_untargeted_pump_test.go:75: Recipient 0 bonus = 0/0, want 1/0\n--- FAIL: TestFactoryNGAbilityPumpFilteredNoTarget/spell/controller0 (0.00s)\n=== RUN   TestFactoryNGAbilityPumpFilteredNoTarget/spell/controller1\n    shape_untargeted_pump_test.go:50: you don't have priority\n--- FAIL: TestFactoryNGAbilityPumpFilteredNoTarget/spell/controller1 (0.00s)\n=== RUN   TestFactoryNGAbilityPumpFilteredNoTarget/triggered/controller0\n    shape_untargeted_pump_test.go:50: can only cast non-instant spells during your main phase with empty stack\n--- FAIL: TestFactoryNGAbilityPumpFilteredNoTarget/triggered/controller0 (0.00s)\n=== RUN   TestFactoryNGAbilityPumpFilteredNoTarget/triggered/controller1\n    shape_untargeted_pump_test.go:50: you don't have priority\n--- FAIL: TestFactoryNGAbilityPumpFilteredNoTarget/triggered/controller1 (0.00s)\n=== RUN   TestFactoryNGAbilityPumpFilteredNoTarget/legacy_activated/controller0\n    shape_untargeted_pump_test.go:75: Recipient 0 bonus = 0/0, want 1/0\n--- FAIL: TestFactoryNGAbilityPumpFilteredNoTarget/legacy_activated/controller0 (0.00s)\n=== RUN   TestFactoryNGAbilityPumpFilteredNoTarget/legacy_activated/controller1\n    shape_untargeted_pump_test.go:56: you don't have priority\n--- FAIL: TestFactoryNGAbilityPumpFilteredNoTarget/legacy_activated/controller1 (0.00s)\n=== RUN   TestFactoryNGAbilityPumpFilteredNoTarget/targeted_pump_remains_targeted\n--- PASS: TestFactoryNGAbilityPumpFilteredNoTarget/targeted_pump_remains_targeted (0.00s)\n--- FAIL: TestFactoryNGAbilityPumpFilteredNoTarget (0.01s)\nFAIL\nFAIL\tmagic-backend/cards\t0.078s"
+    }
+  ],
+  "changed": [
+    "backend/cards/converter.go",
+    "backend/game/ability_effects.go",
+    "backend/cards/converter_untargeted_pump.go",
+    "backend/cards/shape_untargeted_pump_test.go"
+  ]
+}

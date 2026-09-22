@@ -1,0 +1,19 @@
+{
+  "result": "passed after isolating fixtures; initial suite log retained",
+  "cache_isolation": {
+    "tests": [
+      "test_capability_producer_defers_new_engine_ticket_when_lane_is_full",
+      "test_capability_producer_discovers_validated_receipt_without_live_mutation"
+    ],
+    "passed": 2,
+    "elapsed_seconds": 1.021
+  },
+  "source_isolation": {
+    "tests": [
+      "test_continuous_producer_versions_one_exhausted_infrastructure_failure"
+    ],
+    "passed": 1,
+    "elapsed_seconds": 18.385
+  },
+  "evidence": "unittest tool outputs; no live controller jobs or canonical source changed by fixtures"
+}

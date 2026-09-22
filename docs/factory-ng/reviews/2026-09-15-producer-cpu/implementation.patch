@@ -1,0 +1,595 @@
+--- before/scripts/factory-ng-produce-build-plan.py
++++ after/scripts/factory-ng-produce-build-plan.py
+@@ -22,6 +22,7 @@
+ import sys
+ import time
+ from factory_ng_producer_cache import ProducerCache, digest
++from factory_ng_parser_runtime import prepare_parser
+ from pathlib import Path
+ from factory_ng_safety import source_problem
+ from factory_ng_recovery import map_repair_history, MAP_REPAIR_LIMIT
+@@ -138,6 +139,7 @@
+         super().__init__()
+         self.text_hashes = set()
+         self.multi_text_hashes = set()
++        self.versions = {}
+ 
+ 
+ def production_text_hash(key):
+@@ -212,7 +214,7 @@
+                        'infrastructure_repair'), 'receipt': latest.get('receipt')}
+ 
+ 
+-def discover_fresh_example(source, reparse, rows, effects, history, cache=None, revision=None, budget_seconds=15, miss_count=1, lane='fresh', max_misses=None):
++def discover_fresh_example(source, reparse, rows, effects, history, cache=None, revision=None, budget_seconds=15, miss_count=1, lane='fresh', max_misses=None, snapshot=None, parser_stamp=None):
+     """Find a current eligible member anywhere in the corpus, including repairs."""
+     by_shape = {}
+     for row in rows:
+@@ -221,12 +223,14 @@
+         effect = VERB_EFFECT.get(verb or "")
+         if effect and effect in effects:
+             by_shape[row["item"]] = row
+-    cards = []
+-    for shard in sorted((source / "backend/data/carddb").glob("*.json")):
+-        data = load_json(shard, {}) or {}
+-        if isinstance(data, dict):
+-            cards.extend((name, card) for name, card in sorted(data.items())
+-                         if isinstance(card, dict) and card.get('status') == 'review')
++    cards = snapshot
++    if cards is None:
++        cards = []
++        for shard in sorted((source / "backend/data/carddb").glob("*.json")):
++            data = load_json(shard, {}) or {}
++            if isinstance(data, dict):
++                cards.extend((name, card) for name, card in sorted(data.items())
++                             if isinstance(card, dict) and card.get('status') == 'review')
+     scan_key = str(source.resolve()) + ":miss-count=" + str(miss_count)
+     cursor_key = scan_key if lane == 'fresh' else scan_key + ':lane=' + lane
+     if max_misses is not None:
+@@ -236,11 +240,16 @@
+         found, previous = cache.get('fresh-cursor-v1', cursor_key, 'position')
+         if found:
+             cursor = next((i for i, (name, _) in enumerate(cards) if name > previous), 0)
++    repair_texts = ({production_text_hash(key) for key in history
++                     if candidate_retry(history, key, lane) is not None}
++                    if lane in ('repair', 'conflict') else None)
+     started = time.monotonic()
+     ordered = cards[cursor:] + cards[:cursor]
+     for number, (name, card) in enumerate(ordered):
++        if repair_texts is not None and digest_bytes((card.get('text') or '').encode()) not in repair_texts:
++            continue  # A card with no eligible repair lineage cannot emit work in this lane.
+         key = scan_key + ':' + name
+-        stamp = str(revision) + ':' + digest(card)
++        stamp = str(parser_stamp if parser_stamp is not None else revision) + ':' + digest(card)
+         found, result = cache.get('fresh-parse-v1', key, stamp) if cache else (False, None)
+         if not found:
+             result = {'misses': reparse.reparse_card(card).get('misses', [])}
+@@ -272,10 +281,19 @@
+     return value[:54] or "work"
+ 
+ 
+-def next_ticket_id(ticket_dir, base):
++def ticket_catalog(ticket_dir, cache=None):
++    def project(value):
++        return {k: value[k] for k in ('id', 'supersedes', 'production', 'work_type') if k in value} if isinstance(value, dict) else {}
++    if cache:
++        return cache.files('build-plan-history-v2', ticket_dir, project)
++    return [(path, load_json(path, {}) or {}) for path in sorted(ticket_dir.glob('*.json'))]
++
++
++def next_ticket_id(ticket_dir, base, history=None, cache=None):
++    if history is not None:
++        return "ticket:%s/v%d" % (base, history.versions.get(base, 0) + 1)
+     used = set()
+-    for path in ticket_dir.glob("*.json"):
+-        value = load_json(path, {}) or {}
++    for path, value in ticket_catalog(ticket_dir, cache):
+         ticket_id = value.get("id", "")
+         match = re.fullmatch(r"ticket:" + re.escape(base) + r"/v(\d+)", str(ticket_id))
+         if match:
+@@ -284,9 +302,9 @@
+     return "ticket:%s/v%d" % (base, version)
+ 
+ 
+-def production_history(ticket_dir, jobs_path):
++def production_history(ticket_dir, jobs_path, cache=None):
+     jobs = (load_json(jobs_path, {}) or {}).get("jobs", {})
+-    tickets = [load_json(path, {}) or {} for path in sorted(ticket_dir.glob('*.json'))]
++    tickets = [value for _, value in ticket_catalog(ticket_dir, cache)]
+     superseded = {ticket.get('supersedes') for ticket in tickets if ticket.get('supersedes')}
+     # Numeric version order is durable; copying or restoring a file must not
+     # make an old failed version look like the latest lifecycle state.
+@@ -296,6 +314,9 @@
+     tickets.sort(key=version)
+     result = ProductionHistory()
+     for value in tickets:
++        match = re.fullmatch(r'ticket:(.+)/v(\d+)', str(value.get('id', '')))
++        if match:
++            result.versions[match[1]] = max(result.versions.get(match[1], 0), int(match[2]))
+         key = value.get("production", {}).get("key")
+         if not key:
+             continue
+@@ -320,6 +341,8 @@
+                                                        if job.get("state") == "integration_failed"
+                                                        else job.get("receipt")),
+                                            "retry_generation": int(value.get("production", {}).get("retry_generation", 0))})
++    if cache:
++        cache.checkpoint()
+     return result
+ 
+ 
+@@ -335,7 +358,7 @@
+                      indent=2, sort_keys=True))
+ 
+ 
+-def integration_repair_candidate(source, ticket_dir, jobs_path, reparse, trial_id=None, only_ids=None):
++def integration_repair_candidate(source, ticket_dir, jobs_path, reparse, trial_id=None, only_ids=None, cache=None):
+     """Repair accepted Map work independently of the changing discovery frontier.
+ 
+     Already-auto cards and misses that moved to another parser stage disappear
+@@ -344,7 +367,11 @@
+     bounded revision with current parser evidence; never replay stale hunks.
+     """
+     jobs = (load_json(jobs_path, {}) or {}).get('jobs', {})
+-    specs = [load_json(path, {}) or {} for path in ticket_dir.glob('*.json')]
++    catalog = ticket_catalog(ticket_dir, cache)
++    if cache:
++        cache.checkpoint()
++    specs = [ticket for _, ticket in catalog]
++    paths = {ticket['id']: path for path, ticket in catalog if ticket.get('id')}
+     ticket_index = {ticket['id']: ticket for ticket in specs if ticket.get('id')}
+     superseded = {ticket.get('supersedes') for ticket in specs}
+     from factory_ng_context_recovery import context_repair_requests, CONTEXT_VERSION
+@@ -364,7 +391,7 @@
+         if (job.get('work_type') != 'map' or not (integration_failure or repair_gate_failure or possible_context_failure)
+                 or job.get('superseded_by') or job.get('ticket_id') in superseded):
+             continue
+-        original = next((ticket for ticket in specs if ticket.get('id') == job.get('ticket_id')), None)
++        original = ticket_index.get(job.get('ticket_id'))
+         if not original:
+             continue
+         if trial_id is not None and original.get('production', {}).get('trial_id') != trial_id:
+@@ -380,6 +407,8 @@
+         if not (str(observation.get('outcome', '')).startswith('accepted') if integration_failure
+                 else bool(requests) if possible_context_failure else observation.get('outcome') == 'gate_failed'):
+             continue
++        if cache:
++            original = load_json(paths[original['id']], {}) or {}
+         original_path = OPS / job['ticket_path']
+         if observation.get('ticket', {}).get('sha256') != digest_file(original_path):
+             continue
+@@ -403,7 +432,7 @@
+         if len(current) != len(measurement['members']):
+             continue
+         ticket = json.loads(json.dumps(original))
+-        ticket['id'] = next_ticket_id(ticket_dir, original['id'].removeprefix('ticket:').rsplit('/v', 1)[0])
++        ticket['id'] = next_ticket_id(ticket_dir, original['id'].removeprefix('ticket:').rsplit('/v', 1)[0], cache=cache)
+         ticket['supersedes'] = original['id']
+         ticket['parents'] = list(dict.fromkeys(original.get('parents', []) + [original['id']]))
+         ticket['title'] = 'Repair failed integration: ' + original['title']
+@@ -523,7 +552,7 @@
+     return rows
+ 
+ 
+-def main():
++def produce(cache):
+     parser = argparse.ArgumentParser()
+     parser.add_argument("--repo", type=Path, default=SOURCE)
+     parser.add_argument("--ticket-dir", type=Path, default=TICKETS)
+@@ -564,10 +593,19 @@
+     parser_path = source / "scripts/paragraph/reparse.py"
+     sys.path.insert(0, str(parser_path.parent))
+     import reparse  # noqa: E402
++    snapshot, parser_stamp, _ = prepare_parser(source, reparse, cache)
++    if source_revision(source) != scan_revision or not clean_source(source):
++        # No cached parser output from a mixed checkout may survive this run.
++        cache.db.execute("DELETE FROM cache WHERE namespace='parser-vocabulary-v1' AND key=?", (str(source),))
++        emit('source_unavailable', reason='canonical source changed during parser preparation')
++        return
+ 
+     if args.lane in ('all', 'conflict'):
+-        repair = integration_repair_candidate(source, args.ticket_dir, args.jobs, reparse)
++        repair = integration_repair_candidate(source, args.ticket_dir, args.jobs, reparse, cache=cache)
+         if repair:
++            if source_revision(source) != scan_revision or not clean_source(source):
++                emit('source_unavailable', reason='canonical source changed during repair preparation')
++                return
+             emit('ready', ticket_id=repair['id'], ticket=repair)
+             return
+     if not plan_path.is_file():
+@@ -575,21 +613,19 @@
+         return
+ 
+     effects = registry_effects(source)
+-    history = production_history(args.ticket_dir, args.jobs)
++    history = production_history(args.ticket_dir, args.jobs, cache)
+     rows = coverage_rows(plan_path)
+     if args.lane in ('fresh', 'repair', 'conflict'):
+-        cache = ProducerCache(OPS / 'state/factory-ng-producer-cache.sqlite3')
+         try:
+             discovered = discover_fresh_example(source, reparse, rows, effects, history,
+                                                 cache, scan_revision, miss_count=args.miss_count, lane=args.lane,
+-                                                max_misses=args.max_misses)
++                                                max_misses=args.max_misses, snapshot=snapshot, parser_stamp=parser_stamp)
+         except ScanPending as exc:
+             emit('scan_pending', reason=str(exc))
+             return
+         finally:
+             if source_revision(source) != scan_revision:
+-                cache.db.execute("DELETE FROM cache WHERE namespace='fresh-parse-v1' AND stamp LIKE ?", (scan_revision + ':%',))
+-            cache.close()
++                cache.db.execute("DELETE FROM cache WHERE namespace='fresh-parse-v1' AND stamp LIKE ?", (parser_stamp + ':%',))
+         if discovered:
+             row, name = discovered
+             if name not in row.get("examples", []):
+@@ -627,7 +663,7 @@
+ 
+             suffix = hashlib.sha256(production_key.encode()).hexdigest()[:10]
+             base = "map.plan-%s-%s-%s" % ('multi' if args.max_misses is not None else slug(verb), slug(name), suffix)
+-            ticket_id = next_ticket_id(args.ticket_dir, base)
++            ticket_id = next_ticket_id(args.ticket_dir, base, history)
+             test_path = "scripts/paragraph/test_factory_ng_%s.py" % suffix
+             measurement_path = ("docs/factory-ng/measurements/build-plan-%s-v1.json" % suffix
+                                 if retry_generation == 0 else
+@@ -746,5 +782,13 @@
+          skipped=skipped)
+ 
+ 
++def main():
++    cache = ProducerCache(OPS / 'state/factory-ng-producer-cache.sqlite3')
++    try:
++        produce(cache)
++    finally:
++        cache.close()
++
++
+ if __name__ == "__main__":
+     main()
+--- before/scripts/factory_ng_producer_cache.py
++++ after/scripts/factory_ng_producer_cache.py
+@@ -26,7 +26,7 @@
+     def file(self, namespace, path, project=lambda value: value):
+         path = Path(path)
+         stat = path.stat()
+-        stamp = '%s:%s:%s' % (stat.st_mtime_ns, stat.st_ctime_ns, stat.st_size)
++        stamp = '%s:%s:%s:%s' % (stat.st_ino, stat.st_mtime_ns, stat.st_ctime_ns, stat.st_size)
+         found, value = self.get(namespace, os.path.abspath(path), stamp)
+         if found:
+             return value
+@@ -42,6 +42,37 @@
+         value = project(raw)
+         self.put(namespace, os.path.abspath(path), stamp, value)
+         return value
++
++    def files(self, namespace, directory, project):
++        """Bulk-load a compact directory index; stat every source before reuse."""
++        prefix = os.path.abspath(directory) + os.sep
++        known = {key: (stamp, value) for key, stamp, value in self.db.execute(
++            'SELECT key,stamp,value FROM cache WHERE namespace=?', (namespace,))
++            if key.startswith(prefix) and os.sep not in key[len(prefix):]}
++        present, result = set(), []
++        try:
++            with os.scandir(directory) as listing:
++                entries = sorted((entry for entry in listing if entry.name.endswith('.json')), key=lambda entry: entry.name)
++        except FileNotFoundError:
++            entries = []
++        for entry in entries:
++            path = Path(entry.path)
++            key = os.path.abspath(path)
++            present.add(key)
++            try:
++                stat = entry.stat()
++            except FileNotFoundError:
++                continue
++            stamp = '%s:%s:%s:%s' % (stat.st_ino, stat.st_mtime_ns, stat.st_ctime_ns, stat.st_size)
++            old = known.get(key)
++            if old and old[0] == stamp:
++                value = json.loads(old[1])
++            else:
++                value = self.file(namespace, path, project)
++            result.append((path, value or {}))
++        self.db.executemany('DELETE FROM cache WHERE namespace=? AND key=?',
++                            [(namespace, key) for key in known.keys() - present])
++        return result
+ 
+     def checkpoint(self):
+         self.db.commit()
+--- before/scripts/factory_ng_parser_runtime.py
++++ after/scripts/factory_ng_parser_runtime.py
+@@ -0,0 +1,142 @@
++"""Producer-local parser acceleration; source and acceptance gates stay authoritative."""
++import functools
++import hashlib
++import json
++from pathlib import Path
++import re
++import sys
++
++from factory_ng_producer_cache import digest
++
++
++class PatternCache:
++    """A bounded re facade using public compiled-pattern APIs, scoped to parser modules."""
++    def __init__(self, size=8192):
++        self.cached_compile = functools.lru_cache(maxsize=size)(re.compile)
++
++    def __getattr__(self, name):
++        return getattr(re, name)
++
++    def compile(self, pattern, flags=0):
++        # DEBUG has observable printing; do not suppress it on a cache hit.
++        if flags & re.DEBUG:
++            return re.compile(pattern, flags)
++        return self.cached_compile(pattern, flags)
++
++    def match(self, pattern, string, flags=0):
++        return self.compile(pattern, flags).match(string)
++
++    def fullmatch(self, pattern, string, flags=0):
++        return self.compile(pattern, flags).fullmatch(string)
++
++    def search(self, pattern, string, flags=0):
++        return self.compile(pattern, flags).search(string)
++
++    def sub(self, pattern, repl, string, count=0, flags=0):
++        return self.compile(pattern, flags).sub(repl, string, count)
++
++    def subn(self, pattern, repl, string, count=0, flags=0):
++        return self.compile(pattern, flags).subn(repl, string, count)
++
++    def split(self, pattern, string, maxsplit=0, flags=0):
++        return self.compile(pattern, flags).split(string, maxsplit)
++
++    def findall(self, pattern, string, flags=0):
++        return self.compile(pattern, flags).findall(string)
++
++    def finditer(self, pattern, string, flags=0):
++        return self.compile(pattern, flags).finditer(string)
++
++    def purge(self):
++        self.cached_compile.cache_clear()
++        re.purge()
++
++
++def install_patterns(parser, source):
++    """Do not replace the process-wide re module or rewrite canonical source."""
++    root = (Path(source) / 'scripts/paragraph').resolve()
++    facade = PatternCache()
++    for module in list(sys.modules.values()):
++        path = getattr(module, '__file__', None)
++        if isinstance(path, str) and Path(path).resolve().is_relative_to(root):
++            if getattr(module, 're', None) is re or isinstance(getattr(module, 're', None), PatternCache):
++                module.re = facade
++    return facade
++
++
++def file_digest(cache, path):
++    stat = path.stat()
++    stamp = '%s:%s:%s:%s' % (stat.st_ino, stat.st_size, stat.st_mtime_ns, stat.st_ctime_ns)
++    found, value = cache.get('parser-file-hash-v1', path, stamp)
++    if not found:
++        value = hashlib.sha256(path.read_bytes()).hexdigest()
++        cache.put('parser-file-hash-v1', path, stamp, value)
++    return value
++
++
++def parser_code_stamp(source, cache):
++    root = Path(source)
++    # Include support modules, not just reparse.py. Tests are not parser inputs.
++    paths = sorted(p for p in (root / 'scripts/paragraph').rglob('*.py')
++                   if not p.name.startswith('test_') and '__pycache__' not in p.parts)
++    paths += [root / 'corpus/Keywords.json'] if (root / 'corpus/Keywords.json').exists() else []
++    return digest([(str(p.relative_to(root)), file_digest(cache, p)) for p in paths])
++
++
++def shard_projection(data):
++    if not isinstance(data, dict):
++        return {'review': [], 'vocabulary': digest(['invalid-shard', data])}
++    review = [(name, card) for name, card in sorted(data.items())
++              if isinstance(card, dict) and card.get('status') == 'review']
++    # Preserve input order: the parser's case-normalization dictionary uses
++    # last occurrence wins. Card text/status do not affect these lookup tables.
++    vocabulary = [(card.get('type'), card.get('sub_types')) if isinstance(card, dict)
++                  else ('invalid-record', card) for card in data.values()]
++    return {'review': review, 'vocabulary': digest(vocabulary)}
++
++
++def corpus_snapshot(source, cache):
++    directory = Path(source) / 'backend/data/carddb'
++    paths = list(directory.glob('*.json'))
++    rows = {}
++    for path in paths:
++        rows[path] = cache.file('parser-corpus-shard-v1', path, shard_projection) or shard_projection(None)
++    # Match the parser's glob ordering for vocabulary; discovery sorts shards.
++    vocabulary_stamp = digest([(path.name, rows[path]['vocabulary']) for path in paths
++                               if not path.name.startswith('_')])
++    cards = [tuple(item) for path in sorted(paths) for item in rows[path]['review']]
++    return cards, vocabulary_stamp
++
++
++def prepare_parser(source, parser, cache):
++    """Load exact parser-built lookup tables and return discovery's input fingerprint."""
++    facade = install_patterns(parser, source)
++    code_stamp = digest([parser_code_stamp(source, cache),
++                         file_digest(cache, Path(__file__).resolve()), list(sys.version_info[:3])])
++    cards, vocabulary_stamp = corpus_snapshot(source, cache)
++    cache.checkpoint()
++    # Only real parsers have these globals; fixtures/alternate parsers simply
++    # keep their original behavior and conservatively use corpus input hashes.
++    fields = ('_SUBTYPE_VOCAB', '_LAND_SUBTYPE_VOCAB', '_SUBTYPE_WORDS_CACHE')
++    values = vars(parser)
++    if all(field in values for field in fields):
++        table_stamp = digest([code_stamp, vocabulary_stamp])
++        key = str(Path(source).resolve())
++        found, tables = cache.get('parser-vocabulary-v1', key, table_stamp)
++        if not found:
++            # Use the canonical functions, including their extra subtype rules.
++            parser.subtype_vocab()
++            parser.subtype_is_land('')
++            parser._subtype_words()
++            tables = [parser._SUBTYPE_VOCAB, sorted(parser._LAND_SUBTYPE_VOCAB),
++                      sorted(parser._SUBTYPE_WORDS_CACHE)]
++            cache.put('parser-vocabulary-v1', key, table_stamp, tables)
++        else:
++            parser._SUBTYPE_VOCAB = tables[0]
++            parser._LAND_SUBTYPE_VOCAB = set(tables[1])
++            parser._SUBTYPE_WORDS_CACHE = set(tables[2])
++        vocabulary_stamp = digest(tables)
++    registered = sorted(values.get('REGISTERED', []))
++    stamp = digest(['parser-runtime-v1', code_stamp, registered, vocabulary_stamp])
++    cache.checkpoint()
++    return cards, stamp, facade
+--- before/scripts/test_factory_ng_parser_runtime.py
++++ after/scripts/test_factory_ng_parser_runtime.py
+@@ -0,0 +1,151 @@
++import contextlib
++import importlib.util
++import io
++import json
++import os
++from pathlib import Path
++import re
++import sys
++import tempfile
++import types
++import unittest
++from unittest import mock
++
++from factory_ng_parser_runtime import PatternCache, prepare_parser, corpus_snapshot, parser_code_stamp
++from factory_ng_producer_cache import ProducerCache
++
++
++class RuntimeTests(unittest.TestCase):
++    def setUp(self):
++        self.tmp = tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
++        self.root = Path(self.tmp.name)
++        (self.root / 'scripts/paragraph').mkdir(parents=True)
++        (self.root / 'corpus').mkdir()
++        (self.root / 'backend/data/carddb').mkdir(parents=True)
++        self.code = self.root / 'scripts/paragraph/reparse.py'; self.code.write_text('# parser\n')
++        self.keywords = self.root / 'corpus/Keywords.json'; self.keywords.write_text('{}')
++        self.shard = self.root / 'backend/data/carddb/a.json'
++        self.card = {'name': 'A', 'status': 'review', 'type': 'Land', 'sub_types': ['Desert'], 'text': 'Draw a card.'}
++        self.shard.write_text(json.dumps({'A': self.card}))
++        self.cache = ProducerCache(self.root / 'cache.sqlite3'); self.addCleanup(self.cache.close)
++
++    def parser(self):
++        return types.SimpleNamespace(REGISTERED={'draw'}, __file__=str(self.code))
++
++    def test_regex_public_operations_flags_groups_bytes_and_callbacks(self):
++        facade = PatternCache(4)
++        for pattern, string in [(r'(a+)', 'Aa ab'), (b'(a+)', b'aa ab'), (re.compile('(a+)'), 'aa ab')]:
++            for name in ('match', 'fullmatch', 'search'):
++                a = getattr(re, name)(pattern, string); b = getattr(facade, name)(pattern, string)
++                self.assertEqual(None if a is None else (a.span(), a.groups()), None if b is None else (b.span(), b.groups()))
++            for name in ('split', 'findall'):
++                self.assertEqual(getattr(re, name)(pattern, string), getattr(facade, name)(pattern, string))
++            self.assertEqual([m.span() for m in re.finditer(pattern, string)], [m.span() for m in facade.finditer(pattern, string)])
++            for name in ('sub', 'subn'):
++                self.assertEqual(getattr(re, name)(pattern, lambda m:m[0], string, count=1),
++                                 getattr(facade, name)(pattern, lambda m:m[0], string, count=1))
++        self.assertEqual(facade.findall('a', 'Aa', re.I), ['A','a'])
++        with self.assertRaises(ValueError):facade.compile(re.compile('a'), re.I)
++        with self.assertRaises(re.error):facade.compile('[')
++        for i in range(20):facade.compile(str(i))
++        self.assertLessEqual(facade.cached_compile.cache_info().currsize, 4)
++        for _ in range(2):
++            out=io.StringIO()
++            with contextlib.redirect_stdout(out):facade.compile('a',re.DEBUG)
++            self.assertTrue(out.getvalue())
++
++    def test_only_parser_modules_receive_facade(self):
++        parser = types.ModuleType('fixture_parser');parser.__file__=str(self.code);parser.re=re
++        other = types.ModuleType('unrelated');other.__file__=str(self.root/'outside.py');other.re=re
++        with mock.patch.dict(sys.modules, fixture_parser=parser, unrelated=other):
++            prepare_parser(self.root, parser, self.cache)
++        self.assertIsInstance(parser.re,PatternCache)
++        self.assertIs(other.re,re)
++        self.assertIs(sys.modules['re'],re)
++
++    def test_fingerprint_tracks_inputs_but_not_commit_tests_or_card_status(self):
++        _,first,_=prepare_parser(self.root,self.parser(),self.cache)
++        (self.root/'scripts/paragraph/test_example.py').write_text('# unrelated test')
++        self.card['status']='auto';self.shard.write_text(json.dumps({'A':self.card}))
++        _,same,_=prepare_parser(self.root,self.parser(),self.cache)
++        self.assertEqual(first,same)
++        for path,content in [(self.code,'# changed parser'),(self.keywords,'{"changed":true}'),
++                             (self.root/'scripts/paragraph/support.py','# new imported support')]:
++            path.write_text(content)
++            _,changed,_=prepare_parser(self.root,self.parser(),self.cache)
++            self.assertNotEqual(same,changed);same=changed
++        parser=self.parser();parser.REGISTERED.add('new_effect')
++        _,changed,_=prepare_parser(self.root,parser,self.cache);self.assertNotEqual(same,changed)
++        self.card['sub_types']=['Forest'];self.shard.write_text(json.dumps({'A':self.card}))
++        _,changed2,_=prepare_parser(self.root,parser,self.cache);self.assertNotEqual(changed,changed2)
++
++    def test_shard_edit_replacement_and_removal_visible_after_reopen(self):
++        cards,stamp=corpus_snapshot(self.root,self.cache);self.assertEqual(cards[0][0],'A')
++        self.cache.checkpoint()
++        reopened=ProducerCache(self.root/'cache.sqlite3')
++        try:
++            with mock.patch.object(Path,'read_text',side_effect=AssertionError('unchanged shard reread')):
++                self.assertEqual(corpus_snapshot(self.root,reopened)[0],cards)
++        finally:reopened.close()
++        st=self.shard.stat();self.card['text']='Mill a card.';self.shard.write_text(json.dumps({'A':self.card}))
++        os.utime(self.shard,ns=(st.st_atime_ns,st.st_mtime_ns))
++        self.assertEqual(corpus_snapshot(self.root,self.cache)[0][0][1]['text'],'Mill a card.')
++        self.assertEqual(corpus_snapshot(self.root,self.cache)[1],stamp)
++        replacement=self.shard.with_suffix('.new');self.card['text']='Replacement text.'
++        replacement.write_text(json.dumps({'A':self.card}));replacement.replace(self.shard)
++        self.assertEqual(corpus_snapshot(self.root,self.cache)[0][0][1]['text'],'Replacement text.')
++        self.shard.unlink();self.assertEqual(corpus_snapshot(self.root,self.cache)[0],[])
++
++    def test_exact_vocab_tables_reused_across_processes(self):
++        calls=[]
++        def parser():
++            p=self.parser();p._SUBTYPE_VOCAB=None;p._LAND_SUBTYPE_VOCAB=None;p._SUBTYPE_WORDS_CACHE=None
++            def vocab():calls.append('vocab');p._SUBTYPE_VOCAB={'desert':'Desert','extra':'Extra'}
++            def land(_):calls.append('land');p._LAND_SUBTYPE_VOCAB={'Desert'}
++            def words():calls.append('words');p._SUBTYPE_WORDS_CACHE={'desert'}
++            p.subtype_vocab=vocab;p.subtype_is_land=land;p._subtype_words=words
++            return p
++        p=parser();_,stamp,_=prepare_parser(self.root,p,self.cache)
++        other=ProducerCache(self.root/'cache.sqlite3')
++        try:
++            p2=parser();_,stamp2,_=prepare_parser(self.root,p2,other)
++        finally:other.close()
++        self.assertEqual(calls,['vocab','land','words']);self.assertEqual(stamp,stamp2)
++        self.assertEqual(p2._SUBTYPE_VOCAB,p._SUBTYPE_VOCAB)
++        self.assertEqual(p2._LAND_SUBTYPE_VOCAB,p._LAND_SUBTYPE_VOCAB)
++
++    def test_parse_results_shared_across_lanes_and_unrelated_revisions(self):
++        spec=importlib.util.spec_from_file_location('scan_producer',Path(__file__).with_name('factory-ng-produce-build-plan.py'))
++        p=importlib.util.module_from_spec(spec);spec.loader.exec_module(p)
++        parser=self.parser();parser.reparse_card=mock.Mock(return_value={'misses':[]})
++        cards,stamp,_=prepare_parser(self.root,parser,self.cache)
++        args=(self.root,parser,[],{}, {}, self.cache)
++        p.discover_fresh_example(*args,revision='commit-one',snapshot=cards,parser_stamp=stamp)
++        p.discover_fresh_example(*args,revision='commit-two',snapshot=cards,parser_stamp=stamp,lane='repair')
++        p.discover_fresh_example(*args,revision='commit-two',snapshot=cards,parser_stamp=stamp,max_misses=6)
++        self.assertEqual(parser.reparse_card.call_count,1)
++        self.card['text']='A changed clause.';self.shard.write_text(json.dumps({'A':self.card}))
++        cards,stamp2,_=prepare_parser(self.root,parser,self.cache)
++        self.assertEqual(stamp,stamp2)
++        p.discover_fresh_example(*args,revision='commit-three',snapshot=cards,parser_stamp=stamp2)
++        self.assertEqual(parser.reparse_card.call_count,2)
++
++    def test_ticket_history_is_cached_but_live_jobs_and_versions_are_not_stale(self):
++        spec=importlib.util.spec_from_file_location('producer',Path(__file__).with_name('factory-ng-produce-build-plan.py'))
++        p=importlib.util.module_from_spec(spec);spec.loader.exec_module(p)
++        tickets=self.root/'tickets';tickets.mkdir();jobs=self.root/'jobs.json';jobs.write_text('{"jobs":{}}')
++        t=tickets/'one.json';t.write_text(json.dumps({'id':'ticket:map.a/v1','production':{'key':'key'},'large_payload':'irrelevant'}))
++        h=p.production_history(tickets,jobs,self.cache)
++        self.assertEqual(p.next_ticket_id(tickets,'map.a',h),'ticket:map.a/v2')
++        jobs.write_text(json.dumps({'jobs':{'ticket:map.a/v1':{'state':'completed'}}}))
++        original=Path.read_text
++        def read(path,*a,**kw):
++            if path==t:raise AssertionError('unchanged ticket reread')
++            return original(path,*a,**kw)
++        with mock.patch.object(Path,'read_text',read):h=p.production_history(tickets,jobs,self.cache)
++        self.assertEqual(h['key'][0]['state'],'completed')
++        (tickets/'two.json').write_text(json.dumps({'id':'ticket:map.a/v7','supersedes':'ticket:map.a/v1'}))
++        h=p.production_history(tickets,jobs,self.cache)
++        self.assertTrue(h['key'][0]['superseded']);self.assertEqual(p.next_ticket_id(tickets,'map.a',h),'ticket:map.a/v8')
++
++if __name__=='__main__':unittest.main()

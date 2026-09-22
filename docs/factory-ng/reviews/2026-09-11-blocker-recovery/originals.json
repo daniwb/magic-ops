@@ -1,0 +1,159 @@
+[
+  {
+    "ticket": "ticket:map.plan-copy-sage-of-the-skies-30d5d8211c/v4",
+    "ticket_path": "docs/factory-ng/tickets/map-plan-copy-sage-of-the-skies-30d5d8211c-v4.json",
+    "receipt": "docs/factory-ng/runs/2026-09-09T083959Z-map-plan-copy-sage-of-the-skies-30d5d8211c-v4-codex.json",
+    "production": {
+      "integration_repair_generation": 2,
+      "key": "build-plan:verb_unmapped:copy:sha256:4e2741c5613a1a1134ee20cf2381f77da64bf2bb2fa097208ff6e2272b81c88b:after:ticket:engine.auto-triggered-self-copy-with-token-ceasing-ff40ee46f2/v4",
+      "producer": "build-plan-integration-recovery",
+      "retry_reason": "integration_conflict_repair"
+    },
+    "patch": "docs/factory-ng/candidates/2026-09-09T084330Z-map-plan-copy-sage-of-the-skies-30d5d8211c-v4.patch",
+    "receipt_sha256": "sha256:be1b986a867bf800490d66d97500df33919318d4fa43229ea8c2fec60693cb0c",
+    "ticket_sha256": "sha256:ed456d14ffd791b2db922fcb2bc4d405494b16875f667fa890ec1d9a0cc7d251",
+    "apply_exit": 128,
+    "apply_detail": "Applying: factory-ng: supervised engine observation\nUsing index info to reconstruct a base tree...\nM\tscripts/paragraph/reparse.py\nFalling back to patching base and 3-way merge...\nAuto-merging scripts/paragraph/reparse.py\nCONFLICT (content): Merge conflict in scripts/paragraph/reparse.py\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch\n"
+  },
+  {
+    "ticket": "ticket:map.plan-damage-by-dong-zhou-the-tyrant-845ba13507/v3",
+    "ticket_path": "docs/factory-ng/tickets/map-plan-damage-by-dong-zhou-the-tyrant-845ba13507-v3.json",
+    "receipt": "docs/factory-ng/runs/2026-09-11T200335Z-map-plan-damage-by-dong-zhou-the-tyrant-845ba13507-v3-codex.json",
+    "production": {
+      "integration_repair_generation": 1,
+      "key": "build-plan:verb_unmapped:damage_by:sha256:8619ddf6ffefe549fa8772e22db0f56ddb6398a5d272ad429560380fb9753fe8:after:ticket:engine.auto-damage-by-target-power-to-its-controller-fa4925b0a9/v1",
+      "producer": "build-plan-integration-recovery",
+      "retry_reason": "integration_conflict_repair"
+    },
+    "patch": "docs/factory-ng/candidates/2026-09-11T200640Z-map-plan-damage-by-dong-zhou-the-tyrant-845ba13507-v3.patch",
+    "receipt_sha256": "sha256:25acda9e17a2370aa05b9ed3e128a7059ebbc68e6eae865b8f2dd6ab5fdb870f",
+    "ticket_sha256": "sha256:915426e94f578eb8c9b2c09913e36d0efd5591091b358734726a45e39257652d",
+    "apply_exit": 0,
+    "apply_detail": "Applying: factory-ng: supervised engine observation\n"
+  },
+  {
+    "ticket": "ticket:map.plan-damage-skullcage-3f854ae5df/v4",
+    "ticket_path": "docs/factory-ng/tickets/map-plan-damage-skullcage-3f854ae5df-v4.json",
+    "receipt": "docs/factory-ng/runs/2026-09-09T104800Z-map-plan-damage-skullcage-3f854ae5df-v4-codex.json",
+    "production": {
+      "integration_repair_generation": 2,
+      "key": "build-plan:verb_unmapped:damage:sha256:7d5a3a4cfaff7b26cb43476633ee097b4a5ecaabbeb00c71484e84906c3b76d0:after:ticket:engine.auto-trigger-unless-hand-count-condition-f7d59939b7/v1",
+      "producer": "build-plan-integration-recovery",
+      "retry_reason": "integration_conflict_repair"
+    },
+    "patch": "docs/factory-ng/candidates/2026-09-09T105051Z-map-plan-damage-skullcage-3f854ae5df-v4.patch",
+    "receipt_sha256": "sha256:02150b72894e847f0651bc83eb3c067a2a33ca6ca8f804ec8897280c223571e2",
+    "ticket_sha256": "sha256:72dc56d2b8b795a439993a56060b3d15ee0cde8be27f6666cddad76d78af97b0",
+    "apply_exit": 128,
+    "apply_detail": "Applying: factory-ng: supervised engine observation\nUsing index info to reconstruct a base tree...\nM\tscripts/paragraph/reparse.py\nFalling back to patching base and 3-way merge...\nAuto-merging scripts/paragraph/reparse.py\nCONFLICT (content): Merge conflict in scripts/paragraph/reparse.py\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch\n"
+  },
+  {
+    "ticket": "ticket:map.plan-exile-sphere-of-annihilation-032fa4cd5d/v4",
+    "ticket_path": "docs/factory-ng/tickets/map-plan-exile-sphere-of-annihilation-032fa4cd5d-v4.json",
+    "receipt": "docs/factory-ng/runs/2026-09-09T102027Z-map-plan-exile-sphere-of-annihilation-032fa4cd5d-v4-codex.json",
+    "production": {
+      "integration_repair_generation": 2,
+      "key": "build-plan:verb_unmapped:exile:sha256:b5d80b2a1ed638f8019efce55897d284377eec5e11d4c1010ea0e65b30977f28:after:ticket:engine.auto-exile-mv-le-source-counters-multizone-e9a468b183/v1",
+      "producer": "build-plan-integration-recovery",
+      "retry_reason": "integration_conflict_repair"
+    },
+    "patch": "docs/factory-ng/candidates/2026-09-09T102316Z-map-plan-exile-sphere-of-annihilation-032fa4cd5d-v4.patch",
+    "receipt_sha256": "sha256:425a1db97f5abde02808c76481752ff55dfc794e61e5058ea33811b0c08ab47f",
+    "ticket_sha256": "sha256:14e1ceb14257b487d85fc0f7708ce5a1ff9a6e46b42f20116f033d3e2662bb16",
+    "apply_exit": 128,
+    "apply_detail": "Applying: factory-ng: supervised engine observation\nUsing index info to reconstruct a base tree...\nM\tscripts/paragraph/reparse.py\nFalling back to patching base and 3-way merge...\nAuto-merging scripts/paragraph/reparse.py\nCONFLICT (content): Merge conflict in scripts/paragraph/reparse.py\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch\n"
+  },
+  {
+    "ticket": "ticket:map.plan-put-counters-selfcraft-mechan-ac7fb28b1a/v4",
+    "ticket_path": "docs/factory-ng/tickets/map-plan-put-counters-selfcraft-mechan-ac7fb28b1a-v4.json",
+    "receipt": "docs/factory-ng/runs/2026-09-09T111722Z-map-plan-put-counters-selfcraft-mechan-ac7fb28b1a-v4-codex.json",
+    "production": {
+      "integration_repair_generation": 2,
+      "key": "build-plan:verb_unmapped:put_counters:sha256:9ddac15964616abf329d3936f00756fca0bb17b43492f2bf32fe339f252c7453:after:ticket:engine.auto-put-counter-and-draw-card-22b3192fb2/v2",
+      "producer": "build-plan-integration-recovery",
+      "retry_reason": "integration_conflict_repair"
+    },
+    "patch": "docs/factory-ng/candidates/2026-09-09T112028Z-map-plan-put-counters-selfcraft-mechan-ac7fb28b1a-v4.patch",
+    "receipt_sha256": "sha256:13bb3c42e7384c111d5b1799a768aa7853b016caf269a8e55bd90c0f1315c4b5",
+    "ticket_sha256": "sha256:5a4901180045c0fc4f9a5cf175cae4bca34df552b77e98636c0a9d74ba1f53ae",
+    "apply_exit": 0,
+    "apply_detail": "Applying: factory-ng: supervised engine observation\n"
+  },
+  {
+    "ticket": "ticket:map.plan-regrow-retrieve-b33ea3ed9d/v4",
+    "ticket_path": "docs/factory-ng/tickets/map-plan-regrow-retrieve-b33ea3ed9d-v4.json",
+    "receipt": "docs/factory-ng/runs/2026-09-10T195618Z-map-plan-regrow-retrieve-b33ea3ed9d-v4-codex.json",
+    "production": {
+      "integration_repair_generation": 2,
+      "key": "build-plan:verb_unmapped:regrow:sha256:6411364d6a151a44986fa4cbe915e5c63c93c9020aeae6a1a69b8d537cf6375f:after:ticket:engine.auto-return-from-graveyard-dual-filter-hand-753a9b3f84/v2",
+      "producer": "build-plan-integration-recovery",
+      "retry_reason": "integration_conflict_repair"
+    },
+    "patch": "docs/factory-ng/candidates/2026-09-10T195930Z-map-plan-regrow-retrieve-b33ea3ed9d-v4.patch",
+    "receipt_sha256": "sha256:689663bdfd02b0dd6e3716f96534a80a4d26aa83a509c448530039c92c520710",
+    "ticket_sha256": "sha256:15815379c1dbec988b808da25d303610f1a7b33170e3f520eb231df8931b5b7b",
+    "apply_exit": 128,
+    "apply_detail": "Applying: factory-ng: supervised engine observation\nUsing index info to reconstruct a base tree...\nM\tscripts/paragraph/reparse.py\nFalling back to patching base and 3-way merge...\nAuto-merging scripts/paragraph/reparse.py\nCONFLICT (content): Merge conflict in scripts/paragraph/reparse.py\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch\n"
+  },
+  {
+    "ticket": "ticket:map.plan-sacrifice-promise-of-tomorrow-f7fb65fa2a/v4",
+    "ticket_path": "docs/factory-ng/tickets/map-plan-sacrifice-promise-of-tomorrow-f7fb65fa2a-v4.json",
+    "receipt": "docs/factory-ng/runs/2026-09-10T032948Z-map-plan-sacrifice-promise-of-tomorrow-f7fb65fa2a-v4-codex.json",
+    "production": {
+      "context_repair_version": "python-handoff-v2",
+      "integration_repair_generation": 2,
+      "key": "build-plan:verb_unmapped:sacrifice:sha256:a5ec179e3444a241c928fffaa6eeedccdb7a54695d7eef12ab8647fc08eb24f4:after:ticket:engine.auto-return-exiled-cards-with-source-15c611c278/v1",
+      "producer": "build-plan-integration-recovery",
+      "retry_reason": "integration_conflict_repair"
+    },
+    "patch": "docs/factory-ng/candidates/2026-09-10T033220Z-map-plan-sacrifice-promise-of-tomorrow-f7fb65fa2a-v4.patch",
+    "receipt_sha256": "sha256:8be31eb99606cf1e4ff1f7bdbeff6607d1e2a64979251de0cbb21a45939f9c5d",
+    "ticket_sha256": "sha256:b8ba7b2c5eca76cb4cc1167ef8276b0d710de900c5248e760f065107b81dd557",
+    "apply_exit": 128,
+    "apply_detail": "Applying: factory-ng: supervised engine observation\nUsing index info to reconstruct a base tree...\nM\tscripts/paragraph/reparse.py\nFalling back to patching base and 3-way merge...\nAuto-merging scripts/paragraph/reparse.py\nCONFLICT (content): Merge conflict in scripts/paragraph/reparse.py\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch\n"
+  },
+  {
+    "ticket": "ticket:map.plan-tap-tideforce-elemental-ecc1126789/v4",
+    "ticket_path": "docs/factory-ng/tickets/map-plan-tap-tideforce-elemental-ecc1126789-v4.json",
+    "receipt": "docs/factory-ng/runs/2026-09-10T113148Z-map-plan-tap-tideforce-elemental-ecc1126789-v4-codex.json",
+    "production": {
+      "integration_repair_generation": 2,
+      "key": "build-plan:verb_unmapped:tap:sha256:e2956d0eb44c0a19a61b14494891945f79f2dcf1e67e793456a1298d7160d9e3:after:ticket:engine.auto-activated-choice-tap-or-untap-target-at-activati-9c8e817ef6/v1",
+      "producer": "build-plan-integration-recovery",
+      "retry_reason": "integration_conflict_repair"
+    },
+    "patch": "docs/factory-ng/candidates/2026-09-10T113443Z-map-plan-tap-tideforce-elemental-ecc1126789-v4.patch",
+    "receipt_sha256": "sha256:d19b22913944a219052fb86a289f58ac2461e78eed5d6e0ce99ce4fc6435c45d",
+    "ticket_sha256": "sha256:4820d677ca1c063120c88ed2929285363ef60aace23b5209fa92e7832a950eb2",
+    "apply_exit": 128,
+    "apply_detail": "Applying: factory-ng: supervised engine observation\nUsing index info to reconstruct a base tree...\nM\tscripts/paragraph/reparse.py\nFalling back to patching base and 3-way merge...\nAuto-merging scripts/paragraph/reparse.py\nCONFLICT (content): Merge conflict in scripts/paragraph/reparse.py\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch\n"
+  },
+  {
+    "ticket": "ticket:map.plan-tap-word-of-binding-e0c3cca63f/v4",
+    "ticket_path": "docs/factory-ng/tickets/map-plan-tap-word-of-binding-e0c3cca63f-v4.json",
+    "receipt": "docs/factory-ng/runs/2026-09-10T022935Z-map-plan-tap-word-of-binding-e0c3cca63f-v4-codex.json",
+    "production": {
+      "integration_repair_generation": 2,
+      "key": "build-plan:verb_unmapped:tap:sha256:025abec253d6884cf5a20b9fa47198d8d41c1e4ef0ddc4a670a2e5440126877c:after:ticket:engine.auto-tap-variable-x-target-count-f2c0196dd1/v3",
+      "producer": "build-plan-integration-recovery",
+      "retry_reason": "integration_conflict_repair"
+    },
+    "patch": "docs/factory-ng/candidates/2026-09-10T023224Z-map-plan-tap-word-of-binding-e0c3cca63f-v4.patch",
+    "receipt_sha256": "sha256:d5f751ef4dbb338fa9b0f4b688ed42a21a88067b42a8d004ba3952f257f286ac",
+    "ticket_sha256": "sha256:7e3047c9bb4c27d0ea95e9f91e58b6f3d959cb773297767cc9f81f5d61375e26",
+    "apply_exit": 128,
+    "apply_detail": "Applying: factory-ng: supervised engine observation\nUsing index info to reconstruct a base tree...\nM\tscripts/paragraph/reparse.py\nFalling back to patching base and 3-way merge...\nAuto-merging scripts/paragraph/reparse.py\nCONFLICT (content): Merge conflict in scripts/paragraph/reparse.py\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch\n"
+  },
+  {
+    "ticket": "ticket:map.plan-gain-control-crown-of-empires-70becf7c9a/v3",
+    "ticket_path": "docs/factory-ng/tickets/map-plan-gain-control-crown-of-empires-70becf7c9a-v3.json",
+    "ticket_sha256": "sha256:8c3682f23d110d768fae517d5d57fc947fe8d1b717fb0ce8239e0e632d6e0cb9",
+    "receipt": "docs/factory-ng/runs/2026-09-11T194049Z-map-plan-gain-control-crown-of-empires-70becf7c9a-v3-codex.json",
+    "receipt_sha256": "sha256:322b014e04ec063568842445714f007b7dd118a6d9515af979ea558a7f641bf5",
+    "production": {
+      "key": "build-plan:verb_unmapped:gain_control:sha256:dd3a280359d144aa23f32b81f865e54aa86480d683458243ce0aa2cd589a4b13:after:ticket:engine.auto-named-permanent-control-gates-effect-choice-fac1071987/v2",
+      "producer": "capability-dependencies",
+      "retry_reason": "dependency_resume"
+    }
+  }
+]

@@ -1,0 +1,29 @@
+{
+  "before": {
+    "count": 174,
+    "superseded_included": 43,
+    "outcomes": {
+      "infrastructure_failed": 55,
+      "candidate_conflict": 40,
+      "full_gate_failed": 39,
+      "infrastructure_failed_model_protocol": 37,
+      "infrastructure_failed_no_provider_payload": 1,
+      "infrastructure_failed_session_quota": 1,
+      "infrastructure_failed_before_proposal": 1
+    }
+  },
+  "after": {
+    "count": 131,
+    "outcomes": {
+      "infrastructure_failed": 51,
+      "full_gate_failed": 26,
+      "infrastructure_failed_model_protocol": 36,
+      "candidate_conflict": 15,
+      "infrastructure_failed_no_provider_payload": 1,
+      "infrastructure_failed_session_quota": 1,
+      "infrastructure_failed_before_proposal": 1
+    },
+    "superseded_included": 0
+  },
+  "finding": "SQL rollout exposed all-age failures but counted replaced job versions as current; fixed projection excludes superseded jobs without deleting history."
+}

@@ -1,0 +1,13 @@
+{
+  "schema": "factory.context-retry-batch/v1",
+  "id": "four-context-retries-2026-09-08",
+  "enabled": true,
+  "max_active": 2,
+  "profile": "claude-staged@1.0.0",
+  "tickets": [
+    "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v2",
+    "ticket:map.plan-put-counters-machine-man-model-x-51-5f65a12e95/v1",
+    "ticket:map.plan-pump-barge-in-a96db2c352/v1",
+    "ticket:map.plan-pump-thorntooth-witch-5b8aaa9b51/v1"
+  ]
+}

@@ -1,0 +1,215 @@
+CAPABILITY_ASSESSMENT: {"classification":"connection","existing_symbols":["game.GameState.resolveRecipientFromEventCard","game.resolveSpellAmount","cards.CardDefinition.buildMainSpellEffect"],"remaining_gap":"target-hand-size amount_source is emitted by the converter but discarded or unresolved at spell and ability resolution","verification":"public converter conversion plus cast-resolution behavior tests"}
+
+<<<FILE backend/game/card.go
+<<<SEARCH
+	// AmountFrom optionally instructs the resolver to read the effect's
+	// amount from a runtime source instead of the printed Amount field.
+	// Currently supported: "energy_x" — the variable energy spent at cast
+	// time, plus AmountBonus (e.g. "1 plus the number of {E} spent" → bonus 1).
+	AmountFrom  string `json:"amount_from,omitempty"`
+===REPLACE
+	// AmountFrom optionally instructs the resolver to read the effect's
+	// amount from a runtime source instead of the printed Amount field.
+	// Supported sources include "energy_x", "x_value", and
+	// "target_hand_size".
+	AmountFrom  string `json:"amount_from,omitempty"`
+>>>END
+
+<<<FILE backend/cards/converter.go
+<<<SEARCH
+				if from, ok := ability.Value["amount_from"].(string); ok {
+					eff.AmountFrom = from
+				}
+				if v, ok := ability.Value["amount_bonus"]; ok {
+===REPLACE
+				if from, ok := ability.Value["amount_from"].(string); ok {
+					eff.AmountFrom = from
+				} else if from, ok := ability.Value["amount_source"].(string); ok {
+					eff.AmountFrom = from
+				}
+				if v, ok := ability.Value["amount_bonus"]; ok {
+>>>END
+
+<<<FILE backend/game/gamestate.go
+<<<SEARCH
+	amount := resolveSpellAmount(card.SpellEffect, runtime)
+===REPLACE
+	amount := resolveSpellAmount(card.SpellEffect, runtime, gs, targets)
+>>>END
+
+<<<FILE backend/game/gamestate.go
+<<<SEARCH
+func resolveSpellAmount(eff *SpellEffect, runtime map[string]interface{}) int {
+===REPLACE
+func resolveSpellAmount(eff *SpellEffect, runtime map[string]interface{}, gs *GameState, targets []Target) int {
+>>>END
+
+<<<FILE backend/game/gamestate.go
+<<<SEARCH
+	switch eff.AmountFrom {
+	case "energy_x", "x_value":
+		x := 0
+		if v, ok := runtime[eff.AmountFrom]; ok {
+			switch n := v.(type) {
+			case int:
+				x = n
+			case float64:
+				x = int(n)
+			}
+		}
+		return eff.AmountBonus + x
+	}
+	return eff.Amount
+}
+===REPLACE
+	switch eff.AmountFrom {
+	case "energy_x", "x_value":
+		x := 0
+		if v, ok := runtime[eff.AmountFrom]; ok {
+			switch n := v.(type) {
+			case int:
+				x = n
+			case float64:
+				x = int(n)
+			}
+		}
+		return eff.AmountBonus + x
+	case "target_hand_size":
+		return gs.handSizeOfFirstPlayerTarget(targets)
+	}
+	return eff.Amount
+}
+===REPLACE
+
+<<<FILE backend/game/ability_effects.go
+<<<SEARCH
+func (gs *GameState) resolveRecipientFromEventCard(effectValue map[string]interface{}, eventCard *Card, targets []Target) []Target {
+	if effectValue != nil && eventCard != nil {
+		if amountSource, ok := effectValue["amount_source"].(map[string]interface{}); ok {
+			switch amountSource["property"] {
+			case "mana_value":
+				effectValue["amount"] = eventCard.ManaCost.CMC()
+			}
+		}
+	}
+===REPLACE
+func (gs *GameState) resolveRecipientFromEventCard(effectValue map[string]interface{}, eventCard *Card, targets []Target) []Target {
+	if effectValue != nil {
+		if amountSource, ok := effectValue["amount_source"].(string); ok {
+			if amountSource == "target_hand_size" {
+				effectValue["amount"] = gs.handSizeOfFirstPlayerTarget(targets)
+			}
+		} else if amountSource, ok := effectValue["amount_source"].(map[string]interface{}); ok {
+			switch amountSource["property"] {
+			case "mana_value":
+				if eventCard != nil {
+					effectValue["amount"] = eventCard.ManaCost.CMC()
+				}
+			case "hand_size":
+				if amountSource["referent"] == "target" {
+					effectValue["amount"] = gs.handSizeOfFirstPlayerTarget(targets)
+				}
+			}
+		}
+	}
+>>>END
+
+<<<FILE backend/game/ability_effects.go
+<<<SEARCH
+}
+
+ // resolvePumpReferentSpellManaValue implements the
+===REPLACE
+}
+
+func (gs *GameState) handSizeOfFirstPlayerTarget(targets []Target) int {
+	for _, target := range targets {
+		if target.Type == TargetPlayer && !target.IsCard &&
+			target.PlayerIdx >= 0 && target.PlayerIdx < len(gs.Players) {
+			return len(gs.Players[target.PlayerIdx].Hand.Cards)
+		}
+	}
+	return 0
+}
+
+ // resolvePumpReferentSpellManaValue implements the
+>>>END
+
+<<<NEWFILE backend/game/factory_ng_5b58aa258c_test.go
+package game
+
+import "testing"
+
+func TestFactoryNGDamageAmountReferentTargetHandSize(t *testing.T) {
+	gs := NewGame("P0", "P1", false)
+	source := NewCard("Storm Seeker", TypeInstant, ManaCost{Green: 1}, 0)
+	source.Controller = 0
+	source.SpellEffect = &SpellEffect{
+		Type:       "damage",
+		AmountFrom: "target_hand_size",
+	}
+
+	gs.Players[1].Hand.Cards = []*Card{
+		NewCard("A", TypeInstant, ManaCost{}, 0),
+		NewCard("B", TypeInstant, ManaCost{}, 0),
+		NewCard("C", TypeInstant, ManaCost{}, 0),
+		NewCard("D", TypeInstant, ManaCost{}, 0),
+	}
+
+	targets := []Target{{Type: TargetPlayer, PlayerIdx: 1}}
+	before := gs.Players[1].Life
+	if err := gs.ApplySpellEffect(source, targets); err != nil {
+		t.Fatalf("ApplySpellEffect: %v", err)
+	}
+	if got := gs.Players[1].Life; got != before-4 {
+		t.Fatalf("target life = %d, want %d", got, before-4)
+	}
+
+	fixed := &SpellEffect{Type: "damage", Amount: 3}
+	source.SpellEffect = fixed
+	before = gs.Players[1].Life
+	if err := gs.ApplySpellEffect(source, targets); err != nil {
+		t.Fatalf("fixed ApplySpellEffect: %v", err)
+	}
+	if got := gs.Players[1].Life; got != before-3 {
+		t.Fatalf("fixed damage changed target life to %d, want %d", got, before-3)
+	}
+}
+>>>END
+
+<<<NEWFILE backend/cards/factory_ng_5b58aa258c_test.go
+package cards
+
+import (
+	"testing"
+
+	"magic-backend/game"
+)
+
+func TestFactoryNGDamageAmountReferentTargetHandSize(t *testing.T) {
+	def := &CardDefinition{
+		Name: "Storm Seeker",
+		Type: "Instant",
+		Types: []string{"Instant"},
+		Abilities: []AbilityDSL{{
+			Type:   "spell",
+			Effect: "damage",
+			Value:  map[string]interface{}{"amount_source": "target_hand_size"},
+			Target: &TargetFilter{Filter: "player"},
+		}},
+	}
+
+	card, err := def.ToGameCard(0)
+	if err != nil {
+		t.Fatalf("ToGameCard: %v", err)
+	}
+	if card.SpellEffect == nil || card.SpellEffect.AmountFrom != "target_hand_size" {
+		t.Fatalf("target hand-size referent was not converted: %#v", card.SpellEffect)
+	}
+	if card.SpellEffect.Amount != 0 {
+		t.Fatalf("dynamic amount should not become a fixed literal: %d", card.SpellEffect.Amount)
+	}
+}
+>>>END
+
+EXPECT: Storm Seeker-style damage resolves from the targeted player’s hand size at resolution while fixed and caster-relative amounts remain distinct.

@@ -1,0 +1,217 @@
+[
+  {
+    "verified_answer_citations": [
+      "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:put_counter_and_draw_card",
+      "backend/game/gamestate.go::game.GameState.DrawCardWithEvent",
+      "backend/game/player.go::game.Player.DrawCard",
+      "backend/game/zone.go::game.Zone.DrawCard"
+    ],
+    "trial": "engine",
+    "timing": {
+      "exit_code": 0,
+      "wall_seconds": 157.276,
+      "revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+      "checkout_status": "",
+      "command": [
+        "goose",
+        "run",
+        "--instructions",
+        "/data/magic-stack/development/magic-ops/docs/benchmarks/goose-qwen-2026-09-20/database-tools/engine.prompt.txt",
+        "--no-profile",
+        "--with-extension",
+        "card-knowledge:python3 /data/magic-stack/development/magic-ops/scripts/kb-mcp-server.py",
+        "--name",
+        "database-tools-engine",
+        "--max-turns",
+        "10",
+        "--output-format",
+        "stream-json",
+        "--stats"
+      ]
+    },
+    "input_tokens": 17108,
+    "output_tokens": 3053,
+    "cache_read_tokens": 11847,
+    "model_requests": 5,
+    "tool_calls": 9,
+    "tools_used": [
+      "card-knowledge__find_capability",
+      "card-knowledge__read_source"
+    ],
+    "verified_source": [
+      {
+        "symbol_id": "backend/game/player.go::game.Player.DrawCard",
+        "path": "backend/game/player.go",
+        "start": 1982,
+        "supplied_end": 1990,
+        "source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+        "truncated": false
+      },
+      {
+        "symbol_id": "backend/game/gamestate.go::game.GameState.DrawCardWithEvent",
+        "path": "backend/game/gamestate.go",
+        "start": 8931,
+        "supplied_end": 8964,
+        "source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+        "truncated": false
+      },
+      {
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:put_counter_and_draw_card",
+        "path": "backend/game/ability_effects.go",
+        "start": 10313,
+        "supplied_end": 10320,
+        "source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+        "truncated": false
+      },
+      {
+        "symbol_id": "backend/game/zone.go::game.Zone.DrawCard",
+        "path": "backend/game/zone.go",
+        "start": 201,
+        "supplied_end": 212,
+        "source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+        "truncated": false
+      }
+    ],
+    "only_read_only_tools": true,
+    "checkout_clean": true,
+    "final_answer_present": true
+  },
+  {
+    "verified_answer_citations": [
+      "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:put_counter_and_draw_card"
+    ],
+    "trial": "primitive",
+    "timing": {
+      "exit_code": 0,
+      "wall_seconds": 142.746,
+      "revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+      "checkout_status": "",
+      "command": [
+        "goose",
+        "run",
+        "--instructions",
+        "/data/magic-stack/development/magic-ops/docs/benchmarks/goose-qwen-2026-09-20/database-tools/primitive.prompt.txt",
+        "--no-profile",
+        "--with-extension",
+        "card-knowledge:python3 /data/magic-stack/development/magic-ops/scripts/kb-mcp-server.py",
+        "--name",
+        "database-tools-primitive",
+        "--max-turns",
+        "10",
+        "--output-format",
+        "stream-json",
+        "--stats"
+      ]
+    },
+    "input_tokens": 15186,
+    "output_tokens": 2816,
+    "cache_read_tokens": 11884,
+    "model_requests": 5,
+    "tool_calls": 8,
+    "tools_used": [
+      "card-knowledge__check_capability",
+      "card-knowledge__find_capability",
+      "card-knowledge__read_source",
+      "card-knowledge__similar_handlers"
+    ],
+    "verified_source": [
+      {
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:put_counter_and_draw_card",
+        "path": "backend/game/ability_effects.go",
+        "start": 10313,
+        "supplied_end": 10320,
+        "source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+        "truncated": false
+      }
+    ],
+    "only_read_only_tools": true,
+    "checkout_clean": true,
+    "final_answer_present": true
+  },
+  {
+    "verified_answer_citations": [
+      "backend/game/ability_effects.go::game.GameState.executeDrawEffect",
+      "backend/game/gamestate.go::game.GameState.DrawCardsWithEvent",
+      "backend/game/gamestate.go::game.GameState.DrawCardWithEvent",
+      "backend/game/player.go::game.Player.DrawCard",
+      "backend/game/zone.go::game.Zone.DrawCard"
+    ],
+    "trial": "engine-refined",
+    "timing": {
+      "exit_code": 0,
+      "wall_seconds": 148.657,
+      "revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+      "checkout_status": "",
+      "command": [
+        "goose",
+        "run",
+        "--instructions",
+        "/data/magic-stack/development/magic-ops/docs/benchmarks/goose-qwen-2026-09-20/database-tools/engine-refined.prompt.txt",
+        "--no-profile",
+        "--with-extension",
+        "card-knowledge:python3 /data/magic-stack/development/magic-ops/scripts/kb-mcp-server.py",
+        "--name",
+        "database-tools-engine-refined",
+        "--max-turns",
+        "10",
+        "--output-format",
+        "stream-json",
+        "--stats"
+      ]
+    },
+    "input_tokens": 26654,
+    "output_tokens": 2863,
+    "cache_read_tokens": 20892,
+    "model_requests": 6,
+    "tool_calls": 11,
+    "tools_used": [
+      "card-knowledge__find_capability",
+      "card-knowledge__read_source"
+    ],
+    "verified_source": [
+      {
+        "symbol_id": "backend/game/zone.go::game.Zone.DrawCard",
+        "path": "backend/game/zone.go",
+        "start": 201,
+        "supplied_end": 212,
+        "source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+        "truncated": false
+      },
+      {
+        "symbol_id": "backend/game/gamestate.go::game.GameState.DrawCardWithEvent",
+        "path": "backend/game/gamestate.go",
+        "start": 8931,
+        "supplied_end": 8964,
+        "source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+        "truncated": false
+      },
+      {
+        "symbol_id": "backend/game/player.go::game.Player.DrawCard",
+        "path": "backend/game/player.go",
+        "start": 1982,
+        "supplied_end": 1990,
+        "source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+        "truncated": false
+      },
+      {
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.executeDrawEffect",
+        "path": "backend/game/ability_effects.go",
+        "start": 16301,
+        "supplied_end": 16335,
+        "source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+        "truncated": false
+      },
+      {
+        "symbol_id": "backend/game/gamestate.go::game.GameState.DrawCardsWithEvent",
+        "path": "backend/game/gamestate.go",
+        "start": 8993,
+        "supplied_end": 9000,
+        "source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+        "truncated": false
+      }
+    ],
+    "only_read_only_tools": true,
+    "checkout_clean": true,
+    "final_answer_present": true
+  }
+]

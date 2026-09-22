@@ -1,0 +1,71 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-map-plan-grant-eot-iron-man-armored-avenger-a68fc51222-v1-0hrrf_s1",
+    "candidate_commit": "48f81fd3f75899c7a9eaa2e441a7cc5aca5a2147",
+    "mode": "isolated_clone_observation_only",
+    "model_exit_code": 0,
+    "packet_sha256": "sha256:e6520f0089c08ddcb449e153866143eea356c1d57df95b1520423d9756ca1f20",
+    "source_revision": "48f81fd3f75899c7a9eaa2e441a7cc5aca5a2147",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "command": "scripts/map-pipeline-apply.py",
+      "detail": "no edit blocks and no verdict found in model output",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "command": "scripts/map-pipeline-apply.py",
+      "detail": "no edit blocks and no verdict found in model output",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "qwen-prepared-direct@1.0.2",
+    "resolved_model": "Qwen3.8-27B-Q8_0",
+    "telemetry": {
+      "bounded_repair_attempted": true,
+      "cache_read_tokens": 6829,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 559248,
+      "input_tokens": 15769,
+      "output_tokens": 4000,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local provider does not report cost"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "local adapter disables thinking"
+      }
+    },
+    "worker": "qwen-local"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed_model_protocol",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-01T191803Z-map-plan-grant-eot-iron-man-armored-avenger-a68fc51222-v1-qwen.raw.txt",
+      "sha256": "sha256:88fd7235c86a038784c8208c9e3b818e9c2d71d3c93ee3507e5ed043548e3e79"
+    },
+    {
+      "kind": "bounded_repair",
+      "path": "docs/factory-ng/runs/2026-09-01T191803Z-map-plan-grant-eot-iron-man-armored-avenger-a68fc51222-v1-qwen.repair.raw.txt",
+      "sha256": "sha256:3826cba91d225a6b33141a28bfa7c65067ba49b43a2d58f82e1fde8971c42a4f"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "ticket": {
+    "id": "ticket:map.plan-grant-eot-iron-man-armored-avenger-a68fc51222/v1",
+    "path": "docs/factory-ng/tickets/map-plan-grant-eot-iron-man-armored-avenger-a68fc51222-v1.json",
+    "sha256": "sha256:028e5f6905fb5ee6a8f70e2bdacf86467a0b50c20c8c592c8a44f1a7215aced5"
+  }
+}

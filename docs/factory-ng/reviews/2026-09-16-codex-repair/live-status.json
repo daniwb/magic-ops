@@ -1,0 +1,182 @@
+{
+  "checked_at": "2026-09-16T16:16:36.154058+00:00",
+  "counts": {
+    "failed": 7,
+    "completed": 1,
+    "working": 2,
+    "integration_failed": 1,
+    "awaiting_verification": 1,
+    "parked": 1,
+    "awaiting_integration": 1
+  },
+  "jobs": [
+    {
+      "ticket_id": "ticket:engine.auto-active-damage-receiver-type-gate-3b7d9305ad/v2",
+      "state": "failed",
+      "attempts": 2,
+      "worker": "codex-4",
+      "model": "gpt-5.6-luna",
+      "outcome": "infrastructure_failed_provider_capacity",
+      "receipt": "docs/factory-ng/runs/2026-09-16T155746Z-engine-auto-active-damage-receiver-type-gate-3b7d9305ad-v2-codex.json",
+      "integration_receipt": null,
+      "waiting_reason": null,
+      "review_admitted": true
+    },
+    {
+      "ticket_id": "ticket:engine.auto-become-creature-with-pt-and-keywords-until-eot-0ace9f1b94/v1",
+      "state": "failed",
+      "attempts": 3,
+      "worker": "codex",
+      "model": "gpt-5.6-luna",
+      "outcome": "infrastructure_failed",
+      "receipt": "docs/factory-ng/runs/2026-09-16T155813Z-engine-auto-become-creature-with-pt-and-keywords-until-eot-0ace9f1b94-v1-codex.json",
+      "integration_receipt": null,
+      "waiting_reason": null,
+      "review_admitted": true
+    },
+    {
+      "ticket_id": "ticket:engine.auto-counter-target-creature-spell-78cf9b4a60/v2",
+      "state": "completed",
+      "attempts": 2,
+      "worker": "codex-2",
+      "model": "gpt-5.6-luna",
+      "outcome": "pushed_full_production_gate_green",
+      "receipt": "docs/factory-ng/runs/2026-09-16T160313Z-focused-b416aad2808949689bd26070b8c6ac3f-0.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-16T160539Z-engine-auto-counter-target-creature-spell-78cf9b4a60-v2-1789574739967553127-integration.json",
+      "waiting_reason": null,
+      "review_admitted": true
+    },
+    {
+      "ticket_id": "ticket:engine.auto-flying-attacking-or-blocking-target-628d6120f2/v1",
+      "state": "failed",
+      "attempts": 2,
+      "worker": "codex",
+      "model": "gpt-5.6-luna",
+      "outcome": "infrastructure_failed_provider_capacity",
+      "receipt": "docs/factory-ng/runs/2026-09-16T160229Z-engine-auto-flying-attacking-or-blocking-target-628d6120f2-v1-codex.json",
+      "integration_receipt": null,
+      "waiting_reason": null,
+      "review_admitted": true
+    },
+    {
+      "ticket_id": "ticket:engine.auto-prevent-combat-damage-from-attacking-creatures-0e1e73d55a/v3",
+      "state": "failed",
+      "attempts": 3,
+      "worker": "codex",
+      "model": "gpt-5.6-luna",
+      "outcome": "gate_failed",
+      "receipt": "docs/factory-ng/runs/2026-09-16T160256Z-engine-auto-prevent-combat-damage-from-attacking-creatures-0e1e73d55a-v3-codex.json",
+      "integration_receipt": null,
+      "waiting_reason": null,
+      "review_admitted": true
+    },
+    {
+      "ticket_id": "ticket:engine.auto-register-untap-up-to-literal-count-effect-af5116bc30/v1",
+      "state": "working",
+      "attempts": 2,
+      "worker": "codex-4",
+      "model": "gpt-5.6-terra",
+      "outcome": null,
+      "receipt": "docs/factory-ng/runs/2026-09-16T073501Z-engine-auto-register-untap-up-to-literal-count-effect-af5116bc30-v1-codex.json",
+      "integration_receipt": null,
+      "waiting_reason": null,
+      "review_admitted": true
+    },
+    {
+      "ticket_id": "ticket:engine.auto-remove-counter-at-end-of-combat-0a0868121b/v1",
+      "state": "integration_failed",
+      "attempts": 3,
+      "worker": "codex-3",
+      "model": "gpt-5.6-terra",
+      "outcome": "candidate_conflict",
+      "receipt": "docs/factory-ng/runs/2026-09-16T160901Z-focused-e13c71cc657342b497bd863933677352-0.json",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-16T161159Z-engine-auto-remove-counter-at-end-of-combat-0a0868121b-v1-1789575119050596417-integration.json",
+      "waiting_reason": "Patch saved without acceptance; awaiting focused verification.",
+      "review_admitted": true
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-lesser-toughness-filter-cfeba54e07/v3",
+      "state": "working",
+      "attempts": 2,
+      "worker": "codex-2",
+      "model": "gpt-5.6-terra",
+      "outcome": null,
+      "receipt": "docs/factory-ng/runs/2026-09-16T053442Z-engine-auto-return-from-graveyard-lesser-toughness-filter-cfeba54e07-v3-codex.json",
+      "integration_receipt": null,
+      "waiting_reason": null,
+      "review_admitted": true
+    },
+    {
+      "ticket_id": "ticket:engine.auto-tap-or-untap-attached-choice-7e9017ab8c/v1",
+      "state": "failed",
+      "attempts": 2,
+      "worker": "codex-3",
+      "model": "gpt-5.6-luna",
+      "outcome": "infrastructure_failed_provider_capacity",
+      "receipt": "docs/factory-ng/runs/2026-09-16T160329Z-engine-auto-tap-or-untap-attached-choice-7e9017ab8c-v1-codex.json",
+      "integration_receipt": null,
+      "waiting_reason": null,
+      "review_admitted": true
+    },
+    {
+      "ticket_id": "ticket:engine.auto-tap-preceding-mass-damage-referent-38d1cb4ec9/v1",
+      "state": "awaiting_verification",
+      "attempts": 2,
+      "worker": "codex",
+      "model": "gpt-5.6-terra",
+      "outcome": null,
+      "receipt": "docs/factory-ng/runs/2026-09-16T070204Z-engine-auto-tap-preceding-mass-damage-referent-38d1cb4ec9-v1-codex.json",
+      "integration_receipt": null,
+      "waiting_reason": "verification slot is occupied or reserved for integration",
+      "review_admitted": true
+    },
+    {
+      "ticket_id": "ticket:engine.auto-target-attacking-alone-creature-edef446e2c/v2",
+      "state": "parked",
+      "attempts": 2,
+      "worker": "codex-2",
+      "model": "gpt-5.6-terra",
+      "outcome": "parked",
+      "receipt": "docs/factory-ng/runs/2026-09-16T160910Z-engine-auto-target-attacking-alone-creature-edef446e2c-v2-codex.json",
+      "integration_receipt": null,
+      "waiting_reason": null,
+      "review_admitted": true
+    },
+    {
+      "ticket_id": "ticket:engine.auto-target-player-graveyard-filtered-exile-count-2e44bf1a94/v2",
+      "state": "awaiting_integration",
+      "attempts": 3,
+      "worker": "codex",
+      "model": "gpt-5.6-terra",
+      "outcome": "accepted_for_dependent_observation",
+      "receipt": "docs/factory-ng/runs/2026-09-16T161544Z-focused-280226391c4049a783b8f6b670590936-0.json",
+      "integration_receipt": null,
+      "waiting_reason": "Patch saved without acceptance; awaiting focused verification.",
+      "review_admitted": true
+    },
+    {
+      "ticket_id": "ticket:engine.auto-untap-target-attached-b1b7838292/v1",
+      "state": "failed",
+      "attempts": 2,
+      "worker": "codex-2",
+      "model": "gpt-5.6-luna",
+      "outcome": "gate_failed",
+      "receipt": "docs/factory-ng/runs/2026-09-16T160329Z-engine-auto-untap-target-attached-b1b7838292-v1-codex.json",
+      "integration_receipt": null,
+      "waiting_reason": null,
+      "review_admitted": true
+    },
+    {
+      "ticket_id": "ticket:map.plan-exile-scarab-feast-d952117a2a/v5",
+      "state": "failed",
+      "attempts": 2,
+      "worker": "codex-4",
+      "model": "gpt-5.6-luna",
+      "outcome": "infrastructure_failed_provider_capacity",
+      "receipt": "docs/factory-ng/runs/2026-09-16T160329Z-map-plan-exile-scarab-feast-d952117a2a-v5-codex.json",
+      "integration_receipt": null,
+      "waiting_reason": null,
+      "review_admitted": true
+    }
+  ]
+}

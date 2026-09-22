@@ -1,0 +1,20 @@
+{
+  "ticket_id": "ticket:engine.auto-counter-target-creature-spell-78cf9b4a60/v2",
+  "codex_receipt": "docs/factory-ng/runs/2026-09-16T104611Z-engine-auto-counter-target-creature-spell-78cf9b4a60-v2-codex.json",
+  "codex_receipt_sha256": "sha256:f822289652f122e6b3612fc423b52e6d245a10733227c717c9e4e79be80406a2",
+  "current_receipt": "docs/factory-ng/runs/2026-09-16T104611Z-engine-auto-counter-target-creature-spell-78cf9b4a60-v2-codex.json",
+  "current_receipt_sha256": "sha256:f822289652f122e6b3612fc423b52e6d245a10733227c717c9e4e79be80406a2",
+  "initial_gates": [
+    {
+      "detail": "backend/game/targeting.go: SEARCH text not found (must be copied verbatim, no line numbers)\n",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "correction": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged."
+}

@@ -1,0 +1,45 @@
+diff --git a/backend/cards/registry_factory_ng_7b6fc522b0.go b/backend/cards/registry_factory_ng_7b6fc522b0.go
+new file mode 100644
+index 000000000..2d46827ea
+--- /dev/null
++++ b/backend/cards/registry_factory_ng_7b6fc522b0.go
+@@ -0,0 +1,8 @@
++package cards
++
++func init() {
++	regEffect("freeze_until_next_untap", Primitive{
++		Executor:  "game/ability_effects.go case \"freeze_until_next_untap\" -> Card.SkipNextUntap (exert flag, Rule 701.39; consumed+cleared by Zone.UntapAll)",
++		ShapeTest: "TestFactoryNGFreezeUntilNextUntap_7b6fc522b0",
++	})
++}
+diff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go
+index 217a03ac8..fe3b8de4e 100644
+--- a/backend/game/ability_effects.go
++++ b/backend/game/ability_effects.go
+@@ -8849,6 +8849,26 @@ func (gs *GameState) ExecuteAbilityEffect(stackObj *StackObject) error {
+ 		}
+ 		return nil
+ 	}
++	// freeze_until_next_untap primitive (ticket engine.auto-freeze-until-next-untap-7b6fc522b0/v1):
++	// Marks a targeted permanent so that it does not untap during its controller's next untap step.
++	// It reuses the existing Card.SkipNextUntap field, which is a one-shot flag
++	// (Rule 701.39) consumed and cleared by Zone.UntapAll.
++	// This ensures the freeze is strictly duration-bound to the next untap step.
++	// Repeated applications before the next untap step will not extend the duration,
++	// satisfying the negative example requirement.
++	if effect == "freeze_until_next_untap" {
++		for _, tgt := range targets {
++			if !tgt.IsCard {
++				continue
++			}
++			card, err := gs.Battlefield.GetCard(tgt.CardID)
++			if err != nil || card == nil {
++				continue
++			}
++			card.SkipNextUntap = true
++		}
++		return nil
++	}
+ 	// tap_referent_doesnt_untap primitive (ticket engine.auto-prevent-untap-
+ 	// until-next-untap, REPARSE-MAP verb_unmapped:tap / "tap that creature
+ 	// and it doesn't untap during its controller's next untap step" family

@@ -1,0 +1,88 @@
+{
+  "capability": {
+    "expected_unlock": 0,
+    "negative_examples": [
+      "put_counters with a static integer amount (e.g., put two +1/+1 counters on target creature)",
+      "put_counters amount equal to a raw, unmultiplied zone count (e.g., X = number of creatures you control) if such a shape is already supported"
+    ],
+    "required_behavior": "ExecuteEffectSequence must mill before EvalDynamicAmountFull counts own graveyard creatures; executePutCounterEffect must preserve the resolved zero. Reuse put_counters value.amount_count={count:times,factor:2,of:{count:graveyard,card_type:creature,whose:you}} with target_self=true after mill value={amount:3,self:true}. Two creature cards give four counters; zero and unknown count give none. Omitted static amount remains one; monstrosity zero still changes its designation.",
+    "source_misses": [
+      {
+        "card": "Siegfried, Famed Swordsman",
+        "oracle_text_sha256": "8c9ea168c8a61d177d61f1e216b6815aeb32f5b741d8fd696524a6ab2e41f8f0",
+        "paragraph": "When Siegfried enters, mill three cards. Then put X +1/+1 counters on Siegfried, where X is twice the number of creature cards in your graveyard.",
+        "required_behavior": "put X +1/+1 counters on Siegfried, where X is twice the number of creature cards in your graveyard, computed dynamically when the trigger resolves (after the preceding mill three cards has updated the graveyard)"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "fact": "Immutable predecessor. This successor corrects its implementation premise and scope using the behavior audit.",
+      "path": "docs/factory-ng/tickets/engine-auto-put-counters-dynamic-zone-count-amount-c03e4c4218-v1.json"
+    },
+    {
+      "fact": "Source and public-path evidence for this correction; old nearest-match line anchors are not carried forward.",
+      "path": "docs/factory-ng/reviews/2026-09-08-throughput/fts5-miss-audit.md"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "Operator-authorized audited repair; preserve model-neutral contract and ordinary integration gates.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "cd backend && go test ./game ./cards -run '^TestShape_Audited(MillCounterAmounts|MonstrosityZero)$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.auto-put-counters-dynamic-zone-count-amount-c03e4c4218/v2",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Retain failed gate evidence; repair the demonstrated defect without weakening acceptance.",
+  "parents": [
+    "ticket:map.plan-put-counters-siegfried-famed-swordsman-77e58aca02/v1",
+    "ticket:engine.auto-put-counters-dynamic-zone-count-amount-c03e4c4218/v1"
+  ],
+  "production": {
+    "key": "capability:put_counters_dynamic_zone_count_amount:sha256:c03e4c4218142b698428044a0f14d26720a21fe65d8d764abb82ad86bb11adce:audited-correction-20260908",
+    "producer": "capability-dependencies",
+    "retry_reason": "operator_audited_contract_correction"
+  },
+  "required_behavior": [
+    "ExecuteEffectSequence must mill before EvalDynamicAmountFull counts own graveyard creatures; executePutCounterEffect must preserve the resolved zero. Reuse put_counters value.amount_count={count:times,factor:2,of:{count:graveyard,card_type:creature,whose:you}} with target_self=true after mill value={amount:3,self:true}. Two creature cards give four counters; zero and unknown count give none. Omitted static amount remains one; monstrosity zero still changes its designation.",
+    "Add the public-path regression tests selected by ^TestShape_Audited(MillCounterAmounts|MonstrosityZero)$. No parser/card-name exceptions. Full integration gates and dependent Map verification remain required."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/shape_audited_counter_amounts_test.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "clean": true,
+    "repository": "/opt/development/test/openmagic",
+    "revision": "6642351731e0c336cd220a861dd14fc212e7d192"
+  },
+  "supersedes": "ticket:engine.auto-put-counters-dynamic-zone-count-amount-c03e4c4218/v1",
+  "title": "Audited correction: Preserve zero in dynamic counter amounts",
+  "work_type": "engine"
+}

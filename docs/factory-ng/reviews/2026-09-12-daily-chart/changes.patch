@@ -1,0 +1,109 @@
+--- a/services/dispatcher/v4/dashboard.html
++++ b/services/dispatcher/v4/dashboard.html
+@@ -25,6 +25,7 @@
+ dialog{width:min(920px,calc(100vw - 28px));max-height:88vh;padding:0;border:1px solid #3a5062;border-radius:14px;background:#111922;color:var(--ink);box-shadow:0 24px 90px #000b}dialog::backdrop{background:#02060acc;backdrop-filter:blur(5px)}.modal-head{display:flex;align-items:flex-start;gap:12px;padding:17px 19px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#111922;z-index:2}.modal-title{flex:1;min-width:0}.modal-title strong{display:block;font-size:16px;overflow-wrap:anywhere}.modal-close{font-size:18px;background:transparent;border:0;padding:2px 7px}.tabs{display:flex;gap:4px;padding:10px 18px 0}.tab{background:transparent;border-color:transparent;color:var(--muted)}.tab.selected{color:var(--accent);border-color:var(--line);background:#17232d}.modal-body{padding:16px 19px 22px;overflow:auto;max-height:calc(88vh - 112px)}.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:9px}.summary-item{border:1px solid var(--line);border-radius:8px;padding:10px;background:#0e171f}.summary-item .label{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}.summary-item .value{margin-top:3px;overflow-wrap:anywhere}.gate{border:1px solid var(--line);border-radius:9px;padding:11px;margin-bottom:8px}.gate-head{display:flex;justify-content:space-between;gap:8px}.gate pre,.json-view{white-space:pre-wrap;overflow-wrap:anywhere;color:#b5c1ca;font:11px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;margin:9px 0 0}.json-view{margin:0;background:#0b1219;border:1px solid var(--line);border-radius:9px;padding:13px}.error{color:var(--bad)}
+ .dag-col,.dag-node,.grid>section{min-width:0}.dag-toolbar{min-width:0;flex-wrap:wrap}.dag-toolbar input{min-width:0;max-width:100%;color:var(--ink);background:#0e171f;border:1px solid var(--line);border-radius:7px;padding:7px 8px}.dag-toolbar select{min-width:0;max-width:100%}
+ @media(max-width:760px){.section-head{flex-wrap:wrap}.dag-toolbar{width:100%}.dag-toolbar input,.dag-toolbar select{width:100%}.dag{grid-template-columns:minmax(0,1fr)}}
++.daily-head{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.daily-metrics{display:flex;gap:24px;flex-wrap:wrap}.daily-metrics strong{font-size:22px;color:var(--accent);display:block}.daily-metrics span{font-size:11px;color:var(--muted)}.daily-chart-scroll{overflow-x:auto;margin-top:8px}.daily-chart{display:block;width:100%;min-width:1040px;height:auto}.daily-chart text{font:11px ui-monospace,SFMono-Regular,Menlo,monospace;fill:var(--muted)}.daily-chart .value-label{fill:var(--ink);font-weight:700}.daily-grid{stroke:var(--line);stroke-width:1}.daily-goal{stroke:var(--warn);stroke-width:1.5;stroke-dasharray:6 4}.daily-chart .goal-label{fill:var(--warn);font-size:10px}.daily-bar{fill:var(--accent);opacity:.8;rx:4}.daily-day.below .daily-bar{fill:var(--warn)}.daily-day.negative .daily-bar{fill:var(--bad)}.daily-day.today .daily-bar{fill:var(--blue);stroke:var(--blue);stroke-dasharray:4 3;fill-opacity:.3}.daily-day{cursor:pointer;outline:none}.daily-day:hover .daily-bar,.daily-day:focus .daily-bar,.daily-day.selected .daily-bar{opacity:1;stroke:var(--ink);stroke-width:2}.daily-day:focus .daily-hit{stroke:var(--ink);stroke-width:1}.daily-detail{border:1px solid var(--line);border-radius:9px;background:var(--panel2);padding:12px 14px;margin-top:8px;min-height:88px}.daily-detail strong{display:block;margin-bottom:5px}.daily-detail ul{margin:8px 0 0;padding-left:18px;color:var(--muted);font-size:11px}.daily-detail p{margin:0}.daily-history-note{margin-top:9px;font-size:11px;color:var(--muted)}.daily-explanations{margin-top:12px}.daily-explanations summary{cursor:pointer;color:var(--muted);font-size:12px}.daily-explanations .scroll{margin-top:12px;max-height:320px}.daily-explanations td:last-child{min-width:270px}.daily-explanations td:first-child{white-space:nowrap}
+ </style>
+ </head>
+ <body>
+@@ -42,6 +43,13 @@
+     <div class="kpi"><div class="label">Integration waves</div><div class="value mono" id="integrations">—</div><div class="hint">full production gate records</div></div>
+     <div class="kpi" id="problemKpi"><div class="label">Unresolved ticket failures</div><div class="value mono" id="problems">0</div><div class="hint" id="problemHint">no unresolved ticket failures</div></div>
+   </div>
++  <section id="dailyActivationsPanel" aria-labelledby="dailyActivationsTitle">
++    <div class="daily-head"><div><h2 id="dailyActivationsTitle">Daily card activations</h2><span class="muted tiny">14 completed days + today · UTC · select a bar for reasons · scroll for all days</span></div><div class="daily-metrics" id="dailyMetrics"></div></div>
++    <div class="daily-chart-scroll" id="dailyChart"><span class="muted">Loading daily activations…</span></div>
++    <div class="daily-detail hidden" id="dailyDetail" aria-live="polite"></div>
++    <div class="daily-history-note" id="dailyHistoryNote">Daily target: 100 cards. Net increase in enabled cards; today is still in progress.</div>
++    <details class="daily-explanations"><summary>All daily explanations</summary><div class="scroll"><table><thead><tr><th>Day (UTC)</th><th class="right">Cards</th><th>Explanation</th></tr></thead><tbody id="dailyReasonRows"></tbody></table></div></details>
++  </section>
+   <section>
+     <div class="run-head"><div class="run-symbol" id="runSymbol">▶</div><div class="run-copy"><strong id="runState">Loading factory…</strong><span id="runMessage" class="muted tiny"></span></div><span class="health" id="healthBadge">checking</span><div class="controls"><button id="startFactory" onclick="factoryControl('start')">▶ Start</button><button id="stopFactory" onclick="factoryControl('stop')">■ Stop</button></div></div>
+     <div class="flow" id="flow"></div><div class="cache-maintenance" id="cacheMaintenance"></div><div class="process-grid" id="processGrid"><span class="muted">Loading processes…</span></div>
+@@ -58,7 +66,7 @@
+     <div class="section-head"><div class="section-title"><h2>Work in motion</h2><span class="muted tiny">expected rejections are not system failures</span></div><div class="filters" id="workFilters"></div></div><div class="work-list" id="workList"></div><div id="jobsPager" style="margin-top:12px"></div>
+   </section>
+   <div class="grid">
+-    <section><div class="section-head"><h2>Card progress</h2><span class="muted tiny">current carddb truth</span></div><div class="bar" id="cardBar"></div><div class="legend" id="cardLegend"></div><div class="muted tiny" style="margin-top:10px">The daily delta is measured from 15-minute snapshots. Only cards changing from review to auto count as newly enabled.</div></section>
++    <section><div class="section-head"><h2>Card progress</h2><span class="muted tiny">current carddb truth</span></div><div class="bar" id="cardBar"></div><div class="legend" id="cardLegend"></div><div class="muted tiny" style="margin-top:10px">The 24-hour KPI uses sampled card counts. The daily chart uses committed day-end counts with UTC boundaries.</div></section>
+     <section><div class="section-head"><h2>Integration waves</h2><span class="muted tiny">click for gates and JSON</span></div><div class="scroll"><table><thead><tr><th>Outcome</th><th>Commit</th><th>Source</th></tr></thead><tbody id="integrationRows"></tbody></table></div><div id="integrationsPager" style="margin-top:12px"></div></section>
+   </div>
+   <details class="advanced"><summary>Worker settings</summary><div><div id="workers"></div><p class="muted tiny">Settings apply to the next compatible ticket. Usage gates can defer a paid worker without stopping local Qwen work.</p></div></details>
+@@ -71,6 +79,55 @@
+ </dialog>
+ <script>
+ const $=s=>document.querySelector(s),fmt=n=>Number(n||0).toLocaleString(),esc=s=>String(s??'—').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
++let dailyData=null,dailySelected=null;
++function dailyDate(day){const parts=day.split('-');return parts[2]+'.'+parts[1]}
++function dailySigned(value){return value===null?'—':(value>0?'+':'')+fmt(value)}
++function selectDaily(index){
++  if(!dailyData?.rows?.[index])return;
++  const row=dailyData.rows[index],reason=row.reason||{},value=row.net_activated;
++  dailySelected=row.date_utc;
++  const status=row.partial_day?'Today · in progress':value===null?'Not measured':value<100?`${fmt(100-value)} below target`:value>=150?'Well above target': 'Target reached';
++  $('#dailyDetail').classList.remove('hidden');
++  $('#dailyDetail').innerHTML=`<strong>${esc(row.date_utc)} · ${dailySigned(value)} cards <span class="badge ${row.partial_day?'blue':value<100?'warn':'good'}">${esc(status)}</span></strong><p>${esc(reason.text||'No verified explanation is available.')}</p>${reason.evidence?.length?'<ul>'+reason.evidence.map(e=>`<li>${esc(e)}</li>`).join('')+'</ul>':''}${reason.operator_note_source?`<div class="muted tiny" style="margin-top:6px">Includes a documented operator review.</div>`:''}`;
++  document.querySelectorAll('.daily-day').forEach((el,i)=>el.classList.toggle('selected',i===index));
++}
++function renderDailyActivations(data){
++  const firstLoad=!dailyData;dailyData=data;
++  const rows=data.rows||[],summary=data.summary||{};
++  if(!rows.length)throw new Error('No daily history available');
++  const known=rows.filter(r=>r.net_activated!==null),values=known.map(r=>r.net_activated),goal=data.target_per_day||100;
++  const low=Math.min(0,...values),high=Math.ceil(Math.max(goal,...values,1)/50)*50;
++  const W=1040,H=255,left=48,right=88,top=30,bottom=43,plotH=H-top-bottom,step=(W-left-right)/rows.length;
++  const y=n=>top+(high-n)/(high-low||1)*plotH,zero=y(0);
++  let svg=`<svg class="daily-chart" viewBox="0 0 ${W} ${H}" role="group" aria-label="Daily net card activations, target ${goal} cards per day">`;
++  for(const tick of [...new Set([low,0,high])])svg+=`<line class="daily-grid" x1="${left}" y1="${y(tick)}" x2="${W-right}" y2="${y(tick)}"/><text x="${left-9}" y="${y(tick)+4}" text-anchor="end">${fmt(tick)}</text>`;
++  svg+=`<line class="daily-goal" x1="${left}" y1="${y(goal)}" x2="${W-right}" y2="${y(goal)}"/><text class="goal-label" x="${W-right+7}" y="${y(goal)+4}">Goal ${goal}</text>`;
++  rows.forEach((row,i)=>{
++    const value=row.net_activated,x=left+i*step+step*.2,bw=step*.6,barY=value===null?zero:Math.min(y(value),zero),barH=value===null?0:Math.abs(y(value)-zero);
++    const tone=row.partial_day?'today':value<0?'negative':value<goal?'below':'';
++    const label=`${row.date_utc}: ${value===null?'not measured':value+' net activations'}${row.partial_day?', day in progress':''}`;
++    svg+=`<g class="daily-day ${tone}" tabindex="0" role="button" aria-label="${esc(label)}" onclick="selectDaily(${i})" onfocus="selectDaily(${i})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectDaily(${i})}"><title>${esc(label)}. ${esc(row.reason?.text||'')}</title><rect class="daily-hit" x="${left+i*step+2}" y="${top-20}" width="${step-4}" height="${plotH+bottom+10}" fill="transparent"/><rect class="daily-bar" x="${x}" y="${barY}" width="${bw}" height="${value===null?0:Math.max(barH,2)}"/><text class="value-label" x="${x+bw/2}" y="${value!==null&&value<0?y(value)+15:barY-7}" text-anchor="middle">${value===null?'—':fmt(value)}</text><text x="${x+bw/2}" y="${H-20}" text-anchor="middle">${dailyDate(row.date_utc)}</text>${row.partial_day?`<text x="${x+bw/2}" y="${H-5}" text-anchor="middle">today</text>`:''}</g>`;
++  });
++  $('#dailyChart').innerHTML=svg+'</svg>';
++  if(firstLoad){const scroll=$('#dailyChart');scroll.scrollLeft=scroll.scrollWidth-scroll.clientWidth;}
++  const n=summary.completed_days||0,today=rows.find(r=>r.partial_day);
++  $('#dailyMetrics').innerHTML=`<div><strong>${n?dailySigned(summary.total_net):'—'}</strong><span>${n}/${data.days||14} completed days</span></div><div><strong>${summary.average_per_day===null?'—':Number(summary.average_per_day).toLocaleString(undefined,{maximumFractionDigits:1})}</strong><span>cards / completed day</span></div><div><strong>${dailySigned(today?.net_activated??null)}</strong><span>today · not in average</span></div>`;
++  const age=Date.now()-Date.parse(data.generated_at),stamp=new Date(data.generated_at).toLocaleTimeString(undefined,{timeZone:'UTC',hour:'2-digit',minute:'2-digit'});
++  $('#dailyHistoryNote').textContent=`Goal: 100/day · explanations below 100 and from 150 · net enabled cards, not deployments · updated ${stamp} UTC${age>12*60*1000?' · refresh delayed':''}`;
++  $('#dailyHistoryNote').classList.toggle('error',age>12*60*1000);
++  $('#dailyReasonRows').innerHTML=rows.map((r,i)=>`<tr><td><button class="link" onclick="selectDaily(${i})">${esc(r.date_utc)}${r.partial_day?' (today)':''}</button></td><td class="right mono">${dailySigned(r.net_activated)}</td><td>${esc(r.reason?.text||'No verified explanation available.')}</td></tr>`).join('');
++  const selected=rows.findIndex(r=>r.date_utc===dailySelected);
++  selectDaily(selected>=0?selected:rows.length-1);
++}
++async function refreshDailyActivations(){
++  try{
++    const r=await fetch('/factory-ng/daily-activations',{signal:AbortSignal.timeout(15000)});
++    if(!r.ok)throw new Error('Daily history unavailable');
++    const data=await r.json();if(data.error||!data.generated_at)throw new Error(data.error||'Daily history is preparing');
++    renderDailyActivations(data);
++  }catch(e){$('#dailyHistoryNote').textContent='Daily activation history unavailable; retrying automatically.';$('#dailyHistoryNote').classList.add('error');if(!dailyData)$('#dailyChart').innerHTML='<span class="muted">Daily history is being prepared.</span>';}
++}
++
+ let view={cards:null,status:{},workers:{},data:{},limits:{}},focusId='',workFilter='active';
+ let offsets={jobs:0,attempts:0,integrations:0},dataRequest=null,refreshing=false,searchTimer=null;
+ function searchTickets(){clearTimeout(searchTimer);searchTimer=setTimeout(()=>refreshData(),250)}
+@@ -142,7 +199,7 @@
+ }
+ function showTab(name){document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('selected',x.dataset.tab===name));$('#tabSummary').classList.toggle('hidden',name!=='summary');$('#tabGates').classList.toggle('hidden',name!=='gates');$('#tabJson').classList.toggle('hidden',name!=='json')}function closeDetail(){$('#detailModal').close()}function backdropClose(e){if(e.target===$('#detailModal'))closeDetail()}document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#detailModal').open)closeDetail()});
+ async function refreshData(){if(dataRequest)dataRequest.abort();const request=new AbortController();dataRequest=request;const q=new URLSearchParams({filter:workFilter,focus:focusId,search:$('#ticketSearch').value,attempts:$('#attemptsPanel').open?'1':'0',jobs_offset:offsets.jobs,attempts_offset:offsets.attempts,integrations_offset:offsets.integrations});try{const r=await fetch('/factory-ng/data?'+q,{signal:request.signal});if(!r.ok)throw new Error(await r.text());const data=await r.json();if(dataRequest!==request)return;view.data=data;const tickets=data.tickets||[];$('#focusTicket').innerHTML=tickets.map(t=>`<option value="${esc(t.id)}">${esc(t.id)}</option>`).join('');focusId=data.focus;renderDependencyGraph(focusId);renderWork();renderIntegrations();renderAttempts();['jobs','attempts','integrations'].forEach(renderPager);if(view.status.state)renderRun();const age=Math.max(0,Math.round((Date.now()-Date.parse(data.indexed_at))/1000));$('#dataFreshness').textContent='History updated '+age+'s ago'+(data.invalid_files?.length?' · '+data.invalid_files.length+' unreadable source records':'');$('#dataFreshness').className=age>60||data.invalid_files?.length?'error tiny':'muted tiny'}catch(e){if(e.name!=='AbortError'){$('#dataFreshness').textContent='History unavailable: '+e.message;$('#dataFreshness').className='error tiny'}}finally{if(dataRequest===request)dataRequest=null}}
+-async function refresh(){if(refreshing)return;refreshing=true;const failures=[];try{await Promise.allSettled([refreshData(),...['cards','status','workers','limits'].map(async key=>{try{const r=await fetch('/factory-ng/'+key,{signal:AbortSignal.timeout(25000)});if(!r.ok)throw new Error(r.status);view[key]=await r.json();if(key==='cards')renderCards();if(key==='status'){renderOperatorNotice();renderCacheMaintenance()}if(key==='workers')renderWorkers();if(key==='limits'||key==='workers')renderLimits();if(view.status.state)renderRun()}catch(e){failures.push(key);console.error(key,e)}})]);$('#stamp').textContent=failures.length?'Unavailable: '+failures.join(', '):'updated '+new Date().toLocaleTimeString()}finally{refreshing=false}}
++async function refresh(){if(refreshing)return;refreshing=true;const failures=[];try{await Promise.allSettled([refreshData(),refreshDailyActivations(),...['cards','status','workers','limits'].map(async key=>{try{const r=await fetch('/factory-ng/'+key,{signal:AbortSignal.timeout(25000)});if(!r.ok)throw new Error(r.status);view[key]=await r.json();if(key==='cards')renderCards();if(key==='status'){renderOperatorNotice();renderCacheMaintenance()}if(key==='workers')renderWorkers();if(key==='limits'||key==='workers')renderLimits();if(view.status.state)renderRun()}catch(e){failures.push(key);console.error(key,e)}})]);$('#stamp').textContent=failures.length?'Unavailable: '+failures.join(', '):'updated '+new Date().toLocaleTimeString()}finally{refreshing=false}}
+ refresh();setInterval(refresh,30000);
+ </script>
+ </body>
+--- a/services/dispatcher/v4/main.go
++++ b/services/dispatcher/v4/main.go
+@@ -1758,6 +1758,8 @@
+ 	http.HandleFunc("/factory-ng/detail", factoryNGDetail)
+ 	http.HandleFunc("/factory-ng/limits", factoryNGLimits)
+ 	http.HandleFunc("/factory-ng/cards", factoryNGCards)
++	http.HandleFunc("/factory-ng/daily-activations", factoryNGServeSnapshot(factoryNGDailyPath))
++	go factoryNGDailyLoop()
+ 	http.HandleFunc("/factory-ng/workers", factoryNGWorkersHandler)
+ 	http.HandleFunc("/factory-ng/status", factoryNGStatus)
+ 	http.HandleFunc("/factory-ng/worker-pause", factoryNGWorkerPause)

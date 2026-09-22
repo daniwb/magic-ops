@@ -1,0 +1,140 @@
+{
+  "cases": [
+    {
+      "case": "gained-life",
+      "receipt": "gained-life/runs/2026-09-21T142838Z-map-static-condition-gained-life-pump-v1-goose-openrouter-staged.json",
+      "outcome": "accepted_for_dependent_observation",
+      "passed_all_original_gates": true,
+      "baseline_pinned_misses": 2,
+      "final_measurement": {
+        "member_count": 0,
+        "members": [],
+        "pinned_member_count": 2,
+        "pinned_members_from": "/data/magic-stack/development/magic-ops/docs/factory-ng/measurements/static-condition-gained-life-pump-v1.json",
+        "pinned_unresolved_count": 0,
+        "pinned_unresolved_members": [],
+        "review_cards_scanned": 2,
+        "schema": "factory.targeted-demand/v1",
+        "shape": "static_conditional",
+        "source": {
+          "parser_sha256": "sha256:12a5e75ce806ea7a159a1ead7f70b4d9ee496ed777a5e2615645c53b0ee34323",
+          "repository": "/tmp/factory-ng-map-static-condition-gained-life-pump-v1-dvizwg1l",
+          "revision": "56eeacf024e0b17653d4c4eeb94c920efd4f77e7"
+        }
+      },
+      "model_calls": 2,
+      "input_tokens": 35960,
+      "output_tokens": 2178,
+      "elapsed_seconds": 20.557,
+      "used_need": false,
+      "used_correction": true,
+      "marker_normalizations": 0,
+      "reported_cost_usd": 0.0,
+      "provider_failure_reasons": [],
+      "failed_gates": [],
+      "earlier_failures": [
+        {
+          "command": "cd scripts/paragraph && python3 -m unittest test_static_condition_gained_life",
+          "detail": "SyntaxError: expected '('\nTraceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/usr/lib64/python3.14/unittest/__main__.py\", line 18, in <module>\n    main(module=None)\n    ~~~~^^^^^^^^^^^^^\n  File \"/usr/lib64/python3.14/unittest/main.py\", line 103, in __init__\n    self.parseArgs(argv)\n    ~~~~~~~~~~~~~~^^^^^^\n  File \"/usr/lib64/python3.14/unittest/main.py\", line 142, in parseArgs\n    self.createTests()\n    ~~~~~~~~~~~~~~~~^^\n  File \"/usr/lib64/python3.14/unittest/main.py\", line 153, in createTests\n    self.test = self.testLoader.loadTestsFromNames(self.testNames,\n                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^\n                                                   self.module)\n                                                   ^^^^^^^^^^^^\n  File \"/usr/lib64/python3.14/unittest/loader.py\", line 207, in loadTestsFromNames\n    suites = [self.loadTestsFromName(name, module) for name in names]\n              ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^\n  File \"/usr/lib64/python3.14/unittest/loader.py\", line 137, in loadTestsFromName\n    module = __import__(module_name)\n  File \"/tmp/factory-ng-map-static-condition-gained-life-pump-v1-dvizwg1l/scripts/paragraph/test_static_condition_gained_life.py\", line 11\n    def test_you_gained_life_this turn(self):\n                                  ^^^^\nSyntaxError: expected '('",
+          "elapsed_ms": 120,
+          "id": "ticket-gate-0",
+          "outcome": "failed"
+        }
+      ]
+    },
+    {
+      "case": "drawn-two",
+      "receipt": "drawn-two/runs/2026-09-21T142920Z-map-static-condition-drawn-two-keywords-v1-goose-openrouter-staged.json",
+      "outcome": "accepted_for_dependent_observation",
+      "passed_all_original_gates": true,
+      "baseline_pinned_misses": 6,
+      "final_measurement": {
+        "member_count": 0,
+        "members": [],
+        "pinned_member_count": 6,
+        "pinned_members_from": "/data/magic-stack/development/magic-ops/docs/factory-ng/measurements/static-condition-drawn-two-keywords-v1.json",
+        "pinned_unresolved_count": 0,
+        "pinned_unresolved_members": [],
+        "review_cards_scanned": 6,
+        "schema": "factory.targeted-demand/v1",
+        "shape": "static_conditional",
+        "source": {
+          "parser_sha256": "sha256:79bfccbb2cbc78ba87875b3056644402e26712c62dd2942cd907664daa36bf2a",
+          "repository": "/tmp/factory-ng-map-static-condition-drawn-two-keywords-v1-znnh740e",
+          "revision": "8dd5e06545926033d738b0b69ab8f29145275168"
+        }
+      },
+      "model_calls": 1,
+      "input_tokens": 15278,
+      "output_tokens": 1377,
+      "elapsed_seconds": 106.469,
+      "used_need": false,
+      "used_correction": false,
+      "marker_normalizations": 0,
+      "reported_cost_usd": 0.0,
+      "provider_failure_reasons": [],
+      "failed_gates": [],
+      "earlier_failures": []
+    },
+    {
+      "case": "graveyard-thresholds",
+      "receipt": "graveyard-thresholds/runs/2026-09-21T143125Z-map-static-condition-graveyard-thresholds-v1-goose-openrouter-staged.json",
+      "outcome": "gate_failed",
+      "passed_all_original_gates": false,
+      "baseline_pinned_misses": 7,
+      "final_measurement": null,
+      "model_calls": 2,
+      "input_tokens": 40255,
+      "output_tokens": 7571,
+      "elapsed_seconds": 33.507,
+      "used_need": false,
+      "used_correction": true,
+      "marker_normalizations": 0,
+      "reported_cost_usd": 0.0,
+      "provider_failure_reasons": [],
+      "failed_gates": [
+        {
+          "detail": "scripts/paragraph/reparse.py: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\n",
+          "id": "initial-patch-apply",
+          "outcome": "failed"
+        },
+        {
+          "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/static-condition-graveyard-thresholds-v1.json reports zero remaining pinned members",
+          "detail": "\": \"Snooping Newsie\",\n      \"text_sha256\": \"sha256:66b1edcf06b5c5ea2c415d184e149512a598c1ea9be72e4574ccc6acde79aa4f\"\n    },\n    {\n      \"all_miss_shapes\": [\n        \"static_conditional\"\n      ],\n      \"details\": [\n        \"as long as there are five or more mana values among cards in your grav\"\n      ],\n      \"name\": \"Syndicate Infiltrator\",\n      \"text_sha256\": \"sha256:368da987b185a435aa97bed1557f63c26905756190f88888225fcdd722845e83\"\n    },\n    {\n      \"all_miss_shapes\": [\n        \"static_conditional\"\n      ],\n      \"details\": [\n        \"as long as there are four or more card types among cards in your grave\"\n      ],\n      \"name\": \"Winter, Misanthropic Guide\",\n      \"text_sha256\": \"sha256:291d7a42add8c0a7cdb1fa5ad5fc1ad6c1b8a3261e99db1d052a68f90691db3f\"\n    }\n  ],\n  \"pinned_member_count\": 7,\n  \"pinned_members_from\": \"/data/magic-stack/development/magic-ops/docs/factory-ng/measurements/static-condition-graveyard-thresholds-v1.json\",\n  \"pinned_unresolved_count\": 7,\n  \"pinned_unresolved_members\": [\n    {\n      \"misses\": [\n        [\n          \"static_conditional\",\n          \"as long as there are four or more card types among cards in your grave\"\n        ]\n      ],\n      \"name\": \"A-Dragon's Rage Channeler\"\n    },\n    {\n      \"misses\": [\n        [\n          \"static_conditional\",\n          \"as long as there are five or more mana values among cards in your grav\"\n        ]\n      ],\n      \"name\": \"A-Syndicate Infiltrator\"\n    },\n    {\n      \"misses\": [\n        [\n          \"static_conditional\",\n          \"as long as there are five or more mana values among cards in your grav\"\n        ]\n      ],\n      \"name\": \"Aven Heartstabber\"\n    },\n    {\n      \"misses\": [\n        [\n          \"static_conditional\",\n          \"as long as there are four or more card types among cards in your grave\"\n        ]\n      ],\n      \"name\": \"Dragon's Rage Channeler\"\n    },\n    {\n      \"misses\": [\n        [\n          \"static_conditional\",\n          \"as long as there are five or more mana values among cards in your grav\"\n        ]\n      ],\n      \"name\": \"Snooping Newsie\"\n    },\n    {\n      \"misses\": [\n        [\n          \"static_conditional\",\n          \"as long as there are five or more mana values among cards in your grav\"\n        ]\n      ],\n      \"name\": \"Syndicate Infiltrator\"\n    },\n    {\n      \"misses\": [\n        [\n          \"static_conditional\",\n          \"as long as there are four or more card types among cards in your grave\"\n        ]\n      ],\n      \"name\": \"Winter, Misanthropic Guide\"\n    }\n  ],\n  \"review_cards_scanned\": 7,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"static_conditional\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:57e769c4a14fbd8e45c91fc43a5c30c2dbc94ae536a4dd2249de28eebedc0b23\",\n    \"repository\": \"/tmp/factory-ng-map-static-condition-graveyard-thresholds-v1-8dnyq4yf\",\n    \"revision\": \"def54b5e1de4765593e830a4e4127dfcd69e7e41\"\n  }\n}\npinned remeasurement is not zero\npinned Map card still fails complete parsing; removing one miss category is insufficient",
+          "elapsed_ms": 277,
+          "id": "ticket-gate-3",
+          "outcome": "failed"
+        }
+      ],
+      "earlier_failures": []
+    }
+  ],
+  "passed": 2,
+  "total": 3,
+  "production_worker_enabled": false,
+  "integrated": false,
+  "full_six_shard_integration_run": false,
+  "scope": "Three historical parser-only Map tasks with complete parser-function evidence; original ticket gates in isolated clones. Not Engine qualification or a controlled model comparison.",
+  "separate_followup": {
+    "case": "graveyard-thresholds-handoff",
+    "receipt": "graveyard-thresholds-handoff/runs/2026-09-21T143339Z-map-static-condition-graveyard-thresholds-v1-goose-openrouter-staged.json",
+    "outcome": "gate_failed",
+    "evidence_change": "Added actual parse_static_condition inputs/results measured while parsing all seven pinned cards at the original revision.",
+    "model_calls": 2,
+    "failed_gates": [
+      {
+        "detail": "goose-staged: Goose returned no answer; see retained artifact",
+        "id": "gate-repair-apply",
+        "outcome": "failed"
+      },
+      {
+        "command": "cd scripts/paragraph && python3 -m unittest test_static_condition_graveyard_thresholds",
+        "detail": "AssertionError: {'kind': 'named', 'name': 'delirium'} != {'kind': 'threshold', 'zone': 'graveyard', 'what': 'card_types', 'amount': 4}\nF.F\n======================================================================\nFAIL: test_delirium_still_named (test_static_condition_graveyard_thresholds.StaticConditionGraveyardThresholdsTest.test_delirium_still_named)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/factory-ng-map-static-condition-graveyard-thresholds-v1-3yen2mow/scripts/paragraph/test_static_condition_graveyard_thresholds.py\", line 28, in test_delirium_still_named\n    self.assertEqual(\n    ~~~~~~~~~~~~~~~~^\n        self.parse('there are four or more card types among cards in your graveyard'),\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        {'kind': 'threshold', 'zone': 'graveyard', 'what': 'card_types', 'amount': 4},\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\nAssertionError: {'kind': 'named', 'name': 'delirium'} != {'kind': 'threshold', 'zone': 'graveyard', 'what': 'card_types', 'amount': 4}\n- {'kind': 'named', 'name': 'delirium'}\n+ {'amount': 4, 'kind': 'threshold', 'what': 'card_types', 'zone': 'graveyard'}\n======================================================================\nFAIL: test_four_or_more_card_types (test_static_condition_graveyard_thresholds.StaticConditionGraveyardThresholdsTest.test_four_or_more_card_types)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/factory-ng-map-static-condition-graveyard-thresholds-v1-3yen2mow/scripts/paragraph/test_static_condition_graveyard_thresholds.py\", line 15, in test_four_or_more_card_types\n    self.assertEqual(\n    ~~~~~~~~~~~~~~~~^\n        self.parse('there are four or more card types among cards in your graveyard'),\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        {'kind': 'threshold', 'zone': 'graveyard', 'what': 'card_types', 'amount': 4},\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\nAssertionError: {'kind': 'named', 'name': 'delirium'} != {'kind': 'threshold', 'zone': 'graveyard', 'what': 'card_types', 'amount': 4}\n- {'kind': 'named', 'name': 'delirium'}\n+ {'amount': 4, 'kind': 'threshold', 'what': 'card_types', 'zone': 'graveyard'}\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\nFAILED (failures=2)",
+        "elapsed_ms": 287,
+        "id": "ticket-gate-0",
+        "outcome": "failed"
+      }
+    ],
+    "elapsed_seconds": 11.986
+  }
+}

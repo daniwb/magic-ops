@@ -8,15 +8,21 @@ import sys
 from jsonschema import Draft202012Validator, ValidationError
 
 
-OPS = pathlib.Path('/opt/development/magic-ops')
+OPS = pathlib.Path(__file__).resolve().parents[1]
 DEFAULT_DIR = OPS / 'docs/factory-ng/model-profiles/v1'
 SCHEMA = OPS / 'docs/factory-ng/schemas/factory.model-profile-v1.schema.json'
 READ_ONLY_TOOLS = {'read_file', 'grep', 'list_dir'}
 REGISTERED_ADAPTERS = {
+    'openrouter-goose-staged-v1': ('scripts/model_call.py --engine goose-openrouter-staged', 'goose-openrouter-staged'),
+    'qwen-goose-staged-v1': ('scripts/model_call.py --engine goose-qwen-staged', 'goose-qwen-staged'),
+    'minimax-prepared-direct-v1': ('scripts/model_call.py --engine openrouter', 'openrouter'),
     'qwen-prepared-local-v1': ('scripts/qwen-agentic-call.py', 'qwen-agentic'),
     'qwen-prepared-direct-v1': ('scripts/qwen-prepared-call.py', 'qwen-prepared'),
     'codex-constrained-v1': ('codex exec', 'codex'),
+    'codex-constrained-host-v1': ('codex exec', 'codex'),
     'claude-staged-v1': ('claude -p', 'claude'),
+    'claude-agentic-v1': ('claude -p', 'claude-agentic'),
+    'claude-agentic-test-v1': ('claude -p', 'claude-agentic-test'),
 }
 
 
@@ -24,13 +30,18 @@ def load(path):
     return json.loads(path.read_text())
 
 
-def validate(profile_dir):
+def validate(profile_dir, selected=None):
     validator = Draft202012Validator(load(SCHEMA))
     profiles = {}
     for path in sorted(profile_dir.glob('*.json')):
         profile = load(path)
+        key = profile['id'] + '@' + profile['version']
+        if selected is not None and key not in selected and key != 'staged-baseline@1.0.0':
+            continue
         validator.validate(profile)
-        profiles[profile['id'] + '@' + profile['version']] = (path, profile)
+        profiles[key] = (path, profile)
+    if selected is not None and selected - profiles.keys():
+        raise ValidationError('configured profiles are missing: %s' % sorted(selected - profiles.keys()))
     baseline_key = 'staged-baseline@1.0.0'
     if baseline_key not in profiles:
         raise ValidationError('missing %s' % baseline_key)
@@ -61,7 +72,10 @@ def validate(profile_dir):
             raise ValidationError('%s uses an unregistered adapter' % path)
         if (adapter.get('executable'), adapter.get('engine')) != registered:
             raise ValidationError('%s executable/engine does not match its registered adapter' % path)
-        if adapter.get('filesystem') != 'read-only' or adapter.get('network') != 'none':
+        host_codex = adapter.get('adapter_id') == 'codex-constrained-host-v1'
+        if host_codex and (key != 'codex-constrained@1.1.0' or not profile.get('operator_authorization')):
+            raise ValidationError('%s lacks the explicit Codex host-access authorization' % path)
+        if not host_codex and (adapter.get('filesystem') != 'read-only' or adapter.get('network') != 'none'):
             raise ValidationError('%s broadens filesystem or network authority' % path)
         if not set(adapter.get('allowed_tools', [])).issubset(READ_ONLY_TOOLS):
             raise ValidationError('%s broadens tool authority' % path)
@@ -76,8 +90,15 @@ def validate(profile_dir):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--profiles', type=pathlib.Path, default=DEFAULT_DIR)
+    parser.add_argument('--enabled-workers', action='store_true',
+                        help='validate the live routes and baseline; leave unqualified experiments out of production validation')
     args = parser.parse_args()
-    print('factory-ng profiles: pass (%d)' % validate(args.profiles))
+    selected = None
+    if args.enabled_workers:
+        workers = load(OPS / 'config/factory-ng-workers.json')['workers']
+        selected = {profile for worker in workers if worker.get('enabled')
+                    for profile in [worker['profile'], *worker.get('alternate_profiles', [])]}
+    print('factory-ng profiles: pass (%d)' % validate(args.profiles, selected))
 
 
 if __name__ == '__main__':

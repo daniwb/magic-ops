@@ -1,0 +1,139 @@
+{
+  "apply": {
+    "argv": [
+      "python3",
+      "/opt/development/magic-ops/scripts/map-pipeline-apply.py"
+    ],
+    "exit_code": 5,
+    "stderr": "",
+    "stdout": "no edit blocks and no verdict found in model output\n",
+    "wall_seconds": 0.088
+  },
+  "calls": [
+    {
+      "answer": "",
+      "call": {
+        "argv": [
+          "python3",
+          "/opt/development/magic-ops/scripts/nemotron-structured-call.py",
+          "--repo",
+          "/tmp/factory-ng-profile-v2-nemotron-structured-edit-v140",
+          "--model",
+          "nvidia/nemotron-3.5-lightning:free",
+          "--allowed-path",
+          "scripts/paragraph/reparse.py",
+          "--allowed-path",
+          "backend/cards/converter.go",
+          "--required-path",
+          "scripts/paragraph/reparse.py",
+          "--required-path",
+          "backend/cards/converter.go",
+          "--max-tokens",
+          "3500"
+        ],
+        "exit_code": 1,
+        "stderr": "phase usage={\"completion_tokens\": 598, \"completion_tokens_details\": {\"audio_tokens\": 0, \"image_tokens\": 0, \"reasoning_tokens\": 425}, \"cost\": 0, \"cost_details\": {\"upstream_inference_completions_cost\": 0, \"upstream_inference_cost\": 0, \"upstream_inference_prompt_cost\": 0}, \"is_byok\": false, \"prompt_tokens\": 2487, \"prompt_tokens_details\": {\"audio_tokens\": 0, \"cache_write_tokens\": 0, \"cached_tokens\": 0, \"video_tokens\": 0}, \"total_tokens\": 3085}\nphase usage={\"completion_tokens\": 1013, \"completion_tokens_details\": {\"audio_tokens\": 0, \"image_tokens\": 0, \"reasoning_tokens\": 0}, \"cost\": 0, \"cost_details\": {\"upstream_inference_completions_cost\": 0, \"upstream_inference_cost\": 0, \"upstream_inference_prompt_cost\": 0}, \"is_byok\": false, \"prompt_tokens\": 3865, \"prompt_tokens_details\": {\"audio_tokens\": 0, \"cache_write_tokens\": 0, \"cached_tokens\": 0, \"video_tokens\": 0}, \"total_tokens\": 4878}\nphase usage={\"completion_tokens\": 69, \"completion_tokens_details\": {\"audio_tokens\": 0, \"image_tokens\": 0, \"reasoning_tokens\": 0}, \"cost\": 0, \"cost_details\": {\"upstream_inference_completions_cost\": 0, \"upstream_inference_cost\": 0, \"upstream_inference_prompt_cost\": 0}, \"is_byok\": false, \"prompt_tokens\": 5350, \"prompt_tokens_details\": {\"audio_tokens\": 0, \"cache_write_tokens\": 0, \"cached_tokens\": 0, \"video_tokens\": 0}, \"total_tokens\": 5419}\nsubmit_edit path=scripts/paragraph/reparse.py range=1616-1618\nphase usage={\"completion_tokens\": 169, \"completion_tokens_details\": {\"audio_tokens\": 0, \"image_tokens\": 0, \"reasoning_tokens\": 0}, \"cost\": 0, \"cost_details\": {\"upstream_inference_completions_cost\": 0, \"upstream_inference_cost\": 0, \"upstream_inference_prompt_cost\": 0}, \"is_byok\": false, \"prompt_tokens\": 5534, \"prompt_tokens_details\": {\"audio_tokens\": 0, \"cache_write_tokens\": 0, \"cached_tokens\": 4352, \"video_tokens\": 0}, \"total_tokens\": 5703}\nsubmit_edit path=backend/cards/converter.go range=2243-2252\nnemotron-structured: backend/cards/converter.go Go syntax: <standard input>:2243:69: expected ';', found amount\n<standard input>:3375:29: raw string literal not terminated\n<standard input>:3610:3: expected '}', found 'EOF'\ntokens: in=12884 out=1849 cache_r=4352 cache_w=0\n",
+        "stdout": "",
+        "wall_seconds": 70.463
+      },
+      "kind": "initial",
+      "usage": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 4352,
+        "input_tokens": 17236,
+        "output_tokens": 1849,
+        "reasoning_output_tokens": 0,
+        "uncached_input_tokens": 12884
+      }
+    }
+  ],
+  "cost_usd": 0.0,
+  "model": {
+    "engine": "nemotron-structured",
+    "id": "nemotron-structured-edit-v140",
+    "model": "nvidia/nemotron-3.5-lightning:free",
+    "profile": "nemotron-structured-edit@1.4.0",
+    "provider": "openrouter",
+    "rates_per_million": {
+      "cached_input": 0,
+      "input": 0,
+      "output": 0
+    }
+  },
+  "repair": {
+    "answer": "",
+    "apply": {
+      "argv": [
+        "python3",
+        "/opt/development/magic-ops/scripts/map-pipeline-apply.py"
+      ],
+      "exit_code": 5,
+      "stderr": "",
+      "stdout": "no edit blocks and no verdict found in model output\n",
+      "wall_seconds": 0.089
+    },
+    "call": {
+      "argv": [
+        "python3",
+        "/opt/development/magic-ops/scripts/nemotron-structured-call.py",
+        "--repo",
+        "/tmp/factory-ng-profile-v2-nemotron-structured-edit-v140",
+        "--model",
+        "nvidia/nemotron-3.5-lightning:free",
+        "--allowed-path",
+        "scripts/paragraph/reparse.py",
+        "--allowed-path",
+        "backend/cards/converter.go",
+        "--required-path",
+        "scripts/paragraph/reparse.py",
+        "--required-path",
+        "backend/cards/converter.go",
+        "--max-tokens",
+        "3500"
+      ],
+      "exit_code": 1,
+      "stderr": "phase usage={\"completion_tokens\": 374, \"completion_tokens_details\": {\"audio_tokens\": 0, \"image_tokens\": 0, \"reasoning_tokens\": 260}, \"cost\": 0, \"cost_details\": {\"upstream_inference_completions_cost\": 0, \"upstream_inference_cost\": 0, \"upstream_inference_prompt_cost\": 0}, \"is_byok\": false, \"prompt_tokens\": 2552, \"prompt_tokens_details\": {\"audio_tokens\": 0, \"cache_write_tokens\": 0, \"cached_tokens\": 2176, \"video_tokens\": 0}, \"total_tokens\": 2926}\nphase usage={\"completion_tokens\": 1200, \"completion_tokens_details\": {\"audio_tokens\": 0, \"image_tokens\": 0, \"reasoning_tokens\": 0}, \"cost\": 0, \"cost_details\": {\"upstream_inference_completions_cost\": 0, \"upstream_inference_cost\": 0, \"upstream_inference_prompt_cost\": 0}, \"is_byok\": false, \"prompt_tokens\": 3410, \"prompt_tokens_details\": {\"audio_tokens\": 0, \"cache_write_tokens\": 0, \"cached_tokens\": 0, \"video_tokens\": 0}, \"total_tokens\": 4610}\nphase usage={\"completion_tokens\": 108, \"completion_tokens_details\": {\"audio_tokens\": 0, \"image_tokens\": 0, \"reasoning_tokens\": 0}, \"cost\": 0, \"cost_details\": {\"upstream_inference_completions_cost\": 0, \"upstream_inference_cost\": 0, \"upstream_inference_prompt_cost\": 0}, \"is_byok\": false, \"prompt_tokens\": 5083, \"prompt_tokens_details\": {\"audio_tokens\": 0, \"cache_write_tokens\": 0, \"cached_tokens\": 0, \"video_tokens\": 0}, \"total_tokens\": 5191}\nsubmit_edit path=scripts/paragraph/reparse.py range=1616-1618\nnemotron-structured: scripts/paragraph/reparse.py:1616 Python syntax: invalid syntax\ntokens: in=8869 out=1682 cache_r=2176 cache_w=0\n",
+      "stdout": "",
+      "wall_seconds": 124.148
+    },
+    "usage": {
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 2176,
+      "input_tokens": 11045,
+      "output_tokens": 1682,
+      "reasoning_output_tokens": 0,
+      "uncached_input_tokens": 8869
+    }
+  },
+  "schema": "factory.model-benchmark-run/v2",
+  "setup": {
+    "argv": [
+      "git",
+      "worktree",
+      "add",
+      "--detach",
+      "/tmp/factory-ng-profile-v2-nemotron-structured-edit-v140",
+      "6d85a3d649103d8f3a50fb6436ed266c77b0942a"
+    ],
+    "exit_code": 0,
+    "stderr": "Preparing worktree (detached HEAD 6d85a3d6)\nUpdating files:   9% (1030/11311)\nUpdating files:  10% (1132/11311)\nUpdating files:  11% (1245/11311)\nUpdating files:  12% (1358/11311)\nUpdating files:  13% (1471/11311)\nUpdating files:  14% (1584/11311)\nUpdating files:  15% (1697/11311)\nUpdating files:  16% (1810/11311)\nUpdating files:  17% (1923/11311)\nUpdating files:  18% (2036/11311)\nUpdating files:  19% (2150/11311)\nUpdating files:  20% (2263/11311)\nUpdating files:  21% (2376/11311)\nUpdating files:  22% (2489/11311)\nUpdating files:  23% (2602/11311)\nUpdating files:  24% (2715/11311)\nUpdating files:  25% (2828/11311)\nUpdating files:  26% (2941/11311)\nUpdating files:  27% (3054/11311)\nUpdating files:  28% (3168/11311)\nUpdating files:  29% (3281/11311)\nUpdating files:  30% (3394/11311)\nUpdating files:  31% (3507/11311)\nUpdating files:  32% (3620/11311)\nUpdating files:  33% (3733/11311)\nUpdating files:  34% (3846/11311)\nUpdating files:  35% (3959/11311)\nUpdating files:  36% (4072/11311)\nUpdating files:  37% (4186/11311)\nUpdating files:  38% (4299/11311)\nUpdating files:  39% (4412/11311)\nUpdating files:  40% (4525/11311)\nUpdating files:  41% (4638/11311)\nUpdating files:  42% (4751/11311)\nUpdating files:  43% (4864/11311)\nUpdating files:  44% (4977/11311)\nUpdating files:  45% (5090/11311)\nUpdating files:  46% (5204/11311)\nUpdating files:  47% (5317/11311)\nUpdating files:  48% (5430/11311)\nUpdating files:  49% (5543/11311)\nUpdating files:  50% (5656/11311)\nUpdating files:  51% (5769/11311)\nUpdating files:  52% (5882/11311)\nUpdating files:  53% (5995/11311)\nUpdating files:  54% (6108/11311)\nUpdating files:  55% (6222/11311)\nUpdating files:  56% (6335/11311)\nUpdating files:  57% (6448/11311)\nUpdating files:  58% (6561/11311)\nUpdating files:  59% (6674/11311)\nUpdating files:  60% (6787/11311)\nUpdating files:  61% (6900/11311)\nUpdating files:  62% (7013/11311)\nUpdating files:  62% (7097/11311)\nUpdating files:  63% (7126/11311)\nUpdating files:  64% (7240/11311)\nUpdating files:  65% (7353/11311)\nUpdating files:  66% (7466/11311)\nUpdating files:  67% (7579/11311)\nUpdating files:  68% (7692/11311)\nUpdating files:  69% (7805/11311)\nUpdating files:  70% (7918/11311)\nUpdating files:  71% (8031/11311)\nUpdating files:  72% (8144/11311)\nUpdating files:  73% (8258/11311)\nUpdating files:  74% (8371/11311)\nUpdating files:  75% (8484/11311)\nUpdating files:  76% (8597/11311)\nUpdating files:  77% (8710/11311)\nUpdating files:  78% (8823/11311)\nUpdating files:  79% (8936/11311)\nUpdating files:  80% (9049/11311)\nUpdating files:  81% (9162/11311)\nUpdating files:  82% (9276/11311)\nUpdating files:  83% (9389/11311)\nUpdating files:  84% (9502/11311)\nUpdating files:  85% (9615/11311)\nUpdating files:  86% (9728/11311)\nUpdating files:  87% (9841/11311)\nUpdating files:  88% (9954/11311)\nUpdating files:  89% (10067/11311)\nUpdating files:  90% (10180/11311)\nUpdating files:  91% (10294/11311)\nUpdating files:  92% (10407/11311)\nUpdating files:  93% (10520/11311)\nUpdating files:  94% (10633/11311)\nUpdating files:  95% (10746/11311)\nUpdating files:  95% (10841/11311)\nUpdating files:  96% (10859/11311)\nUpdating files:  97% (10972/11311)\nUpdating files:  98% (11085/11311)\nUpdating files:  99% (11198/11311)\nUpdating files:  99% (11216/11311)\nUpdating files:  99% (11299/11311)\nUpdating files: 100% (11311/11311)\nUpdating files: 100% (11311/11311), done.\n",
+    "stdout": "HEAD is now at 6d85a3d6 cardfns: Blazing Archon handler \u2014 flying + can't-be-attacked-except-by-flying/reach restriction\n",
+    "wall_seconds": 5.152
+  },
+  "status": "CONTRACT_FAILED",
+  "ticket": {
+    "acceptance_contract": "harness-owned-map-converter-engine-boundary/v1",
+    "evidence_sha256": "4592556efaf285cd2e46bbe3291b3fa5a11882982ac59e84825a7c176095fbe3",
+    "id": "benchmark.map.target-player-draw/v2",
+    "source_revision": "6d85a3d649103d8f3a50fb6436ed266c77b0942a",
+    "work_type": "map"
+  },
+  "usage": {
+    "cache_write_input_tokens": 0,
+    "cached_input_tokens": 6528,
+    "input_tokens": 28281,
+    "output_tokens": 3531,
+    "reasoning_output_tokens": 0,
+    "uncached_input_tokens": 21753
+  }
+}

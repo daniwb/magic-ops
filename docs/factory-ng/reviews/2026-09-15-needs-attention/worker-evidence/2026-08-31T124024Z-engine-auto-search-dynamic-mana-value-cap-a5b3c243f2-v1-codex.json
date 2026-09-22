@@ -1,0 +1,67 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-engine-auto-search-dynamic-mana-value-cap-a5b3c243f2-v1-ajlfpiq8",
+    "candidate_commit": "476740e14e4418d94b8d8cafae659106f0cf6018",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "942307b507f09e993f79345b4b667e86c9797a61",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "codex-constrained@1.0.0",
+    "resolved_model": "gpt-5.6-luna",
+    "telemetry": {
+      "bounded_repair_attempted": true,
+      "cache_read_tokens": 24064,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 25915,
+      "input_tokens": 44451,
+      "output_tokens": 1384,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      }
+    },
+    "worker": "codex"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed_model_protocol",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-31T124024Z-engine-auto-search-dynamic-mana-value-cap-a5b3c243f2-v1-codex.raw.json",
+      "sha256": "sha256:cdb6ff08f7ca4d0cae8ff7c3cb5b8f9c75b954660429eee7a275f2e84278b84c"
+    },
+    {
+      "kind": "bounded_repair",
+      "path": "docs/factory-ng/runs/2026-08-31T124024Z-engine-auto-search-dynamic-mana-value-cap-a5b3c243f2-v1-codex.repair.raw.json",
+      "sha256": "sha256:ebb187519913046dc63ebefecb14ddf3fd6ce10fb17c8e3a49a125b338680c57"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-search-dynamic-mana-value-cap-a5b3c243f2/v1",
+    "path": "docs/factory-ng/tickets/engine-auto-search-dynamic-mana-value-cap-a5b3c243f2-v1.json",
+    "sha256": "sha256:caac6dd909bfed843df8a61d201f11d9561a1287a4975d9034c1faf2218e0921"
+  }
+}

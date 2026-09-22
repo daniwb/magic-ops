@@ -59,6 +59,116 @@ instead of the required third target tuple.  The converter/Engine and
 regression gates passed; the exact positive Map gate failed.  This is a real
 quality failure under this profile, not an adapter failure.
 
+## Nemotron 3.5 Lightning free qualification — 2026-08-31
+
+`nvidia/nemotron-3.5-lightning:free` is **not qualified for a Factory NG
+worker** by this benchmark.  The endpoint smoke test succeeded and every
+attempt was free, but none passed the frozen contract:
+
+| Profile attempt | Accepted | Model-call time | Provider input | Cache read | Output | Result |
+|---|---:|---:|---:|---:|---:|---|
+| `openrouter-prepared-direct@1.0.0` | no | 206.457 s | 4,558 | 0 | 7,102 | Correct general intent; both initial and repair SEARCH blocks reconstructed indentation incorrectly. |
+| `openrouter-prepared-agentic@1.0.0` | no | 687.005 s | 154,341 | 93,568 | 20,272 | Exhausted the tool loop into prose and emitted no blocks. |
+| `openrouter-prepared-agentic@1.0.1` | no | 315.705 s | 153,569 | 58,752 | 12,563 | Forced-final adapter emitted blocks, but the Python SEARCH indentation was invalid and the Go replacement referenced an undefined variable. |
+
+Because those generic profiles confounded source reconstruction with model
+quality, four Nemotron-specific structured-edit revisions were also tested.
+The adapter derives exact SEARCH text from model-selected source ranges,
+requires both ticket paths, and syntax-checks its in-memory candidate before
+emitting any mutation blocks.
+
+| Structured profile | Accepted | Model-call time | Effective tokens | Percent of 200k | Result |
+|---|---:|---:|---:|---:|---|
+| `nemotron-structured-edit@1.0.0` | no (15/100) | 174.186 s | 16,310 | 8.2% | Structured transport applied, but Nemotron collapsed Python statements, selected an over-wide range, and omitted the converter behavior. |
+| `nemotron-structured-edit@1.1.0` | no | 48.890 s | 6,319 | 3.2% | A nested replacement-array schema triggered an NVIDIA upstream 502; the schema was discarded. |
+| `nemotron-structured-edit@1.2.0` | no | 420.202 s | 20,571 | 10.3% | The flat schema worked, but low-effort reasoning consumed the forced-tool completion without a tool call. |
+| `nemotron-structured-edit@1.3.0` | no | 187.169 s | 36,063 | 18.0% | Separating planning from no-reasoning emission restored tool calls, but both attempts omitted a required path. |
+| `nemotron-structured-edit@1.4.0` | no | 194.611 s | 31,812 | 15.9% | Retaining a valid partial submission restored both-file coverage; the initial candidate then failed Go syntax preflight and the benchmark repair failed Python syntax preflight. |
+| `nemotron-structured-edit@1.5.0` | no | 195.280 s | 34,253 | 17.1% | The corrected partial-validation control flow was exercised. Both independent attempts retained syntax-valid Python edits, then produced invalid Go in the focused missing-path submission. |
+
+Effective tokens use the Factory rule `provider input + output`, including
+cached input exactly once.  All structured attempts were far below the 200k
+ordinary target and therefore also below the 500k warning/reflection limit.
+The limiting factor is reliable code correctness, not token budget.  The v1.5
+receipt is the decisive qualification result: the adapter successfully solved
+exact-source transport, required-file coverage, and safe partial retention,
+yet two independent focused attempts still failed Go syntax before any product
+mutation.
+
+The first generic agentic trace exposed two real adapter defects: the advertised
+regex tool used basic `grep`, and the final-answer phase continued to expose
+tools.  Profile 1.0.1 uses `rg` and removes tools from that phase.  The fresh
+run was faster and reached patch output, but still failed the unchanged
+harness; therefore the adapter repair is not being confused with model
+qualification.  Do not add any Nemotron profile to `factory-ng-workers.json`
+unless a future model/provider revision first passes this frozen ticket and
+then the independent second-ticket promotion gate.  Further benchmark-specific
+prompt or retry tuning is not justified by the current evidence.
+
+### Nemotron 3 Ultra 550B-A55B free — 2026-09-01
+
+`nvidia/nemotron-3-ultra-550b-a55b:free` was tested with the unchanged
+`nemotron-structured-edit@1.5.0` adapter, frozen ticket, source revision, and
+harness. It is also **not qualified**:
+
+| Accepted | Model-call time | Provider input | Cache read | Output | Effective tokens | Percent of 200k | Cost |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+| no | 57.592 s | 23,746 | 0 | 3,185 | 26,931 | 13.5% | $0.00 |
+
+The initial attempt exhausted its 1,800-token forced-submission completion
+without making a `submit_edit` call. The independent benchmark repair did use
+the structured tool, but submitted the Python path twice and omitted the
+required Go path even after the adapter narrowed its correction to that
+missing path. As with Lightning, budget is not the blocker; reliable adherence
+to the structured edit contract is. Ultra was about 3.4 times faster than the
+latest Lightning qualification on model-call time, but produced less usable
+output. It must not be added to the live worker configuration.
+
+### GLM 5.2 free — 2026-09-01
+
+The requested `z-ai/glm-5.2:free` bounded agentic qualification could not
+reach inference. OpenRouter returned HTTP 429 for all 12 initial attempts and
+all 12 harness-repair attempts: provider input `0`, output `0`, cost `$0.00`.
+This is an **infrastructure-unavailable result, not a GLM quality failure**.
+The run consumed 730.761 seconds solely in bounded rate-limit backoff. No patch
+was produced or applied, and GLM remains unqualified because there is no model
+evidence yet.
+
+The receipt predates the harness classification correction and therefore says
+`CONTRACT_FAILED`; its zero usage and repeated 429 trace are authoritative.
+The harness now records a failed, empty, zero-usage model call directly as
+`INFRASTRUCTURE_FAILURE` and does not spend a semantic repair call on it.
+
+### MiniMax M3 free direct — 2026-09-01
+
+`minimax/minimax-m3:free` passed the frozen ticket with the non-agentic
+`openrouter-prepared-direct@1.0.0` profile on the evidence-corrected v2 run:
+
+| Accepted | Quality | Model-call time | Provider input | Cache read | Output | Effective tokens | Percent of 200k | Cost | Repair |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| yes | 100/100 | 161.058 s | 4,162 | 256 | 9,852 | 14,014 | 7.0% | $0.00 | one bounded gate repair |
+
+The initial response applied cleanly but encoded the real player target in the
+wrong data shape. The focused repair corrected both the parser tuple and the
+converter's `ability.Target` handling; the exact Map behavior, converter/Engine
+boundary, regressions, and scope gates all passed. The initial completion used
+its full historical 8,000-token cap. The live profile therefore uses the new
+Factory-wide 16,000-token completion cap while retaining two bounded calls.
+
+An earlier preserved receipt scored 15/100 because the gate-repair prompt
+showed baseline regions while asking for a delta against already-mutated
+source. Its repair response contained the right semantic correction but could
+not match the current SEARCH text. The harness now includes the current applied
+diff for this bounded repair; the v2 receipt is the qualification result.
+
+MiniMax then passed a second independently frozen Map ticket in one call:
+6,630 provider-input tokens, 5,353 output tokens, 11,983 effective tokens, no
+repair, and all six harness-owned gates green. That satisfied the direct
+profile's Map promotion gate. It is now registered as the enabled
+`minimax-prepared-direct@1.0.0` Factory NG worker; bounded Engine use remains
+inside the same isolated-clone controlled rollout and does not grant the model
+integration, push, or deployment authority.
+
 ## What this changes
 
 - The factory must select a **profile**, not merely a model name.

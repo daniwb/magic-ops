@@ -1,0 +1,447 @@
+{
+  "at": "2026-09-16T23:45:05.273084+00:00",
+  "window": {
+    "start": "2026-09-16T19:02:46Z",
+    "end": "2026-09-16T23:44:56.854616Z",
+    "baseline_states": {
+      "failed": 1341,
+      "completed": 1461,
+      "parked": 402,
+      "integration_failed": 3,
+      "blocked": 921
+    },
+    "workers": [
+      "codex",
+      "codex-2",
+      "codex-3",
+      "codex-4"
+    ],
+    "requested_end": "2026-09-16T23:02:46Z",
+    "stability_start": "2026-09-16T19:44:56.854616Z",
+    "stability_baseline_states": {
+      "failed": 1316,
+      "completed": 1467,
+      "integrating": 1,
+      "parked": 403,
+      "awaiting_verification": 7,
+      "working": 9,
+      "queued": 1,
+      "awaiting_integration": 1,
+      "integration_failed": 3,
+      "blocked": 920
+    }
+  },
+  "observed_until": "2026-09-16T23:44:57.697357+00:00",
+  "window_elapsed": true,
+  "continuous_four_worker_occupancy": false,
+  "occupancy_note": "Actual non-zombie model/individual-repair leases sampled about every 30 seconds. Excludes model-free verification batches. Leases include harness processing, not only model inference. Idle gaps remain visible.",
+  "occupancy_distribution": {
+    "4": 119,
+    "3": 130,
+    "2": 117,
+    "1": 101,
+    "0": 7
+  },
+  "per_worker": {
+    "codex": {
+      "live_samples": 288,
+      "samples": 474,
+      "sampled_lease_occupancy_pct": 60.8,
+      "distinct_live_tickets": 39,
+      "completed_since_request": 27
+    },
+    "codex-2": {
+      "live_samples": 321,
+      "samples": 474,
+      "sampled_lease_occupancy_pct": 67.7,
+      "distinct_live_tickets": 34,
+      "completed_since_request": 20
+    },
+    "codex-3": {
+      "live_samples": 312,
+      "samples": 474,
+      "sampled_lease_occupancy_pct": 65.8,
+      "distinct_live_tickets": 34,
+      "completed_since_request": 21
+    },
+    "codex-4": {
+      "live_samples": 280,
+      "samples": 474,
+      "sampled_lease_occupancy_pct": 59.1,
+      "distinct_live_tickets": 25,
+      "completed_since_request": 19
+    }
+  },
+  "current": {
+    "at": "2026-09-16T23:45:05.953923+00:00",
+    "window": {
+      "start": "2026-09-16T19:02:46Z",
+      "end": "2026-09-16T23:44:56.854616Z",
+      "baseline_states": {
+        "failed": 1341,
+        "completed": 1461,
+        "parked": 402,
+        "integration_failed": 3,
+        "blocked": 921
+      },
+      "workers": [
+        "codex",
+        "codex-2",
+        "codex-3",
+        "codex-4"
+      ],
+      "requested_end": "2026-09-16T23:02:46Z",
+      "stability_start": "2026-09-16T19:44:56.854616Z",
+      "stability_baseline_states": {
+        "failed": 1316,
+        "completed": 1467,
+        "integrating": 1,
+        "parked": 403,
+        "awaiting_verification": 7,
+        "working": 9,
+        "queued": 1,
+        "awaiting_integration": 1,
+        "integration_failed": 3,
+        "blocked": 920
+      }
+    },
+    "states": {
+      "failed": 1201,
+      "completed": 1568,
+      "parked": 424,
+      "integration_failed": 16,
+      "integrating": 4,
+      "working": 10,
+      "blocked": 905,
+      "queued": 1
+    },
+    "model_leases": {
+      "codex": [
+        {
+          "ticket": "ticket:engine.auto-life-gain-count-target-opponent-multicolor-perma-0353d0b1ab/v3",
+          "alive": false,
+          "repair": false
+        }
+      ],
+      "codex-2": [
+        {
+          "ticket": "ticket:engine.auto-life-gain-amount-count-target-opponent-1e86726b3a/v3",
+          "alive": false,
+          "repair": false
+        }
+      ],
+      "codex-3": [
+        {
+          "ticket": "ticket:engine.auto-linked-exile-source-referent-26e65d0aaf/v3",
+          "alive": true,
+          "repair": false
+        }
+      ],
+      "codex-4": [
+        {
+          "ticket": "ticket:engine.auto-linked-source-exile-bulk-return-e7fa778cd0/v3",
+          "alive": true,
+          "repair": false
+        }
+      ]
+    },
+    "recent_occupancy": [
+      {
+        "at": "2026-09-16T23:35:29.463505+00:00",
+        "occupied": 4
+      },
+      {
+        "at": "2026-09-16T23:35:59.922044+00:00",
+        "occupied": 3
+      },
+      {
+        "at": "2026-09-16T23:36:30.643489+00:00",
+        "occupied": 2
+      },
+      {
+        "at": "2026-09-16T23:37:01.432196+00:00",
+        "occupied": 1
+      },
+      {
+        "at": "2026-09-16T23:37:31.832155+00:00",
+        "occupied": 1
+      },
+      {
+        "at": "2026-09-16T23:38:02.242467+00:00",
+        "occupied": 1
+      },
+      {
+        "at": "2026-09-16T23:38:32.703793+00:00",
+        "occupied": 2
+      },
+      {
+        "at": "2026-09-16T23:39:03.166433+00:00",
+        "occupied": 2
+      },
+      {
+        "at": "2026-09-16T23:39:33.580398+00:00",
+        "occupied": 3
+      },
+      {
+        "at": "2026-09-16T23:40:03.992502+00:00",
+        "occupied": 4
+      },
+      {
+        "at": "2026-09-16T23:40:34.420761+00:00",
+        "occupied": 4
+      },
+      {
+        "at": "2026-09-16T23:41:04.868556+00:00",
+        "occupied": 4
+      },
+      {
+        "at": "2026-09-16T23:41:35.270204+00:00",
+        "occupied": 3
+      },
+      {
+        "at": "2026-09-16T23:42:05.667570+00:00",
+        "occupied": 3
+      },
+      {
+        "at": "2026-09-16T23:42:36.095866+00:00",
+        "occupied": 3
+      },
+      {
+        "at": "2026-09-16T23:43:06.515301+00:00",
+        "occupied": 3
+      },
+      {
+        "at": "2026-09-16T23:43:36.957229+00:00",
+        "occupied": 4
+      },
+      {
+        "at": "2026-09-16T23:44:07.362352+00:00",
+        "occupied": 3
+      },
+      {
+        "at": "2026-09-16T23:44:37.788712+00:00",
+        "occupied": 4
+      },
+      {
+        "at": "2026-09-16T23:44:57.697357+00:00",
+        "occupied": 2
+      }
+    ],
+    "window_sample_counts": {
+      "4": 119,
+      "3": 130,
+      "2": 117,
+      "1": 101,
+      "0": 7
+    },
+    "net_completed_since_request": 107,
+    "queued": [
+      "ticket:map.plan-grant-eot-ingenious-leonin-fef4845909/v2"
+    ]
+  },
+  "controller": {
+    "pid": 3396268,
+    "argv": "python3 scripts/factory-ng-controller.py --interval 15 --producer-interval 300 ",
+    "affinity": [
+      6,
+      11,
+      12,
+      19
+    ],
+    "nice": 10
+  },
+  "checks": {
+    "policy_unchanged_since_2242": true,
+    "codex_workers_unchanged_since_2242": true,
+    "claude_enabled": true,
+    "controller_resources": true,
+    "all_implementation_hashes_match": true,
+    "health_check_exit_zero": true
+  },
+  "implementation_hashes": {
+    "scripts/factory-ng-controller.py": true,
+    "scripts/factory-ng-run-engine-ticket.py": true,
+    "scripts/factory_ng_verification.py": true,
+    "scripts/factory-ng-verify-batch.py": true,
+    "scripts/factory-ng-reviewed-harness-recovery.py": true,
+    "scripts/factory-ng-watchdog.py": true,
+    "services/dispatcher/v4/dashboard.html": true,
+    "config/factory-ng-producers.json": true,
+    "config/factory-ng-workers.json": true,
+    "scripts/factory_ng_context.py": true,
+    "scripts/factory-ng-verify-remote.py": true,
+    "scripts/test_factory_ng_producer_performance.py": true,
+    "scripts/test_factory_ng_batching.py": true,
+    "scripts/test_factory_ng_verification.py": true,
+    "scripts/test_factory_ng_remote.py": true,
+    "scripts/test_factory_ng_control.py": true,
+    "scripts/test_factory_ng_gate_priority.py": true
+  },
+  "http": {
+    "dashboard": {
+      "status": 200,
+      "bytes": 67712
+    },
+    "factory-ng/status": {
+      "status": 200,
+      "bytes": 13155
+    },
+    "factory-ng/workers": {
+      "status": 200,
+      "bytes": 5722
+    }
+  },
+  "remote": {
+    "checked_at": "2026-09-16T23:44:14Z",
+    "host": "dani@192.168.1.251",
+    "error": null,
+    "retry_after_epoch": 1789601980
+  },
+  "watchdog": {
+    "active": true,
+    "activity_signature": {
+      "job_states": {
+        "awaiting_integration": 1,
+        "blocked": 906,
+        "completed": 1563,
+        "failed": 1201,
+        "integrating": 5,
+        "integration_failed": 16,
+        "parked": 424,
+        "queued": 2,
+        "working": 11
+      },
+      "latest_receipt_epoch": 1789602254,
+      "latest_ticket_epoch": 1789602239
+    },
+    "cards": {
+      "auto": 13486,
+      "available": true,
+      "delta_24h": 67,
+      "sample_age_seconds": 1,
+      "window_seconds": 86303
+    },
+    "checked_at": "2026-09-16T23:44:25Z",
+    "compilation": {
+      "allowed": true,
+      "enabled": true,
+      "message": "Compilation and testing are enabled.",
+      "mode": "manual"
+    },
+    "controller": {
+      "pids": [
+        3396268
+      ],
+      "runtime_age_seconds": 12,
+      "updated_at": "2026-09-16T23:44:03Z"
+    },
+    "healthy": false,
+    "interval_seconds": 600,
+    "moving": true,
+    "operator_paused": false,
+    "problems": [
+      "16 unresolved integration failure(s)"
+    ],
+    "productive_signature": {
+      "accepted_receipts": 1749,
+      "completed_jobs": 1563,
+      "integrations": 949,
+      "latest_integrated_epoch": 1789602256,
+      "latest_productive_epoch": 1789602256
+    },
+    "queue": {
+      "deferred": 0,
+      "runnable": 2,
+      "states": {
+        "awaiting_integration": 1,
+        "blocked": 906,
+        "completed": 1563,
+        "failed": 1201,
+        "integrating": 5,
+        "integration_failed": 16,
+        "parked": 424,
+        "queued": 2,
+        "working": 11
+      },
+      "target_ready": 12
+    },
+    "queue_trend": {
+      "checked_at": "2026-09-16T23:44:25Z",
+      "cohort_states": {
+        "completed": 17,
+        "failed": 7,
+        "superseded": 28
+      },
+      "completed_since_baseline": 243,
+      "repair_wait": 0,
+      "running": 12,
+      "total_unfinished": 13,
+      "waiting": 1,
+      "window": {
+        "arrivals": 37,
+        "completed": 32,
+        "growth_alert": false,
+        "status": "shrinking",
+        "unfinished_change": -12,
+        "waiting_change": -20,
+        "window_seconds": 3665
+      }
+    },
+    "recovery": [],
+    "schema": "factory.ng-watchdog/v1",
+    "signature": {
+      "job_states": {
+        "awaiting_integration": 1,
+        "blocked": 906,
+        "completed": 1563,
+        "failed": 1201,
+        "integrating": 5,
+        "integration_failed": 16,
+        "parked": 424,
+        "queued": 2,
+        "working": 11
+      },
+      "latest_receipt_epoch": 1789602254,
+      "latest_ticket_epoch": 1789602239
+    },
+    "supply_empty_since_epoch": null
+  },
+  "cache_maintenance": {
+    "cache_path": "/opt/development/.gocache-magic",
+    "finished_at": "2026-09-16T23:30:05Z",
+    "message": "Go cache cleanup completed; Go gates are available again.",
+    "requested_at": "2026-09-16T23:27:06Z",
+    "schema": "factory.go-cache-maintenance/v1",
+    "size_after_gib": 0.0,
+    "size_before_gib": 37.18,
+    "started_at": "2026-09-16T23:29:58Z",
+    "state": "completed",
+    "updated_at": "2026-09-16T23:30:05Z"
+  },
+  "completed_by_worker": {
+    "claude": 11,
+    "codex-3": 21,
+    "codex": 27,
+    "codex-4": 19,
+    "claude-2": 9,
+    "codex-2": 20
+  },
+  "candidate_integration_failures": {
+    "ticket:engine.auto-counter-target-activated-ability-only-1c26359a8e/v3": "error: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch\n",
+    "ticket:engine.auto-counter-target-spell-color-filter-67b64430fb/v3": "error: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch\n",
+    "ticket:engine.auto-counter-target-spell-targets-creature-filter-22bc76cf05/v3": "error: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch\n",
+    "ticket:engine.auto-counter-target-spell-that-targets-creature-958c4bcef9/v3": "error: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch\n",
+    "ticket:engine.auto-create-custom-token-by-graveyard-card-types-a81c51d943/v5": "error: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch\n",
+    "ticket:engine.auto-damage-amount-equals-trigger-creature-count-d7ae562dbc/v4": "full production gate failed",
+    "ticket:engine.auto-damage-equal-to-source-power-to-flying-creature-4efc529ec4/v3": "full production gate failed",
+    "ticket:engine.auto-damage-punisher-choice-e36bbf48c8/v3": "error: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch\n",
+    "ticket:engine.auto-damage-recipients-dealt-damage-this-game-76c9531a8b/v3": "error: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch\n",
+    "ticket:engine.auto-damage-target-player-or-battle-82cd1f839e/v3": "error: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch\n",
+    "ticket:engine.auto-destroy-unless-controller-pays-205cf02727/v2": "full production gate failed",
+    "ticket:engine.auto-exile-referenced-players-graveyard-6f0b2e74cf/v3": "error: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch\n",
+    "ticket:engine.auto-fight-attached-creature-8575a14e03/v3": "error: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch\n",
+    "ticket:engine.auto-fight-attached-referent-1622bc7a24/v3": "error: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch\n",
+    "ticket:engine.auto-goad-mass-filter-enchanted-by-aura-controller-d8550635a3/v3": "error: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch\n",
+    "ticket:engine.auto-tap-or-untap-attached-choice-7e9017ab8c/v2": "error: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch\n"
+  }
+}

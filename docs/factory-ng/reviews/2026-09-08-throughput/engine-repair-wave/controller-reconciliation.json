@@ -1,0 +1,33 @@
+{
+  "checked_at": "2026-09-08T16:45:26.624737+00:00",
+  "jobs": {
+    "ticket:engine.auto-put-counters-dynamic-zone-count-amount-c03e4c4218/v2": {
+      "state": "completed",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-08T162342Z-wave-122f1228e4f4-integration.json",
+      "integration_outcome": "pushed_full_production_gate_green"
+    },
+    "ticket:engine.auto-grant-keyword-plus-dynamic-pt-until-eot-db98033e77/v2": {
+      "state": "completed",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-08T162342Z-wave-122f1228e4f4-integration.json",
+      "integration_outcome": "pushed_full_production_gate_green"
+    },
+    "ticket:engine.auto-spell-seq-atom-up-to-n-target-cap-554092e021/v4": {
+      "state": "completed",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-08T162342Z-wave-122f1228e4f4-integration.json",
+      "integration_outcome": "pushed_full_production_gate_green"
+    },
+    "ticket:engine.auto-bounce-filter-controller-damaged-player-a0c40565d9/v2": {
+      "state": "completed",
+      "integration_receipt": "docs/factory-ng/runs/2026-09-08T162342Z-wave-122f1228e4f4-integration.json",
+      "integration_outcome": "pushed_full_production_gate_green"
+    }
+  },
+  "canonical": {
+    "status": "",
+    "revisions": [
+      "8bc157460b32e83008a0d6b176c03285f5d87826",
+      "8bc157460b32e83008a0d6b176c03285f5d87826"
+    ]
+  },
+  "dashboard_status": 200
+}

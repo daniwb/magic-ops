@@ -1,0 +1,51 @@
+{
+  "active": [
+    {
+      "id": "build-plan-multi-miss",
+      "kind": "producer"
+    }
+  ],
+  "compilation": {
+    "allowed": true,
+    "enabled": true,
+    "message": "Compilation and testing are enabled.",
+    "mode": "manual"
+  },
+  "deferred": [],
+  "message": "Replenishing the automatic ground-truth queue.",
+  "phase": "producing_ticket",
+  "queue": {
+    "deferred": 0,
+    "runnable": 0,
+    "target_ready": 10,
+    "total": 0
+  },
+  "queued": [],
+  "results": [
+    {
+      "producer": "capability-dependencies",
+      "reason": "no eligible existing Engine integration failure",
+      "status": "no_integration_repair"
+    },
+    {
+      "producer": "reviewed-contract-corrections-sep09",
+      "status": "no_reviewed_contract_remaining"
+    },
+    {
+      "producer": "reviewed-harness-corrections-sep16",
+      "status": "no_reviewed_harness_remaining"
+    },
+    {
+      "producer": "capability-dependencies",
+      "reason": "card)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/development/test/openmagic/scripts/paragraph/reparse.py\", line 28175, in reparse_card\n    parsed = _original_reparse_card(card)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/development/test/openmagic/scripts/paragraph/reparse.py\", line 26964, in reparse_card\n    if typed and typed.get('_untap_previous_pump_recipients'):\n       ^^^^^\nUnboundLocalError: cannot access local variable 'typed' where it is not associated with a value\n",
+      "status": "producer_error"
+    },
+    {
+      "producer": "build-plan-fresh-local",
+      "reason": "no unaccounted engine-reachable single-family example with exactly 1 misses remains",
+      "status": "exhausted_supported_plan"
+    }
+  ],
+  "state": "running",
+  "updated_at": "2026-09-17T12:29:02Z"
+}

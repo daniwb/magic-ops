@@ -1,0 +1,3 @@
+PASS: 7 batching, 4 merge-resolution, 19 reliability, 65 control, 4 capacity, 10 producer-performance tests (109 total).
+PASS: enabled worker profile validation, Python compilation, targeted git diff --check.
+Existing reliability test uses real disposable Git repositories to verify conflict exclusion, clean publication and replay-safe push retry.

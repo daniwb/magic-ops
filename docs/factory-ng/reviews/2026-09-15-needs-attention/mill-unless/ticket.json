@@ -1,0 +1,1051 @@
+{
+  "capability": {
+    "negative_examples": [
+      "Do not map sacrifice unless paying mana, discarding, sacrificing another permanent, or performing any other alternative action."
+    ],
+    "required_behavior": "At upkeep, let the controller mill exactly two cards instead of sacrificing the source; sacrifice the source if that alternative is not completed.",
+    "source_misses": [
+      {
+        "card": "Deep Spawn",
+        "oracle_text_sha256": "a575ba5425184044d4e63c84a08134b8003616b2704b4104c2b04d24beac2334",
+        "paragraph": "At the beginning of your upkeep, sacrifice this creature unless you mill two cards.",
+        "required_behavior": "At upkeep, let the controller mill exactly two cards instead of sacrificing the source; sacrifice the source if that alternative is not completed."
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "expected_unlock": 0,
+        "key": "sacrifice_self_unless_mill",
+        "specification": {
+          "negative_examples": [
+            "Do not map sacrifice unless paying mana, discarding, sacrificing another permanent, or performing any other alternative action."
+          ],
+          "required_behavior": "At upkeep, let the controller mill exactly two cards instead of sacrificing the source; sacrifice the source if that alternative is not completed.",
+          "source_misses": [
+            {
+              "card": "Deep Spawn",
+              "oracle_text_sha256": "a575ba5425184044d4e63c84a08134b8003616b2704b4104c2b04d24beac2334",
+              "paragraph": "At the beginning of your upkeep, sacrifice this creature unless you mill two cards.",
+              "required_behavior": "At upkeep, let the controller mill exactly two cards instead of sacrificing the source; sacrifice the source if that alternative is not completed."
+            }
+          ]
+        },
+        "summary": "Conditional self-sacrifice unless controller mills exactly two cards"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-14T063405Z-map-plan-sacrifice-deep-spawn-bf11135b9e-v2-codex.json"
+    },
+    {
+      "anchor": "10632-10640",
+      "fact": "Verified declaration game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_sacrifice_filtered in source revision e28952a555225e6ab7491ae1345754bcd92103de; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"sacrifice\" AND \"self\" AND \"unless\" AND \"mill\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-14T09:37:57Z",
+          "indexed_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "normalized_words": [
+            "sacrifice",
+            "self",
+            "unless",
+            "mill"
+          ],
+          "query": "sacrifice_self_unless_mill",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "sacrifice_self_unless_mill",
+            "request_id": "261ee634839241598bf831c6fb0cd861",
+            "ticket": "ticket:engine.auto-sacrifice-self-unless-mill-4b119c08d6/v1"
+          },
+          "request_id": "261ee634839241598bf831c6fb0cd861",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:sacrifice_self_unless_sacrifice_filtered",
+              "doc": "",
+              "end": 10640,
+              "kind": "engine",
+              "name": "sacrifice_self_unless_sacrifice_filtered",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_sacrifice_filtered",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:sacrifice_self_unless_sacrifice_filtered",
+              "start": 10632,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_sacrifice_filtered",
+              "symbol_kind": "case",
+              "title": "sacrifice_self_unless_sacrifice_filtered"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:sacrifice_self_unless_opponent_damage_this_turn",
+              "doc": "",
+              "end": 10630,
+              "kind": "engine",
+              "name": "sacrifice_self_unless_opponent_damage_this_turn",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_opponent_damage_this_turn",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:sacrifice_self_unless_opponent_damage_this_turn",
+              "start": 10620,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_opponent_damage_this_turn",
+              "symbol_kind": "case",
+              "title": "sacrifice_self_unless_opponent_damage_this_turn"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:sacrifice_self_unless_return_card_from_graveyard",
+              "doc": "",
+              "end": 10650,
+              "kind": "engine",
+              "name": "sacrifice_self_unless_return_card_from_graveyard",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_return_card_from_graveyard",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:sacrifice_self_unless_return_card_from_graveyard",
+              "start": 10642,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_return_card_from_graveyard",
+              "symbol_kind": "case",
+              "title": "sacrifice_self_unless_return_card_from_graveyard"
+            },
+            {
+              "description": "executeSacrificeSelfUnlessFiltered defers a",
+              "doc": "executeSacrificeSelfUnlessFiltered defers a\nsacrifice_self_unless_sacrifice_filtered effect to the controller's\nresolution-time choice (see ResolveSacrificeSelfUnlessFilteredChoice):\npass the ID of a permanent they control matching FilterType to sacrifice\nit instead of source, or an empty ID to sacrifice source itself.\n",
+              "end": 233,
+              "kind": "engine",
+              "name": "executeSacrificeSelfUnlessFiltered",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.executeSacrificeSelfUnlessFiltered",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeSacrificeSelfUnlessFiltered(controller int, source *Card, effectValue map[string]interface{}) error",
+              "start": 225,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.executeSacrificeSelfUnlessFiltered",
+              "symbol_kind": "function",
+              "title": "executeSacrificeSelfUnlessFiltered"
+            }
+          ],
+          "current_source_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"sacrifice\" AND \"self\" AND \"unless\" AND \"mill\"",
+            "\"sacrifice\" AND \"self\" AND \"unless\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-14T09:37:57Z",
+          "indexed_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "normalized_words": [
+            "sacrifice",
+            "self",
+            "unless",
+            "mill"
+          ],
+          "query": "sacrifice_self_unless_mill",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "sacrifice_self_unless_mill",
+            "request_id": "557fe6eaee89487dbc3701252124d55a",
+            "ticket": "ticket:engine.auto-sacrifice-self-unless-mill-4b119c08d6/v1"
+          },
+          "request_id": "557fe6eaee89487dbc3701252124d55a",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "payAltCostComponents#case:sacrifice",
+              "doc": "",
+              "end": 241,
+              "kind": "engine",
+              "name": "sacrifice",
+              "package": "game",
+              "path": "backend/game/alt_cost_spec.go",
+              "qualified": "game.GameState.payAltCostComponents#case:sacrifice",
+              "receiver": "GameState",
+              "signature": "payAltCostComponents#case:sacrifice",
+              "start": 219,
+              "symbol_id": "backend/game/alt_cost_spec.go::game.GameState.payAltCostComponents#case:sacrifice",
+              "symbol_kind": "case",
+              "title": "sacrifice"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:sacrifice",
+              "doc": "",
+              "end": 10612,
+              "kind": "engine",
+              "name": "sacrifice",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:sacrifice",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:sacrifice",
+              "start": 10563,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:sacrifice",
+              "symbol_kind": "case",
+              "title": "sacrifice"
+            },
+            {
+              "description": "ResolvePendingChoice#case:sacrifice",
+              "doc": "",
+              "end": 209,
+              "kind": "engine",
+              "name": "sacrifice",
+              "package": "game",
+              "path": "backend/game/gamestate_choice.go",
+              "qualified": "game.GameState.ResolvePendingChoice#case:sacrifice",
+              "receiver": "GameState",
+              "signature": "ResolvePendingChoice#case:sacrifice",
+              "start": 165,
+              "symbol_id": "backend/game/gamestate_choice.go::game.GameState.ResolvePendingChoice#case:sacrifice",
+              "symbol_kind": "case",
+              "title": "sacrifice"
+            }
+          ],
+          "current_source_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-14T09:37:57Z",
+          "indexed_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "normalized_words": [
+            "sacrifice"
+          ],
+          "query": "sacrifice",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "sacrifice",
+            "request_id": "ded6b0415121454da91b2845a5e1827e",
+            "ticket": "ticket:engine.auto-sacrifice-self-unless-mill-4b119c08d6/v1"
+          },
+          "request_id": "ded6b0415121454da91b2845a5e1827e",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:f93856023f7ae8be76712223c2dffb09abdb9b9f4b6a47b0a75cbddc4a5c5f10",
+      "symbol": {
+        "description": "ExecuteAbilityEffect#case:sacrifice_self_unless_sacrifice_filtered",
+        "discovery_role": "label_fallback",
+        "doc": "",
+        "end": 10640,
+        "kind": "engine",
+        "name": "sacrifice_self_unless_sacrifice_filtered",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_sacrifice_filtered",
+        "receiver": "GameState",
+        "request_id": "557fe6eaee89487dbc3701252124d55a",
+        "signature": "ExecuteAbilityEffect#case:sacrifice_self_unless_sacrifice_filtered",
+        "start": 10632,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_sacrifice_filtered",
+        "symbol_kind": "case",
+        "title": "sacrifice_self_unless_sacrifice_filtered"
+      }
+    },
+    {
+      "anchor": "219-241",
+      "fact": "Verified declaration game.GameState.payAltCostComponents#case:sacrifice in source revision e28952a555225e6ab7491ae1345754bcd92103de; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"sacrifice\" AND \"self\" AND \"unless\" AND \"mill\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-14T09:37:57Z",
+          "indexed_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "normalized_words": [
+            "sacrifice",
+            "self",
+            "unless",
+            "mill"
+          ],
+          "query": "sacrifice_self_unless_mill",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "sacrifice_self_unless_mill",
+            "request_id": "261ee634839241598bf831c6fb0cd861",
+            "ticket": "ticket:engine.auto-sacrifice-self-unless-mill-4b119c08d6/v1"
+          },
+          "request_id": "261ee634839241598bf831c6fb0cd861",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:sacrifice_self_unless_sacrifice_filtered",
+              "doc": "",
+              "end": 10640,
+              "kind": "engine",
+              "name": "sacrifice_self_unless_sacrifice_filtered",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_sacrifice_filtered",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:sacrifice_self_unless_sacrifice_filtered",
+              "start": 10632,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_sacrifice_filtered",
+              "symbol_kind": "case",
+              "title": "sacrifice_self_unless_sacrifice_filtered"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:sacrifice_self_unless_opponent_damage_this_turn",
+              "doc": "",
+              "end": 10630,
+              "kind": "engine",
+              "name": "sacrifice_self_unless_opponent_damage_this_turn",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_opponent_damage_this_turn",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:sacrifice_self_unless_opponent_damage_this_turn",
+              "start": 10620,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_opponent_damage_this_turn",
+              "symbol_kind": "case",
+              "title": "sacrifice_self_unless_opponent_damage_this_turn"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:sacrifice_self_unless_return_card_from_graveyard",
+              "doc": "",
+              "end": 10650,
+              "kind": "engine",
+              "name": "sacrifice_self_unless_return_card_from_graveyard",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_return_card_from_graveyard",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:sacrifice_self_unless_return_card_from_graveyard",
+              "start": 10642,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_return_card_from_graveyard",
+              "symbol_kind": "case",
+              "title": "sacrifice_self_unless_return_card_from_graveyard"
+            },
+            {
+              "description": "executeSacrificeSelfUnlessFiltered defers a",
+              "doc": "executeSacrificeSelfUnlessFiltered defers a\nsacrifice_self_unless_sacrifice_filtered effect to the controller's\nresolution-time choice (see ResolveSacrificeSelfUnlessFilteredChoice):\npass the ID of a permanent they control matching FilterType to sacrifice\nit instead of source, or an empty ID to sacrifice source itself.\n",
+              "end": 233,
+              "kind": "engine",
+              "name": "executeSacrificeSelfUnlessFiltered",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.executeSacrificeSelfUnlessFiltered",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeSacrificeSelfUnlessFiltered(controller int, source *Card, effectValue map[string]interface{}) error",
+              "start": 225,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.executeSacrificeSelfUnlessFiltered",
+              "symbol_kind": "function",
+              "title": "executeSacrificeSelfUnlessFiltered"
+            }
+          ],
+          "current_source_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"sacrifice\" AND \"self\" AND \"unless\" AND \"mill\"",
+            "\"sacrifice\" AND \"self\" AND \"unless\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-14T09:37:57Z",
+          "indexed_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "normalized_words": [
+            "sacrifice",
+            "self",
+            "unless",
+            "mill"
+          ],
+          "query": "sacrifice_self_unless_mill",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "sacrifice_self_unless_mill",
+            "request_id": "557fe6eaee89487dbc3701252124d55a",
+            "ticket": "ticket:engine.auto-sacrifice-self-unless-mill-4b119c08d6/v1"
+          },
+          "request_id": "557fe6eaee89487dbc3701252124d55a",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "payAltCostComponents#case:sacrifice",
+              "doc": "",
+              "end": 241,
+              "kind": "engine",
+              "name": "sacrifice",
+              "package": "game",
+              "path": "backend/game/alt_cost_spec.go",
+              "qualified": "game.GameState.payAltCostComponents#case:sacrifice",
+              "receiver": "GameState",
+              "signature": "payAltCostComponents#case:sacrifice",
+              "start": 219,
+              "symbol_id": "backend/game/alt_cost_spec.go::game.GameState.payAltCostComponents#case:sacrifice",
+              "symbol_kind": "case",
+              "title": "sacrifice"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:sacrifice",
+              "doc": "",
+              "end": 10612,
+              "kind": "engine",
+              "name": "sacrifice",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:sacrifice",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:sacrifice",
+              "start": 10563,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:sacrifice",
+              "symbol_kind": "case",
+              "title": "sacrifice"
+            },
+            {
+              "description": "ResolvePendingChoice#case:sacrifice",
+              "doc": "",
+              "end": 209,
+              "kind": "engine",
+              "name": "sacrifice",
+              "package": "game",
+              "path": "backend/game/gamestate_choice.go",
+              "qualified": "game.GameState.ResolvePendingChoice#case:sacrifice",
+              "receiver": "GameState",
+              "signature": "ResolvePendingChoice#case:sacrifice",
+              "start": 165,
+              "symbol_id": "backend/game/gamestate_choice.go::game.GameState.ResolvePendingChoice#case:sacrifice",
+              "symbol_kind": "case",
+              "title": "sacrifice"
+            }
+          ],
+          "current_source_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-14T09:37:57Z",
+          "indexed_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "normalized_words": [
+            "sacrifice"
+          ],
+          "query": "sacrifice",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "sacrifice",
+            "request_id": "ded6b0415121454da91b2845a5e1827e",
+            "ticket": "ticket:engine.auto-sacrifice-self-unless-mill-4b119c08d6/v1"
+          },
+          "request_id": "ded6b0415121454da91b2845a5e1827e",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/alt_cost_spec.go",
+      "sha256": "sha256:988abfd8f26461b5a0a0dc24f840d71efd988e8247e2f6a39d385c8aa9e98b97",
+      "symbol": {
+        "description": "payAltCostComponents#case:sacrifice",
+        "discovery_role": "operation_only",
+        "doc": "",
+        "end": 241,
+        "kind": "engine",
+        "name": "sacrifice",
+        "package": "game",
+        "path": "backend/game/alt_cost_spec.go",
+        "qualified": "game.GameState.payAltCostComponents#case:sacrifice",
+        "receiver": "GameState",
+        "request_id": "ded6b0415121454da91b2845a5e1827e",
+        "signature": "payAltCostComponents#case:sacrifice",
+        "start": 219,
+        "symbol_id": "backend/game/alt_cost_spec.go::game.GameState.payAltCostComponents#case:sacrifice",
+        "symbol_kind": "case",
+        "title": "sacrifice"
+      }
+    },
+    {
+      "anchor": "10620-10630",
+      "fact": "Verified declaration game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_opponent_damage_this_turn in source revision e28952a555225e6ab7491ae1345754bcd92103de; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"sacrifice\" AND \"self\" AND \"unless\" AND \"mill\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-14T09:37:57Z",
+          "indexed_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "normalized_words": [
+            "sacrifice",
+            "self",
+            "unless",
+            "mill"
+          ],
+          "query": "sacrifice_self_unless_mill",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "sacrifice_self_unless_mill",
+            "request_id": "261ee634839241598bf831c6fb0cd861",
+            "ticket": "ticket:engine.auto-sacrifice-self-unless-mill-4b119c08d6/v1"
+          },
+          "request_id": "261ee634839241598bf831c6fb0cd861",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:sacrifice_self_unless_sacrifice_filtered",
+              "doc": "",
+              "end": 10640,
+              "kind": "engine",
+              "name": "sacrifice_self_unless_sacrifice_filtered",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_sacrifice_filtered",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:sacrifice_self_unless_sacrifice_filtered",
+              "start": 10632,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_sacrifice_filtered",
+              "symbol_kind": "case",
+              "title": "sacrifice_self_unless_sacrifice_filtered"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:sacrifice_self_unless_opponent_damage_this_turn",
+              "doc": "",
+              "end": 10630,
+              "kind": "engine",
+              "name": "sacrifice_self_unless_opponent_damage_this_turn",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_opponent_damage_this_turn",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:sacrifice_self_unless_opponent_damage_this_turn",
+              "start": 10620,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_opponent_damage_this_turn",
+              "symbol_kind": "case",
+              "title": "sacrifice_self_unless_opponent_damage_this_turn"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:sacrifice_self_unless_return_card_from_graveyard",
+              "doc": "",
+              "end": 10650,
+              "kind": "engine",
+              "name": "sacrifice_self_unless_return_card_from_graveyard",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_return_card_from_graveyard",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:sacrifice_self_unless_return_card_from_graveyard",
+              "start": 10642,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_return_card_from_graveyard",
+              "symbol_kind": "case",
+              "title": "sacrifice_self_unless_return_card_from_graveyard"
+            },
+            {
+              "description": "executeSacrificeSelfUnlessFiltered defers a",
+              "doc": "executeSacrificeSelfUnlessFiltered defers a\nsacrifice_self_unless_sacrifice_filtered effect to the controller's\nresolution-time choice (see ResolveSacrificeSelfUnlessFilteredChoice):\npass the ID of a permanent they control matching FilterType to sacrifice\nit instead of source, or an empty ID to sacrifice source itself.\n",
+              "end": 233,
+              "kind": "engine",
+              "name": "executeSacrificeSelfUnlessFiltered",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.executeSacrificeSelfUnlessFiltered",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeSacrificeSelfUnlessFiltered(controller int, source *Card, effectValue map[string]interface{}) error",
+              "start": 225,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.executeSacrificeSelfUnlessFiltered",
+              "symbol_kind": "function",
+              "title": "executeSacrificeSelfUnlessFiltered"
+            }
+          ],
+          "current_source_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"sacrifice\" AND \"self\" AND \"unless\" AND \"mill\"",
+            "\"sacrifice\" AND \"self\" AND \"unless\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-14T09:37:57Z",
+          "indexed_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "normalized_words": [
+            "sacrifice",
+            "self",
+            "unless",
+            "mill"
+          ],
+          "query": "sacrifice_self_unless_mill",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "sacrifice_self_unless_mill",
+            "request_id": "557fe6eaee89487dbc3701252124d55a",
+            "ticket": "ticket:engine.auto-sacrifice-self-unless-mill-4b119c08d6/v1"
+          },
+          "request_id": "557fe6eaee89487dbc3701252124d55a",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "payAltCostComponents#case:sacrifice",
+              "doc": "",
+              "end": 241,
+              "kind": "engine",
+              "name": "sacrifice",
+              "package": "game",
+              "path": "backend/game/alt_cost_spec.go",
+              "qualified": "game.GameState.payAltCostComponents#case:sacrifice",
+              "receiver": "GameState",
+              "signature": "payAltCostComponents#case:sacrifice",
+              "start": 219,
+              "symbol_id": "backend/game/alt_cost_spec.go::game.GameState.payAltCostComponents#case:sacrifice",
+              "symbol_kind": "case",
+              "title": "sacrifice"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:sacrifice",
+              "doc": "",
+              "end": 10612,
+              "kind": "engine",
+              "name": "sacrifice",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:sacrifice",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:sacrifice",
+              "start": 10563,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:sacrifice",
+              "symbol_kind": "case",
+              "title": "sacrifice"
+            },
+            {
+              "description": "ResolvePendingChoice#case:sacrifice",
+              "doc": "",
+              "end": 209,
+              "kind": "engine",
+              "name": "sacrifice",
+              "package": "game",
+              "path": "backend/game/gamestate_choice.go",
+              "qualified": "game.GameState.ResolvePendingChoice#case:sacrifice",
+              "receiver": "GameState",
+              "signature": "ResolvePendingChoice#case:sacrifice",
+              "start": 165,
+              "symbol_id": "backend/game/gamestate_choice.go::game.GameState.ResolvePendingChoice#case:sacrifice",
+              "symbol_kind": "case",
+              "title": "sacrifice"
+            }
+          ],
+          "current_source_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-14T09:37:57Z",
+          "indexed_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "normalized_words": [
+            "sacrifice"
+          ],
+          "query": "sacrifice",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "sacrifice",
+            "request_id": "ded6b0415121454da91b2845a5e1827e",
+            "ticket": "ticket:engine.auto-sacrifice-self-unless-mill-4b119c08d6/v1"
+          },
+          "request_id": "ded6b0415121454da91b2845a5e1827e",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:f93856023f7ae8be76712223c2dffb09abdb9b9f4b6a47b0a75cbddc4a5c5f10",
+      "symbol": {
+        "description": "ExecuteAbilityEffect#case:sacrifice_self_unless_opponent_damage_this_turn",
+        "discovery_role": "label_fallback",
+        "doc": "",
+        "end": 10630,
+        "kind": "engine",
+        "name": "sacrifice_self_unless_opponent_damage_this_turn",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_opponent_damage_this_turn",
+        "receiver": "GameState",
+        "request_id": "557fe6eaee89487dbc3701252124d55a",
+        "signature": "ExecuteAbilityEffect#case:sacrifice_self_unless_opponent_damage_this_turn",
+        "start": 10620,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_opponent_damage_this_turn",
+        "symbol_kind": "case",
+        "title": "sacrifice_self_unless_opponent_damage_this_turn"
+      }
+    },
+    {
+      "anchor": "10563-10612",
+      "fact": "Verified declaration game.GameState.ExecuteAbilityEffect#case:sacrifice in source revision e28952a555225e6ab7491ae1345754bcd92103de; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"sacrifice\" AND \"self\" AND \"unless\" AND \"mill\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-14T09:37:57Z",
+          "indexed_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "normalized_words": [
+            "sacrifice",
+            "self",
+            "unless",
+            "mill"
+          ],
+          "query": "sacrifice_self_unless_mill",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "sacrifice_self_unless_mill",
+            "request_id": "261ee634839241598bf831c6fb0cd861",
+            "ticket": "ticket:engine.auto-sacrifice-self-unless-mill-4b119c08d6/v1"
+          },
+          "request_id": "261ee634839241598bf831c6fb0cd861",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:sacrifice_self_unless_sacrifice_filtered",
+              "doc": "",
+              "end": 10640,
+              "kind": "engine",
+              "name": "sacrifice_self_unless_sacrifice_filtered",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_sacrifice_filtered",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:sacrifice_self_unless_sacrifice_filtered",
+              "start": 10632,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_sacrifice_filtered",
+              "symbol_kind": "case",
+              "title": "sacrifice_self_unless_sacrifice_filtered"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:sacrifice_self_unless_opponent_damage_this_turn",
+              "doc": "",
+              "end": 10630,
+              "kind": "engine",
+              "name": "sacrifice_self_unless_opponent_damage_this_turn",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_opponent_damage_this_turn",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:sacrifice_self_unless_opponent_damage_this_turn",
+              "start": 10620,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_opponent_damage_this_turn",
+              "symbol_kind": "case",
+              "title": "sacrifice_self_unless_opponent_damage_this_turn"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:sacrifice_self_unless_return_card_from_graveyard",
+              "doc": "",
+              "end": 10650,
+              "kind": "engine",
+              "name": "sacrifice_self_unless_return_card_from_graveyard",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_return_card_from_graveyard",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:sacrifice_self_unless_return_card_from_graveyard",
+              "start": 10642,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:sacrifice_self_unless_return_card_from_graveyard",
+              "symbol_kind": "case",
+              "title": "sacrifice_self_unless_return_card_from_graveyard"
+            },
+            {
+              "description": "executeSacrificeSelfUnlessFiltered defers a",
+              "doc": "executeSacrificeSelfUnlessFiltered defers a\nsacrifice_self_unless_sacrifice_filtered effect to the controller's\nresolution-time choice (see ResolveSacrificeSelfUnlessFilteredChoice):\npass the ID of a permanent they control matching FilterType to sacrifice\nit instead of source, or an empty ID to sacrifice source itself.\n",
+              "end": 233,
+              "kind": "engine",
+              "name": "executeSacrificeSelfUnlessFiltered",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.executeSacrificeSelfUnlessFiltered",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeSacrificeSelfUnlessFiltered(controller int, source *Card, effectValue map[string]interface{}) error",
+              "start": 225,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.executeSacrificeSelfUnlessFiltered",
+              "symbol_kind": "function",
+              "title": "executeSacrificeSelfUnlessFiltered"
+            }
+          ],
+          "current_source_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"sacrifice\" AND \"self\" AND \"unless\" AND \"mill\"",
+            "\"sacrifice\" AND \"self\" AND \"unless\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-14T09:37:57Z",
+          "indexed_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "normalized_words": [
+            "sacrifice",
+            "self",
+            "unless",
+            "mill"
+          ],
+          "query": "sacrifice_self_unless_mill",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "sacrifice_self_unless_mill",
+            "request_id": "557fe6eaee89487dbc3701252124d55a",
+            "ticket": "ticket:engine.auto-sacrifice-self-unless-mill-4b119c08d6/v1"
+          },
+          "request_id": "557fe6eaee89487dbc3701252124d55a",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "payAltCostComponents#case:sacrifice",
+              "doc": "",
+              "end": 241,
+              "kind": "engine",
+              "name": "sacrifice",
+              "package": "game",
+              "path": "backend/game/alt_cost_spec.go",
+              "qualified": "game.GameState.payAltCostComponents#case:sacrifice",
+              "receiver": "GameState",
+              "signature": "payAltCostComponents#case:sacrifice",
+              "start": 219,
+              "symbol_id": "backend/game/alt_cost_spec.go::game.GameState.payAltCostComponents#case:sacrifice",
+              "symbol_kind": "case",
+              "title": "sacrifice"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:sacrifice",
+              "doc": "",
+              "end": 10612,
+              "kind": "engine",
+              "name": "sacrifice",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:sacrifice",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:sacrifice",
+              "start": 10563,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:sacrifice",
+              "symbol_kind": "case",
+              "title": "sacrifice"
+            },
+            {
+              "description": "ResolvePendingChoice#case:sacrifice",
+              "doc": "",
+              "end": 209,
+              "kind": "engine",
+              "name": "sacrifice",
+              "package": "game",
+              "path": "backend/game/gamestate_choice.go",
+              "qualified": "game.GameState.ResolvePendingChoice#case:sacrifice",
+              "receiver": "GameState",
+              "signature": "ResolvePendingChoice#case:sacrifice",
+              "start": 165,
+              "symbol_id": "backend/game/gamestate_choice.go::game.GameState.ResolvePendingChoice#case:sacrifice",
+              "symbol_kind": "case",
+              "title": "sacrifice"
+            }
+          ],
+          "current_source_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-14T09:37:57Z",
+          "indexed_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+          "normalized_words": [
+            "sacrifice"
+          ],
+          "query": "sacrifice",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "sacrifice",
+            "request_id": "ded6b0415121454da91b2845a5e1827e",
+            "ticket": "ticket:engine.auto-sacrifice-self-unless-mill-4b119c08d6/v1"
+          },
+          "request_id": "ded6b0415121454da91b2845a5e1827e",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:f93856023f7ae8be76712223c2dffb09abdb9b9f4b6a47b0a75cbddc4a5c5f10",
+      "symbol": {
+        "description": "ExecuteAbilityEffect#case:sacrifice",
+        "discovery_role": "operation_only",
+        "doc": "",
+        "end": 10612,
+        "kind": "engine",
+        "name": "sacrifice",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.ExecuteAbilityEffect#case:sacrifice",
+        "receiver": "GameState",
+        "request_id": "ded6b0415121454da91b2845a5e1827e",
+        "signature": "ExecuteAbilityEffect#case:sacrifice",
+        "start": 10563,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:sacrifice",
+        "symbol_kind": "case",
+        "title": "sacrifice"
+      }
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "An Oracle-validated Map block has been compiled into one bounded Engine dependency.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGSacrificeSelfUnlessMill_4b119c08d6$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.operator-mill-unless-recovery-sep15/v1",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Record an immutable bounded verdict; automatic discovery continues with independent work.",
+  "parents": [
+    "ticket:engine.auto-sacrifice-self-unless-mill-4b119c08d6/v1"
+  ],
+  "production": {
+    "key": "capability:sacrifice_self_unless_mill:sha256:4b119c08d6272bc7e367312cab3d6327cbaafed56593b89278fca8da9451b0e0",
+    "producer": "capability-dependencies"
+  },
+  "required_behavior": [
+    "At upkeep, let the controller mill exactly two cards instead of sacrificing the source; sacrifice the source if that alternative is not completed.",
+    "Preserve these adjacent behaviors: Do not map sacrifice unless paying mana, discarding, sacrificing another permanent, or performing any other alternative action.",
+    "Add a discriminating behavior test named TestFactoryNGSacrificeSelfUnlessMill_4b119c08d6; a compile-only assertion is insufficient.",
+    "Register every new public effect using regEffect in the allowed registry_*.go file, with executor and runtime test metadata; never edit the frozen registry literal.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_4b119c08d6_test.go",
+      "backend/cards/factory_ng_4b119c08d6_test.go",
+      "backend/cards/registry_factory_ng_4b119c08d6.go",
+      "backend/cards/shape_mill_unless_test.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "aff3bfe89bd7a9577ae9455b2f24c7e6db45710f",
+    "clean": true
+  },
+  "title": "Recover optional upkeep milling instead of sacrificing the source",
+  "work_type": "engine",
+  "operator_recovery": {
+    "authorization": "User requested fixing all needs-attention tickets.",
+    "original_ticket": "docs/factory-ng/tickets/engine-auto-sacrifice-self-unless-mill-4b119c08d6-v1.json",
+    "original_ticket_sha256": "sha256:9fb49391e0cfa6057d8e2503e639556d486a49692e70f762e5e1df51d903dcc7",
+    "failed_receipt": "docs/factory-ng/runs/2026-09-15T202534Z-engine-auto-sacrifice-self-unless-mill-4b119c08d6-v1-claude.json",
+    "failed_receipt_sha256": "sha256:398e482c7114c324cae031eed583be072d8e6871a37d70aac50391fb792b43c2",
+    "scope_addition_reason": "New shape file follows repository rule; use existing PendingOptionChoice and Mill APIs.",
+    "review": "Failed worker treated Zone pointers as slices, forced milling without a choice, and tested ETB instead of the requested own upkeep.",
+    "additional_provider_runs": 0,
+    "counter_resets": false
+  }
+}

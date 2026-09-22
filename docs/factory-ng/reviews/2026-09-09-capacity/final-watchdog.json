@@ -1,0 +1,78 @@
+{
+  "active": true,
+  "activity_signature": {
+    "job_states": {
+      "blocked": 740,
+      "completed": 526,
+      "failed": 1224,
+      "integrating": 1,
+      "integration_failed": 18,
+      "parked": 349,
+      "queued": 12,
+      "working": 2
+    },
+    "latest_receipt_epoch": 1788934758,
+    "latest_ticket_epoch": 1788934804
+  },
+  "cards": {
+    "auto": 12520,
+    "available": true,
+    "delta_24h": 44,
+    "sample_age_seconds": 200,
+    "window_seconds": 85738
+  },
+  "checked_at": "2026-09-09T06:20:45Z",
+  "controller": {
+    "pids": [
+      3685797
+    ],
+    "runtime_age_seconds": 25,
+    "updated_at": "2026-09-09T06:20:14Z"
+  },
+  "healthy": false,
+  "interval_seconds": 600,
+  "moving": false,
+  "operator_paused": false,
+  "problems": [
+    "no accepted or integrated progress across a ten-minute poll",
+    "18 unresolved integration failure(s)"
+  ],
+  "productive_signature": {
+    "accepted_receipts": 600,
+    "completed_jobs": 526,
+    "integrations": 396,
+    "latest_integrated_epoch": 1788933549,
+    "latest_productive_epoch": 1788934167
+  },
+  "queue": {
+    "deferred": 1,
+    "runnable": 10,
+    "states": {
+      "blocked": 740,
+      "completed": 526,
+      "failed": 1224,
+      "integrating": 1,
+      "integration_failed": 18,
+      "parked": 349,
+      "queued": 12,
+      "working": 2
+    },
+    "target_ready": 8
+  },
+  "recovery": [],
+  "schema": "factory.ng-watchdog/v1",
+  "signature": {
+    "job_states": {
+      "blocked": 740,
+      "completed": 526,
+      "failed": 1224,
+      "integrating": 1,
+      "integration_failed": 18,
+      "parked": 349,
+      "queued": 12,
+      "working": 2
+    },
+    "latest_receipt_epoch": 1788934758,
+    "latest_ticket_epoch": 1788934804
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "compilation": {
+    "enabled": true
+  },
+  "integration": {
+    "automatic": true,
+    "wave_size": 8,
+    "push_when_full_gate_green": true,
+    "deploy_after_push": false,
+    "collect_seconds": 120,
+    "collect_min_candidates": 3
+  },
+  "queue": {
+    "target_ready": 3,
+    "ready_per_worker": 2,
+    "map_reserve": 2,
+    "max_queued": 12,
+    "stalled_after_seconds": 900
+  },
+  "resources": {
+    "cpu_affinity": [
+      12,
+      19
+    ],
+    "nice": 10
+  },
+  "retry": {
+    "infrastructure_attempts": 3,
+    "backoff_seconds": 300
+  },
+  "schema": "factory-ng-policy/v1",
+  "verification": {
+    "batch_size": 8,
+    "collect_seconds": 120,
+    "collect_min_candidates": 3
+  }
+}

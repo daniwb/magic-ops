@@ -1,0 +1,1623 @@
+# ENGINE-PIPELINE TASK — satisfy ONE bounded behavior contract
+
+Ticket ticket:engine.auto-referent-object-to-library-top-b695fba968/v1: Implement atomic capability: Move a non-targeted referent object established by a trigger condition (e.g. the creature that blocked) to the top of its owner's library
+Primitive demand: `referent_object_to_library_top`
+Capability ID: `TicketSpec`
+Atomic capability specification:
+{
+  "allowed_paths": [
+    "backend/game/ability_effects.go",
+    "backend/game/dynamic_amount.go",
+    "backend/game/effects.go",
+    "backend/game/card.go",
+    "backend/game/gamestate.go",
+    "backend/game/targeting.go",
+    "backend/cards/converter.go",
+    "backend/cards/registry.go",
+    "backend/game/factory_ng_b695fba968_test.go",
+    "backend/cards/factory_ng_b695fba968_test.go",
+    "backend/cards/registry_factory_ng_b695fba968.go"
+  ],
+  "evidence": [
+    {
+      "capability": {
+        "key": "referent_object_to_library_top",
+        "specification": {
+          "expected_unlock": 1,
+          "negative_examples": [
+            "target creature put on top of its owner's library (already covered by the existing targeted 'bounce' to library_top primitive)",
+            "put that creature on the bottom of its owner's library (same referent gap, different destination \u2014 stays a separate honest miss)",
+            "target card from a graveyard put on top/bottom of its owner's library (different source zone, already covered by return_from_graveyard/targeted_graveyard_card_to_owner_library_bottom)"
+          ],
+          "required_behavior": "A triggered ability whose effect refers back to an object bound by the trigger condition itself (not a new Target) must be executable as putting that specific object on top of its owner's library, with no targeting step and no graveyard/self-resolution source",
+          "source_misses": [
+            {
+              "card": "Elven Warhounds",
+              "oracle_text_sha256": "42531f02c5937c099bb00b69c6546868755a44b45d707f827e9867b78acd0f66",
+              "paragraph": "Whenever this creature becomes blocked by a creature, put that creature on top of its owner's library.",
+              "required_behavior": "Put the referent blocking creature (bound by the trigger's 'becomes blocked by a creature' clause, not targeted) on top of its owner's library"
+            }
+          ]
+        },
+        "summary": "Move a non-targeted referent object established by a trigger condition (e.g. the creature that blocked) to the top of its owner's library"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-19T224253Z-map-frontier-269d732a8486-v1-claude.json"
+    },
+    {
+      "anchor": "2817-2842",
+      "fact": "Verified declaration game.GameState.executeGrantKeywordsReferentConditionalDeliriumEOT in source revision f8d04f3ce658cafd9fc05a92edd2960e016e36d9; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"referent\" AND \"object\" AND \"library\" AND \"top\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-20T07:12:06Z",
+          "indexed_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "normalized_words": [
+            "referent",
+            "object",
+            "library",
+            "top"
+          ],
+          "query": "referent_object_to_library_top",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "referent_object_to_library_top",
+            "request_id": "c828c7474c0a46dca66f62951a8378b7",
+            "ticket": "ticket:engine.auto-referent-object-to-library-top-b695fba968/v1"
+          },
+          "request_id": "c828c7474c0a46dca66f62951a8378b7",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"referent\" AND \"object\" AND \"library\" AND \"top\"",
+            "\"referent\" AND \"object\" AND \"library\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-20T07:12:06Z",
+          "indexed_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "normalized_words": [
+            "referent",
+            "object",
+            "library",
+            "top"
+          ],
+          "query": "referent_object_to_library_top",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "referent_object_to_library_top",
+            "request_id": "67a2d4558247472c8d228c2aa74ae05f",
+            "ticket": "ticket:engine.auto-referent-object-to-library-top-b695fba968/v1"
+          },
+          "request_id": "67a2d4558247472c8d228c2aa74ae05f",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "executeGrantKeywordsReferentConditionalDeliriumEOT grants keywords to the",
+              "doc": "executeGrantKeywordsReferentConditionalDeliriumEOT grants keywords to the\npreceding sequence referent only while its caster has delirium at\nresolution.\n",
+              "end": 2842,
+              "kind": "engine",
+              "name": "executeGrantKeywordsReferentConditionalDeliriumEOT",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeGrantKeywordsReferentConditionalDeliriumEOT",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeGrantKeywordsReferentConditionalDeliriumEOT(controller int, source *Card, effectValue map[string]interface{})",
+              "start": 2817,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeGrantKeywordsReferentConditionalDeliriumEOT",
+              "symbol_kind": "function",
+              "title": "executeGrantKeywordsReferentConditionalDeliriumEOT"
+            },
+            {
+              "description": "executePumpEffect - \"Target creature gets +N/+M until end of turn\"",
+              "doc": "executePumpEffect - \"Target creature gets +N/+M until end of turn\"\nexecutePumpAllReferentControllerEOT implements the\npump_all_referent_controller_spell primitive (ticket\nengine.auto-pump-all-referent-controller-spell-e7617de98a, Public\nExecution class): \"Each other creature that player controls gets -2/-0\nuntil end of turn,\" where \"that player\" is the controller of the\npermanent a PRIOR atom in this same spell sequence acted on\n(gs.seqSlotsStr[\"referent\"], the same cross-atom referent slot\ngrant_keywords_referent_eot/gain_control_referent_eot consume) \u2014 not a\nstatically-known you/opponent controller. Deliberately carries no target\nof its own: the mass recipient is derived entirely from the referent's\ncontroller, read while the referent is still on the battlefield (a\npreceding \"destroy target creature\" atom marks it for a state-based\nremoval that hasn't pulled it off the battlefield yet when this atom\nruns later in the same resolution).\n",
+              "end": 17202,
+              "kind": "engine",
+              "name": "executePumpAllReferentControllerEOT",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executePumpAllReferentControllerEOT",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executePumpAllReferentControllerEOT(source *Card, effectValue map[string]interface{}) error",
+              "start": 17168,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executePumpAllReferentControllerEOT",
+              "symbol_kind": "function",
+              "title": "executePumpAllReferentControllerEOT"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:fight_referent",
+              "doc": "",
+              "end": 14609,
+              "kind": "engine",
+              "name": "fight_referent",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:fight_referent",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:fight_referent",
+              "start": 14576,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:fight_referent",
+              "symbol_kind": "case",
+              "title": "fight_referent"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:untap_referent",
+              "doc": "",
+              "end": 14813,
+              "kind": "engine",
+              "name": "untap_referent",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:untap_referent",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:untap_referent",
+              "start": 14783,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:untap_referent",
+              "symbol_kind": "case",
+              "title": "untap_referent"
+            }
+          ],
+          "current_source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "discovery_role": "operation_only",
+          "fts_queries": [
+            "\"referent\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-20T07:12:06Z",
+          "indexed_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "normalized_words": [
+            "referent"
+          ],
+          "query": "referent",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "referent",
+            "request_id": "485cf72fbebc44ae84be125dd3f865a0",
+            "ticket": "ticket:engine.auto-referent-object-to-library-top-b695fba968/v1"
+          },
+          "request_id": "485cf72fbebc44ae84be125dd3f865a0",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:7a29a8f49bf328380c23af36810c17c843f1b69dc612d829309fa89b30c507c5",
+      "symbol": {
+        "description": "executeGrantKeywordsReferentConditionalDeliriumEOT grants keywords to the",
+        "discovery_role": "operation_only",
+        "doc": "executeGrantKeywordsReferentConditionalDeliriumEOT grants keywords to the\npreceding sequence referent only while its caster has delirium at\nresolution.\n",
+        "end": 2842,
+        "kind": "engine",
+        "name": "executeGrantKeywordsReferentConditionalDeliriumEOT",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.executeGrantKeywordsReferentConditionalDeliriumEOT",
+        "receiver": "GameState",
+        "request_id": "485cf72fbebc44ae84be125dd3f865a0",
+        "signature": "func (gs *GameState) executeGrantKeywordsReferentConditionalDeliriumEOT(controller int, source *Card, effectValue map[string]interface{})",
+        "start": 2817,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.executeGrantKeywordsReferentConditionalDeliriumEOT",
+        "symbol_kind": "function",
+        "title": "executeGrantKeywordsReferentConditionalDeliriumEOT"
+      }
+    },
+    {
+      "anchor": "17168-17202",
+      "fact": "Verified declaration game.GameState.executePumpAllReferentControllerEOT in source revision f8d04f3ce658cafd9fc05a92edd2960e016e36d9; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"referent\" AND \"object\" AND \"library\" AND \"top\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-20T07:12:06Z",
+          "indexed_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "normalized_words": [
+            "referent",
+            "object",
+            "library",
+            "top"
+          ],
+          "query": "referent_object_to_library_top",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "referent_object_to_library_top",
+            "request_id": "c828c7474c0a46dca66f62951a8378b7",
+            "ticket": "ticket:engine.auto-referent-object-to-library-top-b695fba968/v1"
+          },
+          "request_id": "c828c7474c0a46dca66f62951a8378b7",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"referent\" AND \"object\" AND \"library\" AND \"top\"",
+            "\"referent\" AND \"object\" AND \"library\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-20T07:12:06Z",
+          "indexed_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "normalized_words": [
+            "referent",
+            "object",
+            "library",
+            "top"
+          ],
+          "query": "referent_object_to_library_top",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "referent_object_to_library_top",
+            "request_id": "67a2d4558247472c8d228c2aa74ae05f",
+            "ticket": "ticket:engine.auto-referent-object-to-library-top-b695fba968/v1"
+          },
+          "request_id": "67a2d4558247472c8d228c2aa74ae05f",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "executeGrantKeywordsReferentConditionalDeliriumEOT grants keywords to the",
+              "doc": "executeGrantKeywordsReferentConditionalDeliriumEOT grants keywords to the\npreceding sequence referent only while its caster has delirium at\nresolution.\n",
+              "end": 2842,
+              "kind": "engine",
+              "name": "executeGrantKeywordsReferentConditionalDeliriumEOT",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeGrantKeywordsReferentConditionalDeliriumEOT",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeGrantKeywordsReferentConditionalDeliriumEOT(controller int, source *Card, effectValue map[string]interface{})",
+              "start": 2817,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeGrantKeywordsReferentConditionalDeliriumEOT",
+              "symbol_kind": "function",
+              "title": "executeGrantKeywordsReferentConditionalDeliriumEOT"
+            },
+            {
+              "description": "executePumpEffect - \"Target creature gets +N/+M until end of turn\"",
+              "doc": "executePumpEffect - \"Target creature gets +N/+M until end of turn\"\nexecutePumpAllReferentControllerEOT implements the\npump_all_referent_controller_spell primitive (ticket\nengine.auto-pump-all-referent-controller-spell-e7617de98a, Public\nExecution class): \"Each other creature that player controls gets -2/-0\nuntil end of turn,\" where \"that player\" is the controller of the\npermanent a PRIOR atom in this same spell sequence acted on\n(gs.seqSlotsStr[\"referent\"], the same cross-atom referent slot\ngrant_keywords_referent_eot/gain_control_referent_eot consume) \u2014 not a\nstatically-known you/opponent controller. Deliberately carries no target\nof its own: the mass recipient is derived entirely from the referent's\ncontroller, read while the referent is still on the battlefield (a\npreceding \"destroy target creature\" atom marks it for a state-based\nremoval that hasn't pulled it off the battlefield yet when this atom\nruns later in the same resolution).\n",
+              "end": 17202,
+              "kind": "engine",
+              "name": "executePumpAllReferentControllerEOT",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executePumpAllReferentControllerEOT",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executePumpAllReferentControllerEOT(source *Card, effectValue map[string]interface{}) error",
+              "start": 17168,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executePumpAllReferentControllerEOT",
+              "symbol_kind": "function",
+              "title": "executePumpAllReferentControllerEOT"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:fight_referent",
+              "doc": "",
+              "end": 14609,
+              "kind": "engine",
+              "name": "fight_referent",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:fight_referent",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:fight_referent",
+              "start": 14576,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:fight_referent",
+              "symbol_kind": "case",
+              "title": "fight_referent"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:untap_referent",
+              "doc": "",
+              "end": 14813,
+              "kind": "engine",
+              "name": "untap_referent",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:untap_referent",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:untap_referent",
+              "start": 14783,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:untap_referent",
+              "symbol_kind": "case",
+              "title": "untap_referent"
+            }
+          ],
+          "current_source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "discovery_role": "operation_only",
+          "fts_queries": [
+            "\"referent\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-20T07:12:06Z",
+          "indexed_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "normalized_words": [
+            "referent"
+          ],
+          "query": "referent",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "referent",
+            "request_id": "485cf72fbebc44ae84be125dd3f865a0",
+            "ticket": "ticket:engine.auto-referent-object-to-library-top-b695fba968/v1"
+          },
+          "request_id": "485cf72fbebc44ae84be125dd3f865a0",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:7a29a8f49bf328380c23af36810c17c843f1b69dc612d829309fa89b30c507c5",
+      "symbol": {
+        "description": "executePumpEffect - \"Target creature gets +N/+M until end of turn\"",
+        "discovery_role": "operation_only",
+        "doc": "executePumpEffect - \"Target creature gets +N/+M until end of turn\"\nexecutePumpAllReferentControllerEOT implements the\npump_all_referent_controller_spell primitive (ticket\nengine.auto-pump-all-referent-controller-spell-e7617de98a, Public\nExecution class): \"Each other creature that player controls gets -2/-0\nuntil end of turn,\" where \"that player\" is the controller of the\npermanent a PRIOR atom in this same spell sequence acted on\n(gs.seqSlotsStr[\"referent\"], the same cross-atom referent slot\ngrant_keywords_referent_eot/gain_control_referent_eot consume) \u2014 not a\nstatically-known you/opponent controller. Deliberately carries no target\nof its own: the mass recipient is derived entirely from the referent's\ncontroller, read while the referent is still on the battlefield (a\npreceding \"destroy target creature\" atom marks it for a state-based\nremoval that hasn't pulled it off the battlefield yet when this atom\nruns later in the same resolution).\n",
+        "end": 17202,
+        "kind": "engine",
+        "name": "executePumpAllReferentControllerEOT",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.executePumpAllReferentControllerEOT",
+        "receiver": "GameState",
+        "request_id": "485cf72fbebc44ae84be125dd3f865a0",
+        "signature": "func (gs *GameState) executePumpAllReferentControllerEOT(source *Card, effectValue map[string]interface{}) error",
+        "start": 17168,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.executePumpAllReferentControllerEOT",
+        "symbol_kind": "function",
+        "title": "executePumpAllReferentControllerEOT"
+      }
+    },
+    {
+      "anchor": "14576-14609",
+      "fact": "Verified declaration game.GameState.ExecuteAbilityEffect#case:fight_referent in source revision f8d04f3ce658cafd9fc05a92edd2960e016e36d9; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"referent\" AND \"object\" AND \"library\" AND \"top\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-20T07:12:06Z",
+          "indexed_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "normalized_words": [
+            "referent",
+            "object",
+            "library",
+            "top"
+          ],
+          "query": "referent_object_to_library_top",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "referent_object_to_library_top",
+            "request_id": "c828c7474c0a46dca66f62951a8378b7",
+            "ticket": "ticket:engine.auto-referent-object-to-library-top-b695fba968/v1"
+          },
+          "request_id": "c828c7474c0a46dca66f62951a8378b7",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"referent\" AND \"object\" AND \"library\" AND \"top\"",
+            "\"referent\" AND \"object\" AND \"library\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-20T07:12:06Z",
+          "indexed_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "normalized_words": [
+            "referent",
+            "object",
+            "library",
+            "top"
+          ],
+          "query": "referent_object_to_library_top",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "referent_object_to_library_top",
+            "request_id": "67a2d4558247472c8d228c2aa74ae05f",
+            "ticket": "ticket:engine.auto-referent-object-to-library-top-b695fba968/v1"
+          },
+          "request_id": "67a2d4558247472c8d228c2aa74ae05f",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "executeGrantKeywordsReferentConditionalDeliriumEOT grants keywords to the",
+              "doc": "executeGrantKeywordsReferentConditionalDeliriumEOT grants keywords to the\npreceding sequence referent only while its caster has delirium at\nresolution.\n",
+              "end": 2842,
+              "kind": "engine",
+              "name": "executeGrantKeywordsReferentConditionalDeliriumEOT",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeGrantKeywordsReferentConditionalDeliriumEOT",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeGrantKeywordsReferentConditionalDeliriumEOT(controller int, source *Card, effectValue map[string]interface{})",
+              "start": 2817,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeGrantKeywordsReferentConditionalDeliriumEOT",
+              "symbol_kind": "function",
+              "title": "executeGrantKeywordsReferentConditionalDeliriumEOT"
+            },
+            {
+              "description": "executePumpEffect - \"Target creature gets +N/+M until end of turn\"",
+              "doc": "executePumpEffect - \"Target creature gets +N/+M until end of turn\"\nexecutePumpAllReferentControllerEOT implements the\npump_all_referent_controller_spell primitive (ticket\nengine.auto-pump-all-referent-controller-spell-e7617de98a, Public\nExecution class): \"Each other creature that player controls gets -2/-0\nuntil end of turn,\" where \"that player\" is the controller of the\npermanent a PRIOR atom in this same spell sequence acted on\n(gs.seqSlotsStr[\"referent\"], the same cross-atom referent slot\ngrant_keywords_referent_eot/gain_control_referent_eot consume) \u2014 not a\nstatically-known you/opponent controller. Deliberately carries no target\nof its own: the mass recipient is derived entirely from the referent's\ncontroller, read while the referent is still on the battlefield (a\npreceding \"destroy target creature\" atom marks it for a state-based\nremoval that hasn't pulled it off the battlefield yet when this atom\nruns later in the same resolution).\n",
+              "end": 17202,
+              "kind": "engine",
+              "name": "executePumpAllReferentControllerEOT",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executePumpAllReferentControllerEOT",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executePumpAllReferentControllerEOT(source *Card, effectValue map[string]interface{}) error",
+              "start": 17168,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executePumpAllReferentControllerEOT",
+              "symbol_kind": "function",
+              "title": "executePumpAllReferentControllerEOT"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:fight_referent",
+              "doc": "",
+              "end": 14609,
+              "kind": "engine",
+              "name": "fight_referent",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:fight_referent",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:fight_referent",
+              "start": 14576,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:fight_referent",
+              "symbol_kind": "case",
+              "title": "fight_referent"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:untap_referent",
+              "doc": "",
+              "end": 14813,
+              "kind": "engine",
+              "name": "untap_referent",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:untap_referent",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:untap_referent",
+              "start": 14783,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:untap_referent",
+              "symbol_kind": "case",
+              "title": "untap_referent"
+            }
+          ],
+          "current_source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "discovery_role": "operation_only",
+          "fts_queries": [
+            "\"referent\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-20T07:12:06Z",
+          "indexed_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "normalized_words": [
+            "referent"
+          ],
+          "query": "referent",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "referent",
+            "request_id": "485cf72fbebc44ae84be125dd3f865a0",
+            "ticket": "ticket:engine.auto-referent-object-to-library-top-b695fba968/v1"
+          },
+          "request_id": "485cf72fbebc44ae84be125dd3f865a0",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:7a29a8f49bf328380c23af36810c17c843f1b69dc612d829309fa89b30c507c5",
+      "symbol": {
+        "description": "ExecuteAbilityEffect#case:fight_referent",
+        "discovery_role": "operation_only",
+        "doc": "",
+        "end": 14609,
+        "kind": "engine",
+        "name": "fight_referent",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.ExecuteAbilityEffect#case:fight_referent",
+        "receiver": "GameState",
+        "request_id": "485cf72fbebc44ae84be125dd3f865a0",
+        "signature": "ExecuteAbilityEffect#case:fight_referent",
+        "start": 14576,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:fight_referent",
+        "symbol_kind": "case",
+        "title": "fight_referent"
+      }
+    },
+    {
+      "anchor": "14783-14813",
+      "fact": "Verified declaration game.GameState.ExecuteAbilityEffect#case:untap_referent in source revision f8d04f3ce658cafd9fc05a92edd2960e016e36d9; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"referent\" AND \"object\" AND \"library\" AND \"top\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-20T07:12:06Z",
+          "indexed_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "normalized_words": [
+            "referent",
+            "object",
+            "library",
+            "top"
+          ],
+          "query": "referent_object_to_library_top",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "referent_object_to_library_top",
+            "request_id": "c828c7474c0a46dca66f62951a8378b7",
+            "ticket": "ticket:engine.auto-referent-object-to-library-top-b695fba968/v1"
+          },
+          "request_id": "c828c7474c0a46dca66f62951a8378b7",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"referent\" AND \"object\" AND \"library\" AND \"top\"",
+            "\"referent\" AND \"object\" AND \"library\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-20T07:12:06Z",
+          "indexed_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "normalized_words": [
+            "referent",
+            "object",
+            "library",
+            "top"
+          ],
+          "query": "referent_object_to_library_top",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "referent_object_to_library_top",
+            "request_id": "67a2d4558247472c8d228c2aa74ae05f",
+            "ticket": "ticket:engine.auto-referent-object-to-library-top-b695fba968/v1"
+          },
+          "request_id": "67a2d4558247472c8d228c2aa74ae05f",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "executeGrantKeywordsReferentConditionalDeliriumEOT grants keywords to the",
+              "doc": "executeGrantKeywordsReferentConditionalDeliriumEOT grants keywords to the\npreceding sequence referent only while its caster has delirium at\nresolution.\n",
+              "end": 2842,
+              "kind": "engine",
+              "name": "executeGrantKeywordsReferentConditionalDeliriumEOT",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executeGrantKeywordsReferentConditionalDeliriumEOT",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeGrantKeywordsReferentConditionalDeliriumEOT(controller int, source *Card, effectValue map[string]interface{})",
+              "start": 2817,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executeGrantKeywordsReferentConditionalDeliriumEOT",
+              "symbol_kind": "function",
+              "title": "executeGrantKeywordsReferentConditionalDeliriumEOT"
+            },
+            {
+              "description": "executePumpEffect - \"Target creature gets +N/+M until end of turn\"",
+              "doc": "executePumpEffect - \"Target creature gets +N/+M until end of turn\"\nexecutePumpAllReferentControllerEOT implements the\npump_all_referent_controller_spell primitive (ticket\nengine.auto-pump-all-referent-controller-spell-e7617de98a, Public\nExecution class): \"Each other creature that player controls gets -2/-0\nuntil end of turn,\" where \"that player\" is the controller of the\npermanent a PRIOR atom in this same spell sequence acted on\n(gs.seqSlotsStr[\"referent\"], the same cross-atom referent slot\ngrant_keywords_referent_eot/gain_control_referent_eot consume) \u2014 not a\nstatically-known you/opponent controller. Deliberately carries no target\nof its own: the mass recipient is derived entirely from the referent's\ncontroller, read while the referent is still on the battlefield (a\npreceding \"destroy target creature\" atom marks it for a state-based\nremoval that hasn't pulled it off the battlefield yet when this atom\nruns later in the same resolution).\n",
+              "end": 17202,
+              "kind": "engine",
+              "name": "executePumpAllReferentControllerEOT",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executePumpAllReferentControllerEOT",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executePumpAllReferentControllerEOT(source *Card, effectValue map[string]interface{}) error",
+              "start": 17168,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executePumpAllReferentControllerEOT",
+              "symbol_kind": "function",
+              "title": "executePumpAllReferentControllerEOT"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:fight_referent",
+              "doc": "",
+              "end": 14609,
+              "kind": "engine",
+              "name": "fight_referent",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:fight_referent",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:fight_referent",
+              "start": 14576,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:fight_referent",
+              "symbol_kind": "case",
+              "title": "fight_referent"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:untap_referent",
+              "doc": "",
+              "end": 14813,
+              "kind": "engine",
+              "name": "untap_referent",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:untap_referent",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:untap_referent",
+              "start": 14783,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:untap_referent",
+              "symbol_kind": "case",
+              "title": "untap_referent"
+            }
+          ],
+          "current_source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "discovery_role": "operation_only",
+          "fts_queries": [
+            "\"referent\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-20T07:12:06Z",
+          "indexed_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "normalized_words": [
+            "referent"
+          ],
+          "query": "referent",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "referent",
+            "request_id": "485cf72fbebc44ae84be125dd3f865a0",
+            "ticket": "ticket:engine.auto-referent-object-to-library-top-b695fba968/v1"
+          },
+          "request_id": "485cf72fbebc44ae84be125dd3f865a0",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:7a29a8f49bf328380c23af36810c17c843f1b69dc612d829309fa89b30c507c5",
+      "symbol": {
+        "description": "ExecuteAbilityEffect#case:untap_referent",
+        "discovery_role": "operation_only",
+        "doc": "",
+        "end": 14813,
+        "kind": "engine",
+        "name": "untap_referent",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.ExecuteAbilityEffect#case:untap_referent",
+        "receiver": "GameState",
+        "request_id": "485cf72fbebc44ae84be125dd3f865a0",
+        "signature": "ExecuteAbilityEffect#case:untap_referent",
+        "start": 14783,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:untap_referent",
+        "symbol_kind": "case",
+        "title": "untap_referent"
+      }
+    }
+  ],
+  "expected_unlock": 1,
+  "negative_examples": [
+    "target creature put on top of its owner's library (already covered by the existing targeted 'bounce' to library_top primitive)",
+    "put that creature on the bottom of its owner's library (same referent gap, different destination \u2014 stays a separate honest miss)",
+    "target card from a graveyard put on top/bottom of its owner's library (different source zone, already covered by return_from_graveyard/targeted_graveyard_card_to_owner_library_bottom)"
+  ],
+  "required_behavior": "A triggered ability whose effect refers back to an object bound by the trigger condition itself (not a new Target) must be executable as putting that specific object on top of its owner's library, with no targeting step and no graveyard/self-resolution source",
+  "source_misses": [
+    {
+      "card": "Elven Warhounds",
+      "oracle_text_sha256": "42531f02c5937c099bb00b69c6546868755a44b45d707f827e9867b78acd0f66",
+      "paragraph": "Whenever this creature becomes blocked by a creature, put that creature on top of its owner's library.",
+      "required_behavior": "Put the referent blocking creature (bound by the trigger's 'becomes blocked by a creature' clause, not targeted) on top of its owner's library"
+    }
+  ]
+}
+Park reason:
+Atomic contract authority: A triggered ability whose effect refers back to an object bound by the trigger condition itself (not a new Target) must be executable as putting that specific object on top of its owner's library, with no targeting step and no graveyard/self-resolution source
+
+You are extending the Go MTG engine (repo openmagic, module magic-backend,
+run from backend/). First distinguish existing behavior from the specific remaining gap. A generated
+capability name is a search label, not an instruction to add a new primitive.
+Decompose the requirement into existing operations, connections, and missing
+behavior. Operation-only search hits are candidates, not proof of full support.
+Use the public converter/cast/trigger/resolution path for the discriminating
+test; a private-helper test alone can miss lost fields or later defaults.
+If existing code satisfies the entire contract, a discriminating test-only
+patch is valid. Otherwise change only the demonstrated gap. Missing evidence
+requires NEED, not an invented framework. Choose classification reuse, connection, engine_gap, or insufficient_evidence.
+Include one short assessment line (example):
+CAPABILITY_ASSESSMENT: {"classification":"connection","existing_symbols":["qualified symbol"],"remaining_gap":"specific behavior or none","verification":"public-path test or missing evidence"}
+Then deliver the normal edit blocks or verdict. This adds no model round.
+Rules:
+- backend/game/ edits ARE allowed here (this is the engine tier).
+- Follow existing conventions: extend an existing executor/switch where
+  possible; wire new vocabulary through the SAME registration points the
+  code regions below show (registry entry / converter case / v2 enum) if a
+  new effect name is needed.
+- A NEW test function in a NEW _test.go file is REQUIRED (gate greps the
+  diff for +func Test). Behavior test, not just compilation.
+- If this demand is actually FRAMEWORK-SIZED (new event system, new
+  dispatch machinery, cross-cutting state), do NOT attempt it.
+
+## Blocked example cards
+### Elven Warhounds
+Oracle text:
+Whenever this creature becomes blocked by a creature, put that creature on top of its owner's library.
+Current misses: [('verb_unmapped:put_zone', "put that creature on top of its owner's library.")]
+
+## Relevant code regions (line-numbered, read-only reference)
+### backend/game/ability_effects.go:2817-2842 [game.GameState.executeGrantKeywordsReferentConditionalDeliriumEOT; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+ 2817 func (gs *GameState) executeGrantKeywordsReferentConditionalDeliriumEOT(controller int, source *Card, effectValue map[string]interface{}) {
+ 2818 	kws := keywordListFromValue(effectValue)
+ 2819 	if len(kws) == 0 || gs.EffectManager == nil || source == nil || gs.seqSlotsStr == nil {
+ 2820 		return
+ 2821 	}
+ 2822 	if controller < 0 || controller >= len(gs.Players) ||
+ 2823 		distinctCardTypesIn(gs.Players[controller].Graveyard) < 4 {
+ 2824 		return
+ 2825 	}
+ 2826 	refID := gs.seqSlotsStr["referent"]
+ 2827 	if refID == "" {
+ 2828 		return
+ 2829 	}
+ 2830 	if card, err := gs.Battlefield.GetCard(refID); err != nil || card == nil {
+ 2831 		return
+ 2832 	}
+ 2833 	for _, kw := range kws {
+ 2834 		gs.EffectManager.Register(&ContinuousEffect{
+ 2835 			Source:          source,
+ 2836 			SourceID:        source.ID,
+ 2837 			AffectsSpecific: refID,
+ 2838 			GrantKeyword:    kw,
+ 2839 			UntilEOT:        true,
+ 2840 		})
+ 2841 	}
+ 2842 }
+
+### backend/game/ability_effects.go:17168-17202 [game.GameState.executePumpAllReferentControllerEOT; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+17168 func (gs *GameState) executePumpAllReferentControllerEOT(source *Card, effectValue map[string]interface{}) error {
+17169 	if gs.EffectManager == nil || source == nil || gs.seqSlotsStr == nil {
+17170 		return nil
+17171 	}
+17172 	refID := gs.seqSlotsStr["referent"]
+17173 	if refID == "" {
+17174 		return nil
+17175 	}
+17176 	refCard, err := gs.Battlefield.GetCard(refID)
+17177 	if err != nil || refCard == nil {
+17178 		return nil
+17179 	}
+17180 	referentController := refCard.Controller
+17181 	power := getIntValue(effectValue, "power", 0)
+17182 	toughness := getIntValue(effectValue, "toughness", 0)
+17183 	for _, card := range gs.Battlefield.GetAll() {
+17184 		if card == nil || card.ID == refID {
+17185 			continue
+17186 		}
+17187 		if card.Controller != referentController {
+17188 			continue
+17189 		}
+17190 		if !matchesPermanentFilter(card, "creature") {
+17191 			continue
+17192 		}
+17193 		gs.EffectManager.Register(&ContinuousEffect{
+17194 			Source:          source,
+17195 			AffectsSpecific: card.ID,
+17196 			PowerMod:        power,
+17197 			ToughnessMod:    toughness,
+17198 			UntilEOT:        true,
+17199 		})
+17200 	}
+17201 	return nil
+17202 }
+
+### backend/game/ability_effects.go:2814-2843 (verified: named function executeGrantKeywordsReferentConditionalDeliriumEOT; bounded excerpt, request continuation if the body extends past this range)
+ 2814 // executeGrantKeywordsReferentConditionalDeliriumEOT grants keywords to the
+ 2815 // preceding sequence referent only while its caster has delirium at
+ 2816 // resolution.
+ 2817 func (gs *GameState) executeGrantKeywordsReferentConditionalDeliriumEOT(controller int, source *Card, effectValue map[string]interface{}) {
+ 2818 	kws := keywordListFromValue(effectValue)
+ 2819 	if len(kws) == 0 || gs.EffectManager == nil || source == nil || gs.seqSlotsStr == nil {
+ 2820 		return
+ 2821 	}
+ 2822 	if controller < 0 || controller >= len(gs.Players) ||
+ 2823 		distinctCardTypesIn(gs.Players[controller].Graveyard) < 4 {
+ 2824 		return
+ 2825 	}
+ 2826 	refID := gs.seqSlotsStr["referent"]
+ 2827 	if refID == "" {
+ 2828 		return
+ 2829 	}
+ 2830 	if card, err := gs.Battlefield.GetCard(refID); err != nil || card == nil {
+ 2831 		return
+ 2832 	}
+ 2833 	for _, kw := range kws {
+ 2834 		gs.EffectManager.Register(&ContinuousEffect{
+ 2835 			Source:          source,
+ 2836 			SourceID:        source.ID,
+ 2837 			AffectsSpecific: refID,
+ 2838 			GrantKeyword:    kw,
+ 2839 			UntilEOT:        true,
+ 2840 		})
+ 2841 	}
+ 2842 }
+ 2843 
+
+### backend/game/ability_effects.go:17153-17218 (verified: named function executePumpAllReferentControllerEOT; bounded excerpt, request continuation if the body extends past this range)
+17153 // executePumpEffect - "Target creature gets +N/+M until end of turn"
+17154 // executePumpAllReferentControllerEOT implements the
+17155 // pump_all_referent_controller_spell primitive (ticket
+17156 // engine.auto-pump-all-referent-controller-spell-e7617de98a, Public
+17157 // Execution class): "Each other creature that player controls gets -2/-0
+17158 // until end of turn," where "that player" is the controller of the
+17159 // permanent a PRIOR atom in this same spell sequence acted on
+17160 // (gs.seqSlotsStr["referent"], the same cross-atom referent slot
+17161 // grant_keywords_referent_eot/gain_control_referent_eot consume) — not a
+17162 // statically-known you/opponent controller. Deliberately carries no target
+17163 // of its own: the mass recipient is derived entirely from the referent's
+17164 // controller, read while the referent is still on the battlefield (a
+17165 // preceding "destroy target creature" atom marks it for a state-based
+17166 // removal that hasn't pulled it off the battlefield yet when this atom
+17167 // runs later in the same resolution).
+17168 func (gs *GameState) executePumpAllReferentControllerEOT(source *Card, effectValue map[string]interface{}) error {
+17169 	if gs.EffectManager == nil || source == nil || gs.seqSlotsStr == nil {
+17170 		return nil
+17171 	}
+17172 	refID := gs.seqSlotsStr["referent"]
+17173 	if refID == "" {
+17174 		return nil
+17175 	}
+17176 	refCard, err := gs.Battlefield.GetCard(refID)
+17177 	if err != nil || refCard == nil {
+17178 		return nil
+17179 	}
+17180 	referentController := refCard.Controller
+17181 	power := getIntValue(effectValue, "power", 0)
+17182 	toughness := getIntValue(effectValue, "toughness", 0)
+17183 	for _, card := range gs.Battlefield.GetAll() {
+17184 		if card == nil || card.ID == refID {
+17185 			continue
+17186 		}
+17187 		if card.Controller != referentController {
+17188 			continue
+17189 		}
+17190 		if !matchesPermanentFilter(card, "creature") {
+17191 			continue
+17192 		}
+17193 		gs.EffectManager.Register(&ContinuousEffect{
+17194 			Source:          source,
+17195 			AffectsSpecific: card.ID,
+17196 			PowerMod:        power,
+17197 			ToughnessMod:    toughness,
+17198 			UntilEOT:        true,
+17199 		})
+17200 	}
+17201 	return nil
+17202 }
+17203 
+17204 // pump_until_eot_with_keyword_grant primitive (ticket
+17205 // engine.auto-pump-until-eot-with-keyword-grant-ac968245d2, Moodmark Painter
+17206 // class: "target creature gains menace and gets +X/+0 until end of turn,
+17207 // where X is the number of creature cards in your graveyard."). A single
+17208 // pump/pump_until_eot atom can now ALSO carry effectValue["keywords"]/
+17209 // ["keyword"] (the same keywordListFromValue vocabulary grant_keywords_
+17210 // until_eot reads below) so the keyword grant and the P/T bonus land on the
+17211 // SAME target in the SAME resolution, instead of needing a second effect
+17212 // atom. Empty for every plain pump/pump_until_eot record — the negative
+17213 // example — so this is purely additive; the standalone
+17214 // grant_keywords_until_eot primitive is untouched for a record carrying only
+17215 // a keyword grant.
+17216 // executePumpAttackingCreaturesUntilEOT resolves an untargeted pump over the
+17217 // currently declared attackers controlled by the ability's controller that are
+17218 // attacking that controller's opponent or a planeswalker that opponent controls.
+
+### backend/game/ability_effects.go:2817-2842 [game.GameState.executeGrantKeywordsReferentConditionalDeliriumEOT; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+ 2817 func (gs *GameState) executeGrantKeywordsReferentConditionalDeliriumEOT(controller int, source *Card, effectValue map[string]interface{}) {
+ 2818 	kws := keywordListFromValue(effectValue)
+ 2819 	if len(kws) == 0 || gs.EffectManager == nil || source == nil || gs.seqSlotsStr == nil {
+ 2820 		return
+ 2821 	}
+ 2822 	if controller < 0 || controller >= len(gs.Players) ||
+ 2823 		distinctCardTypesIn(gs.Players[controller].Graveyard) < 4 {
+ 2824 		return
+ 2825 	}
+ 2826 	refID := gs.seqSlotsStr["referent"]
+ 2827 	if refID == "" {
+ 2828 		return
+ 2829 	}
+ 2830 	if card, err := gs.Battlefield.GetCard(refID); err != nil || card == nil {
+ 2831 		return
+ 2832 	}
+ 2833 	for _, kw := range kws {
+ 2834 		gs.EffectManager.Register(&ContinuousEffect{
+ 2835 			Source:          source,
+ 2836 			SourceID:        source.ID,
+ 2837 			AffectsSpecific: refID,
+ 2838 			GrantKeyword:    kw,
+ 2839 			UntilEOT:        true,
+ 2840 		})
+ 2841 	}
+ 2842 }
+
+### backend/game/ability_effects.go:17168-17202 [game.GameState.executePumpAllReferentControllerEOT; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+17168 func (gs *GameState) executePumpAllReferentControllerEOT(source *Card, effectValue map[string]interface{}) error {
+17169 	if gs.EffectManager == nil || source == nil || gs.seqSlotsStr == nil {
+17170 		return nil
+17171 	}
+17172 	refID := gs.seqSlotsStr["referent"]
+17173 	if refID == "" {
+17174 		return nil
+17175 	}
+17176 	refCard, err := gs.Battlefield.GetCard(refID)
+17177 	if err != nil || refCard == nil {
+17178 		return nil
+17179 	}
+17180 	referentController := refCard.Controller
+17181 	power := getIntValue(effectValue, "power", 0)
+17182 	toughness := getIntValue(effectValue, "toughness", 0)
+17183 	for _, card := range gs.Battlefield.GetAll() {
+17184 		if card == nil || card.ID == refID {
+17185 			continue
+17186 		}
+17187 		if card.Controller != referentController {
+17188 			continue
+17189 		}
+17190 		if !matchesPermanentFilter(card, "creature") {
+17191 			continue
+17192 		}
+17193 		gs.EffectManager.Register(&ContinuousEffect{
+17194 			Source:          source,
+17195 			AffectsSpecific: card.ID,
+17196 			PowerMod:        power,
+17197 			ToughnessMod:    toughness,
+17198 			UntilEOT:        true,
+17199 		})
+17200 	}
+17201 	return nil
+17202 }
+
+### backend/game/ability_effects.go:14576-14609 [game.GameState.ExecuteAbilityEffect#case:fight_referent; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+14576 	case "fight_referent":
+14577 		// fight_referent primitive (ticket #3961, REPARSE-MAP
+14578 		// verb_unmapped:fight / capability #61): "it fights up to one target
+14579 		// creature defending player controls" — the fight's SUBJECT is not
+14580 		// this ability's own source but the card a PRECEDING atom in this
+14581 		// SAME sequence established (gs.seqSlotsStr["referent"], armed by
+14582 		// executeEffectSequenceEv's per-atom bookkeeping in
+14583 		// effect_sequence.go's noteSeqReferent). Mirrors
+14584 		// grant_keywords_referent_eot's referent read; unlike "fight" above
+14585 		// (which hardcodes the source as one combatant) this one takes the
+14586 		// referent as combatant one and the atom's OWN first card target as
+14587 		// combatant two. No referent bound (or vanished from the
+14588 		// battlefield) means the fight can't happen — no-op, never falling
+14589 		// back to the source, so the existing source-fight path and
+14590 		// two-independent-target fights stay untouched.
+14591 		if gs.seqSlotsStr == nil {
+14592 			return nil
+14593 		}
+14594 		refID := gs.seqSlotsStr["referent"]
+14595 		if refID == "" {
+14596 			return nil
+14597 		}
+14598 		if _, err := gs.Battlefield.GetCard(refID); err != nil {
+14599 			return nil
+14600 		}
+14601 		for _, t := range targets {
+14602 			if t.IsCard && t.CardID != "" && t.CardID != refID {
+14603 				if _, err := gs.Battlefield.GetCard(t.CardID); err != nil {
+14604 					return nil
+14605 				}
+14606 				return gs.Fight(refID, t.CardID)
+14607 			}
+14608 		}
+14609 		return nil
+
+### backend/game/ability_effects.go:14783-14813 [game.GameState.ExecuteAbilityEffect#case:untap_referent; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+14783 	case "untap_referent":
+14784 		// auto_untap_referent_target_b538048b69 primitive (Bloody Betrayal
+14785 		// class: "Gain control of target creature until end of turn. Untap
+14786 		// that creature. ..."). The untap is a STANDALONE untargeted
+14787 		// sequence atom whose subject "that creature" refers to whatever
+14788 		// card a PRECEDING atom in this same sequence most recently acted
+14789 		// on (gs.seqSlotsStr["referent"], armed by executeEffectSequenceEv's
+14790 		// per-atom bookkeeping in effect_sequence.go's noteSeqReferent).
+14791 		// Deliberately left untargeted so it can sit between the
+14792 		// referent-establishing atom (gain_control, etc.) and a later
+14793 		// referent-consuming atom (grant_keywords_referent_eot) without
+14794 		// breaking either. Mirrors gain_control_referent_eot's referent
+14795 		// read above; the untap itself mirrors executeUntapEffect's
+14796 		// Card.Untap + EventUntapped pair. No-op if no referent is armed
+14797 		// or the referent can no longer be found on the battlefield.
+14798 		if gs.seqSlotsStr == nil {
+14799 			return nil
+14800 		}
+14801 		refID := gs.seqSlotsStr["referent"]
+14802 		if refID == "" {
+14803 			return nil
+14804 		}
+14805 		card, err := gs.Battlefield.GetCard(refID)
+14806 		if err != nil || card == nil {
+14807 			return nil
+14808 		}
+14809 		card.Untap()
+14810 		if gs.EventBus != nil {
+14811 			gs.ProcessTriggeredAbilities(NewEvent(EventUntapped).WithSource(card).WithPlayer(card.Controller))
+14812 		}
+14813 		return nil
+
+### backend/game/ability_effects.go:2817-2842 [game.GameState.executeGrantKeywordsReferentConditionalDeliriumEOT; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+ 2817 func (gs *GameState) executeGrantKeywordsReferentConditionalDeliriumEOT(controller int, source *Card, effectValue map[string]interface{}) {
+ 2818 	kws := keywordListFromValue(effectValue)
+ 2819 	if len(kws) == 0 || gs.EffectManager == nil || source == nil || gs.seqSlotsStr == nil {
+ 2820 		return
+ 2821 	}
+ 2822 	if controller < 0 || controller >= len(gs.Players) ||
+ 2823 		distinctCardTypesIn(gs.Players[controller].Graveyard) < 4 {
+ 2824 		return
+ 2825 	}
+ 2826 	refID := gs.seqSlotsStr["referent"]
+ 2827 	if refID == "" {
+ 2828 		return
+ 2829 	}
+ 2830 	if card, err := gs.Battlefield.GetCard(refID); err != nil || card == nil {
+ 2831 		return
+ 2832 	}
+ 2833 	for _, kw := range kws {
+ 2834 		gs.EffectManager.Register(&ContinuousEffect{
+ 2835 			Source:          source,
+ 2836 			SourceID:        source.ID,
+ 2837 			AffectsSpecific: refID,
+ 2838 			GrantKeyword:    kw,
+ 2839 			UntilEOT:        true,
+ 2840 		})
+ 2841 	}
+ 2842 }
+
+### backend/game/ability_effects.go:17168-17202 [game.GameState.executePumpAllReferentControllerEOT; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+17168 func (gs *GameState) executePumpAllReferentControllerEOT(source *Card, effectValue map[string]interface{}) error {
+17169 	if gs.EffectManager == nil || source == nil || gs.seqSlotsStr == nil {
+17170 		return nil
+17171 	}
+17172 	refID := gs.seqSlotsStr["referent"]
+17173 	if refID == "" {
+17174 		return nil
+17175 	}
+17176 	refCard, err := gs.Battlefield.GetCard(refID)
+17177 	if err != nil || refCard == nil {
+17178 		return nil
+17179 	}
+17180 	referentController := refCard.Controller
+17181 	power := getIntValue(effectValue, "power", 0)
+17182 	toughness := getIntValue(effectValue, "toughness", 0)
+17183 	for _, card := range gs.Battlefield.GetAll() {
+17184 		if card == nil || card.ID == refID {
+17185 			continue
+17186 		}
+17187 		if card.Controller != referentController {
+17188 			continue
+17189 		}
+17190 		if !matchesPermanentFilter(card, "creature") {
+17191 			continue
+17192 		}
+17193 		gs.EffectManager.Register(&ContinuousEffect{
+17194 			Source:          source,
+17195 			AffectsSpecific: card.ID,
+17196 			PowerMod:        power,
+17197 			ToughnessMod:    toughness,
+17198 			UntilEOT:        true,
+17199 		})
+17200 	}
+17201 	return nil
+17202 }
+
+### backend/game/ability_effects.go:14576-14609 [game.GameState.ExecuteAbilityEffect#case:fight_referent; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+14576 	case "fight_referent":
+14577 		// fight_referent primitive (ticket #3961, REPARSE-MAP
+14578 		// verb_unmapped:fight / capability #61): "it fights up to one target
+14579 		// creature defending player controls" — the fight's SUBJECT is not
+14580 		// this ability's own source but the card a PRECEDING atom in this
+14581 		// SAME sequence established (gs.seqSlotsStr["referent"], armed by
+14582 		// executeEffectSequenceEv's per-atom bookkeeping in
+14583 		// effect_sequence.go's noteSeqReferent). Mirrors
+14584 		// grant_keywords_referent_eot's referent read; unlike "fight" above
+14585 		// (which hardcodes the source as one combatant) this one takes the
+14586 		// referent as combatant one and the atom's OWN first card target as
+14587 		// combatant two. No referent bound (or vanished from the
+14588 		// battlefield) means the fight can't happen — no-op, never falling
+14589 		// back to the source, so the existing source-fight path and
+14590 		// two-independent-target fights stay untouched.
+14591 		if gs.seqSlotsStr == nil {
+14592 			return nil
+14593 		}
+14594 		refID := gs.seqSlotsStr["referent"]
+14595 		if refID == "" {
+14596 			return nil
+14597 		}
+14598 		if _, err := gs.Battlefield.GetCard(refID); err != nil {
+14599 			return nil
+14600 		}
+14601 		for _, t := range targets {
+14602 			if t.IsCard && t.CardID != "" && t.CardID != refID {
+14603 				if _, err := gs.Battlefield.GetCard(t.CardID); err != nil {
+14604 					return nil
+14605 				}
+14606 				return gs.Fight(refID, t.CardID)
+14607 			}
+14608 		}
+14609 		return nil
+
+### backend/game/ability_effects.go:14783-14813 [game.GameState.ExecuteAbilityEffect#case:untap_referent; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+14783 	case "untap_referent":
+14784 		// auto_untap_referent_target_b538048b69 primitive (Bloody Betrayal
+14785 		// class: "Gain control of target creature until end of turn. Untap
+14786 		// that creature. ..."). The untap is a STANDALONE untargeted
+14787 		// sequence atom whose subject "that creature" refers to whatever
+14788 		// card a PRECEDING atom in this same sequence most recently acted
+14789 		// on (gs.seqSlotsStr["referent"], armed by executeEffectSequenceEv's
+14790 		// per-atom bookkeeping in effect_sequence.go's noteSeqReferent).
+14791 		// Deliberately left untargeted so it can sit between the
+14792 		// referent-establishing atom (gain_control, etc.) and a later
+14793 		// referent-consuming atom (grant_keywords_referent_eot) without
+14794 		// breaking either. Mirrors gain_control_referent_eot's referent
+14795 		// read above; the untap itself mirrors executeUntapEffect's
+14796 		// Card.Untap + EventUntapped pair. No-op if no referent is armed
+14797 		// or the referent can no longer be found on the battlefield.
+14798 		if gs.seqSlotsStr == nil {
+14799 			return nil
+14800 		}
+14801 		refID := gs.seqSlotsStr["referent"]
+14802 		if refID == "" {
+14803 			return nil
+14804 		}
+14805 		card, err := gs.Battlefield.GetCard(refID)
+14806 		if err != nil || card == nil {
+14807 			return nil
+14808 		}
+14809 		card.Untap()
+14810 		if gs.EventBus != nil {
+14811 			gs.ProcessTriggeredAbilities(NewEvent(EventUntapped).WithSource(card).WithPlayer(card.Controller))
+14812 		}
+14813 		return nil
+
+### backend/game/effect_sequence.go:826-831 [game.GameState.noteSeqReferent; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+  826 func (gs *GameState) noteSeqReferent(cardID string) {
+  827 	if gs.seqSlotsStr == nil {
+  828 		return
+  829 	}
+  830 	gs.seqSlotsStr["referent"] = cardID
+  831 }
+
+### backend/game/dynamic_amount.go:2037-2041 [game.GameState.evalDynamicAmountBase#case:sequence_referent; f8d04f3ce658cafd9fc05a92edd2960e016e36d9; truncated at source budget]
+ 2037 		case "sequence_referent":
+ 2038 			// The card most recently acted on by a PRECEDING atom in this
+ 2039 			// same multi-atom ability sequence (Venom, Deadly Devourer:
+ 2040 			// "put X +1/+1 counters on target Symbiote, where X is the
+ 2041 			// exiled card's toughness" — X reads the referent the exile
+
+## Knowledge-service hits
+Lookup 6d04d7e3345f4e7bb2328a1bd65e6aab: not_found; strategy=normalized_all_terms; indexed revision=94643f36111d61a85d7ea6d9fd8971f2da832d84
+No candidate found by this search. This does not establish a missing engine capability.
+Discovery purpose: capability_label
+
+Lookup c3b408216deb4229ad51f61b6e185d07: not_found; strategy=explicit_leading_terms; indexed revision=94643f36111d61a85d7ea6d9fd8971f2da832d84
+No candidate found by this search. This does not establish a missing engine capability.
+Discovery purpose: label_fallback
+
+Lookup d33ff0153dae4adda86af842f28eeb75: found; strategy=normalized_all_terms; indexed revision=94643f36111d61a85d7ea6d9fd8971f2da832d84
+[engine] game.GameState.executeGrantKeywordsReferentConditionalDeliriumEOT (backend/game/ability_effects.go) — executeGrantKeywordsReferentConditionalDeliriumEOT grants keywords to the
+  symbol_id: backend/game/ability_effects.go::game.GameState.executeGrantKeywordsReferentConditionalDeliriumEOT
+[engine] game.GameState.executePumpAllReferentControllerEOT (backend/game/ability_effects.go) — executePumpEffect - "Target creature gets +N/+M until end of turn"
+  symbol_id: backend/game/ability_effects.go::game.GameState.executePumpAllReferentControllerEOT
+[engine] game.GameState.ExecuteAbilityEffect#case:fight_referent (backend/game/ability_effects.go) — ExecuteAbilityEffect#case:fight_referent
+  symbol_id: backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:fight_referent
+[engine] game.GameState.ExecuteAbilityEffect#case:untap_referent (backend/game/ability_effects.go) — ExecuteAbilityEffect#case:untap_referent
+  symbol_id: backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:untap_referent
+[engine] game.GameState.noteSeqReferent (backend/game/effect_sequence.go) — noteSeqReferent records the card ID a sequence atom just acted on as the
+  symbol_id: backend/game/effect_sequence.go::game.GameState.noteSeqReferent
+[engine] game.GameState.evalDynamicAmountBase#case:sequence_referent (backend/game/dynamic_amount.go) — evalDynamicAmountBase#case:sequence_referent
+  symbol_id: backend/game/dynamic_amount.go::game.GameState.evalDynamicAmountBase#case:sequence_referent
+Discovery purpose: operation_only
+
+### backend/cards/shape_dealt_damage_test.go (convention template, first 60 lines)
+package cards
+
+// task-2427 (event_unsupported:deals_damage, receiver side) shape tests.
+// The passive voice ("Whenever ~ IS DEALT damage" — the Enrage family, Apex
+// Altisaur/Stuffy Doll class) names the damage RECEIVER, but every
+// TriggerCondition subject filter matched event.Source (the DEALER), so the
+// whole family was gated dead (reparse.py DEAD_TRIGGER_EVENTS). This round:
+// slotparse splits "is dealt damage" into its own v2 event is_dealt_damage,
+// the converter sets TriggerCondition.ReceiverSide, and Matches evaluates
+// every subject filter against event.Target when the flag is set. Combat
+// damage to a creature also dispatches through ProcessTriggeredAbilities now
+// (combat.go previously discarded the matched record triggers).
+// New file per the frozen-registry/shape-test convention.
+
+import (
+	"testing"
+
+	"magic-backend/game"
+)
+
+func dealtDamageDef(name string, subject *TargetFilter) *CardDefinition {
+	return &CardDefinition{
+		Name: name,
+		Type: "Creature", Types: []string{"Creature"},
+		Power: intPtr(3), Toughness: intPtr(3),
+		Abilities: []AbilityDSL{
+			{Type: "triggered",
+				TriggerV2: &TriggerSpec{Event: "is_dealt_damage", Subject: subject},
+				Effects:   []EffectAtom{{Effect: "gain_life", Value: map[string]interface{}{"amount": float64(5)}}}},
+		},
+		Status: StatusManual,
+	}
+}
+
+// "Whenever this creature is dealt damage, you gain 5 life." — Enrage/self family.
+// Self DEALING damage must NOT fire (that's the dealer-side reading); self
+// RECEIVING damage must.
+func TestShape_Triggered_IsDealtDamageSelf(t *testing.T) {
+	def := dealtDamageDef("Shape Enraged Saur", &TargetFilter{Filter: "self"})
+	src, err := def.ToGameCard(0)
+	if err != nil {
+		t.Fatalf("ToGameCard: %v", err)
+	}
+	gs := game.NewGame("P0", "P1", false)
+	gs.Battlefield.AddCard(src)
+	gs.RegisterCardAbilities(src)
+
+	other := game.NewCreature("Shape Bystander Beast", game.ManaCost{}, 2, 2, 1)
+	other.Owner, other.Controller = 1, 1
+	gs.Battlefield.AddCard(other)
+
+	life0 := gs.Players[0].Life
+
+	// Self is the DEALER (dealer-side reading) — must NOT fire.
+	gs.ProcessTriggeredAbilities(game.CreateDamageEvent(src, other, 2, 0))
+	drainStack(t, gs)
+	if got := gs.Players[0].Life; got != life0 {
+		t.Fatalf("receiver-side trigger fired on self DEALING damage (life %d -> %d)", life0, got)
+	}
+
+
+## NO-TOOLS ADAPTER
+No repository tools are available in this call. Use only the line-numbered
+evidence in this packet. Do not issue a tool call. If essential exact source
+is absent, use the bounded `NEED:` continuation defined below; otherwise
+return an edit block or a verdict in this response.
+
+## OUTPUT FORMAT (strict)
+If ESSENTIAL source is missing from the code regions above (you would have to
+guess exact lines), reply ONLY with up to 3 request lines and nothing else:
+NEED: <repo-relative-path or exact symbol/identifier>
+The harness will send the regions and re-ask ONCE.
+
+OTHERWISE — EITHER a park verdict:
+VERDICT: FRAMEWORK|AMBIGUOUS
+REASON: <one line>
+
+OR edit blocks. Existing files via exact-match search/replace:
+<<<FILE path/relative/to/repo
+<<<SEARCH
+exact existing lines (verbatim, no line-number prefixes)
+===REPLACE
+replacement lines
+>>>END
+New files (the required test file, new registry file if conventions demand):
+<<<NEWFILE path/relative/to/repo
+full file content
+>>>END
+
+End with one line:
+EXPECT: <what now works, one sentence>
+No other prose.
+
+
+## TICKET CONTRACT (enforced verbatim by the harness)
+scope.allowed_paths (edit nothing else):
+- backend/game/ability_effects.go
+- backend/game/dynamic_amount.go
+- backend/game/effects.go
+- backend/game/card.go
+- backend/game/gamestate.go
+- backend/game/targeting.go
+- backend/cards/converter.go
+- backend/cards/registry.go
+- backend/game/factory_ng_b695fba968_test.go
+- backend/cards/factory_ng_b695fba968_test.go
+- backend/cards/registry_factory_ng_b695fba968.go
+
+gates:
+- test -z "$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\.go$'))"
+- cd backend && go test ./game ./cards -run '^TestFactoryNGReferentObjectToLibraryTop_b695fba968$' -count=1
+- cd backend && go test ./game ./cards
+- git diff --check
+
+required behavior:
+- A triggered ability whose effect refers back to an object bound by the trigger condition itself (not a new Target) must be executable as putting that specific object on top of its owner's library, with no targeting step and no graveyard/self-resolution source
+- Preserve these adjacent behaviors: target creature put on top of its owner's library (already covered by the existing targeted 'bounce' to library_top primitive); put that creature on the bottom of its owner's library (same referent gap, different destination — stays a separate honest miss); target card from a graveyard put on top/bottom of its owner's library (different source zone, already covered by return_from_graveyard/targeted_graveyard_card_to_owner_library_bottom)
+- Add a discriminating behavior test named TestFactoryNGReferentObjectToLibraryTop_b695fba968; a compile-only assertion is insufficient.
+- Register every new public effect using regEffect in the allowed registry_*.go file, with executor and runtime test metadata; never edit the frozen registry literal.
+- Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases.
+## Vocabulary handoff
+Every new public ExecuteAbilityEffect case must be registered with regEffect in an allowed registry_*.go file, with executor and runtime test metadata. The registry literal is frozen. Parser-emitted effects must already be registered. The harness checks this before acceptance, in addition to every original gate.
+
+Compilation and testing are controlled separately by the dashboard. Do not run compilers, tests, benchmarks or generated test executables. Use source reads and return your proposed edit blocks; the harness owns validation.
+
+
+## HARNESS-VERIFIED API DECLARATIONS
+These declarations were read from this ticket checkout, not copied from the database. They supply types and calling conventions; they do not authorize edits outside scope. Use the exact declared types and signatures. Truncated excerpts are marked; request needed source rather than inventing missing fields.
+### backend/game/zone.go:23-38 [game.Zone; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+   23 type Zone struct {
+   24 	Type  ZoneType `json:"type"`
+   25 	Cards []*Card  `json:"cards"`
+   26 	Owner int      `json:"owner"` // Player index who owns this zone
+   27 
+   28 	// game back-references the owning GameState so Graveyard zones can stamp
+   29 	// TurnEnteredGraveyardAnyZone at AddCard/AddCardToBottom time without
+   30 	// every one of the ~90 existing call sites needing to be rewritten to
+   31 	// pass a turn count explicitly ([VOCAB] #1202). Wired once, right after
+   32 	// construction, by NewGameWithFormat (see gamestate.go); left nil in
+   33 	// hand-built test Zones (e.g. NewZone used directly in a test), which is
+   34 	// harmless — stampGraveyardEntry below no-ops when it's nil. Unexported
+   35 	// and therefore skipped by encoding/json, so this does not create a
+   36 	// marshal cycle with GameState's own JSON tags.
+   37 	game *GameState
+   38 }
+
+### backend/game/player.go:1360-1459 [game.Player; f8d04f3ce658cafd9fc05a92edd2960e016e36d9; truncated at source budget]
+ 1360 type Player struct {
+ 1361 	Index       int      `json:"index"` // Player number (0 or 1)
+ 1362 	Name        string   `json:"name"`
+ 1363 	Life        int      `json:"life"` // Rule 119 - Life
+ 1364 	ManaPool    ManaPool `json:"mana_pool"`
+ 1365 	HasPriority bool     `json:"has_priority"` // Rule 117 - Timing and Priority
+ 1366 
+ 1367 	// StartingLife records the life total this player began the game with
+ 1368 	// (Rule 119.1) — fixed at NewPlayer and never touched again, so "as long
+ 1369 	// as your life total is [more/less] than [half/N more than] your
+ 1370 	// starting life total" conditions (Anya Merciless Angel, Elenda Saint of
+ 1371 	// Dusk, Myrkul Lord of Bones, Righteous Valkyrie kin) can compare Life
+ 1372 	// against a stable baseline instead of the game's default StartingLife
+ 1373 	// (wrong for Commander's 40 vs Constructed's 20).
+ 1374 	StartingLife int `json:"starting_life"`
+ 1375 
+ 1376 	// Zones (Rule 400)
+ 1377 	Library   *Zone `json:"library"`
+ 1378 	Hand      *Zone `json:"hand"`
+ 1379 	Graveyard *Zone `json:"graveyard"`
+ 1380 	Exile     *Zone `json:"exile"`
+ 1381 	Command   *Zone `json:"command"` // Rule 408 - command zone (Commander)
+ 1382 	// CommanderDamage tracks combat damage taken from each commander (by card
+ 1383 	// ID) this game; 21 from one commander loses (Rule 704.5v).
+ 1384 	CommanderDamage map[string]int `json:"commander_damage,omitempty"`
+ 1385 
+ 1386 	// Game state tracking
+ 1387 	LandsPlayedThisTurn int             `json:"lands_played_this_turn"` // Rule 305.1 - Can play one land per turn
+ 1388 	HasPassedPriority   bool            `json:"has_passed_priority"`
+ 1389 	HasDrawnThisTurn    bool            `json:"has_drawn_this_turn"` // For miracle tracking
+ 1390 	DeckID              string          `json:"deck_id"`             // Reference to deck used
+ 1391 	AutoPassUntil       AutoPassSetting `json:"auto_pass_until"`     // Auto-pass until specified phase
+ 1392 
+ 1393 	// Rule 106.11 — Energy is a player-scoped non-mana resource. Unlike
+ 1394 	// mana it persists across phases/turns and is only ever spent by an
+ 1395 	// effect that explicitly pays "{E}".
+ 1396 	EnergyCounters int `json:"energy"`
+ 1397 
+ 1398 	// Experience counters (Rule 122.1a) — player-scoped, only ever
+ 1399 	// accumulate ("you get an experience counter"); commander-2015-style
+ 1400 	// effects scale off the total.
+ 1401 	ExperienceCounters int `json:"experience,omitempty"`
+ 1402 
+ 1403 	// RingTemptedCount — LOTR "the Ring tempts you" mechanic ([VOCAB] #1261,
+ 1404 	// Frodo, Sauron's Bane class: "if the Ring has tempted you four or more
+ 1405 	// times this game..."). Game-lifetime persistent, mirrors
+ 1406 	// ExperienceCounters immediately above (only ever accumulates, never
+ 1407 	// reset by NextTurn — the condition explicitly reads "this game", not
+ 1408 	// "this turn"). Incremented by GameState.RingTemptsPlayer, which also
+ 1409 	// publishes EventRingTempts for "whenever the Ring tempts you" triggers
+ 1410 	// (Gandalf, Friend of the Shire and others currently document this as a
+ 1411 	// MISSING_PRIMITIVE gap).
+ 1412 	RingTemptedCount int `json:"ring_tempted_count,omitempty"`
+ 1413 
+ 1414 	// LifeGainedThisTurn counts every life-gain event this player has had
+ 1415 	// since the start of the current turn. Reset by NextTurn. Drives
+ 1416 	// "if you gained life this turn" triggers (e.g. Ocelot Pride).
+ 1417 	LifeGainedThisTurn int `json:"life_gained_this_turn"`
+ 1418 
+ 1419 	// LifeLostThisTurn counts every point of life this player has lost since
+ 1420 	// the start of the current turn (damage AND pure life loss — TakeDamage
+ 1421 	// funnels through LoseLife). Reset by NextTurn. Drives "if an opponent
+ 1422 	// lost life this turn" gates (e.g. Rakdos, Lord of Riots).
+ 1423 	LifeLostThisTurn int `json:"life_lost_this_turn,omitempty"`
+ 1424 
+ 1425 	// DamageTakenThisTurn counts every point of damage (combat AND
+ 1426 	// noncombat) this player has actually been dealt since the start of the
+ 1427 	// current turn, INCLUDING Infect damage that becomes poison counters
+ 1428 	// instead of life loss (Infect still deals damage per Rule 120; it just
+ 1429 	// redirects the result). Reset by NextTurn. Unlike LifeLostThisTurn —
+ 1430 	// which also picks up pure life-loss effects with no damage event at all
+ 1431 	// (paying life for a cost, "each player loses N life") — this is
+ 1432 	// damage-only, incremented at the two damage-to-player chokepoints:
+ 1433 	// applyCombatDamageToPlayer (combat.go) and the player branch of
+ 1434 	// DamageTargetFromSource (targeting.go). Drives numeric "X = damage
+ 1435 	// dealt to opponents this turn" Bloodthirst-variant effects via
+ 1436 	// cardfns.DamageDealtToOpponentsThisTurn (VOCAB #1056).
+ 1437 	DamageTakenThisTurn int `json:"damage_taken_this_turn,omitempty"`
+ 1438 
+ 1439 	// PermanentsSacrificedThisTurn counts every permanent this player has
+ 1440 	// sacrificed since the start of the current turn (Rule 701.17). Reset
+ 1441 	// by NextTurn; bumped at the single EventSacrifice publication point
+ 1442 	// (actions.go Sacrifice). Drives "where X is the number of permanents
+ 1443 	// you've sacrificed this turn" (A-Pyre-Sledge Arsonist class) via the
+ 1444 	// "permanents_sacrificed_this_turn" count spec.
+ 1445 	PermanentsSacrificedThisTurn int `json:"permanents_sacrificed_this_turn,omitempty"`
+ 1446 
+ 1447 	// CardsDrawnThisTurn counts every card this player has drawn since the
+ 1448 	// start of the current turn. Reset by NextTurn. Drives "if you've drawn
+ 1449 	// N or more cards this turn" gates (e.g. Gwaihir the Windlord's cast-cost
+ 1450 	// reduction), via game.CostReductionFns.
+ 1451 	CardsDrawnThisTurn int `json:"cards_drawn_this_turn,omitempty"`
+ 1452 
+ 1453 	// ManaValueSpentThisTurn accumulates the printed mana value (CMC) of
+ 1454 	// every spell this player has cast since the start of the current turn
+ 1455 	// — NOT mana actually paid (cost reductions/increases don't change a
+ 1456 	// spell's mana value, Rule 202.3) and NOT permanents' mana values, only
+ 1457 	// spells cast. Incremented from EventSpellCast by
+ 1458 	// handleTrackManaValueSpent (see SetupGlobalSubscribers). Reset by
+ 1459 	// NextTurn. This is the running total that "expend" abilities (Rule
+
+### backend/game/targeting.go:237-244 [game.Target; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+  237 type Target struct {
+  238 	Type      TargetType `json:"type"`
+  239 	CardID    string     `json:"card_id,omitempty"`    // If targeting a card
+  240 	PlayerIdx int        `json:"player_idx,omitempty"` // If targeting a player (-1 if not a player)
+  241 	IsCard    bool       `json:"is_card"`              // True if targeting a card, false for player
+  242 	SpellID   string     `json:"spell_id,omitempty"`   // If targeting a spell on stack
+  243 	StackID   string     `json:"stack_id,omitempty"`   // If targeting a spell OR ability on the stack by StackObject.ID (TargetSpellOrAbility) — unlike SpellID this also reaches abilities, which have no Card.ID of their own
+  244 }
+
+### backend/cards/registry.go:18-27 [cards.Primitive; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+   18 type Primitive struct {
+   19 	// Executor is a human-auditable reference to the code that implements the
+   20 	// primitive, e.g. "converter.go:convertPumpAbility" or
+   21 	// "game/effects.go:ApplyContinuousPump". Lint only checks non-emptiness —
+   22 	// the shape test is what proves the wiring.
+   23 	Executor string
+   24 	// ShapeTest names the Go test that exercises the primitive's behavior
+   25 	// once, shape-wise (convention: backend/cards/shape_behavior_test.go).
+   26 	ShapeTest string
+   27 }
+
+### backend/cards/registry.go:565-570 [cards.regEffect; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+  565 func regEffect(name string, p Primitive) {
+  566 	if _, dup := V2EffectRegistry[name]; dup {
+  567 		panic("V2EffectRegistry duplicate registration: " + name)
+  568 	}
+  569 	V2EffectRegistry[name] = p
+  570 }
+
+### backend/game/zone.go:146-156 [game.Zone.RemoveCard; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+  146 func (z *Zone) RemoveCard(cardID string) (*Card, error) {
+  147 	for i, card := range z.Cards {
+  148 		if card.ID == cardID {
+  149 			// Remove card from slice
+  150 			z.Cards = append(z.Cards[:i], z.Cards[i+1:]...)
+  151 			publishGraveyardLeave(z, card)
+  152 			return card, nil
+  153 		}
+  154 	}
+  155 	return nil, errors.New("card not found in zone")
+  156 }
+
+### backend/game/zone.go:95-101 [game.Zone.AddCard; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+   95 func (z *Zone) AddCard(card *Card) {
+   96 	clearCountersEnteringZone(z, card)
+   97 	stampGraveyardEntry(z, card)
+   98 	z.Cards = append(z.Cards, card)
+   99 	applyBloodthirstOnEntry(z, card)
+  100 	publishGraveyardEnter(z, card)
+  101 }
+
+### backend/game/card.go:2603-2614 [game.NewCard; f8d04f3ce658cafd9fc05a92edd2960e016e36d9]
+ 2603 func NewCard(name string, cardType CardType, manaCost ManaCost, owner int) *Card {
+ 2604 	return &Card{
+ 2605 		ID:         generateCardID(name),
+ 2606 		Name:       name,
+ 2607 		Type:       cardType,
+ 2608 		ManaCost:   manaCost,
+ 2609 		Keywords:   []Keyword{},
+ 2610 		SubTypes:   []string{},
+ 2611 		Controller: owner,
+ 2612 		Owner:      owner,
+ 2613 	}
+ 2614 }

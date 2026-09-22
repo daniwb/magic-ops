@@ -1,0 +1,1225 @@
+{
+  "observed_at": "2026-09-15T22:54:44.396136+00:00",
+  "states": {
+    "completed": 36,
+    "blocked": 5,
+    "parked": 3,
+    "awaiting_verification": 2,
+    "queued": 6,
+    "working": 1,
+    "failed": 68
+  },
+  "reviewed_attempt_admitted": 47,
+  "tickets": [
+    {
+      "original": "ticket:engine.auto-remove-all-source-counters-with-linked-amount-efe3e9ca1c/v1",
+      "current": "ticket:engine.auto-remove-all-source-counters-with-linked-amount-efe3e9ca1c/v1",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T200537Z-engine-auto-remove-all-source-counters-with-linked-amount-efe3e9ca1c-v1-1789502737622573925-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-sequence-excess-damage-token-count-109b0ec3af/v2",
+      "current": "ticket:engine.auto-sequence-excess-damage-token-count-109b0ec3af/v2",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T195327Z-engine-operator-excess-damage-recovery-sep15-v1-1789502007732412258-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:map.plan-multi-sylvan-smite-eb280a50a2/v1",
+      "current": "ticket:map.plan-multi-sylvan-smite-eb280a50a2/v1",
+      "state": "blocked",
+      "outcome": "blocked_by_capability",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T191620Z-map-plan-multi-sylvan-smite-eb280a50a2-v1-codex.json",
+      "reason": "Engine dependency has no active successor: parked"
+    },
+    {
+      "original": "ticket:map.plan-pump-righteous-indignation-6d54d5491f/v2",
+      "current": "ticket:map.plan-pump-righteous-indignation-6d54d5491f/v2",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T222137Z-map-operator-righteous-indignation-recovery-sep15-v1-1789510897031807472-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:map.plan-grant-eot-revelation-of-power-850cd79af8/v2",
+      "current": "ticket:map.plan-grant-eot-revelation-of-power-850cd79af8/v3",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 1,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T215355Z-map-plan-grant-eot-revelation-of-power-850cd79af8-v3-1789509235878050797-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:map.plan-damage-retromancer-e4dfae8651/v2",
+      "current": "ticket:map.plan-damage-retromancer-e4dfae8651/v2",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T192441Z-wave-513a5c618bc7-1789500281789761910-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-combat-damage-recipient-creature-filter-bb8e92c7a7/v1",
+      "current": "ticket:engine.auto-combat-damage-recipient-creature-filter-bb8e92c7a7/v1",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T194825Z-engine-auto-combat-damage-recipient-creature-filter-bb8e92c7a7-v1-1789501705996151048-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-put-counters-on-combat-related-creatures-7fda0f0882/v3",
+      "current": "ticket:engine.auto-put-counters-on-combat-related-creatures-7fda0f0882/v3",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T202800Z-engine-operator-combat-counters-recovery-sep15-v1-1789504080846256812-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-fractional-filtered-sacrifice-half-rounded-up-febb727aef/v1",
+      "current": "ticket:engine.auto-fractional-filtered-sacrifice-half-rounded-up-febb727aef/v1",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T193346Z-wave-61960f0747af-1789500826049195685-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-put-counters-independent-multi-target-sequence-a8e4b194e3/v1",
+      "current": "ticket:engine.auto-put-counters-independent-multi-target-sequence-a8e4b194e3/v1",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T202125Z-engine-operator-independent-counters-recovery-sep15-v1-1789503685555875234-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-target-player-compound-sacrifice-damage-99c146a20f/v1",
+      "current": "ticket:engine.auto-target-player-compound-sacrifice-damage-99c146a20f/v1",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T215123Z-engine-operator-structural-collapse-recovery-sep15-v1-1789509083064068548-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-copy-all-controlled-stack-objects-f0627c34c8/v1",
+      "current": "ticket:engine.auto-copy-all-controlled-stack-objects-f0627c34c8/v1",
+      "state": "parked",
+      "outcome": "parked",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T193649Z-engine-auto-copy-all-controlled-stack-objects-f0627c34c8-v1-claude.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:map.plan-multi-stone-giant-ffd78803cd/v1",
+      "current": "ticket:map.plan-multi-stone-giant-ffd78803cd/v3",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 1,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T222737Z-map-plan-multi-stone-giant-ffd78803cd-v3-1789511257710189885-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-prevent-combat-damage-to-and-by-referent-123447f8f0/v3",
+      "current": "ticket:engine.auto-prevent-combat-damage-to-and-by-referent-123447f8f0/v3",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T203447Z-engine-auto-prevent-combat-damage-to-and-by-referent-123447f8f0-v3-1789504487571466245-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:map.plan-pump-rabble-rouser-21e06a8b0b/v2",
+      "current": "ticket:map.plan-pump-rabble-rouser-21e06a8b0b/v4",
+      "state": "awaiting_verification",
+      "outcome": null,
+      "attempts": 1,
+      "recovered": true,
+      "receipt": null,
+      "reason": "all compatible workers are usage-paused; retained as deferred inventory"
+    },
+    {
+      "original": "ticket:engine.auto-damage-enchanted-attached-creature-9b5f19f1fc/v2",
+      "current": "ticket:engine.auto-damage-enchanted-attached-creature-9b5f19f1fc/v2",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T200124Z-engine-auto-damage-enchanted-attached-creature-9b5f19f1fc-v2-1789502484303428363-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:map.plan-pump-prismabasher-f1d1567dae/v2",
+      "current": "ticket:map.plan-pump-prismabasher-f1d1567dae/v2",
+      "state": "blocked",
+      "outcome": "blocked_by_capability",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T194538Z-map-plan-pump-prismabasher-f1d1567dae-v2-claude.json",
+      "reason": "Engine dependency has no active successor: parked"
+    },
+    {
+      "original": "ticket:map.plan-destroy-premature-burial-8c31678b86/v2",
+      "current": "ticket:map.plan-destroy-premature-burial-8c31678b86/v2",
+      "state": "blocked",
+      "outcome": "blocked_by_capability",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T194744Z-map-plan-destroy-premature-burial-8c31678b86-v2-claude.json",
+      "reason": "Engine dependency has no active successor: parked"
+    },
+    {
+      "original": "ticket:engine.auto-sacrifice-self-unless-mill-4b119c08d6/v1",
+      "current": "ticket:engine.auto-sacrifice-self-unless-mill-4b119c08d6/v1",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T204924Z-engine-operator-mill-unless-recovery-sep15-v1-1789505364915797394-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:map.plan-damage-force-of-nature-ceed866a48/v2",
+      "current": "ticket:map.plan-damage-force-of-nature-ceed866a48/v3",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 1,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T222014Z-map-plan-damage-force-of-nature-ceed866a48-v3-1789510814409235773-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:map.plan-multi-frenzied-fugue-a4f2dc8c74/v1",
+      "current": "ticket:map.plan-multi-frenzied-fugue-a4f2dc8c74/v1",
+      "state": "blocked",
+      "outcome": "blocked_by_capability",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T195711Z-map-plan-multi-frenzied-fugue-a4f2dc8c74-v1-claude.json",
+      "reason": "Engine dependency completed; waiting for bounded Map resume admission"
+    },
+    {
+      "original": "ticket:engine.auto-damage-enchanted-player-or-controlled-planeswalk-d9c6b90b0e/v2",
+      "current": "ticket:engine.auto-damage-enchanted-player-or-controlled-planeswalk-d9c6b90b0e/v3",
+      "state": "queued",
+      "outcome": null,
+      "attempts": null,
+      "recovered": true,
+      "receipt": null,
+      "reason": "compatible worker is busy; retained as runnable reserve"
+    },
+    {
+      "original": "ticket:map.plan-multi-angel-of-serenity-9784e9b8d6/v1",
+      "current": "ticket:map.plan-multi-angel-of-serenity-9784e9b8d6/v2",
+      "state": "working",
+      "outcome": null,
+      "attempts": 1,
+      "recovered": true,
+      "receipt": null,
+      "reason": "Patch saved without acceptance; awaiting focused verification."
+    },
+    {
+      "original": "ticket:map.plan-counter-dovin-s-veto-da0aa55667/v2",
+      "current": "ticket:map.plan-counter-dovin-s-veto-da0aa55667/v2",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T222611Z-map-operator-dovins-veto-recovery-sep15-v1-1789511171019349590-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-mass-damage-exclude-source-ecd06fa7e5/v2",
+      "current": "ticket:engine.auto-mass-damage-exclude-source-ecd06fa7e5/v3",
+      "state": "queued",
+      "outcome": null,
+      "attempts": null,
+      "recovered": true,
+      "receipt": null,
+      "reason": "compatible worker is busy; retained as runnable reserve"
+    },
+    {
+      "original": "ticket:engine.auto-each-player-discard-hand-dynamic-count-6be50d10d1/v3",
+      "current": "ticket:engine.auto-each-player-discard-hand-dynamic-count-6be50d10d1/v3",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 1,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-09-15T190555Z-wave-901fb39072ba-1789499155059339605-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-remove-counter-at-end-of-combat-a452329fad/v2",
+      "current": "ticket:engine.auto-remove-counter-at-end-of-combat-a452329fad/v2",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 1,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-09-15T190555Z-wave-901fb39072ba-1789499155059339605-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:map.plan-regenerate-butcher-s-glee-ec963567a0/v4",
+      "current": "ticket:map.plan-regenerate-butcher-s-glee-ec963567a0/v4",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 1,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-09-15T190555Z-wave-901fb39072ba-1789499155059339605-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:map.plan-damage-by-assert-perfection-8ba7935f36/v5",
+      "current": "ticket:map.plan-damage-by-assert-perfection-8ba7935f36/v5",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 1,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-09-15T190555Z-wave-901fb39072ba-1789499155059339605-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.staged-trial-verify-sigil/v2",
+      "current": "ticket:engine.staged-trial-verify-sigil/v2",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 2,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T212319Z-engine-operator-sigil-proof-recovery-sep15-v1-1789507400000856091-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:map.plan-put-counters-selfcraft-mechan-ac7fb28b1a/v4",
+      "current": "ticket:map.plan-put-counters-selfcraft-mechan-ac7fb28b1a/v4",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 1,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-09-15T190555Z-wave-901fb39072ba-1789499155059339605-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:map.plan-exile-scarab-feast-d952117a2a/v4",
+      "current": "ticket:map.plan-exile-scarab-feast-d952117a2a/v4",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 2,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T223738Z-map-operator-scarab-feast-recovery-sep15-v1-1789511858299968657-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-damage-each-of-x-targets-spell-registration-d078b33904/v1",
+      "current": "ticket:engine.auto-damage-each-of-x-targets-spell-registration-d078b33904/v2",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 1,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T210349Z-engine-operator-meteor-blast-recovery-sep15-v1-1789506229829282334-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:map.plan-exile-rats-feast-5a756bbff8/v3",
+      "current": "ticket:map.plan-exile-rats-feast-5a756bbff8/v4",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 1,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T223620Z-map-operator-rats-feast-recovery-sep15-v1-1789511780135745006-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:map.plan-damage-road-rage-f32e5d1b48/v2",
+      "current": "ticket:map.plan-damage-road-rage-f32e5d1b48/v2",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 2,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T203751Z-map-plan-damage-road-rage-f32e5d1b48-v2-1789504671383093820-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:map.plan-exile-aegis-sculptor-6fafc7e78e/v3",
+      "current": "ticket:map.plan-exile-aegis-sculptor-6fafc7e78e/v4",
+      "state": "queued",
+      "outcome": null,
+      "attempts": null,
+      "recovered": true,
+      "receipt": null,
+      "reason": "compatible worker is busy; retained as runnable reserve"
+    },
+    {
+      "original": "ticket:engine.auto-grant-ability-until-eot-8ec4b633a2/v1",
+      "current": "ticket:engine.auto-grant-ability-until-eot-8ec4b633a2/v1",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T214910Z-engine-operator-grant-ability-recovery-sep15-v1-1789508950482150557-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-ability-pump-filtered-no-target-1e97812a5d/v4",
+      "current": "ticket:engine.auto-ability-pump-filtered-no-target-1e97812a5d/v4",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T215854Z-engine-operator-filtered-pump-recovery-sep15-v2-1789509534968756244-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:map.plan-tap-lead-astray-27a4322784/v3",
+      "current": "ticket:map.plan-tap-lead-astray-27a4322784/v3",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 2,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T205933Z-map-plan-tap-lead-astray-27a4322784-v3-1789505973212264262-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-exile-complex-filter-6e01106bce/v2",
+      "current": "ticket:engine.auto-exile-complex-filter-6e01106bce/v2",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T214651Z-engine-operator-exile-filter-recovery-sep15-v1-1789508811463297513-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:map.plan-exile-time-to-reflect-261d7e6271/v2",
+      "current": "ticket:map.plan-exile-time-to-reflect-261d7e6271/v2",
+      "state": "blocked",
+      "outcome": "blocked_by_capability",
+      "attempts": 2,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T211546Z-map-plan-exile-time-to-reflect-261d7e6271-v2-codex.json",
+      "reason": "Engine dependency has no active successor: parked"
+    },
+    {
+      "original": "ticket:engine.auto-copy-triggering-permanent-spell-9e4be89001/v1",
+      "current": "ticket:engine.auto-copy-triggering-permanent-spell-9e4be89001/v1",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T215633Z-engine-operator-triggering-copy-recovery-sep15-v1-1789509393258756186-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-bounce-permanent-sharing-type-1626ffcfbf/v3",
+      "current": "ticket:engine.auto-bounce-permanent-sharing-type-1626ffcfbf/v3",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T220518Z-engine-operator-shared-type-bounce-recovery-sep15-v1-1789509918080326527-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-conditional-damage-to-referent-player-768261106f/v2",
+      "current": "ticket:engine.auto-conditional-damage-to-referent-player-768261106f/v2",
+      "state": "failed",
+      "outcome": "gate_failed",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T215537Z-engine-auto-conditional-damage-to-referent-player-768261106f-v2-codex.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-damage-equal-to-source-power-to-flying-creature-4efc529ec4/v2",
+      "current": "ticket:engine.auto-damage-equal-to-source-power-to-flying-creature-4efc529ec4/v2",
+      "state": "failed",
+      "outcome": "gate_failed",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T223720Z-engine-auto-damage-equal-to-source-power-to-flying-creature-4efc529ec4-v2-codex.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-damage-punisher-choice-e36bbf48c8/v2",
+      "current": "ticket:engine.auto-damage-punisher-choice-e36bbf48c8/v3",
+      "state": "queued",
+      "outcome": null,
+      "attempts": null,
+      "recovered": true,
+      "receipt": null,
+      "reason": "compatible worker is busy; retained as runnable reserve"
+    },
+    {
+      "original": "ticket:engine.auto-grant-keywords-until-eot-enchanted-shared-type-a70040c6e5/v3",
+      "current": "ticket:engine.auto-grant-keywords-until-eot-enchanted-shared-type-a70040c6e5/v3",
+      "state": "parked",
+      "outcome": "parked",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T223008Z-engine-auto-grant-keywords-until-eot-enchanted-shared-type-a70040c6e5-v3-claude.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-controller-filter-referent-triggering-player-76c02b824f/v2",
+      "current": "ticket:engine.auto-controller-filter-referent-triggering-player-76c02b824f/v2",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T225214Z-engine-operator-trigger-player-filter-recovery-sep15-v1-1789512734855248910-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-counter-target-spell-mana-value-threshold-98c3884b4c/v2",
+      "current": "ticket:engine.auto-counter-target-spell-mana-value-threshold-98c3884b4c/v2",
+      "state": "parked",
+      "outcome": "parked",
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-15T223849Z-engine-auto-counter-target-spell-mana-value-threshold-98c3884b4c-v2-claude.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-create-token-dynamic-counter-a0d2ceedb7/v2",
+      "current": "ticket:engine.auto-create-token-dynamic-counter-a0d2ceedb7/v2",
+      "state": "awaiting_verification",
+      "outcome": null,
+      "attempts": 4,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-08-31T133610Z-engine-auto-create-token-dynamic-counter-a0d2ceedb7-v2-codex.json",
+      "reason": "all compatible workers are usage-paused; retained as deferred inventory"
+    },
+    {
+      "original": "ticket:engine.auto-damage-to-defending-player-9a47b7025e/v1",
+      "current": "ticket:engine.auto-damage-to-defending-player-9a47b7025e/v1",
+      "state": "queued",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-09-04T215055Z-engine-auto-damage-to-defending-player-9a47b7025e-v1-codex.json",
+      "reason": "compatible worker is busy; retained as runnable reserve"
+    },
+    {
+      "original": "ticket:engine.auto-destroy-attached-equipment-at-end-of-combat-1a39af850c/v2",
+      "current": "ticket:engine.auto-destroy-attached-equipment-at-end-of-combat-1a39af850c/v2",
+      "state": "queued",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": true,
+      "receipt": "docs/factory-ng/runs/2026-08-31T140801Z-engine-auto-destroy-attached-equipment-at-end-of-combat-1a39af850c-v2-codex.json",
+      "reason": "compatible worker is busy; retained as runnable reserve"
+    },
+    {
+      "original": "ticket:engine.auto-destroy-target-creature-that-dealt-damage-this-t-2dd7f03acd/v2",
+      "current": "ticket:engine.auto-destroy-target-creature-that-dealt-damage-this-t-2dd7f03acd/v2",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-08-31T120244Z-engine-auto-destroy-target-creature-that-dealt-damage-this-t-2dd7f03acd-v2-codex.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-dynamic-graveyard-mana-value-filter-3f054094e5/v1",
+      "current": "ticket:engine.auto-dynamic-graveyard-mana-value-filter-3f054094e5/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-08-30T201052Z-engine-auto-dynamic-graveyard-mana-value-filter-3f054094e5-v1-codex.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-exile-crewed-creatures-filter-dd5f27d519/v2",
+      "current": "ticket:engine.auto-exile-crewed-creatures-filter-dd5f27d519/v2",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-09-04T214530Z-engine-auto-exile-crewed-creatures-filter-dd5f27d519-v2-codex.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-gain-control-duration-source-permanent-50db4d2e53/v2",
+      "current": "ticket:engine.auto-gain-control-duration-source-permanent-50db4d2e53/v2",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-08-31T115945Z-engine-auto-gain-control-duration-source-permanent-50db4d2e53-v2-codex.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-pump-self-source-dynamic-sac-power-576cf4aa49/v2",
+      "current": "ticket:engine.auto-pump-self-source-dynamic-sac-power-576cf4aa49/v2",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-08-31T120205Z-engine-auto-pump-self-source-dynamic-sac-power-576cf4aa49-v2-codex.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-pump-until-eot-untargeted-dynamic-c37bccdec1/v1",
+      "current": "ticket:engine.auto-pump-until-eot-untargeted-dynamic-c37bccdec1/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-08-31T132550Z-engine-auto-pump-until-eot-untargeted-dynamic-c37bccdec1-v1-codex.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-return-from-graveyard-attach-5f9eabcbcc/v2",
+      "current": "ticket:engine.auto-return-from-graveyard-attach-5f9eabcbcc/v2",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-09-01T063806Z-engine-auto-return-from-graveyard-attach-5f9eabcbcc-v2-codex.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-return-from-graveyard-lesser-toughness-filter-cfeba54e07/v2",
+      "current": "ticket:engine.auto-return-from-graveyard-lesser-toughness-filter-cfeba54e07/v2",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-08-31T135908Z-engine-auto-return-from-graveyard-lesser-toughness-filter-cfeba54e07-v2-codex.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-search-attach-to-target-c74e339814/v2",
+      "current": "ticket:engine.auto-search-attach-to-target-c74e339814/v2",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-08-31T154635Z-engine-auto-search-attach-to-target-c74e339814-v2-codex.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-search-dynamic-mana-value-cap-a5b3c243f2/v1",
+      "current": "ticket:engine.auto-search-dynamic-mana-value-cap-a5b3c243f2/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-08-31T124024Z-engine-auto-search-dynamic-mana-value-cap-a5b3c243f2-v1-codex.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-source-referent-pump-until-eot-8b8ac7ccb7/v1",
+      "current": "ticket:engine.auto-source-referent-pump-until-eot-8b8ac7ccb7/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-08-31T123948Z-engine-auto-source-referent-pump-until-eot-8b8ac7ccb7-v1-codex.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-tap-all-filtered-permanents-7e17906098/v2",
+      "current": "ticket:engine.auto-tap-all-filtered-permanents-7e17906098/v2",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-08-30T185855Z-engine-auto-tap-all-filtered-permanents-7e17906098-v2-codex.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-untap-referent-previous-targets-f33b5c1c71/v2",
+      "current": "ticket:engine.auto-untap-referent-previous-targets-f33b5c1c71/v2",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-08-30T164102Z-engine-auto-untap-referent-previous-targets-f33b5c1c71-v2-codex.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:map.plan-grant-eot-consul-s-shieldguard-e0cfcd56f2/v1",
+      "current": "ticket:map.plan-grant-eot-consul-s-shieldguard-e0cfcd56f2/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 1,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-08-31T113121Z-map-plan-grant-eot-consul-s-shieldguard-e0cfcd56f2-v1-qwen.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-conditional-payment-unless-pays-mana-8f85c47b3e/v1",
+      "current": "ticket:engine.auto-conditional-payment-unless-pays-mana-8f85c47b3e/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-grant-dynamic-keyword-eot-4c8621edfa/v1",
+      "current": "ticket:engine.auto-grant-dynamic-keyword-eot-4c8621edfa/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-return-from-graveyard-with-counters-77c5905163/v1",
+      "current": "ticket:engine.auto-return-from-graveyard-with-counters-77c5905163/v1",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-09-15T205506Z-engine-operator-legacy-shapes-recovery-sep15-v1-1789505706221104833-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-put-counters-amount-from-trigger-damage-cc03cdb048/v1",
+      "current": "ticket:engine.auto-put-counters-amount-from-trigger-damage-cc03cdb048/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-grant-triggered-ability-until-eot-938952c6e2/v1",
+      "current": "ticket:engine.auto-grant-triggered-ability-until-eot-938952c6e2/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-bounce-with-mana-value-filter-4bf6a351c2/v1",
+      "current": "ticket:engine.auto-bounce-with-mana-value-filter-4bf6a351c2/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-bounce-filter-nonland-permanent-entered-this-tur-76dd65401b/v1",
+      "current": "ticket:engine.auto-bounce-filter-nonland-permanent-entered-this-tur-76dd65401b/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-exile-player-graveyard-56bee2bbbc/v1",
+      "current": "ticket:engine.auto-exile-player-graveyard-56bee2bbbc/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-destroy-multi-target-optional-a6ba6fb044/v1",
+      "current": "ticket:engine.auto-destroy-multi-target-optional-a6ba6fb044/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-return-from-graveyard-attached-to-matching-type-1595222f2c/v1",
+      "current": "ticket:engine.auto-return-from-graveyard-attached-to-matching-type-1595222f2c/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-destroy-n-target-filter-5aef2d6f94/v1",
+      "current": "ticket:engine.auto-destroy-n-target-filter-5aef2d6f94/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:map.plan-grant-eot-kitesail-skirmisher-986fe778a3/v2",
+      "current": "ticket:map.plan-grant-eot-kitesail-skirmisher-986fe778a3/v2",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-09-05T053353Z-map-plan-grant-eot-kitesail-skirmisher-986fe778a3-v2-claude-agentic.json",
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-destroy-unless-controller-pays-205cf02727/v1",
+      "current": "ticket:engine.auto-destroy-unless-controller-pays-205cf02727/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-dynamic-amount-distinct-counter-kinds-controlled-46440abfac/v1",
+      "current": "ticket:engine.auto-dynamic-amount-distinct-counter-kinds-controlled-46440abfac/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-pump-until-eot-unconditional-filter-959af8d8e3/v1",
+      "current": "ticket:engine.auto-pump-until-eot-unconditional-filter-959af8d8e3/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-09-06T055314Z-engine-auto-pump-until-eot-unconditional-filter-959af8d8e3-v1-claude.json",
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-pump-until-eot-all-creatures-you-control-63ebcf17a9/v2",
+      "current": "ticket:engine.auto-pump-until-eot-all-creatures-you-control-63ebcf17a9/v2",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-09-06T023406Z-engine-auto-pump-until-eot-all-creatures-you-control-63ebcf17a9-v2-claude.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-damage-amount-chroma-red-mana-symbols-dafa42ca0a/v1",
+      "current": "ticket:engine.auto-damage-amount-chroma-red-mana-symbols-dafa42ca0a/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:map.plan-damage-grotag-siege-runner-794b86980b/v1",
+      "current": "ticket:map.plan-damage-grotag-siege-runner-794b86980b/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-target-filter-power-threshold-72615893da/v2",
+      "current": "ticket:engine.auto-target-filter-power-threshold-72615893da/v2",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-09-15T205506Z-engine-operator-legacy-shapes-recovery-sep15-v1-1789505706221104833-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-return-from-graveyard-attach-to-source-05cf182b14/v2",
+      "current": "ticket:engine.auto-return-from-graveyard-attach-to-source-05cf182b14/v2",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-filter-creature-with-tap-activated-ability-839a37bf06/v2",
+      "current": "ticket:engine.auto-filter-creature-with-tap-activated-ability-839a37bf06/v2",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-pump-all-controller-filter-until-eot-753299440a/v3",
+      "current": "ticket:engine.auto-pump-all-controller-filter-until-eot-753299440a/v3",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:map.plan-destroy-knight-of-dusk-982188caf0/v2",
+      "current": "ticket:map.plan-destroy-knight-of-dusk-982188caf0/v2",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-target-filter-mana-value-threshold-5abb67184a/v3",
+      "current": "ticket:engine.auto-target-filter-mana-value-threshold-5abb67184a/v3",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-delayed-destroy-at-end-of-combat-c4e51f7648/v3",
+      "current": "ticket:engine.auto-delayed-destroy-at-end-of-combat-c4e51f7648/v3",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-grant-keyword-to-creatures-with-power-equal-to-p-cb482d4bb8/v3",
+      "current": "ticket:engine.auto-grant-keyword-to-creatures-with-power-equal-to-p-cb482d4bb8/v3",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-damage-amount-equals-trigger-creature-count-d7ae562dbc/v3",
+      "current": "ticket:engine.auto-damage-amount-equals-trigger-creature-count-d7ae562dbc/v3",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-damage-amount-runtime-count-686e9699e6/v3",
+      "current": "ticket:engine.auto-damage-amount-runtime-count-686e9699e6/v3",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-pump-all-other-creatures-no-target-f3ef75632a/v3",
+      "current": "ticket:engine.auto-pump-all-other-creatures-no-target-f3ef75632a/v3",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-ability-pump-filter-all-23b3b60c38/v3",
+      "current": "ticket:engine.auto-ability-pump-filter-all-23b3b60c38/v3",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-destroy-blocking-or-blocked-creatures-bd51bb2a55/v3",
+      "current": "ticket:engine.auto-destroy-blocking-or-blocked-creatures-bd51bb2a55/v3",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-09-05T015826Z-engine-auto-destroy-blocking-or-blocked-creatures-bd51bb2a55-v3-claude-agentic.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-tap-doesnt-untap-next-untap-step-6f26ccc5c2/v3",
+      "current": "ticket:engine.auto-tap-doesnt-untap-next-untap-step-6f26ccc5c2/v3",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-conditional-grant-keywords-until-eot-d97d5d518c/v3",
+      "current": "ticket:engine.auto-conditional-grant-keywords-until-eot-d97d5d518c/v3",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-grant-effects-until-eot-1fc9545bbb/v3",
+      "current": "ticket:engine.auto-grant-effects-until-eot-1fc9545bbb/v3",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-pump-until-eot-all-a0f16e387d/v3",
+      "current": "ticket:engine.auto-pump-until-eot-all-a0f16e387d/v3",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-pump-until-eot-dynamic-amount-471184ae88/v3",
+      "current": "ticket:engine.auto-pump-until-eot-dynamic-amount-471184ae88/v3",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:map.plan-damage-iron-maiden-9d3b851486/v2",
+      "current": "ticket:map.plan-damage-iron-maiden-9d3b851486/v2",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:map.plan-exile-isolate-b41c98bc06/v2",
+      "current": "ticket:map.plan-exile-isolate-b41c98bc06/v2",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": null,
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-damage-to-each-battle-protected-36b6c50579/v1",
+      "current": "ticket:engine.auto-damage-to-each-battle-protected-36b6c50579/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-09-02T015616Z-engine-auto-damage-to-each-battle-protected-36b6c50579-v1-qwen-agentic.json",
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-delayed-referent-destroy-f4ed1aabb4/v1",
+      "current": "ticket:engine.auto-delayed-referent-destroy-f4ed1aabb4/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-09-02T003329Z-engine-auto-delayed-referent-destroy-f4ed1aabb4-v1-qwen-agentic.json",
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:engine.auto-execute-pump-until-eot-no-target-5eb89fc696/v3",
+      "current": "ticket:engine.auto-execute-pump-until-eot-no-target-5eb89fc696/v3",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-09-04T215447Z-engine-auto-execute-pump-until-eot-no-target-5eb89fc696-v3-claude.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-pump-until-eot-dynamic-count-789a23ad0c/v2",
+      "current": "ticket:engine.auto-pump-until-eot-dynamic-count-789a23ad0c/v2",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-09-04T214110Z-engine-auto-pump-until-eot-dynamic-count-789a23ad0c-v2-codex.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-exile-zone-ce4b8ad676/v3",
+      "current": "ticket:engine.auto-exile-zone-ce4b8ad676/v3",
+      "state": "completed",
+      "outcome": "pushed_full_production_gate_green",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-09-15T205506Z-engine-operator-legacy-shapes-recovery-sep15-v1-1789505706221104833-integration.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-bounce-target-creature-and-attached-auras-e20af02124/v2",
+      "current": "ticket:engine.auto-bounce-target-creature-and-attached-auras-e20af02124/v2",
+      "state": "failed",
+      "outcome": "infrastructure_failed",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-09-04T090514Z-engine-auto-bounce-target-creature-and-attached-auras-e20af02124-v2-qwen-agentic.json",
+      "reason": "worker exited without a machine-readable result"
+    },
+    {
+      "original": "ticket:map.plan-grant-eot-iron-man-armored-avenger-a68fc51222/v1",
+      "current": "ticket:map.plan-grant-eot-iron-man-armored-avenger-a68fc51222/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 1,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-09-01T191803Z-map-plan-grant-eot-iron-man-armored-avenger-a68fc51222-v1-qwen.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-return-from-graveyard-creature-subtype-filter-b70311209e/v2",
+      "current": "ticket:engine.auto-return-from-graveyard-creature-subtype-filter-b70311209e/v2",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-08-31T174309Z-engine-auto-return-from-graveyard-creature-subtype-filter-b70311209e-v2-codex.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-triggered-destroy-enchanted-referent-91096471c1/v1",
+      "current": "ticket:engine.auto-triggered-destroy-enchanted-referent-91096471c1/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-08-31T155524Z-engine-auto-triggered-destroy-enchanted-referent-91096471c1-v1-codex.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-destroy-delayed-end-of-combat-403991530b/v2",
+      "current": "ticket:engine.auto-destroy-delayed-end-of-combat-403991530b/v2",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-08-31T135147Z-engine-auto-destroy-delayed-end-of-combat-403991530b-v2-codex.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-return-from-graveyard-unique-names-75e6465f75/v2",
+      "current": "ticket:engine.auto-return-from-graveyard-unique-names-75e6465f75/v2",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-08-31T130506Z-engine-auto-return-from-graveyard-unique-names-75e6465f75-v2-codex.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-pump-untargeted-referent-dynamic-baa2736f83/v1",
+      "current": "ticket:engine.auto-pump-untargeted-referent-dynamic-baa2736f83/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-08-31T123242Z-engine-auto-pump-untargeted-referent-dynamic-baa2736f83-v1-codex.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-exile-target-players-graveyard-aab2a6ee8a/v2",
+      "current": "ticket:engine.auto-exile-target-players-graveyard-aab2a6ee8a/v2",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-08-30T210946Z-engine-auto-exile-target-players-graveyard-aab2a6ee8a-v2-codex.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:engine.auto-exile-target-return-next-end-step-8d20b29883/v1",
+      "current": "ticket:engine.auto-exile-target-return-next-end-step-8d20b29883/v1",
+      "state": "failed",
+      "outcome": "infrastructure_failed_model_protocol",
+      "attempts": 3,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-08-30T190637Z-engine-auto-exile-target-return-next-end-step-8d20b29883-v1-codex.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:map.switch-pt/v2",
+      "current": "ticket:map.switch-pt/v2",
+      "state": "failed",
+      "outcome": "infrastructure_failed_no_provider_payload",
+      "attempts": null,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-08-28-map-switch-pt-v2-qwen.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:map.switch-pt/v3",
+      "current": "ticket:map.switch-pt/v3",
+      "state": "failed",
+      "outcome": "infrastructure_failed_session_quota",
+      "attempts": null,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-08-28-map-switch-pt-v3-claude.json",
+      "reason": null
+    },
+    {
+      "original": "ticket:map.target-player-draw/v3",
+      "current": "ticket:map.target-player-draw/v3",
+      "state": "failed",
+      "outcome": "infrastructure_failed_before_proposal",
+      "attempts": null,
+      "recovered": false,
+      "receipt": "docs/factory-ng/runs/2026-08-28-map-target-player-draw-v3.json",
+      "reason": null
+    }
+  ]
+}

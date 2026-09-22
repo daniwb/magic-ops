@@ -1,0 +1,138 @@
+From 5b41e87435677d7637ea4da4ed127ff3626b1f0f Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Wed, 9 Sep 2026 01:04:39 +0000
+Subject: [PATCH] factory-ng: supervised engine observation
+
+---
+ backend/game/ability_effects.go            | 60 ++++++++++++++++++++++
+ backend/game/factory_ng_656434340c_test.go | 40 +++++++++++++++
+ 2 files changed, 100 insertions(+)
+ create mode 100644 backend/game/factory_ng_656434340c_test.go
+
+diff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go
+index a25f76ee6..90863d15e 100644
+--- a/backend/game/ability_effects.go
++++ b/backend/game/ability_effects.go
+@@ -4285,6 +4285,10 @@ func (gs *GameState) ExecuteAbilityEffect(stackObj *StackObject) error {
+ 		return gs.destroyAllMatching(controller, filter, "", false, "", false, "")
+ 	}
+ 
++	if effect == "exile_target_graveyard_card_and_named_matches" {
++		return gs.executeExileTargetGraveyardCardAndNamedMatches(targets)
++	}
++
+ 	// tap_untap_shared_creature_type_referent primitive (Faces of the
+ 	// Past class): the referent is the triggering event's subject
+ 	// (stackObj.EventCard), never an explicit target, so this dispatches
+@@ -10889,6 +10893,62 @@ func (gs *GameState) executeExileMvLeSourceCountersMultizone(source *Card, effec
+ 	return nil
+ }
+ 
++func (gs *GameState) executeExileTargetGraveyardCardAndNamedMatches(targets []Target) error {
++	if len(targets) == 0 || !targets[0].IsCard {
++		return nil
++	}
++
++	var owner *Player
++	var chosen *Card
++	for _, p := range gs.Players {
++		if p == nil {
++			continue
++		}
++		card, err := p.Graveyard.GetCard(targets[0].CardID)
++		if err == nil && card != nil {
++			owner = p
++			chosen = card
++			break
++		}
++	}
++	if owner == nil || chosen == nil || string(chosen.Type) == "Land" {
++		return nil
++	}
++
++	card, err := owner.Graveyard.RemoveCard(chosen.ID)
++	if err != nil || card == nil {
++		return nil
++	}
++	owner.Exile.AddCard(card)
++
++	name := chosen.Name
++	for _, p := range gs.Players {
++		if p == nil {
++			continue
++		}
++		for _, c := range append([]*Card(nil), p.Graveyard.GetAll()...) {
++			if c == nil || c.Name != name {
++				continue
++			}
++			removed, err := p.Graveyard.RemoveCard(c.ID)
++			if err == nil && removed != nil {
++				p.Exile.AddCard(removed)
++			}
++		}
++	}
++
++	var battlefieldMatches []Target
++	for _, c := range gs.Battlefield.GetAll() {
++		if c != nil && c.Name == name {
++			battlefieldMatches = append(battlefieldMatches, Target{IsCard: true, CardID: c.ID})
++		}
++	}
++	if len(battlefieldMatches) > 0 {
++		return gs.executeExileEffect(battlefieldMatches, -1)
++	}
++	return nil
++}
++
+ // executeExileWithCounterEffect - exile_with_counter primitive helper. Same
+ // battlefield-then-graveyard lookup as executeExileEffect (so a target that
+ // already died to the SAME trigger, or a graveyard card chosen directly by a
+diff --git a/backend/game/factory_ng_656434340c_test.go b/backend/game/factory_ng_656434340c_test.go
+new file mode 100644
+index 000000000..bb3f7c35f
+--- /dev/null
++++ b/backend/game/factory_ng_656434340c_test.go
+@@ -0,0 +1,40 @@
++package game
++
++import "testing"
++
++func TestFactoryNGExileTargetGraveyardCardAndNamedMatches(t *testing.T) {
++	gs := NewGame("P0", "P1", false)
++
++	target := &Card{ID: "target", Name: "Relic", Type: CardType("Artifact")}
++	graveyardMatch := &Card{ID: "graveyard-match", Name: "Relic", Type: CardType("Artifact")}
++	permanentMatch := &Card{ID: "permanent-match", Name: "Relic", Type: CardType("Artifact")}
++
++	gs.Players[0].Graveyard.AddCard(target)
++	gs.Players[1].Graveyard.AddCard(graveyardMatch)
++	gs.Battlefield.AddCard(permanentMatch)
++
++	err := gs.ExecuteAbilityEffect(&StackObject{
++		IsAbility: true,
++		Text:      "exile_target_graveyard_card_and_named_matches",
++		Targets:   []Target{{IsCard: true, CardID: target.ID}},
++	})
++	if err != nil {
++		t.Fatalf("ExecuteAbilityEffect: %v", err)
++	}
++
++	if _, err := gs.Players[0].Graveyard.GetCard(target.ID); err == nil {
++		t.Fatal("target remained in its graveyard")
++	}
++	if _, err := gs.Players[1].Graveyard.GetCard(graveyardMatch.ID); err == nil {
++		t.Fatal("named graveyard match remained in a graveyard")
++	}
++	if _, err := gs.Battlefield.GetCard(permanentMatch.ID); err == nil {
++		t.Fatal("named permanent remained on the battlefield")
++	}
++	if _, err := gs.Players[0].Exile.GetCard(target.ID); err != nil {
++		t.Fatal("target was not exiled")
++	}
++	if _, err := gs.Players[1].Exile.GetCard(graveyardMatch.ID); err != nil {
++		t.Fatal("named graveyard match was not exiled")
++	}
++}
+-- 
+2.43.0
+

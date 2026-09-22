@@ -29,7 +29,7 @@ while true; do
     PIPE_MODEL="${QWEN_MODEL:-./Qwen3.8-27B/Qwen3.8-27B-Q8_0.gguf}" \
     USAGE_LIMIT_PCT="${USAGE_LIMIT_PCT:-99}" \
     PIPE_AGENTIC_MAX_TURNS="${QWEN_MAX_TURNS:-25}" \
-    PIPE_MAX_TOKENS_CAP="${QWEN_MAX_TOKENS_CAP:-8000}" \
+    PIPE_MAX_TOKENS_CAP="${QWEN_MAX_TOKENS_CAP:-16000}" \
     bash /opt/development/magic-ops/scripts/pipeline-lane.sh "$W" >> "$L" 2>&1
   echo "[$(date -Is)] $W exit, restart 30s" >> "$L"
   sleep 30

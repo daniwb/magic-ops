@@ -1,0 +1,2192 @@
+{
+  "source_revision": "4e545cebc439944937540dc269cd86a8780a0911",
+  "measured_at": "2026-09-14T06:51:18.639162+00:00",
+  "candidate_count": 113,
+  "counts": [
+    {
+      "misses": 2,
+      "families": "mixed",
+      "cards": 95
+    },
+    {
+      "misses": 2,
+      "families": "same",
+      "cards": 13
+    },
+    {
+      "misses": 3,
+      "families": "mixed",
+      "cards": 4
+    },
+    {
+      "misses": 4,
+      "families": "mixed",
+      "cards": 1
+    }
+  ],
+  "members": [
+    {
+      "name": "Abyssal Harvester",
+      "text_sha256": "sha256:46397a0f38f88c056d801e249f1dd1b65d95b23aa690826865591149a9c6d912",
+      "shapes": [
+        "verb_unmapped:exile",
+        "verb_unmapped:token_copy"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:exile",
+          "exile target creature card from a graveyard that was put there this tu"
+        ],
+        [
+          "verb_unmapped:token_copy",
+          "create a token that's a copy of it, except it's a nightmare in additio"
+        ],
+        [
+          "verb_unmapped:exile",
+          "exile all other nightmare tokens you control."
+        ]
+      ],
+      "oracle_text": "{T}: Exile target creature card from a graveyard that was put there this turn. Create a token that's a copy of it, except it's a Nightmare in addition to its other types. Then exile all other Nightmare tokens you control."
+    },
+    {
+      "name": "Angel of Serenity",
+      "text_sha256": "sha256:2c93aa5889cf1a20b8f51b5ed7bdfb9bd06d5c01fd2c268f5c1a6c9bf60cd6cf",
+      "shapes": [
+        "verb_unmapped:bounce",
+        "verb_unmapped:exile"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:exile",
+          "exile up to three other target creatures from the battlefield and/or c"
+        ],
+        [
+          "verb_unmapped:bounce",
+          "return the exiled cards to their owners' hands."
+        ]
+      ],
+      "oracle_text": "Flying\nWhen this creature enters, you may exile up to three other target creatures from the battlefield and/or creature cards from graveyards.\nWhen this creature leaves the battlefield, return the exiled cards to their owners' hands."
+    },
+    {
+      "name": "Angel's Trumpet",
+      "text_sha256": "sha256:20e16f3f036b14da471abebf0afdfb44a3667d644301576694260149f55058ed",
+      "shapes": [
+        "verb_unmapped:damage",
+        "verb_unmapped:tap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:tap",
+          "tap all untapped creatures that player controls that didn't attack thi"
+        ],
+        [
+          "verb_unmapped:damage",
+          "~ deals damage to the player equal to the number of creatures tapped t"
+        ]
+      ],
+      "oracle_text": "All creatures have vigilance.\nAt the beginning of each player's end step, tap all untapped creatures that player controls that didn't attack this turn. This artifact deals damage to the player equal to the number of creatures tapped this way."
+    },
+    {
+      "name": "Anikthea, Hand of Erebos",
+      "text_sha256": "sha256:a5a4610172e14b6b879c1a4a97442b5e10aabb7eea1457e4159f28d8ccce2e01",
+      "shapes": [
+        "verb_unmapped:exile",
+        "verb_unmapped:token_copy"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:exile",
+          "exile up to one target non-aura enchantment card from your graveyard"
+        ],
+        [
+          "verb_unmapped:token_copy",
+          "create a token that's a copy of that card, except it's a 3/3 black zom"
+        ]
+      ],
+      "oracle_text": "Menace\nOther enchantment creatures you control have menace.\nWhenever Anikthea enters or attacks, exile up to one target non-Aura enchantment card from your graveyard. Create a token that's a copy of that card, except it's a 3/3 black Zombie creature in addition to its other types."
+    },
+    {
+      "name": "Applied Geometry",
+      "text_sha256": "sha256:231a68f68438ae14c29f18752dda7952b33b9e543af0afc1932e252914ee69f1",
+      "shapes": [
+        "verb_unmapped:put_counters",
+        "verb_unmapped:token_copy"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:token_copy",
+          "create a token that's a copy of target non-aura permanent you control,"
+        ],
+        [
+          "verb_unmapped:put_counters",
+          "put six +1/+1 counters on it."
+        ]
+      ],
+      "oracle_text": "Create a token that's a copy of target non-Aura permanent you control, except it's a 0/0 Fractal creature in addition to its other types. Put six +1/+1 counters on it."
+    },
+    {
+      "name": "Arena",
+      "text_sha256": "sha256:1bad2272ae216a3c28e0f9ce12f120d5a52feccbebf59440e8334cc3ad748345",
+      "shapes": [
+        "verb_unmapped:fight",
+        "verb_unmapped:tap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:tap",
+          "tap target creature you control and target creature of an opponent's c"
+        ],
+        [
+          "verb_unmapped:fight",
+          "those creatures fight each other."
+        ]
+      ],
+      "oracle_text": "{3}, {T}: Tap target creature you control and target creature of an opponent's choice they control. Those creatures fight each other. (Each deals damage equal to its power to the other.)"
+    },
+    {
+      "name": "Aurelia's Vindicator",
+      "text_sha256": "sha256:2ef0c7c98c63871c3090abd015929ef208ea8c168d353b9dfba87c47aebc3cf1",
+      "shapes": [
+        "verb_unmapped:bounce",
+        "verb_unmapped:exile"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:exile",
+          "exile up to x other target creatures from the battlefield and/or creat"
+        ],
+        [
+          "verb_unmapped:bounce",
+          "return the exiled cards to their owners' hands."
+        ]
+      ],
+      "oracle_text": "Flying, lifelink, ward {2}\nDisguise {X}{3}{W}\nWhen this creature is turned face up, exile up to X other target creatures from the battlefield and/or creature cards from graveyards.\nWhen this creature leaves the battlefield, return the exiled cards to their owners' hands."
+    },
+    {
+      "name": "Azlask, the Swelling Scourge",
+      "text_sha256": "sha256:116758d5e6637e4b1a127f5e00d421d043bf2d94e4b1a191773e80039398345e",
+      "shapes": [
+        "verb_unmapped:grant_eot",
+        "verb_unmapped:pump"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:pump",
+          "creatures you control get +x/+x until end of turn, where x is the numb"
+        ],
+        [
+          "verb_unmapped:grant_eot",
+          "scions and spawns you control gain indestructible and annihilator 1 un"
+        ]
+      ],
+      "oracle_text": "Whenever Azlask or another colorless creature you control dies, you get an experience counter.\n{W}{U}{B}{R}{G}: Creatures you control get +X/+X until end of turn, where X is the number of experience counters you have. Scions and Spawns you control gain indestructible and annihilator 1 until end of turn."
+    },
+    {
+      "name": "Backlash",
+      "text_sha256": "sha256:98304e232d97eccf003c4e8de0eafd4895aca9e1a767e1c78933a9a9f62f6cb7",
+      "shapes": [
+        "verb_unmapped:damage_by",
+        "verb_unmapped:tap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:tap",
+          "tap target untapped creature"
+        ],
+        [
+          "verb_unmapped:damage_by",
+          "that creature deals damage equal to its power to its controller."
+        ]
+      ],
+      "oracle_text": "Tap target untapped creature. That creature deals damage equal to its power to its controller."
+    },
+    {
+      "name": "Banish into Fable",
+      "text_sha256": "sha256:2185ebb8f8c9d10f8d5214c7aa3be700e91d771aff8eb8c2f34ebae111fb423b",
+      "shapes": [
+        "verb_unmapped:copy"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:copy",
+          "copy it if you control an artifact"
+        ],
+        [
+          "verb_unmapped:copy",
+          "copy it if you control an enchantment"
+        ]
+      ],
+      "oracle_text": "When you cast this spell from your hand, copy it if you control an artifact, then copy it if you control an enchantment. You may choose new targets for the copies.\nReturn target nonland permanent to its owner's hand. You create a 2/2 white Knight creature token with vigilance."
+    },
+    {
+      "name": "Batwing Brume",
+      "text_sha256": "sha256:70023d8c0efed8199441a3f9c68d40312e5066e7c4ebf89feed719d12aac665d",
+      "shapes": [
+        "verb_unmapped:lose_life",
+        "verb_unmapped:prevent"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:prevent",
+          "prevent all combat damage that would be dealt this turn if {w} was spe"
+        ],
+        [
+          "verb_unmapped:lose_life",
+          "each player loses 1 life for each attacking creature they control if {"
+        ]
+      ],
+      "oracle_text": "Prevent all combat damage that would be dealt this turn if {W} was spent to cast this spell. Each player loses 1 life for each attacking creature they control if {B} was spent to cast this spell. (Do both if {W}{B} was spent.)"
+    },
+    {
+      "name": "Blast Zone",
+      "text_sha256": "sha256:685ad3d6389517336c4c8289e28ece00f4c6dc34fbae07dca6987d4aebae7684",
+      "shapes": [
+        "verb_unmapped:destroy",
+        "verb_unmapped:put_counters"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:put_counters",
+          "put x charge counters on ~."
+        ],
+        [
+          "verb_unmapped:destroy",
+          "destroy each nonland permanent with mana value equal to the number of "
+        ]
+      ],
+      "oracle_text": "This land enters with a charge counter on it.\n{T}: Add {C}.\n{X}{X}, {T}: Put X charge counters on this land.\n{3}, {T}, Sacrifice this land: Destroy each nonland permanent with mana value equal to the number of charge counters on this land."
+    },
+    {
+      "name": "Bottled Cloister",
+      "text_sha256": "sha256:7cd45ba5ba74bb17d7682f3771eb465dd76f4a95ecb1a49a0cf306d84868fa35",
+      "shapes": [
+        "verb_unmapped:bounce",
+        "verb_unmapped:exile"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:exile",
+          "exile all cards from your hand face down."
+        ],
+        [
+          "verb_unmapped:bounce",
+          "return all cards you own exiled with ~ to your hand"
+        ]
+      ],
+      "oracle_text": "At the beginning of each opponent's upkeep, exile all cards from your hand face down.\nAt the beginning of your upkeep, return all cards you own exiled with this artifact to your hand, then draw a card."
+    },
+    {
+      "name": "Breath of Fury",
+      "text_sha256": "sha256:a8b3eeca8928c2615fc46335a49050d8d9bbdf573af2d371eec0c35760f9f8f8",
+      "shapes": [
+        "verb_unmapped:sacrifice",
+        "verb_unmapped:untap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:sacrifice",
+          "sacrifice it and attach ~ to a creature you control"
+        ],
+        [
+          "verb_unmapped:untap",
+          "untap all creatures you control and after this phase, there is an addi"
+        ]
+      ],
+      "oracle_text": "Enchant creature you control\nWhen enchanted creature deals combat damage to a player, sacrifice it and attach this Aura to a creature you control. If you do, untap all creatures you control and after this phase, there is an additional combat phase."
+    },
+    {
+      "name": "Call of the Death-Dweller",
+      "text_sha256": "sha256:797caab7074e5c2a71ab9123e74cf066afb217dc2aa11ca4af50505aa91a153f",
+      "shapes": [
+        "verb_unmapped:put_counters"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:put_counters",
+          "put a deathtouch counter on either of them"
+        ],
+        [
+          "verb_unmapped:put_counters",
+          "put a menace counter on either of them."
+        ]
+      ],
+      "oracle_text": "Return up to two target creature cards with total mana value 3 or less from your graveyard to the battlefield. Put a deathtouch counter on either of them. Then put a menace counter on either of them."
+    },
+    {
+      "name": "Campsite Cuisine",
+      "text_sha256": "sha256:f7d4febb8f985b5c0af86f59782de312e278ace79b36ceff21e7859300630d9c",
+      "shapes": [
+        "verb_unmapped:pump",
+        "verb_unmapped:sacrifice"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:sacrifice",
+          "sacrifice x foods"
+        ],
+        [
+          "verb_unmapped:pump",
+          "up to x target attacking creatures each get +3/+3 and gain trample and"
+        ]
+      ],
+      "oracle_text": "Whenever this enchantment or a legendary creature you control enters, create a Food token.\nWhenever you attack, you may sacrifice X Foods. When you do, up to X target attacking creatures each get +3/+3 and gain trample and indestructible until end of turn."
+    },
+    {
+      "name": "Chaos Harlequin",
+      "text_sha256": "sha256:23fe9f41d84f8358d7fde04907bcf1c020245e4788ceaa76596d95f42d0b1acf",
+      "shapes": [
+        "verb_unmapped:pump"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:pump",
+          "if that card is a land card, ~ gets -4/-0 until end of turn"
+        ],
+        [
+          "verb_unmapped:pump",
+          "otherwise, ~ gets +2/+0 until end of turn."
+        ]
+      ],
+      "oracle_text": "{R}: Exile the top card of your library. If that card is a land card, this creature gets -4/-0 until end of turn. Otherwise, this creature gets +2/+0 until end of turn."
+    },
+    {
+      "name": "Cleopatra, Exiled Pharaoh",
+      "text_sha256": "sha256:cb69f7ccefc95c5da5af683fd64d1e0a56e41218e1c5083838eaf6e639cd1cd7",
+      "shapes": [
+        "verb_unmapped:draw",
+        "verb_unmapped:put_counters"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:put_counters",
+          "put a +1/+1 counter on each of up to two other target legendary creatu"
+        ],
+        [
+          "verb_unmapped:draw",
+          "draw a card for each counter on it"
+        ]
+      ],
+      "oracle_text": "Allies \u2014 At the beginning of your end step, put a +1/+1 counter on each of up to two other target legendary creatures.\nBetrayal \u2014 Whenever a legendary creature with counters on it dies, draw a card for each counter on it. You lose 2 life."
+    },
+    {
+      "name": "Consuming Ferocity",
+      "text_sha256": "sha256:eb4ffb1b9ed604a93897b7dde1da621c8022149143679f0ec52dc9e081272825",
+      "shapes": [
+        "verb_unmapped:damage_by",
+        "verb_unmapped:destroy"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:damage_by",
+          "if that creature has three or more +1/+0 counters on it, it deals dama"
+        ],
+        [
+          "verb_unmapped:destroy",
+          "destroy that creature and it can't be regenerated."
+        ]
+      ],
+      "oracle_text": "Enchant non-Wall creature\nEnchanted creature gets +1/+0.\nAt the beginning of your upkeep, put a +1/+0 counter on enchanted creature. If that creature has three or more +1/+0 counters on it, it deals damage equal to its power to its controller, then destroy that creature and it can't be regenerated."
+    },
+    {
+      "name": "Crypt Incursion",
+      "text_sha256": "sha256:19a8ead74496e73bb27a74079815d88ab6ea97f64c435b8e43b8846ed00d0d9c",
+      "shapes": [
+        "verb_unmapped:exile",
+        "verb_unmapped:gain_life"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:exile",
+          "exile all creature cards from target player's graveyard"
+        ],
+        [
+          "verb_unmapped:gain_life",
+          "you gain 3 life for each card exiled this way."
+        ]
+      ],
+      "oracle_text": "Exile all creature cards from target player's graveyard. You gain 3 life for each card exiled this way."
+    },
+    {
+      "name": "Donatello, Rad Scientist",
+      "text_sha256": "sha256:70718a245b73f781a5d0d6a99ff8f555699c963f6c68b5bf47a32689d70e14f1",
+      "shapes": [
+        "verb_unmapped:put_counters",
+        "verb_unmapped:tap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:tap",
+          "tap up to three target creatures your opponents control"
+        ],
+        [
+          "verb_unmapped:put_counters",
+          "put a stun counter on each of them."
+        ]
+      ],
+      "oracle_text": "Vigilance (Attacking doesn't cause this creature to tap.)\nWhen Donatello enters, tap up to three target creatures your opponents control. Put a stun counter on each of them. (If a permanent with a stun counter would become untapped, remove one from it instead.)"
+    },
+    {
+      "name": "Dragonrage",
+      "text_sha256": "sha256:6adaa3e0445e04d822000cdae67b351713f94d943920a376424865ba01db454e",
+      "shapes": [
+        "verb_unmapped:add_mana",
+        "verb_unmapped:grant_eot"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:add_mana",
+          "add {r} for each attacking creature you control"
+        ],
+        [
+          "verb_unmapped:grant_eot",
+          "until end of turn, attacking creatures you control gain \"{r}: ~ gets +"
+        ]
+      ],
+      "oracle_text": "Add {R} for each attacking creature you control. Until end of turn, attacking creatures you control gain \"{R}: This creature gets +1/+0 until end of turn.\""
+    },
+    {
+      "name": "Durkwood Tracker",
+      "text_sha256": "sha256:a6dfbd4eda9e2bc1d12de1d257a880660480f7df89f3a164cae85f4920d03d7a",
+      "shapes": [
+        "verb_unmapped:damage_by"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:damage_by",
+          "if ~ is on the battlefield, it deals damage equal to its power to targ"
+        ],
+        [
+          "verb_unmapped:damage_by",
+          "that creature deals damage equal to its power to ~."
+        ]
+      ],
+      "oracle_text": "{1}{G}, {T}: If this creature is on the battlefield, it deals damage equal to its power to target attacking creature. That creature deals damage equal to its power to this creature."
+    },
+    {
+      "name": "Ebony Horse",
+      "text_sha256": "sha256:1683e0f1798b7152d45844fd66935a236d47346cbcb63a59adbdf29d4af5c9b1",
+      "shapes": [
+        "verb_unmapped:prevent",
+        "verb_unmapped:untap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:untap",
+          "untap target attacking creature you control"
+        ],
+        [
+          "verb_unmapped:prevent",
+          "prevent all combat damage that would be dealt to and dealt by that cre"
+        ]
+      ],
+      "oracle_text": "{2}, {T}: Untap target attacking creature you control. Prevent all combat damage that would be dealt to and dealt by that creature this turn."
+    },
+    {
+      "name": "Elenda and Azor",
+      "text_sha256": "sha256:31ae64ba70aba2f59ad7d8d29af790ba66c92b4357524c7500ba09a7a0c20dd5",
+      "shapes": [
+        "verb_unmapped:create_token",
+        "verb_unmapped:draw"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:draw",
+          "draw x cards."
+        ],
+        [
+          "verb_unmapped:create_token",
+          "create a number of 1/1 black vampire knight creature tokens with lifel"
+        ]
+      ],
+      "oracle_text": "Flying, ward {2}\nWhenever Elenda and Azor attacks, you may pay {X}{W}{U}{B}. If you do, draw X cards.\nAt the beginning of each end step, you may pay 4 life. If you do, create a number of 1/1 black Vampire Knight creature tokens with lifelink equal to the number of cards you've drawn this turn."
+    },
+    {
+      "name": "Elvish Scout",
+      "text_sha256": "sha256:a8ee7e4ddbc59054808a4936fa20357a3f6f3abb1382ab4b93e51e69d131e398",
+      "shapes": [
+        "verb_unmapped:prevent",
+        "verb_unmapped:untap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:untap",
+          "untap target attacking creature you control"
+        ],
+        [
+          "verb_unmapped:prevent",
+          "prevent all combat damage that would be dealt to and dealt by it this "
+        ]
+      ],
+      "oracle_text": "{G}, {T}: Untap target attacking creature you control. Prevent all combat damage that would be dealt to and dealt by it this turn."
+    },
+    {
+      "name": "Energy Arc",
+      "text_sha256": "sha256:ff97c24e082699b6b71eb0e9bad5e5b5fe43baf385f4e3a99702a0ac8133ca25",
+      "shapes": [
+        "verb_unmapped:prevent",
+        "verb_unmapped:untap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:untap",
+          "untap any number of target creatures"
+        ],
+        [
+          "verb_unmapped:prevent",
+          "prevent all combat damage that would be dealt to and dealt by those cr"
+        ]
+      ],
+      "oracle_text": "Untap any number of target creatures. Prevent all combat damage that would be dealt to and dealt by those creatures this turn."
+    },
+    {
+      "name": "Ent's Fury",
+      "text_sha256": "sha256:dc2ab56b3cce1ef4438568a827adc68151cadb7031a447d99b0f37a6442b9f2f",
+      "shapes": [
+        "verb_unmapped:fight",
+        "verb_unmapped:put_counters"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:put_counters",
+          "put a +1/+1 counter on target creature you control if its power is 4 o"
+        ],
+        [
+          "verb_unmapped:fight",
+          "that creature gets +1/+1 until end of turn and fights target creature "
+        ]
+      ],
+      "oracle_text": "Put a +1/+1 counter on target creature you control if its power is 4 or greater. Then that creature gets +1/+1 until end of turn and fights target creature you don't control."
+    },
+    {
+      "name": "Faerie Artisans",
+      "text_sha256": "sha256:a54f6287865a68edeec9bd40eb8d3ea96ce1e15d341fef17867e772d11e8ed45",
+      "shapes": [
+        "verb_unmapped:exile",
+        "verb_unmapped:token_copy"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:token_copy",
+          "create a token that's a copy of that creature except it's an artifact "
+        ],
+        [
+          "verb_unmapped:exile",
+          "exile all other tokens created with ~."
+        ]
+      ],
+      "oracle_text": "Flying\nWhenever a nontoken creature an opponent controls enters, create a token that's a copy of that creature except it's an artifact in addition to its other types. Then exile all other tokens created with this creature."
+    },
+    {
+      "name": "Fatal Attraction",
+      "text_sha256": "sha256:f66711e14bd2bd6cfcaa9de5482316374c6c3cfd5d559d1320a8ce537f5e5ca9",
+      "shapes": [
+        "verb_unmapped:damage"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:damage",
+          "~ deals 2 damage to enchanted creature."
+        ],
+        [
+          "verb_unmapped:damage",
+          "~ deals 4 damage to enchanted creature."
+        ]
+      ],
+      "oracle_text": "Enchant creature\nWhen this Aura enters, it deals 2 damage to enchanted creature.\nAt the beginning of your upkeep, this Aura deals 4 damage to enchanted creature."
+    },
+    {
+      "name": "Fear of Ridicule",
+      "text_sha256": "sha256:d65c3ec91daf97932f6a1ac624b142d8b36ff304c16c8bef206fffb9e095fea0",
+      "shapes": [
+        "verb_unmapped:exile",
+        "verb_unmapped:token_copy"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:exile",
+          "exile a random creature card from that player's library"
+        ],
+        [
+          "verb_unmapped:token_copy",
+          "create a token that's a copy of that card, except it's a 1/1 enchantme"
+        ]
+      ],
+      "oracle_text": "Enchantment creatures you control have menace.\nWhenever one or more enchantment creatures you control deal combat damage to a player, exile a random creature card from that player's library. Create a token that's a copy of that card, except it's a 1/1 enchantment creature."
+    },
+    {
+      "name": "Feint",
+      "text_sha256": "sha256:a8968741286d16fa625d3ca5c98235efb0f6bbdb41d02af99b7818bf667eb432",
+      "shapes": [
+        "verb_unmapped:prevent",
+        "verb_unmapped:tap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:tap",
+          "tap all creatures blocking target attacking creature"
+        ],
+        [
+          "verb_unmapped:prevent",
+          "prevent all combat damage that would be dealt this turn by that creatu"
+        ]
+      ],
+      "oracle_text": "Tap all creatures blocking target attacking creature. Prevent all combat damage that would be dealt this turn by that creature and each creature blocking it."
+    },
+    {
+      "name": "Firbolg Flutist",
+      "text_sha256": "sha256:7765bfa1428be850675310ad15df194aa2033375eabd2ed92b875f4ecac86f43",
+      "shapes": [
+        "verb_unmapped:gain_control",
+        "verb_unmapped:grant_eot"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:gain_control",
+          "gain control of target creature you don't control until end of turn"
+        ],
+        [
+          "verb_unmapped:grant_eot",
+          "it gains haste and myriad until end of turn."
+        ]
+      ],
+      "oracle_text": "Enthralling Performance \u2014 When this creature enters, gain control of target creature you don't control until end of turn. Untap it. It gains haste and myriad until end of turn. (Whenever it attacks, for each opponent other than defending player, you may create a token copy that's tapped and attacking that player or a planeswalker they control. Exile the tokens at end of combat.)"
+    },
+    {
+      "name": "Flamerush Rider",
+      "text_sha256": "sha256:f9f65ac1844b9dc28df28a3cbe8b4ece2b46040a57833a634afe2f11ec1bb9b2",
+      "shapes": [
+        "verb_unmapped:exile",
+        "verb_unmapped:token_copy"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:token_copy",
+          "create a token that's a copy of another target attacking creature and "
+        ],
+        [
+          "verb_unmapped:exile",
+          "exile the token at end of combat."
+        ]
+      ],
+      "oracle_text": "Whenever this creature attacks, create a token that's a copy of another target attacking creature and that's tapped and attacking. Exile the token at end of combat.\nDash {2}{R}{R} (You may cast this spell for its dash cost. If you do, it gains haste, and it's returned from the battlefield to its owner's hand at the beginning of the next end step.)"
+    },
+    {
+      "name": "Flash Conscription",
+      "text_sha256": "sha256:b44dcbd6b4ba4b42863f8df608fd3f1dcd43adc76921834b98c8f9801cbc4e3f",
+      "shapes": [
+        "verb_unmapped:grant_eot"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:grant_eot",
+          "untap target creature and gain control of it until end of turn"
+        ],
+        [
+          "verb_unmapped:grant_eot",
+          "if {w} was spent to cast this spell, the creature gains \"whenever ~ de"
+        ]
+      ],
+      "oracle_text": "Untap target creature and gain control of it until end of turn. That creature gains haste until end of turn. If {W} was spent to cast this spell, the creature gains \"Whenever this creature deals combat damage, you gain that much life\" until end of turn."
+    },
+    {
+      "name": "Frenzied Fugue",
+      "text_sha256": "sha256:69b67b0d9662675ab9319f6cb6aded2aa666bad2c1ec70d4a478e17f99ec7ad8",
+      "shapes": [
+        "verb_unmapped:gain_control",
+        "verb_unmapped:untap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:gain_control",
+          "gain control of enchanted permanent until end of turn"
+        ],
+        [
+          "verb_unmapped:untap",
+          "untap that permanent"
+        ]
+      ],
+      "oracle_text": "Enchant permanent\nWhen this Aura enters and at the beginning of your upkeep, gain control of enchanted permanent until end of turn. Untap that permanent. It gains haste until end of turn."
+    },
+    {
+      "name": "Froghemoth",
+      "text_sha256": "sha256:2d68311cda01555f23c99e16d74e04e7dc8da39879e445323a6adbfb6ac4e2e4",
+      "shapes": [
+        "verb_unmapped:exile",
+        "verb_unmapped:gain_life",
+        "verb_unmapped:put_counters"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:exile",
+          "exile up to that many target cards from their graveyard"
+        ],
+        [
+          "verb_unmapped:put_counters",
+          "put a +1/+1 counter on ~ for each creature card exiled this way"
+        ],
+        [
+          "verb_unmapped:gain_life",
+          "you gain 1 life for each noncreature card exiled this way."
+        ]
+      ],
+      "oracle_text": "Trample, haste\nWhenever this creature deals combat damage to a player, exile up to that many target cards from their graveyard. Put a +1/+1 counter on this creature for each creature card exiled this way. You gain 1 life for each noncreature card exiled this way."
+    },
+    {
+      "name": "Gargantuan Gorilla",
+      "text_sha256": "sha256:1c362d30c19aadc141c0fe864cc8de0604544bf17e99b57098c136c57728a9d9",
+      "shapes": [
+        "verb_unmapped:damage",
+        "verb_unmapped:damage_by",
+        "verb_unmapped:grant_eot",
+        "verb_unmapped:sacrifice"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:grant_eot",
+          "if you sacrifice a snow forest this way, ~ gains trample until end of "
+        ],
+        [
+          "verb_unmapped:sacrifice",
+          "sacrifice a forest, sacrifice ~ and it deals 7 damage to you."
+        ],
+        [
+          "verb_unmapped:damage",
+          "~ deals damage equal to its power to another target creature"
+        ],
+        [
+          "verb_unmapped:damage_by",
+          "that creature deals damage equal to its power to ~."
+        ]
+      ],
+      "oracle_text": "At the beginning of your upkeep, you may sacrifice a Forest. If you sacrifice a snow Forest this way, this creature gains trample until end of turn. If you don't sacrifice a Forest, sacrifice this creature and it deals 7 damage to you.\n{T}: This creature deals damage equal to its power to another target creature. That creature deals damage equal to its power to this creature."
+    },
+    {
+      "name": "Garnet, Princess of Alexandria",
+      "text_sha256": "sha256:a82f297f33dada30de228a26ea183886f751324b88893800fe14041299b31984",
+      "shapes": [
+        "verb_unmapped:put_counters",
+        "verb_unmapped:remove_counter"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:remove_counter",
+          "remove a lore counter from each of any number of sagas you control"
+        ],
+        [
+          "verb_unmapped:put_counters",
+          "put a +1/+1 counter on ~ for each lore counter removed this way."
+        ]
+      ],
+      "oracle_text": "Lifelink\nWhenever Garnet attacks, you may remove a lore counter from each of any number of Sagas you control. Put a +1/+1 counter on Garnet for each lore counter removed this way."
+    },
+    {
+      "name": "Goblin Sappers",
+      "text_sha256": "sha256:f7f78c6608eef704e9d4a17d85cbda97640300887f7c3de92ea3a0d2813359da",
+      "shapes": [
+        "verb_unmapped:destroy"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:destroy",
+          "destroy it and ~ at end of combat."
+        ],
+        [
+          "verb_unmapped:destroy",
+          "destroy it at end of combat."
+        ]
+      ],
+      "oracle_text": "{R}{R}, {T}: Target creature you control can't be blocked this turn. Destroy it and this creature at end of combat.\n{R}{R}{R}{R}, {T}: Target creature you control can't be blocked this turn. Destroy it at end of combat."
+    },
+    {
+      "name": "Goblin Snowman",
+      "text_sha256": "sha256:f77efa7e114f50b40ea5258a7ad64923c6c97d96e3b5d3c87169529eb95991e3",
+      "shapes": [
+        "verb_unmapped:damage",
+        "verb_unmapped:prevent"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:prevent",
+          "prevent all combat damage that would be dealt to and dealt by it this "
+        ],
+        [
+          "verb_unmapped:damage",
+          "~ deals 1 damage to target creature it's blocking."
+        ]
+      ],
+      "oracle_text": "Whenever this creature blocks, prevent all combat damage that would be dealt to and dealt by it this turn.\n{T}: This creature deals 1 damage to target creature it's blocking."
+    },
+    {
+      "name": "Golem Artisan",
+      "text_sha256": "sha256:4f2a010412b94adfd945cd0fb160653c2995d83a8f1b057e1f59a867165a4620",
+      "shapes": [
+        "verb_unmapped:grant_eot",
+        "verb_unmapped:pump"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:pump",
+          "target artifact creature gets +1/+1 until end of turn."
+        ],
+        [
+          "verb_unmapped:grant_eot",
+          "target artifact creature gains your choice of flying, trample, or hast"
+        ]
+      ],
+      "oracle_text": "{2}: Target artifact creature gets +1/+1 until end of turn.\n{2}: Target artifact creature gains your choice of flying, trample, or haste until end of turn."
+    },
+    {
+      "name": "Grime Gorger",
+      "text_sha256": "sha256:5d630dbced5fad769d5df3fe9f959837b346a0fa3b006d95feca876c7f75f671",
+      "shapes": [
+        "verb_unmapped:exile",
+        "verb_unmapped:put_counters"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:exile",
+          "exile up to one card of each card type from defending player's graveya"
+        ],
+        [
+          "verb_unmapped:put_counters",
+          "put a +1/+1 counter on ~ for each card exiled this way."
+        ]
+      ],
+      "oracle_text": "Menace\nWhenever this creature attacks, exile up to one card of each card type from defending player's graveyard. Put a +1/+1 counter on this creature for each card exiled this way."
+    },
+    {
+      "name": "Honor the Fallen",
+      "text_sha256": "sha256:fb3253d0bee3d9e8c49696241ea8440abd6d3b474cc6018d02af955ba7e722aa",
+      "shapes": [
+        "verb_unmapped:exile",
+        "verb_unmapped:gain_life"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:exile",
+          "exile all creature cards from all graveyards"
+        ],
+        [
+          "verb_unmapped:gain_life",
+          "you gain 1 life for each card exiled this way."
+        ]
+      ],
+      "oracle_text": "Exile all creature cards from all graveyards. You gain 1 life for each card exiled this way."
+    },
+    {
+      "name": "Hordewing Skaab",
+      "text_sha256": "sha256:59825256e60b704356db969724a85debb6d24ea57f436a70f0a35751ed990a20",
+      "shapes": [
+        "verb_unmapped:discard",
+        "verb_unmapped:draw_eq"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:draw_eq",
+          "draw cards equal to the number of opponents dealt damage this way"
+        ],
+        [
+          "verb_unmapped:discard",
+          "discard that many cards."
+        ]
+      ],
+      "oracle_text": "Flying\nOther Zombies you control have flying.\nWhenever one or more Zombies you control deal combat damage to one or more of your opponents, you may draw cards equal to the number of opponents dealt damage this way. If you do, discard that many cards."
+    },
+    {
+      "name": "Hunt the Hunter",
+      "text_sha256": "sha256:ea244bdb6cc6347d42fb090d7288513e8f6ec5edc21e8198dc46d6b096643077",
+      "shapes": [
+        "verb_unmapped:fight",
+        "verb_unmapped:pump"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:pump",
+          "target green creature you control gets +2/+2 until end of turn"
+        ],
+        [
+          "verb_unmapped:fight",
+          "it fights target green creature an opponent controls."
+        ]
+      ],
+      "oracle_text": "Target green creature you control gets +2/+2 until end of turn. It fights target green creature an opponent controls."
+    },
+    {
+      "name": "Infernal Medusa",
+      "text_sha256": "sha256:48453d1ca4fcb77d05a33327b94b2ab774714bfacf2b3a9c7b126553897b243e",
+      "shapes": [
+        "verb_unmapped:destroy"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:destroy",
+          "destroy that creature at end of combat."
+        ],
+        [
+          "verb_unmapped:destroy",
+          "destroy that creature at end of combat."
+        ]
+      ],
+      "oracle_text": "Whenever this creature blocks a creature, destroy that creature at end of combat.\nWhenever this creature becomes blocked by a non-Wall creature, destroy that creature at end of combat."
+    },
+    {
+      "name": "Involuntary Cooldown",
+      "text_sha256": "sha256:c9a53d65ba60da60cc0b03a1552f11a1c3f2c8f02374594314b4f3c59f22209c",
+      "shapes": [
+        "verb_unmapped:put_counters",
+        "verb_unmapped:tap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:tap",
+          "tap up to two target artifacts and/or creatures"
+        ],
+        [
+          "verb_unmapped:put_counters",
+          "put two stun counters on each of them."
+        ]
+      ],
+      "oracle_text": "Tap up to two target artifacts and/or creatures. Put two stun counters on each of them. (If a permanent with a stun counter would become untapped, remove one from it instead.)"
+    },
+    {
+      "name": "Ith, High Arcanist",
+      "text_sha256": "sha256:82aef986ea8c9e7c663640048ca5bf0af1dae11dbc905b2c89ddc87d89e2f5c8",
+      "shapes": [
+        "verb_unmapped:prevent",
+        "verb_unmapped:untap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:untap",
+          "untap target attacking creature"
+        ],
+        [
+          "verb_unmapped:prevent",
+          "prevent all combat damage that would be dealt to and dealt by that cre"
+        ]
+      ],
+      "oracle_text": "Vigilance\n{T}: Untap target attacking creature. Prevent all combat damage that would be dealt to and dealt by that creature this turn.\nSuspend 4\u2014{W}{U}"
+    },
+    {
+      "name": "Judgment of Alexander",
+      "text_sha256": "sha256:3560594f3b59f9a529a2b81c3d400fe909f6697c80d84858930f3ced822cb73e",
+      "shapes": [
+        "verb_unmapped:damage_by",
+        "verb_unmapped:prevent"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:prevent",
+          "prevent all damage that would be dealt to you this turn by sources you"
+        ],
+        [
+          "verb_unmapped:damage_by",
+          "whenever damage from a creature is prevented this way, each commander "
+        ]
+      ],
+      "oracle_text": "Prevent all damage that would be dealt to you this turn by sources your opponents control. Whenever damage from a creature is prevented this way, each commander creature you control deals damage equal to its power to that creature."
+    },
+    {
+      "name": "Kaervek's Purge",
+      "text_sha256": "sha256:98bfcd0cf56e2c358fe2a155fe9d3040c1b44cb4ba9177e863e7f842255ee8c5",
+      "shapes": [
+        "verb_unmapped:damage_by",
+        "verb_unmapped:destroy"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:destroy",
+          "destroy target creature with mana value x"
+        ],
+        [
+          "verb_unmapped:damage_by",
+          "if that creature dies this way, ~ deals damage equal to the creature's"
+        ]
+      ],
+      "oracle_text": "Destroy target creature with mana value X. If that creature dies this way, Kaervek's Purge deals damage equal to the creature's power to the creature's controller."
+    },
+    {
+      "name": "Kaima, the Fractured Calm",
+      "text_sha256": "sha256:b374145e08a7f97a66a5cd7ea06d109ee3da0c6d77b6d9df011e1555d0f6610f",
+      "shapes": [
+        "verb_unmapped:goad",
+        "verb_unmapped:put_counters"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:goad",
+          "goad each creature your opponents control that's enchanted by an aura "
+        ],
+        [
+          "verb_unmapped:put_counters",
+          "put a +1/+1 counter on ~ for each creature goaded this way."
+        ]
+      ],
+      "oracle_text": "At the beginning of your end step, goad each creature your opponents control that's enchanted by an Aura you control. Put a +1/+1 counter on Kaima for each creature goaded this way. (Until your next turn, the goaded creatures attack each combat if able and attack a player other than you if able.)"
+    },
+    {
+      "name": "Katara's Reversal",
+      "text_sha256": "sha256:8f047b175a8bd5cd4b683f196a40af5e5079748b02862eb792a58375312d4011",
+      "shapes": [
+        "verb_unmapped:counter",
+        "verb_unmapped:untap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:counter",
+          "counter up to four target spells and/or abilities."
+        ],
+        [
+          "verb_unmapped:untap",
+          "untap up to four target artifacts and/or creatures."
+        ]
+      ],
+      "oracle_text": "Counter up to four target spells and/or abilities.\nUntap up to four target artifacts and/or creatures."
+    },
+    {
+      "name": "Kitt Kanto, Mayhem Diva",
+      "text_sha256": "sha256:c61a9c913f1400edea2885d274e07780f6f56408626b72beda8e783915dc7b5c",
+      "shapes": [
+        "verb_unmapped:goad",
+        "verb_unmapped:tap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:tap",
+          "tap two untapped creatures you control"
+        ],
+        [
+          "verb_unmapped:goad",
+          "goad that creature."
+        ]
+      ],
+      "oracle_text": "When Kitt Kanto enters, create a 1/1 green and white Citizen creature token.\nAt the beginning of combat on each player's turn, you may tap two untapped creatures you control. When you do, target creature that player controls gets +2/+2 and gains trample until end of turn. Goad that creature."
+    },
+    {
+      "name": "Kry Shield",
+      "text_sha256": "sha256:d6277291d499c93acf4222bb9e1cf7ab37f51bb3ac1f160a52f997df16695b2e",
+      "shapes": [
+        "verb_unmapped:prevent",
+        "verb_unmapped:pump"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:prevent",
+          "prevent all damage that would be dealt this turn by target creature yo"
+        ],
+        [
+          "verb_unmapped:pump",
+          "that creature gets +0/+x until end of turn, where x is its mana value."
+        ]
+      ],
+      "oracle_text": "{2}, {T}: Prevent all damage that would be dealt this turn by target creature you control. That creature gets +0/+X until end of turn, where X is its mana value."
+    },
+    {
+      "name": "Lazotep Quarry",
+      "text_sha256": "sha256:38f00927ffadab9b10d1b5b28a74af11e71a2a306d2b64b8ff3990ba2b20f37a",
+      "shapes": [
+        "verb_unmapped:exile",
+        "verb_unmapped:token_copy"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:exile",
+          "exile target creature card with mana value x from your graveyard"
+        ],
+        [
+          "verb_unmapped:token_copy",
+          "create a token that's a copy of it, except it's a 4/4 black zombie."
+        ]
+      ],
+      "oracle_text": "{T}: Add {C}.\n{T}, Sacrifice a creature: Add one mana of any color.\n{X}{2}, {T}, Sacrifice a Desert: Exile target creature card with mana value X from your graveyard. Create a token that's a copy of it, except it's a 4/4 black Zombie. Activate only as a sorcery."
+    },
+    {
+      "name": "Lost in the Maze",
+      "text_sha256": "sha256:8c31f6527ea1f5feb4feccd9b1c79ed4a313622b5df87199d20a396238b368fb",
+      "shapes": [
+        "verb_unmapped:put_counters",
+        "verb_unmapped:tap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:tap",
+          "tap x target creatures"
+        ],
+        [
+          "verb_unmapped:put_counters",
+          "put a stun counter on each of those creatures you don't control."
+        ]
+      ],
+      "oracle_text": "Flash\nWhen this enchantment enters, tap X target creatures. Put a stun counter on each of those creatures you don't control. (If a permanent with a stun counter would become untapped, remove one from it instead.)\nTapped creatures you control have hexproof."
+    },
+    {
+      "name": "Magus of the Arena",
+      "text_sha256": "sha256:1bad2272ae216a3c28e0f9ce12f120d5a52feccbebf59440e8334cc3ad748345",
+      "shapes": [
+        "verb_unmapped:fight",
+        "verb_unmapped:tap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:tap",
+          "tap target creature you control and target creature of an opponent's c"
+        ],
+        [
+          "verb_unmapped:fight",
+          "those creatures fight each other."
+        ]
+      ],
+      "oracle_text": "{3}, {T}: Tap target creature you control and target creature of an opponent's choice they control. Those creatures fight each other. (Each deals damage equal to its power to the other.)"
+    },
+    {
+      "name": "Malanthrope",
+      "text_sha256": "sha256:dff12f3b46d295772d15dbed26c3848fa74018c9b9dfdf6427a1065f7be804dc",
+      "shapes": [
+        "verb_unmapped:exile",
+        "verb_unmapped:put_counters"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:exile",
+          "exile target player's graveyard"
+        ],
+        [
+          "verb_unmapped:put_counters",
+          "put a +1/+1 counter on ~ for each creature card exiled this way."
+        ]
+      ],
+      "oracle_text": "Flying\nScavenge the Dead \u2014 When this creature enters, exile target player's graveyard. Put a +1/+1 counter on this creature for each creature card exiled this way."
+    },
+    {
+      "name": "Malevolent Witchkite",
+      "text_sha256": "sha256:3c2817096086658c35dfbca8831e6330ef7afbfab35e2466c6345fa0f3907a45",
+      "shapes": [
+        "verb_unmapped:draw",
+        "verb_unmapped:sacrifice"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:sacrifice",
+          "sacrifice any number of artifacts, enchantments, and/or tokens"
+        ],
+        [
+          "verb_unmapped:draw",
+          "draw that many cards."
+        ]
+      ],
+      "oracle_text": "Flying\nWhen this creature enters, sacrifice any number of artifacts, enchantments, and/or tokens, then draw that many cards."
+    },
+    {
+      "name": "Malicious Advice",
+      "text_sha256": "sha256:b3b19da35dcf82ec030fe4f44ecb36cb112001d77d0893e0db8b5116c7f3f74b",
+      "shapes": [
+        "verb_unmapped:lose_life",
+        "verb_unmapped:tap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:tap",
+          "tap x target artifacts, creatures, and/or lands"
+        ],
+        [
+          "verb_unmapped:lose_life",
+          "you lose x life."
+        ]
+      ],
+      "oracle_text": "Tap X target artifacts, creatures, and/or lands. You lose X life."
+    },
+    {
+      "name": "Maze of Ith",
+      "text_sha256": "sha256:ce04e5f29a9fd87afe35dc37598bf3820929bac426bfe000183cceec0386fc7e",
+      "shapes": [
+        "verb_unmapped:prevent",
+        "verb_unmapped:untap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:untap",
+          "untap target attacking creature"
+        ],
+        [
+          "verb_unmapped:prevent",
+          "prevent all combat damage that would be dealt to and dealt by that cre"
+        ]
+      ],
+      "oracle_text": "{T}: Untap target attacking creature. Prevent all combat damage that would be dealt to and dealt by that creature this turn."
+    },
+    {
+      "name": "Maze of Shadows",
+      "text_sha256": "sha256:7a64b4eb33ed204a68e2b8baa9e76b7b929ed0a7dae1f1d7d144055339234e2e",
+      "shapes": [
+        "verb_unmapped:prevent",
+        "verb_unmapped:untap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:untap",
+          "untap target attacking creature with shadow"
+        ],
+        [
+          "verb_unmapped:prevent",
+          "prevent all combat damage that would be dealt to and dealt by that cre"
+        ]
+      ],
+      "oracle_text": "{T}: Add {C}.\n{T}: Untap target attacking creature with shadow. Prevent all combat damage that would be dealt to and dealt by that creature this turn."
+    },
+    {
+      "name": "Metalhead",
+      "text_sha256": "sha256:928d324dfd4c59cf695d2f5171525771376f06f8c31c55c262a37958e70b27b2",
+      "shapes": [
+        "verb_unmapped:bounce",
+        "verb_unmapped:grant_eot"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:bounce",
+          "return up to one other target artifact or creature to its owner's hand"
+        ],
+        [
+          "verb_unmapped:grant_eot",
+          "he gains menace and haste until end of turn."
+        ]
+      ],
+      "oracle_text": "When Metalhead enters, return up to one other target artifact or creature to its owner's hand.\n{R}, Sacrifice another artifact: Put a +1/+1 counter on Metalhead. He gains menace and haste until end of turn."
+    },
+    {
+      "name": "Metallic Mastery",
+      "text_sha256": "sha256:77142f6fe6e4f4142031fa50b213ccc19cfb75326d2647df0ed9b59d42cfdb2c",
+      "shapes": [
+        "verb_unmapped:gain_control",
+        "verb_unmapped:untap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:gain_control",
+          "gain control of target artifact until end of turn"
+        ],
+        [
+          "verb_unmapped:untap",
+          "untap that artifact"
+        ]
+      ],
+      "oracle_text": "Gain control of target artifact until end of turn. Untap that artifact. It gains haste until end of turn."
+    },
+    {
+      "name": "Mindreaver",
+      "text_sha256": "sha256:a553f474bcc76df4eadefa54b2cc76731580ca59ac828be159b820bd1e79bd40",
+      "shapes": [
+        "verb_unmapped:counter",
+        "verb_unmapped:exile"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:exile",
+          "exile the top three cards of target player's library."
+        ],
+        [
+          "verb_unmapped:counter",
+          "counter target spell with the same name as a card exiled with ~."
+        ]
+      ],
+      "oracle_text": "Heroic \u2014 Whenever you cast a spell that targets this creature, exile the top three cards of target player's library.\n{U}{U}, Sacrifice this creature: Counter target spell with the same name as a card exiled with this creature."
+    },
+    {
+      "name": "Mirror Mockery",
+      "text_sha256": "sha256:4ed81c5f50fd7a4b7d6cdf8ad3ad8b86ee337d1b01ab763749b8f9d7348d69bd",
+      "shapes": [
+        "verb_unmapped:exile",
+        "verb_unmapped:token_copy"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:token_copy",
+          "create a token that's a copy of that creature"
+        ],
+        [
+          "verb_unmapped:exile",
+          "exile that token at end of combat."
+        ]
+      ],
+      "oracle_text": "Enchant creature\nWhenever enchanted creature attacks, you may create a token that's a copy of that creature. Exile that token at end of combat."
+    },
+    {
+      "name": "Nexus of Becoming",
+      "text_sha256": "sha256:98e4a841fa983b9265ee7f741eaa930d814978a46a824cd1ab3b945b51410665",
+      "shapes": [
+        "verb_unmapped:exile",
+        "verb_unmapped:token_copy"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:exile",
+          "exile an artifact or creature card from your hand"
+        ],
+        [
+          "verb_unmapped:token_copy",
+          "create a token that's a copy of the exiled card, except it's a 3/3 gol"
+        ]
+      ],
+      "oracle_text": "At the beginning of combat on your turn, draw a card. Then you may exile an artifact or creature card from your hand. If you do, create a token that's a copy of the exiled card, except it's a 3/3 Golem artifact creature in addition to its other types."
+    },
+    {
+      "name": "No Quarter",
+      "text_sha256": "sha256:e1132ced6055faa5bdbd529dfe2f2eb3777ce8086c1b57f09c00523fdd8622ed",
+      "shapes": [
+        "verb_unmapped:destroy"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:destroy",
+          "destroy the blocking creature."
+        ],
+        [
+          "verb_unmapped:destroy",
+          "destroy the attacking creature."
+        ]
+      ],
+      "oracle_text": "Whenever a creature becomes blocked by a creature with lesser power, destroy the blocking creature.\nWhenever a creature blocks a creature with lesser power, destroy the attacking creature."
+    },
+    {
+      "name": "Nova Flame",
+      "text_sha256": "sha256:44f23d8d0f2db88549eb643cb9ec5e6001a5d80967f2759db1619b65597eeb99",
+      "shapes": [
+        "verb_unmapped:damage_by",
+        "verb_unmapped:put_counters"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:put_counters",
+          "put x +1/+1 counters on target creature you control"
+        ],
+        [
+          "verb_unmapped:damage_by",
+          "it deals damage equal to its power to each other creature."
+        ]
+      ],
+      "oracle_text": "Put X +1/+1 counters on target creature you control. It deals damage equal to its power to each other creature."
+    },
+    {
+      "name": "Occult Epiphany",
+      "text_sha256": "sha256:4dffab443ee59069cff74e024dbe62b9e02c9d5ac79856384f1f701bf9388258",
+      "shapes": [
+        "verb_unmapped:create_token",
+        "verb_unmapped:discard"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:discard",
+          "discard x cards"
+        ],
+        [
+          "verb_unmapped:create_token",
+          "create a 1/1 white spirit creature token with flying for each card typ"
+        ]
+      ],
+      "oracle_text": "Draw X cards, then discard X cards. Create a 1/1 white Spirit creature token with flying for each card type among cards discarded this way."
+    },
+    {
+      "name": "Overwhelming Forces",
+      "text_sha256": "sha256:4e7cfed987720c3f2f226f4760698fda538f5af7487854c57933189272848a9b",
+      "shapes": [
+        "verb_unmapped:destroy",
+        "verb_unmapped:draw"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:destroy",
+          "destroy all creatures target opponent controls"
+        ],
+        [
+          "verb_unmapped:draw",
+          "draw a card for each creature destroyed this way."
+        ]
+      ],
+      "oracle_text": "Destroy all creatures target opponent controls. Draw a card for each creature destroyed this way."
+    },
+    {
+      "name": "Paradoxical Outcome",
+      "text_sha256": "sha256:cf233f3e68536699938a0342ff1f834b6851ee3e5a9b38a921667191e10d07e2",
+      "shapes": [
+        "verb_unmapped:bounce",
+        "verb_unmapped:draw"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:bounce",
+          "return any number of target nonland, nontoken permanents you control t"
+        ],
+        [
+          "verb_unmapped:draw",
+          "draw a card for each card returned to your hand this way."
+        ]
+      ],
+      "oracle_text": "Return any number of target nonland, nontoken permanents you control to their owners' hands. Draw a card for each card returned to your hand this way."
+    },
+    {
+      "name": "Pitiless Carnage",
+      "text_sha256": "sha256:e3d2aedd67b1ad7bf62fbadb745993adc6e0f68486adc976be7199a16204f8e3",
+      "shapes": [
+        "verb_unmapped:draw",
+        "verb_unmapped:sacrifice"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:sacrifice",
+          "sacrifice any number of permanents you control"
+        ],
+        [
+          "verb_unmapped:draw",
+          "draw that many cards."
+        ]
+      ],
+      "oracle_text": "Sacrifice any number of permanents you control, then draw that many cards.\nPlot {1}{B}{B} (You may pay {1}{B}{B} and exile this card from your hand. Cast it as a sorcery on a later turn without paying its mana cost. Plot only as a sorcery.)"
+    },
+    {
+      "name": "Psychic Allergy",
+      "text_sha256": "sha256:c9814e31c1b807c7e0d97eea376a341c564bb7223d8e8fb2c4ddb6ffaa4d3b6a",
+      "shapes": [
+        "verb_unmapped:damage",
+        "verb_unmapped:destroy"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:damage",
+          "~ deals x damage to that player, where x is the number of nontoken per"
+        ],
+        [
+          "verb_unmapped:destroy",
+          "destroy ~ unless you sacrifice two islands."
+        ]
+      ],
+      "oracle_text": "As this enchantment enters, choose a color.\nAt the beginning of each opponent's upkeep, this enchantment deals X damage to that player, where X is the number of nontoken permanents of the chosen color they control.\nAt the beginning of your upkeep, destroy this enchantment unless you sacrifice two Islands."
+    },
+    {
+      "name": "Rain of Daggers",
+      "text_sha256": "sha256:76aa8db4e7e1f5c46328f02f109b29f0b28ae8a7ff3f3640972454d7f4e8519b",
+      "shapes": [
+        "verb_unmapped:destroy",
+        "verb_unmapped:lose_life"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:destroy",
+          "destroy all creatures target opponent controls"
+        ],
+        [
+          "verb_unmapped:lose_life",
+          "you lose 2 life for each creature destroyed this way."
+        ]
+      ],
+      "oracle_text": "Destroy all creatures target opponent controls. You lose 2 life for each creature destroyed this way."
+    },
+    {
+      "name": "Rakdos Joins Up",
+      "text_sha256": "sha256:4f2eab1e54ab3935c725f1069698e75103a34f723521d1868f026578c59b3631",
+      "shapes": [
+        "verb_unmapped:damage",
+        "verb_unmapped:reanimate"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:reanimate",
+          "return target creature card from your graveyard to the battlefield wit"
+        ],
+        [
+          "verb_unmapped:damage",
+          "~ deals damage equal to that creature's power to target opponent."
+        ]
+      ],
+      "oracle_text": "When Rakdos Joins Up enters, return target creature card from your graveyard to the battlefield with two additional +1/+1 counters on it.\nWhenever a legendary creature you control dies, Rakdos Joins Up deals damage equal to that creature's power to target opponent."
+    },
+    {
+      "name": "Rakdos the Defiler",
+      "text_sha256": "sha256:c06d5b60c69d54bd20c7e1621d87c6bc2f0f2d5fe364feb8c3f051125d7b86ff",
+      "shapes": [
+        "verb_unmapped:p_sacrifice",
+        "verb_unmapped:sacrifice"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:sacrifice",
+          "sacrifice half the non-demon permanents you control, rounded up."
+        ],
+        [
+          "verb_unmapped:p_sacrifice",
+          "target opponent sacrifices half the non-demon permanents they control "
+        ]
+      ],
+      "oracle_text": "Flying, trample\nWhenever Rakdos attacks, sacrifice half the non-Demon permanents you control, rounded up.\nWhenever Rakdos deals combat damage to a player, that player sacrifices half the non-Demon permanents they control of their choice, rounded up."
+    },
+    {
+      "name": "Reins of Power",
+      "text_sha256": "sha256:6726f8cd1d335b9d42e48b1196cca79aee3f8edaa07be22178b3be1bb6899aef",
+      "shapes": [
+        "verb_unmapped:grant_eot",
+        "verb_unmapped:untap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:untap",
+          "untap all creatures you control and all creatures target opponent cont"
+        ],
+        [
+          "verb_unmapped:grant_eot",
+          "you and that opponent each gain control of all creatures the other con"
+        ]
+      ],
+      "oracle_text": "Untap all creatures you control and all creatures target opponent controls. You and that opponent each gain control of all creatures the other controls until end of turn. Those creatures gain haste until end of turn."
+    },
+    {
+      "name": "Renounce",
+      "text_sha256": "sha256:4e7e4b61a2dfc4c18a0eed0c7bba8ae0ca2c5900ae6db5d584dead4293a8a604",
+      "shapes": [
+        "verb_unmapped:gain_life",
+        "verb_unmapped:sacrifice"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:sacrifice",
+          "sacrifice any number of permanents"
+        ],
+        [
+          "verb_unmapped:gain_life",
+          "you gain 2 life for each permanent sacrificed this way."
+        ]
+      ],
+      "oracle_text": "Sacrifice any number of permanents. You gain 2 life for each permanent sacrificed this way."
+    },
+    {
+      "name": "Reprocess",
+      "text_sha256": "sha256:cc2be78e39b41bb614230fe00da6a53ec517e78340fd6826c20c5cbc7b393392",
+      "shapes": [
+        "verb_unmapped:draw",
+        "verb_unmapped:sacrifice"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:sacrifice",
+          "sacrifice any number of artifacts, creatures, and/or lands"
+        ],
+        [
+          "verb_unmapped:draw",
+          "draw a card for each permanent sacrificed this way."
+        ]
+      ],
+      "oracle_text": "Sacrifice any number of artifacts, creatures, and/or lands. Draw a card for each permanent sacrificed this way."
+    },
+    {
+      "name": "Resplendent Marshal",
+      "text_sha256": "sha256:97f2c9946b5d75c4ab46d3baf9fa0407b5d9b9b8e4fbaf488103174b208627f5",
+      "shapes": [
+        "verb_unmapped:exile",
+        "verb_unmapped:put_counters"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:exile",
+          "exile another creature card from your graveyard"
+        ],
+        [
+          "verb_unmapped:put_counters",
+          "put a +1/+1 counter on each creature you control other than ~ that sha"
+        ]
+      ],
+      "oracle_text": "Flying\nWhen this creature enters or dies, you may exile another creature card from your graveyard. When you do, put a +1/+1 counter on each creature you control other than this creature that shares a creature type with the exiled card."
+    },
+    {
+      "name": "Rhystic Lightning",
+      "text_sha256": "sha256:4e7c9b0c751cfc375690e64342aec6127f744610cac7a43d74d2d40cac2605e3",
+      "shapes": [
+        "verb_unmapped:damage"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:damage",
+          "~ deals 4 damage to any target unless that permanent's controller or t"
+        ],
+        [
+          "verb_unmapped:damage",
+          "~ deals 2 damage to the permanent or player."
+        ]
+      ],
+      "oracle_text": "Rhystic Lightning deals 4 damage to any target unless that permanent's controller or that player pays {2}. If they do, Rhystic Lightning deals 2 damage to the permanent or player."
+    },
+    {
+      "name": "Ring of Xathrid",
+      "text_sha256": "sha256:23b96049316b02c5eb7c0969e3b8adc455d06e5daa95590e302e371641aa9173",
+      "shapes": [
+        "verb_unmapped:put_counters",
+        "verb_unmapped:regenerate"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:regenerate",
+          "regenerate equipped creature."
+        ],
+        [
+          "verb_unmapped:put_counters",
+          "put a +1/+1 counter on equipped creature if it's black."
+        ]
+      ],
+      "oracle_text": "{2}: Regenerate equipped creature. (The next time that creature would be destroyed this turn, instead tap it, remove it from combat, and heal all damage on it.)\nAt the beginning of your upkeep, put a +1/+1 counter on equipped creature if it's black.\nEquip {1} ({1}: Attach to target creature you control. Equip only as a sorcery.)"
+    },
+    {
+      "name": "Rysorian Badger",
+      "text_sha256": "sha256:813b3f999167948dcead4fd421505ce43e0c2511938ee5a62475f0c3d9d73ca6",
+      "shapes": [
+        "verb_unmapped:exile",
+        "verb_unmapped:gain_life"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:exile",
+          "exile up to two target creature cards from defending player's graveyar"
+        ],
+        [
+          "verb_unmapped:gain_life",
+          "you gain 1 life for each card exiled this way and ~ assigns no combat "
+        ]
+      ],
+      "oracle_text": "Whenever this creature attacks and isn't blocked, you may exile up to two target creature cards from defending player's graveyard. If you do, you gain 1 life for each card exiled this way and this creature assigns no combat damage this turn."
+    },
+    {
+      "name": "Season of the Witch",
+      "text_sha256": "sha256:b61afb796b94cf8813520c3a8dffaeb5cd9da666c5fc199d7c84e9e3117f4b8e",
+      "shapes": [
+        "verb_unmapped:destroy",
+        "verb_unmapped:sacrifice"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:sacrifice",
+          "sacrifice ~ unless you pay 2 life."
+        ],
+        [
+          "verb_unmapped:destroy",
+          "destroy all untapped creatures that didn't attack this turn, except fo"
+        ]
+      ],
+      "oracle_text": "At the beginning of your upkeep, sacrifice this enchantment unless you pay 2 life.\nAt the beginning of the end step, destroy all untapped creatures that didn't attack this turn, except for creatures that couldn't attack."
+    },
+    {
+      "name": "Sequence Engine",
+      "text_sha256": "sha256:29b80031db5c876a69876663b8864e813d9fcc6eadc0a07eb05c15a9b262f558",
+      "shapes": [
+        "verb_unmapped:exile",
+        "verb_unmapped:put_counters"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:exile",
+          "exile target creature card with mana value x from a graveyard"
+        ],
+        [
+          "verb_unmapped:put_counters",
+          "put x +1/+1 counters on it."
+        ]
+      ],
+      "oracle_text": "{X}, {T}: Exile target creature card with mana value X from a graveyard. Create a 0/0 green and blue Fractal creature token. Put X +1/+1 counters on it. Activate only as a sorcery."
+    },
+    {
+      "name": "Shattered Crypt",
+      "text_sha256": "sha256:585a4bbbd4ddb066c49244add339c2d63946a3b1ae77ab381d325f8c77cabbbf",
+      "shapes": [
+        "verb_unmapped:lose_life",
+        "verb_unmapped:regrow"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:regrow",
+          "return x target creature cards from your graveyard to your hand"
+        ],
+        [
+          "verb_unmapped:lose_life",
+          "you lose x life."
+        ]
+      ],
+      "oracle_text": "Return X target creature cards from your graveyard to your hand. You lose X life."
+    },
+    {
+      "name": "Shiko and Narset, Unified",
+      "text_sha256": "sha256:96e5c96ec141ec8f706d590517ea608c5ed817187481976e088676029f5340db",
+      "shapes": [
+        "verb_unmapped:copy"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:copy",
+          "copy that spell if it targets a permanent or player, and you may choos"
+        ],
+        [
+          "verb_unmapped:copy",
+          "copy a spell this way, draw a card."
+        ]
+      ],
+      "oracle_text": "Flying, vigilance\nFlurry \u2014 Whenever you cast your second spell each turn, copy that spell if it targets a permanent or player, and you may choose new targets for the copy. If you don't copy a spell this way, draw a card."
+    },
+    {
+      "name": "Smuggler's Share",
+      "text_sha256": "sha256:288e7995949843dffc018f94a6992cd3a5ace9517de660b6aabfa2f84c250016",
+      "shapes": [
+        "verb_unmapped:create_token",
+        "verb_unmapped:draw"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:draw",
+          "draw a card for each opponent who drew two or more cards this turn"
+        ],
+        [
+          "verb_unmapped:create_token",
+          "create a treasure token for each opponent who had two or more lands en"
+        ]
+      ],
+      "oracle_text": "At the beginning of each end step, draw a card for each opponent who drew two or more cards this turn, then create a Treasure token for each opponent who had two or more lands enter the battlefield under their control this turn."
+    },
+    {
+      "name": "Soul Separator",
+      "text_sha256": "sha256:f5705c77773ba23fcd3fd6a74f47bebb1cb7bfa9adaf6a96ea2921c25cb578f5",
+      "shapes": [
+        "verb_unmapped:create_token",
+        "verb_unmapped:token_copy"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:token_copy",
+          "create a token that's a copy of that card, except it's 1/1, it's a spi"
+        ],
+        [
+          "verb_unmapped:create_token",
+          "create a black zombie creature token with power equal to that card's p"
+        ]
+      ],
+      "oracle_text": "{5}, {T}, Sacrifice this artifact: Exile target creature card from your graveyard. Create a token that's a copy of that card, except it's 1/1, it's a Spirit in addition to its other types, and it has flying. Create a black Zombie creature token with power equal to that card's power and toughness equal to that card's toughness."
+    },
+    {
+      "name": "Specter of Mortality",
+      "text_sha256": "sha256:c92e803e7ad63d798cc28cb2e7e0e9181f725096fc6c9c3037f893898befa1c8",
+      "shapes": [
+        "verb_unmapped:exile",
+        "verb_unmapped:pump"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:exile",
+          "exile one or more creature cards from your graveyard"
+        ],
+        [
+          "verb_unmapped:pump",
+          "each other creature gets -x/-x until end of turn, where x is the numbe"
+        ]
+      ],
+      "oracle_text": "Flying\nWhen this creature enters, you may exile one or more creature cards from your graveyard. When you do, each other creature gets -X/-X until end of turn, where X is the number of cards exiled this way."
+    },
+    {
+      "name": "Squealing Devil",
+      "text_sha256": "sha256:7189778c1313aa385da004cbe9a623d16a6128d99c7259bc2257f636ccb566c9",
+      "shapes": [
+        "verb_unmapped:pump",
+        "verb_unmapped:sacrifice"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:pump",
+          "target creature gets +x/+0 until end of turn."
+        ],
+        [
+          "verb_unmapped:sacrifice",
+          "sacrifice it unless {b} was spent to cast it."
+        ]
+      ],
+      "oracle_text": "Fear (This creature can't be blocked except by artifact creatures and/or black creatures.)\nWhen this creature enters, you may pay {X}. If you do, target creature gets +X/+0 until end of turn.\nWhen this creature enters, sacrifice it unless {B} was spent to cast it."
+    },
+    {
+      "name": "Stone Giant",
+      "text_sha256": "sha256:52fb1b6918397fb09e967839472f4791d30bc0748ff362d1f102d5944a7d10d1",
+      "shapes": [
+        "verb_unmapped:destroy",
+        "verb_unmapped:grant_eot"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:grant_eot",
+          "target creature you control with toughness less than ~'s power gains f"
+        ],
+        [
+          "verb_unmapped:destroy",
+          "destroy that creature at the beginning of the next end step."
+        ]
+      ],
+      "oracle_text": "{T}: Target creature you control with toughness less than this creature's power gains flying until end of turn. Destroy that creature at the beginning of the next end step."
+    },
+    {
+      "name": "Structural Collapse",
+      "text_sha256": "sha256:4b2f6252a74586065295d51ad923cfe7e333f318dd14d6148d7c4068ed3fbbb3",
+      "shapes": [
+        "verb_unmapped:damage",
+        "verb_unmapped:p_sacrifice"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:p_sacrifice",
+          "target player sacrifices an artifact and a land of their choice"
+        ],
+        [
+          "verb_unmapped:damage",
+          "~ deals 2 damage to that player."
+        ]
+      ],
+      "oracle_text": "Target player sacrifices an artifact and a land of their choice. Structural Collapse deals 2 damage to that player."
+    },
+    {
+      "name": "Succumb to the Cold",
+      "text_sha256": "sha256:78d6b45a39155c375dfed7b325f1d670394ef30c159c077c138513ba052edf49",
+      "shapes": [
+        "verb_unmapped:put_counters",
+        "verb_unmapped:tap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:tap",
+          "tap one or two target creatures an opponent controls"
+        ],
+        [
+          "verb_unmapped:put_counters",
+          "put a stun counter on each of them."
+        ]
+      ],
+      "oracle_text": "Tap one or two target creatures an opponent controls. Put a stun counter on each of them. (If a permanent with a stun counter would become untapped, remove one from it instead.)"
+    },
+    {
+      "name": "Swift Silence",
+      "text_sha256": "sha256:1e8231dca95d9e5117d97c97eb2c91150ed668bc95097b4fbaba369450223830",
+      "shapes": [
+        "verb_unmapped:counter",
+        "verb_unmapped:draw"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:counter",
+          "counter all other spells"
+        ],
+        [
+          "verb_unmapped:draw",
+          "draw a card for each spell countered this way."
+        ]
+      ],
+      "oracle_text": "Counter all other spells. Draw a card for each spell countered this way."
+    },
+    {
+      "name": "Sylvan Smite",
+      "text_sha256": "sha256:084c5b6ab08ace2e7b3c7449ea61efa08c2c7d638107d3b05525f06c61b03c44",
+      "shapes": [
+        "verb_unmapped:damage_by",
+        "verb_unmapped:put_counters"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:put_counters",
+          "put a +1/+1 counter on target creature you control if you weren't the "
+        ],
+        [
+          "verb_unmapped:damage_by",
+          "that creature deals damage equal to its power to target creature you d"
+        ]
+      ],
+      "oracle_text": "Put a +1/+1 counter on target creature you control if you weren't the starting player. Then that creature deals damage equal to its power to target creature you don't control."
+    },
+    {
+      "name": "Synod Artificer",
+      "text_sha256": "sha256:5328317d51a50e99f393c498dc14bad6eff9b3ea267ddb73f3b4db65c172c004",
+      "shapes": [
+        "verb_unmapped:tap",
+        "verb_unmapped:untap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:tap",
+          "tap x target noncreature artifacts."
+        ],
+        [
+          "verb_unmapped:untap",
+          "untap x target noncreature artifacts."
+        ]
+      ],
+      "oracle_text": "{X}, {T}: Tap X target noncreature artifacts.\n{X}, {T}: Untap X target noncreature artifacts."
+    },
+    {
+      "name": "S\u00e9ance",
+      "text_sha256": "sha256:9c1fb2d91ed3c587243edfa64dacd9923bfb34f0af71d3033cdec94325bbc2f7",
+      "shapes": [
+        "verb_unmapped:exile",
+        "verb_unmapped:token_copy"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:token_copy",
+          "create a token that's a copy of that card, except it's a spirit in add"
+        ],
+        [
+          "verb_unmapped:exile",
+          "exile it at the beginning of the next end step."
+        ]
+      ],
+      "oracle_text": "At the beginning of each upkeep, you may exile target creature card from your graveyard. If you do, create a token that's a copy of that card, except it's a Spirit in addition to its other types. Exile it at the beginning of the next end step."
+    },
+    {
+      "name": "The Fifth Doctor",
+      "text_sha256": "sha256:7597d068480ade9a2b8e24f6f1625268720154087cfe6e5ac85a0d5010a93350",
+      "shapes": [
+        "verb_unmapped:put_counters",
+        "verb_unmapped:untap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:put_counters",
+          "put a +1/+1 counter on each creature you control that didn't attack or"
+        ],
+        [
+          "verb_unmapped:untap",
+          "untap those creatures."
+        ]
+      ],
+      "oracle_text": "Peaceful Coexistence \u2014 At the beginning of your end step, put a +1/+1 counter on each creature you control that didn't attack or enter this turn. Untap those creatures."
+    },
+    {
+      "name": "Throw from the Saddle",
+      "text_sha256": "sha256:45a31b0d49ed0e5dc1813e0e411c9571d3d672921419e030f5356992b24c3193",
+      "shapes": [
+        "verb_unmapped:damage_by",
+        "verb_unmapped:put_counters"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:put_counters",
+          "put a +1/+1 counter on it instead if it's a mount"
+        ],
+        [
+          "verb_unmapped:damage_by",
+          "it deals damage equal to its power to target creature you don't contro"
+        ]
+      ],
+      "oracle_text": "Target creature you control gets +1/+1 until end of turn. Put a +1/+1 counter on it instead if it's a Mount. Then it deals damage equal to its power to target creature you don't control."
+    },
+    {
+      "name": "Thundermaw Hellkite",
+      "text_sha256": "sha256:cba8f5702e384b75f1e41e833b3a8828fbb2d6362d6870f95a6a4085a1733783",
+      "shapes": [
+        "verb_unmapped:damage",
+        "verb_unmapped:tap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:damage",
+          "~ deals 1 damage to each creature with flying your opponents control"
+        ],
+        [
+          "verb_unmapped:tap",
+          "tap those creatures."
+        ]
+      ],
+      "oracle_text": "Flying\nHaste (This creature can attack and {T} as soon as it comes under your control.)\nWhen this creature enters, it deals 1 damage to each creature with flying your opponents control. Tap those creatures."
+    },
+    {
+      "name": "Ulalek, Fused Atrocity",
+      "text_sha256": "sha256:8bfbf1e56659b5b26bed75ab456ef7189821045c1aa357dcb5c86706f527b2fc",
+      "shapes": [
+        "verb_unmapped:copy"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:copy",
+          "copy all spells you control"
+        ],
+        [
+          "verb_unmapped:copy",
+          "copy all other activated and triggered abilities you control"
+        ]
+      ],
+      "oracle_text": "Devoid (This card has no color.)\nWhenever you cast an Eldrazi spell, you may pay {C}{C}. If you do, copy all spells you control, then copy all other activated and triggered abilities you control. You may choose new targets for the copies. (Mana abilities can't be copied.)"
+    },
+    {
+      "name": "Unwind",
+      "text_sha256": "sha256:b98ea9ef9918fdbb1e160058b1631e4de07c7c645537e741253008140ec91ccd",
+      "shapes": [
+        "verb_unmapped:counter",
+        "verb_unmapped:untap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:counter",
+          "counter target noncreature spell"
+        ],
+        [
+          "verb_unmapped:untap",
+          "untap up to three lands."
+        ]
+      ],
+      "oracle_text": "Counter target noncreature spell. Untap up to three lands."
+    },
+    {
+      "name": "Urge to Feed",
+      "text_sha256": "sha256:b0d11920ced6c8db3780a8dccfec075adfba9e53b537cabdcaa30975b58f731a",
+      "shapes": [
+        "verb_unmapped:put_counters",
+        "verb_unmapped:tap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:tap",
+          "tap any number of untapped vampire creatures you control"
+        ],
+        [
+          "verb_unmapped:put_counters",
+          "put a +1/+1 counter on each of those vampires."
+        ]
+      ],
+      "oracle_text": "Target creature gets -3/-3 until end of turn. You may tap any number of untapped Vampire creatures you control. If you do, put a +1/+1 counter on each of those Vampires."
+    },
+    {
+      "name": "Ventifact Bottle",
+      "text_sha256": "sha256:611c6f1ace2ad1b293644f09ab98ffaa99f3d7dd5d51a8a4070c109a13c9d2e6",
+      "shapes": [
+        "verb_unmapped:add_mana",
+        "verb_unmapped:put_counters",
+        "verb_unmapped:tap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:put_counters",
+          "put x charge counters on ~."
+        ],
+        [
+          "verb_unmapped:tap",
+          "tap it and remove all charge counters from it"
+        ],
+        [
+          "verb_unmapped:add_mana",
+          "add {c} for each charge counter removed this way."
+        ]
+      ],
+      "oracle_text": "{X}{1}, {T}: Put X charge counters on this artifact. Activate only as a sorcery.\nAt the beginning of your first main phase, if this artifact has a charge counter on it, tap it and remove all charge counters from it. Add {C} for each charge counter removed this way."
+    },
+    {
+      "name": "Viper, Cruel Conspirator",
+      "text_sha256": "sha256:3bf7b6c2206f3585db9e4145acbe27e59dfc6a586d2b074ba9da1a2e03cd88c1",
+      "shapes": [
+        "verb_unmapped:grant_eot",
+        "verb_unmapped:pump"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:pump",
+          "target creature that's attacking alone gets +1/+1 until end of turn."
+        ],
+        [
+          "verb_unmapped:grant_eot",
+          "target creature that's attacking alone gains your choice of deathtouch"
+        ]
+      ],
+      "oracle_text": "{B}: Target creature that's attacking alone gets +1/+1 until end of turn.\n{B}: Target creature that's attacking alone gains your choice of deathtouch or lifelink until end of turn."
+    },
+    {
+      "name": "Wellspring",
+      "text_sha256": "sha256:4a95ca1e5862525b257c2f4df6ff8f4fa84ae82b434b0b6c92f12c384cdffce7",
+      "shapes": [
+        "verb_unmapped:gain_control",
+        "verb_unmapped:grant_eot",
+        "verb_unmapped:untap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:gain_control",
+          "gain control of enchanted land until end of turn."
+        ],
+        [
+          "verb_unmapped:untap",
+          "untap enchanted land"
+        ],
+        [
+          "verb_unmapped:grant_eot",
+          "you gain control of that land until end of turn."
+        ]
+      ],
+      "oracle_text": "Enchant land\nWhen this Aura enters, gain control of enchanted land until end of turn.\nAt the beginning of your upkeep, untap enchanted land. You gain control of that land until end of turn."
+    },
+    {
+      "name": "Wicked Slumber",
+      "text_sha256": "sha256:f684446d43d96c55d174acba30b0448618eceea2a8831eeb68573c4a4275546d",
+      "shapes": [
+        "verb_unmapped:put_counters"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:put_counters",
+          "put a stun counter on either of them"
+        ],
+        [
+          "verb_unmapped:put_counters",
+          "put a stun counter on either of them."
+        ]
+      ],
+      "oracle_text": "Convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nTap up to two target creatures. Put a stun counter on either of them. Then put a stun counter on either of them. (If a permanent with a stun counter would become untapped, remove one from it instead.)"
+    },
+    {
+      "name": "Windswift Slice",
+      "text_sha256": "sha256:7388eb8b00670b6433b7aae9d1e882475fe07c2863d9925e992943e40b46ee20",
+      "shapes": [
+        "verb_unmapped:create_token",
+        "verb_unmapped:damage_by"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:damage_by",
+          "target creature you control deals damage equal to its power to target "
+        ],
+        [
+          "verb_unmapped:create_token",
+          "create a number of 1/1 green elf warrior creature tokens equal to the "
+        ]
+      ],
+      "oracle_text": "Target creature you control deals damage equal to its power to target creature you don't control. Create a number of 1/1 green Elf Warrior creature tokens equal to the amount of excess damage dealt this way."
+    },
+    {
+      "name": "Witch-king of Angmar",
+      "text_sha256": "sha256:cb828d7240a3537844c58e134af4182a8237f129955b1e15676fe70448f077f2",
+      "shapes": [
+        "verb_unmapped:p_sacrifice",
+        "verb_unmapped:tap"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:p_sacrifice",
+          "each opponent sacrifices a creature of their choice that dealt combat "
+        ],
+        [
+          "verb_unmapped:tap",
+          "tap it."
+        ]
+      ],
+      "oracle_text": "Flying\nWhenever one or more creatures deal combat damage to you, each opponent sacrifices a creature of their choice that dealt combat damage to you this turn. The Ring tempts you.\nDiscard a card: Witch-king of Angmar gains indestructible until end of turn. Tap it."
+    },
+    {
+      "name": "\u00c9owyn, Fearless Knight",
+      "text_sha256": "sha256:05ce15784a987627cd30d1a71d703d6fb0dc24295aa1001885a9e1bdb5b648cc",
+      "shapes": [
+        "verb_unmapped:exile",
+        "verb_unmapped:grant_eot"
+      ],
+      "misses": [
+        [
+          "verb_unmapped:exile",
+          "exile target creature an opponent controls with greater power"
+        ],
+        [
+          "verb_unmapped:grant_eot",
+          "legendary creatures you control gain protection from each of that crea"
+        ]
+      ],
+      "oracle_text": "Haste\nWhen \u00c9owyn enters, exile target creature an opponent controls with greater power. Legendary creatures you control gain protection from each of that creature's colors until end of turn."
+    }
+  ]
+}

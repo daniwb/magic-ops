@@ -1,0 +1,10 @@
+{
+  "ticket_id": "ticket:engine.auto-remove-all-source-counters-taps-source-36749b0465/v1",
+  "receipt": "docs/factory-ng/runs/2026-09-16T085610Z-engine-auto-remove-all-source-counters-taps-source-36749b0465-v1-codex.json",
+  "receipt_sha256": "sha256:0bccddda5a3ef9182701863b9581cec1db1649849164b10bdf27a469cdf5467d",
+  "raw_artifact": {
+    "path": "docs/factory-ng/runs/2026-09-16T085610Z-engine-auto-remove-all-source-counters-taps-source-36749b0465-v1-codex.raw.json",
+    "sha256": "sha256:ad9296b400e248092f70a92097f4bb50431fa5182bd640e987854590bc3943ef"
+  },
+  "finding": "Explicit Luna capacity rejection before any patch; Terra configured and functioning since previous recovery. One attempt, original scope and all gates required."
+}

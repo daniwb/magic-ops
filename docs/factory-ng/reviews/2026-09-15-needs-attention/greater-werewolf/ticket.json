@@ -1,0 +1,261 @@
+{
+  "capability": {
+    "negative_examples": [
+      "Do not widen ordinary each-creature or attacking-or-blocking filters to include creatures unrelated to the source's combat relationships."
+    ],
+    "required_behavior": "At resolution, put the specified counters on every creature currently blocking or blocked by the source creature.",
+    "source_misses": [
+      {
+        "card": "Greater Werewolf",
+        "oracle_text_sha256": "6f78d373255d5f43f0702b3f22ed875624026870e072543127428faf35eac362",
+        "paragraph": "At end of combat, put a -0/-2 counter on each creature blocking or blocked by this creature.",
+        "required_behavior": "At end of combat, put a -0/-2 counter on every creature blocking or blocked by Greater Werewolf."
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "expected_unlock": 0,
+        "key": "put_counters_on_combat_related_creatures",
+        "specification": {
+          "negative_examples": [
+            "Do not widen ordinary each-creature or attacking-or-blocking filters to include creatures unrelated to the source's combat relationships."
+          ],
+          "required_behavior": "At resolution, put the specified counters on every creature currently blocking or blocked by the source creature.",
+          "source_misses": [
+            {
+              "card": "Greater Werewolf",
+              "oracle_text_sha256": "6f78d373255d5f43f0702b3f22ed875624026870e072543127428faf35eac362",
+              "paragraph": "At end of combat, put a -0/-2 counter on each creature blocking or blocked by this creature.",
+              "required_behavior": "At end of combat, put a -0/-2 counter on every creature blocking or blocked by Greater Werewolf."
+            }
+          ]
+        },
+        "summary": "Put counters on creatures blocking or blocked by the source"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-14T130623Z-map-plan-put-counters-greater-werewolf-ccc7dbf9c1-v2-codex.json"
+    },
+    {
+      "anchor": "7755-7758",
+      "fact": "Verified declaration game.GameState.ExecuteAbilityEffect#case:put_counters in source revision 0898a987aca87d411aea543aed07391888fd61b9; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"counter\" AND \"combat\" AND \"related\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T00:44:05Z",
+          "indexed_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "normalized_words": [
+            "counter",
+            "combat",
+            "related"
+          ],
+          "query": "put_counters_on_combat_related_creatures",
+          "request": {
+            "attempt": "successor-preparation",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "put_counters_on_combat_related_creatures",
+            "request_id": "d800b0f5a46643e288cbd9ba6c516658",
+            "ticket": "ticket:engine.auto-put-counters-on-combat-related-creatures-7fda0f0882/v2"
+          },
+          "request_id": "d800b0f5a46643e288cbd9ba6c516658",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"counter\" AND \"combat\" AND \"related\"",
+            "\"counter\" AND \"combat\" AND \"related\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T00:44:05Z",
+          "indexed_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "normalized_words": [
+            "counter",
+            "combat",
+            "related"
+          ],
+          "query": "put_counters_on_combat_related_creatures",
+          "request": {
+            "attempt": "successor-preparation",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "put_counters_on_combat_related_creatures",
+            "request_id": "6f474d79298f491d94aee25ed2056ecd",
+            "ticket": "ticket:engine.auto-put-counters-on-combat-related-creatures-7fda0f0882/v2"
+          },
+          "request_id": "6f474d79298f491d94aee25ed2056ecd",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:put_counters",
+              "doc": "",
+              "end": 7758,
+              "kind": "engine",
+              "name": "put_counters",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:put_counters",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:put_counters",
+              "start": 7755,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:put_counters",
+              "symbol_kind": "case",
+              "title": "put_counters"
+            }
+          ],
+          "current_source_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T00:44:05Z",
+          "indexed_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "normalized_words": [
+            "counter"
+          ],
+          "query": "put_counters",
+          "request": {
+            "attempt": "successor-preparation",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "put_counters",
+            "request_id": "3f8be419373543a5ba7d606239dc9d87",
+            "ticket": "ticket:engine.auto-put-counters-on-combat-related-creatures-7fda0f0882/v2"
+          },
+          "request_id": "3f8be419373543a5ba7d606239dc9d87",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:6bceba89e61fff8b2801a53715a5875e69a3bba4062abae23a63f6c5f5392d63",
+      "symbol": {
+        "description": "ExecuteAbilityEffect#case:put_counters",
+        "discovery_role": "operation_only",
+        "doc": "",
+        "end": 7758,
+        "kind": "engine",
+        "name": "put_counters",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.ExecuteAbilityEffect#case:put_counters",
+        "receiver": "GameState",
+        "request_id": "3f8be419373543a5ba7d606239dc9d87",
+        "signature": "ExecuteAbilityEffect#case:put_counters",
+        "start": 7755,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:put_counters",
+        "symbol_kind": "case",
+        "title": "put_counters"
+      }
+    },
+    {
+      "fact": "The previous attempt parked AMBIGUOUS because its evidence pack omitted the real seam; this retry regenerates evidence from the indexed engine symbol table.",
+      "path": "docs/factory-ng/runs/2026-09-15T002947Z-engine-auto-put-counters-on-combat-related-creatures-7fda0f0882-v1-claude.json"
+    },
+    {
+      "fact": "The previous candidate compiled/ran and failed this exact gate: initial-patch-apply: backend/cards/converter.go: SEARCH text not found (must be copied verbatim, no line numbers); ticket-gate-1: cards/factory_ng_7fda0f0882_test.go:75:22: blocker.Counters.MinusZeroMinusTwo undefined (type game.Counters has no field or method MinusZeroMinusTwo)\ncards/factory_ng_7fda0f0882_test.go:76:72: blocker.Counters.MinusZeroMinusTwo undefined (type game.Counters has no field or method MinusZeroMinusTwo)\ncards/factory_ng_7fda0f0882_test.go:78:22: blocked.Counters.MinusZeroMinusTwo undefined (type game.Counters has no field or method MinusZeroMinusTwo)\ncards/factory_ng_7fda0f0882_test.go:79:71: blocked.Counters.MinusZeroMinusTwo undefined (type game.Counters has no field or method MinusZeroMinusTwo)\n\nMinusZeroMinusTwo)\ncards/factory_ng_7fda0f0882_test.go:79:71: blocked.Counters.MinusZeroMinusTwo undefined (type game.Counters has no field or method MinusZeroMinusTwo)\ncards/factory_ng_7fda0f0882_test.go:81:24: unrelated.Counters.MinusZeroMinusTwo undefined (type game.Counters has no field or method MinusZeroMinusTwo)\ncards/factory_ng_7fda0f0882_test.go:82:75: unrelated.Counters.MinusZeroMinusTwo undefined (type game.Counters has no field or method MinusZeroMinusTwo)\nFAIL\tmagic-backend/cards [build failed]\ntesting: warning: no tests to run\nPASS\nok  \tmagic-backend/game\t0.047s [no tests to run]. Fix only this defect; do not restructure unrelated code or revisit already-passing behavior.",
+      "path": "docs/factory-ng/runs/2026-09-15T082012Z-engine-auto-put-counters-on-combat-related-creatures-7fda0f0882-v2-codex.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "One bounded gate-failure repair: the prior candidate was substantively close but failed a specific behavior or build gate.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGPutCountersOnCombatRelatedCreatures_7fda0f0882$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.operator-combat-counters-recovery-sep15/v1",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Retain the terminal receipt and continue independent discovery; do not request manual source transcription.",
+  "parents": [
+    "ticket:engine.auto-put-counters-on-combat-related-creatures-7fda0f0882/v3"
+  ],
+  "required_behavior": [
+    "At resolution, put the specified counters on every creature currently blocking or blocked by the source creature.",
+    "Preserve these adjacent behaviors: Do not widen ordinary each-creature or attacking-or-blocking filters to include creatures unrelated to the source's combat relationships.",
+    "Add a discriminating behavior test named TestFactoryNGPutCountersOnCombatRelatedCreatures_7fda0f0882; a compile-only assertion is insufficient.",
+    "Register every new public effect using regEffect in the allowed registry_*.go file, with executor and runtime test metadata; never edit the frozen registry literal.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases.",
+    "Use canonical CombatState relationships in both directions at resolution, composed with the real end-of-combat trigger. A -0/-2 counter must reduce effective toughness by two without changing power. Mirrored blocking flags alone must not select recipients."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_7fda0f0882_test.go",
+      "backend/cards/factory_ng_7fda0f0882_test.go",
+      "backend/cards/registry_factory_ng_7fda0f0882.go",
+      "backend/game/counters.go",
+      "backend/cards/shape_combat_related_counters_test.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "b1182f99714b2c37eea86320496278e04044e869",
+    "clean": true
+  },
+  "title": "Operator recovery of end-combat relationship counters",
+  "work_type": "engine",
+  "operator_recovery": {
+    "authorization": "User requested fixing all needs-attention tickets.",
+    "original_ticket": "docs/factory-ng/tickets/engine-auto-put-counters-on-combat-related-creatures-7fda0f0882-v3.json",
+    "original_ticket_sha256": "sha256:e1d4bf27155741a51a855c27363b14458a10810ac9fc2c35770e920c50c6e889",
+    "failed_receipt": "docs/factory-ng/runs/2026-09-15T193614Z-engine-auto-put-counters-on-combat-related-creatures-7fda0f0882-v3-codex.json",
+    "failed_receipt_sha256": "sha256:4ce311faa878ef762aa7212f7f2926b2fb1568de5a0b1d4023f8833a3e51a983",
+    "scope_addition_reason": "Counters.GetToughnessModifier must implement the requested -0/-2 counter, and new behavior tests belong in a new shape file.",
+    "additional_provider_runs": 0,
+    "counter_resets": false
+  }
+}

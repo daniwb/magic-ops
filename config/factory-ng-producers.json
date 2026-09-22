@@ -2,19 +2,218 @@
   "schema": "factory-ng-producers/v1",
   "producers": [
     {
-      "id": "static-condition-gained-life-pump",
+      "id": "capability-dependencies",
       "enabled": true,
-      "command": ["python3", "scripts/factory-ng-produce-gained-life-static-pump.py"]
+      "command": [
+        "python3",
+        "scripts/factory-ng-produce-capability-dependency.py"
+      ],
+      "refill_burst": 24
+    },
+    {
+      "id": "staged-five-card-trial",
+      "enabled": true,
+      "command": [
+        "python3",
+        "scripts/factory-ng-staged-trial.py"
+      ],
+      "timeout_seconds": 180
+    },
+    {
+      "id": "context-retry-batch",
+      "enabled": true,
+      "command": [
+        "python3",
+        "scripts/factory-ng-context-retry-batch.py"
+      ],
+      "timeout_seconds": 180
+    },
+    {
+      "id": "reviewed-contract-corrections-sep09",
+      "enabled": true,
+      "command": [
+        "python3",
+        "scripts/factory-ng-reviewed-contracts.py"
+      ],
+      "timeout_seconds": 60
+    },
+    {
+      "id": "reviewed-harness-corrections-sep16",
+      "enabled": true,
+      "command": [
+        "python3",
+        "scripts/factory-ng-reviewed-harness-recovery.py"
+      ],
+      "timeout_seconds": 120,
+      "refill_burst": 12
+    },
+    {
+      "id": "build-plan-fresh-local",
+      "enabled": true,
+      "command": [
+        "python3",
+        "scripts/factory-ng-produce-build-plan.py",
+        "--lane",
+        "fresh",
+        "--plan",
+        "docs/factory-ng/measurements/producer-frontier-2026-09-12-evening.jsonl"
+      ],
+      "timeout_seconds": 180
+    },
+    {
+      "id": "build-plan-multi-miss",
+      "enabled": true,
+      "command": [
+        "python3",
+        "scripts/factory-ng-produce-build-plan.py",
+        "--lane",
+        "fresh",
+        "--max-misses",
+        "6",
+        "--plan",
+        "docs/factory-ng/measurements/multi-miss-frontier-2026-09-14.jsonl"
+      ],
+      "timeout_seconds": 180
+    },
+    {
+      "id": "build-plan-integration-conflict",
+      "enabled": true,
+      "command": [
+        "python3",
+        "scripts/factory-ng-produce-build-plan.py",
+        "--lane",
+        "conflict",
+        "--plan",
+        "docs/factory-ng/measurements/producer-frontier-2026-09-12-evening.jsonl"
+      ]
+    },
+    {
+      "id": "build-plan-paid-repair",
+      "enabled": true,
+      "command": [
+        "python3",
+        "scripts/factory-ng-produce-build-plan.py",
+        "--lane",
+        "repair",
+        "--plan",
+        "docs/factory-ng/measurements/producer-frontier-2026-09-12-evening.jsonl"
+      ]
+    },
+    {
+      "id": "static-condition-gained-life-pump",
+      "enabled": false,
+      "command": [
+        "python3",
+        "scripts/factory-ng-produce-gained-life-static-pump.py"
+      ]
     },
     {
       "id": "static-condition-self-attacked-keyword",
-      "enabled": true,
-      "command": ["python3", "scripts/factory-ng-produce-self-attacked-static-keyword.py"]
+      "enabled": false,
+      "command": [
+        "python3",
+        "scripts/factory-ng-produce-self-attacked-static-keyword.py"
+      ]
     },
     {
       "id": "static-condition-drawn-two-keywords",
+      "enabled": false,
+      "command": [
+        "python3",
+        "scripts/factory-ng-produce-drawn-two-static-keywords.py"
+      ]
+    },
+    {
+      "id": "static-condition-color-control-keyword-reminder",
+      "enabled": false,
+      "command": [
+        "python3",
+        "scripts/factory-ng-produce-color-control-keyword-reminder.py"
+      ]
+    },
+    {
+      "id": "static-conditional-safe-shape-meta",
       "enabled": true,
-      "command": ["python3", "scripts/factory-ng-produce-drawn-two-static-keywords.py"]
+      "command": [
+        "python3",
+        "scripts/factory-ng-produce-static-conditional-safe-shape.py"
+      ]
+    },
+    {
+      "id": "graveyard-threshold-static",
+      "enabled": true,
+      "command": [
+        "python3",
+        "scripts/factory-ng-produce-graveyard-threshold-static.py"
+      ],
+      "timeout_seconds": 120
+    },
+    {
+      "id": "static-parity-aura-lock-a",
+      "enabled": true,
+      "command": ["python3", "scripts/factory-ng-produce-static-parity.py", "--category", "aura-lock-a"],
+      "timeout_seconds": 120
+    },
+    {
+      "id": "static-parity-aura-lock-b",
+      "enabled": true,
+      "command": ["python3", "scripts/factory-ng-produce-static-parity.py", "--category", "aura-lock-b"],
+      "timeout_seconds": 120
+    },
+    {
+      "id": "static-parity-aura-lock-c",
+      "enabled": true,
+      "command": ["python3", "scripts/factory-ng-produce-static-parity.py", "--category", "aura-lock-c"],
+      "timeout_seconds": 120
+    },
+    {
+      "id": "static-parity-cant-attack-block-alone",
+      "enabled": true,
+      "command": ["python3", "scripts/factory-ng-produce-static-parity.py", "--category", "cant-attack-block-alone"],
+      "timeout_seconds": 120
+    },
+    {
+      "id": "static-parity-spell-limit",
+      "enabled": true,
+      "command": ["python3", "scripts/factory-ng-produce-static-parity.py", "--category", "spell-limit"],
+      "timeout_seconds": 120
+    },
+    {
+      "id": "static-parity-opponents-enter-tapped",
+      "enabled": true,
+      "command": ["python3", "scripts/factory-ng-produce-static-parity.py", "--category", "opponents-enter-tapped"],
+      "timeout_seconds": 120
+    },
+    {
+      "id": "static-parity-opponents-cant-cast",
+      "enabled": true,
+      "command": ["python3", "scripts/factory-ng-produce-static-parity.py", "--category", "opponents-cant-cast"],
+      "timeout_seconds": 120
+    },
+    {
+      "id": "static-parity-one-blocker-a",
+      "enabled": true,
+      "command": ["python3", "scripts/factory-ng-produce-static-parity.py", "--category", "one-blocker-a"],
+      "timeout_seconds": 120
+    },
+    {
+      "id": "static-parity-one-blocker-b",
+      "enabled": true,
+      "command": ["python3", "scripts/factory-ng-produce-static-parity.py", "--category", "one-blocker-b"],
+      "timeout_seconds": 120
+    },
+    {
+      "id": "static-parity-walls-evasion",
+      "enabled": true,
+      "command": ["python3", "scripts/factory-ng-produce-static-parity.py", "--category", "walls-evasion"],
+      "timeout_seconds": 120
+    },
+    {
+      "id": "corpus-frontier",
+      "enabled": true,
+      "command": ["python3", "scripts/factory-ng-produce-corpus-frontier.py"],
+      "timeout_seconds": 120,
+      "refill_burst": 12
     }
   ]
 }

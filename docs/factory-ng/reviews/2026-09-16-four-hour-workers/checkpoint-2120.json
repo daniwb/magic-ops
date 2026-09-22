@@ -1,0 +1,164 @@
+{
+  "at": "2026-09-16T21:20:21.961005+00:00",
+  "window": {
+    "start": "2026-09-16T19:02:46Z",
+    "end": "2026-09-16T23:44:56.854616Z",
+    "baseline_states": {
+      "failed": 1341,
+      "completed": 1461,
+      "parked": 402,
+      "integration_failed": 3,
+      "blocked": 921
+    },
+    "workers": [
+      "codex",
+      "codex-2",
+      "codex-3",
+      "codex-4"
+    ],
+    "requested_end": "2026-09-16T23:02:46Z",
+    "stability_start": "2026-09-16T19:44:56.854616Z",
+    "stability_baseline_states": {
+      "failed": 1316,
+      "completed": 1467,
+      "integrating": 1,
+      "parked": 403,
+      "awaiting_verification": 7,
+      "working": 9,
+      "queued": 1,
+      "awaiting_integration": 1,
+      "integration_failed": 3,
+      "blocked": 920
+    }
+  },
+  "states": {
+    "failed": 1267,
+    "completed": 1501,
+    "parked": 414,
+    "working": 5,
+    "awaiting_verification": 18,
+    "integration_failed": 8,
+    "blocked": 916
+  },
+  "model_leases": {
+    "codex": [
+      {
+        "ticket": "ticket:engine.auto-damage-amount-mana-spent-total-ee8d93819e/v3",
+        "alive": true,
+        "repair": false
+      }
+    ],
+    "codex-2": [
+      {
+        "ticket": "ticket:engine.auto-conditional-put-counters-control-artifact-and-en-5861ae267c/v3",
+        "alive": true,
+        "repair": true
+      }
+    ],
+    "codex-3": [
+      {
+        "ticket": "ticket:engine.auto-damage-amount-max-with-constant-and-dynamic-stat-2198c0d725/v3",
+        "alive": true,
+        "repair": false
+      }
+    ],
+    "codex-4": [
+      {
+        "ticket": "ticket:engine.auto-damage-amount-scaled-by-permanent-count-c4977fb795/v3",
+        "alive": true,
+        "repair": false
+      }
+    ]
+  },
+  "recent_occupancy": [
+    {
+      "at": "2026-09-16T21:10:19.885639+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T21:10:50.292753+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:11:20.703709+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:11:51.100800+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:12:21.536682+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:12:51.972935+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:13:22.384757+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:13:52.952667+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:14:23.397373+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:14:53.808697+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:15:24.207650+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:15:54.621485+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:16:25.055051+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:16:55.464777+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:17:25.906442+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:17:56.308774+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:18:26.736648+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:18:57.145946+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:19:27.542093+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T21:19:57.942269+00:00",
+      "occupied": 3
+    }
+  ],
+  "window_sample_counts": {
+    "4": 46,
+    "3": 57,
+    "2": 44,
+    "1": 37,
+    "0": 4
+  },
+  "net_completed_since_request": 40,
+  "queued": []
+}

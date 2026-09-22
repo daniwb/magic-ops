@@ -1,0 +1,26 @@
+         3230181 function calls (3185933 primitive calls) in 25.726 seconds
+
+   Ordered by: cumulative time
+   List reduced from 800 to 18 due to restriction <18>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.065    0.065   25.728   25.728 /opt/development/magic-ops/scripts/factory-ng-produce-capability-dependency.py:584(main)
+        1    0.252    0.252   25.505   25.505 /opt/development/magic-ops/scripts/factory-ng-produce-capability-dependency.py:604(produce)
+        1    0.005    0.005   10.483   10.483 /opt/development/magic-ops/scripts/factory-ng-produce-capability-dependency.py:421(resumed_map)
+        1    0.000    0.000    9.019    9.019 /opt/development/magic-ops/scripts/factory-ng-produce-capability-dependency.py:227(source_evidence)
+        1    0.000    0.000    9.019    9.019 /opt/development/magic-ops/scripts/factory-ng-produce-capability-dependency.py:204(knowledge_hits)
+        1    0.000    0.000    8.568    8.568 /opt/development/magic-ops/scripts/factory_ng_knowledge.py:85(discover_capability)
+        5    0.000    0.000    8.563    1.713 /opt/development/magic-ops/scripts/factory_ng_knowledge.py:57(search)
+        5    0.001    0.000    8.563    1.713 /opt/development/magic-ops/scripts/factory_ng_knowledge.py:38(request)
+        5    0.000    0.000    8.553    1.711 /usr/lib/python3.12/urllib/request.py:138(urlopen)
+        5    0.000    0.000    8.431    1.686 /usr/lib/python3.12/urllib/request.py:496(open)
+        5    0.000    0.000    8.426    1.685 /usr/lib/python3.12/urllib/request.py:525(_open)
+       10    0.000    0.000    8.426    0.843 /usr/lib/python3.12/urllib/request.py:485(_call_chain)
+        5    0.000    0.000    8.426    1.685 /usr/lib/python3.12/urllib/request.py:1372(http_open)
+        5    0.000    0.000    8.426    1.685 /usr/lib/python3.12/urllib/request.py:1303(do_open)
+        5    0.000    0.000    8.414    1.683 /usr/lib/python3.12/http/client.py:1404(getresponse)
+        5    0.000    0.000    8.413    1.683 /usr/lib/python3.12/http/client.py:329(begin)
+        6    0.000    0.000    8.406    1.401 /usr/lib/python3.12/socket.py:693(readinto)
+        6    8.406    1.401    8.406    1.401 {method 'recv_into' of '_socket.socket' objects}
+
+

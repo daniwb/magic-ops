@@ -1,0 +1,67 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-engine-auto-destroy-delayed-end-of-combat-403991530b-v2-t65y8jb0",
+    "candidate_commit": "0c15740a09cbd9d964d1a9a0ba08c9f22c49afb9",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "0c15740a09cbd9d964d1a9a0ba08c9f22c49afb9",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "codex-constrained@1.0.0",
+    "resolved_model": "gpt-5.6-luna",
+    "telemetry": {
+      "bounded_repair_attempted": true,
+      "cache_read_tokens": 24064,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 25083,
+      "input_tokens": 45853,
+      "output_tokens": 1464,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      }
+    },
+    "worker": "codex"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed_model_protocol",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-31T135147Z-engine-auto-destroy-delayed-end-of-combat-403991530b-v2-codex.raw.json",
+      "sha256": "sha256:2907d2ae28e2c40df2cdcdffb71be2dd44ed685d76ee813f6212ff8c45be376f"
+    },
+    {
+      "kind": "bounded_repair",
+      "path": "docs/factory-ng/runs/2026-08-31T135147Z-engine-auto-destroy-delayed-end-of-combat-403991530b-v2-codex.repair.raw.json",
+      "sha256": "sha256:e19f1019af72794189f3ffc3221b08014b4f5d02bbe795b4e8857a0e04b95800"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-destroy-delayed-end-of-combat-403991530b/v2",
+    "path": "docs/factory-ng/tickets/engine-auto-destroy-delayed-end-of-combat-403991530b-v2.json",
+    "sha256": "sha256:4378cee353986abb2411508a692c7e9019e8eecf6459a66a2707b2d210c7e4b4"
+  }
+}

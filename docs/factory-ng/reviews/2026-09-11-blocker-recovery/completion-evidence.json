@@ -1,0 +1,401 @@
+{
+  "checked_at": "2026-09-11T22:47:03.559686+00:00",
+  "integration": {
+    "pushed": true,
+    "receipt": "docs/factory-ng/runs/2026-09-11T222818Z-map-operator-registry-recovery-sep11-v1-1789165698016319588-integration.json",
+    "result_commit": "48df17966616e95744efb87722a62b0fa8d50040",
+    "status": "pushed_full_production_gate_green",
+    "ticket_results": {
+      "ticket:map.operator-registry-recovery-sep11/v1": {
+        "reason": "",
+        "receipt": "docs/factory-ng/runs/2026-09-11T222818Z-map-operator-registry-recovery-sep11-v1-1789165698016319588-integration.json",
+        "status": "pushed_full_production_gate_green"
+      }
+    }
+  },
+  "source": {
+    "base_commit": "18bdde190925734fc787f8f3aa2415ab72c444ba",
+    "deployed": false,
+    "pushed": true,
+    "result_commit": "48df17966616e95744efb87722a62b0fa8d50040"
+  },
+  "gate_outcomes": [
+    [
+      "operator-reviewed-resolution",
+      "passed"
+    ],
+    [
+      "candidate-apply",
+      "passed"
+    ],
+    [
+      "composed-ticket-0",
+      "passed"
+    ],
+    [
+      "composed-ticket-2",
+      "passed"
+    ],
+    [
+      "composed-ticket-3",
+      "passed"
+    ],
+    [
+      "composed-ticket-4",
+      "passed"
+    ],
+    [
+      "composed-ticket-5",
+      "passed"
+    ],
+    [
+      "composed-ticket-6",
+      "passed"
+    ],
+    [
+      "composed-ticket-7",
+      "passed"
+    ],
+    [
+      "composed-ticket-8",
+      "passed"
+    ],
+    [
+      "composed-ticket-9",
+      "passed"
+    ],
+    [
+      "composed-ticket-10",
+      "passed"
+    ],
+    [
+      "composed-ticket-11",
+      "passed"
+    ],
+    [
+      "composed-ticket-12",
+      "passed"
+    ],
+    [
+      "composed-ticket-13",
+      "passed"
+    ],
+    [
+      "composed-ticket-14",
+      "passed"
+    ],
+    [
+      "composed-ticket-15",
+      "passed"
+    ],
+    [
+      "composed-ticket-16",
+      "passed"
+    ],
+    [
+      "composed-ticket-17",
+      "passed"
+    ],
+    [
+      "composed-ticket-18",
+      "passed"
+    ],
+    [
+      "composed-ticket-19",
+      "passed"
+    ],
+    [
+      "reparse-flip",
+      "passed"
+    ],
+    [
+      "reparse-import",
+      "passed"
+    ],
+    [
+      "go-build",
+      "passed"
+    ],
+    [
+      "game-tests",
+      "passed"
+    ],
+    [
+      "focused-go",
+      "passed"
+    ],
+    [
+      "full-sharded-suite",
+      "passed"
+    ],
+    [
+      "push",
+      "passed"
+    ]
+  ],
+  "excluded_candidates": {},
+  "cards": {
+    "Sage of the Skies": {
+      "status": "auto",
+      "path": "backend/data/carddb/s.json"
+    },
+    "Skullcage": {
+      "status": "auto",
+      "path": "backend/data/carddb/s.json"
+    },
+    "Sphere of Annihilation": {
+      "status": "auto",
+      "path": "backend/data/carddb/s.json"
+    },
+    "Crown of Empires": {
+      "status": "auto",
+      "path": "backend/data/carddb/c.json"
+    },
+    "Tideforce Elemental": {
+      "status": "auto",
+      "path": "backend/data/carddb/t.json"
+    },
+    "Retrieve": {
+      "status": "auto",
+      "path": "backend/data/carddb/r.json"
+    },
+    "Dong Zhou, the Tyrant": {
+      "status": "auto",
+      "path": "backend/data/carddb/d.json"
+    },
+    "Word of Binding": {
+      "status": "auto",
+      "path": "backend/data/carddb/w.json"
+    },
+    "Promise of Tomorrow": {
+      "status": "auto",
+      "path": "backend/data/carddb/p.json"
+    }
+  },
+  "auto_cards": 12956,
+  "jobs": {
+    "ticket:map.plan-copy-sage-of-the-skies-30d5d8211c/v4": {
+      "before": {
+        "state": "integration_failed",
+        "superseded_by": null,
+        "attempts": 1,
+        "integration_attempts": 1,
+        "receipt": "docs/factory-ng/runs/2026-09-09T083959Z-map-plan-copy-sage-of-the-skies-30d5d8211c-v4-codex.json",
+        "integration_receipt": "docs/factory-ng/runs/2026-09-09T085449Z-wave-62ea4a609e16-integration.json",
+        "reason": "error: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch\n"
+      },
+      "after": {
+        "state": "completed",
+        "superseded_by": null,
+        "attempts": 1,
+        "integration_attempts": 1,
+        "receipt": "docs/factory-ng/runs/2026-09-09T083959Z-map-plan-copy-sage-of-the-skies-30d5d8211c-v4-codex.json",
+        "integration_receipt": "docs/factory-ng/runs/2026-09-11T222818Z-map-operator-registry-recovery-sep11-v1-1789165698016319588-integration.json",
+        "reason": null
+      }
+    },
+    "ticket:map.plan-damage-by-dong-zhou-the-tyrant-845ba13507/v3": {
+      "before": {
+        "state": "integrating",
+        "superseded_by": null,
+        "attempts": 1,
+        "integration_attempts": 2,
+        "receipt": "docs/factory-ng/runs/2026-09-11T200335Z-map-plan-damage-by-dong-zhou-the-tyrant-845ba13507-v3-codex.json",
+        "integration_receipt": "docs/factory-ng/runs/2026-09-11T201113Z-wave-bacb075f983c-1789157473855303326-integration.json",
+        "reason": "focused-go failed"
+      },
+      "after": {
+        "state": "integration_failed",
+        "superseded_by": "ticket:map.plan-damage-by-dong-zhou-the-tyrant-845ba13507/v4",
+        "attempts": 1,
+        "integration_attempts": 2,
+        "receipt": "docs/factory-ng/runs/2026-09-11T200335Z-map-plan-damage-by-dong-zhou-the-tyrant-845ba13507-v3-codex.json",
+        "integration_receipt": "docs/factory-ng/runs/2026-09-11T211913Z-map-plan-damage-by-dong-zhou-the-tyrant-845ba13507-v3-1789161553557770146-integration.json",
+        "reason": "focused-go failed"
+      }
+    },
+    "ticket:map.plan-damage-skullcage-3f854ae5df/v4": {
+      "before": {
+        "state": "integration_failed",
+        "superseded_by": null,
+        "attempts": 1,
+        "integration_attempts": 2,
+        "receipt": "docs/factory-ng/runs/2026-09-09T104800Z-map-plan-damage-skullcage-3f854ae5df-v4-codex.json",
+        "integration_receipt": "docs/factory-ng/runs/2026-09-09T141533Z-map-plan-damage-skullcage-3f854ae5df-v4-integration.json",
+        "reason": "focused-go failed"
+      },
+      "after": {
+        "state": "completed",
+        "superseded_by": null,
+        "attempts": 1,
+        "integration_attempts": 2,
+        "receipt": "docs/factory-ng/runs/2026-09-09T104800Z-map-plan-damage-skullcage-3f854ae5df-v4-codex.json",
+        "integration_receipt": "docs/factory-ng/runs/2026-09-11T222818Z-map-operator-registry-recovery-sep11-v1-1789165698016319588-integration.json",
+        "reason": null
+      }
+    },
+    "ticket:map.plan-exile-sphere-of-annihilation-032fa4cd5d/v4": {
+      "before": {
+        "state": "integration_failed",
+        "superseded_by": null,
+        "attempts": 1,
+        "integration_attempts": 2,
+        "receipt": "docs/factory-ng/runs/2026-09-09T102027Z-map-plan-exile-sphere-of-annihilation-032fa4cd5d-v4-codex.json",
+        "integration_receipt": "docs/factory-ng/runs/2026-09-09T132544Z-map-plan-exile-sphere-of-annihilation-032fa4cd5d-v4-integration.json",
+        "reason": "focused-go failed"
+      },
+      "after": {
+        "state": "completed",
+        "superseded_by": null,
+        "attempts": 1,
+        "integration_attempts": 2,
+        "receipt": "docs/factory-ng/runs/2026-09-09T102027Z-map-plan-exile-sphere-of-annihilation-032fa4cd5d-v4-codex.json",
+        "integration_receipt": "docs/factory-ng/runs/2026-09-11T222818Z-map-operator-registry-recovery-sep11-v1-1789165698016319588-integration.json",
+        "reason": null
+      }
+    },
+    "ticket:map.plan-regrow-retrieve-b33ea3ed9d/v4": {
+      "before": {
+        "state": "integration_failed",
+        "superseded_by": null,
+        "attempts": 1,
+        "integration_attempts": 2,
+        "receipt": "docs/factory-ng/runs/2026-09-10T195618Z-map-plan-regrow-retrieve-b33ea3ed9d-v4-codex.json",
+        "integration_receipt": "docs/factory-ng/runs/2026-09-10T204237Z-map-plan-regrow-retrieve-b33ea3ed9d-v4-1789072957200368360-integration.json",
+        "reason": "focused-go failed"
+      },
+      "after": {
+        "state": "completed",
+        "superseded_by": null,
+        "attempts": 1,
+        "integration_attempts": 2,
+        "receipt": "docs/factory-ng/runs/2026-09-10T195618Z-map-plan-regrow-retrieve-b33ea3ed9d-v4-codex.json",
+        "integration_receipt": "docs/factory-ng/runs/2026-09-11T222818Z-map-operator-registry-recovery-sep11-v1-1789165698016319588-integration.json",
+        "reason": null
+      }
+    },
+    "ticket:map.plan-sacrifice-promise-of-tomorrow-f7fb65fa2a/v4": {
+      "before": {
+        "state": "integration_failed",
+        "superseded_by": null,
+        "attempts": 1,
+        "integration_attempts": 2,
+        "receipt": "docs/factory-ng/runs/2026-09-10T032948Z-map-plan-sacrifice-promise-of-tomorrow-f7fb65fa2a-v4-codex.json",
+        "integration_receipt": "docs/factory-ng/runs/2026-09-10T040127Z-map-plan-sacrifice-promise-of-tomorrow-f7fb65fa2a-v4-1789012887039167077-integration.json",
+        "reason": "focused-go failed"
+      },
+      "after": {
+        "state": "completed",
+        "superseded_by": null,
+        "attempts": 1,
+        "integration_attempts": 2,
+        "receipt": "docs/factory-ng/runs/2026-09-10T032948Z-map-plan-sacrifice-promise-of-tomorrow-f7fb65fa2a-v4-codex.json",
+        "integration_receipt": "docs/factory-ng/runs/2026-09-11T222818Z-map-operator-registry-recovery-sep11-v1-1789165698016319588-integration.json",
+        "reason": null
+      }
+    },
+    "ticket:map.plan-tap-tideforce-elemental-ecc1126789/v4": {
+      "before": {
+        "state": "integration_failed",
+        "superseded_by": null,
+        "attempts": 1,
+        "integration_attempts": 2,
+        "receipt": "docs/factory-ng/runs/2026-09-10T113148Z-map-plan-tap-tideforce-elemental-ecc1126789-v4-codex.json",
+        "integration_receipt": "docs/factory-ng/runs/2026-09-10T121700Z-map-plan-tap-tideforce-elemental-ecc1126789-v4-1789042620663915315-integration.json",
+        "reason": "focused-go failed"
+      },
+      "after": {
+        "state": "completed",
+        "superseded_by": null,
+        "attempts": 1,
+        "integration_attempts": 2,
+        "receipt": "docs/factory-ng/runs/2026-09-10T113148Z-map-plan-tap-tideforce-elemental-ecc1126789-v4-codex.json",
+        "integration_receipt": "docs/factory-ng/runs/2026-09-11T222818Z-map-operator-registry-recovery-sep11-v1-1789165698016319588-integration.json",
+        "reason": null
+      }
+    },
+    "ticket:map.plan-tap-word-of-binding-e0c3cca63f/v4": {
+      "before": {
+        "state": "integration_failed",
+        "superseded_by": null,
+        "attempts": 1,
+        "integration_attempts": 2,
+        "receipt": "docs/factory-ng/runs/2026-09-10T022935Z-map-plan-tap-word-of-binding-e0c3cca63f-v4-codex.json",
+        "integration_receipt": "docs/factory-ng/runs/2026-09-10T030445Z-map-plan-tap-word-of-binding-e0c3cca63f-v4-1789009485789381202-integration.json",
+        "reason": "focused-go failed"
+      },
+      "after": {
+        "state": "completed",
+        "superseded_by": null,
+        "attempts": 1,
+        "integration_attempts": 2,
+        "receipt": "docs/factory-ng/runs/2026-09-10T022935Z-map-plan-tap-word-of-binding-e0c3cca63f-v4-codex.json",
+        "integration_receipt": "docs/factory-ng/runs/2026-09-11T222818Z-map-operator-registry-recovery-sep11-v1-1789165698016319588-integration.json",
+        "reason": null
+      }
+    },
+    "ticket:map.plan-gain-control-crown-of-empires-70becf7c9a/v3": {
+      "before": {
+        "state": "integration_failed",
+        "superseded_by": "ticket:map.plan-gain-control-crown-of-empires-70becf7c9a/v4",
+        "attempts": 1,
+        "integration_attempts": 2,
+        "receipt": "docs/factory-ng/runs/2026-09-11T194049Z-map-plan-gain-control-crown-of-empires-70becf7c9a-v3-codex.json",
+        "integration_receipt": "docs/factory-ng/runs/2026-09-11T204249Z-map-plan-gain-control-crown-of-empires-70becf7c9a-v3-1789159369168676080-integration.json",
+        "reason": "focused-go failed"
+      },
+      "after": {
+        "state": "integration_failed",
+        "superseded_by": "ticket:map.plan-gain-control-crown-of-empires-70becf7c9a/v4",
+        "attempts": 1,
+        "integration_attempts": 2,
+        "receipt": "docs/factory-ng/runs/2026-09-11T194049Z-map-plan-gain-control-crown-of-empires-70becf7c9a-v3-codex.json",
+        "integration_receipt": "docs/factory-ng/runs/2026-09-11T204249Z-map-plan-gain-control-crown-of-empires-70becf7c9a-v3-1789159369168676080-integration.json",
+        "reason": "focused-go failed"
+      }
+    },
+    "ticket:map.plan-gain-control-crown-of-empires-70becf7c9a/v4": {
+      "before": {
+        "state": "blocked",
+        "superseded_by": null,
+        "attempts": 1,
+        "integration_attempts": null,
+        "receipt": "docs/factory-ng/runs/2026-09-11T205230Z-map-plan-gain-control-crown-of-empires-70becf7c9a-v4-claude.json",
+        "integration_receipt": null,
+        "reason": null
+      },
+      "after": {
+        "state": "completed",
+        "superseded_by": null,
+        "attempts": 1,
+        "integration_attempts": null,
+        "receipt": "docs/factory-ng/runs/2026-09-11T205230Z-map-plan-gain-control-crown-of-empires-70becf7c9a-v4-claude.json",
+        "integration_receipt": "docs/factory-ng/runs/2026-09-11T222818Z-map-operator-registry-recovery-sep11-v1-1789165698016319588-integration.json",
+        "reason": null
+      }
+    },
+    "ticket:map.plan-damage-by-dong-zhou-the-tyrant-845ba13507/v4": {
+      "before": {
+        "state": null,
+        "superseded_by": null,
+        "attempts": null,
+        "integration_attempts": null,
+        "receipt": null,
+        "integration_receipt": null,
+        "reason": null
+      },
+      "after": {
+        "state": "completed",
+        "superseded_by": null,
+        "attempts": 1,
+        "integration_attempts": null,
+        "receipt": "docs/factory-ng/runs/2026-09-11T224636Z-operator-dong-zhou-already-satisfied.json",
+        "integration_receipt": null,
+        "reason": null
+      }
+    }
+  },
+  "canonical_status": "",
+  "head": "48df17966616e95744efb87722a62b0fa8d50040",
+  "origin_main": "48df17966616e95744efb87722a62b0fa8d50040"
+}

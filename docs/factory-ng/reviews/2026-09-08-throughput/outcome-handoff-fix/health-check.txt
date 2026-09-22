@@ -1,0 +1,50 @@
+== SCOPED MUTATION LOCKS
+openmagic-integration: held
+factory-deploy: free
+dispatcher-admin: free
+== FACTORY NG
+{
+  "state": "running",
+  "phase": "producing_ticket",
+  "updated_at": "2026-09-08T20:39:26Z",
+  "queue": {
+    "deferred": 0,
+    "runnable": 191,
+    "target_ready": 10,
+    "total": 191
+  },
+  "message": "Replenishing the automatic ground-truth queue."
+}
+== WATCHDOG
+{
+  "checked_at": "2026-09-08T20:34:39Z",
+  "healthy": false,
+  "moving": true,
+  "problems": [
+    "49 unresolved integration failure(s)"
+  ],
+  "cards": {
+    "auto": 12481,
+    "available": true,
+    "delta_24h": 5,
+    "sample_age_seconds": 682,
+    "window_seconds": 85899
+  }
+}
+== SUPERVISED LANES
+disp
+factory-ng
+factory-watch
+factory-viz
+kb
+== ENABLED PROFILE CONTRACTS
+factory-ng profiles: pass (6)
+== CANONICAL SOURCE
+Integration owns the source; check readiness again after it completes.
+== CARD KNOWLEDGE
+ok {'primitive': 422, 'helper': 1741, 'handler': 2884, 'engine': 2160, 'event': 79, 'case': 147}; revision=52dfe55712586b109e57f8725010e70336de546a; indexed_at=2026-09-08T20:38:56Z
+== LIVE SERVICE
+active
+== DISK
+Filesystem                        Size  Used Avail Use% Mounted on
+/dev/mapper/pve-vm--106--disk--0  128G   49G   74G  40% /

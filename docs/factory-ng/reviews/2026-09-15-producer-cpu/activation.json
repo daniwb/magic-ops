@@ -1,0 +1,24 @@
+{
+  "activated_at": "2026-09-15T06:41:25Z",
+  "files": {
+    "factory_ng_parser_runtime.py": "a64e0dd99032989948a638a25155397842e1261f218396c3c1eaf58b935859e5",
+    "factory_ng_producer_cache.py": "ba3f23cfa5a5cca6b6e0f884ae87125630ffe3992e2e8359d17efd553688c2be",
+    "test_factory_ng_parser_runtime.py": "11d1d331240601c60e10bf0c1803bdc3d976c2906425840a359453524835298c",
+    "factory-ng-produce-build-plan.py": "768f9188a424744e4f5a5a4eaf880dd439deb30d708863f84b9f92c8c533408d"
+  },
+  "activation": "atomic script publication under dispatcher-admin; next producer invocation loads changes",
+  "cpu_policy_changed": false,
+  "canonical_source_changed": false,
+  "live_cache_entries": {
+    "build-plan-history-v2": 6818,
+    "parser-corpus-shard-v1": 30,
+    "parser-file-hash-v1": 17,
+    "parser-vocabulary-v1": 1
+  },
+  "first_observed_run": {
+    "at": "2026-09-15T06:42:51Z",
+    "producer": "build-plan-multi-miss",
+    "status": "scan_pending",
+    "reason": "bounded fresh scan will resume after Angelic Skirmisher"
+  }
+}

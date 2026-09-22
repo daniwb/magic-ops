@@ -1,0 +1,12 @@
+[
+  {
+    "ticket_id": "ticket:map.operator-righteous-indignation-recovery-sep15/v1",
+    "ticket_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/righteous-indignation/ticket.json",
+    "proposal": "docs/factory-ng/candidates/proposal-c08b9c814a03428aac2ea4b4acf7cd78.json",
+    "identity": {
+      "worker": "operator",
+      "model": "operator-correction-no-worker-provider-run",
+      "profile": "codex-constrained@1.1.0"
+    }
+  }
+]

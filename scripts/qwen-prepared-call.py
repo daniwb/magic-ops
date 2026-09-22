@@ -15,8 +15,12 @@ import urllib.request
 
 
 ap = argparse.ArgumentParser()
-ap.add_argument('--base-url', default='http://192.168.1.251:8080')
-ap.add_argument('--model', default='./Qwen3.8-27B/Qwen3.8-27B-Q8_0.gguf')
+# Podman's rootless pasta forwarder is bound on IPv4.  Resolving ``localhost``
+# can select ::1 first, which resets chat-completion requests even though the
+# service health route happens to answer.  Pin the local Factory adapter to
+# the verified loopback address.
+ap.add_argument('--base-url', default='http://127.0.0.1:8080')
+ap.add_argument('--model', default='halogen-qwen3.8-flash-next')
 ap.add_argument('--max-tokens', type=int, default=2000)
 ap.add_argument('--timeout', type=int, default=900)
 args = ap.parse_args()
@@ -35,6 +39,9 @@ exact existing text
 replacement text
 >>>END
 
+SEARCH must be the smallest unique exact region, normally 3-12 lines. Never
+copy a whole function or the full source excerpt into SEARCH.
+
 For a new file use <<<NEWFILE relative/path.py, then its full content, then
 >>>END. Every repair must repeat an explicit <<<FILE or <<<NEWFILE header.
 Never use Markdown fences, bare SEARCH:/REPLACE: labels, unified diffs,
@@ -46,7 +53,9 @@ packet = sys.stdin.read()
 body = {
     'model': args.model,
     'max_tokens': args.max_tokens,
-    'temperature': 0.7,
+    # Prepared-direct output is a machine grammar, not a creative draft.
+    # Low variance materially reduces prose-first/truncated responses.
+    'temperature': 0.2,
     'top_p': 0.8,
     'top_k': 20,
     'min_p': 0,

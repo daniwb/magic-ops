@@ -1,0 +1,732 @@
+{
+  "trial_id": "staged-five-card-2026-09-08",
+  "updated_at": "2026-09-22T19:25:38.219127+00:00",
+  "cards_complete": 2,
+  "cards": [
+    {
+      "name": "Siegfried, Famed Swordsman",
+      "complete": true,
+      "trial_known_raw_claude_tokens": 523058,
+      "trial_unknown_or_non_claude_attempts": 0,
+      "historical_known_raw_claude_tokens": 116108,
+      "historical_unknown_or_non_claude_attempts": 1,
+      "trial_known_model_elapsed_ms": 1248112,
+      "trial_changed_files": [
+        "backend/cards/shape_staged_trial_siegfried_test.go",
+        "scripts/paragraph/reparse.py",
+        "scripts/paragraph/test_factory_ng_77e58aca02.py"
+      ],
+      "trial_engine_tickets": [
+        "ticket:engine.staged-trial-verify-siegfried/v1",
+        "ticket:engine.staged-trial-verify-siegfried/v2"
+      ],
+      "exceeds_500k": true,
+      "jobs": {
+        "ticket:engine.staged-trial-verify-siegfried/v1": {
+          "state": null,
+          "outcome": null,
+          "waiting_reason": null,
+          "repair_blocker": null,
+          "superseded_by": null
+        },
+        "ticket:engine.staged-trial-verify-siegfried/v2": {
+          "state": "completed",
+          "outcome": "pushed_full_production_gate_green",
+          "waiting_reason": null,
+          "repair_blocker": null,
+          "superseded_by": null
+        },
+        "ticket:map.plan-put-counters-siegfried-famed-swordsman-77e58aca02/v2": {
+          "state": null,
+          "outcome": null,
+          "waiting_reason": null,
+          "repair_blocker": null,
+          "superseded_by": null
+        },
+        "ticket:map.plan-put-counters-siegfried-famed-swordsman-77e58aca02/v3": {
+          "state": "completed",
+          "outcome": "pushed_full_production_gate_green",
+          "waiting_reason": null,
+          "repair_blocker": null,
+          "superseded_by": null
+        }
+      },
+      "attempts": [
+        {
+          "ticket_id": "ticket:map.plan-put-counters-siegfried-famed-swordsman-77e58aca02/v2",
+          "receipt": "docs/factory-ng/runs/2026-09-08T195153Z-map-plan-put-counters-siegfried-famed-swordsman-77e58aca02-v2-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "gate_failed",
+          "raw_claude_tokens": 149836,
+          "model_elapsed_ms": 442246,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:map.plan-put-counters-siegfried-famed-swordsman-77e58aca02/v3",
+          "receipt": "docs/factory-ng/runs/2026-09-08T222913Z-map-plan-put-counters-siegfried-famed-swordsman-77e58aca02-v3-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "accepted_for_dependent_observation",
+          "raw_claude_tokens": 166108,
+          "model_elapsed_ms": 273673,
+          "candidate_patch": "docs/factory-ng/candidates/2026-09-08T223410Z-map-plan-put-counters-siegfried-famed-swordsman-77e58aca02-v3.patch",
+          "changed_files": [
+            "scripts/paragraph/reparse.py",
+            "scripts/paragraph/test_factory_ng_77e58aca02.py"
+          ]
+        },
+        {
+          "ticket_id": "ticket:engine.staged-trial-verify-siegfried/v1",
+          "receipt": "docs/factory-ng/runs/2026-09-08T235851Z-engine-staged-trial-verify-siegfried-v1-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "parked",
+          "raw_claude_tokens": 61322,
+          "model_elapsed_ms": 78775,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:engine.staged-trial-verify-siegfried/v2",
+          "receipt": "docs/factory-ng/runs/2026-09-09T160359Z-engine-staged-trial-verify-siegfried-v2-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "accepted_for_dependent_observation",
+          "raw_claude_tokens": 145792,
+          "model_elapsed_ms": 453418,
+          "candidate_patch": "docs/factory-ng/candidates/2026-09-09T161759Z-engine-staged-trial-verify-siegfried-v2.patch",
+          "changed_files": [
+            "backend/cards/shape_staged_trial_siegfried_test.go"
+          ]
+        }
+      ],
+      "historical_attempts": [
+        {
+          "ticket_id": "ticket:map.plan-put-counters-siegfried-famed-swordsman-77e58aca02/v1",
+          "receipt": "docs/factory-ng/runs/2026-09-02T194139Z-map-plan-put-counters-siegfried-famed-swordsman-77e58aca02-v1-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "blocked_by_capability",
+          "raw_claude_tokens": 26079,
+          "model_elapsed_ms": 25525,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:engine.auto-put-counters-dynamic-zone-count-amount-c03e4c4218/v1",
+          "receipt": "docs/factory-ng/runs/2026-09-07T203116Z-engine-auto-put-counters-dynamic-zone-count-amount-c03e4c4218-v1-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "gate_failed",
+          "raw_claude_tokens": 90029,
+          "model_elapsed_ms": 167423,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:engine.auto-put-counters-dynamic-zone-count-amount-c03e4c4218/v2",
+          "receipt": "docs/factory-ng/runs/20260908-operator-audited-engine-auto-put-counters-dynamic-zone-count-amount-c03e4c4218-v2.observation.json",
+          "profile": "operator-reviewed-recovery",
+          "outcome": "accepted_for_dependent_observation",
+          "raw_claude_tokens": null,
+          "model_elapsed_ms": null,
+          "candidate_patch": "docs/factory-ng/reviews/2026-09-08-throughput/engine-repair-wave/engine-auto-put-counters-dynamic-zone-count-amount-c03e4c4218-v2.patch",
+          "changed_files": [
+            "backend/game/ability_effects.go",
+            "backend/game/shape_audited_counter_amounts_test.go"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sigil of Sleep",
+      "complete": true,
+      "trial_known_raw_claude_tokens": 1817100,
+      "trial_unknown_or_non_claude_attempts": 0,
+      "historical_known_raw_claude_tokens": 99635,
+      "historical_unknown_or_non_claude_attempts": 1,
+      "trial_known_model_elapsed_ms": 1819910,
+      "trial_changed_files": [
+        "scripts/paragraph/reparse.py",
+        "scripts/paragraph/test_factory_ng_a3b32a7cef.py"
+      ],
+      "trial_engine_tickets": [
+        "ticket:engine.staged-trial-verify-sigil/v1",
+        "ticket:engine.staged-trial-verify-sigil/v2"
+      ],
+      "exceeds_500k": true,
+      "jobs": {
+        "ticket:engine.staged-trial-verify-sigil/v1": {
+          "state": null,
+          "outcome": null,
+          "waiting_reason": null,
+          "repair_blocker": null,
+          "superseded_by": null
+        },
+        "ticket:engine.staged-trial-verify-sigil/v2": {
+          "state": "completed",
+          "outcome": "pushed_full_production_gate_green",
+          "waiting_reason": null,
+          "repair_blocker": null,
+          "superseded_by": null
+        },
+        "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2": {
+          "state": null,
+          "outcome": null,
+          "waiting_reason": null,
+          "repair_blocker": null,
+          "superseded_by": null
+        },
+        "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v3": {
+          "state": "completed",
+          "outcome": "pushed_full_production_gate_green",
+          "waiting_reason": null,
+          "repair_blocker": null,
+          "superseded_by": null
+        }
+      },
+      "attempts": [
+        {
+          "ticket_id": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2",
+          "receipt": "docs/factory-ng/runs/2026-09-08T195944Z-map-plan-bounce-sigil-of-sleep-a3b32a7cef-v2-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "parked",
+          "raw_claude_tokens": 128201,
+          "model_elapsed_ms": 225619,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v3",
+          "receipt": "docs/factory-ng/runs/2026-09-08T210721Z-map-plan-bounce-sigil-of-sleep-a3b32a7cef-v3-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "accepted_for_dependent_observation",
+          "raw_claude_tokens": 123941,
+          "model_elapsed_ms": 175359,
+          "candidate_patch": "docs/factory-ng/candidates/2026-09-08T211045Z-map-plan-bounce-sigil-of-sleep-a3b32a7cef-v3.patch",
+          "changed_files": [
+            "scripts/paragraph/reparse.py",
+            "scripts/paragraph/test_factory_ng_a3b32a7cef.py"
+          ]
+        },
+        {
+          "ticket_id": "ticket:engine.staged-trial-verify-sigil/v1",
+          "receipt": "docs/factory-ng/runs/2026-09-08T214248Z-engine-staged-trial-verify-sigil-v1-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "infrastructure_failed_model_protocol",
+          "raw_claude_tokens": 102872,
+          "model_elapsed_ms": 126029,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:engine.staged-trial-verify-sigil/v2",
+          "receipt": "docs/factory-ng/runs/2026-09-09T161806Z-engine-staged-trial-verify-sigil-v2-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "infrastructure_failed_model_protocol",
+          "raw_claude_tokens": 1334421,
+          "model_elapsed_ms": 847541,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:engine.staged-trial-verify-sigil/v2",
+          "receipt": "docs/factory-ng/runs/2026-09-15T202923Z-engine-staged-trial-verify-sigil-v2-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "parked",
+          "raw_claude_tokens": 127665,
+          "model_elapsed_ms": 445362,
+          "candidate_patch": null,
+          "changed_files": []
+        }
+      ],
+      "historical_attempts": [
+        {
+          "ticket_id": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v1",
+          "receipt": "docs/factory-ng/runs/2026-09-02T194718Z-map-plan-bounce-sigil-of-sleep-a3b32a7cef-v1-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "blocked_by_capability",
+          "raw_claude_tokens": 26599,
+          "model_elapsed_ms": 31005,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:engine.auto-bounce-filter-controller-damaged-player-a0c40565d9/v1",
+          "receipt": "docs/factory-ng/runs/2026-09-07T203435Z-engine-auto-bounce-filter-controller-damaged-player-a0c40565d9-v1-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "parked",
+          "raw_claude_tokens": 73036,
+          "model_elapsed_ms": 66212,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:engine.auto-bounce-filter-controller-damaged-player-a0c40565d9/v2",
+          "receipt": "docs/factory-ng/runs/20260908-operator-audited-engine-auto-bounce-filter-controller-damaged-player-a0c40565d9-v2.observation.json",
+          "profile": "operator-reviewed-recovery",
+          "outcome": "accepted_for_dependent_observation",
+          "raw_claude_tokens": null,
+          "model_elapsed_ms": null,
+          "candidate_patch": "docs/factory-ng/reviews/2026-09-08-throughput/engine-repair-wave/engine-auto-bounce-filter-controller-damaged-player-a0c40565d9-v2.patch",
+          "changed_files": [
+            "backend/cards/converter.go",
+            "backend/cards/registry_player_damaged.go",
+            "backend/cards/shape_audited_player_damage_test.go",
+            "backend/game/ability_effects.go",
+            "backend/game/combat.go",
+            "backend/game/events.go",
+            "backend/game/gamestate.go",
+            "backend/game/gamestate_trigger_target.go",
+            "backend/game/lib_player_damage_event.go",
+            "backend/game/shape_audited_player_damage_test.go",
+            "backend/game/stack.go",
+            "backend/game/targeting.go"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Skittering Cicada",
+      "complete": false,
+      "trial_known_raw_claude_tokens": 961140,
+      "trial_unknown_or_non_claude_attempts": 0,
+      "historical_known_raw_claude_tokens": 111399,
+      "historical_unknown_or_non_claude_attempts": 2,
+      "trial_known_model_elapsed_ms": 2239026,
+      "trial_changed_files": [
+        "backend/game/ability_effects.go",
+        "backend/game/factory_ng_bdb265d199_test.go"
+      ],
+      "trial_engine_tickets": [
+        "ticket:engine.auto-grant-keyword-plus-dynamic-pt-until-eot-bdb265d199/v1",
+        "ticket:engine.auto-grant-keyword-plus-dynamic-pt-until-eot-bdb265d199/v2"
+      ],
+      "exceeds_500k": true,
+      "jobs": {
+        "ticket:engine.auto-grant-keyword-plus-dynamic-pt-until-eot-bdb265d199/v1": {
+          "state": null,
+          "outcome": null,
+          "waiting_reason": null,
+          "repair_blocker": null,
+          "superseded_by": null
+        },
+        "ticket:engine.auto-grant-keyword-plus-dynamic-pt-until-eot-bdb265d199/v2": {
+          "state": "completed",
+          "outcome": "pushed_full_production_gate_green",
+          "waiting_reason": null,
+          "repair_blocker": null,
+          "superseded_by": null
+        },
+        "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2": {
+          "state": null,
+          "outcome": null,
+          "waiting_reason": null,
+          "repair_blocker": null,
+          "superseded_by": null
+        },
+        "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v3": {
+          "state": null,
+          "outcome": null,
+          "waiting_reason": null,
+          "repair_blocker": null,
+          "superseded_by": null
+        },
+        "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v4": {
+          "state": null,
+          "outcome": null,
+          "waiting_reason": null,
+          "repair_blocker": null,
+          "superseded_by": null
+        },
+        "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v5": {
+          "state": null,
+          "outcome": null,
+          "waiting_reason": null,
+          "repair_blocker": null,
+          "superseded_by": null
+        },
+        "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v6": {
+          "state": "parked",
+          "outcome": "parked",
+          "waiting_reason": null,
+          "repair_blocker": null,
+          "superseded_by": null
+        }
+      },
+      "attempts": [
+        {
+          "ticket_id": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2",
+          "receipt": "docs/factory-ng/runs/2026-09-08T203052Z-map-plan-grant-eot-skittering-cicada-aaedaea801-v2-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "blocked_by_capability",
+          "raw_claude_tokens": 135111,
+          "model_elapsed_ms": 206983,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:engine.auto-grant-keyword-plus-dynamic-pt-until-eot-bdb265d199/v2",
+          "receipt": "docs/factory-ng/runs/2026-09-09T013305Z-engine-auto-grant-keyword-plus-dynamic-pt-until-eot-bdb265d199-v2-source-wait-1788917585723765139.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "source_unavailable",
+          "raw_claude_tokens": 0,
+          "model_elapsed_ms": 0,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:engine.auto-grant-keyword-plus-dynamic-pt-until-eot-bdb265d199/v1",
+          "receipt": "docs/factory-ng/runs/2026-09-09T012010Z-engine-auto-grant-keyword-plus-dynamic-pt-until-eot-bdb265d199-v1-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "gate_failed",
+          "raw_claude_tokens": 183914,
+          "model_elapsed_ms": 346834,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:engine.auto-grant-keyword-plus-dynamic-pt-until-eot-bdb265d199/v2",
+          "receipt": "docs/factory-ng/runs/2026-09-09T014357Z-engine-auto-grant-keyword-plus-dynamic-pt-until-eot-bdb265d199-v2-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "accepted_for_dependent_observation",
+          "raw_claude_tokens": 156198,
+          "model_elapsed_ms": 535864,
+          "candidate_patch": "docs/factory-ng/candidates/2026-09-09T015931Z-engine-auto-grant-keyword-plus-dynamic-pt-until-eot-bdb265d199-v2.patch",
+          "changed_files": [
+            "backend/game/ability_effects.go",
+            "backend/game/factory_ng_bdb265d199_test.go"
+          ]
+        },
+        {
+          "ticket_id": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v4",
+          "receipt": "docs/factory-ng/runs/2026-09-09T030815Z-map-plan-grant-eot-skittering-cicada-aaedaea801-v4-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "gate_failed",
+          "raw_claude_tokens": 194024,
+          "model_elapsed_ms": 578678,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v3",
+          "receipt": "docs/factory-ng/runs/2026-09-09T023605Z-map-plan-grant-eot-skittering-cicada-aaedaea801-v3-source-wait-1788921365535848134.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "source_unavailable",
+          "raw_claude_tokens": 0,
+          "model_elapsed_ms": 0,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v3",
+          "receipt": "docs/factory-ng/runs/2026-09-09T024925Z-map-plan-grant-eot-skittering-cicada-aaedaea801-v3-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "gate_failed",
+          "raw_claude_tokens": 171944,
+          "model_elapsed_ms": 389246,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v5",
+          "receipt": "docs/factory-ng/runs/2026-09-09T033127Z-map-plan-grant-eot-skittering-cicada-aaedaea801-v5-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "preparation_failed",
+          "raw_claude_tokens": 0,
+          "model_elapsed_ms": 0,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v6",
+          "receipt": "docs/factory-ng/runs/2026-09-09T182346Z-map-plan-grant-eot-skittering-cicada-aaedaea801-v6-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "parked",
+          "raw_claude_tokens": 119949,
+          "model_elapsed_ms": 181421,
+          "candidate_patch": null,
+          "changed_files": []
+        }
+      ],
+      "historical_attempts": [
+        {
+          "ticket_id": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v1",
+          "receipt": "docs/factory-ng/runs/2026-09-02T201530Z-map-plan-grant-eot-skittering-cicada-aaedaea801-v1-openrouter.json",
+          "profile": "minimax-prepared-direct@1.0.0",
+          "outcome": "blocked_by_capability",
+          "raw_claude_tokens": null,
+          "model_elapsed_ms": 17610,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:engine.auto-grant-keyword-plus-dynamic-pt-until-eot-db98033e77/v1",
+          "receipt": "docs/factory-ng/runs/2026-09-07T205408Z-engine-auto-grant-keyword-plus-dynamic-pt-until-eot-db98033e77-v1-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "gate_failed",
+          "raw_claude_tokens": 111399,
+          "model_elapsed_ms": 376683,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:engine.auto-grant-keyword-plus-dynamic-pt-until-eot-db98033e77/v2",
+          "receipt": "docs/factory-ng/runs/20260908-operator-audited-engine-auto-grant-keyword-plus-dynamic-pt-until-eot-db98033e77-v2.observation.json",
+          "profile": "operator-reviewed-recovery",
+          "outcome": "accepted_for_dependent_observation",
+          "raw_claude_tokens": null,
+          "model_elapsed_ms": null,
+          "candidate_patch": "docs/factory-ng/reviews/2026-09-08-throughput/engine-repair-wave/engine-auto-grant-keyword-plus-dynamic-pt-until-eot-db98033e77-v2.patch",
+          "changed_files": [
+            "backend/game/dynamic_amount.go",
+            "backend/game/gamestate.go",
+            "backend/game/lib_trigger_event_card.go",
+            "backend/game/shape_audited_event_mana_value_test.go"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Rakdos Roustabout",
+      "complete": false,
+      "trial_known_raw_claude_tokens": 391241,
+      "trial_unknown_or_non_claude_attempts": 0,
+      "historical_known_raw_claude_tokens": 6934981,
+      "historical_unknown_or_non_claude_attempts": 0,
+      "trial_known_model_elapsed_ms": 897343,
+      "trial_changed_files": [
+        "scripts/paragraph/reparse.py",
+        "scripts/paragraph/test_factory_ng_8c3132d96a.py"
+      ],
+      "trial_engine_tickets": [
+        "ticket:engine.staged-trial-verify-roustabout/v1",
+        "ticket:engine.staged-trial-verify-roustabout/v2"
+      ],
+      "exceeds_500k": false,
+      "jobs": {
+        "ticket:engine.staged-trial-verify-roustabout/v1": {
+          "state": null,
+          "outcome": null,
+          "waiting_reason": null,
+          "repair_blocker": null,
+          "superseded_by": null
+        },
+        "ticket:engine.staged-trial-verify-roustabout/v2": {
+          "state": "parked",
+          "outcome": "parked",
+          "waiting_reason": null,
+          "repair_blocker": null,
+          "superseded_by": null
+        },
+        "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v2": {
+          "state": null,
+          "outcome": null,
+          "waiting_reason": null,
+          "repair_blocker": null,
+          "superseded_by": null
+        },
+        "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v3": {
+          "state": "completed",
+          "outcome": "pushed_full_production_gate_green",
+          "waiting_reason": null,
+          "repair_blocker": null,
+          "superseded_by": null
+        }
+      },
+      "attempts": [
+        {
+          "ticket_id": "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v2",
+          "receipt": "docs/factory-ng/runs/2026-09-08T203540Z-map-plan-damage-rakdos-roustabout-8c3132d96a-v2-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "infrastructure_failed_model_protocol",
+          "raw_claude_tokens": 150085,
+          "model_elapsed_ms": 466766,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v3",
+          "receipt": "docs/factory-ng/runs/2026-09-08T214624Z-map-plan-damage-rakdos-roustabout-8c3132d96a-v3-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "accepted_for_dependent_observation",
+          "raw_claude_tokens": 70206,
+          "model_elapsed_ms": 243861,
+          "candidate_patch": "docs/factory-ng/candidates/2026-09-08T215050Z-map-plan-damage-rakdos-roustabout-8c3132d96a-v3.patch",
+          "changed_files": [
+            "scripts/paragraph/reparse.py",
+            "scripts/paragraph/test_factory_ng_8c3132d96a.py"
+          ]
+        },
+        {
+          "ticket_id": "ticket:engine.staged-trial-verify-roustabout/v1",
+          "receipt": "docs/factory-ng/runs/2026-09-08T222331Z-engine-staged-trial-verify-roustabout-v1-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "parked",
+          "raw_claude_tokens": 69306,
+          "model_elapsed_ms": 70050,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:engine.staged-trial-verify-roustabout/v2",
+          "receipt": "docs/factory-ng/runs/2026-09-09T183614Z-engine-staged-trial-verify-roustabout-v2-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "parked",
+          "raw_claude_tokens": 101644,
+          "model_elapsed_ms": 116666,
+          "candidate_patch": null,
+          "changed_files": []
+        }
+      ],
+      "historical_attempts": [
+        {
+          "ticket_id": "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v1",
+          "receipt": "docs/factory-ng/runs/2026-09-02T142452Z-map-plan-damage-rakdos-roustabout-8c3132d96a-v1-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "blocked_by_capability",
+          "raw_claude_tokens": 53708,
+          "model_elapsed_ms": 69313,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:engine.auto-damage-recipient-attacked-target-8aa9c754cc/v1",
+          "receipt": "docs/factory-ng/runs/2026-09-06T194632Z-engine-auto-damage-recipient-attacked-target-8aa9c754cc-v1-claude-agentic.json",
+          "profile": "claude-agentic@1.0.0",
+          "outcome": "parked",
+          "raw_claude_tokens": 5053893,
+          "model_elapsed_ms": 368590,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:engine.auto-damage-recipient-attacked-target-8aa9c754cc/v2",
+          "receipt": "docs/factory-ng/runs/2026-09-06T235426Z-engine-auto-damage-recipient-attacked-target-8aa9c754cc-v2-claude-agentic-test.json",
+          "profile": "claude-agentic-test@1.0.0",
+          "outcome": "gate_failed",
+          "raw_claude_tokens": 1729727,
+          "model_elapsed_ms": 183834,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:engine.auto-damage-recipient-attacked-target-8aa9c754cc/v3",
+          "receipt": "docs/factory-ng/runs/2026-09-07T182134Z-engine-auto-damage-recipient-attacked-target-8aa9c754cc-v3-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "gate_failed",
+          "raw_claude_tokens": 97653,
+          "model_elapsed_ms": 232255,
+          "candidate_patch": null,
+          "changed_files": []
+        }
+      ]
+    },
+    {
+      "name": "Sea God's Scorn",
+      "complete": false,
+      "trial_known_raw_claude_tokens": 267728,
+      "trial_unknown_or_non_claude_attempts": 0,
+      "historical_known_raw_claude_tokens": 3686268,
+      "historical_unknown_or_non_claude_attempts": 1,
+      "trial_known_model_elapsed_ms": 405546,
+      "trial_changed_files": [
+        "scripts/paragraph/reparse.py",
+        "scripts/paragraph/test_factory_ng_f03e8b624f.py"
+      ],
+      "trial_engine_tickets": [
+        "ticket:engine.staged-trial-verify-scorn/v1",
+        "ticket:engine.staged-trial-verify-scorn/v2"
+      ],
+      "exceeds_500k": false,
+      "jobs": {
+        "ticket:engine.staged-trial-verify-scorn/v1": {
+          "state": null,
+          "outcome": null,
+          "waiting_reason": null,
+          "repair_blocker": null,
+          "superseded_by": null
+        },
+        "ticket:engine.staged-trial-verify-scorn/v2": {
+          "state": "parked",
+          "outcome": "parked",
+          "waiting_reason": null,
+          "repair_blocker": null,
+          "superseded_by": null
+        },
+        "ticket:map.plan-bounce-sea-god-s-scorn-f03e8b624f/v2": {
+          "state": "completed",
+          "outcome": "pushed_full_production_gate_green",
+          "waiting_reason": null,
+          "repair_blocker": null,
+          "superseded_by": null
+        }
+      },
+      "attempts": [
+        {
+          "ticket_id": "ticket:map.plan-bounce-sea-god-s-scorn-f03e8b624f/v2",
+          "receipt": "docs/factory-ng/runs/2026-09-08T204402Z-map-plan-bounce-sea-god-s-scorn-f03e8b624f-v2-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "accepted_for_dependent_observation",
+          "raw_claude_tokens": 105211,
+          "model_elapsed_ms": 272387,
+          "candidate_patch": "docs/factory-ng/candidates/2026-09-08T204857Z-map-plan-bounce-sea-god-s-scorn-f03e8b624f-v2.patch",
+          "changed_files": [
+            "scripts/paragraph/reparse.py",
+            "scripts/paragraph/test_factory_ng_f03e8b624f.py"
+          ]
+        },
+        {
+          "ticket_id": "ticket:engine.staged-trial-verify-scorn/v1",
+          "receipt": "docs/factory-ng/runs/2026-09-08T213015Z-engine-staged-trial-verify-scorn-v1-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "parked",
+          "raw_claude_tokens": 65792,
+          "model_elapsed_ms": 67500,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:engine.staged-trial-verify-scorn/v2",
+          "receipt": "docs/factory-ng/runs/2026-09-09T160052Z-engine-staged-trial-verify-scorn-v2-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "parked",
+          "raw_claude_tokens": 96725,
+          "model_elapsed_ms": 65659,
+          "candidate_patch": null,
+          "changed_files": []
+        }
+      ],
+      "historical_attempts": [
+        {
+          "ticket_id": "ticket:map.plan-bounce-sea-god-s-scorn-f03e8b624f/v1",
+          "receipt": "docs/factory-ng/runs/2026-09-02T181615Z-map-plan-bounce-sea-god-s-scorn-f03e8b624f-v1-openrouter.json",
+          "profile": "minimax-prepared-direct@1.0.0",
+          "outcome": "blocked_by_capability",
+          "raw_claude_tokens": null,
+          "model_elapsed_ms": 133717,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:engine.auto-bounce-target-creature-or-enchantment-87dba8dbf5/v1",
+          "receipt": "docs/factory-ng/runs/2026-09-07T005754Z-engine-auto-bounce-target-creature-or-enchantment-87dba8dbf5-v1-claude-agentic.json",
+          "profile": "claude-agentic@1.0.0",
+          "outcome": "gate_failed",
+          "raw_claude_tokens": 3605714,
+          "model_elapsed_ms": 376076,
+          "candidate_patch": null,
+          "changed_files": []
+        },
+        {
+          "ticket_id": "ticket:engine.auto-bounce-target-creature-or-enchantment-87dba8dbf5/v2",
+          "receipt": "docs/factory-ng/runs/2026-09-07T192215Z-engine-auto-bounce-target-creature-or-enchantment-87dba8dbf5-v2-claude.json",
+          "profile": "claude-staged@1.0.0",
+          "outcome": "parked",
+          "raw_claude_tokens": 80554,
+          "model_elapsed_ms": 61402,
+          "candidate_patch": null,
+          "changed_files": []
+        }
+      ]
+    }
+  ],
+  "accounting": "Raw Claude input + output + cache read + cache write; not quota or dollars. Historical costs are separate and shared dependencies may appear for multiple cards. Unknown counters are never zero-cost proof.",
+  "decision": "Ordinary Claude staged-first routing is user-authorized. This unassisted cohort still needs complete-card evidence; no token target is yet proven."
+}

@@ -1,0 +1,68 @@
+{
+  "gates": [
+    {
+      "id": "scope",
+      "outcome": "passed",
+      "detail": "changed=backend/cards/factory_ng_6ba27d29b5_test.go,backend/game/ability_effects.go,backend/game/factory_ng_b10fec4c4c_test.go,backend/game/factory_ng_b91ef21e90_test.go,backend/game/gamestate.go,backend/cards/shape_reviewed_player_graveyard_test.go,backend/cards/shape_reviewed_union_power_test.go,backend/game/shape_reviewed_entry_counters_test.go,backend/game/shape_reviewed_union_power_test.go"
+    },
+    {
+      "id": "engine-vocabulary-handoff",
+      "outcome": "passed",
+      "detail": "All newly added public effects are registered.",
+      "elapsed_ms": 867
+    },
+    {
+      "id": "ticket-gate-0",
+      "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+      "outcome": "passed",
+      "elapsed_ms": 857,
+      "detail": ""
+    },
+    {
+      "id": "ticket-gate-1",
+      "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGReturnFromGraveyardWithCounters$' -count=1",
+      "outcome": "passed",
+      "elapsed_ms": 309524,
+      "detail": "=== RUN   TestFactoryNGReturnFromGraveyardWithCounters\n=== RUN   TestFactoryNGReturnFromGraveyardWithCounters/original_reviewed_capability\n=== RUN   TestFactoryNGReturnFromGraveyardWithCounters/original_reviewed_capability/self_tapped\n--- PASS: TestFactoryNGReturnFromGraveyardWithCounters/original_reviewed_capability/self_tapped (0.00s)\n=== RUN   TestFactoryNGReturnFromGraveyardWithCounters/original_reviewed_capability/targeted\n--- PASS: TestFactoryNGReturnFromGraveyardWithCounters/original_reviewed_capability/targeted (0.00s)\n=== RUN   TestFactoryNGReturnFromGraveyardWithCounters/original_reviewed_capability/plain\n--- PASS: TestFactoryNGReturnFromGraveyardWithCounters/original_reviewed_capability/plain (0.00s)\n=== RUN   TestFactoryNGReturnFromGraveyardWithCounters/original_reviewed_capability/plain_tapped\n--- PASS: TestFactoryNGReturnFromGraveyardWithCounters/original_reviewed_capability/plain_tapped (0.00s)\n=== RUN   TestFactoryNGReturnFromGraveyardWithCounters/original_reviewed_capability/library_ignores_counters\n--- PASS: TestFactoryNGReturnFromGraveyardWithCounters/original_reviewed_capability/library_ignores_counters (0.00s)\n=== RUN   TestFactoryNGReturnFromGraveyardWithCounters/original_reviewed_capability/hand_ignores_counters\n--- PASS: TestFactoryNGReturnFromGraveyardWithCounters/original_reviewed_capability/hand_ignores_counters (0.00s)\n--- PASS: TestFactoryNGReturnFromGraveyardWithCounters/original_reviewed_capability (0.01s)\n--- PASS: TestFactoryNGReturnFromGraveyardWithCounters (0.01s)\nPASS\nok  \tmagic-backend/game\t0.037s\ntesting: warning: no tests to run\nPASS\nok  \tmagic-backend/cards\t0.034s [no tests to run]\nNamed test gate: 8 test(s) passed for '^TestFactoryNGReturnFromGraveyardWithCounters$'"
+    },
+    {
+      "id": "ticket-gate-2",
+      "command": "git diff --check",
+      "outcome": "passed",
+      "elapsed_ms": 550,
+      "detail": ""
+    },
+    {
+      "id": "ticket-gate-3",
+      "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGTargetFilterPowerThreshold$' -count=1",
+      "outcome": "passed",
+      "elapsed_ms": 39650,
+      "detail": "=== RUN   TestFactoryNGTargetFilterPowerThreshold\n=== RUN   TestFactoryNGTargetFilterPowerThreshold/original_reviewed_capability\n--- PASS: TestFactoryNGTargetFilterPowerThreshold/original_reviewed_capability (0.00s)\n--- PASS: TestFactoryNGTargetFilterPowerThreshold (0.00s)\nPASS\nok  \tmagic-backend/game\t0.039s\n=== RUN   TestFactoryNGTargetFilterPowerThreshold\n--- PASS: TestFactoryNGTargetFilterPowerThreshold (0.00s)\nPASS\nok  \tmagic-backend/cards\t0.095s\nNamed test gate: 3 test(s) passed for '^TestFactoryNGTargetFilterPowerThreshold$'"
+    },
+    {
+      "id": "ticket-gate-4",
+      "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGExileZone$' -count=1",
+      "outcome": "passed",
+      "elapsed_ms": 39745,
+      "detail": "testing: warning: no tests to run\nPASS\nok  \tmagic-backend/game\t0.046s [no tests to run]\n=== RUN   TestFactoryNGExileZone\n=== RUN   TestFactoryNGExileZone/original_reviewed_capability\n=== RUN   TestFactoryNGExileZone/original_reviewed_capability/self\n--- PASS: TestFactoryNGExileZone/original_reviewed_capability/self (0.00s)\n=== RUN   TestFactoryNGExileZone/original_reviewed_capability/opponent\n--- PASS: TestFactoryNGExileZone/original_reviewed_capability/opponent (0.00s)\n--- PASS: TestFactoryNGExileZone/original_reviewed_capability (0.00s)\n--- PASS: TestFactoryNGExileZone (0.00s)\nPASS\nok  \tmagic-backend/cards\t0.117s\nNamed test gate: 4 test(s) passed for '^TestFactoryNGExileZone$'"
+    },
+    {
+      "id": "ticket-gate-5",
+      "command": "cd backend && go test ./game ./cards",
+      "outcome": "passed",
+      "elapsed_ms": 231890,
+      "detail": "ok  \tmagic-backend/game\t0.665s\nok  \tmagic-backend/cards\t200.756s"
+    }
+  ],
+  "changed": [
+    "backend/cards/factory_ng_6ba27d29b5_test.go",
+    "backend/game/ability_effects.go",
+    "backend/game/factory_ng_b10fec4c4c_test.go",
+    "backend/game/factory_ng_b91ef21e90_test.go",
+    "backend/game/gamestate.go",
+    "backend/cards/shape_reviewed_player_graveyard_test.go",
+    "backend/cards/shape_reviewed_union_power_test.go",
+    "backend/game/shape_reviewed_entry_counters_test.go",
+    "backend/game/shape_reviewed_union_power_test.go"
+  ]
+}

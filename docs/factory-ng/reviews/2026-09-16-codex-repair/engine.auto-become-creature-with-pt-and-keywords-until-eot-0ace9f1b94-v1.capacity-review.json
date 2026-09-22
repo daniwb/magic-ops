@@ -1,0 +1,25 @@
+{
+  "ticket_id": "ticket:engine.auto-become-creature-with-pt-and-keywords-until-eot-0ace9f1b94/v1",
+  "receipt": "docs/factory-ng/runs/2026-09-16T155813Z-engine-auto-become-creature-with-pt-and-keywords-until-eot-0ace9f1b94-v1-codex.json",
+  "receipt_sha256": "sha256:f4df54248cf6567835dac386f227a72c3cad73a5cccb99cccec7e4ca1b789a51",
+  "provider_capacity_artifacts": [
+    {
+      "kind": "bounded_repair",
+      "path": "docs/factory-ng/runs/2026-09-16T155813Z-engine-auto-become-creature-with-pt-and-keywords-until-eot-0ace9f1b94-v1-codex.repair.raw.json",
+      "sha256": "sha256:ffdbcad50603e81adfd9418978439c123d24109f4d1c0cf6c14624b809d57f56"
+    }
+  ],
+  "prior_recovery": {
+    "admitted_at": "2026-09-16T15:58:13Z",
+    "batch": "needs-attention-2026-09-15",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-codex-repair/engine.auto-become-creature-with-pt-and-keywords-until-eot-0ace9f1b94-v1.review.json",
+    "evidence_sha256": "sha256:69a6d89dce408e7b3f59a4c585389c50576508d75d61540301f4bc3a6e773c48",
+    "previous_attempts": 2,
+    "previous_receipt": "docs/factory-ng/runs/2026-09-15T183143Z-engine-auto-become-creature-with-pt-and-keywords-until-eot-0ace9f1b94-v1-claude.json",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "reason": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged."
+  },
+  "correction": "New jobs use gpt-5.6-terra after explicit Luna provider-capacity rejections. One finite retry is restricted to that different model; previous attempts, review and failed-profile history remain."
+}

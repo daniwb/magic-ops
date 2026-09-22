@@ -1,0 +1,10 @@
+{
+  "ticket_id": "ticket:engine.auto-destroy-target-creature-that-dealt-damage-this-t-2dd7f03acd/v4",
+  "receipt": "docs/factory-ng/runs/2026-09-16T085029Z-engine-auto-destroy-target-creature-that-dealt-damage-this-t-2dd7f03acd-v4-codex.json",
+  "receipt_sha256": "sha256:f1d837c29937d09f65e64000fce341e106aaac1b9e38e05ce0a92bc31a955fc9",
+  "raw_artifact": {
+    "path": "docs/factory-ng/runs/2026-09-16T085029Z-engine-auto-destroy-target-creature-that-dealt-damage-this-t-2dd7f03acd-v4-codex.raw.json",
+    "sha256": "sha256:b367714ad05c43aa734b994738c20a267c65fd7bc39d74a81ae5a4ac2c36c357"
+  },
+  "finding": "Explicit Luna capacity rejection before any patch; Terra configured and functioning since previous recovery. One attempt, original scope and all gates required."
+}

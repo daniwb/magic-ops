@@ -1,0 +1,146 @@
+{
+  "id": "staged-five-card-2026-09-08",
+  "enabled": true,
+  "created_at": "2026-09-08T19:40:25.938779+00:00",
+  "profile": "claude-staged@1.0.0",
+  "max_active": 2,
+  "target_raw_tokens_per_complete_card": 200000,
+  "warning_raw_tokens_per_complete_card": 500000,
+  "historical_work": "Explicit baseline; this is a continuation trial, not five cards from scratch.",
+  "cards": [
+    {
+      "slug": "siegfried",
+      "name": "Siegfried, Famed Swordsman",
+      "root": "ticket:map.plan-put-counters-siegfried-famed-swordsman-77e58aca02/v1",
+      "dependency": "ticket:engine.auto-put-counters-dynamic-zone-count-amount-c03e4c4218/v2",
+      "capability": "put_counters_dynamic_zone_count_amount",
+      "dependency_status": "completed",
+      "reuse": "",
+      "oracle_text": "Menace\nWhen Siegfried enters, mill three cards. Then put X +1/+1 counters on Siegfried, where X is twice the number of creature cards in your graveyard.",
+      "acceptance": [
+        "Use ExecuteEffectSequence, not only the private counter executor: mill three then apply twice own graveyard creature count.",
+        "Zero creature cards gives zero counters; two gives four; include preexisting own graveyard creatures.",
+        "Exclude opponent graveyard and noncreatures.",
+        "Unknown count specification must not invent one counter.",
+        "Static explicit positive counters and omitted static amount retain expected behavior.",
+        "Freshly parsed and converted Siegfried retains menace: one blocker is insufficient; two legal blockers are accepted."
+      ],
+      "fixtures": [
+        "backend/game/shape_audited_counter_amounts_test.go",
+        "backend/cards/shape_tap_and_put_counter_test.go"
+      ],
+      "baseline_tickets": [
+        "ticket:engine.auto-put-counters-dynamic-zone-count-amount-c03e4c4218/v1",
+        "ticket:engine.auto-put-counters-dynamic-zone-count-amount-c03e4c4218/v2",
+        "ticket:map.plan-put-counters-siegfried-famed-swordsman-77e58aca02/v1"
+      ]
+    },
+    {
+      "slug": "sigil",
+      "name": "Sigil of Sleep",
+      "root": "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v1",
+      "dependency": "ticket:engine.auto-bounce-filter-controller-damaged-player-a0c40565d9/v2",
+      "capability": "bounce_filter_controller_damaged_player",
+      "dependency_status": "completed",
+      "reuse": "",
+      "oracle_text": "Enchant creature\nWhenever enchanted creature deals damage to a player, return target creature that player controls to its owner's hand.",
+      "acceptance": [
+        "Combat and noncombat damage from enchanted creature trigger exactly once for actual positive damage.",
+        "Prevented damage and unrelated life loss do not trigger.",
+        "Creature damage does not trigger this player-damage ability.",
+        "Targets belong to actually damaged player, even if that player is also aura controller.",
+        "Stolen creature returns to its owner; controller changes or other target illegality before resolution are rechecked.",
+        "Combat-only effects, including monarch, remain combat-only.",
+        "No duplicate emission across combat and generic damage paths."
+      ],
+      "fixtures": [
+        "backend/game/shape_audited_player_damage_test.go",
+        "backend/cards/shape_tap_and_put_counter_test.go"
+      ],
+      "baseline_tickets": [
+        "ticket:engine.auto-bounce-filter-controller-damaged-player-a0c40565d9/v1",
+        "ticket:engine.auto-bounce-filter-controller-damaged-player-a0c40565d9/v2",
+        "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v1"
+      ]
+    },
+    {
+      "slug": "cicada",
+      "name": "Skittering Cicada",
+      "root": "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v1",
+      "dependency": "ticket:engine.auto-grant-keyword-plus-dynamic-pt-until-eot-db98033e77/v2",
+      "capability": "grant_keyword_plus_dynamic_pt_until_eot",
+      "dependency_status": "completed",
+      "reuse": "",
+      "oracle_text": "Flash\nYou may cast colorless spells as though they had flash.\nWhenever you cast a colorless spell, until end of turn, this creature gains trample and gets +X/+X, where X is that spell's mana value.",
+      "acceptance": [
+        "Actual triggered sequence grants trample and +4/+4 from a four-mana-value colorless spell.",
+        "Zero mana value gives +0/+0 and still grants trample.",
+        "Both bonuses expire correctly at end of turn; repeated triggers stack.",
+        "Existing referent_spell_mana_value +X/+0 remains asymmetric.",
+        "Event source remains usable after triggering spell leaves stack; test X in casting context.",
+        "Fresh parsed card triggers only for required colorless casts and preserves its other abilities.",
+        "All three abilities work: Cicada itself has flash, controller may cast colorless spells with flash timing, and only colorless spell casts produce its temporary pump/trample trigger."
+      ],
+      "fixtures": [
+        "backend/game/shape_audited_event_mana_value_test.go",
+        "backend/cards/shape_tap_and_put_counter_test.go"
+      ],
+      "baseline_tickets": [
+        "ticket:engine.auto-grant-keyword-plus-dynamic-pt-until-eot-db98033e77/v1",
+        "ticket:engine.auto-grant-keyword-plus-dynamic-pt-until-eot-db98033e77/v2",
+        "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v1"
+      ]
+    },
+    {
+      "slug": "roustabout",
+      "name": "Rakdos Roustabout",
+      "root": "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v1",
+      "dependency": "ticket:engine.auto-damage-recipient-attacked-target-8aa9c754cc/v3",
+      "capability": "damage_recipient_attacked_target",
+      "dependency_status": "failed",
+      "reuse": "Reuse recipient_from=attacked_defender; generated alias absence does not establish a runtime gap.",
+      "oracle_text": "Whenever this creature becomes blocked, it deals 1 damage to the player or planeswalker it's attacking.",
+      "acceptance": [
+        "Fresh parse, convert and trigger from actual block declaration against player and planeswalker.",
+        "Multiple blockers produce the correct trigger count.",
+        "Check removal from combat/source leaving battlefield and last-known attacked recipient against card wording.",
+        "Retain all other card abilities and pass full card gates."
+      ],
+      "fixtures": [
+        "backend/cards/shape_tap_and_put_counter_test.go"
+      ],
+      "baseline_tickets": [
+        "ticket:engine.auto-damage-recipient-attacked-target-8aa9c754cc/v1",
+        "ticket:engine.auto-damage-recipient-attacked-target-8aa9c754cc/v2",
+        "ticket:engine.auto-damage-recipient-attacked-target-8aa9c754cc/v3",
+        "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v1"
+      ]
+    },
+    {
+      "slug": "scorn",
+      "name": "Sea God's Scorn",
+      "root": "ticket:map.plan-bounce-sea-god-s-scorn-f03e8b624f/v1",
+      "dependency": "ticket:engine.auto-bounce-target-creature-or-enchantment-87dba8dbf5/v2",
+      "capability": "bounce_target_creature_or_enchantment",
+      "dependency_status": "parked",
+      "reuse": "Existing creature_or_enchantment filtering, owner-hand bounce and integrated target count bounds are reusable; old Engine evidence matched unrelated functions.",
+      "oracle_text": "Return up to three target creatures and/or enchantments to their owners' hands.",
+      "acceptance": [
+        "Fresh parse and convert each actual card, then cast with 0,1,3 legal distinct targets successfully.",
+        "Reject 4 targets and duplicate selection; illegal creature types remain rejected.",
+        "Rejected casts leave hand, mana and stack unchanged.",
+        "Resolve exactly chosen targets; partial/all-invalid targets and zero-target resolution remain correct.",
+        "Exercise alternate casting paths that consume the same requirement.",
+        "Existing required-one spells still reject zero; union bounce returns to owner, not controller."
+      ],
+      "fixtures": [
+        "backend/cards/shape_tap_and_put_counter_test.go"
+      ],
+      "baseline_tickets": [
+        "ticket:engine.auto-bounce-target-creature-or-enchantment-87dba8dbf5/v1",
+        "ticket:engine.auto-bounce-target-creature-or-enchantment-87dba8dbf5/v2",
+        "ticket:map.plan-bounce-sea-god-s-scorn-f03e8b624f/v1"
+      ]
+    }
+  ]
+}

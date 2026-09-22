@@ -1,0 +1,145 @@
+{
+  "capability": {
+    "expected_unlock": 1,
+    "negative_examples": [
+      "plain \"~ deals N damage to each <filter> [and each player]\" mass damage with no additional/subset component stays on the existing registered 'damage' all+filter path unchanged"
+    ],
+    "required_behavior": "Register \"damage_additional_to_subset\" through the allowed new registry_*.go init file (the V2EffectRegistry literal is frozen) (pointing at the existing game/ability_effects.go executeDamageAdditionalToSubsetEffect case and its cards/converter.go v2 SpellEffectSequence untargeted-atom pass-through) so reparse.py's REGISTERED gate recognizes the effect name as a valid spell_oneshot Map target instead of rejecting it as unrecognized",
+    "source_misses": [
+      {
+        "card": "Kaervek's Hex",
+        "oracle_text_sha256": "220e518ac83f17adc3109b72c5753d7d26ba5da3d57c93729f5f52437588c794",
+        "paragraph": "Kaervek's Hex deals 1 damage to each nonblack creature and an additional 1 damage to each green creature.",
+        "required_behavior": "emit a single damage_additional_to_subset atom (amount=1, filter=nonblack_creature, additional=1, subset_filter=green_creature) that the Go engine actually executes for a sorcery with no player-chosen target"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "key": "damage_additional_to_subset_map_wiring",
+        "specification": {
+          "expected_unlock": 1,
+          "negative_examples": [
+            "plain \"~ deals N damage to each <filter> [and each player]\" mass damage with no additional/subset component stays on the existing registered 'damage' all+filter path unchanged"
+          ],
+          "required_behavior": "Add a \"damage_additional_to_subset\" entry to cards/registry.go's V2EffectRegistry (pointing at the existing game/ability_effects.go executeDamageAdditionalToSubsetEffect case and its cards/converter.go v2 SpellEffectSequence untargeted-atom pass-through) so reparse.py's REGISTERED gate recognizes the effect name as a valid spell_oneshot Map target instead of rejecting it as unrecognized",
+          "source_misses": [
+            {
+              "card": "Kaervek's Hex",
+              "oracle_text_sha256": "220e518ac83f17adc3109b72c5753d7d26ba5da3d57c93729f5f52437588c794",
+              "paragraph": "Kaervek's Hex deals 1 damage to each nonblack creature and an additional 1 damage to each green creature.",
+              "required_behavior": "emit a single damage_additional_to_subset atom (amount=1, filter=nonblack_creature, additional=1, subset_filter=green_creature) that the Go engine actually executes for a sorcery with no player-chosen target"
+            }
+          ]
+        },
+        "summary": "Register the already-implemented damage_additional_to_subset effect so the Map layer can target it"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-05T011225Z-map-plan-damage-kaervek-s-hex-0431b3e5e0-v2-claude-agentic.json"
+    },
+    {
+      "anchor": "3876-3941",
+      "fact": "Card-knowledge index match (engine): executeDamageAdditionalToSubsetEffect is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d0ac33d83a17c5e21e00829259f817523252b61afd7aa34b5e989710ebaa7a0b"
+    },
+    {
+      "anchor": "6749-6814",
+      "fact": "Card-knowledge index match (engine): ExecuteAbilityEffectDirect is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d0ac33d83a17c5e21e00829259f817523252b61afd7aa34b5e989710ebaa7a0b"
+    },
+    {
+      "anchor": "1-63",
+      "fact": "Card-knowledge index match (engine): executeGainControlEffect is the nearest indexed seam for this capability.",
+      "path": "backend/game/control_effects.go",
+      "sha256": "sha256:e05b148d7ba6ea7a9a73152aa3031bbf38c8b3dfb2da3d42755946e6df9aec82"
+    },
+    {
+      "anchor": "4446-4511",
+      "fact": "Card-knowledge index match (engine): matchesPermanentFilterCtl is the nearest indexed seam for this capability.",
+      "path": "backend/game/gamestate.go",
+      "sha256": "sha256:2a049e61a658cadb6de6d0b270336cba62eedc00a2a20b8076b10a6141d9473e"
+    },
+    {
+      "fact": "Operator-reviewed correction, September 9: Mark scripts/paragraph/reparse.py as read-only context: original behavior cites existing implementation, parser registration visibility, or a preserved adjacent path; it does not require editing this file. Correct the registry-literal instruction to the mandatory per-topic init-file convention; registered behavior is identical.",
+      "path": "docs/factory-ng/reviews/2026-09-09-capacity/contract-audit.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "context_only_paths": [
+      "scripts/paragraph/reparse.py"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "An Oracle-validated Map block has been compiled into one bounded Engine dependency.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGDamageAdditionalToSubsetMapWiring$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.auto-damage-additional-to-subset-map-wiring-9fa4833208/v2",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Record an immutable bounded verdict; automatic discovery continues with independent work.",
+  "parents": [
+    "ticket:map.plan-damage-kaervek-s-hex-0431b3e5e0/v2",
+    "ticket:engine.auto-damage-additional-to-subset-map-wiring-9fa4833208/v1"
+  ],
+  "production": {
+    "contract_correction_batch": "2026-09-09-capacity",
+    "key": "capability:damage_additional_to_subset_map_wiring:sha256:9fa4833208de4b83600b3f7a7b9c7788c0d8577cc911653addc2b478cd4e66eb:reviewed-contract-sep09",
+    "producer": "capability-dependencies"
+  },
+  "required_behavior": [
+    "Register \"damage_additional_to_subset\" through the allowed new registry_*.go init file (the V2EffectRegistry literal is frozen) (pointing at the existing game/ability_effects.go executeDamageAdditionalToSubsetEffect case and its cards/converter.go v2 SpellEffectSequence untargeted-atom pass-through) so reparse.py's REGISTERED gate recognizes the effect name as a valid spell_oneshot Map target instead of rejecting it as unrecognized",
+    "Preserve these adjacent behaviors: plain \"~ deals N damage to each <filter> [and each player]\" mass damage with no additional/subset component stays on the existing registered 'damage' all+filter path unchanged",
+    "Add a discriminating behavior test named TestFactoryNGDamageAdditionalToSubsetMapWiring; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_9fa4833208_test.go",
+      "backend/cards/factory_ng_9fa4833208_test.go",
+      "backend/cards/registry_factory_ng_9fa4833208.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "clean": true,
+    "repository": "/opt/development/test/openmagic",
+    "revision": "c0fac85b88da04f3d54fe2a5acd553a36662a329"
+  },
+  "supersedes": "ticket:engine.auto-damage-additional-to-subset-map-wiring-9fa4833208/v1",
+  "title": "Corrected contract: Implement atomic capability: Register the already-implemented damage_additional_to_subset effect so the Map layer can target it",
+  "work_type": "engine"
+}

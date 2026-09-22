@@ -23,6 +23,15 @@ import (
 //go:embed dashboard.html
 var dashFS embed.FS
 
+//go:embed coverage.html
+var coverageFS embed.FS
+
+//go:embed galaxy.html
+var galaxyFS embed.FS
+
+//go:embed atlas.html
+var atlasFS embed.FS
+
 var carddbDir = envOr("CARDDB", "/opt/development/magic-new/backend/data/carddb")
 
 var cardCache struct {
@@ -150,7 +159,7 @@ func pilestats(w http.ResponseWriter, r *http.Request) {
 	pileCache.mu.Lock()
 	defer pileCache.mu.Unlock()
 	if time.Since(pileCache.ts) > 10*time.Minute || pileCache.data == nil {
-		out, err := exec.Command("python3", "/opt/development/magic-new/scripts/paragraph/reparse.py", "--review-pile").Output()
+		out, err := exec.Command("python3", magicNewRoot+"/scripts/paragraph/reparse.py", "--review-pile").Output()
 		if err == nil {
 			stats := map[string]int{}
 			reNum := regexp.MustCompile(`^\s*(\d+)\s+(\S+)`)
@@ -211,7 +220,7 @@ func pilestats(w http.ResponseWriter, r *http.Request) {
 // straight from the live checkout so the dashboard always shows the current
 // committed plan ("what must be done", Dani 2026-08-02).
 func buildplan(w http.ResponseWriter, r *http.Request) {
-	data, err := os.ReadFile("/opt/development/magic-new/corpus/build-plan.jsonl")
+	data, err := os.ReadFile(magicNewRoot + "/corpus/build-plan.jsonl")
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Cache-Control", "no-store")
 	if err != nil {
@@ -240,6 +249,31 @@ func dashboard(w http.ResponseWriter, r *http.Request) {
 	// dashboard.html is embedded in the dispatcher binary.  Without an
 	// explicit policy, a browser can keep the previous embedded dashboard
 	// after a binary hot-swap and make a successful deployment look unchanged.
+	w.Header().Set("Cache-Control", "no-store")
+	w.Write(b)
+}
+
+func coveragePage(w http.ResponseWriter, r *http.Request) {
+	b, _ := coverageFS.ReadFile("coverage.html")
+	w.Header().Set("Content-Type", "text/html")
+	w.Header().Set("Cache-Control", "no-store")
+	w.Write(b)
+}
+
+func galaxyPage(w http.ResponseWriter, r *http.Request) {
+	b, _ := galaxyFS.ReadFile("galaxy.html")
+	w.Header().Set("Content-Type", "text/html")
+	w.Header().Set("Cache-Control", "no-store")
+	w.Write(b)
+}
+
+// atlasPage — the openmagic engine map (Dani 2026-09-08): how card
+// definitions reach the rules core, plus a zoomable atlas from subsystem
+// down to real function signatures and every implemented card. A static
+// snapshot of the magic-new source, not live-refreshed on every request.
+func atlasPage(w http.ResponseWriter, r *http.Request) {
+	b, _ := atlasFS.ReadFile("atlas.html")
+	w.Header().Set("Content-Type", "text/html")
 	w.Header().Set("Cache-Control", "no-store")
 	w.Write(b)
 }

@@ -1,0 +1,158 @@
+{
+  "at": "2026-09-16T20:12:23.513492+00:00",
+  "window": {
+    "start": "2026-09-16T19:02:46Z",
+    "end": "2026-09-16T23:44:56.854616Z",
+    "baseline_states": {
+      "failed": 1341,
+      "completed": 1461,
+      "parked": 402,
+      "integration_failed": 3,
+      "blocked": 921
+    },
+    "workers": [
+      "codex",
+      "codex-2",
+      "codex-3",
+      "codex-4"
+    ],
+    "requested_end": "2026-09-16T23:02:46Z",
+    "stability_start": "2026-09-16T19:44:56.854616Z",
+    "stability_baseline_states": {
+      "failed": 1316,
+      "completed": 1467,
+      "integrating": 1,
+      "parked": 403,
+      "awaiting_verification": 7,
+      "working": 9,
+      "queued": 1,
+      "awaiting_integration": 1,
+      "integration_failed": 3,
+      "blocked": 920
+    }
+  },
+  "states": {
+    "failed": 1297,
+    "completed": 1476,
+    "parked": 407,
+    "working": 7,
+    "awaiting_verification": 14,
+    "integrating": 3,
+    "integration_failed": 4,
+    "blocked": 921
+  },
+  "model_leases": {
+    "codex": [
+      {
+        "ticket": "ticket:engine.auto-activated-linked-referent-ce14cd2f0c/v3",
+        "alive": true,
+        "repair": true
+      }
+    ],
+    "codex-2": [],
+    "codex-3": [
+      {
+        "ticket": "ticket:engine.auto-untap-all-target-player-controls-c4b63ae618/v1",
+        "alive": true,
+        "repair": false
+      }
+    ],
+    "codex-4": [
+      {
+        "ticket": "ticket:map.plan-pump-warped-physique-bfe918e4b4/v5",
+        "alive": true,
+        "repair": false
+      }
+    ]
+  },
+  "recent_occupancy": [
+    {
+      "at": "2026-09-16T20:02:19.910957+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T20:02:50.348391+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T20:03:20.739935+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T20:03:51.152657+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T20:04:21.495097+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T20:04:51.903222+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T20:05:22.326117+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T20:05:52.735660+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T20:06:23.143642+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T20:06:53.586246+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T20:07:23.990857+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T20:07:54.469247+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T20:08:24.899962+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T20:08:55.372542+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T20:09:25.774964+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T20:09:56.191716+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T20:10:26.671468+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T20:10:57.151808+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T20:11:27.603204+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T20:11:58.040995+00:00",
+      "occupied": 3
+    }
+  ],
+  "window_sample_counts": {
+    "4": 18,
+    "3": 26,
+    "2": 6,
+    "1": 4
+  },
+  "net_completed_since_request": 15,
+  "queued": []
+}

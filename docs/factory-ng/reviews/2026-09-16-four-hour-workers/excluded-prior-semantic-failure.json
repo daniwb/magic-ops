@@ -1,0 +1,10 @@
+[
+  {
+    "ticket_id": "ticket:engine.auto-sacrifice-unless-return-land-078ae3cffa/v3",
+    "attempts": 1,
+    "receipt": "docs/factory-ng/runs/2026-09-10T062133Z-engine-auto-sacrifice-unless-return-land-078ae3cffa-v3-codex.json",
+    "receipt_sha256": "sha256:d1e14df7300ee4e2aab6b250498832fddff3188fc5136f0f9aa2e4a4b08e8127",
+    "ticket_sha256": "sha256:454be99a0908b5671e197fc9f4adff681e0e31866511b67e57dbd900ca9384e9",
+    "kind": "formatting"
+  }
+]

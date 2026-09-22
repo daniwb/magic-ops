@@ -1,0 +1,14 @@
+{
+  "profile": "codex-constrained@1.1.0",
+  "model": "gpt-5.6-luna",
+  "source_reads": [
+    {
+      "command": "/bin/bash -lc \"rg -n -A20 -B5 'func .*BecomeMonarch|BecomeMonarch' backend/game/monarch.go\"",
+      "exit_code": 0,
+      "source_read": true
+    }
+  ],
+  "checkout_unchanged": true,
+  "legacy_readonly_sandbox_failure": "bwrap: loopback: Failed RTM_NEWADDR: Operation not permitted",
+  "legacy_landlock_failure": "Sandbox(LandlockRestrict)"
+}

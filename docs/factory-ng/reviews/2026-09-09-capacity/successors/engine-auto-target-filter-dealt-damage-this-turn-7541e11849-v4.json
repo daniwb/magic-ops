@@ -1,0 +1,164 @@
+{
+  "capability": {
+    "expected_unlock": 1,
+    "negative_examples": [
+      "Destroy target creature (no damage-this-turn restriction)",
+      "Target creature that dealt damage this turn (creature as damage dealer, not damage recipient)"
+    ],
+    "required_behavior": "Evaluate target legality for a destroy effect against creatures that have received marked damage during the current turn, independent of damage amount or source",
+    "source_misses": [
+      {
+        "card": "Ogre Siegebreaker",
+        "oracle_text_sha256": "cdfdaa2af4c30a6f3d2a2a2841ccedb387528308d5a378545e893c32962af8c8",
+        "paragraph": "Destroy target creature that was dealt damage this turn.",
+        "required_behavior": "Evaluate target legality for a destroy effect against creatures that have received marked damage during the current turn, independent of damage amount or source"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "key": "target_filter_dealt_damage_this_turn",
+        "specification": {
+          "expected_unlock": 1,
+          "negative_examples": [
+            "Destroy target creature (no damage-this-turn restriction)",
+            "Target creature that dealt damage this turn (creature as damage dealer, not damage recipient)"
+          ],
+          "required_behavior": "Evaluate target legality for a destroy effect against creatures that have received marked damage during the current turn, independent of damage amount or source",
+          "source_misses": [
+            {
+              "card": "Ogre Siegebreaker",
+              "oracle_text_sha256": "cdfdaa2af4c30a6f3d2a2a2841ccedb387528308d5a378545e893c32962af8c8",
+              "paragraph": "Destroy target creature that was dealt damage this turn.",
+              "required_behavior": "Evaluate target legality for a destroy effect against creatures that have received marked damage during the current turn, independent of damage amount or source"
+            }
+          ]
+        },
+        "summary": "Target filter restricting destroy-effect targets to creatures dealt damage during the current turn"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-02T100531Z-map-plan-destroy-ogre-siegebreaker-ddc3784f16-v1-claude.json"
+    },
+    {
+      "anchor": "1907-1972",
+      "fact": "Card-knowledge index match (engine): executeDestroyTargetDealtDamageThisTurn is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:e68453f8604edc9f8e31492dc75034ce3e10528009b814032aec88d798c7fdf8"
+    },
+    {
+      "anchor": "301-366",
+      "fact": "Card-knowledge index match (engine): applyCombatDamageToCreature is the nearest indexed seam for this capability.",
+      "path": "backend/game/combat.go",
+      "sha256": "sha256:3fd2a65a2c6c4d15ba22604e0b16398f1709488d324dbb90220d515753469b95"
+    },
+    {
+      "anchor": "852-917",
+      "fact": "Card-knowledge index match (engine): executeDestroyTargetWithManaValueEqualToX is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:e68453f8604edc9f8e31492dc75034ce3e10528009b814032aec88d798c7fdf8"
+    },
+    {
+      "anchor": "1977-2042",
+      "fact": "Card-knowledge index match (engine): executeDestroyUnlessDamageToController is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:e68453f8604edc9f8e31492dc75034ce3e10528009b814032aec88d798c7fdf8"
+    },
+    {
+      "fact": "The previous attempt parked AMBIGUOUS because its evidence pack omitted the real seam; this retry regenerates evidence from the indexed engine symbol table.",
+      "path": "docs/factory-ng/runs/2026-09-06T012221Z-engine-auto-target-filter-dealt-damage-this-turn-7541e11849-v1-claude.json"
+    },
+    {
+      "fact": "The previous candidate compiled/ran and failed this exact gate: composed-ticket-1: required test filter '^TestFactoryNGTargetFilterDealtDamageThisTurn$' executed no passing tests\ntesting: warning: no tests to run\nPASS\nok  \tmagic-backend/game\t0.008s [no tests to run]\ntesting: warning: no tests to run\nPASS\nok  \tmagic-backend/cards\t0.026s [no tests to run]\nrequired test filter '^TestFactoryNGTargetFilterDealtDamageThisTurn$' executed no passing tests. Fix only this defect; do not restructure unrelated code or revisit already-passing behavior.",
+      "path": "docs/factory-ng/runs/2026-09-07T123943Z-wave-82fbcdad0642-integration.json"
+    },
+    {
+      "fact": "Historical candidate for review/reuse, NOT applied to the current source. Verify every hunk and test against current source and the original semantic contract.\nFrom 083d9478766ddafff06c70e55aece4b564f8d73d Mon Sep 17 00:00:00 2001\nFrom: Factory NG <factory-ng@local>\nDate: Sun, 6 Sep 2026 04:51:21 +0000\nSubject: [PATCH] factory-ng: supervised engine observation\n\n---\n backend/game/factory_ng_7541e11849_test.go | 66 ++++++++++++++++++++++\n 1 file changed, 66 insertions(+)\n create mode 100644 backend/game/factory_ng_7541e11849_test.go\n\ndiff --git a/backend/game/factory_ng_7541e11849_test.go b/backend/game/factory_ng_7541e11849_test.go\nnew file mode 100644\nindex 000000000..fc2e7bb89\n--- /dev/null\n+++ b/backend/game/factory_ng_7541e11849_test.go\n@@ -0,0 +1,66 @@\n+package game\n+\n+import \"testing\"\n+\n+// TestDestroyTargetDealtDamageThisTurn_NoControllerRestriction exercises the\n+// target_filter_dealt_damage_this_turn primitive (ticket\n+// engine.auto-target-filter-dealt-damage-this-turn-7541e11849, Ogre\n+// Siegebreaker class): \"Destroy target creature that was dealt damage this\n+// turn.\" Unlike the pre-existing Manticore-class filter\n+// (\"creature_dealt_damage_this_turn_opp_ctrl\"), Ogre Siegebreaker's filter\n+// carries no controller restriction at all. This confirms\n+// executeDestroyTargetDealtDamageThisTurn composes correctly with the bare\n+// \"creature_dealt_damage_this_turn\" bucket (no _opp_ctrl/_you_ctrl suffix)\n+// already handled generically by matchesPermanentFilter/matchesPermanentFilterCtl\n+// \u2014 no new engine wiring required.\n+func TestDestroyTargetDealtDamageThisTurn_NoControllerRestriction(t *testing.T) {\n+\tgs := NewGame(\"P0\", \"P1\", false)\n+\n+\tdamaged := NewCreature(\"Damaged Beast\", ManaCost{}, 2, 2, 1)\n+\tdamaged.Owner, damaged.Controller = 1, 1\n+\tgs.Battlefield.AddCard(damaged)\n+\tdamaged.DealDamage(1)\n+\n+\tundamaged := NewCreature(\"Undamaged Beast\", ManaCost{}, 2, 2, 1)\n+\tundamaged.Owner, undamaged.Controller = 1, 1\n+\tgs.Battlefield.AddCard(undamaged)\n+\n+\t// Never itself received damage \u2014 Card.Damage is a recipient-only\n+\t// counter, so a creature that only DEALT damage this turn (the\n+\t// dealer-side negative example) still reads Damage == 0 here and must\n+\t// not be selected by a recipient-scoped filter.\n+\tdealer := NewCreature(\"Damage Dealer\", ManaCost{}, 2, 2, 1)\n+\tdealer.Owner, dealer.Controller = 0, 0\n+\tgs.Battlefield.AddCard(dealer)\n+\n+\tfilter := \"creature_dealt_damage_this_turn\"\n+\n+\t// The damaged creature is destroyed, independent of its controller\n+\t// and independent of damage amount/source.\n+\tif err := gs.executeDestroyTargetDealtDamageThisTurn(\n+\t\t[]Target{{IsCard: true, CardID: damaged.ID}}, filter, 0); err != nil {\n+\t\tt.Fatalf(\"executeDestroyTargetDealtDamageThisTurn: %v\", err)\n+\t}\n+\tif _, err := gs.Battlefield.GetCard(damaged.ID); err == nil {\n+\t\tt.Fatalf(\"expected damaged creature to be destroyed and removed from the battlefield\")\n+\t}\n+\n+\t// An undamaged creature is not a legal target and is skipped, not destroyed.\n+\tif err := gs.executeDestroyTargetDealtDamageThisTurn(\n+\t\t[]Target{{IsCard: true, CardID: undamaged.ID}}, filter, 0); err != nil {\n+\t\tt.Fatalf(\"executeDestroyTargetDealtDamageThisTurn: %v\", err)\n+\t}\n+\tif _, err := gs.Battlefield.GetCard(undamaged.ID); err != nil {\n+\t\tt.Fatalf(\"expected undamaged creature to remain on the battlefield, got removed\")\n+\t}\n+\n+\t// A creature that dealt damage this turn but was never itself dealt\n+\t// damage (dealer-side reading) is also not a legal target.\n+\tif err := gs.executeDestroyTargetDealtDamageThisTurn(\n+\t\t[]Target{{IsCard: true, CardID: dealer.ID}}, filter, 0); err != nil {\n+\t\tt.Fatalf(\"executeDestroyTargetDealtDamageThisTurn: %v\", err)\n+\t}\n+\tif _, err := gs.Battlefield.GetCard(dealer.ID); err != nil {\n+\t\tt.Fatalf(\"expected damage-dealing (not damaged) creature to remain on the battlefield, got removed\")\n+\t}\n+}\n-- \n2.43.0\n\n",
+      "path": "docs/factory-ng/candidates/2026-09-06T045121Z-engine-auto-target-filter-dealt-damage-this-turn-7541e11849-v2.patch",
+      "sha256": "sha256:69b4131550702d37c091462f20435f2be9cd93b2ec42b7621dd17a3e17e0f653"
+    },
+    {
+      "fact": "Operator-reviewed correction, September 9: Use unique new regression TestFactoryNGTargetFilterDealtDamageThisTurn_Contract_8aa2a3cb81; preserve the original TestFactoryNGTargetFilterDealtDamageThisTurn gate as well.",
+      "path": "docs/factory-ng/reviews/2026-09-09-capacity/contract-audit.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "One bounded repair of an existing failed integration; preserve all semantic gates.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGTargetFilterDealtDamageThisTurn$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGTargetFilterDealtDamageThisTurn_Contract_8aa2a3cb81$' -count=1"
+  ],
+  "id": "ticket:engine.auto-target-filter-dealt-damage-this-turn-7541e11849/v4",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Retain the terminal receipt and continue independent discovery; do not request manual source transcription.",
+  "parents": [
+    "ticket:map.plan-destroy-ogre-siegebreaker-ddc3784f16/v1",
+    "ticket:engine.auto-target-filter-dealt-damage-this-turn-7541e11849/v1",
+    "ticket:engine.auto-target-filter-dealt-damage-this-turn-7541e11849/v2",
+    "ticket:engine.auto-target-filter-dealt-damage-this-turn-7541e11849/v3"
+  ],
+  "production": {
+    "contract_correction_batch": "2026-09-09-capacity",
+    "integration_repair_parent": "ticket:engine.auto-target-filter-dealt-damage-this-turn-7541e11849/v2",
+    "key": "capability:target_filter_dealt_damage_this_turn:sha256:7541e1184939f5fd58f2af0c7e34e27b75ccc19045a272156131d9f71e1a1692:evidence-refresh-v1:integration-repair-v1:reviewed-contract-sep09",
+    "producer": "capability-dependencies",
+    "retry_reason": "semantic_gate_repair"
+  },
+  "required_behavior": [
+    "Evaluate target legality for a destroy effect against creatures that have received marked damage during the current turn, independent of damage amount or source",
+    "Preserve these adjacent behaviors: Destroy target creature (no damage-this-turn restriction); Target creature that dealt damage this turn (creature as damage dealer, not damage recipient)",
+    "Add a discriminating behavior test named TestFactoryNGTargetFilterDealtDamageThisTurn_Contract_8aa2a3cb81; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases.",
+    "Preserve all required gate selectors and semantic assertions. If a named test is missing, provide it with meaningful coverage of the original behavior; do not weaken or remove the gate.",
+    "Review existing current-source behavior before implementing anything. The retained candidate is evidence, not proof of correctness on this revision."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_7541e11849_test.go",
+      "backend/cards/factory_ng_7541e11849_test.go",
+      "backend/cards/registry_factory_ng_7541e11849.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "clean": true,
+    "repository": "/opt/development/test/openmagic",
+    "revision": "c0fac85b88da04f3d54fe2a5acd553a36662a329"
+  },
+  "supersedes": "ticket:engine.auto-target-filter-dealt-damage-this-turn-7541e11849/v3",
+  "title": "Corrected contract: Repair after integration failure: Retry with index-grounded evidence: Implement atomic capability: Target filter restricting destroy-effect targets to creatures dealt damage during the current turn",
+  "work_type": "engine"
+}

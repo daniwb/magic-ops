@@ -1,0 +1,104 @@
+From 8a5501af3a42d394ff97ac21af981c931f63d701 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Sun, 13 Sep 2026 03:51:00 +0000
+Subject: [PATCH] factory-ng: supervised engine observation
+
+---
+ backend/cards/converter.go                  | 10 ++--
+ backend/cards/factory_ng_a452329fad_test.go | 53 +++++++++++++++++++++
+ 2 files changed, 60 insertions(+), 3 deletions(-)
+ create mode 100644 backend/cards/factory_ng_a452329fad_test.go
+
+diff --git a/backend/cards/converter.go b/backend/cards/converter.go
+index c4af71e5c..ad2934631 100644
+--- a/backend/cards/converter.go
++++ b/backend/cards/converter.go
+@@ -3558,19 +3558,23 @@ func AbilityToTriggered(ability AbilityDSL, source *game.Card, index int) *game.
+ 		triggered.Condition.Self &&
+ 		(triggered.Condition.EventType == game.EventAttacks ||
+ 			triggered.Condition.EventType == game.EventDeclareBlocker)
+-	if selfCombatAtEndOfCombat &&
+-		(triggered.Effect == "destroy" || triggered.Effect == "sacrifice" || triggered.Effect == "remove_counter") {
++	if selfCombatAtEndOfCombat && ability.Target == nil &&
++		(triggered.Effect == "destroy" || triggered.Effect == "sacrifice" ||
++			triggered.Effect == "remove_counter") {
+ 		if triggered.EffectValue == nil {
+ 			triggered.EffectValue = map[string]interface{}{}
+ 		}
+ 		triggered.EffectValue["at_end_of_combat"] = true
+ 	}
+-	if selfCombatAtEndOfCombat {
++	if selfCombatAtEndOfCombat && ability.Target == nil {
+ 		for i := range ability.Effects {
+ 			effect := CanonicalEffect(ability.Effects[i].Effect)
+ 			if effect != "destroy" && effect != "sacrifice" && effect != "remove_counter" {
+ 				continue
+ 			}
++			if ability.Effects[i].Target != nil {
++				continue
++			}
+ 			if ability.Effects[i].Value == nil {
+ 				ability.Effects[i].Value = map[string]interface{}{}
+ 			}
+diff --git a/backend/cards/factory_ng_a452329fad_test.go b/backend/cards/factory_ng_a452329fad_test.go
+new file mode 100644
+index 000000000..51074b8b4
+--- /dev/null
++++ b/backend/cards/factory_ng_a452329fad_test.go
+@@ -0,0 +1,53 @@
++package cards
++
++import (
++	"testing"
++
++	"magic-backend/game"
++)
++
++func TestFactoryNGRemoveCounterAtEndOfCombat_a452329fad(t *testing.T) {
++	def := &CardDefinition{
++		Name: "Factory NG Clockwork Dragon",
++		Type: "Creature", Types: []string{"Creature"},
++		Power: intPtr(4), Toughness: intPtr(4),
++		Abilities: []AbilityDSL{{
++			Type: "triggered",
++			TriggerV2: &TriggerSpec{
++				Event:   "attacks",
++				Subject: &TargetFilter{Filter: "self"},
++			},
++			Effects: []EffectAtom{{
++				Effect: "remove_counter",
++				Value: map[string]interface{}{
++					"counter_type": "+1/+1",
++					"amount":       float64(2),
++				},
++			}},
++		}},
++		Status: StatusManual,
++	}
++
++	source, err := def.ToGameCard(0)
++	if err != nil {
++		t.Fatalf("ToGameCard: %v", err)
++	}
++	source.Counters.AddCounter(game.CounterPlusOnePlusOne, 3)
++
++	gs := game.NewGame("P0", "P1", false)
++	gs.Battlefield.AddCard(source)
++	gs.RegisterCardAbilities(source)
++
++	gs.ProcessTriggeredAbilities(game.CreateAttacksEvent(source, 0, 1))
++	if err := gs.ResolveTopOfStack(); err != nil {
++		t.Fatalf("ResolveTopOfStack: %v", err)
++	}
++	if got := source.Counters.GetCount(game.CounterPlusOnePlusOne); got != 3 {
++		t.Fatalf("counter removed before end of combat: got %d, want 3", got)
++	}
++
++	gs.ProcessTriggeredAbilities(game.CreateEndOfCombatEvent(0))
++	if got := source.Counters.GetCount(game.CounterPlusOnePlusOne); got != 1 {
++		t.Fatalf("end-of-combat removal got %d counters, want 1", got)
++	}
++}
+-- 
+2.43.0
+

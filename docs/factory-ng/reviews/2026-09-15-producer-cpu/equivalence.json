@@ -1,0 +1,15 @@
+{
+  "original": {
+    "cards": 30102,
+    "cpu_seconds": 267.629989415,
+    "wall_seconds": 437.3899817764759,
+    "mismatches": []
+  },
+  "optimized": {
+    "cards": 30102,
+    "cpu_seconds": 207.785851546,
+    "wall_seconds": 305.0302640777081,
+    "mismatches": []
+  },
+  "baseline_exceptions": []
+}

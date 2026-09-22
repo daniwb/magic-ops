@@ -1,0 +1,183 @@
+[
+  {
+    "receipt": "docs/factory-ng/runs/2026-09-15T163720Z-wave-8510c4415095-1789490240678903692-integration.json",
+    "created_at": "2026-09-15T16:48:57Z",
+    "tickets": [
+      "ticket:map.plan-multi-infernal-medusa-abc34f23d1/v2",
+      "ticket:map.plan-destroy-goblin-vandal-8809b89852/v3",
+      "ticket:engine.auto-gain-control-multi-target-x-count-00394988c3/v2",
+      "ticket:engine.auto-tap-and-put-counter-type-union-controller-filter-eb0230fea8/v1",
+      "ticket:engine.auto-activated-cost-discarded-card-mana-value-damage-09241130f8/v1",
+      "ticket:engine.auto-unbounded-spell-target-selection-38d6b41c91/v1",
+      "ticket:engine.auto-prevent-combat-damage-from-target-and-blockers-854810ef0f/v1"
+    ],
+    "execution": {
+      "cpus": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "full_gate_host": "dani@192.168.1.251",
+      "go_parallelism": 4,
+      "image": "sha256:e8565fa265f973c06f0515fac7aa9d102edae01b5677d69216900b84029c6ad0",
+      "input_tree": "3f4c01ac08461e8382735247da6ad2e203e2b30f",
+      "manifest_sha256": "bae1d97c451af8bc3c162c906d5f3aa7c42e641be2cd8f58b39ce8643c7b7f7b",
+      "peak_memory_bytes": 5066100736,
+      "result_tree": "fa06ec48d42c40e3655fcb38699a0c6802f8daf0",
+      "semantic_checks_remote": false
+    },
+    "outcome": "pushed_full_production_gate_green"
+  },
+  {
+    "receipt": "docs/factory-ng/runs/2026-09-15T164920Z-wave-24e49c3e9644-1789490960852993124-integration.json",
+    "created_at": "2026-09-15T17:01:23Z",
+    "tickets": [
+      "ticket:map.plan-grant-eot-vampire-s-zeal-d2998885cf/v2",
+      "ticket:map.plan-multi-swift-silence-c4e8922f35/v2",
+      "ticket:engine.auto-counter-noncreature-spell-6e9906765e/v1",
+      "ticket:engine.auto-grant-eot-group-super-type-filter-2a41116ec7/v1"
+    ],
+    "execution": {
+      "cpus": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "full_gate_host": "dani@192.168.1.251",
+      "go_parallelism": 4,
+      "image": "sha256:e8565fa265f973c06f0515fac7aa9d102edae01b5677d69216900b84029c6ad0",
+      "input_tree": "fc6a1677d3092001352dbda0331e7808b5c1ff2f",
+      "manifest_sha256": "c33331721c8b273bf939834a4dc41d880fb305c53683dd16c62de7fb2dcb57b8",
+      "peak_memory_bytes": 5010989056,
+      "result_tree": "9e8da234460641148f14b6a29eb800f60d58bf71",
+      "semantic_checks_remote": false
+    },
+    "outcome": "pushed_full_production_gate_green"
+  },
+  {
+    "receipt": "docs/factory-ng/runs/2026-09-15T170144Z-wave-128474088528-1789491704593675019-integration.json",
+    "created_at": "2026-09-15T17:04:42Z",
+    "tickets": [
+      "ticket:engine.auto-untap-up-to-literal-count-14e44a315b/v1",
+      "ticket:engine.auto-life-loss-each-player-dynamic-amount-5eb1ab5449/v1",
+      "ticket:engine.auto-activated-target-color-filter-cf809e911e/v2"
+    ],
+    "execution": {
+      "cpus": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "full_gate_host": "dani@192.168.1.251",
+      "go_parallelism": 4,
+      "image": "sha256:e8565fa265f973c06f0515fac7aa9d102edae01b5677d69216900b84029c6ad0",
+      "input_tree": "bbfbadbb082f855c1690b01b6dc40528b3c84d2c",
+      "manifest_sha256": "ab692c0c9ba506a3365e910ca8fa9f1eaf9b1d9e921936917cb7778033d8b230",
+      "peak_memory_bytes": 8002908160,
+      "result_tree": "bbfbadbb082f855c1690b01b6dc40528b3c84d2c",
+      "semantic_checks_remote": true
+    },
+    "outcome": "pushed_full_production_gate_green"
+  },
+  {
+    "receipt": "docs/factory-ng/runs/2026-09-15T170710Z-wave-84234c46d005-1789492030424414957-integration.json",
+    "created_at": "2026-09-15T17:08:46Z",
+    "tickets": [
+      "ticket:map.plan-damage-minion-of-tevesh-szat-219c651a2e/v3"
+    ],
+    "execution": {
+      "cpus": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "full_gate_host": "dani@192.168.1.251",
+      "go_parallelism": 4,
+      "image": "sha256:e8565fa265f973c06f0515fac7aa9d102edae01b5677d69216900b84029c6ad0",
+      "input_tree": "7ab6895b8a3e7b3ef81718c4827c4a154ac46a60",
+      "manifest_sha256": "f8f013ccb2d77a68c4ce059b259ffd8c531fe6ce6eebc2c3494d3a59c84f5a16",
+      "peak_memory_bytes": 1408061440,
+      "result_tree": "6c85559b86dd8ecbfb262af2e84434df88172db1",
+      "semantic_checks_remote": true
+    },
+    "outcome": "pushed_full_production_gate_green"
+  },
+  {
+    "receipt": "docs/factory-ng/runs/2026-09-15T170931Z-wave-8ab05c79e7c2-1789492171777374785-integration.json",
+    "created_at": "2026-09-15T17:10:46Z",
+    "tickets": [
+      "ticket:map.plan-multi-goblin-snowman-1050a4d595/v3"
+    ],
+    "execution": {
+      "cpus": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "full_gate_host": "dani@192.168.1.251",
+      "go_parallelism": 4,
+      "image": "sha256:e8565fa265f973c06f0515fac7aa9d102edae01b5677d69216900b84029c6ad0",
+      "input_tree": "033bbacd983aebe57605d0a63a4c90a989993463",
+      "manifest_sha256": "3311dab28851645c2ebef49282597abd9d3f724c1a31cb6d74d5eefafb3eeb3d",
+      "peak_memory_bytes": 1354272768,
+      "result_tree": "a5a828074fb41b191a5a881b5665c0b6b6586ae9",
+      "semantic_checks_remote": true
+    },
+    "outcome": "pushed_full_production_gate_green"
+  },
+  {
+    "receipt": "docs/factory-ng/runs/2026-09-15T171256Z-wave-bdeeda364873-1789492376722027862-integration.json",
+    "created_at": "2026-09-15T17:14:46Z",
+    "tickets": [
+      "ticket:map.plan-multi-ith-high-arcanist-7886b23c83/v2",
+      "ticket:map.plan-damage-mercurial-chemister-94405bee15/v3",
+      "ticket:map.plan-destroy-jarl-of-the-forsaken-b41be14e5c/v3"
+    ],
+    "execution": {
+      "cpus": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "full_gate_host": "dani@192.168.1.251",
+      "go_parallelism": 4,
+      "image": "sha256:e8565fa265f973c06f0515fac7aa9d102edae01b5677d69216900b84029c6ad0",
+      "input_tree": "7cac745ed11cd9e1501fcd01b002023f61ba3de4",
+      "manifest_sha256": "7eb631572b8710658397d177e42e758b1aeb36f6c7989e402c56a4c252607d1e",
+      "peak_memory_bytes": 1401110528,
+      "result_tree": "48008605667e3c989d495a1a9d847edf47dc96be",
+      "semantic_checks_remote": true
+    },
+    "outcome": "pushed_full_production_gate_green"
+  }
+]

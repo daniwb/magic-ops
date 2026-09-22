@@ -1,0 +1,873 @@
+{
+  "capability": {
+    "negative_examples": [
+      "Do not count total damage, source power, or battlefield quantities instead of excess damage.",
+      "Do not convert the one-way damage into fight damage or damage from the spell."
+    ],
+    "required_behavior": "Within one spell sequence, compute excess damage actually dealt by the preceding target-creature damage_by source-power effect and use that amount as the subsequent create_token count.",
+    "source_misses": [
+      {
+        "card": "Windswift Slice",
+        "oracle_text_sha256": "7388eb8b00670b6433b7aae9d1e882475fe07c2863d9925e992943e40b46ee20",
+        "paragraph": "Target creature you control deals damage equal to its power to target creature you don't control. Create a number of 1/1 green Elf Warrior creature tokens equal to the amount of excess damage dealt this way.",
+        "required_behavior": "Preserve the independently chosen source and recipient, deal the source's live power one-way, then create exactly one 1/1 green Elf Warrior token per excess damage dealt to that recipient."
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "expected_unlock": 0,
+        "key": "sequence_excess_damage_token_count",
+        "specification": {
+          "negative_examples": [
+            "Do not count total damage, source power, or battlefield quantities instead of excess damage.",
+            "Do not convert the one-way damage into fight damage or damage from the spell."
+          ],
+          "required_behavior": "Within one spell sequence, compute excess damage actually dealt by the preceding target-creature damage_by source-power effect and use that amount as the subsequent create_token count.",
+          "source_misses": [
+            {
+              "card": "Windswift Slice",
+              "oracle_text_sha256": "7388eb8b00670b6433b7aae9d1e882475fe07c2863d9925e992943e40b46ee20",
+              "paragraph": "Target creature you control deals damage equal to its power to target creature you don't control. Create a number of 1/1 green Elf Warrior creature tokens equal to the amount of excess damage dealt this way.",
+              "required_behavior": "Preserve the independently chosen source and recipient, deal the source's live power one-way, then create exactly one 1/1 green Elf Warrior token per excess damage dealt to that recipient."
+            }
+          ]
+        },
+        "summary": "Use excess damage from a preceding targeted damage effect as a token count"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-14T132539Z-map-plan-multi-windswift-slice-fc5800a2d6-v1-codex.json"
+    },
+    {
+      "anchor": "1601-1615",
+      "fact": "Verified declaration game.GameState.evalDynamicAmountBase#case:sequence_referent in source revision 0898a987aca87d411aea543aed07391888fd61b9; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"sequence\" AND \"excess\" AND \"damage\" AND \"token\" AND \"count\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T01:11:25Z",
+          "indexed_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "normalized_words": [
+            "sequence",
+            "excess",
+            "damage",
+            "token",
+            "count"
+          ],
+          "query": "sequence_excess_damage_token_count",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "sequence_excess_damage_token_count",
+            "request_id": "2f88751920074d3db084c58b6e95fda7",
+            "ticket": "ticket:engine.auto-sequence-excess-damage-token-count-109b0ec3af/v1"
+          },
+          "request_id": "2f88751920074d3db084c58b6e95fda7",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"sequence\" AND \"excess\" AND \"damage\" AND \"token\" AND \"count\"",
+            "\"sequence\" AND \"excess\" AND \"damage\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T01:11:25Z",
+          "indexed_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "normalized_words": [
+            "sequence",
+            "excess",
+            "damage",
+            "token",
+            "count"
+          ],
+          "query": "sequence_excess_damage_token_count",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "sequence_excess_damage_token_count",
+            "request_id": "3674e4bd92fb4d79837933a9f754b19f",
+            "ticket": "ticket:engine.auto-sequence-excess-damage-token-count-109b0ec3af/v1"
+          },
+          "request_id": "3674e4bd92fb4d79837933a9f754b19f",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "evalDynamicAmountBase#case:sequence_referent",
+              "doc": "",
+              "end": 1615,
+              "kind": "engine",
+              "name": "sequence_referent",
+              "package": "game",
+              "path": "backend/game/dynamic_amount.go",
+              "qualified": "game.GameState.evalDynamicAmountBase#case:sequence_referent",
+              "receiver": "GameState",
+              "signature": "evalDynamicAmountBase#case:sequence_referent",
+              "start": 1601,
+              "symbol_id": "backend/game/dynamic_amount.go::game.GameState.evalDynamicAmountBase#case:sequence_referent",
+              "symbol_kind": "case",
+              "title": "sequence_referent"
+            },
+            {
+              "description": "ResolveSequenceOption answers a parked choose_option atom: validates the",
+              "doc": "ResolveSequenceOption answers a parked choose_option atom: validates the\npick, writes it to the sequence's string slots (or, for Kind==\"int_choice\",\nto the two named int slots), resumes the walk.\n",
+              "end": 681,
+              "kind": "engine",
+              "name": "ResolveSequenceOption",
+              "package": "game",
+              "path": "backend/game/effect_sequence.go",
+              "qualified": "game.GameState.ResolveSequenceOption",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) ResolveSequenceOption(playerIdx int, option string) error",
+              "start": 602,
+              "symbol_id": "backend/game/effect_sequence.go::game.GameState.ResolveSequenceOption",
+              "symbol_kind": "function",
+              "title": "ResolveSequenceOption"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:exile_prior_sequence_objects_at_next_upkeep",
+              "doc": "",
+              "end": 9168,
+              "kind": "engine",
+              "name": "exile_prior_sequence_objects_at_next_upkeep",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:exile_prior_sequence_objects_at_next_upkeep",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:exile_prior_sequence_objects_at_next_upkeep",
+              "start": 9161,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:exile_prior_sequence_objects_at_next_upkeep",
+              "symbol_kind": "case",
+              "title": "exile_prior_sequence_objects_at_next_upkeep"
+            },
+            {
+              "description": "ExecuteEffectSequence walks atoms from startIdx. lastOptional carries the",
+              "doc": "ExecuteEffectSequence walks atoms from startIdx. lastOptional carries the\noutcome of the most recent optional atom (nil = none seen yet).\n",
+              "end": 79,
+              "kind": "engine",
+              "name": "ExecuteEffectSequence",
+              "package": "game",
+              "path": "backend/game/effect_sequence.go",
+              "qualified": "game.GameState.ExecuteEffectSequence",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) ExecuteEffectSequence(controller int, source *Card, atoms []EffectAtomSpec, targets []Target, startIdx int, lastOptional *bool) error",
+              "start": 77,
+              "symbol_id": "backend/game/effect_sequence.go::game.GameState.ExecuteEffectSequence",
+              "symbol_kind": "function",
+              "title": "ExecuteEffectSequence"
+            }
+          ],
+          "current_source_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "discovery_role": "operation_only",
+          "fts_queries": [
+            "\"sequence\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T01:11:25Z",
+          "indexed_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "normalized_words": [
+            "sequence"
+          ],
+          "query": "sequence",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "sequence",
+            "request_id": "28b4b023d617480f80c4c2ba2ba3adbb",
+            "ticket": "ticket:engine.auto-sequence-excess-damage-token-count-109b0ec3af/v1"
+          },
+          "request_id": "28b4b023d617480f80c4c2ba2ba3adbb",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        }
+      ],
+      "path": "backend/game/dynamic_amount.go",
+      "sha256": "sha256:c2bd3512d0cd3059c29e74d3501128073c3b26f180794d9f0d1403ec5e89b8a3",
+      "symbol": {
+        "description": "evalDynamicAmountBase#case:sequence_referent",
+        "discovery_role": "operation_only",
+        "doc": "",
+        "end": 1615,
+        "kind": "engine",
+        "name": "sequence_referent",
+        "package": "game",
+        "path": "backend/game/dynamic_amount.go",
+        "qualified": "game.GameState.evalDynamicAmountBase#case:sequence_referent",
+        "receiver": "GameState",
+        "request_id": "28b4b023d617480f80c4c2ba2ba3adbb",
+        "signature": "evalDynamicAmountBase#case:sequence_referent",
+        "start": 1601,
+        "symbol_id": "backend/game/dynamic_amount.go::game.GameState.evalDynamicAmountBase#case:sequence_referent",
+        "symbol_kind": "case",
+        "title": "sequence_referent"
+      }
+    },
+    {
+      "anchor": "602-681",
+      "fact": "Verified declaration game.GameState.ResolveSequenceOption in source revision 0898a987aca87d411aea543aed07391888fd61b9; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"sequence\" AND \"excess\" AND \"damage\" AND \"token\" AND \"count\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T01:11:25Z",
+          "indexed_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "normalized_words": [
+            "sequence",
+            "excess",
+            "damage",
+            "token",
+            "count"
+          ],
+          "query": "sequence_excess_damage_token_count",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "sequence_excess_damage_token_count",
+            "request_id": "2f88751920074d3db084c58b6e95fda7",
+            "ticket": "ticket:engine.auto-sequence-excess-damage-token-count-109b0ec3af/v1"
+          },
+          "request_id": "2f88751920074d3db084c58b6e95fda7",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"sequence\" AND \"excess\" AND \"damage\" AND \"token\" AND \"count\"",
+            "\"sequence\" AND \"excess\" AND \"damage\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T01:11:25Z",
+          "indexed_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "normalized_words": [
+            "sequence",
+            "excess",
+            "damage",
+            "token",
+            "count"
+          ],
+          "query": "sequence_excess_damage_token_count",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "sequence_excess_damage_token_count",
+            "request_id": "3674e4bd92fb4d79837933a9f754b19f",
+            "ticket": "ticket:engine.auto-sequence-excess-damage-token-count-109b0ec3af/v1"
+          },
+          "request_id": "3674e4bd92fb4d79837933a9f754b19f",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "evalDynamicAmountBase#case:sequence_referent",
+              "doc": "",
+              "end": 1615,
+              "kind": "engine",
+              "name": "sequence_referent",
+              "package": "game",
+              "path": "backend/game/dynamic_amount.go",
+              "qualified": "game.GameState.evalDynamicAmountBase#case:sequence_referent",
+              "receiver": "GameState",
+              "signature": "evalDynamicAmountBase#case:sequence_referent",
+              "start": 1601,
+              "symbol_id": "backend/game/dynamic_amount.go::game.GameState.evalDynamicAmountBase#case:sequence_referent",
+              "symbol_kind": "case",
+              "title": "sequence_referent"
+            },
+            {
+              "description": "ResolveSequenceOption answers a parked choose_option atom: validates the",
+              "doc": "ResolveSequenceOption answers a parked choose_option atom: validates the\npick, writes it to the sequence's string slots (or, for Kind==\"int_choice\",\nto the two named int slots), resumes the walk.\n",
+              "end": 681,
+              "kind": "engine",
+              "name": "ResolveSequenceOption",
+              "package": "game",
+              "path": "backend/game/effect_sequence.go",
+              "qualified": "game.GameState.ResolveSequenceOption",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) ResolveSequenceOption(playerIdx int, option string) error",
+              "start": 602,
+              "symbol_id": "backend/game/effect_sequence.go::game.GameState.ResolveSequenceOption",
+              "symbol_kind": "function",
+              "title": "ResolveSequenceOption"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:exile_prior_sequence_objects_at_next_upkeep",
+              "doc": "",
+              "end": 9168,
+              "kind": "engine",
+              "name": "exile_prior_sequence_objects_at_next_upkeep",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:exile_prior_sequence_objects_at_next_upkeep",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:exile_prior_sequence_objects_at_next_upkeep",
+              "start": 9161,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:exile_prior_sequence_objects_at_next_upkeep",
+              "symbol_kind": "case",
+              "title": "exile_prior_sequence_objects_at_next_upkeep"
+            },
+            {
+              "description": "ExecuteEffectSequence walks atoms from startIdx. lastOptional carries the",
+              "doc": "ExecuteEffectSequence walks atoms from startIdx. lastOptional carries the\noutcome of the most recent optional atom (nil = none seen yet).\n",
+              "end": 79,
+              "kind": "engine",
+              "name": "ExecuteEffectSequence",
+              "package": "game",
+              "path": "backend/game/effect_sequence.go",
+              "qualified": "game.GameState.ExecuteEffectSequence",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) ExecuteEffectSequence(controller int, source *Card, atoms []EffectAtomSpec, targets []Target, startIdx int, lastOptional *bool) error",
+              "start": 77,
+              "symbol_id": "backend/game/effect_sequence.go::game.GameState.ExecuteEffectSequence",
+              "symbol_kind": "function",
+              "title": "ExecuteEffectSequence"
+            }
+          ],
+          "current_source_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "discovery_role": "operation_only",
+          "fts_queries": [
+            "\"sequence\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T01:11:25Z",
+          "indexed_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "normalized_words": [
+            "sequence"
+          ],
+          "query": "sequence",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "sequence",
+            "request_id": "28b4b023d617480f80c4c2ba2ba3adbb",
+            "ticket": "ticket:engine.auto-sequence-excess-damage-token-count-109b0ec3af/v1"
+          },
+          "request_id": "28b4b023d617480f80c4c2ba2ba3adbb",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        }
+      ],
+      "path": "backend/game/effect_sequence.go",
+      "sha256": "sha256:b1facdfc47a4ba201c783d2eb9e65745c721f2880d95b400afba1e5e2962ea1c",
+      "symbol": {
+        "description": "ResolveSequenceOption answers a parked choose_option atom: validates the",
+        "discovery_role": "operation_only",
+        "doc": "ResolveSequenceOption answers a parked choose_option atom: validates the\npick, writes it to the sequence's string slots (or, for Kind==\"int_choice\",\nto the two named int slots), resumes the walk.\n",
+        "end": 681,
+        "kind": "engine",
+        "name": "ResolveSequenceOption",
+        "package": "game",
+        "path": "backend/game/effect_sequence.go",
+        "qualified": "game.GameState.ResolveSequenceOption",
+        "receiver": "GameState",
+        "request_id": "28b4b023d617480f80c4c2ba2ba3adbb",
+        "signature": "func (gs *GameState) ResolveSequenceOption(playerIdx int, option string) error",
+        "start": 602,
+        "symbol_id": "backend/game/effect_sequence.go::game.GameState.ResolveSequenceOption",
+        "symbol_kind": "function",
+        "title": "ResolveSequenceOption"
+      }
+    },
+    {
+      "anchor": "9161-9168",
+      "fact": "Verified declaration game.GameState.ExecuteAbilityEffect#case:exile_prior_sequence_objects_at_next_upkeep in source revision 0898a987aca87d411aea543aed07391888fd61b9; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"sequence\" AND \"excess\" AND \"damage\" AND \"token\" AND \"count\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T01:11:25Z",
+          "indexed_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "normalized_words": [
+            "sequence",
+            "excess",
+            "damage",
+            "token",
+            "count"
+          ],
+          "query": "sequence_excess_damage_token_count",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "sequence_excess_damage_token_count",
+            "request_id": "2f88751920074d3db084c58b6e95fda7",
+            "ticket": "ticket:engine.auto-sequence-excess-damage-token-count-109b0ec3af/v1"
+          },
+          "request_id": "2f88751920074d3db084c58b6e95fda7",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"sequence\" AND \"excess\" AND \"damage\" AND \"token\" AND \"count\"",
+            "\"sequence\" AND \"excess\" AND \"damage\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T01:11:25Z",
+          "indexed_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "normalized_words": [
+            "sequence",
+            "excess",
+            "damage",
+            "token",
+            "count"
+          ],
+          "query": "sequence_excess_damage_token_count",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "sequence_excess_damage_token_count",
+            "request_id": "3674e4bd92fb4d79837933a9f754b19f",
+            "ticket": "ticket:engine.auto-sequence-excess-damage-token-count-109b0ec3af/v1"
+          },
+          "request_id": "3674e4bd92fb4d79837933a9f754b19f",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "evalDynamicAmountBase#case:sequence_referent",
+              "doc": "",
+              "end": 1615,
+              "kind": "engine",
+              "name": "sequence_referent",
+              "package": "game",
+              "path": "backend/game/dynamic_amount.go",
+              "qualified": "game.GameState.evalDynamicAmountBase#case:sequence_referent",
+              "receiver": "GameState",
+              "signature": "evalDynamicAmountBase#case:sequence_referent",
+              "start": 1601,
+              "symbol_id": "backend/game/dynamic_amount.go::game.GameState.evalDynamicAmountBase#case:sequence_referent",
+              "symbol_kind": "case",
+              "title": "sequence_referent"
+            },
+            {
+              "description": "ResolveSequenceOption answers a parked choose_option atom: validates the",
+              "doc": "ResolveSequenceOption answers a parked choose_option atom: validates the\npick, writes it to the sequence's string slots (or, for Kind==\"int_choice\",\nto the two named int slots), resumes the walk.\n",
+              "end": 681,
+              "kind": "engine",
+              "name": "ResolveSequenceOption",
+              "package": "game",
+              "path": "backend/game/effect_sequence.go",
+              "qualified": "game.GameState.ResolveSequenceOption",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) ResolveSequenceOption(playerIdx int, option string) error",
+              "start": 602,
+              "symbol_id": "backend/game/effect_sequence.go::game.GameState.ResolveSequenceOption",
+              "symbol_kind": "function",
+              "title": "ResolveSequenceOption"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:exile_prior_sequence_objects_at_next_upkeep",
+              "doc": "",
+              "end": 9168,
+              "kind": "engine",
+              "name": "exile_prior_sequence_objects_at_next_upkeep",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:exile_prior_sequence_objects_at_next_upkeep",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:exile_prior_sequence_objects_at_next_upkeep",
+              "start": 9161,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:exile_prior_sequence_objects_at_next_upkeep",
+              "symbol_kind": "case",
+              "title": "exile_prior_sequence_objects_at_next_upkeep"
+            },
+            {
+              "description": "ExecuteEffectSequence walks atoms from startIdx. lastOptional carries the",
+              "doc": "ExecuteEffectSequence walks atoms from startIdx. lastOptional carries the\noutcome of the most recent optional atom (nil = none seen yet).\n",
+              "end": 79,
+              "kind": "engine",
+              "name": "ExecuteEffectSequence",
+              "package": "game",
+              "path": "backend/game/effect_sequence.go",
+              "qualified": "game.GameState.ExecuteEffectSequence",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) ExecuteEffectSequence(controller int, source *Card, atoms []EffectAtomSpec, targets []Target, startIdx int, lastOptional *bool) error",
+              "start": 77,
+              "symbol_id": "backend/game/effect_sequence.go::game.GameState.ExecuteEffectSequence",
+              "symbol_kind": "function",
+              "title": "ExecuteEffectSequence"
+            }
+          ],
+          "current_source_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "discovery_role": "operation_only",
+          "fts_queries": [
+            "\"sequence\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T01:11:25Z",
+          "indexed_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "normalized_words": [
+            "sequence"
+          ],
+          "query": "sequence",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "sequence",
+            "request_id": "28b4b023d617480f80c4c2ba2ba3adbb",
+            "ticket": "ticket:engine.auto-sequence-excess-damage-token-count-109b0ec3af/v1"
+          },
+          "request_id": "28b4b023d617480f80c4c2ba2ba3adbb",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:6bceba89e61fff8b2801a53715a5875e69a3bba4062abae23a63f6c5f5392d63",
+      "symbol": {
+        "description": "ExecuteAbilityEffect#case:exile_prior_sequence_objects_at_next_upkeep",
+        "discovery_role": "operation_only",
+        "doc": "",
+        "end": 9168,
+        "kind": "engine",
+        "name": "exile_prior_sequence_objects_at_next_upkeep",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.ExecuteAbilityEffect#case:exile_prior_sequence_objects_at_next_upkeep",
+        "receiver": "GameState",
+        "request_id": "28b4b023d617480f80c4c2ba2ba3adbb",
+        "signature": "ExecuteAbilityEffect#case:exile_prior_sequence_objects_at_next_upkeep",
+        "start": 9161,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:exile_prior_sequence_objects_at_next_upkeep",
+        "symbol_kind": "case",
+        "title": "exile_prior_sequence_objects_at_next_upkeep"
+      }
+    },
+    {
+      "anchor": "77-79",
+      "fact": "Verified declaration game.GameState.ExecuteEffectSequence in source revision 0898a987aca87d411aea543aed07391888fd61b9; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"sequence\" AND \"excess\" AND \"damage\" AND \"token\" AND \"count\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T01:11:25Z",
+          "indexed_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "normalized_words": [
+            "sequence",
+            "excess",
+            "damage",
+            "token",
+            "count"
+          ],
+          "query": "sequence_excess_damage_token_count",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "sequence_excess_damage_token_count",
+            "request_id": "2f88751920074d3db084c58b6e95fda7",
+            "ticket": "ticket:engine.auto-sequence-excess-damage-token-count-109b0ec3af/v1"
+          },
+          "request_id": "2f88751920074d3db084c58b6e95fda7",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"sequence\" AND \"excess\" AND \"damage\" AND \"token\" AND \"count\"",
+            "\"sequence\" AND \"excess\" AND \"damage\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T01:11:25Z",
+          "indexed_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "normalized_words": [
+            "sequence",
+            "excess",
+            "damage",
+            "token",
+            "count"
+          ],
+          "query": "sequence_excess_damage_token_count",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "sequence_excess_damage_token_count",
+            "request_id": "3674e4bd92fb4d79837933a9f754b19f",
+            "ticket": "ticket:engine.auto-sequence-excess-damage-token-count-109b0ec3af/v1"
+          },
+          "request_id": "3674e4bd92fb4d79837933a9f754b19f",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "evalDynamicAmountBase#case:sequence_referent",
+              "doc": "",
+              "end": 1615,
+              "kind": "engine",
+              "name": "sequence_referent",
+              "package": "game",
+              "path": "backend/game/dynamic_amount.go",
+              "qualified": "game.GameState.evalDynamicAmountBase#case:sequence_referent",
+              "receiver": "GameState",
+              "signature": "evalDynamicAmountBase#case:sequence_referent",
+              "start": 1601,
+              "symbol_id": "backend/game/dynamic_amount.go::game.GameState.evalDynamicAmountBase#case:sequence_referent",
+              "symbol_kind": "case",
+              "title": "sequence_referent"
+            },
+            {
+              "description": "ResolveSequenceOption answers a parked choose_option atom: validates the",
+              "doc": "ResolveSequenceOption answers a parked choose_option atom: validates the\npick, writes it to the sequence's string slots (or, for Kind==\"int_choice\",\nto the two named int slots), resumes the walk.\n",
+              "end": 681,
+              "kind": "engine",
+              "name": "ResolveSequenceOption",
+              "package": "game",
+              "path": "backend/game/effect_sequence.go",
+              "qualified": "game.GameState.ResolveSequenceOption",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) ResolveSequenceOption(playerIdx int, option string) error",
+              "start": 602,
+              "symbol_id": "backend/game/effect_sequence.go::game.GameState.ResolveSequenceOption",
+              "symbol_kind": "function",
+              "title": "ResolveSequenceOption"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:exile_prior_sequence_objects_at_next_upkeep",
+              "doc": "",
+              "end": 9168,
+              "kind": "engine",
+              "name": "exile_prior_sequence_objects_at_next_upkeep",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:exile_prior_sequence_objects_at_next_upkeep",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:exile_prior_sequence_objects_at_next_upkeep",
+              "start": 9161,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:exile_prior_sequence_objects_at_next_upkeep",
+              "symbol_kind": "case",
+              "title": "exile_prior_sequence_objects_at_next_upkeep"
+            },
+            {
+              "description": "ExecuteEffectSequence walks atoms from startIdx. lastOptional carries the",
+              "doc": "ExecuteEffectSequence walks atoms from startIdx. lastOptional carries the\noutcome of the most recent optional atom (nil = none seen yet).\n",
+              "end": 79,
+              "kind": "engine",
+              "name": "ExecuteEffectSequence",
+              "package": "game",
+              "path": "backend/game/effect_sequence.go",
+              "qualified": "game.GameState.ExecuteEffectSequence",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) ExecuteEffectSequence(controller int, source *Card, atoms []EffectAtomSpec, targets []Target, startIdx int, lastOptional *bool) error",
+              "start": 77,
+              "symbol_id": "backend/game/effect_sequence.go::game.GameState.ExecuteEffectSequence",
+              "symbol_kind": "function",
+              "title": "ExecuteEffectSequence"
+            }
+          ],
+          "current_source_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "discovery_role": "operation_only",
+          "fts_queries": [
+            "\"sequence\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T01:11:25Z",
+          "indexed_revision": "0898a987aca87d411aea543aed07391888fd61b9",
+          "normalized_words": [
+            "sequence"
+          ],
+          "query": "sequence",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "sequence",
+            "request_id": "28b4b023d617480f80c4c2ba2ba3adbb",
+            "ticket": "ticket:engine.auto-sequence-excess-damage-token-count-109b0ec3af/v1"
+          },
+          "request_id": "28b4b023d617480f80c4c2ba2ba3adbb",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        }
+      ],
+      "path": "backend/game/effect_sequence.go",
+      "sha256": "sha256:b1facdfc47a4ba201c783d2eb9e65745c721f2880d95b400afba1e5e2962ea1c",
+      "symbol": {
+        "description": "ExecuteEffectSequence walks atoms from startIdx. lastOptional carries the",
+        "discovery_role": "operation_only",
+        "doc": "ExecuteEffectSequence walks atoms from startIdx. lastOptional carries the\noutcome of the most recent optional atom (nil = none seen yet).\n",
+        "end": 79,
+        "kind": "engine",
+        "name": "ExecuteEffectSequence",
+        "package": "game",
+        "path": "backend/game/effect_sequence.go",
+        "qualified": "game.GameState.ExecuteEffectSequence",
+        "receiver": "GameState",
+        "request_id": "28b4b023d617480f80c4c2ba2ba3adbb",
+        "signature": "func (gs *GameState) ExecuteEffectSequence(controller int, source *Card, atoms []EffectAtomSpec, targets []Target, startIdx int, lastOptional *bool) error",
+        "start": 77,
+        "symbol_id": "backend/game/effect_sequence.go::game.GameState.ExecuteEffectSequence",
+        "symbol_kind": "function",
+        "title": "ExecuteEffectSequence"
+      }
+    },
+    {
+      "fact": "The previous candidate compiled/ran and failed this exact gate: initial-patch-apply: backend/game/targeting.go: block contains a second REPLACE marker \u2014 decide your final replacement content BEFORE writing the block, one SEARCH/REPLACE pair only\nbackend/cards/converter.go: block contains a second REPLACE marker \u2014 decide your final replacement content BEFORE writing the block, one SEARCH/REPLACE pair only; ticket-gate-0: . Fix only this defect; do not restructure unrelated code or revisit already-passing behavior.",
+      "path": "docs/factory-ng/runs/2026-09-15T083020Z-engine-auto-sequence-excess-damage-token-count-109b0ec3af-v1-codex.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "One bounded gate-failure repair: the prior candidate was substantively close but failed a specific behavior or build gate.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.operator-excess-damage-recovery-sep15/v1",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Retain the terminal receipt and continue independent discovery; do not request manual source transcription.",
+  "parents": [
+    "ticket:engine.auto-sequence-excess-damage-token-count-109b0ec3af/v2"
+  ],
+  "required_behavior": [
+    "Within one spell sequence, compute excess damage actually dealt by the preceding target-creature damage_by source-power effect and use that amount as the subsequent create_token count.",
+    "Preserve these adjacent behaviors: Do not count total damage, source power, or battlefield quantities instead of excess damage.; Do not convert the one-way damage into fight damage or damage from the spell.",
+    "Add a discriminating behavior test named TestFactoryNGSequenceExcessDamageTokenCount_109b0ec3af; a compile-only assertion is insufficient.",
+    "Register every new public effect using regEffect in the allowed registry_*.go file, with executor and runtime test metadata; never edit the frozen registry literal.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases.",
+    "Preserve exact original gate commands. Use public card conversion/casting and sequence tests, including prevention, lethal/excess distinction, live power, marked damage, deathtouch, Infect, and isolation between resolutions."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_109b0ec3af_test.go",
+      "backend/cards/factory_ng_109b0ec3af_test.go",
+      "backend/cards/registry_factory_ng_109b0ec3af.go",
+      "backend/cards/shape_sequence_excess_damage_test.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "5a16c070bd7f94b358f74900cccaeea9d5c3a392",
+    "clean": true
+  },
+  "title": "Operator recovery of sequence excess damage token count",
+  "work_type": "engine",
+  "operator_recovery": {
+    "authorization": "User requested fixing all needs-attention tickets.",
+    "original_ticket": "docs/factory-ng/tickets/engine-auto-sequence-excess-damage-token-count-109b0ec3af-v2.json",
+    "original_ticket_sha256": "sha256:e216026139c50a7f5b7b84a9742c09d5094f4dbbdb69af9d36a821cd310c8d0e",
+    "failed_receipt": "docs/factory-ng/runs/2026-09-15T191422Z-engine-auto-sequence-excess-damage-token-count-109b0ec3af-v2-claude.json",
+    "failed_receipt_sha256": "sha256:c22e5192bc1e0346ccd429c83eb2d7f0feb1d1620fbcda4f1c016295a3117968",
+    "scope_addition_reason": "New shape test file implements the repository requirement that new primitive shape tests live in new shape files. No parser or corpus changes.",
+    "additional_provider_runs": 0,
+    "counter_resets": false
+  }
+}

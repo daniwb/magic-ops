@@ -1,0 +1,107 @@
+{
+  "evidence": [
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "anchor": "7457-7596",
+      "sha256": "sha256:fceea0027749cb7b025f75c37bb301f2ff5db104266b79023b2157a64f731533",
+      "fact": "Current exact pump branch; inspect the complete-card probe before editing."
+    },
+    {
+      "fact": "Thorntooth Witch is a current sole verb_unmapped:pump miss with pinned Oracle text.",
+      "path": "docs/factory-ng/measurements/build-plan-5b8aaa9b51-v1.json"
+    },
+    {
+      "fact": "The existing pump_until_eot primitive is registered with executor cards/converter.go case \"pump_until_eot\" -> SpellEffect + game/gamestate.go resolution (UntilEOT ContinuousEffect); ability tier: game/ability_effects.go case \"pump_until_eot\" -> executePumpEffect, TARGETED ONLY (no-target atoms no-op \u2014 see case comment) and shape test TestShape_Spell_PumpUntilEOT / TestShape_Modal_TargetedModes.",
+      "path": "backend/cards/registry.go"
+    },
+    {
+      "path": "docs/factory-ng/runs/2026-09-03T012555Z-map-plan-pump-thorntooth-witch-5b8aaa9b51-v1-claude.json",
+      "fact": "Context-only failure retained; fresh source answers are required. Current pinned-card audit: [{\"card\": \"Thorntooth Witch\", \"eligible\": false, \"misses\": [[\"verb_unmapped:pump\", \"have target creature get +3/-3 until end of turn.\"]], \"oracle_text\": \"Whenever you cast a Treefolk spell, you may have target creature get +3/-3 until end of turn.\", \"status\": \"review\"}]"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "qwen-prepared-direct@1.0.2",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "parser_probes": [
+      {
+        "card": "Thorntooth Witch",
+        "function": "reparse_card"
+      }
+    ],
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "One bounded successor for a proven missing-source failure, with the original questions resolved against current source.",
+    "warning_reflection_threshold": 500000,
+    "context_requests": [
+      "scripts/paragraph/reparse.py \u2014 the full `verb == 'pump'` branch(es) inside `map_atom` (if one exists elsewhere in the file), including any handling of numeric +N/-N or -N/-N amount strings, and any existing use of an `optional`/`may` key on the *effect value* dict (not just target_filter) for spell/ability effects like `pump_until_eot`.",
+      "scripts/paragraph/reparse.py \u2014 one or two existing call sites / test fixtures showing the exact tuple shape returned for `pump_until_eot` today (effect name, value dict keys such as power/toughness or amount, and target_filter dict keys), e.g. via a `grep -n \"pump_until_eot\"` across scripts/paragraph/.",
+      "an existing sibling test file under scripts/paragraph/ named like `test_factory_ng_*.py` (any one) so I can match the exact import style, `load_card`/`reparse_card` usage, and assertion style expected by the gate `python3 -m unittest test_factory_ng_5b8aaa9b51`."
+    ]
+  },
+  "gates": [
+    "cd scripts/paragraph && python3 -m unittest test_factory_ng_5b8aaa9b51",
+    "git diff --check",
+    "git status --porcelain adds or changes only scripts/paragraph/reparse.py and scripts/paragraph/test_factory_ng_5b8aaa9b51.py",
+    "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-5b8aaa9b51-v1.json reports zero remaining pinned members"
+  ],
+  "id": "ticket:map.plan-pump-thorntooth-witch-5b8aaa9b51/v2",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Record a structured verdict. NEEDS_PRIMITIVE creates one Engine dependency; invalid or mixed premises are terminal and discovery advances to another candidate.",
+  "parents": [
+    "plan:verb_unmapped:pump",
+    "ticket:map.plan-pump-thorntooth-witch-5b8aaa9b51/v1"
+  ],
+  "production": {
+    "key": "build-plan:verb_unmapped:pump:sha256:c87d45dc0798d914674e0bae952d2aafddc8f004820293352b8e99b73d838b7b",
+    "plan_rank": 4,
+    "predicted_class_unlock": 351,
+    "producer": "build-plan-integration-recovery",
+    "retry_generation": 0,
+    "integration_repair_generation": 1,
+    "retry_reason": "context_repair",
+    "context_repair_version": "python-handoff-v2"
+  },
+  "required_behavior": [
+    "Map the exact current verb_unmapped:pump miss on Thorntooth Witch through the already-registered pump_until_eot primitive without losing any Oracle semantics.",
+    "The pinned card loses this miss and retains no new or silently swallowed miss.",
+    "Add a focused positive test plus an adjacent negative that must remain unmapped.",
+    "If the exact amount, recipient, filter, referent, or duration cannot execute through existing runtime behavior, return NEEDS_PRIMITIVE with one atomic CAPABILITY_JSON instead of a partial Map patch.",
+    "Do not edit Engine, converter, corpus data, or use a card-name special case.",
+    "The prior observation is historical evidence, not proof that its patch is still correct. Preserve every current valid mapping. Do not restore an obsolete negative assertion for a shape now implemented.",
+    "Keep every original gate command and allowed path. Add or repair the named positive and adjacent-negative tests on this revision; assert all Oracle clauses, counts, choices, controller restrictions and durations, not just eligibility or one removed miss.",
+    "A pinned card already marked auto must still be reparsed and tested. If the implementation is already correct, return only meaningful regression-test changes; do not duplicate parser branches.",
+    "If the miss moved to spell_seq_targeted or a required runtime behavior is absent, return a validated atomic NEEDS_PRIMITIVE demand. Do not hide the new miss, drop a clause, or force status auto."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "scripts/paragraph/reparse.py",
+      "scripts/paragraph/test_factory_ng_5b8aaa9b51.py"
+    ],
+    "forbidden_paths": [
+      "backend/",
+      "backend/data/",
+      "scripts/paragraph/slotparse_oneshot.py"
+    ]
+  },
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "source": {
+    "repository": "/tmp/factory-four-context-bbklt5l6/source",
+    "revision": "54609c76ee6064d1b7081e26461618744c3e926a",
+    "clean": true
+  },
+  "title": "Repair failed integration: Map one proven verb_unmapped:pump class member: Thorntooth Witch",
+  "work_type": "map",
+  "supersedes": "ticket:map.plan-pump-thorntooth-witch-5b8aaa9b51/v1"
+}

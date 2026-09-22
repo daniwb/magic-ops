@@ -1,0 +1,289 @@
+{
+  "current_unresolved": [
+    {
+      "created_at": "2026-09-07T01:49:08Z",
+      "outcome": "gate_failed",
+      "receipt": "docs/factory-ng/runs/2026-09-07T182134Z-engine-auto-damage-recipient-attacked-target-8aa9c754cc-v3-claude.json",
+      "started_at": "2026-09-07T18:21:34Z",
+      "state": "failed",
+      "ticket_id": "ticket:engine.auto-damage-recipient-attacked-target-8aa9c754cc/v3",
+      "ticket_path": "docs/factory-ng/tickets/engine-auto-damage-recipient-attacked-target-8aa9c754cc-v3.json",
+      "updated_at": "2026-09-07T18:31:16Z",
+      "work_type": "engine",
+      "worker": "claude-2"
+    },
+    {
+      "created_at": "2026-09-08T22:16:36Z",
+      "outcome": "parked",
+      "receipt": "docs/factory-ng/runs/2026-09-08T222331Z-engine-staged-trial-verify-roustabout-v1-claude.json",
+      "started_at": "2026-09-08T22:23:31Z",
+      "state": "parked",
+      "ticket_id": "ticket:engine.staged-trial-verify-roustabout/v1",
+      "ticket_path": "docs/factory-ng/tickets/engine-staged-trial-verify-roustabout-v1.json",
+      "updated_at": "2026-09-08T22:25:53Z",
+      "work_type": "engine",
+      "worker": "claude"
+    }
+  ],
+  "definitions": [
+    "Raw counters are retained by profile. Do not add input and cached-input across providers: inclusion semantics differ.",
+    "elapsed_ms is accumulated provider-call wall time, not total attempt duration.",
+    "Candidate gate time includes compilation, test execution and gate overhead; separate compilation remains unknown.",
+    "Unknown cost is not free. Effective quota tokens and dollars cannot be inferred from raw counters.",
+    "Each receipt is counted once per report. Shared dependencies can belong to multiple mission reports; do not add their totals.",
+    "Accepted candidates and completed tickets are not whole-card verification."
+  ],
+  "integration": {
+    "outcomes": {
+      "pushed_full_production_gate_green": 1
+    },
+    "receipts_without_timing": 0,
+    "stage_times": {
+      "explicit_build_ms": 133516,
+      "other_integration_gates_ms": 380836,
+      "test_commands_including_compile_ms": 481561
+    }
+  },
+  "mission": "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v1",
+  "profiles": {
+    "claude-agentic-test@1.0.0": {
+      "attempts": 1,
+      "counters": {
+        "cache_read_tokens": {
+          "known_attempts": 1,
+          "known_sum": 1610127,
+          "unknown_attempts": 0
+        },
+        "cache_write_tokens": {
+          "known_attempts": 1,
+          "known_sum": 78493,
+          "unknown_attempts": 0
+        },
+        "elapsed_ms": {
+          "known_attempts": 1,
+          "known_sum": 183834,
+          "unknown_attempts": 0
+        },
+        "input_tokens": {
+          "known_attempts": 1,
+          "known_sum": 26777,
+          "unknown_attempts": 0
+        },
+        "output_tokens": {
+          "known_attempts": 1,
+          "known_sum": 14330,
+          "unknown_attempts": 0
+        },
+        "provider_cost_usd": {
+          "known_attempts": 0,
+          "known_sum": 0,
+          "unknown_attempts": 1
+        }
+      },
+      "outcomes": {
+        "gate_failed": 1
+      },
+      "stage_times": {
+        "attempt_wall_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 1
+        },
+        "candidate_gate_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 1
+        },
+        "compilation_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 1
+        },
+        "model_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 1
+        }
+      },
+      "ticket_versions": 1
+    },
+    "claude-agentic@1.0.0": {
+      "attempts": 1,
+      "counters": {
+        "cache_read_tokens": {
+          "known_attempts": 1,
+          "known_sum": 4884016,
+          "unknown_attempts": 0
+        },
+        "cache_write_tokens": {
+          "known_attempts": 1,
+          "known_sum": 118406,
+          "unknown_attempts": 0
+        },
+        "elapsed_ms": {
+          "known_attempts": 1,
+          "known_sum": 368590,
+          "unknown_attempts": 0
+        },
+        "input_tokens": {
+          "known_attempts": 1,
+          "known_sum": 24820,
+          "unknown_attempts": 0
+        },
+        "output_tokens": {
+          "known_attempts": 1,
+          "known_sum": 26651,
+          "unknown_attempts": 0
+        },
+        "provider_cost_usd": {
+          "known_attempts": 0,
+          "known_sum": 0,
+          "unknown_attempts": 1
+        }
+      },
+      "outcomes": {
+        "parked": 1
+      },
+      "stage_times": {
+        "attempt_wall_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 1
+        },
+        "candidate_gate_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 1
+        },
+        "compilation_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 1
+        },
+        "model_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 1
+        }
+      },
+      "ticket_versions": 1
+    },
+    "claude-staged@1.0.0": {
+      "attempts": 5,
+      "counters": {
+        "cache_read_tokens": {
+          "known_attempts": 5,
+          "known_sum": 124648,
+          "unknown_attempts": 0
+        },
+        "cache_write_tokens": {
+          "known_attempts": 5,
+          "known_sum": 218718,
+          "unknown_attempts": 0
+        },
+        "elapsed_ms": {
+          "known_attempts": 5,
+          "known_sum": 1082245,
+          "unknown_attempts": 0
+        },
+        "input_tokens": {
+          "known_attempts": 5,
+          "known_sum": 20,
+          "unknown_attempts": 0
+        },
+        "output_tokens": {
+          "known_attempts": 5,
+          "known_sum": 97572,
+          "unknown_attempts": 0
+        },
+        "provider_cost_usd": {
+          "known_attempts": 0,
+          "known_sum": 0,
+          "unknown_attempts": 5
+        }
+      },
+      "outcomes": {
+        "accepted_for_dependent_observation": 1,
+        "blocked_by_capability": 1,
+        "gate_failed": 1,
+        "infrastructure_failed_model_protocol": 1,
+        "parked": 1
+      },
+      "stage_times": {
+        "attempt_wall_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 5
+        },
+        "candidate_gate_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 5
+        },
+        "compilation_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 5
+        },
+        "model_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 5
+        }
+      },
+      "ticket_versions": 5
+    }
+  },
+  "schema": "factory.cost-report/v1",
+  "since": "all history",
+  "total": {
+    "attempts": 7,
+    "counters": {
+      "cache_read_tokens": {
+        "known_attempts": 7,
+        "known_sum": 6618791,
+        "unknown_attempts": 0
+      },
+      "cache_write_tokens": {
+        "known_attempts": 7,
+        "known_sum": 415617,
+        "unknown_attempts": 0
+      },
+      "elapsed_ms": {
+        "known_attempts": 7,
+        "known_sum": 1634669,
+        "unknown_attempts": 0
+      },
+      "input_tokens": {
+        "known_attempts": 7,
+        "known_sum": 51617,
+        "unknown_attempts": 0
+      },
+      "output_tokens": {
+        "known_attempts": 7,
+        "known_sum": 138553,
+        "unknown_attempts": 0
+      },
+      "provider_cost_usd": {
+        "known_attempts": 0,
+        "known_sum": 0,
+        "unknown_attempts": 7
+      }
+    },
+    "outcomes": {
+      "accepted_for_dependent_observation": 1,
+      "blocked_by_capability": 1,
+      "gate_failed": 2,
+      "infrastructure_failed_model_protocol": 1,
+      "parked": 2
+    },
+    "stage_times": {
+      "attempt_wall_ms": {
+        "known_sum": 0,
+        "unknown_attempts": 7
+      },
+      "candidate_gate_ms": {
+        "known_sum": 0,
+        "unknown_attempts": 7
+      },
+      "compilation_ms": {
+        "known_sum": 0,
+        "unknown_attempts": 7
+      },
+      "model_ms": {
+        "known_sum": 0,
+        "unknown_attempts": 7
+      }
+    },
+    "ticket_versions": 7
+  },
+  "until": "2026-09-09T06:12:23Z"
+}

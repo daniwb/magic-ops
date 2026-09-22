@@ -1,0 +1,128 @@
+{
+  "attempt_history": [],
+  "capability_assessments": [],
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-map-static-condition-graveyard-thresholds-v1-8dnyq4yf",
+    "candidate_commit": "def54b5e1de4765593e830a4e4127dfcd69e7e41",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "def54b5e1de4765593e830a4e4127dfcd69e7e41",
+    "source_tree_changed": false
+  },
+  "failure_category": "candidate_gate",
+  "gates": [
+    {
+      "detail": "scripts/paragraph/reparse.py: malformed FILE block (missing SEARCH/REPLACE/END delimiter)\n",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "applied: scripts/paragraph/reparse.py\ncreated: scripts/paragraph/test_static_condition_graveyard_thresholds.py\n",
+      "id": "patch-apply",
+      "outcome": "passed"
+    },
+    {
+      "detail": "changed=scripts/paragraph/reparse.py,scripts/paragraph/test_static_condition_graveyard_thresholds.py",
+      "id": "scope",
+      "outcome": "passed"
+    },
+    {
+      "command": "cd scripts/paragraph && python3 -m unittest test_static_condition_graveyard_thresholds",
+      "detail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.000s\nOK",
+      "elapsed_ms": 215,
+      "id": "ticket-gate-0",
+      "outcome": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "detail": "",
+      "elapsed_ms": 37,
+      "id": "ticket-gate-1",
+      "outcome": "passed"
+    },
+    {
+      "command": "git status --porcelain adds or changes only scripts/paragraph/reparse.py and scripts/paragraph/test_static_condition_graveyard_thresholds.py",
+      "detail": "changed=scripts/paragraph/reparse.py,scripts/paragraph/test_static_condition_graveyard_thresholds.py",
+      "elapsed_ms": 9,
+      "id": "ticket-gate-2",
+      "outcome": "passed"
+    },
+    {
+      "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/static-condition-graveyard-thresholds-v1.json reports zero remaining pinned members",
+      "detail": "\": \"Snooping Newsie\",\n      \"text_sha256\": \"sha256:66b1edcf06b5c5ea2c415d184e149512a598c1ea9be72e4574ccc6acde79aa4f\"\n    },\n    {\n      \"all_miss_shapes\": [\n        \"static_conditional\"\n      ],\n      \"details\": [\n        \"as long as there are five or more mana values among cards in your grav\"\n      ],\n      \"name\": \"Syndicate Infiltrator\",\n      \"text_sha256\": \"sha256:368da987b185a435aa97bed1557f63c26905756190f88888225fcdd722845e83\"\n    },\n    {\n      \"all_miss_shapes\": [\n        \"static_conditional\"\n      ],\n      \"details\": [\n        \"as long as there are four or more card types among cards in your grave\"\n      ],\n      \"name\": \"Winter, Misanthropic Guide\",\n      \"text_sha256\": \"sha256:291d7a42add8c0a7cdb1fa5ad5fc1ad6c1b8a3261e99db1d052a68f90691db3f\"\n    }\n  ],\n  \"pinned_member_count\": 7,\n  \"pinned_members_from\": \"/data/magic-stack/development/magic-ops/docs/factory-ng/measurements/static-condition-graveyard-thresholds-v1.json\",\n  \"pinned_unresolved_count\": 7,\n  \"pinned_unresolved_members\": [\n    {\n      \"misses\": [\n        [\n          \"static_conditional\",\n          \"as long as there are four or more card types among cards in your grave\"\n        ]\n      ],\n      \"name\": \"A-Dragon's Rage Channeler\"\n    },\n    {\n      \"misses\": [\n        [\n          \"static_conditional\",\n          \"as long as there are five or more mana values among cards in your grav\"\n        ]\n      ],\n      \"name\": \"A-Syndicate Infiltrator\"\n    },\n    {\n      \"misses\": [\n        [\n          \"static_conditional\",\n          \"as long as there are five or more mana values among cards in your grav\"\n        ]\n      ],\n      \"name\": \"Aven Heartstabber\"\n    },\n    {\n      \"misses\": [\n        [\n          \"static_conditional\",\n          \"as long as there are four or more card types among cards in your grave\"\n        ]\n      ],\n      \"name\": \"Dragon's Rage Channeler\"\n    },\n    {\n      \"misses\": [\n        [\n          \"static_conditional\",\n          \"as long as there are five or more mana values among cards in your grav\"\n        ]\n      ],\n      \"name\": \"Snooping Newsie\"\n    },\n    {\n      \"misses\": [\n        [\n          \"static_conditional\",\n          \"as long as there are five or more mana values among cards in your grav\"\n        ]\n      ],\n      \"name\": \"Syndicate Infiltrator\"\n    },\n    {\n      \"misses\": [\n        [\n          \"static_conditional\",\n          \"as long as there are four or more card types among cards in your grave\"\n        ]\n      ],\n      \"name\": \"Winter, Misanthropic Guide\"\n    }\n  ],\n  \"review_cards_scanned\": 7,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"static_conditional\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:57e769c4a14fbd8e45c91fc43a5c30c2dbc94ae536a4dd2249de28eebedc0b23\",\n    \"repository\": \"/tmp/factory-ng-map-static-condition-graveyard-thresholds-v1-8dnyq4yf\",\n    \"revision\": \"def54b5e1de4765593e830a4e4127dfcd69e7e41\"\n  }\n}\npinned remeasurement is not zero\npinned Map card still fails complete parsing; removing one miss category is insufficient",
+      "elapsed_ms": 277,
+      "id": "ticket-gate-3",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "openrouter-goose-staged@1.0.0",
+    "resolved_model": "openrouter/free",
+    "telemetry": {
+      "bounded_repair_attempted": true,
+      "cache_read_tokens": 0,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 30890,
+      "input_tokens": 40255,
+      "model_calls": 2,
+      "output_tokens": 7571,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      },
+      "stage_times": {
+        "attempt_wall_ms": 33406,
+        "candidate_gate_ms": 538,
+        "compilation_ms": {
+          "availability": "unavailable",
+          "reason": "go test includes package compilation; not separately timed"
+        },
+        "model_ms": 30890
+      }
+    },
+    "worker": "goose-small-map-qualification"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "gate_failed",
+  "raw_artifacts": [
+    {
+      "path": "docs/benchmarks/goose-openrouter-free-2026-09-21/small-map-qualification/graveyard-thresholds/runs/2026-09-21T143125Z-map-static-condition-graveyard-thresholds-v1-goose-openrouter-staged.raw.json",
+      "sha256": "sha256:aaf7eba2cbda7fdb06d92a0f983e49d5b234213e974347c93e35b8571c0d17b3"
+    },
+    {
+      "kind": "prepared_packet",
+      "path": "docs/benchmarks/goose-openrouter-free-2026-09-21/small-map-qualification/graveyard-thresholds/runs/2026-09-21T143125Z-map-static-condition-graveyard-thresholds-v1-goose-openrouter-staged.packet.txt",
+      "sha256": "sha256:e77a7d2b45d8a38bde38fda5c7ab895c0f50e04bc95e8546878ac28cd8a3fc52"
+    },
+    {
+      "kind": "knowledge_trace",
+      "path": "docs/benchmarks/goose-openrouter-free-2026-09-21/small-map-qualification/graveyard-thresholds/runs/2026-09-21T143125Z-map-static-condition-graveyard-thresholds-v1-goose-openrouter-staged.lookup.jsonl",
+      "sha256": "sha256:5aa1aafca8feeb318d369ae0e1540d6041b384a5d37f601046b4bf9245293e62"
+    },
+    {
+      "kind": "bounded_repair",
+      "path": "docs/benchmarks/goose-openrouter-free-2026-09-21/small-map-qualification/graveyard-thresholds/runs/2026-09-21T143125Z-map-static-condition-graveyard-thresholds-v1-goose-openrouter-staged.repair.raw.json",
+      "sha256": "sha256:7498a9b7003ffed4a1a7b6de572daf3400524abf549ac33a00e6401e4ce87100"
+    },
+    {
+      "kind": "repair_packet",
+      "path": "docs/benchmarks/goose-openrouter-free-2026-09-21/small-map-qualification/graveyard-thresholds/runs/2026-09-21T143125Z-map-static-condition-graveyard-thresholds-v1-goose-openrouter-staged.repair.packet.txt",
+      "sha256": "sha256:4147c062552fb5573b02390d6a24bea9361c11566bdeaca9ad83a849aef2cc96"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "ticket": {
+    "id": "ticket:map.static-condition-graveyard-thresholds/v1",
+    "path": "docs/factory-ng/tickets/map-static-condition-graveyard-thresholds-v1.json",
+    "sha256": "sha256:ae77e93564ed2be62f551615aab4bcf0962a4edb11969ee3b43a150c6d99dd50"
+  }
+}

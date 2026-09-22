@@ -1,0 +1,169 @@
+{
+  "at": "2026-09-16T22:53:49.966804+00:00",
+  "accepted": [
+    {
+      "ticket": "ticket:engine.auto-destroy-permanents-with-attribute-equal-to-count-cd9a3837ad/v4",
+      "receipt": "docs/factory-ng/runs/2026-09-16T225250Z-focused-283c27a2e66d4a8d9e5957553f21ac1b-0.json",
+      "receipt_sha256": "sha256:12220ff44f1059299e2f8f1f19eefeff7b9288c93bff868ff15967fee03cc8a0",
+      "recovery": {
+        "manifest_sha256": "sha256:b308e4de4cb696963560b1474798ca0d4a362495f3fba74e58805ca958109fd6",
+        "proposal": "docs/factory-ng/candidates/proposal-33f9f81ca022447d9b0dee2fa32a8332.json",
+        "proposal_sha256": "sha256:5bb463ff1d67fcec8d13c7847fe8abe506fba7ec80a87e3f9864052303b3d8d9",
+        "recovered_at": "2026-09-16T22:50:05Z",
+        "result_path": "state/factory-ng-job-output/engine-auto-destroy-permanents-with-attribute-equal-to-count-cd9a3837ad-v4-verification-ryzen-395-1.json",
+        "result_sha256": "sha256:fdc5cd1971692e8614ebbf8cccf4bf443bc6913b75b14490e59f96492ece97fd"
+      },
+      "model_calls": 1,
+      "gates": [
+        {
+          "detail": "changed=backend/cards/factory_ng_cd9a3837ad_test.go,backend/game/ability_effects.go",
+          "id": "scope",
+          "outcome": "passed"
+        },
+        {
+          "id": "diff-check",
+          "outcome": "passed"
+        },
+        {
+          "detail": "Formatted: backend/cards/factory_ng_cd9a3837ad_test.go,backend/game/ability_effects.go",
+          "id": "go-format",
+          "outcome": "passed"
+        },
+        {
+          "detail": "All newly added public effects are registered.",
+          "elapsed_ms": 155,
+          "id": "engine-vocabulary-handoff",
+          "outcome": "passed"
+        },
+        {
+          "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+          "detail": "",
+          "elapsed_ms": 15,
+          "id": "ticket-gate-0",
+          "outcome": "passed"
+        },
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGDestroyPermanentsWithAttributeEqualToCountersOnSource$' -count=1",
+          "detail": "testing: warning: no tests to run\nPASS\nok  \tmagic-backend/game\t0.004s [no tests to run]\n=== RUN   TestFactoryNGDestroyPermanentsWithAttributeEqualToCountersOnSource\n--- PASS: TestFactoryNGDestroyPermanentsWithAttributeEqualToCountersOnSource (0.00s)\nPASS\nok  \tmagic-backend/cards\t0.005s\nNamed test gate: 1 test(s) passed for '^TestFactoryNGDestroyPermanentsWithAttributeEqualToCountersOnSource$'",
+          "elapsed_ms": 36865,
+          "id": "ticket-gate-1",
+          "outcome": "passed"
+        },
+        {
+          "command": "cd backend && go test ./game ./cards",
+          "detail": "ok  \tmagic-backend/game\t0.033s\nok  \tmagic-backend/cards\t7.175s",
+          "elapsed_ms": 9189,
+          "id": "ticket-gate-2",
+          "outcome": "passed"
+        },
+        {
+          "command": "git diff --check",
+          "detail": "Checked against the individual patch before composition.",
+          "id": "ticket-gate-3",
+          "outcome": "passed"
+        }
+      ],
+      "execution": {
+        "candidate_commit": "31cb5e522e418c6a1ac4c1c2e9467742c2929549",
+        "candidate_patch": "docs/factory-ng/candidates/focused-283c27a2e66d4a8d9e5957553f21ac1b-0.patch",
+        "candidate_patch_sha256": "sha256:88e9a68ea5b2f377323ed5922e5c8022ddcdc55fa1338a734391bb72f4567caa",
+        "mode": "isolated_composed_verification",
+        "source_revision": "c6f5db5f11d3e7a329c5a07c627812e103771249",
+        "source_tree_changed": false,
+        "verification_batch": "283c27a2e66d4a8d9e5957553f21ac1b",
+        "verification_cpus": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "verification_host": "dani@192.168.1.251",
+        "verification_image": "sha256:e8565fa265f973c06f0515fac7aa9d102edae01b5677d69216900b84029c6ad0",
+        "verification_slot": 0,
+        "verified_ticket_ids": [
+          "ticket:engine.auto-destroy-permanents-with-attribute-equal-to-count-cd9a3837ad/v4"
+        ],
+        "verified_tree": "599505cd7b46cd88b19d33528d5f4f12da3919e3"
+      }
+    },
+    {
+      "ticket": "ticket:engine.auto-destroy-trigger-block-counterpart-referent-09d08a014b/v3",
+      "receipt": "docs/factory-ng/runs/2026-09-16T225159Z-focused-db80f00c51664820b20f3aa02b25434f-0.json",
+      "receipt_sha256": "sha256:64b2be722fc6b04b23bca4c67866a8b8069dd20cc3cac2d4c71bd5b8da6f911c",
+      "recovery": {
+        "manifest_sha256": "sha256:d9decb8bf5234728019832e777d6771da987711a50e1b49883ec1f7a1d19a07c",
+        "proposal": "docs/factory-ng/candidates/proposal-9f310e72055841dc9b1bbbaaebc18578.json",
+        "proposal_sha256": "sha256:70ac75d2dbd35f01127cf4f542c603456a69938386ec680788eb4f7b1ab27e20",
+        "recovered_at": "2026-09-16T22:50:05Z",
+        "result_path": "state/factory-ng-job-output/engine-auto-destroy-target-with-mana-value-equal-to-x-0dc016c91c-v3-verification-ryzen-395-2.json",
+        "result_sha256": "sha256:b110e9c516c09d528f5d3975adade14b5cf1d3087bd1722b0ef7e0aeefdc5160"
+      },
+      "model_calls": 1,
+      "gates": [
+        {
+          "detail": "changed=backend/cards/converter.go,backend/cards/factory_ng_09d08a014b_test.go,backend/game/gamestate.go",
+          "id": "scope",
+          "outcome": "passed"
+        },
+        {
+          "id": "diff-check",
+          "outcome": "passed"
+        },
+        {
+          "detail": "Formatted: backend/cards/converter.go,backend/cards/factory_ng_09d08a014b_test.go,backend/game/gamestate.go",
+          "id": "go-format",
+          "outcome": "passed"
+        },
+        {
+          "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+          "detail": "",
+          "elapsed_ms": 14,
+          "id": "ticket-gate-0",
+          "outcome": "passed"
+        },
+        {
+          "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGDestroyTriggerBlockCounterpartReferent_09d08a014b$' -count=1",
+          "detail": "testing: warning: no tests to run\nPASS\nok  \tmagic-backend/game\t0.007s [no tests to run]\n=== RUN   TestFactoryNGDestroyTriggerBlockCounterpartReferent_09d08a014b\n=== RUN   TestFactoryNGDestroyTriggerBlockCounterpartReferent_09d08a014b/becomes_blocked_destroys_blocker\n--- PASS: TestFactoryNGDestroyTriggerBlockCounterpartReferent_09d08a014b/becomes_blocked_destroys_blocker (0.00s)\n=== RUN   TestFactoryNGDestroyTriggerBlockCounterpartReferent_09d08a014b/blocks_destroys_attacker\n--- PASS: TestFactoryNGDestroyTriggerBlockCounterpartReferent_09d08a014b/blocks_destroys_attacker (0.00s)\n--- PASS: TestFactoryNGDestroyTriggerBlockCounterpartReferent_09d08a014b (0.00s)\nPASS\nok  \tmagic-backend/cards\t0.006s\nNamed test gate: 3 test(s) passed for '^TestFactoryNGDestroyTriggerBlockCounterpartReferent_09d08a014b$'",
+          "elapsed_ms": 37608,
+          "id": "ticket-gate-1",
+          "outcome": "passed"
+        },
+        {
+          "command": "cd backend && go test ./game ./cards",
+          "detail": "ok  \tmagic-backend/game\t0.037s\nok  \tmagic-backend/cards\t7.655s",
+          "elapsed_ms": 9710,
+          "id": "ticket-gate-2",
+          "outcome": "passed"
+        },
+        {
+          "command": "git diff --check",
+          "detail": "Checked against the individual patch before composition.",
+          "id": "ticket-gate-3",
+          "outcome": "passed"
+        }
+      ],
+      "execution": {
+        "candidate_commit": "64e758ed4093ff2d1a27aef5da0db5e3f81fb81f",
+        "candidate_patch": "docs/factory-ng/candidates/focused-db80f00c51664820b20f3aa02b25434f-0.patch",
+        "candidate_patch_sha256": "sha256:a23e1998696b3feffede9a2fb7edc94e963dd789bd00d2af67ce8c26afb34139",
+        "mode": "isolated_composed_verification",
+        "source_revision": "3aa766642ea15394428b79a5540fd337db06fabc",
+        "source_tree_changed": false,
+        "verification_batch": "db80f00c51664820b20f3aa02b25434f",
+        "verification_cpus": [
+          8,
+          9,
+          10,
+          11
+        ],
+        "verification_host": "dani@192.168.1.251",
+        "verification_image": "sha256:e8565fa265f973c06f0515fac7aa9d102edae01b5677d69216900b84029c6ad0",
+        "verification_slot": 2,
+        "verified_ticket_ids": [
+          "ticket:engine.auto-destroy-trigger-block-counterpart-referent-09d08a014b/v3"
+        ],
+        "verified_tree": "5c718af297a6c4155dc18372d3232429cb80652f"
+      }
+    }
+  ]
+}

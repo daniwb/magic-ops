@@ -1,0 +1,10 @@
+{
+  "scripts/factory-ng-produce-capability-dependency.py": "2f4147736b20f1ac659a4f71efe6b6ec0558cd6bfa640c1f26aef357db4d2fdf",
+  "scripts/factory-ng-controller.py": "c71e483118ee53910b931b0e8dda83d0d70735a9f568c081e5ac08c3dbee587a",
+  "scripts/factory-ng-watchdog.py": "a4e85e2c06fdeb72fe3e6116cf4dc48e7c2936d71cdd95a065adb66b5bbf8ac7",
+  "config/factory-ng-producers.json": "5fcb73f3ed60e5c4845a93345775b70ea961dce460eea8fc3db2da42078a783f",
+  "services/dispatcher/v4/dashboard.html": "b57664f849b35efcd17608e6962f76a19f88af491691c395d539caf9e48e4461",
+  "scripts/test_factory_ng_producer_isolation.py": "df0e9488cc0c6c628bf5166f9e76d93dc6498b4f5735ddc4352f1b6af7c2d4d4",
+  "scripts/test_factory_ng_reliability.py": "27adbd20679b76832397f0baa56e20f737747d201599399f41e2fd654f5ed084",
+  "scripts/test_factory_ng_producer_performance.py": "72ff3423e0198cfcc8c8d26da8d1393695a7cc5af29bc0542b2ad693638e8202"
+}

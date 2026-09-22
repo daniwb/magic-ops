@@ -14,7 +14,8 @@ OPS=/opt/development/magic-ops
 REPO=/opt/development/test/openmagic
 CLONE="${CLONE:-/tmp/work/handler-pipe-clone}"
 MODEL="${PIPE_MODEL:-claude-sonnet-5}"
-GO=/usr/local/go/bin/go
+GO=/opt/development/magic-ops/scripts/go-cache-run.sh
+GO_CACHE_RUN=/opt/development/magic-ops/scripts/go-cache-run.sh
 export GOCACHE=/opt/development/.gocache-magic
 LOG="/tmp/orch/handler-pipeline-$TICKET.log"
 log() { printf '[%s] hpipe-%s: %s\n' "$(date +%H:%M:%S)" "$TICKET" "$*" | tee -a "$LOG"; }
@@ -100,7 +101,7 @@ while [ $attempt -le 2 ]; do
       GATE_TAIL="Gate: no NEW test function (+func Test...) in your diff — the behavior test file is REQUIRED."
       log "gate: missing new test func"
     elif BUILD_OUT=$(cd backend && "$GO" build ./... 2>&1) \
-       && SUITE_OUT=$(bash scripts/test-cards-sharded.sh 6 2>&1); then
+       && SUITE_OUT=$("$GO_CACHE_RUN" exec bash scripts/test-cards-sharded.sh 6 2>&1); then
       log "GATE GREEN (build + suite)"
       git commit -qm "reparse(handler-task-$TICKET): handler-pipeline card build (staged run)"
       if [ $PUSH -eq 1 ]; then
@@ -156,7 +157,7 @@ $(printf '%s\n%s' "${BUILD_OUT:-}" "${SUITE_OUT:-}" | command grep -vE '^ok ' | 
         fi
         git add -A
         if BUILD_OUT=$(cd backend && "$GO" build ./... 2>&1) \
-           && SUITE_OUT=$(bash scripts/test-cards-sharded.sh 6 2>&1); then
+           && SUITE_OUT=$("$GO_CACHE_RUN" exec bash scripts/test-cards-sharded.sh 6 2>&1); then
           log "GATE GREEN after bugfix round $bfx"
           git commit -qm "reparse(handler-task-$TICKET): handler-pipeline card build (staged run, $bfx bugfix rounds)"
           if [ $PUSH -eq 1 ]; then

@@ -1,0 +1,30 @@
+[
+  {
+    "ticket": "ticket:engine.auto-prevent-combat-damage-from-attacking-creatures-0e1e73d55a/v3",
+    "receipt": "docs/factory-ng/runs/2026-09-16T160256Z-engine-auto-prevent-combat-damage-from-attacking-creatures-0e1e73d55a-v3-codex.json",
+    "exit_code": 6,
+    "detail": "backend/game/gamestate.go: SEARCH text not found (must be copied verbatim, no line numbers)\n",
+    "meaning": "patch-application replay only; no semantic acceptance"
+  },
+  {
+    "ticket": "ticket:engine.auto-untap-target-attached-b1b7838292/v1",
+    "receipt": "docs/factory-ng/runs/2026-09-16T160329Z-engine-auto-untap-target-attached-b1b7838292-v1-codex.json",
+    "exit_code": 6,
+    "detail": "backend/cards/converter.go: SEARCH text ambiguous (2 matches) \u2014 include more context lines\nbackend/cards/converter.go: SEARCH text ambiguous (2 matches) \u2014 include more context lines\n",
+    "meaning": "patch-application replay only; no semantic acceptance"
+  },
+  {
+    "ticket": "ticket:map.plan-exile-scarab-feast-d952117a2a/v5",
+    "receipt": "docs/factory-ng/runs/2026-09-16T082649Z-map-plan-exile-scarab-feast-d952117a2a-v5-codex.json",
+    "exit_code": 0,
+    "detail": "applied: scripts/paragraph/test_factory_ng_d952117a2a.py\napplied: scripts/paragraph/test_factory_ng_d952117a2a.py\n",
+    "meaning": "patch-application replay only; no semantic acceptance"
+  },
+  {
+    "ticket": "ticket:engine.auto-active-damage-receiver-type-gate-3b7d9305ad/v2",
+    "receipt": "docs/factory-ng/runs/2026-09-16T104907Z-engine-auto-active-damage-receiver-type-gate-3b7d9305ad-v2-codex.json",
+    "exit_code": 6,
+    "detail": "backend/cards/converter.go: SEARCH text not found (must be copied verbatim, no line numbers)\n",
+    "meaning": "patch-application replay only; no semantic acceptance"
+  }
+]

@@ -1,0 +1,53 @@
+{
+  "at": "2026-09-08T20:41:36.254562+00:00",
+  "controller_pids": [
+    3061331
+  ],
+  "runtime_phase": "producing_ticket",
+  "runtime_updated_at": "2026-09-08T20:41:13Z",
+  "dashboard_http": 200,
+  "canonical_clean": true,
+  "watchdog_problems": [
+    "49 unresolved integration failure(s)"
+  ],
+  "trial_jobs": {
+    "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v2": {
+      "state": "parked",
+      "outcome": "parked",
+      "attempts": 1,
+      "worker": "claude-2",
+      "pid": null,
+      "receipt": "docs/factory-ng/runs/2026-09-08T195944Z-map-plan-bounce-sigil-of-sleep-a3b32a7cef-v2-claude.json",
+      "superseded_by": null
+    },
+    "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v2": {
+      "state": "working",
+      "outcome": null,
+      "attempts": 2,
+      "worker": "claude",
+      "pid": 3052617,
+      "receipt": null,
+      "superseded_by": null
+    },
+    "ticket:map.plan-grant-eot-skittering-cicada-aaedaea801/v2": {
+      "state": "blocked",
+      "outcome": "blocked_by_capability",
+      "attempts": 3,
+      "worker": "claude-2",
+      "pid": null,
+      "receipt": "docs/factory-ng/runs/2026-09-08T203052Z-map-plan-grant-eot-skittering-cicada-aaedaea801-v2-claude.json",
+      "superseded_by": null
+    },
+    "ticket:map.plan-put-counters-siegfried-famed-swordsman-77e58aca02/v2": {
+      "state": "failed",
+      "outcome": "gate_failed",
+      "attempts": 1,
+      "worker": "claude-2",
+      "pid": null,
+      "receipt": "docs/factory-ng/runs/2026-09-08T195153Z-map-plan-put-counters-siegfried-famed-swordsman-77e58aca02-v2-claude.json",
+      "superseded_by": null
+    }
+  },
+  "complete_card_target_proven": false,
+  "deployment": false
+}

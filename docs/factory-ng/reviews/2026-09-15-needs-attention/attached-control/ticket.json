@@ -1,0 +1,1599 @@
+{
+  "capability": {
+    "expected_unlock": 1,
+    "negative_examples": [
+      "gain control of target creature you don't control until end of turn (an explicit chosen target with no Aura attachment) must keep using gain_control's existing chosen-target resolution unchanged",
+      "tap target enchanted creature / regenerate enchanted creature's existing target_attached resolution in ability_effects.go must not be altered"
+    ],
+    "required_behavior": "control_effects.go's executeGainControlEffect must support resolving the controlled permanent via the source's attachment (source.GetAttachedCard/AttachedTo, target_attached) when no explicit target is chosen, mirroring the existing tap_target (task-3188) and regenerate (engine.auto-regenerate-attached-target-b78ce3de89) attached-target resolution, combined with its already-documented until_eot revert and optional untap/keywords riders applied to that same resolved permanent",
+    "source_misses": [
+      {
+        "card": "Frenzied Fugue",
+        "oracle_text_sha256": "69b67b0d9662675ab9319f6cb6aded2aa666bad2c1ec70d4a478e17f99ec7ad8",
+        "paragraph": "When this Aura enters and at the beginning of your upkeep, gain control of enchanted permanent until end of turn. Untap that permanent. It gains haste until end of turn.",
+        "required_behavior": "gain_control must resolve 'enchanted permanent' as its target via attached-card resolution, with the linked 'untap that permanent' and 'it gains haste until end of turn' clauses riding the same resolved permanent as gain_control's existing untap/keywords rider mechanism, rather than as independent targets"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "key": "gain_control_target_attached",
+        "specification": {
+          "expected_unlock": 1,
+          "negative_examples": [
+            "gain control of target creature you don't control until end of turn (an explicit chosen target with no Aura attachment) must keep using gain_control's existing chosen-target resolution unchanged",
+            "tap target enchanted creature / regenerate enchanted creature's existing target_attached resolution in ability_effects.go must not be altered"
+          ],
+          "required_behavior": "control_effects.go's executeGainControlEffect must support resolving the controlled permanent via the source's attachment (source.GetAttachedCard/AttachedTo, target_attached) when no explicit target is chosen, mirroring the existing tap_target (task-3188) and regenerate (engine.auto-regenerate-attached-target-b78ce3de89) attached-target resolution, combined with its already-documented until_eot revert and optional untap/keywords riders applied to that same resolved permanent",
+          "source_misses": [
+            {
+              "card": "Frenzied Fugue",
+              "oracle_text_sha256": "69b67b0d9662675ab9319f6cb6aded2aa666bad2c1ec70d4a478e17f99ec7ad8",
+              "paragraph": "When this Aura enters and at the beginning of your upkeep, gain control of enchanted permanent until end of turn. Untap that permanent. It gains haste until end of turn.",
+              "required_behavior": "gain_control must resolve 'enchanted permanent' as its target via attached-card resolution, with the linked 'untap that permanent' and 'it gains haste until end of turn' clauses riding the same resolved permanent as gain_control's existing untap/keywords rider mechanism, rather than as independent targets"
+            }
+          ]
+        },
+        "summary": "gain_control effect must resolve its target from the source's attached permanent (enchanted permanent) instead of requiring an explicit chosen target"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-15T195711Z-map-plan-multi-frenzied-fugue-a4f2dc8c74-v1-claude.json"
+    },
+    {
+      "anchor": "21-140",
+      "fact": "Verified declaration game.GameState.executeGainControlEffect in source revision bda24aa7fa8364ce7060547e4d6325841ef95246; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"gain\" AND \"target\" AND \"attached\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "gain",
+            "target",
+            "attached"
+          ],
+          "query": "gain_control_target_attached",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "gain_control_target_attached",
+            "request_id": "c0a61eaababf4d8e905da05fb6af6dcc",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "c0a61eaababf4d8e905da05fb6af6dcc",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"gain\" AND \"target\" AND \"attached\"",
+            "\"gain\" AND \"target\" AND \"attached\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "gain",
+            "target",
+            "attached"
+          ],
+          "query": "gain_control_target_attached",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "gain_control_target_attached",
+            "request_id": "29494d9b0595424096f58ac3ce7f6f18",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "29494d9b0595424096f58ac3ce7f6f18",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "executeGainControlEffect implements the \"gain_control\" v2 primitive: \"Gain",
+              "doc": "executeGainControlEffect implements the \"gain_control\" v2 primitive: \"Gain\ncontrol of target creature[ an opponent controls][ until end of turn][.\nUntap it/that creature.][ It/That creature gains KEYWORD(s) until end of\nturn.]\" (task-1998, verb_unmapped:gain_control). Indefinite by default;\neffectValue[\"until_eot\"]==true reverts control to the pre-steal controller\nat the next cleanup step. The optional untap/keywords riders are bundled\ninto THIS atom's value rather than riding their own sequence atoms: the\nv2 sequence-atom Target-routing (cards/converter.go's exactly-one-\ntargeted-atom cast stub, game/effect_sequence.go's routeSeqTargets) only\ncleanly threads a resolved target to a SECOND atom by duplicating the\nTarget dict onto it, which either breaks the cast-time target requirement\n(converter.go only builds the stub when exactly one atom carries Target)\nor, left untargeted, falls through grant_keywords_until_eot's\naffects_filter default and grants the keyword to the resolving spell/\nability object instead of the stolen creature. Not reused from\ncardfns.GainControlUntilEOT (cardfns/lib_gain_control_until_eot.go) \u2014\nthis package can't import cardfns \u2014 but mirrors its snapshot/steal/\nEventCleanup-revert skeleton.\n",
+              "end": 196,
+              "kind": "engine",
+              "name": "executeGainControlEffect",
+              "package": "game",
+              "path": "backend/game/control_effects.go",
+              "qualified": "game.GameState.executeGainControlEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeGainControlEffect(controller int, source *Card, effectValue map[string]interface{}, targets []Target) error",
+              "start": 21,
+              "symbol_id": "backend/game/control_effects.go::game.GameState.executeGainControlEffect",
+              "symbol_kind": "function",
+              "title": "executeGainControlEffect"
+            }
+          ],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "execute",
+            "gain"
+          ],
+          "query": "executeGainControlEffect",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "executeGainControlEffect",
+            "request_id": "42ff78c436e14ed89b506073558a90cf",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "42ff78c436e14ed89b506073558a90cf",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "GetAttachedCard returns the card this is attached to, or nil",
+              "doc": "GetAttachedCard returns the card this is attached to, or nil\n",
+              "end": 39,
+              "kind": "engine",
+              "name": "GetAttachedCard",
+              "package": "game",
+              "path": "backend/game/attachments.go",
+              "qualified": "game.Card.GetAttachedCard",
+              "receiver": "Card",
+              "signature": "func (c *Card) GetAttachedCard(battlefield *Zone) *Card",
+              "start": 30,
+              "symbol_id": "backend/game/attachments.go::game.Card.GetAttachedCard",
+              "symbol_kind": "function",
+              "title": "GetAttachedCard"
+            }
+          ],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "attached",
+            "card"
+          ],
+          "query": "GetAttachedCard",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "GetAttachedCard",
+            "request_id": "0166ee68246b4ac38a46ba9d11b8ba4d",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "0166ee68246b4ac38a46ba9d11b8ba4d",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "attachedEquipment returns the Equipment cards currently attached to source",
+              "doc": "attachedEquipment returns the Equipment cards currently attached to source\n(source.Attachments also lists attached Auras, which this filters out \u2014\nUnattachEquipmentFromSelf only ever unattaches Equipment, [VOCAB] #1667).\n",
+              "end": 2295,
+              "kind": "engine",
+              "name": "attachedEquipment",
+              "package": "game",
+              "path": "backend/game/activated_abilities.go",
+              "qualified": "game.GameState.attachedEquipment",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) attachedEquipment(source *Card) []*Card",
+              "start": 2282,
+              "symbol_id": "backend/game/activated_abilities.go::game.GameState.attachedEquipment",
+              "symbol_kind": "function",
+              "title": "attachedEquipment"
+            },
+            {
+              "description": "evalDynamicAmountBase#case:attached_to_source",
+              "doc": "",
+              "end": 840,
+              "kind": "engine",
+              "name": "attached_to_source",
+              "package": "game",
+              "path": "backend/game/dynamic_amount.go",
+              "qualified": "game.GameState.evalDynamicAmountBase#case:attached_to_source",
+              "receiver": "GameState",
+              "signature": "evalDynamicAmountBase#case:attached_to_source",
+              "start": 825,
+              "symbol_id": "backend/game/dynamic_amount.go::game.GameState.evalDynamicAmountBase#case:attached_to_source",
+              "symbol_kind": "case",
+              "title": "attached_to_source"
+            },
+            {
+              "description": "IsAttached checks if this card is attached to something",
+              "doc": "IsAttached checks if this card is attached to something\n",
+              "end": 27,
+              "kind": "engine",
+              "name": "IsAttached",
+              "package": "game",
+              "path": "backend/game/attachments.go",
+              "qualified": "game.Card.IsAttached",
+              "receiver": "Card",
+              "signature": "func (c *Card) IsAttached() bool",
+              "start": 25,
+              "symbol_id": "backend/game/attachments.go::game.Card.IsAttached",
+              "symbol_kind": "function",
+              "title": "IsAttached"
+            },
+            {
+              "description": "GetAttachedCard returns the card this is attached to, or nil",
+              "doc": "GetAttachedCard returns the card this is attached to, or nil\n",
+              "end": 39,
+              "kind": "engine",
+              "name": "GetAttachedCard",
+              "package": "game",
+              "path": "backend/game/attachments.go",
+              "qualified": "game.Card.GetAttachedCard",
+              "receiver": "Card",
+              "signature": "func (c *Card) GetAttachedCard(battlefield *Zone) *Card",
+              "start": 30,
+              "symbol_id": "backend/game/attachments.go::game.Card.GetAttachedCard",
+              "symbol_kind": "function",
+              "title": "GetAttachedCard"
+            }
+          ],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [
+            "\"attached\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "attached"
+          ],
+          "query": "AttachedTo",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "AttachedTo",
+            "request_id": "a1d9b344856149b588ebd25225002c34",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "a1d9b344856149b588ebd25225002c34",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "GainLife causes a player to gain life, publishes the LifeGain event, and",
+              "doc": "GainLife causes a player to gain life, publishes the LifeGain event, and\nputs any matching triggered abilities on the stack. Use this instead of\ncalling Player.GainLife directly whenever GameState is available. The event\nreports the amount actually applied \u2014 after any LifeGainModifier\nreplacement effect (Bilbo-class: \"if you would gain life, you gain that\nmuch life plus 1 instead\") \u2014 not the pre-replacement amount, since Rule\n603.4 triggers observe the game state after replacement effects apply.\n",
+              "end": 7669,
+              "kind": "engine",
+              "name": "GainLife",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.GainLife",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) GainLife(playerIdx, amount int)",
+              "start": 7652,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.GainLife",
+              "symbol_kind": "function",
+              "title": "GainLife"
+            },
+            {
+              "description": "GainEnergy adds amount energy counters to playerIdx's pool and publishes",
+              "doc": "GainEnergy adds amount energy counters to playerIdx's pool and publishes\nEventEnergyGained (\"whenever you get one or more {E}\" triggers, task-2006).\nThis is the choke point: every energy-gain site (executeGainEnergyEffect,\nthe spell pre-effect, cardfns direct gains) routes through here so batch\ngains fire exactly one event. No-op on amount <= 0 (Player.GainEnergy's\nown guard, mirrored here so no event fires for an empty gain).\n",
+              "end": 3291,
+              "kind": "engine",
+              "name": "GainEnergy",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.GainEnergy",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) GainEnergy(playerIdx, amount int)",
+              "start": 3282,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.GainEnergy",
+              "symbol_kind": "function",
+              "title": "GainEnergy"
+            },
+            {
+              "description": "ApplyCantGrant#case:gain_life",
+              "doc": "",
+              "end": 57,
+              "kind": "engine",
+              "name": "gain_life",
+              "package": "game",
+              "path": "backend/game/cant.go",
+              "qualified": "game.GameState.ApplyCantGrant#case:gain_life",
+              "receiver": "GameState",
+              "signature": "ApplyCantGrant#case:gain_life",
+              "start": 56,
+              "symbol_id": "backend/game/cant.go::game.GameState.ApplyCantGrant#case:gain_life",
+              "symbol_kind": "case",
+              "title": "gain_life"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:gain_energy",
+              "doc": "",
+              "end": 7702,
+              "kind": "engine",
+              "name": "gain_energy",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:gain_energy",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:gain_energy",
+              "start": 7701,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:gain_energy",
+              "symbol_kind": "case",
+              "title": "gain_energy"
+            }
+          ],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "operation_only",
+          "fts_queries": [
+            "\"gain\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "gain"
+          ],
+          "query": "gain",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "gain",
+            "request_id": "88ff4248049944eebd6b93dd6db9a752",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "88ff4248049944eebd6b93dd6db9a752",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        }
+      ],
+      "path": "backend/game/control_effects.go",
+      "sha256": "sha256:e05b148d7ba6ea7a9a73152aa3031bbf38c8b3dfb2da3d42755946e6df9aec82",
+      "symbol": {
+        "description": "executeGainControlEffect implements the \"gain_control\" v2 primitive: \"Gain",
+        "discovery_role": "requirement_symbol",
+        "doc": "executeGainControlEffect implements the \"gain_control\" v2 primitive: \"Gain\ncontrol of target creature[ an opponent controls][ until end of turn][.\nUntap it/that creature.][ It/That creature gains KEYWORD(s) until end of\nturn.]\" (task-1998, verb_unmapped:gain_control). Indefinite by default;\neffectValue[\"until_eot\"]==true reverts control to the pre-steal controller\nat the next cleanup step. The optional untap/keywords riders are bundled\ninto THIS atom's value rather than riding their own sequence atoms: the\nv2 sequence-atom Target-routing (cards/converter.go's exactly-one-\ntargeted-atom cast stub, game/effect_sequence.go's routeSeqTargets) only\ncleanly threads a resolved target to a SECOND atom by duplicating the\nTarget dict onto it, which either breaks the cast-time target requirement\n(converter.go only builds the stub when exactly one atom carries Target)\nor, left untargeted, falls through grant_keywords_until_eot's\naffects_filter default and grants the keyword to the resolving spell/\nability object instead of the stolen creature. Not reused from\ncardfns.GainControlUntilEOT (cardfns/lib_gain_control_until_eot.go) \u2014\nthis package can't import cardfns \u2014 but mirrors its snapshot/steal/\nEventCleanup-revert skeleton.\n",
+        "end": 196,
+        "kind": "engine",
+        "name": "executeGainControlEffect",
+        "package": "game",
+        "path": "backend/game/control_effects.go",
+        "qualified": "game.GameState.executeGainControlEffect",
+        "receiver": "GameState",
+        "request_id": "42ff78c436e14ed89b506073558a90cf",
+        "signature": "func (gs *GameState) executeGainControlEffect(controller int, source *Card, effectValue map[string]interface{}, targets []Target) error",
+        "start": 21,
+        "symbol_id": "backend/game/control_effects.go::game.GameState.executeGainControlEffect",
+        "symbol_kind": "function",
+        "title": "executeGainControlEffect"
+      }
+    },
+    {
+      "anchor": "30-39",
+      "fact": "Verified declaration game.Card.GetAttachedCard in source revision bda24aa7fa8364ce7060547e4d6325841ef95246; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"gain\" AND \"target\" AND \"attached\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "gain",
+            "target",
+            "attached"
+          ],
+          "query": "gain_control_target_attached",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "gain_control_target_attached",
+            "request_id": "c0a61eaababf4d8e905da05fb6af6dcc",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "c0a61eaababf4d8e905da05fb6af6dcc",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"gain\" AND \"target\" AND \"attached\"",
+            "\"gain\" AND \"target\" AND \"attached\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "gain",
+            "target",
+            "attached"
+          ],
+          "query": "gain_control_target_attached",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "gain_control_target_attached",
+            "request_id": "29494d9b0595424096f58ac3ce7f6f18",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "29494d9b0595424096f58ac3ce7f6f18",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "executeGainControlEffect implements the \"gain_control\" v2 primitive: \"Gain",
+              "doc": "executeGainControlEffect implements the \"gain_control\" v2 primitive: \"Gain\ncontrol of target creature[ an opponent controls][ until end of turn][.\nUntap it/that creature.][ It/That creature gains KEYWORD(s) until end of\nturn.]\" (task-1998, verb_unmapped:gain_control). Indefinite by default;\neffectValue[\"until_eot\"]==true reverts control to the pre-steal controller\nat the next cleanup step. The optional untap/keywords riders are bundled\ninto THIS atom's value rather than riding their own sequence atoms: the\nv2 sequence-atom Target-routing (cards/converter.go's exactly-one-\ntargeted-atom cast stub, game/effect_sequence.go's routeSeqTargets) only\ncleanly threads a resolved target to a SECOND atom by duplicating the\nTarget dict onto it, which either breaks the cast-time target requirement\n(converter.go only builds the stub when exactly one atom carries Target)\nor, left untargeted, falls through grant_keywords_until_eot's\naffects_filter default and grants the keyword to the resolving spell/\nability object instead of the stolen creature. Not reused from\ncardfns.GainControlUntilEOT (cardfns/lib_gain_control_until_eot.go) \u2014\nthis package can't import cardfns \u2014 but mirrors its snapshot/steal/\nEventCleanup-revert skeleton.\n",
+              "end": 196,
+              "kind": "engine",
+              "name": "executeGainControlEffect",
+              "package": "game",
+              "path": "backend/game/control_effects.go",
+              "qualified": "game.GameState.executeGainControlEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeGainControlEffect(controller int, source *Card, effectValue map[string]interface{}, targets []Target) error",
+              "start": 21,
+              "symbol_id": "backend/game/control_effects.go::game.GameState.executeGainControlEffect",
+              "symbol_kind": "function",
+              "title": "executeGainControlEffect"
+            }
+          ],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "execute",
+            "gain"
+          ],
+          "query": "executeGainControlEffect",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "executeGainControlEffect",
+            "request_id": "42ff78c436e14ed89b506073558a90cf",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "42ff78c436e14ed89b506073558a90cf",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "GetAttachedCard returns the card this is attached to, or nil",
+              "doc": "GetAttachedCard returns the card this is attached to, or nil\n",
+              "end": 39,
+              "kind": "engine",
+              "name": "GetAttachedCard",
+              "package": "game",
+              "path": "backend/game/attachments.go",
+              "qualified": "game.Card.GetAttachedCard",
+              "receiver": "Card",
+              "signature": "func (c *Card) GetAttachedCard(battlefield *Zone) *Card",
+              "start": 30,
+              "symbol_id": "backend/game/attachments.go::game.Card.GetAttachedCard",
+              "symbol_kind": "function",
+              "title": "GetAttachedCard"
+            }
+          ],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "attached",
+            "card"
+          ],
+          "query": "GetAttachedCard",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "GetAttachedCard",
+            "request_id": "0166ee68246b4ac38a46ba9d11b8ba4d",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "0166ee68246b4ac38a46ba9d11b8ba4d",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "attachedEquipment returns the Equipment cards currently attached to source",
+              "doc": "attachedEquipment returns the Equipment cards currently attached to source\n(source.Attachments also lists attached Auras, which this filters out \u2014\nUnattachEquipmentFromSelf only ever unattaches Equipment, [VOCAB] #1667).\n",
+              "end": 2295,
+              "kind": "engine",
+              "name": "attachedEquipment",
+              "package": "game",
+              "path": "backend/game/activated_abilities.go",
+              "qualified": "game.GameState.attachedEquipment",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) attachedEquipment(source *Card) []*Card",
+              "start": 2282,
+              "symbol_id": "backend/game/activated_abilities.go::game.GameState.attachedEquipment",
+              "symbol_kind": "function",
+              "title": "attachedEquipment"
+            },
+            {
+              "description": "evalDynamicAmountBase#case:attached_to_source",
+              "doc": "",
+              "end": 840,
+              "kind": "engine",
+              "name": "attached_to_source",
+              "package": "game",
+              "path": "backend/game/dynamic_amount.go",
+              "qualified": "game.GameState.evalDynamicAmountBase#case:attached_to_source",
+              "receiver": "GameState",
+              "signature": "evalDynamicAmountBase#case:attached_to_source",
+              "start": 825,
+              "symbol_id": "backend/game/dynamic_amount.go::game.GameState.evalDynamicAmountBase#case:attached_to_source",
+              "symbol_kind": "case",
+              "title": "attached_to_source"
+            },
+            {
+              "description": "IsAttached checks if this card is attached to something",
+              "doc": "IsAttached checks if this card is attached to something\n",
+              "end": 27,
+              "kind": "engine",
+              "name": "IsAttached",
+              "package": "game",
+              "path": "backend/game/attachments.go",
+              "qualified": "game.Card.IsAttached",
+              "receiver": "Card",
+              "signature": "func (c *Card) IsAttached() bool",
+              "start": 25,
+              "symbol_id": "backend/game/attachments.go::game.Card.IsAttached",
+              "symbol_kind": "function",
+              "title": "IsAttached"
+            },
+            {
+              "description": "GetAttachedCard returns the card this is attached to, or nil",
+              "doc": "GetAttachedCard returns the card this is attached to, or nil\n",
+              "end": 39,
+              "kind": "engine",
+              "name": "GetAttachedCard",
+              "package": "game",
+              "path": "backend/game/attachments.go",
+              "qualified": "game.Card.GetAttachedCard",
+              "receiver": "Card",
+              "signature": "func (c *Card) GetAttachedCard(battlefield *Zone) *Card",
+              "start": 30,
+              "symbol_id": "backend/game/attachments.go::game.Card.GetAttachedCard",
+              "symbol_kind": "function",
+              "title": "GetAttachedCard"
+            }
+          ],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [
+            "\"attached\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "attached"
+          ],
+          "query": "AttachedTo",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "AttachedTo",
+            "request_id": "a1d9b344856149b588ebd25225002c34",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "a1d9b344856149b588ebd25225002c34",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "GainLife causes a player to gain life, publishes the LifeGain event, and",
+              "doc": "GainLife causes a player to gain life, publishes the LifeGain event, and\nputs any matching triggered abilities on the stack. Use this instead of\ncalling Player.GainLife directly whenever GameState is available. The event\nreports the amount actually applied \u2014 after any LifeGainModifier\nreplacement effect (Bilbo-class: \"if you would gain life, you gain that\nmuch life plus 1 instead\") \u2014 not the pre-replacement amount, since Rule\n603.4 triggers observe the game state after replacement effects apply.\n",
+              "end": 7669,
+              "kind": "engine",
+              "name": "GainLife",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.GainLife",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) GainLife(playerIdx, amount int)",
+              "start": 7652,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.GainLife",
+              "symbol_kind": "function",
+              "title": "GainLife"
+            },
+            {
+              "description": "GainEnergy adds amount energy counters to playerIdx's pool and publishes",
+              "doc": "GainEnergy adds amount energy counters to playerIdx's pool and publishes\nEventEnergyGained (\"whenever you get one or more {E}\" triggers, task-2006).\nThis is the choke point: every energy-gain site (executeGainEnergyEffect,\nthe spell pre-effect, cardfns direct gains) routes through here so batch\ngains fire exactly one event. No-op on amount <= 0 (Player.GainEnergy's\nown guard, mirrored here so no event fires for an empty gain).\n",
+              "end": 3291,
+              "kind": "engine",
+              "name": "GainEnergy",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.GainEnergy",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) GainEnergy(playerIdx, amount int)",
+              "start": 3282,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.GainEnergy",
+              "symbol_kind": "function",
+              "title": "GainEnergy"
+            },
+            {
+              "description": "ApplyCantGrant#case:gain_life",
+              "doc": "",
+              "end": 57,
+              "kind": "engine",
+              "name": "gain_life",
+              "package": "game",
+              "path": "backend/game/cant.go",
+              "qualified": "game.GameState.ApplyCantGrant#case:gain_life",
+              "receiver": "GameState",
+              "signature": "ApplyCantGrant#case:gain_life",
+              "start": 56,
+              "symbol_id": "backend/game/cant.go::game.GameState.ApplyCantGrant#case:gain_life",
+              "symbol_kind": "case",
+              "title": "gain_life"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:gain_energy",
+              "doc": "",
+              "end": 7702,
+              "kind": "engine",
+              "name": "gain_energy",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:gain_energy",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:gain_energy",
+              "start": 7701,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:gain_energy",
+              "symbol_kind": "case",
+              "title": "gain_energy"
+            }
+          ],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "operation_only",
+          "fts_queries": [
+            "\"gain\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "gain"
+          ],
+          "query": "gain",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "gain",
+            "request_id": "88ff4248049944eebd6b93dd6db9a752",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "88ff4248049944eebd6b93dd6db9a752",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        }
+      ],
+      "path": "backend/game/attachments.go",
+      "sha256": "sha256:5c881b8f685938503e8cb54495759fde55c162d33003f9e4824c4fae7c781c88",
+      "symbol": {
+        "description": "GetAttachedCard returns the card this is attached to, or nil",
+        "discovery_role": "requirement_symbol",
+        "doc": "GetAttachedCard returns the card this is attached to, or nil\n",
+        "end": 39,
+        "kind": "engine",
+        "name": "GetAttachedCard",
+        "package": "game",
+        "path": "backend/game/attachments.go",
+        "qualified": "game.Card.GetAttachedCard",
+        "receiver": "Card",
+        "request_id": "0166ee68246b4ac38a46ba9d11b8ba4d",
+        "signature": "func (c *Card) GetAttachedCard(battlefield *Zone) *Card",
+        "start": 30,
+        "symbol_id": "backend/game/attachments.go::game.Card.GetAttachedCard",
+        "symbol_kind": "function",
+        "title": "GetAttachedCard"
+      }
+    },
+    {
+      "anchor": "2282-2295",
+      "fact": "Verified declaration game.GameState.attachedEquipment in source revision bda24aa7fa8364ce7060547e4d6325841ef95246; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"gain\" AND \"target\" AND \"attached\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "gain",
+            "target",
+            "attached"
+          ],
+          "query": "gain_control_target_attached",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "gain_control_target_attached",
+            "request_id": "c0a61eaababf4d8e905da05fb6af6dcc",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "c0a61eaababf4d8e905da05fb6af6dcc",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"gain\" AND \"target\" AND \"attached\"",
+            "\"gain\" AND \"target\" AND \"attached\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "gain",
+            "target",
+            "attached"
+          ],
+          "query": "gain_control_target_attached",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "gain_control_target_attached",
+            "request_id": "29494d9b0595424096f58ac3ce7f6f18",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "29494d9b0595424096f58ac3ce7f6f18",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "executeGainControlEffect implements the \"gain_control\" v2 primitive: \"Gain",
+              "doc": "executeGainControlEffect implements the \"gain_control\" v2 primitive: \"Gain\ncontrol of target creature[ an opponent controls][ until end of turn][.\nUntap it/that creature.][ It/That creature gains KEYWORD(s) until end of\nturn.]\" (task-1998, verb_unmapped:gain_control). Indefinite by default;\neffectValue[\"until_eot\"]==true reverts control to the pre-steal controller\nat the next cleanup step. The optional untap/keywords riders are bundled\ninto THIS atom's value rather than riding their own sequence atoms: the\nv2 sequence-atom Target-routing (cards/converter.go's exactly-one-\ntargeted-atom cast stub, game/effect_sequence.go's routeSeqTargets) only\ncleanly threads a resolved target to a SECOND atom by duplicating the\nTarget dict onto it, which either breaks the cast-time target requirement\n(converter.go only builds the stub when exactly one atom carries Target)\nor, left untargeted, falls through grant_keywords_until_eot's\naffects_filter default and grants the keyword to the resolving spell/\nability object instead of the stolen creature. Not reused from\ncardfns.GainControlUntilEOT (cardfns/lib_gain_control_until_eot.go) \u2014\nthis package can't import cardfns \u2014 but mirrors its snapshot/steal/\nEventCleanup-revert skeleton.\n",
+              "end": 196,
+              "kind": "engine",
+              "name": "executeGainControlEffect",
+              "package": "game",
+              "path": "backend/game/control_effects.go",
+              "qualified": "game.GameState.executeGainControlEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeGainControlEffect(controller int, source *Card, effectValue map[string]interface{}, targets []Target) error",
+              "start": 21,
+              "symbol_id": "backend/game/control_effects.go::game.GameState.executeGainControlEffect",
+              "symbol_kind": "function",
+              "title": "executeGainControlEffect"
+            }
+          ],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "execute",
+            "gain"
+          ],
+          "query": "executeGainControlEffect",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "executeGainControlEffect",
+            "request_id": "42ff78c436e14ed89b506073558a90cf",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "42ff78c436e14ed89b506073558a90cf",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "GetAttachedCard returns the card this is attached to, or nil",
+              "doc": "GetAttachedCard returns the card this is attached to, or nil\n",
+              "end": 39,
+              "kind": "engine",
+              "name": "GetAttachedCard",
+              "package": "game",
+              "path": "backend/game/attachments.go",
+              "qualified": "game.Card.GetAttachedCard",
+              "receiver": "Card",
+              "signature": "func (c *Card) GetAttachedCard(battlefield *Zone) *Card",
+              "start": 30,
+              "symbol_id": "backend/game/attachments.go::game.Card.GetAttachedCard",
+              "symbol_kind": "function",
+              "title": "GetAttachedCard"
+            }
+          ],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "attached",
+            "card"
+          ],
+          "query": "GetAttachedCard",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "GetAttachedCard",
+            "request_id": "0166ee68246b4ac38a46ba9d11b8ba4d",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "0166ee68246b4ac38a46ba9d11b8ba4d",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "attachedEquipment returns the Equipment cards currently attached to source",
+              "doc": "attachedEquipment returns the Equipment cards currently attached to source\n(source.Attachments also lists attached Auras, which this filters out \u2014\nUnattachEquipmentFromSelf only ever unattaches Equipment, [VOCAB] #1667).\n",
+              "end": 2295,
+              "kind": "engine",
+              "name": "attachedEquipment",
+              "package": "game",
+              "path": "backend/game/activated_abilities.go",
+              "qualified": "game.GameState.attachedEquipment",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) attachedEquipment(source *Card) []*Card",
+              "start": 2282,
+              "symbol_id": "backend/game/activated_abilities.go::game.GameState.attachedEquipment",
+              "symbol_kind": "function",
+              "title": "attachedEquipment"
+            },
+            {
+              "description": "evalDynamicAmountBase#case:attached_to_source",
+              "doc": "",
+              "end": 840,
+              "kind": "engine",
+              "name": "attached_to_source",
+              "package": "game",
+              "path": "backend/game/dynamic_amount.go",
+              "qualified": "game.GameState.evalDynamicAmountBase#case:attached_to_source",
+              "receiver": "GameState",
+              "signature": "evalDynamicAmountBase#case:attached_to_source",
+              "start": 825,
+              "symbol_id": "backend/game/dynamic_amount.go::game.GameState.evalDynamicAmountBase#case:attached_to_source",
+              "symbol_kind": "case",
+              "title": "attached_to_source"
+            },
+            {
+              "description": "IsAttached checks if this card is attached to something",
+              "doc": "IsAttached checks if this card is attached to something\n",
+              "end": 27,
+              "kind": "engine",
+              "name": "IsAttached",
+              "package": "game",
+              "path": "backend/game/attachments.go",
+              "qualified": "game.Card.IsAttached",
+              "receiver": "Card",
+              "signature": "func (c *Card) IsAttached() bool",
+              "start": 25,
+              "symbol_id": "backend/game/attachments.go::game.Card.IsAttached",
+              "symbol_kind": "function",
+              "title": "IsAttached"
+            },
+            {
+              "description": "GetAttachedCard returns the card this is attached to, or nil",
+              "doc": "GetAttachedCard returns the card this is attached to, or nil\n",
+              "end": 39,
+              "kind": "engine",
+              "name": "GetAttachedCard",
+              "package": "game",
+              "path": "backend/game/attachments.go",
+              "qualified": "game.Card.GetAttachedCard",
+              "receiver": "Card",
+              "signature": "func (c *Card) GetAttachedCard(battlefield *Zone) *Card",
+              "start": 30,
+              "symbol_id": "backend/game/attachments.go::game.Card.GetAttachedCard",
+              "symbol_kind": "function",
+              "title": "GetAttachedCard"
+            }
+          ],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [
+            "\"attached\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "attached"
+          ],
+          "query": "AttachedTo",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "AttachedTo",
+            "request_id": "a1d9b344856149b588ebd25225002c34",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "a1d9b344856149b588ebd25225002c34",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "GainLife causes a player to gain life, publishes the LifeGain event, and",
+              "doc": "GainLife causes a player to gain life, publishes the LifeGain event, and\nputs any matching triggered abilities on the stack. Use this instead of\ncalling Player.GainLife directly whenever GameState is available. The event\nreports the amount actually applied \u2014 after any LifeGainModifier\nreplacement effect (Bilbo-class: \"if you would gain life, you gain that\nmuch life plus 1 instead\") \u2014 not the pre-replacement amount, since Rule\n603.4 triggers observe the game state after replacement effects apply.\n",
+              "end": 7669,
+              "kind": "engine",
+              "name": "GainLife",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.GainLife",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) GainLife(playerIdx, amount int)",
+              "start": 7652,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.GainLife",
+              "symbol_kind": "function",
+              "title": "GainLife"
+            },
+            {
+              "description": "GainEnergy adds amount energy counters to playerIdx's pool and publishes",
+              "doc": "GainEnergy adds amount energy counters to playerIdx's pool and publishes\nEventEnergyGained (\"whenever you get one or more {E}\" triggers, task-2006).\nThis is the choke point: every energy-gain site (executeGainEnergyEffect,\nthe spell pre-effect, cardfns direct gains) routes through here so batch\ngains fire exactly one event. No-op on amount <= 0 (Player.GainEnergy's\nown guard, mirrored here so no event fires for an empty gain).\n",
+              "end": 3291,
+              "kind": "engine",
+              "name": "GainEnergy",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.GainEnergy",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) GainEnergy(playerIdx, amount int)",
+              "start": 3282,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.GainEnergy",
+              "symbol_kind": "function",
+              "title": "GainEnergy"
+            },
+            {
+              "description": "ApplyCantGrant#case:gain_life",
+              "doc": "",
+              "end": 57,
+              "kind": "engine",
+              "name": "gain_life",
+              "package": "game",
+              "path": "backend/game/cant.go",
+              "qualified": "game.GameState.ApplyCantGrant#case:gain_life",
+              "receiver": "GameState",
+              "signature": "ApplyCantGrant#case:gain_life",
+              "start": 56,
+              "symbol_id": "backend/game/cant.go::game.GameState.ApplyCantGrant#case:gain_life",
+              "symbol_kind": "case",
+              "title": "gain_life"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:gain_energy",
+              "doc": "",
+              "end": 7702,
+              "kind": "engine",
+              "name": "gain_energy",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:gain_energy",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:gain_energy",
+              "start": 7701,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:gain_energy",
+              "symbol_kind": "case",
+              "title": "gain_energy"
+            }
+          ],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "operation_only",
+          "fts_queries": [
+            "\"gain\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "gain"
+          ],
+          "query": "gain",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "gain",
+            "request_id": "88ff4248049944eebd6b93dd6db9a752",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "88ff4248049944eebd6b93dd6db9a752",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        }
+      ],
+      "path": "backend/game/activated_abilities.go",
+      "sha256": "sha256:edf6d170ea88ccbc08b0b16fcbb97e43a47e12b5d16e242255def0ce1028fac1",
+      "symbol": {
+        "description": "attachedEquipment returns the Equipment cards currently attached to source",
+        "discovery_role": "requirement_symbol",
+        "doc": "attachedEquipment returns the Equipment cards currently attached to source\n(source.Attachments also lists attached Auras, which this filters out \u2014\nUnattachEquipmentFromSelf only ever unattaches Equipment, [VOCAB] #1667).\n",
+        "end": 2295,
+        "kind": "engine",
+        "name": "attachedEquipment",
+        "package": "game",
+        "path": "backend/game/activated_abilities.go",
+        "qualified": "game.GameState.attachedEquipment",
+        "receiver": "GameState",
+        "request_id": "a1d9b344856149b588ebd25225002c34",
+        "signature": "func (gs *GameState) attachedEquipment(source *Card) []*Card",
+        "start": 2282,
+        "symbol_id": "backend/game/activated_abilities.go::game.GameState.attachedEquipment",
+        "symbol_kind": "function",
+        "title": "attachedEquipment"
+      }
+    },
+    {
+      "anchor": "7652-7669",
+      "fact": "Verified declaration game.GameState.GainLife in source revision bda24aa7fa8364ce7060547e4d6325841ef95246; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"gain\" AND \"target\" AND \"attached\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "gain",
+            "target",
+            "attached"
+          ],
+          "query": "gain_control_target_attached",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "gain_control_target_attached",
+            "request_id": "c0a61eaababf4d8e905da05fb6af6dcc",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "c0a61eaababf4d8e905da05fb6af6dcc",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"gain\" AND \"target\" AND \"attached\"",
+            "\"gain\" AND \"target\" AND \"attached\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "gain",
+            "target",
+            "attached"
+          ],
+          "query": "gain_control_target_attached",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "gain_control_target_attached",
+            "request_id": "29494d9b0595424096f58ac3ce7f6f18",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "29494d9b0595424096f58ac3ce7f6f18",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "executeGainControlEffect implements the \"gain_control\" v2 primitive: \"Gain",
+              "doc": "executeGainControlEffect implements the \"gain_control\" v2 primitive: \"Gain\ncontrol of target creature[ an opponent controls][ until end of turn][.\nUntap it/that creature.][ It/That creature gains KEYWORD(s) until end of\nturn.]\" (task-1998, verb_unmapped:gain_control). Indefinite by default;\neffectValue[\"until_eot\"]==true reverts control to the pre-steal controller\nat the next cleanup step. The optional untap/keywords riders are bundled\ninto THIS atom's value rather than riding their own sequence atoms: the\nv2 sequence-atom Target-routing (cards/converter.go's exactly-one-\ntargeted-atom cast stub, game/effect_sequence.go's routeSeqTargets) only\ncleanly threads a resolved target to a SECOND atom by duplicating the\nTarget dict onto it, which either breaks the cast-time target requirement\n(converter.go only builds the stub when exactly one atom carries Target)\nor, left untargeted, falls through grant_keywords_until_eot's\naffects_filter default and grants the keyword to the resolving spell/\nability object instead of the stolen creature. Not reused from\ncardfns.GainControlUntilEOT (cardfns/lib_gain_control_until_eot.go) \u2014\nthis package can't import cardfns \u2014 but mirrors its snapshot/steal/\nEventCleanup-revert skeleton.\n",
+              "end": 196,
+              "kind": "engine",
+              "name": "executeGainControlEffect",
+              "package": "game",
+              "path": "backend/game/control_effects.go",
+              "qualified": "game.GameState.executeGainControlEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executeGainControlEffect(controller int, source *Card, effectValue map[string]interface{}, targets []Target) error",
+              "start": 21,
+              "symbol_id": "backend/game/control_effects.go::game.GameState.executeGainControlEffect",
+              "symbol_kind": "function",
+              "title": "executeGainControlEffect"
+            }
+          ],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "execute",
+            "gain"
+          ],
+          "query": "executeGainControlEffect",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "executeGainControlEffect",
+            "request_id": "42ff78c436e14ed89b506073558a90cf",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "42ff78c436e14ed89b506073558a90cf",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "GetAttachedCard returns the card this is attached to, or nil",
+              "doc": "GetAttachedCard returns the card this is attached to, or nil\n",
+              "end": 39,
+              "kind": "engine",
+              "name": "GetAttachedCard",
+              "package": "game",
+              "path": "backend/game/attachments.go",
+              "qualified": "game.Card.GetAttachedCard",
+              "receiver": "Card",
+              "signature": "func (c *Card) GetAttachedCard(battlefield *Zone) *Card",
+              "start": 30,
+              "symbol_id": "backend/game/attachments.go::game.Card.GetAttachedCard",
+              "symbol_kind": "function",
+              "title": "GetAttachedCard"
+            }
+          ],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "attached",
+            "card"
+          ],
+          "query": "GetAttachedCard",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "GetAttachedCard",
+            "request_id": "0166ee68246b4ac38a46ba9d11b8ba4d",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "0166ee68246b4ac38a46ba9d11b8ba4d",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        },
+        {
+          "candidates": [
+            {
+              "description": "attachedEquipment returns the Equipment cards currently attached to source",
+              "doc": "attachedEquipment returns the Equipment cards currently attached to source\n(source.Attachments also lists attached Auras, which this filters out \u2014\nUnattachEquipmentFromSelf only ever unattaches Equipment, [VOCAB] #1667).\n",
+              "end": 2295,
+              "kind": "engine",
+              "name": "attachedEquipment",
+              "package": "game",
+              "path": "backend/game/activated_abilities.go",
+              "qualified": "game.GameState.attachedEquipment",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) attachedEquipment(source *Card) []*Card",
+              "start": 2282,
+              "symbol_id": "backend/game/activated_abilities.go::game.GameState.attachedEquipment",
+              "symbol_kind": "function",
+              "title": "attachedEquipment"
+            },
+            {
+              "description": "evalDynamicAmountBase#case:attached_to_source",
+              "doc": "",
+              "end": 840,
+              "kind": "engine",
+              "name": "attached_to_source",
+              "package": "game",
+              "path": "backend/game/dynamic_amount.go",
+              "qualified": "game.GameState.evalDynamicAmountBase#case:attached_to_source",
+              "receiver": "GameState",
+              "signature": "evalDynamicAmountBase#case:attached_to_source",
+              "start": 825,
+              "symbol_id": "backend/game/dynamic_amount.go::game.GameState.evalDynamicAmountBase#case:attached_to_source",
+              "symbol_kind": "case",
+              "title": "attached_to_source"
+            },
+            {
+              "description": "IsAttached checks if this card is attached to something",
+              "doc": "IsAttached checks if this card is attached to something\n",
+              "end": 27,
+              "kind": "engine",
+              "name": "IsAttached",
+              "package": "game",
+              "path": "backend/game/attachments.go",
+              "qualified": "game.Card.IsAttached",
+              "receiver": "Card",
+              "signature": "func (c *Card) IsAttached() bool",
+              "start": 25,
+              "symbol_id": "backend/game/attachments.go::game.Card.IsAttached",
+              "symbol_kind": "function",
+              "title": "IsAttached"
+            },
+            {
+              "description": "GetAttachedCard returns the card this is attached to, or nil",
+              "doc": "GetAttachedCard returns the card this is attached to, or nil\n",
+              "end": 39,
+              "kind": "engine",
+              "name": "GetAttachedCard",
+              "package": "game",
+              "path": "backend/game/attachments.go",
+              "qualified": "game.Card.GetAttachedCard",
+              "receiver": "Card",
+              "signature": "func (c *Card) GetAttachedCard(battlefield *Zone) *Card",
+              "start": 30,
+              "symbol_id": "backend/game/attachments.go::game.Card.GetAttachedCard",
+              "symbol_kind": "function",
+              "title": "GetAttachedCard"
+            }
+          ],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "requirement_symbol",
+          "fts_queries": [
+            "\"attached\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "attached"
+          ],
+          "query": "AttachedTo",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:requirement_symbol",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "AttachedTo",
+            "request_id": "a1d9b344856149b588ebd25225002c34",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "a1d9b344856149b588ebd25225002c34",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "GainLife causes a player to gain life, publishes the LifeGain event, and",
+              "doc": "GainLife causes a player to gain life, publishes the LifeGain event, and\nputs any matching triggered abilities on the stack. Use this instead of\ncalling Player.GainLife directly whenever GameState is available. The event\nreports the amount actually applied \u2014 after any LifeGainModifier\nreplacement effect (Bilbo-class: \"if you would gain life, you gain that\nmuch life plus 1 instead\") \u2014 not the pre-replacement amount, since Rule\n603.4 triggers observe the game state after replacement effects apply.\n",
+              "end": 7669,
+              "kind": "engine",
+              "name": "GainLife",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.GainLife",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) GainLife(playerIdx, amount int)",
+              "start": 7652,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.GainLife",
+              "symbol_kind": "function",
+              "title": "GainLife"
+            },
+            {
+              "description": "GainEnergy adds amount energy counters to playerIdx's pool and publishes",
+              "doc": "GainEnergy adds amount energy counters to playerIdx's pool and publishes\nEventEnergyGained (\"whenever you get one or more {E}\" triggers, task-2006).\nThis is the choke point: every energy-gain site (executeGainEnergyEffect,\nthe spell pre-effect, cardfns direct gains) routes through here so batch\ngains fire exactly one event. No-op on amount <= 0 (Player.GainEnergy's\nown guard, mirrored here so no event fires for an empty gain).\n",
+              "end": 3291,
+              "kind": "engine",
+              "name": "GainEnergy",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.GainEnergy",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) GainEnergy(playerIdx, amount int)",
+              "start": 3282,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.GainEnergy",
+              "symbol_kind": "function",
+              "title": "GainEnergy"
+            },
+            {
+              "description": "ApplyCantGrant#case:gain_life",
+              "doc": "",
+              "end": 57,
+              "kind": "engine",
+              "name": "gain_life",
+              "package": "game",
+              "path": "backend/game/cant.go",
+              "qualified": "game.GameState.ApplyCantGrant#case:gain_life",
+              "receiver": "GameState",
+              "signature": "ApplyCantGrant#case:gain_life",
+              "start": 56,
+              "symbol_id": "backend/game/cant.go::game.GameState.ApplyCantGrant#case:gain_life",
+              "symbol_kind": "case",
+              "title": "gain_life"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:gain_energy",
+              "doc": "",
+              "end": 7702,
+              "kind": "engine",
+              "name": "gain_energy",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:gain_energy",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:gain_energy",
+              "start": 7701,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:gain_energy",
+              "symbol_kind": "case",
+              "title": "gain_energy"
+            }
+          ],
+          "current_source_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "discovery_role": "operation_only",
+          "fts_queries": [
+            "\"gain\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T21:55:20Z",
+          "indexed_revision": "bda24aa7fa8364ce7060547e4d6325841ef95246",
+          "normalized_words": [
+            "gain"
+          ],
+          "query": "gain",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "gain",
+            "request_id": "88ff4248049944eebd6b93dd6db9a752",
+            "ticket": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1"
+          },
+          "request_id": "88ff4248049944eebd6b93dd6db9a752",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "normalized_all_terms"
+        }
+      ],
+      "path": "backend/game/gamestate.go",
+      "sha256": "sha256:02d4a7e5bcdab4255801f6daf08f98f21205ac5f7832de7bace4c4b40e18d59c",
+      "symbol": {
+        "description": "GainLife causes a player to gain life, publishes the LifeGain event, and",
+        "discovery_role": "operation_only",
+        "doc": "GainLife causes a player to gain life, publishes the LifeGain event, and\nputs any matching triggered abilities on the stack. Use this instead of\ncalling Player.GainLife directly whenever GameState is available. The event\nreports the amount actually applied \u2014 after any LifeGainModifier\nreplacement effect (Bilbo-class: \"if you would gain life, you gain that\nmuch life plus 1 instead\") \u2014 not the pre-replacement amount, since Rule\n603.4 triggers observe the game state after replacement effects apply.\n",
+        "end": 7669,
+        "kind": "engine",
+        "name": "GainLife",
+        "package": "game",
+        "path": "backend/game/gamestate.go",
+        "qualified": "game.GameState.GainLife",
+        "receiver": "GameState",
+        "request_id": "88ff4248049944eebd6b93dd6db9a752",
+        "signature": "func (gs *GameState) GainLife(playerIdx, amount int)",
+        "start": 7652,
+        "symbol_id": "backend/game/gamestate.go::game.GameState.GainLife",
+        "symbol_kind": "function",
+        "title": "GainLife"
+      }
+    },
+    {
+      "fact": "The previous candidate compiled/ran and failed this exact gate: ticket-gate-0: . Fix only this defect; do not restructure unrelated code or revisit already-passing behavior.",
+      "path": "docs/factory-ng/runs/2026-09-15T220711Z-engine-auto-gain-control-target-attached-5ac3995d10-v1-codex.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "One bounded gate-failure repair: the prior candidate was substantively close but failed a specific behavior or build gate.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGGainControlTargetAttached_5ac3995d10$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.operator-attached-control-recovery-sep15/v1",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Retain the terminal receipt and continue independent discovery; do not request manual source transcription.",
+  "parents": [
+    "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v2"
+  ],
+  "production": {
+    "attention_recovery_parent": "ticket:map.plan-multi-frenzied-fugue-a4f2dc8c74/v1",
+    "key": "capability:gain_control_target_attached:sha256:5ac3995d10523ce2c59304c1375de58e1ec60e8947d51bcc3e5d856b87bbf014:gate-repair-v1",
+    "producer": "capability-dependencies",
+    "retry_reason": "semantic_gate_repair"
+  },
+  "required_behavior": [
+    "control_effects.go's executeGainControlEffect must support resolving the controlled permanent via the source's attachment (source.GetAttachedCard/AttachedTo, target_attached) when no explicit target is chosen, mirroring the existing tap_target (task-3188) and regenerate (engine.auto-regenerate-attached-target-b78ce3de89) attached-target resolution, combined with its already-documented until_eot revert and optional untap/keywords riders applied to that same resolved permanent",
+    "Preserve these adjacent behaviors: gain control of target creature you don't control until end of turn (an explicit chosen target with no Aura attachment) must keep using gain_control's existing chosen-target resolution unchanged; tap target enchanted creature / regenerate enchanted creature's existing target_attached resolution in ability_effects.go must not be altered",
+    "Add a discriminating behavior test named TestFactoryNGGainControlTargetAttached_5ac3995d10; a compile-only assertion is insufficient.",
+    "Register every new public effect using regEffect in the allowed registry_*.go file, with executor and runtime test metadata; never edit the frozen registry literal.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_5ac3995d10_test.go",
+      "backend/cards/factory_ng_5ac3995d10_test.go",
+      "backend/cards/registry_factory_ng_5ac3995d10.go",
+      "backend/game/control_effects.go",
+      "backend/cards/shape_attached_gain_control_test.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "813b40b7b2cc5204a12aba6875e7c1e1cbd7a6ce",
+    "clean": true
+  },
+  "supersedes": "ticket:engine.auto-gain-control-target-attached-5ac3995d10/v1",
+  "title": "Resolve temporary control through the source attachment",
+  "work_type": "engine",
+  "operator_recovery": {
+    "authorization": "User requested fixing all needs-attention tickets.",
+    "original_ticket": "docs/factory-ng/tickets/engine-auto-gain-control-target-attached-5ac3995d10-v2.json",
+    "original_ticket_sha256": "sha256:e5ff67963790f6e1832da99af569dc677d2272d55612492778fb883192e3f231",
+    "additional_provider_runs": 0,
+    "counter_resets": false,
+    "scope_addition_reason": "Recovered exact split-separator patch; requires boolean true and public aura-cast, activation, explicit-target and cleanup regression coverage."
+  }
+}

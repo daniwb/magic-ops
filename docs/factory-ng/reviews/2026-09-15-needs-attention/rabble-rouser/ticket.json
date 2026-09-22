@@ -1,0 +1,637 @@
+{
+  "evidence": [
+    {
+      "anchor": "10172-10311",
+      "fact": "Current exact pump branch; inspect the complete-card probe before editing.",
+      "path": "scripts/paragraph/reparse.py",
+      "sha256": "sha256:122f54579ca2da7cb62457fe880ba679eea26760fe93a0ee2c1912a04ea74cb6"
+    },
+    {
+      "fact": "The blocked member was revalidated after its Engine dependency integrated.",
+      "path": "docs/factory-ng/measurements/dependency-resume-b2b77856cd.json"
+    },
+    {
+      "fact": "The existing pump_until_eot primitive is registered with executor cards/converter.go case \"pump_until_eot\" -> SpellEffect + game/gamestate.go resolution (UntilEOT ContinuousEffect); ability tier: game/ability_effects.go case \"pump_until_eot\" -> executePumpEffect, TARGETED ONLY (no-target atoms no-op \u2014 see case comment) and shape test TestShape_Spell_PumpUntilEOT / TestShape_Modal_TargetedModes.",
+      "path": "backend/cards/registry.go"
+    },
+    {
+      "fact": "The previous local candidate and exact failed gates are retained for one bounded paid-profile repair.",
+      "path": "docs/factory-ng/runs/2026-09-02T140017Z-map-plan-pump-rabble-rouser-21e06a8b0b-v1-qwen.json"
+    },
+    {
+      "anchor": "5752-5764",
+      "fact": "Verified declaration game.GameState.buildGrantKeywordPlusDynamicPTEffect in source revision c67645fa2b99d0f0f546495e6146d5029e7dc4b7; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "c67645fa2b99d0f0f546495e6146d5029e7dc4b7",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"pump\" AND \"eot\" AND \"asymmetric\" AND \"source\" AND \"power\" AND \"attacking\" AND \"group\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T22:25:24Z",
+          "indexed_revision": "c67645fa2b99d0f0f546495e6146d5029e7dc4b7",
+          "normalized_words": [
+            "pump",
+            "eot",
+            "asymmetric",
+            "source",
+            "power",
+            "attacking",
+            "group"
+          ],
+          "query": "pump_until_eot_asymmetric_source_power_attacking_group",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "pump_until_eot_asymmetric_source_power_attacking_group",
+            "request_id": "bd81c8c9d02646a2ab8fbefd15851fae",
+            "ticket": "ticket:map.plan-pump-rabble-rouser-21e06a8b0b/v3"
+          },
+          "request_id": "bd81c8c9d02646a2ab8fbefd15851fae",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "buildGrantKeywordPlusDynamicPTEffect implements the",
+              "doc": "buildGrantKeywordPlusDynamicPTEffect implements the\ngrant_keyword_plus_dynamic_pt_until_eot primitive (ticket\nengine.auto-grant-keyword-plus-dynamic-pt-until-eot-bdb265d199, Skittering\nCicada class): \"Whenever you cast a colorless spell, until end of turn,\nthis creature gains trample and gets +X/+X, where X is that spell's mana\nvalue.\" Distinct from grant_keyword_eot (keyword only, no P/T) and the\nexisting power_from=referent_spell_mana_value pump (asymmetric +X/+0, no\nkeyword): the keyword and a SYMMETRIC +X/+X ride together on ONE\nContinuousEffect so both expire together at end of turn. X reuses the\nsame event_subject_mana_value dynamic-amount spec already evaluated by\nEvalDynamicAmountFull elsewhere, resolved fresh on every call so repeated\ntriggers each get their own independent effect instead of overwriting a\nshared one (0 is a legal resolved amount and still yields a grant, just\nwith a +0/+0 bonus).\n",
+              "end": 5764,
+              "kind": "engine",
+              "name": "buildGrantKeywordPlusDynamicPTEffect",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.buildGrantKeywordPlusDynamicPTEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) buildGrantKeywordPlusDynamicPTEffect(controller int, source *Card, effectValue map[string]interface{}, eventCard *Card, targets []Target) *ContinuousEffect",
+              "start": 5752,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.buildGrantKeywordPlusDynamicPTEffect",
+              "symbol_kind": "function",
+              "title": "buildGrantKeywordPlusDynamicPTEffect"
+            },
+            {
+              "description": "PowerToughnessUnequal implements the power_toughness_inequality_filter",
+              "doc": "PowerToughnessUnequal implements the power_toughness_inequality_filter\npermanent-filter bucket primitive (ticket\nengine.auto-power-toughness-inequality-filter-f31bdd4048, Gilt-Leaf\nWinnower class): \"destroy target ... creature whose power and toughness\naren't equal.\" Matches a permanent only when its CURRENT power differs\nfrom its CURRENT toughness. Read straight off Card.BasePower/\nBaseToughness rather than any printed/characteristic-defining snapshot \u2014\nevery P/T modifier this engine applies (CdaPTSpec recomputes, EOT\npump/shrink effects) writes directly into these two fields, so they\nalready reflect continuous effects at read time. Symmetric +1/+1 or\n-1/-1 counters need no special handling here: they add the same delta to\nboth sides, so they can never flip an equal P/T into an unequal one or\nvice versa \u2014 only an asymmetric modifier (e.g. a 4/4 pumped to 5/3) can.\nNon-creatures (nil BasePower/BaseToughness) never match.\n",
+              "end": 1347,
+              "kind": "engine",
+              "name": "PowerToughnessUnequal",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.PowerToughnessUnequal",
+              "receiver": "",
+              "signature": "func PowerToughnessUnequal(c *Card) bool",
+              "start": 1342,
+              "symbol_id": "backend/game/ability_effects.go::game.PowerToughnessUnequal",
+              "symbol_kind": "function",
+              "title": "PowerToughnessUnequal"
+            }
+          ],
+          "current_source_revision": "c67645fa2b99d0f0f546495e6146d5029e7dc4b7",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"pump\" AND \"eot\" AND \"asymmetric\" AND \"source\" AND \"power\" AND \"attacking\" AND \"group\"",
+            "\"pump\" AND \"eot\" AND \"asymmetric\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T22:25:24Z",
+          "indexed_revision": "c67645fa2b99d0f0f546495e6146d5029e7dc4b7",
+          "normalized_words": [
+            "pump",
+            "eot",
+            "asymmetric",
+            "source",
+            "power",
+            "attacking",
+            "group"
+          ],
+          "query": "pump_until_eot_asymmetric_source_power_attacking_group",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "pump_until_eot_asymmetric_source_power_attacking_group",
+            "request_id": "219ce1db07c04589b3e0a054081db803",
+            "ticket": "ticket:map.plan-pump-rabble-rouser-21e06a8b0b/v3"
+          },
+          "request_id": "219ce1db07c04589b3e0a054081db803",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:pump",
+              "doc": "",
+              "end": 7930,
+              "kind": "engine",
+              "name": "pump",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:pump",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:pump",
+              "start": 7926,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:pump",
+              "symbol_kind": "case",
+              "title": "pump"
+            }
+          ],
+          "current_source_revision": "c67645fa2b99d0f0f546495e6146d5029e7dc4b7",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T22:25:24Z",
+          "indexed_revision": "c67645fa2b99d0f0f546495e6146d5029e7dc4b7",
+          "normalized_words": [
+            "pump"
+          ],
+          "query": "pump",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "pump",
+            "request_id": "2839e7e21a1e423cb7ebd1d6668513eb",
+            "ticket": "ticket:map.plan-pump-rabble-rouser-21e06a8b0b/v3"
+          },
+          "request_id": "2839e7e21a1e423cb7ebd1d6668513eb",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d70f3a5f93971b0a656f751ae7d813fc9c9c94ae9b81a6b144fc4b86a8fe33f7",
+      "symbol": {
+        "description": "buildGrantKeywordPlusDynamicPTEffect implements the",
+        "discovery_role": "label_fallback",
+        "doc": "buildGrantKeywordPlusDynamicPTEffect implements the\ngrant_keyword_plus_dynamic_pt_until_eot primitive (ticket\nengine.auto-grant-keyword-plus-dynamic-pt-until-eot-bdb265d199, Skittering\nCicada class): \"Whenever you cast a colorless spell, until end of turn,\nthis creature gains trample and gets +X/+X, where X is that spell's mana\nvalue.\" Distinct from grant_keyword_eot (keyword only, no P/T) and the\nexisting power_from=referent_spell_mana_value pump (asymmetric +X/+0, no\nkeyword): the keyword and a SYMMETRIC +X/+X ride together on ONE\nContinuousEffect so both expire together at end of turn. X reuses the\nsame event_subject_mana_value dynamic-amount spec already evaluated by\nEvalDynamicAmountFull elsewhere, resolved fresh on every call so repeated\ntriggers each get their own independent effect instead of overwriting a\nshared one (0 is a legal resolved amount and still yields a grant, just\nwith a +0/+0 bonus).\n",
+        "end": 5764,
+        "kind": "engine",
+        "name": "buildGrantKeywordPlusDynamicPTEffect",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.buildGrantKeywordPlusDynamicPTEffect",
+        "receiver": "GameState",
+        "request_id": "219ce1db07c04589b3e0a054081db803",
+        "signature": "func (gs *GameState) buildGrantKeywordPlusDynamicPTEffect(controller int, source *Card, effectValue map[string]interface{}, eventCard *Card, targets []Target) *ContinuousEffect",
+        "start": 5752,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.buildGrantKeywordPlusDynamicPTEffect",
+        "symbol_kind": "function",
+        "title": "buildGrantKeywordPlusDynamicPTEffect"
+      }
+    },
+    {
+      "anchor": "7926-7930",
+      "fact": "Verified declaration game.GameState.ExecuteAbilityEffect#case:pump in source revision c67645fa2b99d0f0f546495e6146d5029e7dc4b7; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "c67645fa2b99d0f0f546495e6146d5029e7dc4b7",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"pump\" AND \"eot\" AND \"asymmetric\" AND \"source\" AND \"power\" AND \"attacking\" AND \"group\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T22:25:24Z",
+          "indexed_revision": "c67645fa2b99d0f0f546495e6146d5029e7dc4b7",
+          "normalized_words": [
+            "pump",
+            "eot",
+            "asymmetric",
+            "source",
+            "power",
+            "attacking",
+            "group"
+          ],
+          "query": "pump_until_eot_asymmetric_source_power_attacking_group",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "pump_until_eot_asymmetric_source_power_attacking_group",
+            "request_id": "bd81c8c9d02646a2ab8fbefd15851fae",
+            "ticket": "ticket:map.plan-pump-rabble-rouser-21e06a8b0b/v3"
+          },
+          "request_id": "bd81c8c9d02646a2ab8fbefd15851fae",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "buildGrantKeywordPlusDynamicPTEffect implements the",
+              "doc": "buildGrantKeywordPlusDynamicPTEffect implements the\ngrant_keyword_plus_dynamic_pt_until_eot primitive (ticket\nengine.auto-grant-keyword-plus-dynamic-pt-until-eot-bdb265d199, Skittering\nCicada class): \"Whenever you cast a colorless spell, until end of turn,\nthis creature gains trample and gets +X/+X, where X is that spell's mana\nvalue.\" Distinct from grant_keyword_eot (keyword only, no P/T) and the\nexisting power_from=referent_spell_mana_value pump (asymmetric +X/+0, no\nkeyword): the keyword and a SYMMETRIC +X/+X ride together on ONE\nContinuousEffect so both expire together at end of turn. X reuses the\nsame event_subject_mana_value dynamic-amount spec already evaluated by\nEvalDynamicAmountFull elsewhere, resolved fresh on every call so repeated\ntriggers each get their own independent effect instead of overwriting a\nshared one (0 is a legal resolved amount and still yields a grant, just\nwith a +0/+0 bonus).\n",
+              "end": 5764,
+              "kind": "engine",
+              "name": "buildGrantKeywordPlusDynamicPTEffect",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.buildGrantKeywordPlusDynamicPTEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) buildGrantKeywordPlusDynamicPTEffect(controller int, source *Card, effectValue map[string]interface{}, eventCard *Card, targets []Target) *ContinuousEffect",
+              "start": 5752,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.buildGrantKeywordPlusDynamicPTEffect",
+              "symbol_kind": "function",
+              "title": "buildGrantKeywordPlusDynamicPTEffect"
+            },
+            {
+              "description": "PowerToughnessUnequal implements the power_toughness_inequality_filter",
+              "doc": "PowerToughnessUnequal implements the power_toughness_inequality_filter\npermanent-filter bucket primitive (ticket\nengine.auto-power-toughness-inequality-filter-f31bdd4048, Gilt-Leaf\nWinnower class): \"destroy target ... creature whose power and toughness\naren't equal.\" Matches a permanent only when its CURRENT power differs\nfrom its CURRENT toughness. Read straight off Card.BasePower/\nBaseToughness rather than any printed/characteristic-defining snapshot \u2014\nevery P/T modifier this engine applies (CdaPTSpec recomputes, EOT\npump/shrink effects) writes directly into these two fields, so they\nalready reflect continuous effects at read time. Symmetric +1/+1 or\n-1/-1 counters need no special handling here: they add the same delta to\nboth sides, so they can never flip an equal P/T into an unequal one or\nvice versa \u2014 only an asymmetric modifier (e.g. a 4/4 pumped to 5/3) can.\nNon-creatures (nil BasePower/BaseToughness) never match.\n",
+              "end": 1347,
+              "kind": "engine",
+              "name": "PowerToughnessUnequal",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.PowerToughnessUnequal",
+              "receiver": "",
+              "signature": "func PowerToughnessUnequal(c *Card) bool",
+              "start": 1342,
+              "symbol_id": "backend/game/ability_effects.go::game.PowerToughnessUnequal",
+              "symbol_kind": "function",
+              "title": "PowerToughnessUnequal"
+            }
+          ],
+          "current_source_revision": "c67645fa2b99d0f0f546495e6146d5029e7dc4b7",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"pump\" AND \"eot\" AND \"asymmetric\" AND \"source\" AND \"power\" AND \"attacking\" AND \"group\"",
+            "\"pump\" AND \"eot\" AND \"asymmetric\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T22:25:24Z",
+          "indexed_revision": "c67645fa2b99d0f0f546495e6146d5029e7dc4b7",
+          "normalized_words": [
+            "pump",
+            "eot",
+            "asymmetric",
+            "source",
+            "power",
+            "attacking",
+            "group"
+          ],
+          "query": "pump_until_eot_asymmetric_source_power_attacking_group",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "pump_until_eot_asymmetric_source_power_attacking_group",
+            "request_id": "219ce1db07c04589b3e0a054081db803",
+            "ticket": "ticket:map.plan-pump-rabble-rouser-21e06a8b0b/v3"
+          },
+          "request_id": "219ce1db07c04589b3e0a054081db803",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:pump",
+              "doc": "",
+              "end": 7930,
+              "kind": "engine",
+              "name": "pump",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:pump",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:pump",
+              "start": 7926,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:pump",
+              "symbol_kind": "case",
+              "title": "pump"
+            }
+          ],
+          "current_source_revision": "c67645fa2b99d0f0f546495e6146d5029e7dc4b7",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T22:25:24Z",
+          "indexed_revision": "c67645fa2b99d0f0f546495e6146d5029e7dc4b7",
+          "normalized_words": [
+            "pump"
+          ],
+          "query": "pump",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "pump",
+            "request_id": "2839e7e21a1e423cb7ebd1d6668513eb",
+            "ticket": "ticket:map.plan-pump-rabble-rouser-21e06a8b0b/v3"
+          },
+          "request_id": "2839e7e21a1e423cb7ebd1d6668513eb",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d70f3a5f93971b0a656f751ae7d813fc9c9c94ae9b81a6b144fc4b86a8fe33f7",
+      "symbol": {
+        "description": "ExecuteAbilityEffect#case:pump",
+        "discovery_role": "operation_only",
+        "doc": "",
+        "end": 7930,
+        "kind": "engine",
+        "name": "pump",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.ExecuteAbilityEffect#case:pump",
+        "receiver": "GameState",
+        "request_id": "2839e7e21a1e423cb7ebd1d6668513eb",
+        "signature": "ExecuteAbilityEffect#case:pump",
+        "start": 7926,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:pump",
+        "symbol_kind": "case",
+        "title": "pump"
+      }
+    },
+    {
+      "anchor": "1342-1347",
+      "fact": "Verified declaration game.PowerToughnessUnequal in source revision c67645fa2b99d0f0f546495e6146d5029e7dc4b7; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "c67645fa2b99d0f0f546495e6146d5029e7dc4b7",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"pump\" AND \"eot\" AND \"asymmetric\" AND \"source\" AND \"power\" AND \"attacking\" AND \"group\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T22:25:24Z",
+          "indexed_revision": "c67645fa2b99d0f0f546495e6146d5029e7dc4b7",
+          "normalized_words": [
+            "pump",
+            "eot",
+            "asymmetric",
+            "source",
+            "power",
+            "attacking",
+            "group"
+          ],
+          "query": "pump_until_eot_asymmetric_source_power_attacking_group",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "pump_until_eot_asymmetric_source_power_attacking_group",
+            "request_id": "bd81c8c9d02646a2ab8fbefd15851fae",
+            "ticket": "ticket:map.plan-pump-rabble-rouser-21e06a8b0b/v3"
+          },
+          "request_id": "bd81c8c9d02646a2ab8fbefd15851fae",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "buildGrantKeywordPlusDynamicPTEffect implements the",
+              "doc": "buildGrantKeywordPlusDynamicPTEffect implements the\ngrant_keyword_plus_dynamic_pt_until_eot primitive (ticket\nengine.auto-grant-keyword-plus-dynamic-pt-until-eot-bdb265d199, Skittering\nCicada class): \"Whenever you cast a colorless spell, until end of turn,\nthis creature gains trample and gets +X/+X, where X is that spell's mana\nvalue.\" Distinct from grant_keyword_eot (keyword only, no P/T) and the\nexisting power_from=referent_spell_mana_value pump (asymmetric +X/+0, no\nkeyword): the keyword and a SYMMETRIC +X/+X ride together on ONE\nContinuousEffect so both expire together at end of turn. X reuses the\nsame event_subject_mana_value dynamic-amount spec already evaluated by\nEvalDynamicAmountFull elsewhere, resolved fresh on every call so repeated\ntriggers each get their own independent effect instead of overwriting a\nshared one (0 is a legal resolved amount and still yields a grant, just\nwith a +0/+0 bonus).\n",
+              "end": 5764,
+              "kind": "engine",
+              "name": "buildGrantKeywordPlusDynamicPTEffect",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.buildGrantKeywordPlusDynamicPTEffect",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) buildGrantKeywordPlusDynamicPTEffect(controller int, source *Card, effectValue map[string]interface{}, eventCard *Card, targets []Target) *ContinuousEffect",
+              "start": 5752,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.buildGrantKeywordPlusDynamicPTEffect",
+              "symbol_kind": "function",
+              "title": "buildGrantKeywordPlusDynamicPTEffect"
+            },
+            {
+              "description": "PowerToughnessUnequal implements the power_toughness_inequality_filter",
+              "doc": "PowerToughnessUnequal implements the power_toughness_inequality_filter\npermanent-filter bucket primitive (ticket\nengine.auto-power-toughness-inequality-filter-f31bdd4048, Gilt-Leaf\nWinnower class): \"destroy target ... creature whose power and toughness\naren't equal.\" Matches a permanent only when its CURRENT power differs\nfrom its CURRENT toughness. Read straight off Card.BasePower/\nBaseToughness rather than any printed/characteristic-defining snapshot \u2014\nevery P/T modifier this engine applies (CdaPTSpec recomputes, EOT\npump/shrink effects) writes directly into these two fields, so they\nalready reflect continuous effects at read time. Symmetric +1/+1 or\n-1/-1 counters need no special handling here: they add the same delta to\nboth sides, so they can never flip an equal P/T into an unequal one or\nvice versa \u2014 only an asymmetric modifier (e.g. a 4/4 pumped to 5/3) can.\nNon-creatures (nil BasePower/BaseToughness) never match.\n",
+              "end": 1347,
+              "kind": "engine",
+              "name": "PowerToughnessUnequal",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.PowerToughnessUnequal",
+              "receiver": "",
+              "signature": "func PowerToughnessUnequal(c *Card) bool",
+              "start": 1342,
+              "symbol_id": "backend/game/ability_effects.go::game.PowerToughnessUnequal",
+              "symbol_kind": "function",
+              "title": "PowerToughnessUnequal"
+            }
+          ],
+          "current_source_revision": "c67645fa2b99d0f0f546495e6146d5029e7dc4b7",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"pump\" AND \"eot\" AND \"asymmetric\" AND \"source\" AND \"power\" AND \"attacking\" AND \"group\"",
+            "\"pump\" AND \"eot\" AND \"asymmetric\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T22:25:24Z",
+          "indexed_revision": "c67645fa2b99d0f0f546495e6146d5029e7dc4b7",
+          "normalized_words": [
+            "pump",
+            "eot",
+            "asymmetric",
+            "source",
+            "power",
+            "attacking",
+            "group"
+          ],
+          "query": "pump_until_eot_asymmetric_source_power_attacking_group",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "pump_until_eot_asymmetric_source_power_attacking_group",
+            "request_id": "219ce1db07c04589b3e0a054081db803",
+            "ticket": "ticket:map.plan-pump-rabble-rouser-21e06a8b0b/v3"
+          },
+          "request_id": "219ce1db07c04589b3e0a054081db803",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:pump",
+              "doc": "",
+              "end": 7930,
+              "kind": "engine",
+              "name": "pump",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:pump",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:pump",
+              "start": 7926,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:pump",
+              "symbol_kind": "case",
+              "title": "pump"
+            }
+          ],
+          "current_source_revision": "c67645fa2b99d0f0f546495e6146d5029e7dc4b7",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T22:25:24Z",
+          "indexed_revision": "c67645fa2b99d0f0f546495e6146d5029e7dc4b7",
+          "normalized_words": [
+            "pump"
+          ],
+          "query": "pump",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "pump",
+            "request_id": "2839e7e21a1e423cb7ebd1d6668513eb",
+            "ticket": "ticket:map.plan-pump-rabble-rouser-21e06a8b0b/v3"
+          },
+          "request_id": "2839e7e21a1e423cb7ebd1d6668513eb",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d70f3a5f93971b0a656f751ae7d813fc9c9c94ae9b81a6b144fc4b86a8fe33f7",
+      "symbol": {
+        "description": "PowerToughnessUnequal implements the power_toughness_inequality_filter",
+        "discovery_role": "label_fallback",
+        "doc": "PowerToughnessUnequal implements the power_toughness_inequality_filter\npermanent-filter bucket primitive (ticket\nengine.auto-power-toughness-inequality-filter-f31bdd4048, Gilt-Leaf\nWinnower class): \"destroy target ... creature whose power and toughness\naren't equal.\" Matches a permanent only when its CURRENT power differs\nfrom its CURRENT toughness. Read straight off Card.BasePower/\nBaseToughness rather than any printed/characteristic-defining snapshot \u2014\nevery P/T modifier this engine applies (CdaPTSpec recomputes, EOT\npump/shrink effects) writes directly into these two fields, so they\nalready reflect continuous effects at read time. Symmetric +1/+1 or\n-1/-1 counters need no special handling here: they add the same delta to\nboth sides, so they can never flip an equal P/T into an unequal one or\nvice versa \u2014 only an asymmetric modifier (e.g. a 4/4 pumped to 5/3) can.\nNon-creatures (nil BasePower/BaseToughness) never match.\n",
+        "end": 1347,
+        "kind": "engine",
+        "name": "PowerToughnessUnequal",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.PowerToughnessUnequal",
+        "receiver": "",
+        "request_id": "219ce1db07c04589b3e0a054081db803",
+        "signature": "func PowerToughnessUnequal(c *Card) bool",
+        "start": 1342,
+        "symbol_id": "backend/game/ability_effects.go::game.PowerToughnessUnequal",
+        "symbol_kind": "function",
+        "title": "PowerToughnessUnequal"
+      }
+    },
+    {
+      "fact": "The required atomic Engine capability passed full integration gates. Runtime contract: pump_until_eot must support a power-only dynamic amount sourced from the ability's own power (source_power), applied via a group_filter selecting every currently attacking creature (any controller), while leaving toughness fixed at +0 rather than folding the amount onto both power and toughness",
+      "ticket": "ticket:engine.auto-pump-until-eot-asymmetric-source-power-attacking-c3336335ea/v1"
+    },
+    {
+      "fact": "Failed integration recovery; current pinned-card audit: [{\"card\": \"Rabble-Rouser\", \"eligible\": false, \"misses\": [[\"verb_unmapped:pump\", \"attacking creatures get +x/+0 until end of turn, where x is ~'s power.\"]], \"oracle_text\": \"Bloodthirst 1 (If an opponent was dealt damage this turn, this creature enters with a +1/+1 counter on it.)\\n{R}, {T}: Attacking creatures get +X/+0 until end of turn, where X is this creature's power.\", \"status\": \"review\"}]",
+      "path": "docs/factory-ng/runs/2026-09-15T223102Z-map-plan-pump-rabble-rouser-21e06a8b0b-v3-codex.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "parser_probes": [
+      {
+        "card": "Rabble-Rouser",
+        "function": "reparse_card"
+      }
+    ],
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "Rebase an accepted Map candidate against current source and verify its complete Oracle behavior; the discovery frontier no longer represents this failed obligation.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "cd scripts/paragraph && python3 -m unittest test_factory_ng_21e06a8b0b",
+    "git diff --check",
+    "git status --porcelain adds or changes only scripts/paragraph/reparse.py and scripts/paragraph/test_factory_ng_21e06a8b0b.py",
+    "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-21e06a8b0b-retry1.json reports zero remaining pinned members"
+  ],
+  "id": "ticket:map.operator-rabble-rouser-recovery-sep15/v1",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Compile any new validated atomic dependency automatically; otherwise retain the terminal verdict and advance discovery.",
+  "parents": [
+    "ticket:map.plan-pump-rabble-rouser-21e06a8b0b/v4"
+  ],
+  "production": {
+    "attention_recovery_parent": "ticket:map.plan-pump-rabble-rouser-21e06a8b0b/v2",
+    "integration_repair_generation": 1,
+    "key": "build-plan:verb_unmapped:pump:sha256:0aa24446df607b324b979276ff48dcf94d0eb8f9400d532049c56460bf26758c:after:ticket:engine.auto-pump-until-eot-asymmetric-source-power-attacking-c3336335ea/v1",
+    "producer": "build-plan-integration-recovery",
+    "retry_reason": "integration_conflict_repair"
+  },
+  "required_behavior": [
+    "Map the exact current verb_unmapped:pump miss on Rabble-Rouser through the already-registered pump_until_eot primitive without losing any Oracle semantics.",
+    "The pinned card loses all 1 misses of this family and becomes eligible with no new or silently swallowed miss.",
+    "Add a focused positive test plus an adjacent negative that must remain unmapped.",
+    "If the exact amount, recipient, filter, referent, or duration cannot execute through existing runtime behavior, return NEEDS_PRIMITIVE with one atomic CAPABILITY_JSON instead of a partial Map patch.",
+    "Do not edit Engine, converter, corpus data, or use a card-name special case.",
+    "The Engine dependency landing is not proof this card is fixed. Verify the complete Oracle mapping against its runtime representation, including every ability, even if parsing is already eligible.",
+    "The prior observation is historical evidence, not proof that its patch is still correct. Preserve every current valid mapping. Do not restore an obsolete negative assertion for a shape now implemented.",
+    "Keep every original gate command and allowed path. Add or repair the named positive and adjacent-negative tests on this revision; assert all Oracle clauses, counts, choices, controller restrictions and durations, not just eligibility or one removed miss.",
+    "A pinned card already marked auto must still be reparsed and tested. If the implementation is already correct, return only meaningful regression-test changes; do not duplicate parser branches.",
+    "If the miss moved to spell_seq_targeted or a required runtime behavior is absent, return a validated atomic NEEDS_PRIMITIVE demand. Do not hide the new miss, drop a clause, or force status auto.",
+    "Repair the observed failing contract without weakening it: [{\"detail\": \"scripts/paragraph/reparse.py: SEARCH text not found (must be copied verbatim, no line numbers)\\n\", \"id\": \"initial-patch-apply\", \"outcome\": \"failed\"}, {\"command\": \"python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-21e06a8b0b-retry1.json reports zero remaining pinned members\", \"detail\": \"factory-ng-targeted-demand.py: error: pinned member Rabble-Rouser emits unregistered effects: bloodthirst\\nusage: factory-ng-targeted-demand.py [-h] [--repo REPO]\\n                                     [--members-from MEMBERS_FROM] [--summary]\\n                                     [shape]\\nfactory-ng-targeted-demand.py: error: pinned member Rabble-Rouser emits unregistered effects: bloodthirst\", \"elapsed_ms\": 1782, \"id\": \"ticket-gate-3\", \"outcome\": \"failed\"}]"
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "scripts/paragraph/reparse.py",
+      "scripts/paragraph/test_factory_ng_21e06a8b0b.py"
+    ],
+    "forbidden_paths": [
+      "backend/",
+      "backend/data/",
+      "scripts/paragraph/slotparse_oneshot.py"
+    ]
+  },
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "168e3851cc5e1e8ff2b1e2552a311dd18626ee31",
+    "clean": true
+  },
+  "supersedes": "ticket:map.plan-pump-rabble-rouser-21e06a8b0b/v3",
+  "title": "Map Rabble-Rouser after effective-power and Bloodthirst repairs",
+  "work_type": "map",
+  "operator_recovery": {
+    "authorization": "User requested fixing all needs-attention tickets.",
+    "original_ticket": "docs/factory-ng/tickets/map-plan-pump-rabble-rouser-21e06a8b0b-v4.json",
+    "original_ticket_sha256": "sha256:427341622a0f8d955e14b1184062191cbd100053d5e5454f651d4d97dcd0889b",
+    "additional_provider_runs": 0,
+    "counter_resets": false,
+    "scope_addition_reason": "No scope expansion. Rebase retained proposal onto registered Bloodthirst runtime, fix uninitialized self_where_x reference and reject unsupported keyword riders."
+  }
+}

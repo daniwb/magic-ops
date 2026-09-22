@@ -1,0 +1,15 @@
+
+
+## CURRENT SCOPE FILES AND REQUIRED TEST DECLARATIONS
+EXISTS (SEARCH/REPLACE only): backend/game/ability_effects.go
+EXISTS (SEARCH/REPLACE only): backend/game/dynamic_amount.go
+EXISTS (SEARCH/REPLACE only): backend/game/effects.go
+EXISTS (SEARCH/REPLACE only): backend/game/card.go
+EXISTS (SEARCH/REPLACE only): backend/game/gamestate.go
+EXISTS (SEARCH/REPLACE only): backend/game/targeting.go
+EXISTS (SEARCH/REPLACE only): backend/cards/converter.go
+EXISTS (SEARCH/REPLACE only): backend/cards/registry.go
+NOT READABLE OR ABSENT (verify before NEWFILE): backend/game/factory_ng_02fff2db77_test.go
+NOT READABLE OR ABSENT (verify before NEWFILE): backend/cards/factory_ng_02fff2db77_test.go
+NOT READABLE OR ABSENT (verify before NEWFILE): backend/cards/registry_factory_ng_02fff2db77.go
+Required test TestFactoryNGForEachAttackerOwnerChoiceLibraryPlacement_02fff2db77: NOT declared in allowed test files; supply this exact behavioral test, preserving the contract.

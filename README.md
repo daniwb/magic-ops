@@ -1,15 +1,30 @@
-# magic-ops — Operational Pipeline (Dispatcher / Orchestrator)
+# magic-ops — Factory NG infrastructure
 
-Betriebs-Tooling der Karten-Bau-Pipeline, getrennt vom Spiel-Repo (openmagic).
-Die **Skills** bleiben bewusst in openmagic (`scripts/skills/`), weil die Worker
-sie über `git clone` erhalten — sie gehören ins Spiel-Repo, nicht hierher.
+This repository contains the Factory NG control plane for the Magic
+card-engine project: deterministic TicketSpec producers, model-specific worker
+adapters, isolated-clone harnesses, immutable receipts, full-gate integration,
+the operator dashboard, and supervision.
 
-## Inhalt
-- `scripts/`   Orchestrator + Card-Worker + VOCAB-Batch + Pace-Gate (+ archive/)
-- `services/`  Dispatcher (Go-Quelle; Binary + *.db sind gitignored, Runtime)
+## Start here
 
-## Live-Verknüpfung
-Die Live-Pfade sind Symlinks hierher, damit absolute Pfade (Cron, Orchestrator)
-unverändert funktionieren:
-- `/opt/development/magic-claude/scripts`  -> `magic-ops/scripts`
-- `/opt/development/magic-claude/services` -> `magic-ops/services`
+- [`AGENTS.md`](AGENTS.md): mandatory session startup and safety rules.
+- [`RUNBOOK.md`](RUNBOOK.md): current NG operations and recovery procedures.
+- [`docs/factory-ng/CURRENT.md`](docs/factory-ng/CURRENT.md): canonical durable
+  handoff and current implementation status.
+- [`config/factory-ng-policy.json`](config/factory-ng-policy.json): queue,
+  retry, integration, push, and deployment policy.
+- [`config/factory-ng-workers.json`](config/factory-ng-workers.json): enabled
+  workers and model profiles.
+- [`config/factory-ng-producers.json`](config/factory-ng-producers.json):
+  deterministic work producers.
+
+The live dashboard is `http://localhost:9999/dashboard`. Factory NG queue and
+execution truth lives in `docs/factory-ng/` and `state/factory-ng-*.json`, not
+in historical dispatcher rows.
+
+## Historical material
+
+The evolution from earlier factories is preserved, not deleted, under
+[`docs/archive/factory-evolution/`](docs/archive/factory-evolution/README.md).
+Archived documents are reflection evidence and must not be used as current
+operating instructions.

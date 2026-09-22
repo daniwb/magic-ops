@@ -49,6 +49,12 @@ usage_gate() {
     return 0
   fi
   if [ "${PIPE_ENGINE:-}" = openrouter ] || [ "${PIPE_ENGINE:-}" = openrouter-agentic ]; then
+    local cooldown
+    cooldown=$(python3 "$OPS/scripts/openrouter_cooldown.py" status 2>/dev/null)
+    if [ $? -ne 0 ]; then
+      log "$(printf '%s' "$cooldown" | jq -r '"OpenRouter cooldown: \(.remaining_seconds)s remaining, 429 stage \(.consecutive_429s)"' 2>/dev/null || echo 'OpenRouter cooldown active')"
+      return 1
+    fi
     return 0
   fi
   if ! pace_ok; then log "pace-gate: over daily step — pause"; return 1; fi
@@ -111,7 +117,10 @@ wait_for_landing() { # $1 branch — poll until merged into origin/main (max 25 
 }
 
 while :; do
-  if ! usage_gate; then sleep 1800; continue; fi
+  if ! usage_gate; then
+    if [ "${PIPE_ENGINE:-}" = openrouter ] || [ "${PIPE_ENGINE:-}" = openrouter-agentic ]; then sleep 15; else sleep 1800; fi
+    continue
+  fi
   read -r CID TICKET < <(next_capability)
   if [ -z "${CID:-}" ]; then
     log "no open capability with a linked ticket — sleep 300"
@@ -151,8 +160,7 @@ while :; do
       # capability backlog on false negatives within minutes (exactly
       # what happened to #3-6 before this fix — see chat history).
       if command grep -q "HTTP 429" "$ELOG" 2>/dev/null; then
-        log "capability #$CID rc=$erc — upstream 429, NOT skiplisted, backing off 120s"
-        sleep 120
+        log "capability #$CID rc=$erc — upstream 429, NOT skiplisted; shared cooldown active"
       else
         echo "$CID" >> "$SKIPLIST"
         log "capability #$CID rc=$erc — skiplisted"

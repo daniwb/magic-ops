@@ -1,0 +1,228 @@
+CAPABILITY_ASSESSMENT: {"classification":"engine_gap","existing_symbols":["ExecuteAbilityEffect","ResolvePendingChoice","sacrifice_self_unless_sacrifice_filtered"],"remaining_gap":"No resolution path exists for self-sacrifice unless discard; invalid discard selections must preserve the pending choice","verification":"public converter/trigger path plus resolution behavior test"}
+
+<<<FILE backend/game/gamestate.go
+<<<SEARCH
+type PendingSacrificeSelfUnlessFiltered struct {
+	// PlayerIdx is the controller who must make the choice.
+	PlayerIdx int
+	// SourceID is the ability source's permanent ID — sacrificed as the
+	// fallback if the controller doesn't sacrifice a FilterType match.
+	SourceID string
+	// FilterType names the permanent type the alternate sacrifice must
+	// match (e.g. "Enchantment"); empty means any permanent qualifies.
+	FilterType string
+}
+===REPLACE
+type PendingSacrificeSelfUnlessFiltered struct {
+	// PlayerIdx is the controller who must make the choice.
+	PlayerIdx int
+	// SourceID is the ability source's permanent ID — sacrificed as the
+	// fallback if the controller doesn't sacrifice a FilterType match.
+	SourceID string
+	// FilterType names the permanent type the alternate sacrifice must
+	// match (e.g. "Enchantment"); empty means any permanent qualifies.
+	FilterType string
+}
+
+// PendingSacrificeUnlessDiscard records a resolution-time choice for
+// "sacrifice this permanent unless you discard a card."
+type PendingSacrificeUnlessDiscard struct {
+	PlayerIdx int
+	SourceID  string
+}
+
+func (gs *GameState) executeSacrificeUnlessDiscard(controller int, source *Card) error {
+	if controller < 0 || controller >= len(gs.Players) || source == nil {
+		return nil
+	}
+	if _, err := gs.Battlefield.GetCard(source.ID); err != nil {
+		return nil
+	}
+	gs.PendingSacrificeUnlessDiscard = &PendingSacrificeUnlessDiscard{
+		PlayerIdx: controller,
+		SourceID:  source.ID,
+	}
+	return nil
+}
+
+func (gs *GameState) ResolveSacrificeUnlessDiscard(playerIdx int, discardCardID string) error {
+	pending := gs.PendingSacrificeUnlessDiscard
+	if pending == nil || pending.PlayerIdx != playerIdx {
+		return nil
+	}
+	if playerIdx < 0 || playerIdx >= len(gs.Players) {
+		return fmt.Errorf("invalid player")
+	}
+	if discardCardID != "" && !gs.Players[playerIdx].Hand.HasCard(discardCardID) {
+		return fmt.Errorf("card %s not found in hand", discardCardID)
+	}
+
+	gs.PendingSacrificeUnlessDiscard = nil
+	if discardCardID != "" {
+		return gs.Discard(playerIdx, discardCardID)
+	}
+
+	if source, err := gs.Battlefield.GetCard(pending.SourceID); err == nil {
+		gs.sacrificeCard(source, playerIdx)
+		gs.CheckStateBasedActions()
+	}
+	return nil
+}
+<<<SEARCH
+	// PendingSacrificeSelfUnlessFiltered holds an in-flight
+	// sacrifice_self_unless_sacrifice_filtered choice; see
+	// ResolveSacrificeSelfUnlessFilteredChoice.
+	PendingSacrificeSelfUnlessFiltered *PendingSacrificeSelfUnlessFiltered `json:"pending_sacrifice_self_unless_filtered,omitempty"`
+===REPLACE
+	// PendingSacrificeSelfUnlessFiltered holds an in-flight
+	// sacrifice_self_unless_sacrifice_filtered choice; see
+	// ResolveSacrificeSelfUnlessFilteredChoice.
+	PendingSacrificeSelfUnlessFiltered *PendingSacrificeSelfUnlessFiltered `json:"pending_sacrifice_self_unless_filtered,omitempty"`
+
+	PendingSacrificeUnlessDiscard *PendingSacrificeUnlessDiscard `json:"pending_sacrifice_unless_discard,omitempty"`
+<<<END
+
+<<<FILE backend/game/ability_effects.go
+<<<SEARCH
+	case "sacrifice_self_unless_sacrifice_filtered":
+		// "sacrifice this [source] unless you sacrifice a [filter]
+		// permanent" (Endless Wurm class). Distinct from plain "sacrifice"
+		// above: the controller isn't picking among precomputed candidates,
+		// they're choosing between two DIFFERENT sacrifices — the fixed
+		// source, or an alternate permanent matching FilterType — with the
+		// source surviving only in the latter case. Deferred to
+		// ResolveSacrificeSelfUnlessFilteredChoice.
+		return gs.executeSacrificeSelfUnlessFiltered(controller, source, effectValue)
+	case "sacrifice_choice":
+===REPLACE
+	case "sacrifice_self_unless_sacrifice_filtered":
+		// "sacrifice this [source] unless you sacrifice a [filter]
+		// permanent" (Endless Wurm class). Distinct from plain "sacrifice"
+		// above: the controller isn't picking among precomputed candidates,
+		// they're choosing between two DIFFERENT sacrifices — the fixed
+		// source, or an alternate permanent matching FilterType — with the
+		// source surviving only in the latter case. Deferred to
+		// ResolveSacrificeSelfUnlessFilteredChoice.
+		return gs.executeSacrificeSelfUnlessFiltered(controller, source, effectValue)
+	case "sacrifice_unless_discard":
+		return gs.executeSacrificeUnlessDiscard(controller, source)
+	case "sacrifice_choice":
+<<<END
+
+<<<NEWFILE backend/cards/factory_ng_3e88a33648_test.go
+package cards
+
+import (
+	"testing"
+
+	"magic-backend/game"
+)
+
+func TestFactoryNGSacrificeUnlessDiscard(t *testing.T) {
+	newCard := func(t *testing.T) *game.Card {
+		t.Helper()
+		power, toughness := 4, 4
+		def := &CardDefinition{
+			Name: "Factory NG Masticore",
+			Type: "Creature",
+			Types: []string{"Creature"},
+			Power: &power,
+			Toughness: &toughness,
+			Abilities: []AbilityDSL{{
+				Type:    "triggered",
+				Trigger: "upkeep",
+				Effect:  "sacrifice_unless_discard",
+			}},
+		}
+		card, err := def.ToGameCard(0)
+		if err != nil {
+			t.Fatalf("ToGameCard: %v", err)
+		}
+		return card
+	}
+
+	t.Run("public trigger and resolution path", func(t *testing.T) {
+		gs := game.NewGame("P0", "P1", false)
+		src := newCard(t)
+		src.Owner, src.Controller = 0, 0
+		gs.Battlefield.AddCard(src)
+		gs.RegisterCardAbilities(src)
+		gs.ProcessTriggeredAbilities(game.CreateUpkeepEvent(0))
+		if err := gs.ResolveTopOfStack(); err != nil {
+			t.Fatalf("ResolveTopOfStack: %v", err)
+		}
+		if gs.PendingSacrificeUnlessDiscard == nil {
+			t.Fatal("expected pending sacrifice-unless-discard choice")
+		}
+
+		err := gs.ResolveSacrificeUnlessDiscard(0, "missing-card")
+		if err == nil {
+			t.Fatal("expected nonexistent discard selection to fail")
+		}
+		if gs.PendingSacrificeUnlessDiscard == nil {
+			t.Fatal("invalid discard selection consumed the pending choice")
+		}
+		if err := gs.ResolveSacrificeUnlessDiscard(0, ""); err != nil {
+			t.Fatalf("decline discard: %v", err)
+		}
+		if _, err := gs.Battlefield.GetCard(src.ID); err == nil {
+			t.Fatal("source survived after declining discard")
+		}
+	})
+
+	t.Run("discard keeps source", func(t *testing.T) {
+		gs := game.NewGame("P0", "P1", false)
+		src := newCard(t)
+		src.Owner, src.Controller = 0, 0
+		gs.Battlefield.AddCard(src)
+
+		discard := game.NewCreature("Factory NG Filler", game.ManaCost{}, 1, 1, 0)
+		gs.Players[0].Hand.AddCard(discard)
+
+		stackObj := &game.StackObject{
+			IsAbility:   true,
+			Text:        "sacrifice_unless_discard",
+			Controller:  0,
+			Card:        src,
+		}
+		if err := gs.ExecuteAbilityEffect(stackObj); err != nil {
+			t.Fatalf("ExecuteAbilityEffect: %v", err)
+		}
+		if err := gs.ResolveSacrificeUnlessDiscard(0, discard.ID); err != nil {
+			t.Fatalf("discard choice: %v", err)
+		}
+		if _, err := gs.Battlefield.GetCard(src.ID); err != nil {
+			t.Fatalf("source was sacrificed despite discard: %v", err)
+		}
+		if gs.Players[0].Hand.HasCard(discard.ID) {
+			t.Fatal("discarded card remains in hand")
+		}
+	})
+
+	t.Run("unconditional sacrifice remains unconditional", func(t *testing.T) {
+		gs := game.NewGame("P0", "P1", false)
+		src := game.NewCreature("Factory NG Filter Source", game.ManaCost{}, 2, 2, 0)
+		src.Owner, src.Controller = 0, 0
+		gs.Battlefield.AddCard(src)
+
+		stackObj := &game.StackObject{
+			IsAbility:   true,
+			Text:        "sacrifice",
+			Controller:  0,
+			Card:        src,
+			EffectValue: map[string]interface{}{},
+		}
+		if err := gs.ExecuteAbilityEffect(stackObj); err != nil {
+			t.Fatalf("ExecuteAbilityEffect: %v", err)
+		}
+		if gs.PendingSacrificeUnlessDiscard != nil {
+			t.Fatal("unconditional sacrifice opened a discard choice")
+		}
+		if _, err := gs.Battlefield.GetCard(src.ID); err == nil {
+			t.Fatal("unconditional sacrifice did not execute")
+		}
+	})
+}
+>>>END
+
+EXPECT: Self-sacrifice effects qualified by discard now pause for a validated discard-or-sacrifice decision, while unconditional filtered sacrifices remain immediate.

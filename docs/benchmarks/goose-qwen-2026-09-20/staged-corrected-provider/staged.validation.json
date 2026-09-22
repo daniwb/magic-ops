@@ -1,0 +1,63 @@
+{
+  "mode": "staged",
+  "source_revision": "fcb60f31cda3285216ac60206c56cc320b8e8b16",
+  "apply": {
+    "exit_code": 0,
+    "stdout": "applied: backend/game/ability_effects.go\ncreated: backend/cards/registry_factory_ng_7b6fc522b0.go\ncreated: backend/game/factory_ng_7b6fc522b0_test.go\n",
+    "stderr": "",
+    "elapsed_ms": 17
+  },
+  "gates": [
+    {
+      "id": "scope",
+      "outcome": "passed",
+      "detail": "changed=backend/game/ability_effects.go,backend/cards/registry_factory_ng_7b6fc522b0.go,backend/game/factory_ng_7b6fc522b0_test.go"
+    },
+    {
+      "id": "go-format",
+      "outcome": "passed",
+      "detail": "Formatted: backend/game/ability_effects.go,backend/cards/registry_factory_ng_7b6fc522b0.go,backend/game/factory_ng_7b6fc522b0_test.go"
+    },
+    {
+      "id": "engine-vocabulary-handoff",
+      "outcome": "passed",
+      "detail": "All newly added public effects are registered.",
+      "elapsed_ms": 83
+    },
+    {
+      "id": "ticket-gate-0",
+      "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+      "outcome": "passed",
+      "elapsed_ms": 119,
+      "detail": ""
+    },
+    {
+      "id": "ticket-gate-1",
+      "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGFreezeUntilNextUntap_7b6fc522b0$' -count=1",
+      "outcome": "passed",
+      "elapsed_ms": 53625,
+      "detail": "=== RUN   TestFactoryNGFreezeUntilNextUntap_7b6fc522b0\n--- PASS: TestFactoryNGFreezeUntilNextUntap_7b6fc522b0 (0.00s)\nPASS\nok  \tmagic-backend/game\t0.003s\ntesting: warning: no tests to run\nPASS\nok  \tmagic-backend/cards\t0.005s [no tests to run]\nNamed test gate: 1 test(s) passed for '^TestFactoryNGFreezeUntilNextUntap_7b6fc522b0$'"
+    },
+    {
+      "id": "ticket-gate-2",
+      "command": "cd backend && go test ./game ./cards",
+      "outcome": "passed",
+      "elapsed_ms": 15758,
+      "detail": "ok  \tmagic-backend/game\t0.053s\nok  \tmagic-backend/cards\t12.370s"
+    },
+    {
+      "id": "ticket-gate-3",
+      "command": "git diff --check",
+      "outcome": "passed",
+      "elapsed_ms": 30,
+      "detail": ""
+    }
+  ],
+  "changed": [
+    "backend/game/ability_effects.go",
+    "backend/cards/registry_factory_ng_7b6fc522b0.go",
+    "backend/game/factory_ng_7b6fc522b0_test.go"
+  ],
+  "passed": true,
+  "validation_seconds": 69.898
+}

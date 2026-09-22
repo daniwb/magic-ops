@@ -1,0 +1,43 @@
+{
+  "gates": [
+    {
+      "id": "scope",
+      "outcome": "passed",
+      "detail": "changed=backend/cards/converter.go,backend/game/effect_sequence.go,backend/game/gamestate.go,backend/cards/shape_independent_counter_targets_test.go"
+    },
+    {
+      "id": "ticket-gate-0",
+      "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+      "outcome": "passed",
+      "elapsed_ms": 498,
+      "detail": ""
+    },
+    {
+      "id": "ticket-gate-1",
+      "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3$' -count=1",
+      "outcome": "passed",
+      "elapsed_ms": 672181,
+      "detail": "testing: warning: no tests to run\nPASS\nok  \tmagic-backend/game\t0.035s [no tests to run]\n=== RUN   TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3\n=== RUN   TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3/distinct_amounts\n--- PASS: TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3/distinct_amounts (0.00s)\n=== RUN   TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3/first_target_gone\n--- PASS: TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3/first_target_gone (0.01s)\n=== RUN   TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3/middle_target_gone\n--- PASS: TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3/middle_target_gone (0.00s)\n=== RUN   TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3/last_target_gone\n--- PASS: TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3/last_target_gone (0.00s)\n=== RUN   TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3/all_targets_gone\n--- PASS: TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3/all_targets_gone (0.00s)\n=== RUN   TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3/counter_types\n--- PASS: TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3/counter_types (0.00s)\n=== RUN   TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3/reject_duplicate_and_wrong_count_before_spending\n--- PASS: TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3/reject_duplicate_and_wrong_count_before_spending (0.00s)\n=== RUN   TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3/explicit_slots_only\n--- PASS: TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3/explicit_slots_only (0.00s)\n=== RUN   TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3/invalid_slot_metadata\n--- PASS: TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3/invalid_slot_metadata (0.00s)\n--- PASS: TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3 (0.01s)\nPASS\nok  \tmagic-backend/cards\t0.070s\nNamed test gate: 10 test(s) passed for '^TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3$'"
+    },
+    {
+      "id": "ticket-gate-2",
+      "command": "cd backend && go test ./game ./cards",
+      "outcome": "passed",
+      "elapsed_ms": 256240,
+      "detail": "ok  \tmagic-backend/game\t0.604s\nok  \tmagic-backend/cards\t213.378s"
+    },
+    {
+      "id": "ticket-gate-3",
+      "command": "git diff --check",
+      "outcome": "passed",
+      "elapsed_ms": 231,
+      "detail": ""
+    }
+  ],
+  "changed": [
+    "backend/cards/converter.go",
+    "backend/game/effect_sequence.go",
+    "backend/game/gamestate.go",
+    "backend/cards/shape_independent_counter_targets_test.go"
+  ]
+}

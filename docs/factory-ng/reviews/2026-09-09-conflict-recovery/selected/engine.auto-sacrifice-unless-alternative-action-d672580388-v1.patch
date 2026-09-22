@@ -1,0 +1,130 @@
+From 325a41045f74a28d9c4c3d66801181568c0794ce Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Tue, 8 Sep 2026 23:14:09 +0000
+Subject: [PATCH] factory-ng: supervised engine observation
+
+---
+ backend/game/ability_effects.go            | 28 ++++++++++
+ backend/game/factory_ng_d672580388_test.go | 64 ++++++++++++++++++++++
+ 2 files changed, 92 insertions(+)
+ create mode 100644 backend/game/factory_ng_d672580388_test.go
+
+diff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go
+index 166a3f416..6bf91837e 100644
+--- a/backend/game/ability_effects.go
++++ b/backend/game/ability_effects.go
+@@ -8220,6 +8220,11 @@ func (gs *GameState) ExecuteAbilityEffect(stackObj *StackObject) error {
+ 		}
+ 		gs.sacrificeCard(source, controller)
+ 		return nil
++	case "sacrifice_unless_return_basic_land":
++		// "sacrifice ~ unless you return a basic land card from your
++		// graveyard to your hand" (Harvest Wurm class) — see
++		// executeSacrificeUnlessReturnBasicLand.
++		return gs.executeSacrificeUnlessReturnBasicLand(controller, source)
+ 	case "sacrifice_choice":
+ 		// "[player] sacrifices a permanent of their choice" — the
+ 		// unless-pay consequence for event-triggered abilities whose
+@@ -12749,6 +12754,29 @@ func (gs *GameState) executeSacrificeUnlessSacrifice(controller int, source *Car
+ 	return nil
+ }
+ 
++// executeSacrificeUnlessReturnBasicLand implements the "sacrifice ~ unless
++// you return a basic land card from your graveyard to your hand" pattern
++// (Harvest Wurm class): the controller keeps the source permanent by
++// returning a basic land from their graveyard; if none is available, the
++// source is sacrificed instead. Auto-selects the first matching basic land,
++// mirroring executeReturnFromGraveyard's auto-select-first-match convention.
++func (gs *GameState) executeSacrificeUnlessReturnBasicLand(controller int, source *Card) error {
++	if controller < 0 || controller >= len(gs.Players) || source == nil {
++		return nil
++	}
++	player := gs.Players[controller]
++	for _, c := range player.Graveyard.Cards {
++		if c.IsBasic && c.Type == TypeLand {
++			if returned, err := player.Graveyard.RemoveCard(c.ID); err == nil {
++				player.Hand.AddCard(returned)
++				return nil
++			}
++		}
++	}
++	gs.sacrificeCard(source, controller)
++	return nil
++}
++
+ // executeDiscardOpponentHand — Emrakul-style forced discard: the opponent
+ // (1-controller in a two-player game) discards their entire hand.
+ func (gs *GameState) executeDiscardOpponentHand(controller int) error {
+diff --git a/backend/game/factory_ng_d672580388_test.go b/backend/game/factory_ng_d672580388_test.go
+new file mode 100644
+index 000000000..96fddc4d0
+--- /dev/null
++++ b/backend/game/factory_ng_d672580388_test.go
+@@ -0,0 +1,64 @@
++package game
++
++import "testing"
++
++// factory-ng ticket d672580388: "sacrifice ~ unless you return a basic land
++// card from your graveyard to your hand" (Harvest Wurm class).
++func TestFactoryNGSacrificeUnlessAlternativeAction(t *testing.T) {
++	t.Run("basic land available, source survives", func(t *testing.T) {
++		gs := NewGame("P0", "P1", false)
++		wurm := NewCreature("Factory NG Harvest Wurm", ManaCost{}, 5, 5, 5)
++		wurm.Owner, wurm.Controller = 0, 0
++		gs.Battlefield.AddCard(wurm)
++
++		land := &Card{ID: "factory-ng-d672580388-land", Name: "Forest", Type: TypeLand, IsBasic: true, SubTypes: []string{"Forest"}}
++		land.Owner, land.Controller = 0, 0
++		gs.Players[0].Graveyard.AddCard(land)
++
++		if err := gs.executeSacrificeUnlessReturnBasicLand(0, wurm); err != nil {
++			t.Fatalf("executeSacrificeUnlessReturnBasicLand: %v", err)
++		}
++
++		if _, err := gs.Battlefield.GetCard(wurm.ID); err != nil {
++			t.Fatalf("source was sacrificed even though a basic land was available to return: %v", err)
++		}
++		for _, c := range gs.Players[0].Graveyard.Cards {
++			if c.ID == land.ID {
++				t.Fatalf("basic land was not removed from graveyard")
++			}
++		}
++		found := false
++		for _, c := range gs.Players[0].Hand.Cards {
++			if c.ID == land.ID {
++				found = true
++			}
++		}
++		if !found {
++			t.Fatalf("basic land was not returned to hand")
++		}
++	})
++
++	t.Run("no basic land available, source is sacrificed", func(t *testing.T) {
++		gs := NewGame("P0", "P1", false)
++		wurm := NewCreature("Factory NG Harvest Wurm No Land", ManaCost{}, 5, 5, 5)
++		wurm.Owner, wurm.Controller = 0, 0
++		gs.Battlefield.AddCard(wurm)
++
++		if err := gs.executeSacrificeUnlessReturnBasicLand(0, wurm); err != nil {
++			t.Fatalf("executeSacrificeUnlessReturnBasicLand: %v", err)
++		}
++
++		if _, err := gs.Battlefield.GetCard(wurm.ID); err == nil {
++			t.Fatalf("source was not sacrificed despite no basic land being available")
++		}
++		found := false
++		for _, c := range gs.Players[0].Graveyard.Cards {
++			if c.ID == wurm.ID {
++				found = true
++			}
++		}
++		if !found {
++			t.Fatalf("sacrificed source was not moved to the graveyard")
++		}
++	})
++}
+-- 
+2.43.0
+

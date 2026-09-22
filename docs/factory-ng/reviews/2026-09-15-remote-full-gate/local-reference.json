@@ -1,0 +1,292 @@
+{
+  "created_at": "2026-09-15T15:49:40Z",
+  "excluded_candidates": {
+    "ticket:map.plan-pump-hurska-sweet-tooth-3c018cefc9/v3": {
+      "gates": [
+        {
+          "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/focused-6dca83f14d7e405fbf3d2d3fe188b4b9-0.patch",
+          "detail": "Applying: factory-ng: focused batch proposal\nUsing index info to reconstruct a base tree...\nM\tscripts/paragraph/reparse.py\nFalling back to patching base and 3-way merge...\nAuto-merging scripts/paragraph/reparse.py\nCONFLICT (content): Merge conflict in scripts/paragraph/reparse.py\nPatch failed at 0001 factory-ng: focused batch proposal\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\n\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch",
+          "elapsed_ms": 1377,
+          "exit_code": 128,
+          "id": "candidate-apply",
+          "outcome": "failed"
+        }
+      ],
+      "reason": "error: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch\n",
+      "status": "candidate_conflict"
+    }
+  },
+  "gates": [
+    {
+      "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/focused-fc9e4bd2e7f14c2c9d97c656c0267ec9-0.patch",
+      "detail": "Applying: factory-ng: focused batch proposal\nUsing index info to reconstruct a base tree...\nM\tscripts/paragraph/reparse.py\nFalling back to patching base and 3-way merge...\nAuto-merging scripts/paragraph/reparse.py",
+      "elapsed_ms": 1054,
+      "exit_code": 0,
+      "id": "candidate-apply",
+      "outcome": "passed"
+    },
+    {
+      "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/focused-1cd2b3834b534bb5bad900638afe03cd-0.patch",
+      "detail": "Applying: factory-ng: focused batch proposal",
+      "elapsed_ms": 574,
+      "exit_code": 0,
+      "id": "candidate-apply",
+      "outcome": "passed"
+    },
+    {
+      "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/focused-476a9162dc6b4f458277f648f2eb5591-0.patch",
+      "detail": "Applying: factory-ng: focused batch proposal",
+      "elapsed_ms": 578,
+      "exit_code": 0,
+      "id": "candidate-apply",
+      "outcome": "passed"
+    },
+    {
+      "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/focused-4d2af5c4fca94dcc8dc2f6766d2c17ed-0.patch",
+      "detail": "Applying: factory-ng: focused batch proposal\nUsing index info to reconstruct a base tree...\nM\tscripts/paragraph/reparse.py\nFalling back to patching base and 3-way merge...\nAuto-merging scripts/paragraph/reparse.py",
+      "elapsed_ms": 1032,
+      "exit_code": 0,
+      "id": "candidate-apply",
+      "outcome": "passed"
+    },
+    {
+      "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/focused-558e7c8eafc64337a9aa2d61b61da4cd-0.patch",
+      "detail": "Applying: factory-ng: focused batch proposal",
+      "elapsed_ms": 562,
+      "exit_code": 0,
+      "id": "candidate-apply",
+      "outcome": "passed"
+    },
+    {
+      "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/focused-9afcefaaa1a947fd9d7ced2dab3d3af1-0.patch",
+      "detail": "Applying: factory-ng: focused batch proposal",
+      "elapsed_ms": 611,
+      "exit_code": 0,
+      "id": "candidate-apply",
+      "outcome": "passed"
+    },
+    {
+      "command": "git am --3way /opt/development/magic-ops/docs/factory-ng/candidates/focused-071747bc97f042f1acb598c91a961c08-0.patch",
+      "detail": "Applying: factory-ng: focused batch proposal",
+      "elapsed_ms": 543,
+      "exit_code": 0,
+      "id": "candidate-apply",
+      "outcome": "passed"
+    },
+    {
+      "command": "cd scripts/paragraph && python3 -m unittest test_factory_ng_9f1d6ad092",
+      "detail": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.002s\n\nOK",
+      "elapsed_ms": 1824,
+      "exit_code": 0,
+      "id": "composed-ticket-0",
+      "outcome": "passed",
+      "ticket_id": "ticket:map.plan-grant-eot-filigree-racer-9f1d6ad092/v3"
+    },
+    {
+      "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-9f1d6ad092-retry1.json reports zero remaining pinned members",
+      "detail": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-9f1d6ad092-retry1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:grant_eot\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:efd0f5e4dac4a774a7e4072d97b49e024c0c54691a2ab3d76a9d71964e521aef\",\n    \"repository\": \"/tmp/factory-ng-integrate-mvury12w\",\n    \"revision\": \"395dacbe761a3ab136ec4afb45ae99da4a58c177\"\n  }\n}",
+      "elapsed_ms": 3452,
+      "exit_code": 0,
+      "id": "composed-ticket-3",
+      "outcome": "passed",
+      "ticket_id": "ticket:map.plan-grant-eot-filigree-racer-9f1d6ad092/v3"
+    },
+    {
+      "command": "cd scripts/paragraph && python3 -m unittest test_factory_ng_e11545345c",
+      "detail": ":\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n/tmp/factory-ng-integrate-mvury12w/scripts/paragraph/reparse.py:14031: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-integrate-mvury12w/scripts/paragraph/../../backend/data/carddb/x.json' mode='r' encoding='UTF-8'>\n  for c in json.load(open(f)).values():\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n/tmp/factory-ng-integrate-mvury12w/scripts/paragraph/reparse.py:14031: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-integrate-mvury12w/scripts/paragraph/../../backend/data/carddb/e.json' mode='r' encoding='UTF-8'>\n  for c in json.load(open(f)).values():\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n/tmp/factory-ng-integrate-mvury12w/scripts/paragraph/reparse.py:14031: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-integrate-mvury12w/scripts/paragraph/../../backend/data/carddb/y.json' mode='r' encoding='UTF-8'>\n  for c in json.load(open(f)).values():\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n/tmp/factory-ng-integrate-mvury12w/scripts/paragraph/reparse.py:14031: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-integrate-mvury12w/scripts/paragraph/../../backend/data/carddb/h.json' mode='r' encoding='UTF-8'>\n  for c in json.load(open(f)).values():\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n..\n----------------------------------------------------------------------\nRan 2 tests in 2.256s\n\nOK",
+      "elapsed_ms": 3052,
+      "exit_code": 0,
+      "id": "composed-ticket-0",
+      "outcome": "passed",
+      "ticket_id": "ticket:map.plan-pump-squirrel-wrangler-e11545345c/v2"
+    },
+    {
+      "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-e11545345c-retry1.json reports zero remaining pinned members",
+      "detail": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-e11545345c-retry1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:pump\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:efd0f5e4dac4a774a7e4072d97b49e024c0c54691a2ab3d76a9d71964e521aef\",\n    \"repository\": \"/tmp/factory-ng-integrate-mvury12w\",\n    \"revision\": \"395dacbe761a3ab136ec4afb45ae99da4a58c177\"\n  }\n}",
+      "elapsed_ms": 4477,
+      "exit_code": 0,
+      "id": "composed-ticket-3",
+      "outcome": "passed",
+      "ticket_id": "ticket:map.plan-pump-squirrel-wrangler-e11545345c/v2"
+    },
+    {
+      "command": "cd scripts/paragraph && python3 -m unittest test_factory_ng_9797e49feb",
+      "detail": "./tmp/factory-ng-integrate-mvury12w/scripts/paragraph/reparse.py:19941: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-integrate-mvury12w/scripts/paragraph/../../backend/data/carddb/t.json' mode='r' encoding='UTF-8'>\n  db = json.load(open(path))\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n.\n----------------------------------------------------------------------\nRan 2 tests in 0.208s\n\nOK",
+      "elapsed_ms": 840,
+      "exit_code": 0,
+      "id": "composed-ticket-0",
+      "outcome": "passed",
+      "ticket_id": "ticket:map.plan-tap-tempest-owl-9797e49feb/v2"
+    },
+    {
+      "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-9797e49feb-retry1.json reports zero remaining pinned members",
+      "detail": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-9797e49feb-retry1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:tap\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:efd0f5e4dac4a774a7e4072d97b49e024c0c54691a2ab3d76a9d71964e521aef\",\n    \"repository\": \"/tmp/factory-ng-integrate-mvury12w\",\n    \"revision\": \"395dacbe761a3ab136ec4afb45ae99da4a58c177\"\n  }\n}",
+      "elapsed_ms": 2948,
+      "exit_code": 0,
+      "id": "composed-ticket-3",
+      "outcome": "passed",
+      "ticket_id": "ticket:map.plan-tap-tempest-owl-9797e49feb/v2"
+    },
+    {
+      "command": "cd scripts/paragraph && python3 -m unittest test_factory_ng_3b1e659eea",
+      "detail": ":\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n/tmp/factory-ng-integrate-mvury12w/scripts/paragraph/reparse.py:14031: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-integrate-mvury12w/scripts/paragraph/../../backend/data/carddb/x.json' mode='r' encoding='UTF-8'>\n  for c in json.load(open(f)).values():\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n/tmp/factory-ng-integrate-mvury12w/scripts/paragraph/reparse.py:14031: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-integrate-mvury12w/scripts/paragraph/../../backend/data/carddb/e.json' mode='r' encoding='UTF-8'>\n  for c in json.load(open(f)).values():\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n/tmp/factory-ng-integrate-mvury12w/scripts/paragraph/reparse.py:14031: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-integrate-mvury12w/scripts/paragraph/../../backend/data/carddb/y.json' mode='r' encoding='UTF-8'>\n  for c in json.load(open(f)).values():\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n/tmp/factory-ng-integrate-mvury12w/scripts/paragraph/reparse.py:14031: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-integrate-mvury12w/scripts/paragraph/../../backend/data/carddb/h.json' mode='r' encoding='UTF-8'>\n  for c in json.load(open(f)).values():\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n..\n----------------------------------------------------------------------\nRan 2 tests in 2.332s\n\nOK",
+      "elapsed_ms": 3114,
+      "exit_code": 0,
+      "id": "composed-ticket-0",
+      "outcome": "passed",
+      "ticket_id": "ticket:map.plan-put-counters-treebeard-gracious-host-3b1e659eea/v2"
+    },
+    {
+      "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-3b1e659eea-retry1.json reports zero remaining pinned members",
+      "detail": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-3b1e659eea-retry1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:put_counters\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:efd0f5e4dac4a774a7e4072d97b49e024c0c54691a2ab3d76a9d71964e521aef\",\n    \"repository\": \"/tmp/factory-ng-integrate-mvury12w\",\n    \"revision\": \"395dacbe761a3ab136ec4afb45ae99da4a58c177\"\n  }\n}",
+      "elapsed_ms": 4787,
+      "exit_code": 0,
+      "id": "composed-ticket-3",
+      "outcome": "passed",
+      "ticket_id": "ticket:map.plan-put-counters-treebeard-gracious-host-3b1e659eea/v2"
+    },
+    {
+      "command": "cd scripts/paragraph && python3 -m unittest test_factory_ng_c3f05a1862",
+      "detail": "/tmp/factory-ng-integrate-mvury12w/scripts/paragraph/reparse.py:19941: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-integrate-mvury12w/scripts/paragraph/../../backend/data/carddb/h.json' mode='r' encoding='UTF-8'>\n  db = json.load(open(path))\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n..\n----------------------------------------------------------------------\nRan 2 tests in 0.299s\n\nOK",
+      "elapsed_ms": 1134,
+      "exit_code": 0,
+      "id": "composed-ticket-0",
+      "outcome": "passed",
+      "ticket_id": "ticket:map.plan-untap-hellkite-charger-c3f05a1862/v4"
+    },
+    {
+      "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-c3f05a1862-retry1.json reports zero remaining pinned members",
+      "detail": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-c3f05a1862-retry1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:untap\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:efd0f5e4dac4a774a7e4072d97b49e024c0c54691a2ab3d76a9d71964e521aef\",\n    \"repository\": \"/tmp/factory-ng-integrate-mvury12w\",\n    \"revision\": \"395dacbe761a3ab136ec4afb45ae99da4a58c177\"\n  }\n}",
+      "elapsed_ms": 2555,
+      "exit_code": 0,
+      "id": "composed-ticket-3",
+      "outcome": "passed",
+      "ticket_id": "ticket:map.plan-untap-hellkite-charger-c3f05a1862/v4"
+    },
+    {
+      "command": "cd scripts/paragraph && python3 -m unittest test_factory_ng_01ad9d5238",
+      "detail": "./tmp/factory-ng-integrate-mvury12w/scripts/paragraph/reparse.py:19941: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-integrate-mvury12w/scripts/paragraph/../../backend/data/carddb/k.json' mode='r' encoding='UTF-8'>\n  db = json.load(open(path))\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n.\n----------------------------------------------------------------------\nRan 2 tests in 0.217s\n\nOK",
+      "elapsed_ms": 1037,
+      "exit_code": 0,
+      "id": "composed-ticket-0",
+      "outcome": "passed",
+      "ticket_id": "ticket:map.plan-multi-kry-shield-01ad9d5238/v2"
+    },
+    {
+      "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-01ad9d5238-v1.json reports zero remaining pinned members",
+      "detail": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-01ad9d5238-v1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:prevent\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:efd0f5e4dac4a774a7e4072d97b49e024c0c54691a2ab3d76a9d71964e521aef\",\n    \"repository\": \"/tmp/factory-ng-integrate-mvury12w\",\n    \"revision\": \"395dacbe761a3ab136ec4afb45ae99da4a58c177\"\n  }\n}",
+      "elapsed_ms": 3050,
+      "exit_code": 0,
+      "id": "composed-ticket-3",
+      "outcome": "passed",
+      "ticket_id": "ticket:map.plan-multi-kry-shield-01ad9d5238/v2"
+    },
+    {
+      "command": "cd scripts/paragraph && python3 -m unittest test_factory_ng_51eb1bf18b",
+      "detail": "/tmp/factory-ng-integrate-mvury12w/scripts/paragraph/reparse.py:19941: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-integrate-mvury12w/scripts/paragraph/../../backend/data/carddb/a.json' mode='r' encoding='UTF-8'>\n  db = json.load(open(path))\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n..\n----------------------------------------------------------------------\nRan 2 tests in 0.296s\n\nOK",
+      "elapsed_ms": 885,
+      "exit_code": 0,
+      "id": "composed-ticket-0",
+      "outcome": "passed",
+      "ticket_id": "ticket:map.plan-multi-applied-geometry-51eb1bf18b/v4"
+    },
+    {
+      "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-51eb1bf18b-v1.json reports zero remaining pinned members",
+      "detail": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-51eb1bf18b-v1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:put_counters\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:efd0f5e4dac4a774a7e4072d97b49e024c0c54691a2ab3d76a9d71964e521aef\",\n    \"repository\": \"/tmp/factory-ng-integrate-mvury12w\",\n    \"revision\": \"395dacbe761a3ab136ec4afb45ae99da4a58c177\"\n  }\n}",
+      "elapsed_ms": 3008,
+      "exit_code": 0,
+      "id": "composed-ticket-3",
+      "outcome": "passed",
+      "ticket_id": "ticket:map.plan-multi-applied-geometry-51eb1bf18b/v4"
+    },
+    {
+      "command": "/usr/bin/python3 scripts/paragraph/reparse.py --flip-batch 300 --tag factory-ng-0915-1542",
+      "detail": "FLIPPED 11 cards (status review -> auto, native v2 records)\nspot-check sample -> corpus/factory-ng-0915-1542_spotcheck.txt",
+      "elapsed_ms": 122388,
+      "exit_code": 0,
+      "id": "reparse-flip",
+      "outcome": "passed"
+    },
+    {
+      "command": "/usr/bin/python3 scripts/paragraph/reparse.py --import-corpus --tag factory-ng-0915-1542",
+      "detail": "IMPORTED 0 new cards (reparse-R3-import)\nIMPORTED 0 new cards as review (reparse-R3-import-review, was skipped ineligible before 2026-08-11)\n  skipped keyword_args   1206\n  skipped layout         687\n  skipped mana           413\n  skipped not_legal      378\n  skipped dfc_ineligible 227\n  skipped pt             150\n  skipped dfc_keyword_args 101\n  skipped type           55\n  skipped dfc_incomplete 36\n  skipped dfc_mana       9\n  skipped basic          6\n  skipped dfc_type       5\n  skipped dfc_pt         2\n  skipped pw_loyalty     1",
+      "elapsed_ms": 22787,
+      "exit_code": 0,
+      "id": "reparse-import",
+      "outcome": "passed"
+    },
+    {
+      "command": "/opt/development/magic-ops/scripts/go-cache-run.sh build ./...",
+      "detail": "",
+      "elapsed_ms": 30222,
+      "exit_code": 0,
+      "id": "go-build",
+      "outcome": "passed"
+    },
+    {
+      "command": "/opt/development/magic-ops/scripts/go-cache-run.sh test ./game/ -count=1",
+      "detail": "ok  \tmagic-backend/game\t0.433s",
+      "elapsed_ms": 6130,
+      "exit_code": 0,
+      "id": "game-tests",
+      "outcome": "passed"
+    },
+    {
+      "command": "/opt/development/magic-ops/scripts/go-cache-run.sh test ./cards/ -run TestVocabulary|TestV2|TestShape_|TestCardDBSubtypeScopes -count=1",
+      "detail": "ok  \tmagic-backend/cards\t15.622s",
+      "elapsed_ms": 30657,
+      "exit_code": 0,
+      "id": "focused-go",
+      "outcome": "passed"
+    },
+    {
+      "command": "/opt/development/magic-ops/scripts/go-cache-run.sh exec bash scripts/test-cards-sharded.sh 6",
+      "detail": "ok  \tmagic-backend/cardfns\t5.741s\nSHARDED CARDS SUITE: ok (6 shards)",
+      "elapsed_ms": 176831,
+      "exit_code": 0,
+      "id": "full-sharded-suite",
+      "outcome": "passed"
+    },
+    {
+      "command": "git push origin main",
+      "detail": "To github.com:daniwb/openmagic.git\n   33cfaa0cd..892a61d4b  main -> main",
+      "elapsed_ms": 5429,
+      "exit_code": 0,
+      "id": "push",
+      "outcome": "passed"
+    }
+  ],
+  "outcome": "pushed_full_production_gate_green",
+  "parents": [
+    "ticket:map.plan-grant-eot-filigree-racer-9f1d6ad092/v3",
+    "docs/factory-ng/runs/2026-09-15T151752Z-focused-fc9e4bd2e7f14c2c9d97c656c0267ec9-0.json",
+    "ticket:map.plan-pump-squirrel-wrangler-e11545345c/v2",
+    "docs/factory-ng/runs/2026-09-15T152107Z-focused-1cd2b3834b534bb5bad900638afe03cd-0.json",
+    "ticket:map.plan-tap-tempest-owl-9797e49feb/v2",
+    "docs/factory-ng/runs/2026-09-15T152223Z-focused-476a9162dc6b4f458277f648f2eb5591-0.json",
+    "ticket:map.plan-put-counters-treebeard-gracious-host-3b1e659eea/v2",
+    "docs/factory-ng/runs/2026-09-15T152328Z-focused-4d2af5c4fca94dcc8dc2f6766d2c17ed-0.json",
+    "ticket:map.plan-untap-hellkite-charger-c3f05a1862/v4",
+    "docs/factory-ng/runs/2026-09-15T152403Z-focused-558e7c8eafc64337a9aa2d61b61da4cd-0.json",
+    "ticket:map.plan-multi-kry-shield-01ad9d5238/v2",
+    "docs/factory-ng/runs/2026-09-15T152553Z-focused-9afcefaaa1a947fd9d7ced2dab3d3af1-0.json",
+    "ticket:map.plan-multi-applied-geometry-51eb1bf18b/v4",
+    "docs/factory-ng/runs/2026-09-15T152824Z-focused-071747bc97f042f1acb598c91a961c08-0.json"
+  ],
+  "policy": {
+    "automatic": true,
+    "deploy_after_push": false,
+    "push_when_full_gate_green": true
+  },
+  "progress": {
+    "verification": "reparse wave plus complete six-shard production suite",
+    "verified_revision": "892a61d4b6e3db3caeee934f0b5543e61159201c"
+  },
+  "schema": "factory.integration-receipt/v1",
+  "source": {
+    "base_commit": "33cfaa0cd0596a0093f55f02a5ab4aebf06a8f11",
+    "deployed": false,
+    "pushed": true,
+    "result_commit": "892a61d4b6e3db3caeee934f0b5543e61159201c"
+  }
+}

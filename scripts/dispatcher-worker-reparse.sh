@@ -16,11 +16,17 @@
 #   sonstige Parks  -> report parked/max_retry_reached -> wait-triage (Mensch)
 set -uo pipefail
 
+if jq -e '.integration.automatic == true' /opt/development/magic-ops/config/factory-ng-policy.json >/dev/null; then
+  echo 'Legacy worker retired while Factory NG owns automatic production.'
+  exit 0
+fi
+
 WORKER_ID="${1:-r1}"
 CLONE_PATH="${2:-/tmp/work/disp-$WORKER_ID}"
 DISPATCHER="${DISPATCHER:-http://localhost:9999}"
 REPO_SSH="${REPO_SSH:-git@github.com:daniwb/openmagic.git}"
-GO=/usr/local/go/bin/go
+GO=/opt/development/magic-ops/scripts/go-cache-run.sh
+GO_CACHE_RUN=/opt/development/magic-ops/scripts/go-cache-run.sh
 export PATH="/usr/local/go/bin:$PATH"
 CLAUDE_BIN="${CLAUDE_BIN:-$HOME/.local/bin/claude}"
 export GOCACHE="${GOCACHE:-/opt/development/.gocache-magic}"
@@ -556,7 +562,7 @@ HGATE
           # Handler-Tier: Ziel sind cardfns-Handler + Behavior-Tests, nicht
           # Parser-Deltas. Erfolg = neue Test-Funktion(en) + VOLLE Suite grün.
           if git diff origin/main...HEAD 2>/dev/null | grep -q '^+func Test' \
-             && (cd "$CLONE_PATH" && bash scripts/test-cards-sharded.sh 6 >/dev/null 2>&1); then
+             && (cd "$CLONE_PATH" && "$GO_CACHE_RUN" exec bash scripts/test-cards-sharded.sh 6 >/dev/null 2>&1); then
             ENGINE_OK=1
           fi
         fi

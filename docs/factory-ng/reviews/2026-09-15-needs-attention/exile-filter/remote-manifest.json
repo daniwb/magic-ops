@@ -1,0 +1,12 @@
+[
+  {
+    "ticket_id": "ticket:engine.operator-exile-filter-recovery-sep15/v1",
+    "ticket_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/exile-filter/ticket.json",
+    "proposal": "docs/factory-ng/candidates/proposal-b556d8b56b894e429181043ae9f302ab.json",
+    "identity": {
+      "worker": "operator",
+      "model": "operator-correction-no-worker-provider-run",
+      "profile": "codex-constrained@1.1.0"
+    }
+  }
+]

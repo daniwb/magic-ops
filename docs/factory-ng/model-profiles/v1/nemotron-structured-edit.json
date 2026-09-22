@@ -1,0 +1,35 @@
+{
+  "schema": "factory.model-profile/v1",
+  "id": "nemotron-structured-edit",
+  "version": "1.0.0",
+  "extends": "staged-baseline@1.0.0",
+  "adapter": {
+    "adapter_id": "nemotron-structured-edit-v1",
+    "executable": "scripts/nemotron-structured-call.py",
+    "engine": "nemotron-structured",
+    "workflow": "one bounded exact-range inspection followed by a forced submit_edits tool call; the adapter derives canonical SEARCH text and the harness owns apply and gates",
+    "allowed_tools": ["read_range", "submit_edits"],
+    "filesystem": "read-only",
+    "network": "OpenRouter API only",
+    "reasoning": "low during inspection and disabled during structured submission",
+    "max_inspection_calls": 1,
+    "max_model_calls": 2,
+    "max_completion_tokens_per_call": 3500
+  },
+  "routing": {
+    "best_for": ["candidate small evidence-complete Map patch", "literal source-preserving edit", "focused gate repair"],
+    "do_not_use_when": ["repository discovery is required", "cross-layer capability design is required", "the Ticket allowlist is incomplete"],
+    "promotion_gate": "frozen benchmark acceptance plus a second independently frozen Map ticket"
+  },
+  "budget_policy": {
+    "ordinary_target_effective_tokens": 200000,
+    "warning_reflection_effective_tokens": 500000,
+    "calculation": "input_tokens + output_tokens"
+  },
+  "telemetry": {
+    "source": "aggregated OpenRouter Chat Completions usage across the inspection and submission calls",
+    "measured": ["input", "output", "cache_read", "elapsed"],
+    "unavailable": ["cache_write", "reasoning token split"],
+    "cost": "provider endpoint price; zero for the tested :free model"
+  }
+}

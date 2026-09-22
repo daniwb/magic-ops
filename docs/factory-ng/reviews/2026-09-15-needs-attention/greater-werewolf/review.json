@@ -1,0 +1,16 @@
+{
+  "ticket": "ticket:engine.auto-put-counters-on-combat-related-creatures-7fda0f0882/v3",
+  "failed_receipt": "docs/factory-ng/runs/2026-09-15T193614Z-engine-auto-put-counters-on-combat-related-creatures-7fda0f0882-v3-codex.json",
+  "proposal": "docs/factory-ng/candidates/proposal-f0bf7ad23e2e4a82ab2374fdc891c9de.json",
+  "proposal_sha256": "sha256:45313bec3a623303b7c16619f863a3dade89954f3153a21ebc13723a25bda6d6",
+  "status": "requires_semantic_correction",
+  "findings": [
+    "The candidate subscribes to every EventBus event and fires on the first event without checking EventEndOfCombat. Formatting alone cannot justify acceptance.",
+    "The test only asserts a custom counter map entry; verify that a -0/-2 counter reduces actual toughness.",
+    "Test attacking and blocking relationships separately, preserving unrelated creatures and end-of-combat timing.",
+    "Original candidate gates stopped at gofmt; the runtime behavior was not established.",
+    "Use GameState.CombatState.Blockers as combat authority, not the mirrored Card.Blocking / BlockingCardID fields. Read both source-as-attacker and source-as-blocker relationships from the canonical map.",
+    "Current Counters.GetToughnessModifier only counts +1/+1 and -1/-1; the -0/-2 semantic gap requires a bounded counters.go prerequisite.",
+    "The converter already supports TriggerV2 event end_combat / legacy end_of_combat. Prefer that actual trigger plus an explicit related-creatures counter effect over promoting every blocks counter trigger into a deferred effect."
+  ]
+}

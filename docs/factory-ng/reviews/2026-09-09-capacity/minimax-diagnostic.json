@@ -1,0 +1,6 @@
+{
+  "http_status": 404,
+  "model": "minimax/minimax-m3:free",
+  "provider_message": "This model is unavailable for free. The paid version is available now - use this slug instead: minimax/minimax-m3",
+  "action": "Disabled unavailable free lane; no paid substitution."
+}

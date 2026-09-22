@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "session_id": "20260920_1",
+    "created_timestamp": 1789889469,
+    "model": "halogen-qwen3.8-flash-next",
+    "input_tokens": 1305,
+    "output_tokens": 144,
+    "total_tokens": 1449,
+    "cache_read_tokens": null,
+    "cache_write_tokens": null,
+    "cost": null,
+    "cost_source": null,
+    "is_compaction": 0
+  },
+  {
+    "id": 2,
+    "session_id": "20260920_1",
+    "created_timestamp": 1789889478,
+    "model": "halogen-qwen3.8-flash-next",
+    "input_tokens": 2418,
+    "output_tokens": 190,
+    "total_tokens": 2608,
+    "cache_read_tokens": 1305,
+    "cache_write_tokens": null,
+    "cost": null,
+    "cost_source": null,
+    "is_compaction": 0
+  },
+  {
+    "id": 3,
+    "session_id": "20260920_1",
+    "created_timestamp": 1789889503,
+    "model": "halogen-qwen3.8-flash-next",
+    "input_tokens": 3217,
+    "output_tokens": 544,
+    "total_tokens": 3761,
+    "cache_read_tokens": 2418,
+    "cache_write_tokens": null,
+    "cost": null,
+    "cost_source": null,
+    "is_compaction": 0
+  },
+  {
+    "id": 4,
+    "session_id": "20260920_1",
+    "created_timestamp": 1789889519,
+    "model": "halogen-qwen3.8-flash-next",
+    "input_tokens": 4907,
+    "output_tokens": 247,
+    "total_tokens": 5154,
+    "cache_read_tokens": 3217,
+    "cache_write_tokens": null,
+    "cost": null,
+    "cost_source": null,
+    "is_compaction": 0
+  },
+  {
+    "id": 5,
+    "session_id": "20260920_1",
+    "created_timestamp": 1789889618,
+    "model": "halogen-qwen3.8-flash-next",
+    "input_tokens": 5261,
+    "output_tokens": 1928,
+    "total_tokens": 7189,
+    "cache_read_tokens": 4907,
+    "cache_write_tokens": null,
+    "cost": null,
+    "cost_source": null,
+    "is_compaction": 0
+  }
+]

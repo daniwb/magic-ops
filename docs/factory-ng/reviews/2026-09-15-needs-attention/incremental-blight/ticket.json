@@ -1,0 +1,633 @@
+{
+  "capability": {
+    "negative_examples": [
+      "Do not route every put_counters atom to the first shared target.",
+      "Do not collapse the three amounts into one amount or silently ignore another/third-target distinctness."
+    ],
+    "required_behavior": "Execute multiple put_counters atoms with independently chosen distinct targets and preserve each atom's amount and counter type.",
+    "source_misses": [
+      {
+        "card": "Incremental Blight",
+        "oracle_text_sha256": "cb06254410a35671aec086fa0c05a933ff8e3cbae85ae0af665f910b40b06acf",
+        "paragraph": "Put a -1/-1 counter on target creature, two -1/-1 counters on another target creature, and three -1/-1 counters on a third target creature.",
+        "required_behavior": "Apply one, two, and three -1/-1 counters respectively to three independently chosen distinct target creatures."
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "expected_unlock": 0,
+        "key": "put_counters_independent_multi_target_sequence",
+        "specification": {
+          "negative_examples": [
+            "Do not route every put_counters atom to the first shared target.",
+            "Do not collapse the three amounts into one amount or silently ignore another/third-target distinctness."
+          ],
+          "required_behavior": "Execute multiple put_counters atoms with independently chosen distinct targets and preserve each atom's amount and counter type.",
+          "source_misses": [
+            {
+              "card": "Incremental Blight",
+              "oracle_text_sha256": "cb06254410a35671aec086fa0c05a933ff8e3cbae85ae0af665f910b40b06acf",
+              "paragraph": "Put a -1/-1 counter on target creature, two -1/-1 counters on another target creature, and three -1/-1 counters on a third target creature.",
+              "required_behavior": "Apply one, two, and three -1/-1 counters respectively to three independently chosen distinct target creatures."
+            }
+          ]
+        },
+        "summary": "Apply distinct counter amounts to independently chosen targets in one spell sequence"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-14T163257Z-map-plan-put-counters-incremental-blight-9b43613c7b-v2-codex.json"
+    },
+    {
+      "anchor": "7767-7773",
+      "fact": "Verified declaration game.GameState.ExecuteAbilityEffect#case:put_counters_independent_multi_target in source revision 5e8ce2866f3b71d291ca44ef4a50b9a22480d729; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"counter\" AND \"independent\" AND \"multi\" AND \"target\" AND \"sequence\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T08:12:54Z",
+          "indexed_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+          "normalized_words": [
+            "counter",
+            "independent",
+            "multi",
+            "target",
+            "sequence"
+          ],
+          "query": "put_counters_independent_multi_target_sequence",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "put_counters_independent_multi_target_sequence",
+            "request_id": "691d596c382f4acf8b62de812f978a0e",
+            "ticket": "ticket:engine.auto-put-counters-independent-multi-target-sequence-a8e4b194e3/v1"
+          },
+          "request_id": "691d596c382f4acf8b62de812f978a0e",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:put_counters_independent_multi_target",
+              "doc": "",
+              "end": 7773,
+              "kind": "engine",
+              "name": "put_counters_independent_multi_target",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:put_counters_independent_multi_target",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:put_counters_independent_multi_target",
+              "start": 7767,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:put_counters_independent_multi_target",
+              "symbol_kind": "case",
+              "title": "put_counters_independent_multi_target"
+            },
+            {
+              "description": "executePutCountersIndependentMultiTarget implements the",
+              "doc": "executePutCountersIndependentMultiTarget implements the\nput_counters_independent_multi_target primitive (ticket\nengine.auto-put-counters-independent-multi-target-8814b1cc89, River\nHeralds' Boon class): \"Put a +1/+1 counter on target creature and a\n+1/+1 counter on up to one target Merfolk.\" TWO independently resolved\ntargets in one non-modal spell resolution \u2014 targets[0] is the MANDATORY\nslot (filters[0]), targets[1] is the OPTIONAL \"up to one\" slot\n(filters[1]): an absent/declined second target is simply skipped rather\nthan an error, mirroring executeDestroyUpToArtifactCreatureLand's\noptional-slot tolerance, while validating each positional target\nagainst its OWN filter (not one shared filter) mirrors\nexecuteDestroyMultiFilterTargets. Distinct from the \"each\" mass-shape\n(a counter on EVERY qualifying permanent) and the modal round-2 shape\n(player picks one of several modes) handled by executePutCounterEffect\nabove \u2014 this always resolves BOTH slots of one fixed, non-modal effect.\n",
+              "end": 14302,
+              "kind": "engine",
+              "name": "executePutCountersIndependentMultiTarget",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executePutCountersIndependentMultiTarget",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executePutCountersIndependentMultiTarget(targets []Target, effectValue map[string]interface{}) error",
+              "start": 14278,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executePutCountersIndependentMultiTarget",
+              "symbol_kind": "function",
+              "title": "executePutCountersIndependentMultiTarget"
+            }
+          ],
+          "current_source_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"counter\" AND \"independent\" AND \"multi\" AND \"target\" AND \"sequence\"",
+            "\"counter\" AND \"independent\" AND \"multi\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T08:12:54Z",
+          "indexed_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+          "normalized_words": [
+            "counter",
+            "independent",
+            "multi",
+            "target",
+            "sequence"
+          ],
+          "query": "put_counters_independent_multi_target_sequence",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "put_counters_independent_multi_target_sequence",
+            "request_id": "bf28eb4225714b45a10f8d175bb80574",
+            "ticket": "ticket:engine.auto-put-counters-independent-multi-target-sequence-a8e4b194e3/v1"
+          },
+          "request_id": "bf28eb4225714b45a10f8d175bb80574",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:put_counters",
+              "doc": "",
+              "end": 7758,
+              "kind": "engine",
+              "name": "put_counters",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:put_counters",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:put_counters",
+              "start": 7755,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:put_counters",
+              "symbol_kind": "case",
+              "title": "put_counters"
+            }
+          ],
+          "current_source_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T08:12:54Z",
+          "indexed_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+          "normalized_words": [
+            "counter"
+          ],
+          "query": "put_counters",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "put_counters",
+            "request_id": "f6c05fee2b7d45c781538aa8124ff935",
+            "ticket": "ticket:engine.auto-put-counters-independent-multi-target-sequence-a8e4b194e3/v1"
+          },
+          "request_id": "f6c05fee2b7d45c781538aa8124ff935",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:8aa976a2282ffc017cac8226aade7bf247e29e09e61970457c28c97fda1c9572",
+      "symbol": {
+        "description": "ExecuteAbilityEffect#case:put_counters_independent_multi_target",
+        "discovery_role": "label_fallback",
+        "doc": "",
+        "end": 7773,
+        "kind": "engine",
+        "name": "put_counters_independent_multi_target",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.ExecuteAbilityEffect#case:put_counters_independent_multi_target",
+        "receiver": "GameState",
+        "request_id": "bf28eb4225714b45a10f8d175bb80574",
+        "signature": "ExecuteAbilityEffect#case:put_counters_independent_multi_target",
+        "start": 7767,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:put_counters_independent_multi_target",
+        "symbol_kind": "case",
+        "title": "put_counters_independent_multi_target"
+      }
+    },
+    {
+      "anchor": "7755-7758",
+      "fact": "Verified declaration game.GameState.ExecuteAbilityEffect#case:put_counters in source revision 5e8ce2866f3b71d291ca44ef4a50b9a22480d729; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"counter\" AND \"independent\" AND \"multi\" AND \"target\" AND \"sequence\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T08:12:54Z",
+          "indexed_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+          "normalized_words": [
+            "counter",
+            "independent",
+            "multi",
+            "target",
+            "sequence"
+          ],
+          "query": "put_counters_independent_multi_target_sequence",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "put_counters_independent_multi_target_sequence",
+            "request_id": "691d596c382f4acf8b62de812f978a0e",
+            "ticket": "ticket:engine.auto-put-counters-independent-multi-target-sequence-a8e4b194e3/v1"
+          },
+          "request_id": "691d596c382f4acf8b62de812f978a0e",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:put_counters_independent_multi_target",
+              "doc": "",
+              "end": 7773,
+              "kind": "engine",
+              "name": "put_counters_independent_multi_target",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:put_counters_independent_multi_target",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:put_counters_independent_multi_target",
+              "start": 7767,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:put_counters_independent_multi_target",
+              "symbol_kind": "case",
+              "title": "put_counters_independent_multi_target"
+            },
+            {
+              "description": "executePutCountersIndependentMultiTarget implements the",
+              "doc": "executePutCountersIndependentMultiTarget implements the\nput_counters_independent_multi_target primitive (ticket\nengine.auto-put-counters-independent-multi-target-8814b1cc89, River\nHeralds' Boon class): \"Put a +1/+1 counter on target creature and a\n+1/+1 counter on up to one target Merfolk.\" TWO independently resolved\ntargets in one non-modal spell resolution \u2014 targets[0] is the MANDATORY\nslot (filters[0]), targets[1] is the OPTIONAL \"up to one\" slot\n(filters[1]): an absent/declined second target is simply skipped rather\nthan an error, mirroring executeDestroyUpToArtifactCreatureLand's\noptional-slot tolerance, while validating each positional target\nagainst its OWN filter (not one shared filter) mirrors\nexecuteDestroyMultiFilterTargets. Distinct from the \"each\" mass-shape\n(a counter on EVERY qualifying permanent) and the modal round-2 shape\n(player picks one of several modes) handled by executePutCounterEffect\nabove \u2014 this always resolves BOTH slots of one fixed, non-modal effect.\n",
+              "end": 14302,
+              "kind": "engine",
+              "name": "executePutCountersIndependentMultiTarget",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executePutCountersIndependentMultiTarget",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executePutCountersIndependentMultiTarget(targets []Target, effectValue map[string]interface{}) error",
+              "start": 14278,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executePutCountersIndependentMultiTarget",
+              "symbol_kind": "function",
+              "title": "executePutCountersIndependentMultiTarget"
+            }
+          ],
+          "current_source_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"counter\" AND \"independent\" AND \"multi\" AND \"target\" AND \"sequence\"",
+            "\"counter\" AND \"independent\" AND \"multi\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T08:12:54Z",
+          "indexed_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+          "normalized_words": [
+            "counter",
+            "independent",
+            "multi",
+            "target",
+            "sequence"
+          ],
+          "query": "put_counters_independent_multi_target_sequence",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "put_counters_independent_multi_target_sequence",
+            "request_id": "bf28eb4225714b45a10f8d175bb80574",
+            "ticket": "ticket:engine.auto-put-counters-independent-multi-target-sequence-a8e4b194e3/v1"
+          },
+          "request_id": "bf28eb4225714b45a10f8d175bb80574",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:put_counters",
+              "doc": "",
+              "end": 7758,
+              "kind": "engine",
+              "name": "put_counters",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:put_counters",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:put_counters",
+              "start": 7755,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:put_counters",
+              "symbol_kind": "case",
+              "title": "put_counters"
+            }
+          ],
+          "current_source_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T08:12:54Z",
+          "indexed_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+          "normalized_words": [
+            "counter"
+          ],
+          "query": "put_counters",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "put_counters",
+            "request_id": "f6c05fee2b7d45c781538aa8124ff935",
+            "ticket": "ticket:engine.auto-put-counters-independent-multi-target-sequence-a8e4b194e3/v1"
+          },
+          "request_id": "f6c05fee2b7d45c781538aa8124ff935",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:8aa976a2282ffc017cac8226aade7bf247e29e09e61970457c28c97fda1c9572",
+      "symbol": {
+        "description": "ExecuteAbilityEffect#case:put_counters",
+        "discovery_role": "operation_only",
+        "doc": "",
+        "end": 7758,
+        "kind": "engine",
+        "name": "put_counters",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.ExecuteAbilityEffect#case:put_counters",
+        "receiver": "GameState",
+        "request_id": "f6c05fee2b7d45c781538aa8124ff935",
+        "signature": "ExecuteAbilityEffect#case:put_counters",
+        "start": 7755,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:put_counters",
+        "symbol_kind": "case",
+        "title": "put_counters"
+      }
+    },
+    {
+      "anchor": "14278-14302",
+      "fact": "Verified declaration game.GameState.executePutCountersIndependentMultiTarget in source revision 5e8ce2866f3b71d291ca44ef4a50b9a22480d729; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"counter\" AND \"independent\" AND \"multi\" AND \"target\" AND \"sequence\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T08:12:54Z",
+          "indexed_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+          "normalized_words": [
+            "counter",
+            "independent",
+            "multi",
+            "target",
+            "sequence"
+          ],
+          "query": "put_counters_independent_multi_target_sequence",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "put_counters_independent_multi_target_sequence",
+            "request_id": "691d596c382f4acf8b62de812f978a0e",
+            "ticket": "ticket:engine.auto-put-counters-independent-multi-target-sequence-a8e4b194e3/v1"
+          },
+          "request_id": "691d596c382f4acf8b62de812f978a0e",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:put_counters_independent_multi_target",
+              "doc": "",
+              "end": 7773,
+              "kind": "engine",
+              "name": "put_counters_independent_multi_target",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:put_counters_independent_multi_target",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:put_counters_independent_multi_target",
+              "start": 7767,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:put_counters_independent_multi_target",
+              "symbol_kind": "case",
+              "title": "put_counters_independent_multi_target"
+            },
+            {
+              "description": "executePutCountersIndependentMultiTarget implements the",
+              "doc": "executePutCountersIndependentMultiTarget implements the\nput_counters_independent_multi_target primitive (ticket\nengine.auto-put-counters-independent-multi-target-8814b1cc89, River\nHeralds' Boon class): \"Put a +1/+1 counter on target creature and a\n+1/+1 counter on up to one target Merfolk.\" TWO independently resolved\ntargets in one non-modal spell resolution \u2014 targets[0] is the MANDATORY\nslot (filters[0]), targets[1] is the OPTIONAL \"up to one\" slot\n(filters[1]): an absent/declined second target is simply skipped rather\nthan an error, mirroring executeDestroyUpToArtifactCreatureLand's\noptional-slot tolerance, while validating each positional target\nagainst its OWN filter (not one shared filter) mirrors\nexecuteDestroyMultiFilterTargets. Distinct from the \"each\" mass-shape\n(a counter on EVERY qualifying permanent) and the modal round-2 shape\n(player picks one of several modes) handled by executePutCounterEffect\nabove \u2014 this always resolves BOTH slots of one fixed, non-modal effect.\n",
+              "end": 14302,
+              "kind": "engine",
+              "name": "executePutCountersIndependentMultiTarget",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.executePutCountersIndependentMultiTarget",
+              "receiver": "GameState",
+              "signature": "func (gs *GameState) executePutCountersIndependentMultiTarget(targets []Target, effectValue map[string]interface{}) error",
+              "start": 14278,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.executePutCountersIndependentMultiTarget",
+              "symbol_kind": "function",
+              "title": "executePutCountersIndependentMultiTarget"
+            }
+          ],
+          "current_source_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"counter\" AND \"independent\" AND \"multi\" AND \"target\" AND \"sequence\"",
+            "\"counter\" AND \"independent\" AND \"multi\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T08:12:54Z",
+          "indexed_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+          "normalized_words": [
+            "counter",
+            "independent",
+            "multi",
+            "target",
+            "sequence"
+          ],
+          "query": "put_counters_independent_multi_target_sequence",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "put_counters_independent_multi_target_sequence",
+            "request_id": "bf28eb4225714b45a10f8d175bb80574",
+            "ticket": "ticket:engine.auto-put-counters-independent-multi-target-sequence-a8e4b194e3/v1"
+          },
+          "request_id": "bf28eb4225714b45a10f8d175bb80574",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "ExecuteAbilityEffect#case:put_counters",
+              "doc": "",
+              "end": 7758,
+              "kind": "engine",
+              "name": "put_counters",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:put_counters",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:put_counters",
+              "start": 7755,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:put_counters",
+              "symbol_kind": "case",
+              "title": "put_counters"
+            }
+          ],
+          "current_source_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-15T08:12:54Z",
+          "indexed_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+          "normalized_words": [
+            "counter"
+          ],
+          "query": "put_counters",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "put_counters",
+            "request_id": "f6c05fee2b7d45c781538aa8124ff935",
+            "ticket": "ticket:engine.auto-put-counters-independent-multi-target-sequence-a8e4b194e3/v1"
+          },
+          "request_id": "f6c05fee2b7d45c781538aa8124ff935",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:8aa976a2282ffc017cac8226aade7bf247e29e09e61970457c28c97fda1c9572",
+      "symbol": {
+        "description": "executePutCountersIndependentMultiTarget implements the",
+        "discovery_role": "label_fallback",
+        "doc": "executePutCountersIndependentMultiTarget implements the\nput_counters_independent_multi_target primitive (ticket\nengine.auto-put-counters-independent-multi-target-8814b1cc89, River\nHeralds' Boon class): \"Put a +1/+1 counter on target creature and a\n+1/+1 counter on up to one target Merfolk.\" TWO independently resolved\ntargets in one non-modal spell resolution \u2014 targets[0] is the MANDATORY\nslot (filters[0]), targets[1] is the OPTIONAL \"up to one\" slot\n(filters[1]): an absent/declined second target is simply skipped rather\nthan an error, mirroring executeDestroyUpToArtifactCreatureLand's\noptional-slot tolerance, while validating each positional target\nagainst its OWN filter (not one shared filter) mirrors\nexecuteDestroyMultiFilterTargets. Distinct from the \"each\" mass-shape\n(a counter on EVERY qualifying permanent) and the modal round-2 shape\n(player picks one of several modes) handled by executePutCounterEffect\nabove \u2014 this always resolves BOTH slots of one fixed, non-modal effect.\n",
+        "end": 14302,
+        "kind": "engine",
+        "name": "executePutCountersIndependentMultiTarget",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.executePutCountersIndependentMultiTarget",
+        "receiver": "GameState",
+        "request_id": "bf28eb4225714b45a10f8d175bb80574",
+        "signature": "func (gs *GameState) executePutCountersIndependentMultiTarget(targets []Target, effectValue map[string]interface{}) error",
+        "start": 14278,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.executePutCountersIndependentMultiTarget",
+        "symbol_kind": "function",
+        "title": "executePutCountersIndependentMultiTarget"
+      }
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "An Oracle-validated Map block has been compiled into one bounded Engine dependency.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.operator-independent-counters-recovery-sep15/v1",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Record an immutable bounded verdict; automatic discovery continues with independent work.",
+  "parents": [
+    "ticket:engine.auto-put-counters-independent-multi-target-sequence-a8e4b194e3/v1"
+  ],
+  "required_behavior": [
+    "Execute multiple put_counters atoms with independently chosen distinct targets and preserve each atom's amount and counter type.",
+    "Preserve these adjacent behaviors: Do not route every put_counters atom to the first shared target.; Do not collapse the three amounts into one amount or silently ignore another/third-target distinctness.",
+    "Add a discriminating behavior test named TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3; a compile-only assertion is insufficient.",
+    "Register every new public effect using regEffect in the allowed registry_*.go file, with executor and runtime test metadata; never edit the frozen registry literal.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases.",
+    "Use explicit sequence_target_index metadata. Preserve target slots when an earlier target becomes illegal, reject duplicate target declarations before spending resources, and preserve each counter amount and type. Unindexed legacy atoms must keep existing routing."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_a8e4b194e3_test.go",
+      "backend/cards/factory_ng_a8e4b194e3_test.go",
+      "backend/cards/registry_factory_ng_a8e4b194e3.go",
+      "backend/game/effect_sequence.go",
+      "backend/cards/shape_independent_counter_targets_test.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "b595a212914f8bfe4c6cba1361b73ceb5b49b6a3",
+    "clean": true
+  },
+  "title": "Operator recovery of independently targeted counter sequence",
+  "work_type": "engine",
+  "operator_recovery": {
+    "authorization": "User requested fixing all needs-attention tickets.",
+    "original_ticket": "docs/factory-ng/tickets/engine-auto-put-counters-independent-multi-target-sequence-a8e4b194e3-v1.json",
+    "original_ticket_sha256": "sha256:15fa39624991630cd0bf8f4e9fbc99e2cda5c45103314693c1c294c9c2648ee4",
+    "crashed_attempt_log_sha256": "sha256:d25910d4edc1c900c402aff3f38808dc9c7c67781a786a38d4a38e1035592061",
+    "raw_path": "docs/factory-ng/runs/2026-09-15T192747Z-engine-auto-put-counters-independent-multi-target-sequence-a8e4b194e3-v1-codex.raw.json",
+    "raw_sha256": "sha256:0a44ede0a4e231ae462d8d77718a1cc4914441ac7cb348469ce0f27e15cd074e",
+    "scope_addition_reason": "The sequence routing type and walker are required to preserve explicit target-slot identity. The original scope omitted effect_sequence.go. New behavioral coverage is in a shape file as required by repository policy.",
+    "additional_provider_runs": 0,
+    "counter_resets": false
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "active": [],
+  "authentication_recovery": {
+    "completed_at": "2026-08-31T10:28:37Z",
+    "explanation": "OAuth authentication failures were returned to the queue without consuming ticket attempts.",
+    "refunded_attempts": 431
+  },
+  "deferred": [
+    "ticket:engine.auto-damage-by-referent-live-power-to-source-4dc6529035/v2"
+  ],
+  "message": "1 tickets are deferred, but no runnable ticket exists; automatic producers remain armed.",
+  "phase": "waiting_for_ticket",
+  "queue": {
+    "admission_cap": 12,
+    "deferred": 1,
+    "fill_target": 10,
+    "max_queued": 12,
+    "runnable": 0,
+    "target_ready": 8,
+    "total": 1
+  },
+  "queued": [
+    "ticket:engine.auto-damage-by-referent-live-power-to-source-4dc6529035/v2"
+  ],
+  "state": "running",
+  "updated_at": "2026-09-12T07:18:38Z",
+  "worker_pauses": [],
+  "watchdog": {
+    "active": false,
+    "activity_signature": {
+      "job_states": {
+        "blocked": 677,
+        "completed": 895,
+        "failed": 1346,
+        "integration_failed": 2,
+        "parked": 291,
+        "queued": 1
+      },
+      "latest_receipt_epoch": 1789192035,
+      "latest_ticket_epoch": 1789191563
+    },
+    "cards": {
+      "auto": 12967,
+      "available": true,
+      "delta_24h": 135,
+      "sample_age_seconds": 1,
+      "window_seconds": 86618
+    },
+    "checked_at": "2026-09-12T07:10:09Z",
+    "controller": {
+      "pids": [
+        2881227
+      ],
+      "runtime_age_seconds": 9,
+      "updated_at": "2026-09-12T07:09:54Z"
+    },
+    "healthy": false,
+    "interval_seconds": 600,
+    "moving": false,
+    "operator_paused": false,
+    "problems": [
+      "all 1 queued tickets are deferred; no runnable reserve exists",
+      "no accepted or integrated progress across a ten-minute poll",
+      "2 unresolved integration failure(s)"
+    ],
+    "productive_signature": {
+      "accepted_receipts": 995,
+      "completed_jobs": 895,
+      "integrations": 600,
+      "latest_integrated_epoch": 1789192035,
+      "latest_productive_epoch": 1789192035
+    },
+    "queue": {
+      "deferred": 1,
+      "runnable": 0,
+      "states": {
+        "blocked": 677,
+        "completed": 895,
+        "failed": 1346,
+        "integration_failed": 2,
+        "parked": 291,
+        "queued": 1
+      },
+      "target_ready": 8
+    },
+    "recovery": [],
+    "schema": "factory.ng-watchdog/v1",
+    "signature": {
+      "job_states": {
+        "blocked": 677,
+        "completed": 895,
+        "failed": 1346,
+        "integration_failed": 2,
+        "parked": 291,
+        "queued": 1
+      },
+      "latest_receipt_epoch": 1789192035,
+      "latest_ticket_epoch": 1789191563
+    }
+  }
+}

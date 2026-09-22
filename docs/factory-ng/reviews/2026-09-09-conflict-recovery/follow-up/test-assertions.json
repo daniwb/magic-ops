@@ -1,0 +1,97 @@
+[
+  {
+    "gate_output": "gate-0-output.json",
+    "exit_code": 0,
+    "passed_tests": [],
+    "failed_tests": []
+  },
+  {
+    "gate_output": "gate-1-output.json",
+    "exit_code": 0,
+    "passed_tests": [
+      "TestFactoryNGDamageAmountReferentTargetHandSize/original_ability_assertions",
+      "TestFactoryNGDamageAmountReferentTargetHandSize",
+      "TestFactoryNGDamageAmountReferentTargetHandSize/original_parsed_Storm_Seeker",
+      "TestFactoryNGDamageAmountReferentTargetHandSize"
+    ],
+    "failed_tests": []
+  },
+  {
+    "gate_output": "gate-2-output.json",
+    "exit_code": 0,
+    "passed_tests": [],
+    "failed_tests": []
+  },
+  {
+    "gate_output": "gate-3-output.json",
+    "exit_code": 0,
+    "passed_tests": [
+      "TestFactoryNGPumpUntilEotAbilitySelfNoTarget/explicit_self_referent_pumps_source",
+      "TestFactoryNGPumpUntilEotAbilitySelfNoTarget/missing_legal_target_does_not_become_self",
+      "TestFactoryNGPumpUntilEotAbilitySelfNoTarget/group_filter_remains_non-self",
+      "TestFactoryNGPumpUntilEotAbilitySelfNoTarget/all_filter_remains_mass_dispatch",
+      "TestFactoryNGPumpUntilEotAbilitySelfNoTarget"
+    ],
+    "failed_tests": []
+  },
+  {
+    "gate_output": "gate-4-output.json",
+    "exit_code": 0,
+    "passed_tests": [
+      "TestFactoryNGDynamicAmountManaValueOfExiledThisWay/success_repeated_reads",
+      "TestFactoryNGDynamicAmountManaValueOfExiledThisWay/zero_mana",
+      "TestFactoryNGDynamicAmountManaValueOfExiledThisWay/mana_filter",
+      "TestFactoryNGDynamicAmountManaValueOfExiledThisWay/color_filter",
+      "TestFactoryNGDynamicAmountManaValueOfExiledThisWay/unconsumed_exile_cannot_leak_to_unrelated_spell",
+      "TestFactoryNGDynamicAmountManaValueOfExiledThisWay/public_sequence_puts_nonzero_counters",
+      "TestFactoryNGDynamicAmountManaValueOfExiledThisWay"
+    ],
+    "failed_tests": []
+  },
+  {
+    "gate_output": "gate-5-output.json",
+    "exit_code": 0,
+    "passed_tests": [
+      "TestFactoryNGDestroyedThisWayPerPlayerCount/public_sequence/artifact_creature",
+      "TestFactoryNGDestroyedThisWayPerPlayerCount/public_sequence/indestructible",
+      "TestFactoryNGDestroyedThisWayPerPlayerCount/public_sequence/regeneration",
+      "TestFactoryNGDestroyedThisWayPerPlayerCount/public_sequence/damage_prevention",
+      "TestFactoryNGDestroyedThisWayPerPlayerCount/public_sequence",
+      "TestFactoryNGDestroyedThisWayPerPlayerCount"
+    ],
+    "failed_tests": []
+  },
+  {
+    "gate_output": "gate-6-output.json",
+    "exit_code": 0,
+    "passed_tests": [
+      "TestFactoryNGSacrificeUnlessDiscard/normal_choice_entry_rejects_invalid_picks",
+      "TestFactoryNGSacrificeUnlessDiscard/declines_discard:_source_is_sacrificed",
+      "TestFactoryNGSacrificeUnlessDiscard/discards_a_card:_source_survives",
+      "TestFactoryNGSacrificeUnlessDiscard/unconditional_filter-scoped_sacrifice_offers_no_discard_option",
+      "TestFactoryNGSacrificeUnlessDiscard",
+      "TestFactoryNGSacrificeUnlessDiscard/public_trigger_and_resolution_path",
+      "TestFactoryNGSacrificeUnlessDiscard/discard_keeps_source",
+      "TestFactoryNGSacrificeUnlessDiscard/unconditional_sacrifice_remains_unconditional",
+      "TestFactoryNGSacrificeUnlessDiscard"
+    ],
+    "failed_tests": []
+  },
+  {
+    "gate_output": "gate-7-output.json",
+    "exit_code": 0,
+    "passed_tests": [
+      "TestShape_ConflictRecoveryExecutors/discard_converter_and_public_trigger/public_trigger_and_resolution_path",
+      "TestShape_ConflictRecoveryExecutors/discard_converter_and_public_trigger/discard_keeps_source",
+      "TestShape_ConflictRecoveryExecutors/discard_converter_and_public_trigger/unconditional_sacrifice_remains_unconditional",
+      "TestShape_ConflictRecoveryExecutors/discard_converter_and_public_trigger",
+      "TestShape_ConflictRecoveryExecutors",
+      "TestShape_StormKeywordBoundary/Storm",
+      "TestShape_StormKeywordBoundary/Storm.",
+      "TestShape_StormKeywordBoundary/Storm_(When_you_cast_this_spell,_copy_it_for_each_spell_cast_before_it_this_turn.)",
+      "TestShape_StormKeywordBoundary/Storm_(When_you_cast_this_spell,_copy_it._You_may_choose_new_targets_for_the_copies.)",
+      "TestShape_StormKeywordBoundary"
+    ],
+    "failed_tests": []
+  }
+]

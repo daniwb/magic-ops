@@ -1,0 +1,526 @@
+# ENGINE-PIPELINE TASK — satisfy ONE bounded behavior contract
+
+Ticket ticket:engine.auto-for-each-attacker-owner-choice-library-placement-02fff2db77/v2: Repair after gate failure: Implement atomic capability: Per-object iteration over each attacking creature where that creature's owner (not its controller) individually chooses top or bottom of their own library to place it
+Primitive demand: `for_each_attacker_owner_choice_library_placement`
+Capability ID: `TicketSpec`
+Atomic capability specification:
+{
+  "allowed_paths": [
+    "backend/game/ability_effects.go",
+    "backend/game/dynamic_amount.go",
+    "backend/game/effects.go",
+    "backend/game/card.go",
+    "backend/game/gamestate.go",
+    "backend/game/targeting.go",
+    "backend/cards/converter.go",
+    "backend/cards/registry.go",
+    "backend/game/factory_ng_02fff2db77_test.go",
+    "backend/cards/factory_ng_02fff2db77_test.go",
+    "backend/cards/registry_factory_ng_02fff2db77.go"
+  ],
+  "evidence": [
+    {
+      "capability": {
+        "key": "for_each_attacker_owner_choice_library_placement",
+        "specification": {
+          "expected_unlock": 1,
+          "negative_examples": [
+            "Destroy each attacking creature.",
+            "Put target creature on top of its owner's library."
+          ],
+          "required_behavior": "For each attacking creature individually, resolve a placement effect where the creature's owner chooses top or bottom of their own library and the creature is put there",
+          "source_misses": [
+            {
+              "card": "Aetherspouts",
+              "oracle_text_sha256": "d8c2620e6f09701518d6c2c2b21e0e54b30c61f504841fb4f373b5b03fca483b",
+              "paragraph": "For each attacking creature, its owner puts it on their choice of the top or bottom of their library.",
+              "required_behavior": "For each attacking creature individually, resolve a placement effect where the creature's owner chooses top or bottom of their own library and the creature is put there"
+            }
+          ]
+        },
+        "summary": "Per-object iteration over each attacking creature where that creature's owner (not its controller) individually chooses top or bottom of their own library to place it"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-19T224020Z-map-frontier-3b649a3aa2fc-v1-claude.json"
+    },
+    {
+      "fact": "Knowledge discovery found no resolvable candidate. This is not evidence of a missing capability; verify source before proposing Engine work.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"attacker\" AND \"owner\" AND \"choice\" AND \"library\" AND \"placement\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-20T06:42:06Z",
+          "indexed_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "normalized_words": [
+            "attacker",
+            "owner",
+            "choice",
+            "library",
+            "placement"
+          ],
+          "query": "for_each_attacker_owner_choice_library_placement",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "for_each_attacker_owner_choice_library_placement",
+            "request_id": "c0072c576f4f4e08b8d4d900baaf6912",
+            "ticket": "ticket:engine.auto-for-each-attacker-owner-choice-library-placement-02fff2db77/v1"
+          },
+          "request_id": "c0072c576f4f4e08b8d4d900baaf6912",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"attacker\" AND \"owner\" AND \"choice\" AND \"library\" AND \"placement\"",
+            "\"attacker\" AND \"owner\" AND \"choice\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-20T06:42:06Z",
+          "indexed_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "normalized_words": [
+            "attacker",
+            "owner",
+            "choice",
+            "library",
+            "placement"
+          ],
+          "query": "for_each_attacker_owner_choice_library_placement",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "for_each_attacker_owner_choice_library_placement",
+            "request_id": "cc3619e20dd6409a85561516abe933d5",
+            "ticket": "ticket:engine.auto-for-each-attacker-owner-choice-library-placement-02fff2db77/v1"
+          },
+          "request_id": "cc3619e20dd6409a85561516abe933d5",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-20T06:42:06Z",
+          "indexed_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+          "normalized_words": [],
+          "query": "for",
+          "request": {
+            "attempt": "ticket-preparation",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "for",
+            "request_id": "bb775b16c1db4e4eb8761154d1f8be81",
+            "ticket": "ticket:engine.auto-for-each-attacker-owner-choice-library-placement-02fff2db77/v1"
+          },
+          "request_id": "bb775b16c1db4e4eb8761154d1f8be81",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/ability_effects.go"
+    },
+    {
+      "fact": "The previous candidate compiled/ran and failed this exact gate: patch-apply: backend/game/effects.go: NEWFILE but file already exists \u2014 use SEARCH/REPLACE. Fix only this defect; do not restructure unrelated code or revisit already-passing behavior.",
+      "path": "docs/factory-ng/runs/2026-09-20T102135Z-engine-auto-for-each-attacker-owner-choice-library-placement-02fff2db77-v1-goose-qwen-staged.json"
+    }
+  ],
+  "expected_unlock": 1,
+  "negative_examples": [
+    "Destroy each attacking creature.",
+    "Put target creature on top of its owner's library."
+  ],
+  "required_behavior": "For each attacking creature individually, resolve a placement effect where the creature's owner chooses top or bottom of their own library and the creature is put there",
+  "source_misses": [
+    {
+      "card": "Aetherspouts",
+      "oracle_text_sha256": "d8c2620e6f09701518d6c2c2b21e0e54b30c61f504841fb4f373b5b03fca483b",
+      "paragraph": "For each attacking creature, its owner puts it on their choice of the top or bottom of their library.",
+      "required_behavior": "For each attacking creature individually, resolve a placement effect where the creature's owner chooses top or bottom of their own library and the creature is put there"
+    }
+  ]
+}
+Park reason:
+Atomic contract authority: For each attacking creature individually, resolve a placement effect where the creature's owner chooses top or bottom of their own library and the creature is put there
+
+You are extending the Go MTG engine (repo openmagic, module magic-backend,
+run from backend/). First distinguish existing behavior from the specific remaining gap. A generated
+capability name is a search label, not an instruction to add a new primitive.
+Decompose the requirement into existing operations, connections, and missing
+behavior. Operation-only search hits are candidates, not proof of full support.
+Use the public converter/cast/trigger/resolution path for the discriminating
+test; a private-helper test alone can miss lost fields or later defaults.
+If existing code satisfies the entire contract, a discriminating test-only
+patch is valid. Otherwise change only the demonstrated gap. Missing evidence
+requires NEED, not an invented framework. Choose classification reuse, connection, engine_gap, or insufficient_evidence.
+Include one short assessment line (example):
+CAPABILITY_ASSESSMENT: {"classification":"connection","existing_symbols":["qualified symbol"],"remaining_gap":"specific behavior or none","verification":"public-path test or missing evidence"}
+Then deliver the normal edit blocks or verdict. This adds no model round.
+Rules:
+- backend/game/ edits ARE allowed here (this is the engine tier).
+- Follow existing conventions: extend an existing executor/switch where
+  possible; wire new vocabulary through the SAME registration points the
+  code regions below show (registry entry / converter case / v2 enum) if a
+  new effect name is needed.
+- A NEW test function in a NEW _test.go file is REQUIRED (gate greps the
+  diff for +func Test). Behavior test, not just compilation.
+- If this demand is actually FRAMEWORK-SIZED (new event system, new
+  dispatch machinery, cross-cutting state), do NOT attempt it.
+
+## Blocked example cards
+### Aetherspouts
+Oracle text:
+For each attacking creature, its owner puts it on their choice of the top or bottom of their library.
+Current misses: [('verb_unmapped:for_each', 'its owner puts it on their choice of the top or bottom of their librar')]
+
+## Relevant code regions (line-numbered, read-only reference)
+(no hits)
+
+## Knowledge-service hits
+Lookup a07b52fdb10d4c0596ceecdeb206fe91: not_found; strategy=normalized_all_terms; indexed revision=94643f36111d61a85d7ea6d9fd8971f2da832d84
+No candidate found by this search. This does not establish a missing engine capability.
+Discovery purpose: capability_label
+
+Lookup 5c37fb8c4070425684e51696b7fe0db2: not_found; strategy=explicit_leading_terms; indexed revision=94643f36111d61a85d7ea6d9fd8971f2da832d84
+No candidate found by this search. This does not establish a missing engine capability.
+Discovery purpose: label_fallback
+
+Lookup 85185223f0d345789484119c8c27a294: not_found; strategy=exact_symbol; indexed revision=94643f36111d61a85d7ea6d9fd8971f2da832d84
+No candidate found by this search. This does not establish a missing engine capability.
+Discovery purpose: operation_only
+
+### backend/cards/shape_dealt_damage_test.go (convention template, first 60 lines)
+package cards
+
+// task-2427 (event_unsupported:deals_damage, receiver side) shape tests.
+// The passive voice ("Whenever ~ IS DEALT damage" — the Enrage family, Apex
+// Altisaur/Stuffy Doll class) names the damage RECEIVER, but every
+// TriggerCondition subject filter matched event.Source (the DEALER), so the
+// whole family was gated dead (reparse.py DEAD_TRIGGER_EVENTS). This round:
+// slotparse splits "is dealt damage" into its own v2 event is_dealt_damage,
+// the converter sets TriggerCondition.ReceiverSide, and Matches evaluates
+// every subject filter against event.Target when the flag is set. Combat
+// damage to a creature also dispatches through ProcessTriggeredAbilities now
+// (combat.go previously discarded the matched record triggers).
+// New file per the frozen-registry/shape-test convention.
+
+import (
+	"testing"
+
+	"magic-backend/game"
+)
+
+func dealtDamageDef(name string, subject *TargetFilter) *CardDefinition {
+	return &CardDefinition{
+		Name: name,
+		Type: "Creature", Types: []string{"Creature"},
+		Power: intPtr(3), Toughness: intPtr(3),
+		Abilities: []AbilityDSL{
+			{Type: "triggered",
+				TriggerV2: &TriggerSpec{Event: "is_dealt_damage", Subject: subject},
+				Effects:   []EffectAtom{{Effect: "gain_life", Value: map[string]interface{}{"amount": float64(5)}}}},
+		},
+		Status: StatusManual,
+	}
+}
+
+// "Whenever this creature is dealt damage, you gain 5 life." — Enrage/self family.
+// Self DEALING damage must NOT fire (that's the dealer-side reading); self
+// RECEIVING damage must.
+func TestShape_Triggered_IsDealtDamageSelf(t *testing.T) {
+	def := dealtDamageDef("Shape Enraged Saur", &TargetFilter{Filter: "self"})
+	src, err := def.ToGameCard(0)
+	if err != nil {
+		t.Fatalf("ToGameCard: %v", err)
+	}
+	gs := game.NewGame("P0", "P1", false)
+	gs.Battlefield.AddCard(src)
+	gs.RegisterCardAbilities(src)
+
+	other := game.NewCreature("Shape Bystander Beast", game.ManaCost{}, 2, 2, 1)
+	other.Owner, other.Controller = 1, 1
+	gs.Battlefield.AddCard(other)
+
+	life0 := gs.Players[0].Life
+
+	// Self is the DEALER (dealer-side reading) — must NOT fire.
+	gs.ProcessTriggeredAbilities(game.CreateDamageEvent(src, other, 2, 0))
+	drainStack(t, gs)
+	if got := gs.Players[0].Life; got != life0 {
+		t.Fatalf("receiver-side trigger fired on self DEALING damage (life %d -> %d)", life0, got)
+	}
+
+
+## NO-TOOLS ADAPTER
+No repository tools are available in this call. Use only the line-numbered
+evidence in this packet. Do not issue a tool call. If essential exact source
+is absent, use the bounded `NEED:` continuation defined below; otherwise
+return an edit block or a verdict in this response.
+
+## OUTPUT FORMAT (strict)
+If ESSENTIAL source is missing from the code regions above (you would have to
+guess exact lines), reply ONLY with up to 3 request lines and nothing else:
+NEED: <repo-relative-path or exact symbol/identifier>
+The harness will send the regions and re-ask ONCE.
+
+OTHERWISE — EITHER a park verdict:
+VERDICT: FRAMEWORK|AMBIGUOUS
+REASON: <one line>
+
+OR edit blocks. Existing files via exact-match search/replace:
+<<<FILE path/relative/to/repo
+<<<SEARCH
+exact existing lines (verbatim, no line-number prefixes)
+===REPLACE
+replacement lines
+>>>END
+New files (the required test file, new registry file if conventions demand):
+<<<NEWFILE path/relative/to/repo
+full file content
+>>>END
+
+End with one line:
+EXPECT: <what now works, one sentence>
+No other prose.
+
+
+## TICKET CONTRACT (enforced verbatim by the harness)
+scope.allowed_paths (edit nothing else):
+- backend/game/ability_effects.go
+- backend/game/dynamic_amount.go
+- backend/game/effects.go
+- backend/game/card.go
+- backend/game/gamestate.go
+- backend/game/targeting.go
+- backend/cards/converter.go
+- backend/cards/registry.go
+- backend/game/factory_ng_02fff2db77_test.go
+- backend/cards/factory_ng_02fff2db77_test.go
+- backend/cards/registry_factory_ng_02fff2db77.go
+
+gates:
+- test -z "$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\.go$'))"
+- cd backend && go test ./game ./cards -run '^TestFactoryNGForEachAttackerOwnerChoiceLibraryPlacement_02fff2db77$' -count=1
+- cd backend && go test ./game ./cards
+- git diff --check
+
+required behavior:
+- For each attacking creature individually, resolve a placement effect where the creature's owner chooses top or bottom of their own library and the creature is put there
+- Preserve these adjacent behaviors: Destroy each attacking creature.; Put target creature on top of its owner's library.
+- Add a discriminating behavior test named TestFactoryNGForEachAttackerOwnerChoiceLibraryPlacement_02fff2db77; a compile-only assertion is insufficient.
+- Register every new public effect using regEffect in the allowed registry_*.go file, with executor and runtime test metadata; never edit the frozen registry literal.
+- Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases.
+## Vocabulary handoff
+Every new public ExecuteAbilityEffect case must be registered with regEffect in an allowed registry_*.go file, with executor and runtime test metadata. The registry literal is frozen. Parser-emitted effects must already be registered. The harness checks this before acceptance, in addition to every original gate.
+
+Compilation and testing are controlled separately by the dashboard. Do not run compilers, tests, benchmarks or generated test executables. Use source reads and return your proposed edit blocks; the harness owns validation.
+
+
+## HARNESS-VERIFIED API DECLARATIONS
+These declarations were read from this ticket checkout, not copied from the database. They supply types and calling conventions; they do not authorize edits outside scope. Use the exact declared types and signatures. Truncated excerpts are marked; request needed source rather than inventing missing fields.
+### backend/game/zone.go:23-38 [game.Zone; e42c1dc108267c584970dabd83f9ca7c2026f8a2]
+   23 type Zone struct {
+   24 	Type  ZoneType `json:"type"`
+   25 	Cards []*Card  `json:"cards"`
+   26 	Owner int      `json:"owner"` // Player index who owns this zone
+   27 
+   28 	// game back-references the owning GameState so Graveyard zones can stamp
+   29 	// TurnEnteredGraveyardAnyZone at AddCard/AddCardToBottom time without
+   30 	// every one of the ~90 existing call sites needing to be rewritten to
+   31 	// pass a turn count explicitly ([VOCAB] #1202). Wired once, right after
+   32 	// construction, by NewGameWithFormat (see gamestate.go); left nil in
+   33 	// hand-built test Zones (e.g. NewZone used directly in a test), which is
+   34 	// harmless — stampGraveyardEntry below no-ops when it's nil. Unexported
+   35 	// and therefore skipped by encoding/json, so this does not create a
+   36 	// marshal cycle with GameState's own JSON tags.
+   37 	game *GameState
+   38 }
+
+### backend/game/player.go:1360-1459 [game.Player; e42c1dc108267c584970dabd83f9ca7c2026f8a2; truncated at source budget]
+ 1360 type Player struct {
+ 1361 	Index       int      `json:"index"` // Player number (0 or 1)
+ 1362 	Name        string   `json:"name"`
+ 1363 	Life        int      `json:"life"` // Rule 119 - Life
+ 1364 	ManaPool    ManaPool `json:"mana_pool"`
+ 1365 	HasPriority bool     `json:"has_priority"` // Rule 117 - Timing and Priority
+ 1366 
+ 1367 	// StartingLife records the life total this player began the game with
+ 1368 	// (Rule 119.1) — fixed at NewPlayer and never touched again, so "as long
+ 1369 	// as your life total is [more/less] than [half/N more than] your
+ 1370 	// starting life total" conditions (Anya Merciless Angel, Elenda Saint of
+ 1371 	// Dusk, Myrkul Lord of Bones, Righteous Valkyrie kin) can compare Life
+ 1372 	// against a stable baseline instead of the game's default StartingLife
+ 1373 	// (wrong for Commander's 40 vs Constructed's 20).
+ 1374 	StartingLife int `json:"starting_life"`
+ 1375 
+ 1376 	// Zones (Rule 400)
+ 1377 	Library   *Zone `json:"library"`
+ 1378 	Hand      *Zone `json:"hand"`
+ 1379 	Graveyard *Zone `json:"graveyard"`
+ 1380 	Exile     *Zone `json:"exile"`
+ 1381 	Command   *Zone `json:"command"` // Rule 408 - command zone (Commander)
+ 1382 	// CommanderDamage tracks combat damage taken from each commander (by card
+ 1383 	// ID) this game; 21 from one commander loses (Rule 704.5v).
+ 1384 	CommanderDamage map[string]int `json:"commander_damage,omitempty"`
+ 1385 
+ 1386 	// Game state tracking
+ 1387 	LandsPlayedThisTurn int             `json:"lands_played_this_turn"` // Rule 305.1 - Can play one land per turn
+ 1388 	HasPassedPriority   bool            `json:"has_passed_priority"`
+ 1389 	HasDrawnThisTurn    bool            `json:"has_drawn_this_turn"` // For miracle tracking
+ 1390 	DeckID              string          `json:"deck_id"`             // Reference to deck used
+ 1391 	AutoPassUntil       AutoPassSetting `json:"auto_pass_until"`     // Auto-pass until specified phase
+ 1392 
+ 1393 	// Rule 106.11 — Energy is a player-scoped non-mana resource. Unlike
+ 1394 	// mana it persists across phases/turns and is only ever spent by an
+ 1395 	// effect that explicitly pays "{E}".
+ 1396 	EnergyCounters int `json:"energy"`
+ 1397 
+ 1398 	// Experience counters (Rule 122.1a) — player-scoped, only ever
+ 1399 	// accumulate ("you get an experience counter"); commander-2015-style
+ 1400 	// effects scale off the total.
+ 1401 	ExperienceCounters int `json:"experience,omitempty"`
+ 1402 
+ 1403 	// RingTemptedCount — LOTR "the Ring tempts you" mechanic ([VOCAB] #1261,
+ 1404 	// Frodo, Sauron's Bane class: "if the Ring has tempted you four or more
+ 1405 	// times this game..."). Game-lifetime persistent, mirrors
+ 1406 	// ExperienceCounters immediately above (only ever accumulates, never
+ 1407 	// reset by NextTurn — the condition explicitly reads "this game", not
+ 1408 	// "this turn"). Incremented by GameState.RingTemptsPlayer, which also
+ 1409 	// publishes EventRingTempts for "whenever the Ring tempts you" triggers
+ 1410 	// (Gandalf, Friend of the Shire and others currently document this as a
+ 1411 	// MISSING_PRIMITIVE gap).
+ 1412 	RingTemptedCount int `json:"ring_tempted_count,omitempty"`
+ 1413 
+ 1414 	// LifeGainedThisTurn counts every life-gain event this player has had
+ 1415 	// since the start of the current turn. Reset by NextTurn. Drives
+ 1416 	// "if you gained life this turn" triggers (e.g. Ocelot Pride).
+ 1417 	LifeGainedThisTurn int `json:"life_gained_this_turn"`
+ 1418 
+ 1419 	// LifeLostThisTurn counts every point of life this player has lost since
+ 1420 	// the start of the current turn (damage AND pure life loss — TakeDamage
+ 1421 	// funnels through LoseLife). Reset by NextTurn. Drives "if an opponent
+ 1422 	// lost life this turn" gates (e.g. Rakdos, Lord of Riots).
+ 1423 	LifeLostThisTurn int `json:"life_lost_this_turn,omitempty"`
+ 1424 
+ 1425 	// DamageTakenThisTurn counts every point of damage (combat AND
+ 1426 	// noncombat) this player has actually been dealt since the start of the
+ 1427 	// current turn, INCLUDING Infect damage that becomes poison counters
+ 1428 	// instead of life loss (Infect still deals damage per Rule 120; it just
+ 1429 	// redirects the result). Reset by NextTurn. Unlike LifeLostThisTurn —
+ 1430 	// which also picks up pure life-loss effects with no damage event at all
+ 1431 	// (paying life for a cost, "each player loses N life") — this is
+ 1432 	// damage-only, incremented at the two damage-to-player chokepoints:
+ 1433 	// applyCombatDamageToPlayer (combat.go) and the player branch of
+ 1434 	// DamageTargetFromSource (targeting.go). Drives numeric "X = damage
+ 1435 	// dealt to opponents this turn" Bloodthirst-variant effects via
+ 1436 	// cardfns.DamageDealtToOpponentsThisTurn (VOCAB #1056).
+ 1437 	DamageTakenThisTurn int `json:"damage_taken_this_turn,omitempty"`
+ 1438 
+ 1439 	// PermanentsSacrificedThisTurn counts every permanent this player has
+ 1440 	// sacrificed since the start of the current turn (Rule 701.17). Reset
+ 1441 	// by NextTurn; bumped at the single EventSacrifice publication point
+ 1442 	// (actions.go Sacrifice). Drives "where X is the number of permanents
+ 1443 	// you've sacrificed this turn" (A-Pyre-Sledge Arsonist class) via the
+ 1444 	// "permanents_sacrificed_this_turn" count spec.
+ 1445 	PermanentsSacrificedThisTurn int `json:"permanents_sacrificed_this_turn,omitempty"`
+ 1446 
+ 1447 	// CardsDrawnThisTurn counts every card this player has drawn since the
+ 1448 	// start of the current turn. Reset by NextTurn. Drives "if you've drawn
+ 1449 	// N or more cards this turn" gates (e.g. Gwaihir the Windlord's cast-cost
+ 1450 	// reduction), via game.CostReductionFns.
+ 1451 	CardsDrawnThisTurn int `json:"cards_drawn_this_turn,omitempty"`
+ 1452 
+ 1453 	// ManaValueSpentThisTurn accumulates the printed mana value (CMC) of
+ 1454 	// every spell this player has cast since the start of the current turn
+ 1455 	// — NOT mana actually paid (cost reductions/increases don't change a
+ 1456 	// spell's mana value, Rule 202.3) and NOT permanents' mana values, only
+ 1457 	// spells cast. Incremented from EventSpellCast by
+ 1458 	// handleTrackManaValueSpent (see SetupGlobalSubscribers). Reset by
+ 1459 	// NextTurn. This is the running total that "expend" abilities (Rule
+
+### backend/game/targeting.go:237-244 [game.Target; e42c1dc108267c584970dabd83f9ca7c2026f8a2]
+  237 type Target struct {
+  238 	Type      TargetType `json:"type"`
+  239 	CardID    string     `json:"card_id,omitempty"`    // If targeting a card
+  240 	PlayerIdx int        `json:"player_idx,omitempty"` // If targeting a player (-1 if not a player)
+  241 	IsCard    bool       `json:"is_card"`              // True if targeting a card, false for player
+  242 	SpellID   string     `json:"spell_id,omitempty"`   // If targeting a spell on stack
+  243 	StackID   string     `json:"stack_id,omitempty"`   // If targeting a spell OR ability on the stack by StackObject.ID (TargetSpellOrAbility) — unlike SpellID this also reaches abilities, which have no Card.ID of their own
+  244 }
+
+### backend/cards/registry.go:18-27 [cards.Primitive; e42c1dc108267c584970dabd83f9ca7c2026f8a2]
+   18 type Primitive struct {
+   19 	// Executor is a human-auditable reference to the code that implements the
+   20 	// primitive, e.g. "converter.go:convertPumpAbility" or
+   21 	// "game/effects.go:ApplyContinuousPump". Lint only checks non-emptiness —
+   22 	// the shape test is what proves the wiring.
+   23 	Executor string
+   24 	// ShapeTest names the Go test that exercises the primitive's behavior
+   25 	// once, shape-wise (convention: backend/cards/shape_behavior_test.go).
+   26 	ShapeTest string
+   27 }
+
+### backend/cards/registry.go:565-570 [cards.regEffect; e42c1dc108267c584970dabd83f9ca7c2026f8a2]
+  565 func regEffect(name string, p Primitive) {
+  566 	if _, dup := V2EffectRegistry[name]; dup {
+  567 		panic("V2EffectRegistry duplicate registration: " + name)
+  568 	}
+  569 	V2EffectRegistry[name] = p
+  570 }
+
+### backend/game/zone.go:146-156 [game.Zone.RemoveCard; e42c1dc108267c584970dabd83f9ca7c2026f8a2]
+  146 func (z *Zone) RemoveCard(cardID string) (*Card, error) {
+  147 	for i, card := range z.Cards {
+  148 		if card.ID == cardID {
+  149 			// Remove card from slice
+  150 			z.Cards = append(z.Cards[:i], z.Cards[i+1:]...)
+  151 			publishGraveyardLeave(z, card)
+  152 			return card, nil
+  153 		}
+  154 	}
+  155 	return nil, errors.New("card not found in zone")
+  156 }
+
+### backend/game/zone.go:95-101 [game.Zone.AddCard; e42c1dc108267c584970dabd83f9ca7c2026f8a2]
+   95 func (z *Zone) AddCard(card *Card) {
+   96 	clearCountersEnteringZone(z, card)
+   97 	stampGraveyardEntry(z, card)
+   98 	z.Cards = append(z.Cards, card)
+   99 	applyBloodthirstOnEntry(z, card)
+  100 	publishGraveyardEnter(z, card)
+  101 }
+
+### backend/game/card.go:2603-2614 [game.NewCard; e42c1dc108267c584970dabd83f9ca7c2026f8a2]
+ 2603 func NewCard(name string, cardType CardType, manaCost ManaCost, owner int) *Card {
+ 2604 	return &Card{
+ 2605 		ID:         generateCardID(name),
+ 2606 		Name:       name,
+ 2607 		Type:       cardType,
+ 2608 		ManaCost:   manaCost,
+ 2609 		Keywords:   []Keyword{},
+ 2610 		SubTypes:   []string{},
+ 2611 		Controller: owner,
+ 2612 		Owner:      owner,
+ 2613 	}
+ 2614 }

@@ -1,0 +1,12 @@
+[
+  {
+    "ticket_id": "ticket:map.operator-triggered-parser-state-isolation-sep17/v1",
+    "ticket_path": "docs/factory-ng/reviews/2026-09-17-producer-starvation/ticket.json",
+    "proposal": "docs/factory-ng/candidates/proposal-8ab27b5f22d04a18b5649ed7e71cb940.json",
+    "identity": {
+      "worker": "operator",
+      "model": "operator-correction-no-worker-provider-run",
+      "profile": "codex-constrained@1.1.0"
+    }
+  }
+]

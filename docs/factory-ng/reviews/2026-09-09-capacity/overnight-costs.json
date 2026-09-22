@@ -1,0 +1,460 @@
+{
+  "current_unresolved": [],
+  "definitions": [
+    "Raw counters are retained by profile. Do not add input and cached-input across providers: inclusion semantics differ.",
+    "elapsed_ms is accumulated provider-call wall time, not total attempt duration.",
+    "Candidate gate time includes compilation, test execution and gate overhead; separate compilation remains unknown.",
+    "Unknown cost is not free. Effective quota tokens and dollars cannot be inferred from raw counters.",
+    "Each receipt is counted once per report. Shared dependencies can belong to multiple mission reports; do not add their totals.",
+    "Accepted candidates and completed tickets are not whole-card verification."
+  ],
+  "integration": {
+    "outcomes": {
+      "full_gate_failed": 3,
+      "integration_source_blocked": 1,
+      "no_integratable_candidates": 2,
+      "pushed_full_production_gate_green": 33
+    },
+    "receipts_without_timing": 3,
+    "stage_times": {
+      "explicit_build_ms": 5188972,
+      "other_integration_gates_ms": 5002745,
+      "test_commands_including_compile_ms": 20134539
+    }
+  },
+  "mission": null,
+  "profiles": {
+    "claude-agentic@1.0.0": {
+      "attempts": 2,
+      "counters": {
+        "cache_read_tokens": {
+          "known_attempts": 2,
+          "known_sum": 4797223,
+          "unknown_attempts": 0
+        },
+        "cache_write_tokens": {
+          "known_attempts": 2,
+          "known_sum": 161330,
+          "unknown_attempts": 0
+        },
+        "elapsed_ms": {
+          "known_attempts": 2,
+          "known_sum": 560774,
+          "unknown_attempts": 0
+        },
+        "input_tokens": {
+          "known_attempts": 2,
+          "known_sum": 25373,
+          "unknown_attempts": 0
+        },
+        "output_tokens": {
+          "known_attempts": 2,
+          "known_sum": 48008,
+          "unknown_attempts": 0
+        },
+        "provider_cost_usd": {
+          "known_attempts": 0,
+          "known_sum": 0,
+          "unknown_attempts": 2
+        }
+      },
+      "outcomes": {
+        "accepted_for_dependent_observation": 1,
+        "gate_failed": 1
+      },
+      "stage_times": {
+        "attempt_wall_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 2
+        },
+        "candidate_gate_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 2
+        },
+        "compilation_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 2
+        },
+        "model_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 2
+        }
+      },
+      "ticket_versions": 2
+    },
+    "claude-staged@1.0.0": {
+      "attempts": 91,
+      "counters": {
+        "cache_read_tokens": {
+          "known_attempts": 91,
+          "known_sum": 4253392,
+          "unknown_attempts": 0
+        },
+        "cache_write_tokens": {
+          "known_attempts": 91,
+          "known_sum": 4439613,
+          "unknown_attempts": 0
+        },
+        "elapsed_ms": {
+          "known_attempts": 91,
+          "known_sum": 22814127,
+          "unknown_attempts": 0
+        },
+        "input_tokens": {
+          "known_attempts": 91,
+          "known_sum": 8872,
+          "unknown_attempts": 0
+        },
+        "output_tokens": {
+          "known_attempts": 91,
+          "known_sum": 2200373,
+          "unknown_attempts": 0
+        },
+        "provider_cost_usd": {
+          "known_attempts": 0,
+          "known_sum": 0,
+          "unknown_attempts": 91
+        }
+      },
+      "outcomes": {
+        "accepted_for_dependent_observation": 45,
+        "blocked_by_capability": 7,
+        "gate_failed": 16,
+        "infrastructure_failed_model_protocol": 3,
+        "parked": 8,
+        "preparation_failed": 2,
+        "source_unavailable": 10
+      },
+      "stage_times": {
+        "attempt_wall_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 91
+        },
+        "candidate_gate_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 91
+        },
+        "compilation_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 91
+        },
+        "model_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 91
+        }
+      },
+      "ticket_versions": 88
+    },
+    "codex-constrained@1.0.0": {
+      "attempts": 275,
+      "counters": {
+        "cache_read_tokens": {
+          "known_attempts": 275,
+          "known_sum": 2297344,
+          "unknown_attempts": 0
+        },
+        "cache_write_tokens": {
+          "known_attempts": 275,
+          "known_sum": 0,
+          "unknown_attempts": 0
+        },
+        "elapsed_ms": {
+          "known_attempts": 275,
+          "known_sum": 9198631,
+          "unknown_attempts": 0
+        },
+        "input_tokens": {
+          "known_attempts": 275,
+          "known_sum": 8325718,
+          "unknown_attempts": 0
+        },
+        "output_tokens": {
+          "known_attempts": 275,
+          "known_sum": 634742,
+          "unknown_attempts": 0
+        },
+        "provider_cost_usd": {
+          "known_attempts": 0,
+          "known_sum": 0,
+          "unknown_attempts": 275
+        }
+      },
+      "outcomes": {
+        "accepted_for_dependent_observation": 29,
+        "blocked_by_capability": 8,
+        "gate_failed": 88,
+        "infrastructure_failed_model_protocol": 3,
+        "parked": 126,
+        "preparation_failed": 8,
+        "source_unavailable": 13
+      },
+      "stage_times": {
+        "attempt_wall_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 275
+        },
+        "candidate_gate_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 275
+        },
+        "compilation_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 275
+        },
+        "model_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 275
+        }
+      },
+      "ticket_versions": 266
+    },
+    "minimax-prepared-direct@1.0.0": {
+      "attempts": 86,
+      "counters": {
+        "cache_read_tokens": {
+          "known_attempts": 10,
+          "known_sum": 0,
+          "unknown_attempts": 76
+        },
+        "cache_write_tokens": {
+          "known_attempts": 10,
+          "known_sum": 0,
+          "unknown_attempts": 76
+        },
+        "elapsed_ms": {
+          "known_attempts": 86,
+          "known_sum": 106945,
+          "unknown_attempts": 0
+        },
+        "input_tokens": {
+          "known_attempts": 10,
+          "known_sum": 0,
+          "unknown_attempts": 76
+        },
+        "output_tokens": {
+          "known_attempts": 10,
+          "known_sum": 0,
+          "unknown_attempts": 76
+        },
+        "provider_cost_usd": {
+          "known_attempts": 0,
+          "known_sum": 0,
+          "unknown_attempts": 86
+        }
+      },
+      "outcomes": {
+        "infrastructure_failed_model_protocol": 76,
+        "source_unavailable": 10
+      },
+      "stage_times": {
+        "attempt_wall_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 86
+        },
+        "candidate_gate_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 86
+        },
+        "compilation_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 86
+        },
+        "model_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 86
+        }
+      },
+      "ticket_versions": 77
+    },
+    "qwen-prepared-direct@1.0.2": {
+      "attempts": 25,
+      "counters": {
+        "cache_read_tokens": {
+          "known_attempts": 25,
+          "known_sum": 164696,
+          "unknown_attempts": 0
+        },
+        "cache_write_tokens": {
+          "known_attempts": 25,
+          "known_sum": 0,
+          "unknown_attempts": 0
+        },
+        "elapsed_ms": {
+          "known_attempts": 25,
+          "known_sum": 7148367,
+          "unknown_attempts": 0
+        },
+        "input_tokens": {
+          "known_attempts": 25,
+          "known_sum": 468930,
+          "unknown_attempts": 0
+        },
+        "output_tokens": {
+          "known_attempts": 25,
+          "known_sum": 46724,
+          "unknown_attempts": 0
+        },
+        "provider_cost_usd": {
+          "known_attempts": 0,
+          "known_sum": 0,
+          "unknown_attempts": 25
+        }
+      },
+      "outcomes": {
+        "accepted_for_dependent_observation": 4,
+        "blocked_by_capability": 1,
+        "gate_failed": 11,
+        "infrastructure_failed_model_protocol": 3,
+        "source_unavailable": 6
+      },
+      "stage_times": {
+        "attempt_wall_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 25
+        },
+        "candidate_gate_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 25
+        },
+        "compilation_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 25
+        },
+        "model_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 25
+        }
+      },
+      "ticket_versions": 24
+    },
+    "qwen-prepared-local@1.0.1": {
+      "attempts": 30,
+      "counters": {
+        "cache_read_tokens": {
+          "known_attempts": 29,
+          "known_sum": 16541895,
+          "unknown_attempts": 1
+        },
+        "cache_write_tokens": {
+          "known_attempts": 29,
+          "known_sum": 0,
+          "unknown_attempts": 1
+        },
+        "elapsed_ms": {
+          "known_attempts": 30,
+          "known_sum": 20189118,
+          "unknown_attempts": 0
+        },
+        "input_tokens": {
+          "known_attempts": 29,
+          "known_sum": 1224789,
+          "unknown_attempts": 1
+        },
+        "output_tokens": {
+          "known_attempts": 29,
+          "known_sum": 95323,
+          "unknown_attempts": 1
+        },
+        "provider_cost_usd": {
+          "known_attempts": 0,
+          "known_sum": 0,
+          "unknown_attempts": 30
+        }
+      },
+      "outcomes": {
+        "accepted_for_dependent_observation": 1,
+        "gate_failed": 18,
+        "infrastructure_failed": 6,
+        "parked": 1,
+        "preparation_failed": 1,
+        "source_unavailable": 3
+      },
+      "stage_times": {
+        "attempt_wall_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 30
+        },
+        "candidate_gate_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 30
+        },
+        "compilation_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 30
+        },
+        "model_ms": {
+          "known_sum": 0,
+          "unknown_attempts": 30
+        }
+      },
+      "ticket_versions": 29
+    }
+  },
+  "schema": "factory.cost-report/v1",
+  "since": "2026-09-08T20:00:00Z",
+  "total": {
+    "attempts": 509,
+    "counters": {
+      "cache_read_tokens": {
+        "known_attempts": 432,
+        "known_sum": 28054550,
+        "unknown_attempts": 77
+      },
+      "cache_write_tokens": {
+        "known_attempts": 432,
+        "known_sum": 4600943,
+        "unknown_attempts": 77
+      },
+      "elapsed_ms": {
+        "known_attempts": 509,
+        "known_sum": 60017962,
+        "unknown_attempts": 0
+      },
+      "input_tokens": {
+        "known_attempts": 432,
+        "known_sum": 10053682,
+        "unknown_attempts": 77
+      },
+      "output_tokens": {
+        "known_attempts": 432,
+        "known_sum": 3025170,
+        "unknown_attempts": 77
+      },
+      "provider_cost_usd": {
+        "known_attempts": 0,
+        "known_sum": 0,
+        "unknown_attempts": 509
+      }
+    },
+    "outcomes": {
+      "accepted_for_dependent_observation": 80,
+      "blocked_by_capability": 16,
+      "gate_failed": 134,
+      "infrastructure_failed": 6,
+      "infrastructure_failed_model_protocol": 85,
+      "parked": 135,
+      "preparation_failed": 11,
+      "source_unavailable": 42
+    },
+    "stage_times": {
+      "attempt_wall_ms": {
+        "known_sum": 0,
+        "unknown_attempts": 509
+      },
+      "candidate_gate_ms": {
+        "known_sum": 0,
+        "unknown_attempts": 509
+      },
+      "compilation_ms": {
+        "known_sum": 0,
+        "unknown_attempts": 509
+      },
+      "model_ms": {
+        "known_sum": 0,
+        "unknown_attempts": 509
+      }
+    },
+    "ticket_versions": 390
+  },
+  "until": "2026-09-09T05:40:00Z"
+}

@@ -1,0 +1,21 @@
+[
+  {
+    "name": "draw",
+    "receiver": "GameState",
+    "package": "game",
+    "kind": "case",
+    "path": "backend/game/ability_effects.go",
+    "start": 9666,
+    "end": 9667,
+    "signature": "ExecuteAbilityEffect#case:draw",
+    "doc": "",
+    "qualified": "game.GameState.ExecuteAbilityEffect#case:draw",
+    "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:draw",
+    "status": "resolved",
+    "source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+    "sha256": "sha256:7a29a8f49bf328380c23af36810c17c843f1b69dc612d829309fa89b30c507c5",
+    "supplied_end": 9667,
+    "truncated": false,
+    "excerpt": " 9666 \tcase \"draw\":\n 9667 \t\treturn gs.executeDrawEffect(controller, effectValue, targets)"
+  }
+]

@@ -2,7 +2,8 @@
 # Local-GPU triage: pre-check card tickets for missing shapes/primitives BEFORE
 # spending Claude tokens. Single-shot /api/chat per card — NO agentic loop, NO
 # Claude-CLI harness on this host (that combination leaked memory, 2026-07;
-# see HANDOFF.md). Read-only: never claims tickets, never mutates the DB.
+# see docs/archive/factory-evolution/HANDOFF-record-first-2026-07-25.md).
+# Read-only: never claims tickets, never mutates the DB.
 #
 # Verdict contract (one per card, strict lines):
 #   VERDICT: BUILDABLE | MISSING_SHAPE: <kebab> | MISSING_PRIMITIVE: <kebab> | UNSURE

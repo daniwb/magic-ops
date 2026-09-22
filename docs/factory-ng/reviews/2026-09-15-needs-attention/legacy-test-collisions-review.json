@@ -1,0 +1,20 @@
+[
+  {
+    "ticket": "ticket:engine.auto-return-from-graveyard-with-counters-77c5905163/v1",
+    "existing_named_test": "backend/game/factory_ng_b91ef21e90_test.go",
+    "gap": "Existing test covers counters list on a different return helper. The requested with_counters map is not consumed by the general return_from_graveyard primitive.",
+    "next": "Add map handling to the general battlefield-delivery path before its ETB publication. Preserve self, tapped, hand/library and existing counter_type/counter_count behavior. Extend the original named test without removing its older assertions; place new behavior coverage in a new shape file."
+  },
+  {
+    "ticket": "ticket:engine.auto-target-filter-power-threshold-72615893da/v2",
+    "existing_named_test": "backend/game/factory_ng_b10fec4c4c_test.go",
+    "gap": "Existing named test covers creature_power_lte_2_opp_ctrl. Original obligation is a minimum-power restriction over an artifact/enchantment/creature union, excluding objects with no defined power.",
+    "next": "Review current numeric type-union targeting. Preserve the old assertions and add original union/minimum-power coverage, including the defined-power distinction and unrestricted union negative."
+  },
+  {
+    "ticket": "ticket:engine.auto-exile-zone-ce4b8ad676/v3",
+    "existing_named_test": "backend/cards/factory_ng_6ba27d29b5_test.go",
+    "gap": "Existing named test covers all graveyards. Original obligation is the specified player graveyard. Current executeExileGraveyardEffect dispatch may already provide the needed behavior.",
+    "next": "Add public conversion/casting/resolution coverage of exile_target_player_graveyard, preserving other players and battlefield targets; retain all existing all-graveyards assertions. Prove original gates and normal full integration."
+  }
+]

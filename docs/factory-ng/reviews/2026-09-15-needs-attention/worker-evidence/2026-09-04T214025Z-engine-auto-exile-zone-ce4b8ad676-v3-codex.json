@@ -1,0 +1,67 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-engine-auto-exile-zone-ce4b8ad676-v3-twq039_m",
+    "candidate_commit": "aedeb6cbf0c59565d901fa9ccd5d8d6321c17b10",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "257e070dcc84eb3c0b158630e0b9e874a345d58a",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "codex-constrained@1.0.0",
+    "resolved_model": "gpt-5.6-luna",
+    "telemetry": {
+      "bounded_repair_attempted": true,
+      "cache_read_tokens": 0,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 1128,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      }
+    },
+    "worker": "codex"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed_model_protocol",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-04T214025Z-engine-auto-exile-zone-ce4b8ad676-v3-codex.raw.json",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "bounded_repair",
+      "path": "docs/factory-ng/runs/2026-09-04T214025Z-engine-auto-exile-zone-ce4b8ad676-v3-codex.repair.raw.json",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-exile-zone-ce4b8ad676/v3",
+    "path": "docs/factory-ng/tickets/engine-auto-exile-zone-ce4b8ad676-v3.json",
+    "sha256": "sha256:4220a6546cb1a7961265b36d9eb24d3f75797e22efc04aa522772df7b600a532"
+  }
+}

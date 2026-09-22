@@ -1170,7 +1170,7 @@ func stats(w http.ResponseWriter, r *http.Request) {
 	// letzten 24h minus aktuellster — DER Fortschritts-KPI (Dani 2026-08-09:
 	// "measure misses, not tickets").
 	missNow, missCards, missDrop24 := -1, -1, 0
-	if b, err := os.ReadFile("/opt/development/magic-ops/state/miss-history.jsonl"); err == nil {
+	if b, err := os.ReadFile(factoryNGRoot + "/state/miss-history.jsonl"); err == nil {
 		type mh struct {
 			Ts    int64 `json:"ts"`
 			Total int   `json:"total"`
@@ -1566,7 +1566,7 @@ func ticketDetail(w http.ResponseWriter, r *http.Request) {
 // ---- Local-GPU-Kill-Switch (Datei LOCAL_GPU_OFF, Home-Office-Modus) ----
 // GET /local-gpu            -> {"local_gpu_enabled": bool}
 // GET /local-gpu?set=off|on -> Datei anlegen/entfernen, neuer Zustand zurück
-const localGPUOffFile = "/opt/development/magic-ops/LOCAL_GPU_OFF"
+var localGPUOffFile = factoryNGRoot + "/LOCAL_GPU_OFF"
 
 func localGPU(w http.ResponseWriter, r *http.Request) {
 	switch r.URL.Query().Get("set") {
@@ -1728,6 +1728,7 @@ func main() {
 	}
 	go reaper()
 	go snapshotLoop()
+	go factoryNGIndexLoop()
 
 	http.HandleFunc("/claim", claim)
 	http.HandleFunc("/heartbeat", heartbeat)
@@ -1754,10 +1755,21 @@ func main() {
 	http.HandleFunc("/dashboard", dashboard)
 	http.HandleFunc("/workers", workersHandler)
 	http.HandleFunc("/factory-ng/data", factoryNGData)
+	http.HandleFunc("/factory-ng/detail", factoryNGDetail)
+	http.HandleFunc("/factory-ng/limits", factoryNGLimits)
 	http.HandleFunc("/factory-ng/cards", factoryNGCards)
+	http.HandleFunc("/factory-ng/daily-activations", factoryNGServeSnapshot(factoryNGDailyPath))
+	go factoryNGDailyLoop()
 	http.HandleFunc("/factory-ng/workers", factoryNGWorkersHandler)
 	http.HandleFunc("/factory-ng/status", factoryNGStatus)
+	http.HandleFunc("/factory-ng/worker-pause", factoryNGWorkerPause)
 	http.HandleFunc("/factory-ng/control", factoryNGControl)
+	http.HandleFunc("/factory-ng/compilation", factoryNGCompilation)
+	http.HandleFunc("/factory-ng/coverage", coveragePage)
+	http.HandleFunc("/factory-ng/coverage.json", factoryNGServeSnapshot(factoryNGCoveragePath))
+	http.HandleFunc("/factory-ng/galaxy", galaxyPage)
+	http.HandleFunc("/factory-ng/atlas", atlasPage)
+	http.HandleFunc("/factory-ng/galaxy.json", factoryNGServeSnapshot(factoryNGGalaxyPath))
 	http.HandleFunc("/carddb", carddb)
 	http.HandleFunc("/pilestats", pilestats)
 	http.HandleFunc("/buildplan", buildplan)

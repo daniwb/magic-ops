@@ -1,0 +1,271 @@
+{
+  "evidence": [
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "anchor": "2353-2492",
+      "sha256": "sha256:fceea0027749cb7b025f75c37bb301f2ff5db104266b79023b2157a64f731533",
+      "fact": "Current exact damage branch; inspect the complete-card probe before editing."
+    },
+    {
+      "path": "scripts/paragraph/reparse.py",
+      "anchor": "3661-3800",
+      "sha256": "sha256:fceea0027749cb7b025f75c37bb301f2ff5db104266b79023b2157a64f731533",
+      "fact": "Current exact damage branch; inspect the complete-card probe before editing."
+    },
+    {
+      "fact": "The blocked member was revalidated after its Engine dependency integrated.",
+      "path": "docs/factory-ng/measurements/dependency-resume-122e3637fa.json"
+    },
+    {
+      "fact": "The existing damage primitive is registered with executor game/ability_effects.go executeDamageEffect (triggered) + cards/converter.go case \"damage\" -> SpellEffect (spell) and shape test TestShape_ETB_DamageOpponent.",
+      "path": "backend/cards/registry.go"
+    },
+    {
+      "anchor": "5047-5077",
+      "fact": "Verified declaration game.GameState.ExecuteAbilityEffect#case:damage in source revision c2596268735df4fc8dd88b7033d4da211b27dea0; discovery is not proof of semantic suitability.",
+      "lookup_trace": [
+        {
+          "candidates": [],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "capability_label",
+          "fts_queries": [
+            "\"damage\" AND \"recipient\" AND \"attacked\" AND \"target\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "damage",
+            "recipient",
+            "attacked",
+            "target"
+          ],
+          "query": "damage_recipient_attacked_target",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:capability_label",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "damage_recipient_attacked_target",
+            "request_id": "125d2a11717f4b0e9164b83d29f9d90b",
+            "ticket": "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v2"
+          },
+          "request_id": "125d2a11717f4b0e9164b83d29f9d90b",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "normalized_all_terms"
+        },
+        {
+          "candidates": [],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "label_fallback",
+          "fts_queries": [
+            "\"damage\" AND \"recipient\" AND \"attacked\" AND \"target\"",
+            "\"damage\" AND \"recipient\" AND \"attacked\""
+          ],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "damage",
+            "recipient",
+            "attacked",
+            "target"
+          ],
+          "query": "damage_recipient_attacked_target",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:label_fallback",
+            "fallback": "1",
+            "kind": "engine",
+            "n": 4,
+            "q": "damage_recipient_attacked_target",
+            "request_id": "0fa59c2475da48b2aa5aff72ff249082",
+            "ticket": "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v2"
+          },
+          "request_id": "0fa59c2475da48b2aa5aff72ff249082",
+          "schema": "factory.knowledge-search/v1",
+          "status": "not_found",
+          "strategy": "explicit_leading_terms"
+        },
+        {
+          "candidates": [
+            {
+              "description": "applySpellEffectCore#case:damage",
+              "doc": "",
+              "end": 3808,
+              "kind": "engine",
+              "name": "damage",
+              "package": "game",
+              "path": "backend/game/gamestate.go",
+              "qualified": "game.GameState.applySpellEffectCore#case:damage",
+              "receiver": "GameState",
+              "signature": "applySpellEffectCore#case:damage",
+              "start": 3791,
+              "symbol_id": "backend/game/gamestate.go::game.GameState.applySpellEffectCore#case:damage",
+              "symbol_kind": "case",
+              "title": "damage"
+            },
+            {
+              "description": "ExecuteAbilityEffect#case:damage",
+              "doc": "",
+              "end": 5077,
+              "kind": "engine",
+              "name": "damage",
+              "package": "game",
+              "path": "backend/game/ability_effects.go",
+              "qualified": "game.GameState.ExecuteAbilityEffect#case:damage",
+              "receiver": "GameState",
+              "signature": "ExecuteAbilityEffect#case:damage",
+              "start": 5047,
+              "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:damage",
+              "symbol_kind": "case",
+              "title": "damage"
+            }
+          ],
+          "current_source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "discovery_role": "operation_only",
+          "fts_queries": [],
+          "index_stale": false,
+          "indexed_at": "2026-09-08T19:58:59Z",
+          "indexed_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+          "normalized_words": [
+            "damage"
+          ],
+          "query": "damage",
+          "request": {
+            "attempt": "dependency-handoff",
+            "caller": "capability-producer:operation_only",
+            "fallback": "0",
+            "kind": "engine",
+            "n": 4,
+            "q": "damage",
+            "request_id": "b5bee49d1d1d4f57b5aeed5888fb4e86",
+            "ticket": "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v2"
+          },
+          "request_id": "b5bee49d1d1d4f57b5aeed5888fb4e86",
+          "schema": "factory.knowledge-search/v1",
+          "status": "found",
+          "strategy": "exact_symbol"
+        }
+      ],
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:dfc2f019359bb28d2f0c7f5a6c15d8ab4ec807cd7121f3c547d2e8978cccf1d3",
+      "symbol": {
+        "description": "ExecuteAbilityEffect#case:damage",
+        "discovery_role": "operation_only",
+        "doc": "",
+        "end": 5077,
+        "kind": "engine",
+        "name": "damage",
+        "package": "game",
+        "path": "backend/game/ability_effects.go",
+        "qualified": "game.GameState.ExecuteAbilityEffect#case:damage",
+        "receiver": "GameState",
+        "request_id": "b5bee49d1d1d4f57b5aeed5888fb4e86",
+        "signature": "ExecuteAbilityEffect#case:damage",
+        "start": 5047,
+        "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:damage",
+        "symbol_kind": "case",
+        "title": "damage"
+      }
+    },
+    {
+      "fact": "This historical dependency did NOT complete. The audit found reusable runtime behavior. Verify that behavior; do not assume the failed/parked patch is present. Reuse recipient_from=attacked_defender; generated alias absence does not establish a runtime gap.",
+      "path": "docs/factory-ng/reviews/2026-09-08-throughput/fts5-miss-audit.md"
+    },
+    {
+      "path": "docs/factory-ng/runs/2026-09-08T203540Z-map-plan-damage-rakdos-roustabout-8c3132d96a-v2-claude.json",
+      "fact": "Context-only failure retained; fresh source answers are required. Current pinned-card audit: [{\"card\": \"Rakdos Roustabout\", \"eligible\": false, \"misses\": [[\"verb_unmapped:damage\", \"~ deals 1 damage to the player or planeswalker it's attacking.\"]], \"oracle_text\": \"Whenever this creature becomes blocked, it deals 1 damage to the player or planeswalker it's attacking.\", \"status\": \"review\"}]"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "parser_probes": [
+      {
+        "card": "Rakdos Roustabout",
+        "function": "reparse_card"
+      }
+    ],
+    "profile_policy": "exact",
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "One bounded successor for a proven missing-source failure, with the original questions resolved against current source.",
+    "warning_reflection_threshold": 500000,
+    "context_requests": [
+      "scripts/paragraph/reparse.py \u2014 the clause-to-(verb,args) extraction code for the 'damage' verb on triggered-ability paragraphs (whatever regex/function builds args['to']/args['raw_to']/args['amount'] before map_atom(verb='damage', kind='triggered') is invoked) \u2014 needed to see why this exact clause (\"it deals 1 damage to the player or planeswalker it's attacking.\") currently yields args=None",
+      "backend/game/ability_effects.go \u2014 full body of executeDamageEffect (called at ability_effects.go:5077), specifically how effectValue is read to resolve a recipient that isn't in Targets, to confirm whether a \"recipient_from\":\"attacked_defender\" (or equivalently named) key is actually implemented and its exact expected value/shape",
+      "scripts/paragraph/reparse.py \u2014 any existing verb mapping that already parses an \"it's attacking\"/\"the player or planeswalker it's attacking\" referent phrase (prior art for the recipient_from=attacked_defender convention referenced in the ticket evidence), so the new damage branch reuses the identical extraction pattern rather than inventing a new one"
+    ]
+  },
+  "gates": [
+    "cd scripts/paragraph && python3 -m unittest test_factory_ng_8c3132d96a",
+    "git diff --check",
+    "git status --porcelain adds or changes only scripts/paragraph/reparse.py and scripts/paragraph/test_factory_ng_8c3132d96a.py",
+    "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/dependency-resume-122e3637fa.json reports zero remaining pinned members"
+  ],
+  "id": "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v3",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Compile any new validated atomic dependency automatically; otherwise retain the terminal verdict and advance discovery.",
+  "parents": [
+    "plan:verb_unmapped:damage",
+    "ticket:engine.auto-damage-recipient-attacked-target-8aa9c754cc/v3",
+    "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v2"
+  ],
+  "production": {
+    "key": "staged-five-card-2026-09-08:map:roustabout",
+    "producer": "build-plan-integration-recovery",
+    "retry_reason": "context_repair",
+    "trial_card": "Rakdos Roustabout",
+    "trial_id": "staged-five-card-2026-09-08",
+    "integration_repair_generation": 1,
+    "context_repair_version": "python-handoff-v2"
+  },
+  "required_behavior": [
+    "Map the exact current verb_unmapped:damage miss on Rakdos Roustabout through the already-registered damage primitive without losing any Oracle semantics.",
+    "The pinned card loses this miss and retains no new or silently swallowed miss.",
+    "Add a focused positive test plus an adjacent negative that must remain unmapped.",
+    "If the exact amount, recipient, filter, referent, or duration cannot execute through existing runtime behavior, return NEEDS_PRIMITIVE with one atomic CAPABILITY_JSON instead of a partial Map patch.",
+    "Do not edit Engine, converter, corpus data, or use a card-name special case.",
+    "The Engine dependency landing is not proof this card is fixed. Verify the complete Oracle mapping against its runtime representation, including every ability, even if parsing is already eligible.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Fresh parse, convert and trigger from actual block declaration against player and planeswalker.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Multiple blockers produce the correct trigger count.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Check removal from combat/source leaving battlefield and last-known attacked recipient against card wording.",
+    "Complete-card acceptance obligation (later runtime verification is separate): Retain all other card abilities and pass full card gates.",
+    "The prior observation is historical evidence, not proof that its patch is still correct. Preserve every current valid mapping. Do not restore an obsolete negative assertion for a shape now implemented.",
+    "Keep every original gate command and allowed path. Add or repair the named positive and adjacent-negative tests on this revision; assert all Oracle clauses, counts, choices, controller restrictions and durations, not just eligibility or one removed miss.",
+    "A pinned card already marked auto must still be reparsed and tested. If the implementation is already correct, return only meaningful regression-test changes; do not duplicate parser branches.",
+    "If the miss moved to spell_seq_targeted or a required runtime behavior is absent, return a validated atomic NEEDS_PRIMITIVE demand. Do not hide the new miss, drop a clause, or force status auto."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "scripts/paragraph/reparse.py",
+      "scripts/paragraph/test_factory_ng_8c3132d96a.py"
+    ],
+    "forbidden_paths": [
+      "backend/",
+      "backend/data/",
+      "scripts/paragraph/slotparse_oneshot.py"
+    ]
+  },
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "source": {
+    "repository": "/tmp/factory-four-context-bbklt5l6/source",
+    "revision": "54609c76ee6064d1b7081e26461618744c3e926a",
+    "clean": true
+  },
+  "supersedes": "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v2",
+  "title": "Repair failed integration: Staged card trial: Rakdos Roustabout",
+  "work_type": "map"
+}

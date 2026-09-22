@@ -1,0 +1,4049 @@
+{
+  "source_revision": "374344d5b2b3a10001eec0357912ac8dac3f3f26",
+  "review_cards": 17276,
+  "elapsed_seconds": 125.72100770846009,
+  "groups": {
+    "verb_unmapped:?": {
+      "cards": 6792,
+      "sole_miss_cards": 3472,
+      "examples": [
+        {
+          "name": "Aang and Katara",
+          "detail": "create x 1/1 white ally creature tokens, where x is the number of tapp"
+        },
+        {
+          "name": "Aang, Airbending Master",
+          "detail": "airbend another target creature."
+        },
+        {
+          "name": "Aang, the Last Airbender",
+          "detail": "airbend up to one other target nonland permanent."
+        },
+        {
+          "name": "Aarakocra Sneak",
+          "detail": "you take the initiative."
+        },
+        {
+          "name": "Aberrant Researcher",
+          "detail": "if an instant or sorcery card was milled this way, transform ~."
+        },
+        {
+          "name": "Abzan Beastmaster",
+          "detail": "draw a card if you control the creature with the greatest toughness or"
+        },
+        {
+          "name": "Abzan Monument",
+          "detail": "create an x/x white spirit creature token, where x is the greatest tou"
+        },
+        {
+          "name": "Accumulate Wisdom",
+          "detail": "put each of those cards into your hand instead if there are three or m"
+        }
+      ]
+    },
+    "static_unmapped": {
+      "cards": 1669,
+      "sole_miss_cards": 796,
+      "examples": [
+        {
+          "name": "Activated Sleeper",
+          "detail": "you may have ~ enter as a copy of any creature card in a graveyard tha"
+        },
+        {
+          "name": "Alien Symbiosis",
+          "detail": "you may cast ~ from your graveyard by discarding a card in addition to"
+        },
+        {
+          "name": "All Is Dust",
+          "detail": "each player sacrifices all permanents they control that are one or mor"
+        },
+        {
+          "name": "Alpha Authority",
+          "detail": "enchanted creature has hexproof and can't be blocked by more than one "
+        },
+        {
+          "name": "Angel of Jubilation",
+          "detail": "players can't pay life or sacrifice creatures to cast spells or activa"
+        },
+        {
+          "name": "Aqueous Form",
+          "detail": "enchanted creature can't be blocked"
+        },
+        {
+          "name": "Arboria",
+          "detail": "creatures can't attack a player unless that player cast a spell or put"
+        },
+        {
+          "name": "Arcade Gannon",
+          "detail": "once during each of your turns, you may cast an artifact or human spel"
+        }
+      ]
+    },
+    "kind_unsupported:UNCLASSIFIED": {
+      "cards": 1261,
+      "sole_miss_cards": 710,
+      "examples": [
+        {
+          "name": "Adaptive Automaton",
+          "detail": "This creature is the chosen type in addition to its other types."
+        },
+        {
+          "name": "Aeve, Progenitor Ooze",
+          "detail": "Aeve isn't legendary if it's a token."
+        },
+        {
+          "name": "Airbending Lesson",
+          "detail": "Airbend target nonland permanent. (Exile it. While it's exiled, its ow"
+        },
+        {
+          "name": "All of History, All at Once",
+          "detail": "Time travel. (For each suspended card you own and each permanent you c"
+        },
+        {
+          "name": "Allies at Last",
+          "detail": "Up to two target creatures you control each deal damage equal to their"
+        },
+        {
+          "name": "Anhelo, the Painter",
+          "detail": "The first instant or sorcery spell you cast each turn has casualty 2. "
+        },
+        {
+          "name": "Annie Joins Up",
+          "detail": "If a triggered ability of a legendary creature you control triggers, t"
+        },
+        {
+          "name": "Apex of Power",
+          "detail": "If this spell was cast from your hand, add ten mana of any one color."
+        }
+      ]
+    },
+    "kind_unsupported:replacement_would": {
+      "cards": 448,
+      "sole_miss_cards": 306,
+      "examples": [
+        {
+          "name": "Abundance",
+          "detail": "If you would draw a card, you may instead choose land or nonland and r"
+        },
+        {
+          "name": "Academy Manufactor",
+          "detail": "If you would create a Clue, Food, or Treasure token, instead create on"
+        },
+        {
+          "name": "Alhammarret's Archive",
+          "detail": "If you would draw a card except the first one you draw in each of your"
+        },
+        {
+          "name": "Alms Collector",
+          "detail": "If an opponent would draw two or more cards, instead you and that play"
+        },
+        {
+          "name": "Angel of Suffering",
+          "detail": "If damage would be dealt to you, prevent that damage and mill twice th"
+        },
+        {
+          "name": "Angel's Grace",
+          "detail": "You can't lose the game this turn and your opponents can't win the gam"
+        },
+        {
+          "name": "Anger of the Gods",
+          "detail": "Anger of the Gods deals 3 damage to each creature. If a creature dealt"
+        },
+        {
+          "name": "Aven Mindcensor",
+          "detail": "If an opponent would search a library, that player searches the top fo"
+        }
+      ]
+    },
+    "spine_L2": {
+      "cards": 427,
+      "sole_miss_cards": 284,
+      "examples": [
+        {
+          "name": "Astral Drift",
+          "detail": "whenever you cycle ~ or cycle another card while ~ is on the battlefie"
+        },
+        {
+          "name": "Asylum Visitor",
+          "detail": "at the beginning of each player's upkeep"
+        },
+        {
+          "name": "A-Acererak the Archlich",
+          "detail": "when ~ enters"
+        },
+        {
+          "name": "Abyssal Specter",
+          "detail": "whenever ~ deals damage to a player"
+        },
+        {
+          "name": "Akuta, Born of Ash",
+          "detail": "at the beginning of your upkeep"
+        },
+        {
+          "name": "Ancestral Communion",
+          "detail": "when you cast this spell while you control your commander"
+        },
+        {
+          "name": "Arashin War Beast",
+          "detail": "whenever ~ deals combat damage to one or more blocking creatures"
+        },
+        {
+          "name": "Archfiend's Vessel",
+          "detail": "when ~ enters"
+        }
+      ]
+    },
+    "static_conditional": {
+      "cards": 390,
+      "sole_miss_cards": 232,
+      "examples": [
+        {
+          "name": "Abaddon the Despoiler",
+          "detail": "during your turn, spells you cast from your hand with mana value x or "
+        },
+        {
+          "name": "Ace's Baseball Bat",
+          "detail": "as long as equipped creature is attacking, it has first strike and mus"
+        },
+        {
+          "name": "Arcades Sabboth",
+          "detail": "each untapped creature you control gets +0/+2 as long as it's not atta"
+        },
+        {
+          "name": "Archon of Coronation",
+          "detail": "as long as you're the monarch, damage doesn't cause you to lose life"
+        },
+        {
+          "name": "Arixmethes, Slumbering Isle",
+          "detail": "as long as ~ has a slumber counter on it, it's a land"
+        },
+        {
+          "name": "Athreos, Shroud-Veiled",
+          "detail": "as long as your devotion to white and black is less than seven, ~ isn'"
+        },
+        {
+          "name": "Augur of Autumn",
+          "detail": "as long as you control three or more creatures with different powers, "
+        },
+        {
+          "name": "A-Dragon's Rage Channeler",
+          "detail": "as long as there are four or more card types among cards in your grave"
+        }
+      ]
+    },
+    "kind_unsupported:static_grant_quoted": {
+      "cards": 274,
+      "sole_miss_cards": 226,
+      "examples": [
+        {
+          "name": "Agent of the Iron Throne",
+          "detail": "Commander creatures you own have \"Whenever an artifact or creature you"
+        },
+        {
+          "name": "Arterial Alchemy",
+          "detail": "Blood tokens you control are Equipment in addition to their other type"
+        },
+        {
+          "name": "Abnormal Endurance",
+          "detail": "Until end of turn, target creature gets +2/+0 and gains \"When this cre"
+        },
+        {
+          "name": "Adventurers' Guildhouse",
+          "detail": "Green legendary creatures you control have \"bands with other legendary"
+        },
+        {
+          "name": "Agent of the Shadow Thieves",
+          "detail": "Commander creatures you own have \"Whenever this creature attacks a pla"
+        },
+        {
+          "name": "Animal Boneyard",
+          "detail": "Enchanted land has \"{T}, Sacrifice a creature: You gain life equal to "
+        },
+        {
+          "name": "Animal Friend",
+          "detail": "Enchanted creature has \"Whenever this creature attacks, create a 1/1 g"
+        },
+        {
+          "name": "Arc Spitter",
+          "detail": "Equipped creature has \"{1}: This creature deals 1 damage to target cre"
+        }
+      ]
+    },
+    "restriction_unmapped": {
+      "cards": 274,
+      "sole_miss_cards": 217,
+      "examples": [
+        {
+          "name": "Akul the Unrepentant",
+          "detail": "You may put a creature card from your hand onto the battlefield. Activ"
+        },
+        {
+          "name": "A-Steadfast Unicorn",
+          "detail": "Creatures you control get +1/+1 and gain vigilance until end of turn. "
+        },
+        {
+          "name": "Acidic Dagger",
+          "detail": "Whenever target creature deals combat damage to a non-Wall creature th"
+        },
+        {
+          "name": "Alaborn Veteran",
+          "detail": "Target creature gets +2/+2 until end of turn. Activate only during you"
+        },
+        {
+          "name": "Angus Mackenzie",
+          "detail": "Prevent all combat damage that would be dealt this turn. Activate only"
+        },
+        {
+          "name": "Apprentice Sorcerer",
+          "detail": "~ deals 1 damage to any target. Activate only during your turn, before"
+        },
+        {
+          "name": "Arcum's Sleigh",
+          "detail": "Target creature gains vigilance until end of turn. Activate only durin"
+        },
+        {
+          "name": "Arcum's Whistle",
+          "detail": "Choose target non-Wall creature the active player has controlled conti"
+        }
+      ]
+    },
+    "kind_unsupported:modal_mode_targeted": {
+      "cards": 212,
+      "sole_miss_cards": 206,
+      "examples": [
+        {
+          "name": "Apothecary Stomper",
+          "detail": "choose one \u2014"
+        },
+        {
+          "name": "Archenemy's Charm",
+          "detail": "choose one \u2014"
+        },
+        {
+          "name": "A-Ready to Rumble",
+          "detail": "choose one \u2014"
+        },
+        {
+          "name": "Active Volcano",
+          "detail": "choose one \u2014"
+        },
+        {
+          "name": "Against All Odds",
+          "detail": "choose one or both \u2014"
+        },
+        {
+          "name": "Agate Assault",
+          "detail": "choose one \u2014"
+        },
+        {
+          "name": "Aid the Fallen",
+          "detail": "choose one or both \u2014"
+        },
+        {
+          "name": "Airbender's Reversal",
+          "detail": "choose one \u2014"
+        }
+      ]
+    },
+    "kind_unsupported:modal_mode_unmapped": {
+      "cards": 212,
+      "sole_miss_cards": 198,
+      "examples": [
+        {
+          "name": "Aetheric Amplifier",
+          "detail": "choose one"
+        },
+        {
+          "name": "A-Baleful Beholder",
+          "detail": "choose one \u2014"
+        },
+        {
+          "name": "A-Cabaretti Charm",
+          "detail": "choose one \u2014"
+        },
+        {
+          "name": "A-Dawnbringer Cleric",
+          "detail": "choose one \u2014"
+        },
+        {
+          "name": "A-Thornmantle Striker",
+          "detail": "choose one \u2014"
+        },
+        {
+          "name": "A-Urza's Command",
+          "detail": "choose two \u2014"
+        },
+        {
+          "name": "A-You Come to a River",
+          "detail": "choose one \u2014"
+        },
+        {
+          "name": "Abzan Charm",
+          "detail": "choose one \u2014"
+        }
+      ]
+    },
+    "verb_unmapped:pump": {
+      "cards": 273,
+      "sole_miss_cards": 177,
+      "examples": [
+        {
+          "name": "Alandra, Sky Dreamer",
+          "detail": "~ and drakes you control each get +x/+x until end of turn, where x is "
+        },
+        {
+          "name": "Ancestral Anger",
+          "detail": "target creature gains trample and gets +x/+0 until end of turn, where "
+        },
+        {
+          "name": "Armored Armadillo",
+          "detail": "~ gets +x/+0 until end of turn, where x is its toughness."
+        },
+        {
+          "name": "Aspect of Hydra",
+          "detail": "target creature gets +x/+x until end of turn, where x is your devotion"
+        },
+        {
+          "name": "Aberrant Manawurm",
+          "detail": "~ gets +x/+0 until end of turn, where x is the amount of mana spent to"
+        },
+        {
+          "name": "Accelerated Mutation",
+          "detail": "target creature gets +x/+x until end of turn, where x is the greatest "
+        },
+        {
+          "name": "Agrus Kos, Wojek Veteran",
+          "detail": "attacking red creatures get +2/+0 and attacking white creatures get +0"
+        },
+        {
+          "name": "Akoum Battlesinger",
+          "detail": "have ally creatures you control get +1/+0 until end of turn."
+        }
+      ]
+    },
+    "kind_unsupported:replacement_enters": {
+      "cards": 243,
+      "sole_miss_cards": 167,
+      "examples": [
+        {
+          "name": "Abandoned Campground",
+          "detail": "This land enters tapped unless a player has 13 or less life."
+        },
+        {
+          "name": "Aberrant Return",
+          "detail": "Put one, two, or three target creature cards from graveyards onto the "
+        },
+        {
+          "name": "Altered Ego",
+          "detail": "You may have this creature enter as a copy of any creature on the batt"
+        },
+        {
+          "name": "Ascendant Packleader",
+          "detail": "This creature enters with a +1/+1 counter on it if you control a perma"
+        },
+        {
+          "name": "Avatar of the Resolute",
+          "detail": "This creature enters with a +1/+1 counter on it for each other creatur"
+        },
+        {
+          "name": "A-Gnarlid Colony",
+          "detail": "If Gnarlid Colony was kicked, it enters with four +1/+1 counters on it"
+        },
+        {
+          "name": "A-Hagra Constrictor",
+          "detail": "Hagra Constrictor enters with two +1/+1 counters on it."
+        },
+        {
+          "name": "A-Jade Orb of Dragonkind",
+          "detail": "{T}: Add one mana of any color. When you spend this mana to cast a Dra"
+        }
+      ]
+    },
+    "static_mod_unmapped": {
+      "cards": 377,
+      "sole_miss_cards": 166,
+      "examples": [
+        {
+          "name": "All That Glitters",
+          "detail": "+1/+1 for each artifact and/or enchantment you control"
+        },
+        {
+          "name": "Alpha Status",
+          "detail": "+2/+2 for each other creature on the battlefield that shares"
+        },
+        {
+          "name": "Anya, Merciless Angel",
+          "detail": "+3/+3 for each opponent whose life total is less than half t"
+        },
+        {
+          "name": "Arcades, the Strategist",
+          "detail": "can attack as though it didn't have defender"
+        },
+        {
+          "name": "Aura Gnarlid",
+          "detail": "+1/+1 for each ~ on the battlefield"
+        },
+        {
+          "name": "Avatar of Slaughter",
+          "detail": "attack each combat if able"
+        },
+        {
+          "name": "A-Plate Armor",
+          "detail": "ward {1}"
+        },
+        {
+          "name": "Absolute Grace",
+          "detail": "protection from black"
+        }
+      ]
+    },
+    "kind_unsupported:cost_declaration": {
+      "cards": 307,
+      "sole_miss_cards": 156,
+      "examples": [
+        {
+          "name": "Abhorrent Oculus",
+          "detail": "As an additional cost to cast this spell, exile six cards from your gr"
+        },
+        {
+          "name": "Abjure",
+          "detail": "As an additional cost to cast this spell, sacrifice a blue permanent."
+        },
+        {
+          "name": "Angelic Purge",
+          "detail": "As an additional cost to cast this spell, sacrifice a permanent."
+        },
+        {
+          "name": "Arbiter of Woe",
+          "detail": "As an additional cost to cast this spell, sacrifice a creature."
+        },
+        {
+          "name": "A-Splitting the Powerstone",
+          "detail": "As an additional cost to cast this spell, sacrifice an artifact."
+        },
+        {
+          "name": "Acceptable Losses",
+          "detail": "As an additional cost to cast this spell, discard a card at random."
+        },
+        {
+          "name": "Altar of Bone",
+          "detail": "As an additional cost to cast this spell, sacrifice a creature."
+        },
+        {
+          "name": "Altar's Reap",
+          "detail": "As an additional cost to cast this spell, sacrifice a creature."
+        }
+      ]
+    },
+    "verb_unmapped:damage": {
+      "cards": 275,
+      "sole_miss_cards": 155,
+      "examples": [
+        {
+          "name": "Ancient Runes",
+          "detail": "~ deals damage to that player equal to the number of artifacts they co"
+        },
+        {
+          "name": "Antagonism",
+          "detail": "~ deals 2 damage to that player unless one of their opponents was deal"
+        },
+        {
+          "name": "Aurelia, the Law Above",
+          "detail": "~ deals 3 damage to each of your opponents and you gain 3 life."
+        },
+        {
+          "name": "Black Market Tycoon",
+          "detail": "~ deals 2 damage to you for each treasure you control."
+        },
+        {
+          "name": "Bonfire of the Damned",
+          "detail": "~ deals x damage to target player or planeswalker and each creature th"
+        },
+        {
+          "name": "Baki's Curse",
+          "detail": "~ deals 2 damage to each creature for each aura attached to that creat"
+        },
+        {
+          "name": "Ballista Squad",
+          "detail": "~ deals x damage to target attacking or blocking creature."
+        },
+        {
+          "name": "Barret Wallace",
+          "detail": "~ deals damage equal to the number of equipped creatures you control t"
+        }
+      ]
+    },
+    "spine_L0": {
+      "cards": 288,
+      "sole_miss_cards": 140,
+      "examples": [
+        {
+          "name": "Aboleth Spawn",
+          "detail": "whenever a creature entering under an opponent's control causes a trig"
+        },
+        {
+          "name": "Aloe Alchemist",
+          "detail": "when ~ becomes plotted"
+        },
+        {
+          "name": "Aegar, the Freezing Flame",
+          "detail": "whenever a creature or planeswalker an opponent controls is dealt exce"
+        },
+        {
+          "name": "Azorius Aethermage",
+          "detail": "whenever a permanent is returned to your hand"
+        },
+        {
+          "name": "Bakersbane Duo",
+          "detail": "whenever you expend 4"
+        },
+        {
+          "name": "Baral, Chief of Compliance",
+          "detail": "whenever a spell or ability you control counters a spell"
+        },
+        {
+          "name": "Bark-Knuckle Boxer",
+          "detail": "whenever you expend 4"
+        },
+        {
+          "name": "Battlemage's Bracers",
+          "detail": "whenever an ability of equipped creature is activated"
+        }
+      ]
+    },
+    "kind_unsupported:alt_cost": {
+      "cards": 205,
+      "sole_miss_cards": 136,
+      "examples": [
+        {
+          "name": "Aminatou's Augury",
+          "detail": "Exile the top eight cards of your library. You may put a land card fro"
+        },
+        {
+          "name": "Arcane Endeavor",
+          "detail": "Roll two d8 and choose one result. Draw cards equal to that result. Th"
+        },
+        {
+          "name": "Arcane Heist",
+          "detail": "You may cast target instant or sorcery card from an opponent's graveya"
+        },
+        {
+          "name": "As Foretold",
+          "detail": "Once each turn, you may pay {0} rather than pay the mana cost for a sp"
+        },
+        {
+          "name": "A-Security Rhox",
+          "detail": "You may pay {R}{G} rather than pay this spell's mana cost. Spend only "
+        },
+        {
+          "name": "Abolish",
+          "detail": "You may discard a Plains card rather than pay this spell's mana cost."
+        },
+        {
+          "name": "Abstract Performance",
+          "detail": "Exile the top four cards of your library in a face-down pile, then exi"
+        },
+        {
+          "name": "Advancing the Spirit",
+          "detail": "You may pay {0} rather than pay the power-up cost of the first power-u"
+        }
+      ]
+    },
+    "verb_unmapped:kw_action": {
+      "cards": 194,
+      "sole_miss_cards": 121,
+      "examples": [
+        {
+          "name": "Alpha Deathclaw",
+          "detail": "monstrosity 4."
+        },
+        {
+          "name": "A-Geological Appraiser",
+          "detail": "discover 3."
+        },
+        {
+          "name": "Aerie Auxiliary",
+          "detail": "support 2."
+        },
+        {
+          "name": "Aeromunculus",
+          "detail": "adapt 1."
+        },
+        {
+          "name": "Arbor Colossus",
+          "detail": "monstrosity 3."
+        },
+        {
+          "name": "Basking Broodscale",
+          "detail": "adapt 1."
+        },
+        {
+          "name": "Benthic Biomancer",
+          "detail": "adapt 1."
+        },
+        {
+          "name": "Bushy Bodyguard",
+          "detail": "forage"
+        }
+      ]
+    },
+    "verb_unmapped:grant_eot": {
+      "cards": 222,
+      "sole_miss_cards": 118,
+      "examples": [
+        {
+          "name": "A-Carnelian Orb of Dragonkind",
+          "detail": "if that mana is spent on a dragon creature spell, it gains haste until"
+        },
+        {
+          "name": "A-Sigil of Myrkul",
+          "detail": "if there are four or more creature cards in your graveyard, put a +1/+"
+        },
+        {
+          "name": "Akroma's Blessing",
+          "detail": "creatures you control gain protection from the chosen color until end "
+        },
+        {
+          "name": "Antler Skulkin",
+          "detail": "target white creature gains persist until end of turn."
+        },
+        {
+          "name": "Archon's Glory",
+          "detail": "if this spell was bargained, that creature also gains flying and lifel"
+        },
+        {
+          "name": "Brave the Elements",
+          "detail": "white creatures you control gain protection from the chosen color unti"
+        },
+        {
+          "name": "Built to Smash",
+          "detail": "if it's an artifact creature, it gains trample until end of turn."
+        },
+        {
+          "name": "Ballroom Brawlers",
+          "detail": "~ and up to one other target creature you control both gain your choic"
+        }
+      ]
+    },
+    "keyword_unsupported": {
+      "cards": 349,
+      "sole_miss_cards": 114,
+      "examples": [
+        {
+          "name": "Abundant Maw",
+          "detail": "Emerge {6}{B}"
+        },
+        {
+          "name": "Bone Shredder",
+          "detail": "Echo {2}{B}"
+        },
+        {
+          "name": "Boulder Salvo",
+          "detail": "Surge {1}{R}"
+        },
+        {
+          "name": "Braid of Fire",
+          "detail": "Cumulative upkeep\u2014Add {R}."
+        },
+        {
+          "name": "Brighthearth Banneret",
+          "detail": "Reinforce 1\u2014{1}{R}"
+        },
+        {
+          "name": "Changing Loyalty",
+          "detail": "Replicate {2}"
+        },
+        {
+          "name": "Chittering Dispatcher",
+          "detail": "Myriad"
+        },
+        {
+          "name": "Clutch of Currents",
+          "detail": "Awaken 3\u2014{4}{U}"
+        }
+      ]
+    },
+    "verb_unmapped:destroy": {
+      "cards": 230,
+      "sole_miss_cards": 111,
+      "examples": [
+        {
+          "name": "Avenging Arrow",
+          "detail": "destroy target creature that dealt damage this turn."
+        },
+        {
+          "name": "Aggression",
+          "detail": "destroy that creature if it didn't attack this turn."
+        },
+        {
+          "name": "Alaborn Zealot",
+          "detail": "destroy both creatures."
+        },
+        {
+          "name": "Anarchy",
+          "detail": "destroy all white permanents."
+        },
+        {
+          "name": "Atraxa's Fall",
+          "detail": "destroy target artifact, battle, enchantment, or creature with flying."
+        },
+        {
+          "name": "Behemoth of Vault 0",
+          "detail": "destroy that permanent."
+        },
+        {
+          "name": "Boom Box",
+          "detail": "destroy up to one target artifact, up to one target creature, and up t"
+        },
+        {
+          "name": "Black Hole",
+          "detail": "destroy target creature and up to x other target creatures, where x is"
+        }
+      ]
+    },
+    "verb_unmapped:put_zone": {
+      "cards": 384,
+      "sole_miss_cards": 107,
+      "examples": [
+        {
+          "name": "Ainok Wayfarer",
+          "detail": "put a land card from among them into your hand"
+        },
+        {
+          "name": "A-Akki Ronin",
+          "detail": "put a card from your hand on the bottom of your library"
+        },
+        {
+          "name": "Airlift Chaplain",
+          "detail": "put a plains card or a creature card with mana value 3 or less from am"
+        },
+        {
+          "name": "Amass the Components",
+          "detail": "put a card from your hand on the bottom of your library."
+        },
+        {
+          "name": "Asmira, Holy Avenger",
+          "detail": "put a +1/+1 counter on ~ for each creature put into your graveyard fro"
+        },
+        {
+          "name": "Avenging Angel",
+          "detail": "put it on top of its owner's library."
+        },
+        {
+          "name": "Bristlebud Farmer",
+          "detail": "put a permanent card from among them into your hand."
+        },
+        {
+          "name": "Banishing Stroke",
+          "detail": "put target artifact, creature, or enchantment on the bottom of its own"
+        }
+      ]
+    },
+    "kind_unsupported:oneshot_body": {
+      "cards": 147,
+      "sole_miss_cards": 100,
+      "examples": [
+        {
+          "name": "Argothian Pixies",
+          "detail": "Prevent all damage that would be dealt to this creature by artifact cr"
+        },
+        {
+          "name": "Argothian Treefolk",
+          "detail": "Prevent all damage that would be dealt to this creature by artifact so"
+        },
+        {
+          "name": "Armored Transport",
+          "detail": "Prevent all combat damage that would be dealt to this creature by crea"
+        },
+        {
+          "name": "Attunement",
+          "detail": "Return this enchantment to its owner's hand: Draw three cards, then di"
+        },
+        {
+          "name": "Battlefield Scrounger",
+          "detail": "Threshold \u2014 Put three cards from your graveyard on the bottom of your "
+        },
+        {
+          "name": "Blessed Sanctuary",
+          "detail": "Prevent all noncombat damage that would be dealt to you and creatures "
+        },
+        {
+          "name": "Bounce Chamber",
+          "detail": "Visit \u2014 Return a creature you don't control with the lowest toughness "
+        },
+        {
+          "name": "Broken Fall",
+          "detail": "Return this enchantment to its owner's hand: Regenerate target creatur"
+        }
+      ]
+    },
+    "verb_unmapped:put_counters": {
+      "cards": 266,
+      "sole_miss_cards": 98,
+      "examples": [
+        {
+          "name": "Aetherstorm Roc",
+          "detail": "put a +1/+1 counter on it and tap up to one target creature defending "
+        },
+        {
+          "name": "A-Briar Hydra",
+          "detail": "put x +1/+1 counters on target creature you control, where x is the nu"
+        },
+        {
+          "name": "Abomination, Irradiated Brute",
+          "detail": "put that many +1/+1 counters on ~."
+        },
+        {
+          "name": "Ageless Entity",
+          "detail": "put that many +1/+1 counters on ~."
+        },
+        {
+          "name": "Alharu, Solemn Ritualist",
+          "detail": "put a +1/+1 counter on each of up to two other target creatures."
+        },
+        {
+          "name": "Angelheart Vial",
+          "detail": "put that many charge counters on ~."
+        },
+        {
+          "name": "Angelic Quartermaster",
+          "detail": "put a +1/+1 counter on each of up to two other target creatures."
+        },
+        {
+          "name": "Astarion's Thirst",
+          "detail": "put x +1/+1 counters on a commander creature you control, where x is t"
+        }
+      ]
+    },
+    "verb_unmapped:exile": {
+      "cards": 493,
+      "sole_miss_cards": 98,
+      "examples": [
+        {
+          "name": "Abdel Adrian, Gorion's Ward",
+          "detail": "exile any number of other nonland permanents you control until ~ leave"
+        },
+        {
+          "name": "Aegis Sculptor",
+          "detail": "exile two cards from your graveyard"
+        },
+        {
+          "name": "Agent of Erebos",
+          "detail": "exile target player's graveyard."
+        },
+        {
+          "name": "Angel of Finality",
+          "detail": "exile target player's graveyard."
+        },
+        {
+          "name": "Arashin Sunshield",
+          "detail": "exile up to two target cards from a single graveyard."
+        },
+        {
+          "name": "A-Haywire Mite",
+          "detail": "exile target noncreature artifact or noncreature enchantment."
+        },
+        {
+          "name": "Akoum Stonewaker",
+          "detail": "exile that token at the beginning of the next end step."
+        },
+        {
+          "name": "Aligned Hedron Network",
+          "detail": "exile all creatures with power 5 or greater until ~ leaves the battlef"
+        }
+      ]
+    },
+    "spine_L1": {
+      "cards": 160,
+      "sole_miss_cards": 97,
+      "examples": [
+        {
+          "name": "Arnyn, Deathbloom Botanist",
+          "detail": "whenever a creature you control with power or toughness 1 or less dies"
+        },
+        {
+          "name": "A-Shipwreck Sifters",
+          "detail": "whenever a spirit card or a card with disturb is put into your graveya"
+        },
+        {
+          "name": "Abomination",
+          "detail": "whenever ~ blocks or becomes blocked by a green or white creature"
+        },
+        {
+          "name": "Ajani's Last Stand",
+          "detail": "when a spell or ability an opponent controls causes you to discard ~"
+        },
+        {
+          "name": "Akim, the Soaring Wind",
+          "detail": "whenever you create one or more tokens for the first time each turn"
+        },
+        {
+          "name": "Amphibious Kavu",
+          "detail": "whenever ~ blocks or becomes blocked by one or more blue and/or black "
+        },
+        {
+          "name": "Arrogant Bloodlord",
+          "detail": "whenever ~ blocks or becomes blocked by a creature with power 1 or les"
+        },
+        {
+          "name": "Baron Bertram Graywater",
+          "detail": "whenever one or more tokens you control enter"
+        }
+      ]
+    },
+    "cost_unmapped:exile": {
+      "cards": 169,
+      "sole_miss_cards": 91,
+      "examples": [
+        {
+          "name": "Ashnod, Flesh Mechanist",
+          "detail": "Exile a creature card from your graveyard"
+        },
+        {
+          "name": "A-Tome Shredder",
+          "detail": "Exile an instant or sorcery card from your graveyard"
+        },
+        {
+          "name": "Adorned Crocodile",
+          "detail": "Exile ~ from your graveyard"
+        },
+        {
+          "name": "Agent of Kotis",
+          "detail": "Exile ~ from your graveyard"
+        },
+        {
+          "name": "Alchemist's Assistant",
+          "detail": "Exile ~ from your graveyard"
+        },
+        {
+          "name": "Bearscape",
+          "detail": "Exile two cards from your graveyard"
+        },
+        {
+          "name": "Beetle, Legacy Criminal",
+          "detail": "Exile ~ from your graveyard"
+        },
+        {
+          "name": "Bonebind Orator",
+          "detail": "Exile ~ from your graveyard"
+        }
+      ]
+    },
+    "static_cost_mod_unmapped": {
+      "cards": 187,
+      "sole_miss_cards": 90,
+      "examples": [
+        {
+          "name": "Animar, Soul of Elements",
+          "detail": "creature spells you cast cost {1} less to cast for each +1/+1 counter "
+        },
+        {
+          "name": "A-Patrician Geist",
+          "detail": "spells you cast from your graveyard cost {u} less to cast"
+        },
+        {
+          "name": "Alabaster Leech",
+          "detail": "white spells you cast cost {w} more to cast"
+        },
+        {
+          "name": "Andradite Leech",
+          "detail": "black spells you cast cost {b} more to cast"
+        },
+        {
+          "name": "Avatar of Fury",
+          "detail": "if an opponent controls seven or more lands, this spell costs {6} less"
+        },
+        {
+          "name": "Avatar of Might",
+          "detail": "if an opponent controls at least four more creatures than you, this sp"
+        },
+        {
+          "name": "Avatar of Will",
+          "detail": "if an opponent has no cards in hand, this spell costs {6} less to cast"
+        },
+        {
+          "name": "Bladegraft Aspirant",
+          "detail": "activated abilities of equipment you control that target ~ cost {1} le"
+        }
+      ]
+    },
+    "cost_unmapped": {
+      "cards": 257,
+      "sole_miss_cards": 77,
+      "examples": [
+        {
+          "name": "A-Riveteers Initiate",
+          "detail": "{B/G}"
+        },
+        {
+          "name": "Arc-Slogger",
+          "detail": "Exile the top ten cards of your library"
+        },
+        {
+          "name": "Azorius Locket",
+          "detail": "{W/U}{W/U}{W/U}{W/U}"
+        },
+        {
+          "name": "Broadside Bombardiers",
+          "detail": "Boast \u2014 Sacrifice another creature or artifact"
+        },
+        {
+          "name": "Battershield Warrior",
+          "detail": "Boast \u2014 {1}{W}"
+        },
+        {
+          "name": "Blistering Dieflyn",
+          "detail": "{B/R}"
+        },
+        {
+          "name": "Boommobile",
+          "detail": "Exhaust \u2014 {X}{2}{R}"
+        },
+        {
+          "name": "Boros Locket",
+          "detail": "{R/W}{R/W}{R/W}{R/W}"
+        }
+      ]
+    },
+    "static_subject": {
+      "cards": 192,
+      "sole_miss_cards": 76,
+      "examples": [
+        {
+          "name": "Alms Beast",
+          "detail": "creatures blocking or blocked by ~"
+        },
+        {
+          "name": "Ancient Lumberknot",
+          "detail": "each creature you control with toughness greater than its po"
+        },
+        {
+          "name": "Archon of the Wild Rose",
+          "detail": "other creatures you control that are enchanted by auras you "
+        },
+        {
+          "name": "Ashes of the Fallen",
+          "detail": "each creature card in your graveyard"
+        },
+        {
+          "name": "Bedrock Tortoise",
+          "detail": "each creature you control with toughness greater than its po"
+        },
+        {
+          "name": "Bold Defense",
+          "detail": "if ~ was kicked, instead creatures you control"
+        },
+        {
+          "name": "Chief Engineer",
+          "detail": "artifact spells you cast"
+        },
+        {
+          "name": "Cast Through Time",
+          "detail": "instant and sorcery spells you control"
+        }
+      ]
+    },
+    "verb_unmapped:counter": {
+      "cards": 111,
+      "sole_miss_cards": 69,
+      "examples": [
+        {
+          "name": "Avoid Fate",
+          "detail": "counter target instant or aura spell that targets a permanent you cont"
+        },
+        {
+          "name": "Bind",
+          "detail": "counter target activated ability."
+        },
+        {
+          "name": "Brown Ouphe",
+          "detail": "counter target activated ability from an artifact source."
+        },
+        {
+          "name": "Counterflux",
+          "detail": "counter target spell you don't control."
+        },
+        {
+          "name": "Ceremonious Rejection",
+          "detail": "counter target colorless spell."
+        },
+        {
+          "name": "Confound",
+          "detail": "counter target spell that targets a creature."
+        },
+        {
+          "name": "Corrupted Resolve",
+          "detail": "counter target spell if its controller is poisoned."
+        },
+        {
+          "name": "Decree of Silence",
+          "detail": "counter that spell and put a depletion counter on ~"
+        }
+      ]
+    },
+    "verb_unmapped:prevent": {
+      "cards": 110,
+      "sole_miss_cards": 67,
+      "examples": [
+        {
+          "name": "Arachnogenesis",
+          "detail": "prevent all combat damage that would be dealt this turn by non-spider "
+        },
+        {
+          "name": "Al-abara's Carpet",
+          "detail": "prevent all damage that would be dealt to you this turn by attacking c"
+        },
+        {
+          "name": "Auriok Replica",
+          "detail": "prevent all damage a source of your choice would deal to you this turn"
+        },
+        {
+          "name": "Benalish Missionary",
+          "detail": "prevent all combat damage that would be dealt by target blocked creatu"
+        },
+        {
+          "name": "Cephalid Illusionist",
+          "detail": "prevent all combat damage that would be dealt to and dealt by target c"
+        },
+        {
+          "name": "Chameleon Blur",
+          "detail": "prevent all damage that creatures would deal to players this turn."
+        },
+        {
+          "name": "Commencement of Festivities",
+          "detail": "prevent all combat damage that would be dealt to players this turn."
+        },
+        {
+          "name": "Consulate Surveillance",
+          "detail": "prevent all damage that would be dealt to you this turn by a source of"
+        }
+      ]
+    },
+    "verb_unmapped:counter_unless": {
+      "cards": 103,
+      "sole_miss_cards": 66,
+      "examples": [
+        {
+          "name": "Calculated Dismissal",
+          "detail": "counter target spell unless its controller pays {3}."
+        },
+        {
+          "name": "Censor",
+          "detail": "counter target spell unless its controller pays {1}."
+        },
+        {
+          "name": "Cephalid Shrine",
+          "detail": "counter that spell unless that player pays {x}, where x is the number "
+        },
+        {
+          "name": "Circular Logic",
+          "detail": "counter target spell unless its controller pays {1} for each card in y"
+        },
+        {
+          "name": "Clash of Wills",
+          "detail": "counter target spell unless its controller pays {x}."
+        },
+        {
+          "name": "Concerted Defense",
+          "detail": "counter target noncreature spell unless its controller pays {1} plus a"
+        },
+        {
+          "name": "Condescend",
+          "detail": "counter target spell unless its controller pays {x}"
+        },
+        {
+          "name": "Convolute",
+          "detail": "counter target spell unless its controller pays {4}."
+        }
+      ]
+    },
+    "verb_unmapped:tap": {
+      "cards": 147,
+      "sole_miss_cards": 66,
+      "examples": [
+        {
+          "name": "A-Civil Servant",
+          "detail": "tap another untapped citizen you control"
+        },
+        {
+          "name": "Aboshan, Cephalid Emperor",
+          "detail": "tap all creatures without flying."
+        },
+        {
+          "name": "Ali Baba",
+          "detail": "tap target wall."
+        },
+        {
+          "name": "Aziza, Mage Tower Captain",
+          "detail": "tap three untapped creatures you control"
+        },
+        {
+          "name": "Blinding Light",
+          "detail": "tap all nonwhite creatures."
+        },
+        {
+          "name": "Broken Dam",
+          "detail": "tap one or two target creatures without horsemanship."
+        },
+        {
+          "name": "Carnophage",
+          "detail": "tap ~ unless you pay 1 life."
+        },
+        {
+          "name": "Choking Tethers",
+          "detail": "tap up to four target creatures."
+        }
+      ]
+    },
+    "verb_unmapped:damage_by": {
+      "cards": 121,
+      "sole_miss_cards": 63,
+      "examples": [
+        {
+          "name": "Aggressive Instinct",
+          "detail": "target creature you control deals damage equal to its power to target "
+        },
+        {
+          "name": "Ambuscade",
+          "detail": "it deals damage equal to its power to target creature an opponent cont"
+        },
+        {
+          "name": "Assert Perfection",
+          "detail": "it deals damage equal to its power to up to one target creature an opp"
+        },
+        {
+          "name": "Bartz and Boko",
+          "detail": "each other bird you control deals damage equal to its power to target "
+        },
+        {
+          "name": "Betrayal at the Vault",
+          "detail": "target creature you control deals damage equal to its power to each of"
+        },
+        {
+          "name": "Bite Down",
+          "detail": "target creature you control deals damage equal to its power to target "
+        },
+        {
+          "name": "Breaking of the Fellowship",
+          "detail": "target creature an opponent controls deals damage equal to its power t"
+        },
+        {
+          "name": "Chandra's Ignition",
+          "detail": "target creature you control deals damage equal to its power to each ot"
+        }
+      ]
+    },
+    "condition_unsupported:happened": {
+      "cards": 90,
+      "sole_miss_cards": 62,
+      "examples": [
+        {
+          "name": "Adrestia",
+          "detail": ""
+        },
+        {
+          "name": "Air Nomad Student",
+          "detail": ""
+        },
+        {
+          "name": "Akal Pakal, First Among Equals",
+          "detail": ""
+        },
+        {
+          "name": "Battle Cry Goblin",
+          "detail": ""
+        },
+        {
+          "name": "Broodrage Mycoid",
+          "detail": ""
+        },
+        {
+          "name": "Cactuar",
+          "detail": ""
+        },
+        {
+          "name": "Canyon Crab",
+          "detail": ""
+        },
+        {
+          "name": "Carpet of Flowers",
+          "detail": ""
+        }
+      ]
+    },
+    "verb_unmapped:sacrifice": {
+      "cards": 155,
+      "sole_miss_cards": 58,
+      "examples": [
+        {
+          "name": "Azorius Herald",
+          "detail": "sacrifice it unless {u} was spent to cast it."
+        },
+        {
+          "name": "Balduvian Horde",
+          "detail": "sacrifice it unless you discard a card at random."
+        },
+        {
+          "name": "Barrow Ghoul",
+          "detail": "sacrifice ~ unless you exile the top creature card of your graveyard."
+        },
+        {
+          "name": "Blood Spatter Analysis",
+          "detail": "sacrifice it if it has five or more bloodstain counters on it"
+        },
+        {
+          "name": "Bull Elephant",
+          "detail": "sacrifice it unless you return two forests you control to their owner'"
+        },
+        {
+          "name": "Command Bridge",
+          "detail": "sacrifice it unless you tap an untapped permanent you control."
+        },
+        {
+          "name": "Chisei, Heart of Oceans",
+          "detail": "sacrifice ~ unless you remove a counter from a permanent you control."
+        },
+        {
+          "name": "Cosmic Larva",
+          "detail": "sacrifice ~ unless you sacrifice two lands."
+        }
+      ]
+    },
+    "spell_seq_targeted": {
+      "cards": 65,
+      "sole_miss_cards": 57,
+      "examples": [
+        {
+          "name": "Angelfire Ignition",
+          "detail": "put two +1/+1 counters on target creature. it gains vigilance, trample"
+        },
+        {
+          "name": "Arbor Armament",
+          "detail": "put a +1/+1 counter on target creature. that creature gains reach unti"
+        },
+        {
+          "name": "Biosynthic Burst",
+          "detail": "put a +1/+1 counter on target creature you control. it gains reach, tr"
+        },
+        {
+          "name": "Battlefield Promotion",
+          "detail": "put a +1/+1 counter on target creature. that creature gains first stri"
+        },
+        {
+          "name": "Bloodchief's Thirst",
+          "detail": "destroy target creature or planeswalker with mana value 2 or less. if "
+        },
+        {
+          "name": "Bloody Betrayal",
+          "detail": "gain control of target creature until end of turn. untap that creature"
+        },
+        {
+          "name": "Blur of Blades",
+          "detail": "put a -1/-1 counter on target creature. ~ deals 2 damage to that creat"
+        },
+        {
+          "name": "Broadcast Takeover",
+          "detail": "gain control of all artifacts your opponents control until end of turn"
+        }
+      ]
+    },
+    "condition_unsupported:control": {
+      "cards": 64,
+      "sole_miss_cards": 56,
+      "examples": [
+        {
+          "name": "Agent of Treachery",
+          "detail": ""
+        },
+        {
+          "name": "Ana Sanctuary",
+          "detail": ""
+        },
+        {
+          "name": "Attendant of Vraska",
+          "detail": ""
+        },
+        {
+          "name": "Beastbond Outcaster",
+          "detail": ""
+        },
+        {
+          "name": "Biowaste Blob",
+          "detail": ""
+        },
+        {
+          "name": "Beamsplitter Mage",
+          "detail": ""
+        },
+        {
+          "name": "Blizzard Strix",
+          "detail": ""
+        },
+        {
+          "name": "Boundary Lands Ranger",
+          "detail": ""
+        }
+      ]
+    },
+    "static_subject_unknown_subtype": {
+      "cards": 129,
+      "sole_miss_cards": 53,
+      "examples": [
+        {
+          "name": "Absolute Virtue",
+          "detail": "you"
+        },
+        {
+          "name": "Armor of Shadows",
+          "detail": "until end of turn, target creature"
+        },
+        {
+          "name": "Abandon Reason",
+          "detail": "up to two target creatures each"
+        },
+        {
+          "name": "Appeal to Eirdu",
+          "detail": "one or two target creatures each"
+        },
+        {
+          "name": "Arms of Hadar",
+          "detail": "creatures target player controls"
+        },
+        {
+          "name": "Break of Day",
+          "detail": "if you"
+        },
+        {
+          "name": "Burning Sun's Fury",
+          "detail": "up to two target creatures each"
+        },
+        {
+          "name": "Coordinated Assault",
+          "detail": "up to two target creatures each"
+        }
+      ]
+    },
+    "verb_unmapped:for_each": {
+      "cards": 211,
+      "sole_miss_cards": 53,
+      "examples": [
+        {
+          "name": "Adeline, Resplendent Cathar",
+          "detail": "create a 1/1 white human creature token that's tapped and attacking th"
+        },
+        {
+          "name": "Aetherspouts",
+          "detail": "its owner puts it on their choice of the top or bottom of their librar"
+        },
+        {
+          "name": "Ainok Strike Leader",
+          "detail": "create a 1/1 red goblin creature token that's tapped and attacking tha"
+        },
+        {
+          "name": "All Suns' Dawn",
+          "detail": "return up to one target card of that color from your graveyard to your"
+        },
+        {
+          "name": "Blatant Thievery",
+          "detail": "gain control of target permanent that player controls."
+        },
+        {
+          "name": "Bloom Tender",
+          "detail": "add one mana of that color."
+        },
+        {
+          "name": "Blademane Baku",
+          "detail": "~ gets +2/+0 until end of turn."
+        },
+        {
+          "name": "Bribe Taker",
+          "detail": "put your choice of a +1/+1 counter or a counter of that kind on ~."
+        }
+      ]
+    },
+    "kind_unsupported:replacement_as": {
+      "cards": 168,
+      "sole_miss_cards": 51,
+      "examples": [
+        {
+          "name": "Ancient Amphitheater",
+          "detail": "As this land enters, you may reveal a Giant card from your hand. If yo"
+        },
+        {
+          "name": "Auntie's Hovel",
+          "detail": "As this land enters, you may reveal a Goblin card from your hand. If y"
+        },
+        {
+          "name": "Banner of Kinship",
+          "detail": "As this artifact enters, choose a creature type. This artifact enters "
+        },
+        {
+          "name": "Black Vise",
+          "detail": "As this artifact enters, choose an opponent."
+        },
+        {
+          "name": "Blood Crypt",
+          "detail": "As this land enters, you may pay 2 life. If you don't, it enters tappe"
+        },
+        {
+          "name": "Breeding Pool",
+          "detail": "As this land enters, you may pay 2 life. If you don't, it enters tappe"
+        },
+        {
+          "name": "Choked Estuary",
+          "detail": "As this land enters, you may reveal an Island or Swamp card from your "
+        },
+        {
+          "name": "Chronicle of Victory",
+          "detail": "As Chronicle of Victory enters, choose a creature type."
+        }
+      ]
+    },
+    "condition_referent": {
+      "cards": 80,
+      "sole_miss_cards": 50,
+      "examples": [
+        {
+          "name": "Alania, Divergent Storm",
+          "detail": ""
+        },
+        {
+          "name": "A-Guildsworn Prowler",
+          "detail": ""
+        },
+        {
+          "name": "Agatha's Champion",
+          "detail": ""
+        },
+        {
+          "name": "Angelic Sleuth",
+          "detail": ""
+        },
+        {
+          "name": "Avacyn's Collar",
+          "detail": ""
+        },
+        {
+          "name": "Basri's Lieutenant",
+          "detail": ""
+        },
+        {
+          "name": "Blowfly Infestation",
+          "detail": ""
+        },
+        {
+          "name": "Buzzard-Wasp Colony",
+          "detail": ""
+        }
+      ]
+    },
+    "kind_unsupported:abword_conditional": {
+      "cards": 72,
+      "sole_miss_cards": 48,
+      "examples": [
+        {
+          "name": "Arrester's Admonition",
+          "detail": "addendum \u2014 if you cast this spell during your main phase, draw a card."
+        },
+        {
+          "name": "Arrow Storm",
+          "detail": "raid \u2014 if you attacked this turn, instead ~ deals 5 damage to that per"
+        },
+        {
+          "name": "Aven Warcraft",
+          "detail": "threshold \u2014 if there are seven or more cards in your graveyard, choose"
+        },
+        {
+          "name": "Cleansing Meditation",
+          "detail": "threshold \u2014 if there are seven or more cards in your graveyard, instea"
+        },
+        {
+          "name": "Dispatch",
+          "detail": "metalcraft \u2014 if you control three or more artifacts, exile that creatu"
+        },
+        {
+          "name": "Decode Transmissions",
+          "detail": "void \u2014 if a nonland permanent left the battlefield this turn or a spel"
+        },
+        {
+          "name": "Decommission",
+          "detail": "revolt \u2014 if a permanent left the battlefield under your control this t"
+        },
+        {
+          "name": "Demonic Counsel",
+          "detail": "delirium \u2014 if there are four or more card types among cards in your gr"
+        }
+      ]
+    },
+    "verb_unmapped:delayed": {
+      "cards": 117,
+      "sole_miss_cards": 42,
+      "examples": [
+        {
+          "name": "Argent Sphinx",
+          "detail": "return it to the battlefield under your control at the beginning of th"
+        },
+        {
+          "name": "Astrolabe",
+          "detail": "draw a card at the beginning of the next turn's upkeep."
+        },
+        {
+          "name": "Biolume Egg",
+          "detail": "return it to the battlefield transformed under its owner's control at "
+        },
+        {
+          "name": "Barbed Sextant",
+          "detail": "draw a card at the beginning of the next turn's upkeep."
+        },
+        {
+          "name": "Bestial Fury",
+          "detail": "draw a card at the beginning of the next turn's upkeep."
+        },
+        {
+          "name": "Blessed Wine",
+          "detail": "draw a card at the beginning of the next turn's upkeep."
+        },
+        {
+          "name": "Carrier Pigeons",
+          "detail": "draw a card at the beginning of the next turn's upkeep."
+        },
+        {
+          "name": "Celestial Sword",
+          "detail": "its controller sacrifices it at the beginning of the next end step."
+        }
+      ]
+    },
+    "verb_unmapped:bounce": {
+      "cards": 105,
+      "sole_miss_cards": 42,
+      "examples": [
+        {
+          "name": "Aether Tradewinds",
+          "detail": "return target permanent you control and target permanent you don't con"
+        },
+        {
+          "name": "Clement, the Worrywort",
+          "detail": "return up to one target creature you control with lesser mana value to"
+        },
+        {
+          "name": "Cloudstone Curio",
+          "detail": "return another permanent you control that shares a permanent type with"
+        },
+        {
+          "name": "Churning Eddy",
+          "detail": "return target creature and target land to their owners' hands."
+        },
+        {
+          "name": "Desynchronization",
+          "detail": "return each nonland permanent that's not historic to its owner's hand."
+        },
+        {
+          "name": "Disappear",
+          "detail": "return enchanted creature and ~ to their owners' hands."
+        },
+        {
+          "name": "Displacement Wave",
+          "detail": "return all nonland permanents with mana value x or less to their owner"
+        },
+        {
+          "name": "Dromar, the Banisher",
+          "detail": "return all creatures of that color to their owners' hands."
+        }
+      ]
+    },
+    "verb_unmapped:fight": {
+      "cards": 77,
+      "sole_miss_cards": 40,
+      "examples": [
+        {
+          "name": "Affectionate Indrik",
+          "detail": "have it fight target creature you don't control."
+        },
+        {
+          "name": "Aggressive Biomancy",
+          "detail": "create x tokens that are copies of target creature you control, except"
+        },
+        {
+          "name": "Ace, Fearless Rebel",
+          "detail": "up-to-one fight with sibling atoms"
+        },
+        {
+          "name": "Atzocan Archer",
+          "detail": "have it fight another target creature."
+        },
+        {
+          "name": "Bridgeworks Battle",
+          "detail": "it fights up to one target creature you don't control."
+        },
+        {
+          "name": "Back for More",
+          "detail": "it fights up to one target creature you don't control."
+        },
+        {
+          "name": "Blood Feud",
+          "detail": "target creature fights another target creature."
+        },
+        {
+          "name": "Contested Cliffs",
+          "detail": "target beast creature you control fights target creature an opponent c"
+        }
+      ]
+    },
+    "verb_unmapped:cant_regenerate": {
+      "cards": 90,
+      "sole_miss_cards": 40,
+      "examples": [
+        {
+          "name": "Annihilate",
+          "detail": "it can't be regenerated."
+        },
+        {
+          "name": "Big Game Hunter",
+          "detail": "it can't be regenerated."
+        },
+        {
+          "name": "Befoul",
+          "detail": "it can't be regenerated."
+        },
+        {
+          "name": "Child of Alara",
+          "detail": "they can't be regenerated."
+        },
+        {
+          "name": "Cruel Revival",
+          "detail": "it can't be regenerated"
+        },
+        {
+          "name": "Dark Banishing",
+          "detail": "it can't be regenerated."
+        },
+        {
+          "name": "Dark Hatchling",
+          "detail": "it can't be regenerated."
+        },
+        {
+          "name": "Death Pits of Rath",
+          "detail": "it can't be regenerated."
+        }
+      ]
+    },
+    "verb_unmapped:p_gain_life": {
+      "cards": 53,
+      "sole_miss_cards": 38,
+      "examples": [
+        {
+          "name": "Archfiend of Despair",
+          "detail": "each opponent loses life equal to the life that player lost this turn."
+        },
+        {
+          "name": "Aven Shrine",
+          "detail": "that player gains x life, where x is the number of cards in all gravey"
+        },
+        {
+          "name": "Calculating Lich",
+          "detail": "that player loses 1 life."
+        },
+        {
+          "name": "Curse of Wizardry",
+          "detail": "that player loses 1 life."
+        },
+        {
+          "name": "Dalek Drone",
+          "detail": "that player loses 3 life."
+        },
+        {
+          "name": "Defiling Daemogoth",
+          "detail": "each opponent loses x life, where x is the amount of life you gained t"
+        },
+        {
+          "name": "Final Punishment",
+          "detail": "target player loses life equal to the damage already dealt to that pla"
+        },
+        {
+          "name": "Healing Hands",
+          "detail": "target player gains 4 life."
+        }
+      ]
+    },
+    "loyalty_body:?": {
+      "cards": 204,
+      "sole_miss_cards": 36,
+      "examples": [
+        {
+          "name": "A-Tyvar Kell",
+          "detail": "you get an emblem with \"whenever you cast an elf spell, it gains haste"
+        },
+        {
+          "name": "Ajani, Adversary of Tyrants",
+          "detail": "you get an emblem with \"at the beginning of your end step, create thre"
+        },
+        {
+          "name": "Ajani, Caller of the Pride",
+          "detail": "create x 2/2 white cat creature tokens, where x is your life total."
+        },
+        {
+          "name": "Ajani, Inspiring Leader",
+          "detail": "its controller gains 2 life."
+        },
+        {
+          "name": "Archangel Elspeth",
+          "detail": "it becomes an angel in addition to its other types and gains flying."
+        },
+        {
+          "name": "Basri, Devoted Paladin",
+          "detail": "whenever a creature attacks this turn, put a +1/+1 counter on it."
+        },
+        {
+          "name": "Dovin, Hand of Control",
+          "detail": "until your next turn, prevent all damage that would be dealt to and de"
+        },
+        {
+          "name": "Elspeth, Knight-Errant",
+          "detail": "you get an emblem with \"artifacts, creatures, enchantments, and lands "
+        }
+      ]
+    },
+    "trigger_subject_unknown_subtype": {
+      "cards": 61,
+      "sole_miss_cards": 36,
+      "examples": [
+        {
+          "name": "Ara\u00f1a, Heart of the Spider",
+          "detail": "{'controller': 'you', 'super': ['modified'], 'filter': 'crea"
+        },
+        {
+          "name": "Arbaaz Mir",
+          "detail": "{'self_or': True, 'other': True, 'controller': 'you', 'super"
+        },
+        {
+          "name": "Aya of Alexandria",
+          "detail": "{'controller': 'you', 'super': ['historic'], 'filter': 'crea"
+        },
+        {
+          "name": "Burning Earth",
+          "detail": "{'super': ['nonbasic'], 'filter': 'land'}"
+        },
+        {
+          "name": "Baron Sengir",
+          "detail": "{'damaged_by_self': True, 'filter': 'creature'}"
+        },
+        {
+          "name": "Cryoshatter",
+          "detail": "{'filter': 'creature', 'super': ['tapped'], 'subtype': 'Ench"
+        },
+        {
+          "name": "Cryptid Inspector",
+          "detail": "{'controller': 'you', 'super': ['face-down'], 'filter': 'per"
+        },
+        {
+          "name": "Curse of Clinging Webs",
+          "detail": "{'super': ['nontoken'], 'filter': 'creature', 'subtype': 'En"
+        }
+      ]
+    },
+    "verb_unmapped:draw": {
+      "cards": 115,
+      "sole_miss_cards": 36,
+      "examples": [
+        {
+          "name": "Amber Gristle O'Maul",
+          "detail": "draw a card for each player being attacked."
+        },
+        {
+          "name": "April O'Neil, Hacktivist",
+          "detail": "draw a card for each card type among spells you've cast this turn."
+        },
+        {
+          "name": "April, Reporter of the Weird",
+          "detail": "draw that many cards"
+        },
+        {
+          "name": "Body of Knowledge",
+          "detail": "draw that many cards."
+        },
+        {
+          "name": "Borrowing 100,000 Arrows",
+          "detail": "draw a card for each tapped creature target opponent controls."
+        },
+        {
+          "name": "Body Count",
+          "detail": "draw a card for each creature that died under your control this turn."
+        },
+        {
+          "name": "Cold-Eyed Selkie",
+          "detail": "draw that many cards."
+        },
+        {
+          "name": "Change of Fortune",
+          "detail": "draw a card for each card you've discarded this turn."
+        }
+      ]
+    },
+    "verb_unmapped:token_copy": {
+      "cards": 89,
+      "sole_miss_cards": 35,
+      "examples": [
+        {
+          "name": "Brenard, Ginger Sculptor",
+          "detail": "create a token that's a copy of that creature, except it's a 1/1 food "
+        },
+        {
+          "name": "Croaking Counterpart",
+          "detail": "create a token that's a copy of target non-frog creature, except it's "
+        },
+        {
+          "name": "Dino DNA",
+          "detail": "create a token that's a copy of target creature card exiled with ~, ex"
+        },
+        {
+          "name": "Dutiful Replicator",
+          "detail": "create a token that's a copy of target token you control not named dut"
+        },
+        {
+          "name": "Electroduplicate",
+          "detail": "create a token that's a copy of target creature you control, except it"
+        },
+        {
+          "name": "Extravagant Replication",
+          "detail": "create a token that's a copy of another target nonland permanent you c"
+        },
+        {
+          "name": "Genestealer Patriarch",
+          "detail": "you create a token that's a copy of that creature, except it's a tyran"
+        },
+        {
+          "name": "God-Pharaoh's Gift",
+          "detail": "create a token that's a copy of that card, except it's a 4/4 black zom"
+        }
+      ]
+    },
+    "cost_unmapped:sacrifice": {
+      "cards": 85,
+      "sole_miss_cards": 33,
+      "examples": [
+        {
+          "name": "Ayara, First of Locthwain",
+          "detail": "Sacrifice another black creature"
+        },
+        {
+          "name": "Barrage Tyrant",
+          "detail": "Sacrifice another colorless creature"
+        },
+        {
+          "name": "Caribou Range",
+          "detail": "Sacrifice a Caribou token"
+        },
+        {
+          "name": "Deathless Behemoth",
+          "detail": "Sacrifice two Eldrazi Scions"
+        },
+        {
+          "name": "Diamond Kaleidoscope",
+          "detail": "Sacrifice a Prism token"
+        },
+        {
+          "name": "Doom Cannon",
+          "detail": "Sacrifice a creature of the chosen type"
+        },
+        {
+          "name": "Dreadmalkin",
+          "detail": "Sacrifice another creature or planeswalker"
+        },
+        {
+          "name": "Etchings of the Chosen",
+          "detail": "Sacrifice a creature of the chosen type"
+        }
+      ]
+    },
+    "kind_unsupported:modal": {
+      "cards": 85,
+      "sole_miss_cards": 30,
+      "examples": [
+        {
+          "name": "A-Incriminate",
+          "detail": "Choose two target creatures controlled by the same player. That player"
+        },
+        {
+          "name": "Brought Back",
+          "detail": "Choose up to two target permanent cards in your graveyard that were pu"
+        },
+        {
+          "name": "Barrin's Spite",
+          "detail": "Choose two target creatures controlled by the same player. Their contr"
+        },
+        {
+          "name": "Cauldron Haze",
+          "detail": "Choose any number of target creatures. Each of those creatures gains p"
+        },
+        {
+          "name": "Command the Dreadhorde",
+          "detail": "Choose any number of target creature and/or planeswalker cards in grav"
+        },
+        {
+          "name": "Continue?",
+          "detail": "Choose up to four target creature cards in your graveyard that were pu"
+        },
+        {
+          "name": "Cannibalize",
+          "detail": "Choose two target creatures controlled by the same player. Exile one o"
+        },
+        {
+          "name": "Cultural Exchange",
+          "detail": "Choose any number of creatures target player controls. Choose the same"
+        }
+      ]
+    },
+    "verb_unmapped:gain_life": {
+      "cards": 57,
+      "sole_miss_cards": 29,
+      "examples": [
+        {
+          "name": "Aetherflux Reservoir",
+          "detail": "you gain 1 life for each spell you've cast this turn."
+        },
+        {
+          "name": "Aerial Assault",
+          "detail": "you gain 1 life for each creature you control with flying."
+        },
+        {
+          "name": "Aven Gagglemaster",
+          "detail": "you gain 2 life for each creature you control with flying."
+        },
+        {
+          "name": "Battle at the Bridge",
+          "detail": "you gain x life."
+        },
+        {
+          "name": "Bounding Felidar",
+          "detail": "you gain 1 life for each of those creatures."
+        },
+        {
+          "name": "Breathe Your Last",
+          "detail": "you gain 1 life for each of its colors."
+        },
+        {
+          "name": "Cleric of the Forward Order",
+          "detail": "you gain 2 life for each creature you control named cleric of the forw"
+        },
+        {
+          "name": "Death Grasp",
+          "detail": "you gain x life."
+        }
+      ]
+    },
+    "verb_unmapped:add_mana": {
+      "cards": 88,
+      "sole_miss_cards": 28,
+      "examples": [
+        {
+          "name": "Axebane Guardian",
+          "detail": "add x mana in any combination of colors, where x is the number of crea"
+        },
+        {
+          "name": "Cascading Cataracts",
+          "detail": "add five mana in any combination of colors."
+        },
+        {
+          "name": "Conversion Apparatus",
+          "detail": "add three mana in any combination of colors."
+        },
+        {
+          "name": "Crucible of the Spirit Dragon",
+          "detail": "add x mana in any combination of colors"
+        },
+        {
+          "name": "Culling Ritual",
+          "detail": "add {b} or {g} for each permanent destroyed this way."
+        },
+        {
+          "name": "Flamebraider",
+          "detail": "add two mana in any combination of colors"
+        },
+        {
+          "name": "Fountain of Cho",
+          "detail": "add {w} for each storage counter removed this way."
+        },
+        {
+          "name": "Great Hall of the Citadel",
+          "detail": "add two mana in any combination of colors"
+        }
+      ]
+    },
+    "verb_unmapped:copy": {
+      "cards": 53,
+      "sole_miss_cards": 28,
+      "examples": [
+        {
+          "name": "A-Mentor's Guidance",
+          "detail": "copy it if you control a planeswalker, cleric, druid, shaman, warlock,"
+        },
+        {
+          "name": "Bill Potts",
+          "detail": "copy that spell or ability"
+        },
+        {
+          "name": "Double Major",
+          "detail": "copy target creature spell you control, except it isn't legendary if t"
+        },
+        {
+          "name": "Errant, Street Artist",
+          "detail": "copy target spell you control that wasn't cast"
+        },
+        {
+          "name": "Echo, Perceptive Prodigy",
+          "detail": "copy target activated or triggered ability you control from a creature"
+        },
+        {
+          "name": "Flamehold Grappler",
+          "detail": "copy the next spell you cast this turn when you cast it"
+        },
+        {
+          "name": "Fork",
+          "detail": "copy target instant or sorcery spell, except that the copy is red"
+        },
+        {
+          "name": "Jackal, Genius Geneticist",
+          "detail": "copy that spell, except the copy isn't legendary"
+        }
+      ]
+    },
+    "verb_unmapped:untap": {
+      "cards": 79,
+      "sole_miss_cards": 28,
+      "examples": [
+        {
+          "name": "Besmirch",
+          "detail": "untap and goad that creature."
+        },
+        {
+          "name": "Battle Cry",
+          "detail": "untap all white creatures you control."
+        },
+        {
+          "name": "Clever Conjurer",
+          "detail": "untap target permanent not named clever conjurer."
+        },
+        {
+          "name": "Cloud of Faeries",
+          "detail": "untap up to two lands."
+        },
+        {
+          "name": "Frantic Search",
+          "detail": "untap up to three lands."
+        },
+        {
+          "name": "Great Whale",
+          "detail": "untap up to seven lands."
+        },
+        {
+          "name": "Gustcloak Cavalier",
+          "detail": "untap ~ and remove it from combat."
+        },
+        {
+          "name": "Gustcloak Harrier",
+          "detail": "untap it and remove it from combat."
+        }
+      ]
+    },
+    "verb_unmapped:regenerate": {
+      "cards": 31,
+      "sole_miss_cards": 27,
+      "examples": [
+        {
+          "name": "Blessing of Leeches",
+          "detail": "regenerate enchanted creature."
+        },
+        {
+          "name": "Boon of Erebos",
+          "detail": "regenerate it"
+        },
+        {
+          "name": "Butcher's Glee",
+          "detail": "regenerate it."
+        },
+        {
+          "name": "Carapace",
+          "detail": "regenerate enchanted creature."
+        },
+        {
+          "name": "Clockwork Gnomes",
+          "detail": "regenerate target artifact creature."
+        },
+        {
+          "name": "Dark Privilege",
+          "detail": "regenerate enchanted creature."
+        },
+        {
+          "name": "Duskworker",
+          "detail": "regenerate it."
+        },
+        {
+          "name": "Experiment One",
+          "detail": "regenerate it."
+        }
+      ]
+    },
+    "verb_unmapped:p_sacrifice": {
+      "cards": 52,
+      "sole_miss_cards": 25,
+      "examples": [
+        {
+          "name": "Aether Barrier",
+          "detail": "that player sacrifices a permanent of their choice unless they pay {1}"
+        },
+        {
+          "name": "Archon of Cruelty",
+          "detail": "target opponent sacrifices a creature or planeswalker of their choice,"
+        },
+        {
+          "name": "Crackling Doom",
+          "detail": "each opponent sacrifices a creature with the greatest power among crea"
+        },
+        {
+          "name": "Celestial Flare",
+          "detail": "target player sacrifices an attacking or blocking creature of their ch"
+        },
+        {
+          "name": "Defiler of Souls",
+          "detail": "that player sacrifices a monocolored creature of their choice."
+        },
+        {
+          "name": "Destructive Flow",
+          "detail": "that player sacrifices a nonbasic land of their choice."
+        },
+        {
+          "name": "Geth's Verdict",
+          "detail": "target player sacrifices a creature of their choice and loses 1 life."
+        },
+        {
+          "name": "Legate Lanius, Caesar's Ace",
+          "detail": "each opponent sacrifices a tenth of the creatures they control of thei"
+        }
+      ]
+    },
+    "verb_unmapped:put_battlefield": {
+      "cards": 131,
+      "sole_miss_cards": 24,
+      "examples": [
+        {
+          "name": "Aether Vial",
+          "detail": "put a creature card with mana value equal to the number of charge coun"
+        },
+        {
+          "name": "Anticausal Vestige",
+          "detail": "put a permanent card with mana value less than or equal to the number "
+        },
+        {
+          "name": "Broodcaller Scourge",
+          "detail": "put a permanent card with mana value less than or equal to that damage"
+        },
+        {
+          "name": "Belbe's Portal",
+          "detail": "put a creature card of the chosen type from your hand onto the battlef"
+        },
+        {
+          "name": "Colossal Grave-Reaver",
+          "detail": "put one of them onto the battlefield."
+        },
+        {
+          "name": "Covert Technician",
+          "detail": "put an artifact card with mana value less than or equal to that damage"
+        },
+        {
+          "name": "Cryptic Gateway",
+          "detail": "put a creature card from your hand that shares a creature type with ea"
+        },
+        {
+          "name": "Dread Tiller",
+          "detail": "put a land card from your hand or graveyard onto the battlefield tappe"
+        }
+      ]
+    },
+    "verb_unmapped:cast_free": {
+      "cards": 181,
+      "sole_miss_cards": 23,
+      "examples": [
+        {
+          "name": "Anrakyr the Traveller",
+          "detail": "cast an artifact spell from your hand or graveyard by paying life equa"
+        },
+        {
+          "name": "Buster Sword",
+          "detail": "cast a spell from your hand with mana value less than or equal to that"
+        },
+        {
+          "name": "Cherished Hatchling",
+          "detail": "cast dinosaur spells this turn as though they had flash, and whenever "
+        },
+        {
+          "name": "Doom Reigns Supreme",
+          "detail": "cast up to two spells from among the exiled cards without paying their"
+        },
+        {
+          "name": "Epistolary Librarian",
+          "detail": "cast a spell with mana value x or less from your hand without paying i"
+        },
+        {
+          "name": "Etali, Primal Storm",
+          "detail": "cast any number of spells from among those cards without paying their "
+        },
+        {
+          "name": "Geode Golem",
+          "detail": "cast your commander from the command zone without paying its mana cost"
+        },
+        {
+          "name": "Hostage Taker",
+          "detail": "cast that card for as long as it remains exiled, and mana of any type "
+        }
+      ]
+    },
+    "kind_unsupported:cda": {
+      "cards": 39,
+      "sole_miss_cards": 22,
+      "examples": [
+        {
+          "name": "Chimeric Mass",
+          "detail": "{1}: Until end of turn, this artifact becomes a Construct artifact cre"
+        },
+        {
+          "name": "Cosmogoyf",
+          "detail": "Cosmogoyf's power is equal to the number of cards you own in exile and"
+        },
+        {
+          "name": "Crackling Drake",
+          "detail": "Crackling Drake's power is equal to the total number of instant and so"
+        },
+        {
+          "name": "Daxos the Returned",
+          "detail": "{1}{W}{B}: Create a white and black Spirit enchantment creature token."
+        },
+        {
+          "name": "Duelist of the Mind",
+          "detail": "Duelist of the Mind's power is equal to the number of cards you've dra"
+        },
+        {
+          "name": "Enigma Drake",
+          "detail": "Enigma Drake's power is equal to the number of instant and sorcery car"
+        },
+        {
+          "name": "Elephant Resurgence",
+          "detail": "Each player creates a green Elephant creature token. Those creatures h"
+        },
+        {
+          "name": "Kraven, Proud Predator",
+          "detail": "Top of the Food Chain \u2014 Kraven's power is equal to the greatest mana v"
+        }
+      ]
+    },
+    "verb_unmapped:venture": {
+      "cards": 35,
+      "sole_miss_cards": 22,
+      "examples": [
+        {
+          "name": "A-Dungeon Descent",
+          "detail": "venture into the dungeon."
+        },
+        {
+          "name": "A-Fates' Reversal",
+          "detail": "venture into the dungeon."
+        },
+        {
+          "name": "A-Find the Path",
+          "detail": "venture into the dungeon."
+        },
+        {
+          "name": "A-Triumphant Adventurer",
+          "detail": "venture into the dungeon."
+        },
+        {
+          "name": "Bar the Gate",
+          "detail": "venture into the dungeon."
+        },
+        {
+          "name": "Clattering Skeletons",
+          "detail": "venture into the dungeon."
+        },
+        {
+          "name": "Dungeon Descent",
+          "detail": "venture into the dungeon."
+        },
+        {
+          "name": "Dungeon Map",
+          "detail": "venture into the dungeon."
+        }
+      ]
+    },
+    "event_unsupported:becomes_targeted": {
+      "cards": 35,
+      "sole_miss_cards": 22,
+      "examples": [
+        {
+          "name": "A-Nadu, Winged Wisdom",
+          "detail": ""
+        },
+        {
+          "name": "Agrus Kos, Eternal Soldier",
+          "detail": ""
+        },
+        {
+          "name": "Amulet of Safekeeping",
+          "detail": ""
+        },
+        {
+          "name": "Diffusion Sliver",
+          "detail": ""
+        },
+        {
+          "name": "Dormant Gomazoa",
+          "detail": ""
+        },
+        {
+          "name": "Fey Steed",
+          "detail": ""
+        },
+        {
+          "name": "Fractured Loyalty",
+          "detail": ""
+        },
+        {
+          "name": "Gargos, Vicious Watcher",
+          "detail": ""
+        }
+      ]
+    },
+    "verb_unmapped:p_discard": {
+      "cards": 29,
+      "sole_miss_cards": 22,
+      "examples": [
+        {
+          "name": "Black Cat",
+          "detail": "target opponent discards a card at random."
+        },
+        {
+          "name": "Dinrova Horror",
+          "detail": "that player discards a card."
+        },
+        {
+          "name": "Greel, Mind Raker",
+          "detail": "target player discards x cards at random."
+        },
+        {
+          "name": "Hypnotic Specter",
+          "detail": "that player discards a card at random."
+        },
+        {
+          "name": "Headless Specter",
+          "detail": "target opponent discards a card at random."
+        },
+        {
+          "name": "Hymn to Tourach",
+          "detail": "target player discards two cards at random."
+        },
+        {
+          "name": "Immersturm Skullcairn",
+          "detail": "that player discards a card."
+        },
+        {
+          "name": "Insidious Bookworms",
+          "detail": "target player discards a card at random."
+        }
+      ]
+    },
+    "verb_unmapped:gain_control": {
+      "cards": 62,
+      "sole_miss_cards": 21,
+      "examples": [
+        {
+          "name": "Admiral Beckett Brass",
+          "detail": "gain control of target nonland permanent controlled by a player who wa"
+        },
+        {
+          "name": "Aethersnatch",
+          "detail": "gain control of target spell"
+        },
+        {
+          "name": "Beguiler of Wills",
+          "detail": "gain control of target creature with power less than or equal to the n"
+        },
+        {
+          "name": "Crown of Empires",
+          "detail": "gain control of that creature instead if you control artifacts named s"
+        },
+        {
+          "name": "Dominate",
+          "detail": "gain control of target creature with mana value x or less."
+        },
+        {
+          "name": "Dominating Vampire",
+          "detail": "gain control of target creature with mana value less than or equal to "
+        },
+        {
+          "name": "Eriette, the Beguiler",
+          "detail": "gain control of that permanent for as long as that aura is attached to"
+        },
+        {
+          "name": "Entrancing Melody",
+          "detail": "gain control of target creature with mana value x."
+        }
+      ]
+    },
+    "verb_unmapped:remove_counter": {
+      "cards": 27,
+      "sole_miss_cards": 21,
+      "examples": [
+        {
+          "name": "Bloodcrazed Hoplite",
+          "detail": "remove a +1/+1 counter from target creature an opponent controls."
+        },
+        {
+          "name": "Chainbreaker",
+          "detail": "remove a -1/-1 counter from target creature."
+        },
+        {
+          "name": "Clockwork Beetle",
+          "detail": "remove a +1/+1 counter from it at end of combat."
+        },
+        {
+          "name": "Clockwork Condor",
+          "detail": "remove a +1/+1 counter from it at end of combat."
+        },
+        {
+          "name": "Clockwork Dragon",
+          "detail": "remove a +1/+1 counter from it at end of combat."
+        },
+        {
+          "name": "Clockwork Hydra",
+          "detail": "remove a +1/+1 counter from it"
+        },
+        {
+          "name": "Clockwork Vorrac",
+          "detail": "remove a +1/+1 counter from it at end of combat."
+        },
+        {
+          "name": "Decimator Beetle",
+          "detail": "remove a -1/-1 counter from target creature you control and put a -1/-"
+        }
+      ]
+    },
+    "verb_unmapped:p_draw": {
+      "cards": 38,
+      "sole_miss_cards": 19,
+      "examples": [
+        {
+          "name": "Archivist of Gondor",
+          "detail": "that player draws a card."
+        },
+        {
+          "name": "Burning Inquiry",
+          "detail": "each player draws three cards"
+        },
+        {
+          "name": "Braingeyser",
+          "detail": "target player draws x cards."
+        },
+        {
+          "name": "Faerie Mastermind",
+          "detail": "each player draws a card."
+        },
+        {
+          "name": "Friendly Teddy",
+          "detail": "each player draws a card."
+        },
+        {
+          "name": "Geier Reach Sanitarium",
+          "detail": "each player draws a card"
+        },
+        {
+          "name": "Horn of Greed",
+          "detail": "that player draws a card."
+        },
+        {
+          "name": "Howling Golem",
+          "detail": "each player draws a card."
+        }
+      ]
+    },
+    "verb_unmapped:exchange": {
+      "cards": 26,
+      "sole_miss_cards": 19,
+      "examples": [
+        {
+          "name": "Avarice Totem",
+          "detail": "exchange control of ~ and target nonland permanent."
+        },
+        {
+          "name": "Chromeshell Crab",
+          "detail": "exchange control of target creature you control and target creature an"
+        },
+        {
+          "name": "Conjured Currency",
+          "detail": "exchange control of ~ and target permanent you neither own nor control"
+        },
+        {
+          "name": "Daring Thief",
+          "detail": "exchange control of target nonland permanent you control and target pe"
+        },
+        {
+          "name": "Eyes Everywhere",
+          "detail": "exchange control of ~ and target nonland permanent."
+        },
+        {
+          "name": "Kitsune, Dragon's Daughter",
+          "detail": "exchange control of two other target creatures controlled by different"
+        },
+        {
+          "name": "Legerdemain",
+          "detail": "exchange control of target artifact or creature and another target per"
+        },
+        {
+          "name": "Perplexing Chimera",
+          "detail": "exchange control of ~ and that spell"
+        }
+      ]
+    },
+    "cost_unmapped:tap_others": {
+      "cards": 39,
+      "sole_miss_cards": 17,
+      "examples": [
+        {
+          "name": "Aryel, Knight of Windgrace",
+          "detail": "Tap X untapped Knights you control"
+        },
+        {
+          "name": "Adaptive Gemguard",
+          "detail": "Tap two untapped artifacts and/or creatures you control"
+        },
+        {
+          "name": "Ancestor's Prophet",
+          "detail": "Tap five untapped Clerics you control"
+        },
+        {
+          "name": "Citanul Stalwart",
+          "detail": "Tap an untapped artifact or creature you control"
+        },
+        {
+          "name": "Cloudgoat Ranger",
+          "detail": "Tap three untapped Kithkin you control"
+        },
+        {
+          "name": "Deathless Ancient",
+          "detail": "Tap three untapped Vampires you control"
+        },
+        {
+          "name": "Dune Diviner",
+          "detail": "Tap an untapped Desert you control"
+        },
+        {
+          "name": "Gangrenous Goliath",
+          "detail": "Tap three untapped Clerics you control"
+        }
+      ]
+    },
+    "verb_unmapped:switch_pt": {
+      "cards": 17,
+      "sole_miss_cards": 17,
+      "examples": [
+        {
+          "name": "Aquamoeba",
+          "detail": "switch ~'s power and toughness until end of turn."
+        },
+        {
+          "name": "About Face",
+          "detail": "switch target creature's power and toughness until end of turn."
+        },
+        {
+          "name": "Aeromoeba",
+          "detail": "switch ~'s power and toughness until end of turn."
+        },
+        {
+          "name": "Calcite Snapper",
+          "detail": "switch ~'s power and toughness until end of turn."
+        },
+        {
+          "name": "Crookclaw Transmuter",
+          "detail": "switch target creature's power and toughness until end of turn."
+        },
+        {
+          "name": "Dwarven Thaumaturgist",
+          "detail": "switch target creature's power and toughness until end of turn."
+        },
+        {
+          "name": "Flatman",
+          "detail": "switch ~'s power and toughness until end of turn."
+        },
+        {
+          "name": "Fluxcharger",
+          "detail": "switch ~'s power and toughness until end of turn."
+        }
+      ]
+    },
+    "condition_unsupported:control_subtype": {
+      "cards": 19,
+      "sole_miss_cards": 17,
+      "examples": [
+        {
+          "name": "Biovisionary",
+          "detail": ""
+        },
+        {
+          "name": "Candlegrove Witch",
+          "detail": ""
+        },
+        {
+          "name": "Candlelit Cavalry",
+          "detail": ""
+        },
+        {
+          "name": "Contortionist Troupe",
+          "detail": ""
+        },
+        {
+          "name": "Duelcraft Trainer",
+          "detail": ""
+        },
+        {
+          "name": "Dawnhart Wardens",
+          "detail": ""
+        },
+        {
+          "name": "Field of the Dead",
+          "detail": ""
+        },
+        {
+          "name": "Faerie Miscreant",
+          "detail": ""
+        }
+      ]
+    },
+    "verb_unmapped:choose": {
+      "cards": 507,
+      "sole_miss_cards": 14,
+      "examples": [
+        {
+          "name": "Amy Pond",
+          "detail": "choose a suspended card you own and remove that many time counters fro"
+        },
+        {
+          "name": "Bloodline Bidding",
+          "detail": "choose a creature type"
+        },
+        {
+          "name": "Breakthrough",
+          "detail": "choose x cards in your hand and discard the rest."
+        },
+        {
+          "name": "Coordinated Barrage",
+          "detail": "choose a creature type"
+        },
+        {
+          "name": "Corrupted Grafstone",
+          "detail": "choose a color of a card in your graveyard"
+        },
+        {
+          "name": "Grave Strength",
+          "detail": "choose target creature"
+        },
+        {
+          "name": "Keeper of the Beasts",
+          "detail": "choose target opponent who controls more creatures than you do as you "
+        },
+        {
+          "name": "Keeper of the Light",
+          "detail": "choose target opponent who has more life than you do as you activate t"
+        }
+      ]
+    },
+    "cost_unmapped:remove_counters": {
+      "cards": 24,
+      "sole_miss_cards": 14,
+      "examples": [
+        {
+          "name": "Bolrac-Clan Crusher",
+          "detail": "Remove a +1/+1 counter from a creature you control"
+        },
+        {
+          "name": "Duchess, Wayward Tavernkeep",
+          "detail": "Remove a quest counter from a permanent you control"
+        },
+        {
+          "name": "Fain, the Broker",
+          "detail": "Remove a counter from a creature you control"
+        },
+        {
+          "name": "Ghave, Guru of Spores",
+          "detail": "Remove a +1/+1 counter from a creature you control"
+        },
+        {
+          "name": "Hexavus",
+          "detail": "Remove a counter from another creature you control"
+        },
+        {
+          "name": "Korozda Gorgon",
+          "detail": "Remove a +1/+1 counter from a creature you control"
+        },
+        {
+          "name": "O'aka, Traveling Merchant",
+          "detail": "Remove a counter from a nonland permanent you control"
+        },
+        {
+          "name": "Retribution of the Ancients",
+          "detail": "Remove X +1/+1 counters from among creatures you control"
+        }
+      ]
+    },
+    "verb_unmapped:mill": {
+      "cards": 25,
+      "sole_miss_cards": 13,
+      "examples": [
+        {
+          "name": "Cephalid Vandal",
+          "detail": "mill a card for each shred counter on ~."
+        },
+        {
+          "name": "Coral Colony",
+          "detail": "target player mills x cards, where x is the number of creatures you co"
+        },
+        {
+          "name": "Crosstown Courier",
+          "detail": "target opponent mills that many cards."
+        },
+        {
+          "name": "Doorkeeper",
+          "detail": "target player mills x cards, where x is the number of creatures you co"
+        },
+        {
+          "name": "Font of Progress",
+          "detail": "target player mills x cards, where x is the number of oil counters on "
+        },
+        {
+          "name": "Grindclock",
+          "detail": "target player mills x cards, where x is the number of charge counters "
+        },
+        {
+          "name": "Hope Estheim",
+          "detail": "each opponent mills x cards, where x is the amount of life you gained "
+        },
+        {
+          "name": "Keening Stone",
+          "detail": "target player mills x cards, where x is the number of cards in that pl"
+        }
+      ]
+    },
+    "kind_unsupported:modal_or_more": {
+      "cards": 13,
+      "sole_miss_cards": 12,
+      "examples": [
+        {
+          "name": "Casualties of War",
+          "detail": "choose one or more \u2014"
+        },
+        {
+          "name": "Clan Defiance",
+          "detail": "choose one or more \u2014"
+        },
+        {
+          "name": "Clash of the Eikons",
+          "detail": "choose one or more \u2014"
+        },
+        {
+          "name": "Farewell",
+          "detail": "choose one or more \u2014"
+        },
+        {
+          "name": "Final Act",
+          "detail": "choose one or more \u2014"
+        },
+        {
+          "name": "Kill! Maim! Burn!",
+          "detail": "choose one or more \u2014"
+        },
+        {
+          "name": "Methods of the Mighty",
+          "detail": "choose one or more \u2014"
+        },
+        {
+          "name": "Rain of Thorns",
+          "detail": "choose one or more \u2014"
+        }
+      ]
+    },
+    "verb_unmapped:draw_eq": {
+      "cards": 16,
+      "sole_miss_cards": 11,
+      "examples": [
+        {
+          "name": "Audience with Trostani",
+          "detail": "draw cards equal to the number of differently named creature tokens yo"
+        },
+        {
+          "name": "Accumulated Knowledge",
+          "detail": "draw cards equal to the number of cards named accumulated knowledge in"
+        },
+        {
+          "name": "Cosmic Epiphany",
+          "detail": "draw cards equal to the number of instant and sorcery cards in your gr"
+        },
+        {
+          "name": "Frantic Inventory",
+          "detail": "draw cards equal to the number of cards named frantic inventory in you"
+        },
+        {
+          "name": "Hoarder's Overflow",
+          "detail": "draw cards equal to the number of stash counters on ~."
+        },
+        {
+          "name": "Inspired Sphinx",
+          "detail": "draw cards equal to the number of opponents you have."
+        },
+        {
+          "name": "Narset, Jeskai Waymaster",
+          "detail": "draw cards equal to the number of spells you've cast this turn."
+        },
+        {
+          "name": "Prophet of the Scarab",
+          "detail": "draw cards equal to the number of zombies you control or the number of"
+        }
+      ]
+    },
+    "verb_unmapped:reanimate": {
+      "cards": 45,
+      "sole_miss_cards": 11,
+      "examples": [
+        {
+          "name": "Alesha, Who Smiles at Death",
+          "detail": "return target creature card with power 2 or less from your graveyard t"
+        },
+        {
+          "name": "Benalish Partisan",
+          "detail": "return ~ from your graveyard to the battlefield tapped and it perpetua"
+        },
+        {
+          "name": "Grim Reaper, Lethal Legionnaire",
+          "detail": "return target creature card from your graveyard to the battlefield tap"
+        },
+        {
+          "name": "Interceptor, Shadow's Hound",
+          "detail": "return ~ from your graveyard to the battlefield tapped and attacking."
+        },
+        {
+          "name": "Persistent Marshstalker",
+          "detail": "return ~ from your graveyard to the battlefield tapped and attacking."
+        },
+        {
+          "name": "Phoenix Chick",
+          "detail": "return ~ from your graveyard to the battlefield tapped and attacking w"
+        },
+        {
+          "name": "Unfinished Business",
+          "detail": "return up to two target aura and/or equipment cards from your graveyar"
+        },
+        {
+          "name": "Wolfbat",
+          "detail": "return ~ from your graveyard to the battlefield with a finality counte"
+        }
+      ]
+    },
+    "condition_unsupported:cast_manner": {
+      "cards": 20,
+      "sole_miss_cards": 10,
+      "examples": [
+        {
+          "name": "Alchemist's Talent",
+          "detail": ""
+        },
+        {
+          "name": "Ancient Cellarspawn",
+          "detail": ""
+        },
+        {
+          "name": "Boromir, Warden of the Tower",
+          "detail": ""
+        },
+        {
+          "name": "Grave Scrabbler",
+          "detail": ""
+        },
+        {
+          "name": "Jaded Sell-Sword",
+          "detail": ""
+        },
+        {
+          "name": "Marut",
+          "detail": ""
+        },
+        {
+          "name": "Prompto Argentum",
+          "detail": ""
+        },
+        {
+          "name": "Sahagin",
+          "detail": ""
+        }
+      ]
+    },
+    "verb_unmapped:p_discard_hand": {
+      "cards": 19,
+      "sole_miss_cards": 9,
+      "examples": [
+        {
+          "name": "Dragon Mage",
+          "detail": "each player discards their hand"
+        },
+        {
+          "name": "Magus of the Wheel",
+          "detail": "each player discards their hand"
+        },
+        {
+          "name": "Mindslicer",
+          "detail": "each player discards their hand."
+        },
+        {
+          "name": "Nicol Bolas",
+          "detail": "that player discards their hand."
+        },
+        {
+          "name": "Reforge the Soul",
+          "detail": "each player discards their hand"
+        },
+        {
+          "name": "Sire of Insanity",
+          "detail": "each player discards their hand."
+        },
+        {
+          "name": "Wheel of Fate",
+          "detail": "each player discards their hand"
+        },
+        {
+          "name": "Wheel of Fortune",
+          "detail": "each player discards their hand"
+        }
+      ]
+    },
+    "verb_unmapped:create_token": {
+      "cards": 176,
+      "sole_miss_cards": 8,
+      "examples": [
+        {
+          "name": "Access Denied",
+          "detail": "create x 1/1 colorless thopter artifact creature tokens with flying, w"
+        },
+        {
+          "name": "Carefree Swinemaster",
+          "detail": "create a 2/2 green boar creature token that's tapped and attacking."
+        },
+        {
+          "name": "Curse of the Restless Dead",
+          "detail": "you create a 2/2 black zombie creature token with decayed."
+        },
+        {
+          "name": "Inquisitorial Rosette",
+          "detail": "create a 2/2 white astartes warrior creature token with vigilance that"
+        },
+        {
+          "name": "Loki, the Deceiver",
+          "detail": "create a tapped and attacking token that's a copy of another target vi"
+        },
+        {
+          "name": "Pia Nalaar, Chief Mechanic",
+          "detail": "create an x/x colorless vehicle artifact token named nalaar aetherjet "
+        },
+        {
+          "name": "Rith, the Awakener",
+          "detail": "create a 1/1 green saproling creature token for each permanent of that"
+        },
+        {
+          "name": "Tivash, Gloom Summoner",
+          "detail": "create an x/x black demon creature token with flying."
+        }
+      ]
+    },
+    "verb_unmapped:goad": {
+      "cards": 23,
+      "sole_miss_cards": 8,
+      "examples": [
+        {
+          "name": "Alela, Cunning Conqueror",
+          "detail": "goad target creature an opponent controls."
+        },
+        {
+          "name": "Bjorna, Nightfall Alchemist",
+          "detail": "goad that creature."
+        },
+        {
+          "name": "Coveted Peacock",
+          "detail": "goad target creature defending player controls."
+        },
+        {
+          "name": "Geode Rager",
+          "detail": "goad each creature target player controls."
+        },
+        {
+          "name": "Goblin Racketeer",
+          "detail": "goad target creature defending player controls."
+        },
+        {
+          "name": "Insufferable Balladeer",
+          "detail": "goad it."
+        },
+        {
+          "name": "Oceanus Dragon",
+          "detail": "goad it."
+        },
+        {
+          "name": "Taunting Kobold",
+          "detail": "goad target creature an opponent controls."
+        }
+      ]
+    },
+    "condition_unsupported:named": {
+      "cards": 14,
+      "sole_miss_cards": 8,
+      "examples": [
+        {
+          "name": "Genji Glove",
+          "detail": ""
+        },
+        {
+          "name": "Hexplate Wallbreaker",
+          "detail": ""
+        },
+        {
+          "name": "Imoen, Mystic Trickster",
+          "detail": ""
+        },
+        {
+          "name": "Karlach, Fury of Avernus",
+          "detail": ""
+        },
+        {
+          "name": "Nalia de'Arnise",
+          "detail": ""
+        },
+        {
+          "name": "Raph & Leo, Sibling Rivals",
+          "detail": ""
+        },
+        {
+          "name": "Rasaad yn Bashir",
+          "detail": ""
+        },
+        {
+          "name": "Safana, Calimport Cutthroat",
+          "detail": ""
+        }
+      ]
+    },
+    "cost_unmapped:return_to_hand": {
+      "cards": 16,
+      "sole_miss_cards": 8,
+      "examples": [
+        {
+          "name": "Flooded Shoreline",
+          "detail": "Return two Islands you control to their owner's hand"
+        },
+        {
+          "name": "Grinning Ignus",
+          "detail": "Return ~ to its owner's hand"
+        },
+        {
+          "name": "Recurring Nightmare",
+          "detail": "Return ~ to its owner's hand"
+        },
+        {
+          "name": "Rootha, Mercurial Artist",
+          "detail": "Return ~ to its owner's hand"
+        },
+        {
+          "name": "Soratami Mirror-Mage",
+          "detail": "Return three lands you control to their owner's hand"
+        },
+        {
+          "name": "Steelshaper Apprentice",
+          "detail": "Return ~ to its owner's hand"
+        },
+        {
+          "name": "Urban Retreat",
+          "detail": "Return a tapped creature you control to its owner's hand"
+        },
+        {
+          "name": "Uyo, Silent Prophet",
+          "detail": "Return two lands you control to their owner's hand"
+        }
+      ]
+    },
+    "cost_unmapped:exert": {
+      "cards": 8,
+      "sole_miss_cards": 7,
+      "examples": [
+        {
+          "name": "Angel of Condemnation",
+          "detail": "Exert ~"
+        },
+        {
+          "name": "Basri, Tomorrow's Champion",
+          "detail": "Exert ~"
+        },
+        {
+          "name": "Fervent Paincaster",
+          "detail": "Exert ~"
+        },
+        {
+          "name": "Hope Tender",
+          "detail": "Exert ~"
+        },
+        {
+          "name": "Oasis Ritualist",
+          "detail": "Exert ~"
+        },
+        {
+          "name": "Pride Sovereign",
+          "detail": "Exert ~"
+        },
+        {
+          "name": "Steward of Solidarity",
+          "detail": "Exert ~"
+        }
+      ]
+    },
+    "verb_unmapped:life_eq": {
+      "cards": 11,
+      "sole_miss_cards": 7,
+      "examples": [
+        {
+          "name": "Castle Locthwain",
+          "detail": "you lose life equal to the number of cards in your hand."
+        },
+        {
+          "name": "Dihada's Ploy",
+          "detail": "you gain life equal to the number of cards you've discarded this turn."
+        },
+        {
+          "name": "Flay Essence",
+          "detail": "you gain life equal to the number of counters on it."
+        },
+        {
+          "name": "Golden Urn",
+          "detail": "you gain life equal to the number of charge counters on ~."
+        },
+        {
+          "name": "Kaya's Wrath",
+          "detail": "you gain life equal to the number of creatures you controlled that wer"
+        },
+        {
+          "name": "Luminollusk",
+          "detail": "you gain life equal to the number of colors among permanents you contr"
+        },
+        {
+          "name": "War Report",
+          "detail": "you gain life equal to the number of creatures on the battlefield plus"
+        }
+      ]
+    },
+    "condition_unsupported:state": {
+      "cards": 11,
+      "sole_miss_cards": 6,
+      "examples": [
+        {
+          "name": "Animate Dead",
+          "detail": ""
+        },
+        {
+          "name": "Ian the Reckless",
+          "detail": ""
+        },
+        {
+          "name": "Krond the Dawn-Clad",
+          "detail": ""
+        },
+        {
+          "name": "Rubblebelt Braggart",
+          "detail": ""
+        },
+        {
+          "name": "Stalking Yeti",
+          "detail": ""
+        },
+        {
+          "name": "Warchanter Skald",
+          "detail": ""
+        }
+      ]
+    },
+    "condition_unsupported:threshold": {
+      "cards": 7,
+      "sole_miss_cards": 6,
+      "examples": [
+        {
+          "name": "Bygone Marvels",
+          "detail": ""
+        },
+        {
+          "name": "Council of Echoes",
+          "detail": ""
+        },
+        {
+          "name": "Exdeath, Void Warlock",
+          "detail": ""
+        },
+        {
+          "name": "Frenzied Geistblaster",
+          "detail": ""
+        },
+        {
+          "name": "Inquisitor Captain",
+          "detail": ""
+        },
+        {
+          "name": "Sanguine Spy",
+          "detail": ""
+        }
+      ]
+    },
+    "verb_unmapped:self_damage": {
+      "cards": 7,
+      "sole_miss_cards": 6,
+      "examples": [
+        {
+          "name": "Inner Struggle",
+          "detail": "target creature deals damage to itself equal to its power."
+        },
+        {
+          "name": "Justice Strike",
+          "detail": "target creature deals damage to itself equal to its power."
+        },
+        {
+          "name": "Kiku's Shadow",
+          "detail": "target creature deals damage to itself equal to its power."
+        },
+        {
+          "name": "Kiku, Night's Flower",
+          "detail": "target creature deals damage to itself equal to its power."
+        },
+        {
+          "name": "Repentance",
+          "detail": "target creature deals damage to itself equal to its power."
+        },
+        {
+          "name": "Wrack with Madness",
+          "detail": "target creature deals damage to itself equal to its power."
+        }
+      ]
+    },
+    "event_unsupported:roll_die": {
+      "cards": 16,
+      "sole_miss_cards": 5,
+      "examples": [
+        {
+          "name": "Brazen Dwarf",
+          "detail": ""
+        },
+        {
+          "name": "Farideh, Devil's Chosen",
+          "detail": ""
+        },
+        {
+          "name": "Feywild Trickster",
+          "detail": ""
+        },
+        {
+          "name": "Netherese Puzzle-Ward",
+          "detail": ""
+        },
+        {
+          "name": "Priority Boarding",
+          "detail": ""
+        }
+      ]
+    },
+    "verb_unmapped:reveal": {
+      "cards": 263,
+      "sole_miss_cards": 4,
+      "examples": [
+        {
+          "name": "Hired Torturer",
+          "detail": "reveals a card at random from their hand."
+        },
+        {
+          "name": "Legion Angel",
+          "detail": "reveal a card you own named legion angel from outside the game and put"
+        },
+        {
+          "name": "Manabond",
+          "detail": "reveal your hand and put all land cards from it onto the battlefield"
+        },
+        {
+          "name": "Priest of the Wakening Sun",
+          "detail": "reveal a dinosaur card from your hand"
+        }
+      ]
+    },
+    "kind_unsupported:saga_chapter": {
+      "cards": 185,
+      "sole_miss_cards": 4,
+      "examples": [
+        {
+          "name": "An Unearthly Child",
+          "detail": "I, II, III \u2014 Reveal cards from the top of your library until you revea"
+        },
+        {
+          "name": "Day of the Moon",
+          "detail": "I, II, III \u2014 Choose a creature card name, then goad all creatures with"
+        },
+        {
+          "name": "Long List of the Ents",
+          "detail": "I, II, III, IV, V, VI \u2014 Note a creature type that hasn't been noted fo"
+        },
+        {
+          "name": "Summon: Choco/Mog",
+          "detail": "I, II, III, IV \u2014 Stampede! \u2014 Other creatures you control get +1/+0 unt"
+        }
+      ]
+    },
+    "loyalty_body:damage": {
+      "cards": 20,
+      "sole_miss_cards": 4,
+      "examples": [
+        {
+          "name": "Chandra, Bold Pyromancer",
+          "detail": "~ deals 10 damage to target player and each creature and planeswalker "
+        },
+        {
+          "name": "Chandra, Flame's Fury",
+          "detail": "~ deals 10 damage to target player and each creature that player contr"
+        },
+        {
+          "name": "Chandra, Pyrogenius",
+          "detail": "~ deals 6 damage to target player or planeswalker and each creature th"
+        },
+        {
+          "name": "Sarkhan, Dragonsoul",
+          "detail": "~ deals 1 damage to each opponent and each creature your opponents con"
+        }
+      ]
+    },
+    "verb_unmapped:lose_life": {
+      "cards": 20,
+      "sole_miss_cards": 4,
+      "examples": [
+        {
+          "name": "Demonic Lore",
+          "detail": "you lose 2 life for each card in your hand."
+        },
+        {
+          "name": "Shepherd of Rot",
+          "detail": "each player loses 1 life for each zombie on the battlefield."
+        },
+        {
+          "name": "Stern Judge",
+          "detail": "each player loses 1 life for each swamp they control."
+        },
+        {
+          "name": "Stronghold Discipline",
+          "detail": "each player loses 1 life for each creature they control."
+        }
+      ]
+    },
+    "kind_unsupported:deck_rule": {
+      "cards": 17,
+      "sole_miss_cards": 4,
+      "examples": [
+        {
+          "name": "Lutri, Pauper Otter",
+          "detail": "Companion \u2014 Your starting deck contains no cards with a silver, gold, "
+        },
+        {
+          "name": "Nazg\u00fbl",
+          "detail": "A deck can have up to nine cards named Nazg\u00fbl."
+        },
+        {
+          "name": "Persistent Petitioners",
+          "detail": "A deck can have any number of cards named Persistent Petitioners."
+        },
+        {
+          "name": "Rat Colony",
+          "detail": "A deck can have any number of cards named Rat Colony."
+        }
+      ]
+    },
+    "verb_unmapped:regrow": {
+      "cards": 24,
+      "sole_miss_cards": 4,
+      "examples": [
+        {
+          "name": "Reap the Past",
+          "detail": "return x cards at random from your graveyard to your hand"
+        },
+        {
+          "name": "Retrieve",
+          "detail": "return up to one target creature card and up to one target noncreature"
+        },
+        {
+          "name": "Seasons Past",
+          "detail": "return any number of cards with different mana values from your gravey"
+        },
+        {
+          "name": "Sudden Reclamation",
+          "detail": "return a creature card and a land card from your graveyard to your han"
+        }
+      ]
+    },
+    "cost_unmapped:mill": {
+      "cards": 6,
+      "sole_miss_cards": 4,
+      "examples": [
+        {
+          "name": "Deranged Assistant",
+          "detail": "Mill a card"
+        },
+        {
+          "name": "Millikin",
+          "detail": "Mill a card"
+        },
+        {
+          "name": "Rot Farm Skeleton",
+          "detail": "Mill four cards"
+        },
+        {
+          "name": "Sinister Concoction",
+          "detail": "Mill a card"
+        }
+      ]
+    },
+    "cost_unmapped:reveal": {
+      "cards": 23,
+      "sole_miss_cards": 3,
+      "examples": [
+        {
+          "name": "Illuminated Folio",
+          "detail": "Reveal two cards from your hand that share a color"
+        },
+        {
+          "name": "Martyr of Ashes",
+          "detail": "Reveal X red cards from your hand"
+        },
+        {
+          "name": "Martyr of Spores",
+          "detail": "Reveal X green cards from your hand"
+        }
+      ]
+    },
+    "cost_unmapped:named_action": {
+      "cards": 7,
+      "sole_miss_cards": 3,
+      "examples": [
+        {
+          "name": "Camellia, the Seedmiser",
+          "detail": "Forage"
+        },
+        {
+          "name": "Cryptex",
+          "detail": "Collect evidence 3"
+        },
+        {
+          "name": "Forensic Researcher",
+          "detail": "Collect evidence 3"
+        }
+      ]
+    },
+    "verb_unmapped:search": {
+      "cards": 96,
+      "sole_miss_cards": 2,
+      "examples": [
+        {
+          "name": "Llanowar Sentinel",
+          "detail": "search your library for a card named llanowar sentinel, put that card "
+        },
+        {
+          "name": "Taj-Nar Swordsmith",
+          "detail": "search your library for an equipment card with mana value x or less, p"
+        }
+      ]
+    },
+    "loyalty_body:reveal": {
+      "cards": 18,
+      "sole_miss_cards": 2,
+      "examples": [
+        {
+          "name": "Nissa, Nature's Artisan",
+          "detail": "reveal the top two cards of your library"
+        },
+        {
+          "name": "Vivien, Nature's Avenger",
+          "detail": "reveal cards from the top of your library until you reveal a creature "
+        }
+      ]
+    },
+    "verb_unmapped:look_top": {
+      "cards": 145,
+      "sole_miss_cards": 2,
+      "examples": [
+        {
+          "name": "Browse",
+          "detail": "look at the top five cards of your library, put one of them into your "
+        },
+        {
+          "name": "Hide in Plain Sight",
+          "detail": "look at the top five cards of your library, cloak two of them, and put"
+        }
+      ]
+    },
+    "loyalty_body:put_counters": {
+      "cards": 14,
+      "sole_miss_cards": 2,
+      "examples": [
+        {
+          "name": "Ajani, Wise Counselor",
+          "detail": "put x +1/+1 counters on target creature, where x is your life total."
+        },
+        {
+          "name": "Ajani, the Greathearted",
+          "detail": "put a +1/+1 counter on each creature you control and a loyalty counter"
+        }
+      ]
+    },
+    "loyalty_body:put_battlefield": {
+      "cards": 9,
+      "sole_miss_cards": 2,
+      "examples": [
+        {
+          "name": "Dakkon, Shadow Slayer",
+          "detail": "put an artifact card from your hand or graveyard onto the battlefield."
+        },
+        {
+          "name": "Liliana, the Necromancer",
+          "detail": "put up to two creature cards from graveyards onto the battlefield unde"
+        }
+      ]
+    },
+    "loyalty_body:gain_control": {
+      "cards": 9,
+      "sole_miss_cards": 2,
+      "examples": [
+        {
+          "name": "Ashiok, Sculptor of Fears",
+          "detail": "gain control of all creatures target opponent controls."
+        },
+        {
+          "name": "Jace, Ingenious Mind-Mage",
+          "detail": "gain control of up to three target creatures."
+        }
+      ]
+    },
+    "empty_body": {
+      "cards": 4,
+      "sole_miss_cards": 2,
+      "examples": [
+        {
+          "name": "Boltbender",
+          "detail": "you may choose new targets for any number of other spells and/or abili"
+        },
+        {
+          "name": "Myr Mindservant",
+          "detail": "Shuffle your library."
+        }
+      ]
+    },
+    "kind_unsupported:modal_head_unmapped": {
+      "cards": 2,
+      "sole_miss_cards": 2,
+      "examples": [
+        {
+          "name": "Bumi, King of Three Trials",
+          "detail": "choose up to x, where x is the number of lesson cards in you"
+        },
+        {
+          "name": "The Ruinous Wrecking Crew",
+          "detail": "choose up to x \u2014"
+        }
+      ]
+    },
+    "loyalty_body:grant_eot": {
+      "cards": 6,
+      "sole_miss_cards": 2,
+      "examples": [
+        {
+          "name": "Sorin, Vampire Lord",
+          "detail": "until end of turn, each vampire you control gains \"{t}: gain control o"
+        },
+        {
+          "name": "Vraska, Scheming Gorgon",
+          "detail": "until end of turn, creatures you control gain deathtouch and \"whenever"
+        }
+      ]
+    },
+    "loyalty_body:damage_by": {
+      "cards": 8,
+      "sole_miss_cards": 2,
+      "examples": [
+        {
+          "name": "Huatli, Dinosaur Knight",
+          "detail": "target dinosaur you control deals damage equal to its power to target "
+        },
+        {
+          "name": "Vivien of the Arkbow",
+          "detail": "target creature you control deals damage equal to its power to target "
+        }
+      ]
+    },
+    "loyalty_body:exile": {
+      "cards": 16,
+      "sole_miss_cards": 1,
+      "examples": [
+        {
+          "name": "Kaya, Ghost Assassin",
+          "detail": "exile ~ or up to one target creature"
+        }
+      ]
+    },
+    "loyalty_body:create_token": {
+      "cards": 23,
+      "sole_miss_cards": 1,
+      "examples": [
+        {
+          "name": "Ajani Goldmane",
+          "detail": "create a white avatar creature token"
+        }
+      ]
+    },
+    "loyalty_body:destroy": {
+      "cards": 6,
+      "sole_miss_cards": 1,
+      "examples": [
+        {
+          "name": "Elspeth Tirel",
+          "detail": "destroy all other permanents except for lands and tokens."
+        }
+      ]
+    },
+    "loyalty_body:choose": {
+      "cards": 14,
+      "sole_miss_cards": 1,
+      "examples": [
+        {
+          "name": "Daretti, Ingenious Iconoclast",
+          "detail": "choose target artifact card in a graveyard or artifact on the battlefi"
+        }
+      ]
+    },
+    "loyalty_body:add_mana": {
+      "cards": 2,
+      "sole_miss_cards": 1,
+      "examples": [
+        {
+          "name": "Sarkhan, Fireblood",
+          "detail": "add two mana in any combination of colors"
+        }
+      ]
+    },
+    "loyalty_body:remove_counter": {
+      "cards": 1,
+      "sole_miss_cards": 1,
+      "examples": [
+        {
+          "name": "Chandra, Legacy of Fire",
+          "detail": "remove a loyalty counter from each of any number of permanents you con"
+        }
+      ]
+    },
+    "loyalty_body:p_draw": {
+      "cards": 1,
+      "sole_miss_cards": 1,
+      "examples": [
+        {
+          "name": "Jace Beleren",
+          "detail": "each player draws a card."
+        }
+      ]
+    },
+    "verb_unmapped:becomes_creature": {
+      "cards": 1,
+      "sole_miss_cards": 1,
+      "examples": [
+        {
+          "name": "Jade Idol",
+          "detail": "~ becomes a 4/4 spirit artifact creature until end of turn."
+        }
+      ]
+    },
+    "kind_unsupported:modal_cost_unmapped": {
+      "cards": 1,
+      "sole_miss_cards": 1,
+      "examples": [
+        {
+          "name": "Power Conduit",
+          "detail": "{t}, remove a counter from a permanent you control"
+        }
+      ]
+    },
+    "kind_unsupported:roll_table_row": {
+      "cards": 31,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "verb_unmapped:p_reveal_hand": {
+      "cards": 86,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "kind_unsupported:modal_option": {
+      "cards": 207,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "verb_unmapped:roll_die": {
+      "cards": 42,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "verb_unmapped:put_rest": {
+      "cards": 85,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "loyalty_body:look_top": {
+      "cards": 21,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "loyalty_body:venture": {
+      "cards": 2,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "loyalty_body:bounce": {
+      "cards": 4,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "loyalty_body:pump": {
+      "cards": 7,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "loyalty_body:life_eq": {
+      "cards": 1,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "loyalty_body:put_zone": {
+      "cards": 7,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "loyalty_body:p_gain_life": {
+      "cards": 1,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "loyalty_body:sacrifice": {
+      "cards": 1,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "loyalty_body:cast_free": {
+      "cards": 9,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "cost_unmapped:put_counters": {
+      "cards": 5,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "verb_unmapped:scry": {
+      "cards": 1,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "cost_unmapped:energy": {
+      "cards": 3,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "loyalty_body:p_discard_hand": {
+      "cards": 1,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "loyalty_body:token_copy": {
+      "cards": 4,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "loyalty_body:fight": {
+      "cards": 3,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "loyalty_body:tap": {
+      "cards": 4,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "loyalty_body:untap": {
+      "cards": 9,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "cost_unmapped:discard": {
+      "cards": 1,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "verb_unmapped:discard": {
+      "cards": 9,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "verb_unmapped:p_exile_top": {
+      "cards": 4,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "loyalty_body:regrow": {
+      "cards": 1,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "loyalty_body:draw": {
+      "cards": 2,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "cost_unmapped:life": {
+      "cards": 3,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "loyalty_body:search": {
+      "cards": 5,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "loyalty_body:prevent": {
+      "cards": 1,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "loyalty_body:exchange": {
+      "cards": 1,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "loyalty_body:p_sacrifice": {
+      "cards": 1,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "loyalty_body:kw_action": {
+      "cards": 1,
+      "sole_miss_cards": 0,
+      "examples": []
+    },
+    "loyalty_body:delayed": {
+      "cards": 2,
+      "sole_miss_cards": 0,
+      "examples": []
+    }
+  }
+}

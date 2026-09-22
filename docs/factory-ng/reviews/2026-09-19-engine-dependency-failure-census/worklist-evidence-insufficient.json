@@ -1,0 +1,2225 @@
+[
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-damage-by-karplusan-yeti-53ea431f55/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-activated-damage-from-chosen-referent-ddadfd27b7/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-activated-damage-from-chosen-referent-ddadfd27b7-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-11T205714Z-engine-auto-activated-damage-from-chosen-referent-ddadfd27b7-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-11T21:00:54Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-put-counters-possessed-goat-d49b15098a/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-activated-put-counters-color-subtype-rider-54a3e22845/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-activated-put-counters-color-subtype-rider-54a3e22845-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-15T185139Z-engine-auto-activated-put-counters-color-subtype-rider-54a3e22845-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-15T18:55:27Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-damage-ballista-squad-c79d71e4a9/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-activation-x-cost-amount-837fb0c850/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-activation-x-cost-amount-837fb0c850-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": null,
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-03T194110Z-engine-auto-activation-x-cost-amount-837fb0c850-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-03T19:45:49Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-grant-eot-dragonshift-4360175059/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-become-creature-until-eot-f978784ed7/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-become-creature-until-eot-f978784ed7-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-14T124119Z-engine-auto-become-creature-until-eot-f978784ed7-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-14T12:46:31Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-multi-no-quarter-1fb1bfef6c/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-block-trigger-counterpart-lesser-power-gate-6f62a1c0b7/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-block-trigger-counterpart-lesser-power-gate-6f62a1c0b7-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-17T210641Z-engine-auto-block-trigger-counterpart-lesser-power-gate-6f62a1c0b7-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-17T21:10:23Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-bounce-narset-s-reversal-6c7f48ec94/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-bounce-referent-targeted-spell-bbdb869edf/v4",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-bounce-referent-targeted-spell-bbdb869edf-v4.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-16T194234Z-engine-auto-bounce-referent-targeted-spell-bbdb869edf-v4-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-16T19:48:11Z"
+  },
+  {
+    "attempts": 3,
+    "blocked_map_jobs": [
+      "ticket:map.plan-bounce-rite-of-undoing-80d0bf652a/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-bounce-split-controller-nonland-5ad2f88feb/v1",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-bounce-split-controller-nonland-5ad2f88feb-v1.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": false,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": null,
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-06T211200Z-engine-auto-bounce-split-controller-nonland-5ad2f88feb-v1-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-06T21:15:05Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-bounce-clement-the-worrywort-e2d72c7036/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-bounce-target-lesser-mana-value-than-event-card-877d99129b/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-bounce-target-lesser-mana-value-than-event-card-877d99129b-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "gate-repair-apply",
+      "ticket-gate-1"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "gate_failed",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-16T200836Z-engine-auto-bounce-target-lesser-mana-value-than-event-card-877d99129b-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "failed",
+    "updated_at": "2026-09-16T20:23:22Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-fight-ezuri-s-predation-d14326dec6/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-choice-distinct-token-fight-pairing-b25031e2b4/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-choice-distinct-token-fight-pairing-b25031e2b4-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-11T193259Z-engine-auto-choice-distinct-token-fight-pairing-b25031e2b4-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-11T19:36:33Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-create-token-pheres-band-raiders-32d0359959/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-colored-mana-may-pay-gate-631629ee49/v4",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-colored-mana-may-pay-gate-631629ee49-v4.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-16T195113Z-engine-auto-colored-mana-may-pay-gate-631629ee49-v4-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-16T19:56:48Z"
+  },
+  {
+    "attempts": 2,
+    "blocked_map_jobs": [
+      "ticket:map.plan-multi-sylvan-smite-eb280a50a2/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-conditional-linked-source-power-damage-sequence-034aeb0286/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-conditional-linked-source-power-damage-sequence-034aeb0286-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-15T223008Z-engine-auto-conditional-linked-source-power-damage-sequence-034aeb0286-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-15T22:34:32Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-grant-eot-goblin-flotilla-7e7acce43a/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-conditional-nested-combat-trigger-e649a61321/v1",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-conditional-nested-combat-trigger-e649a61321-v1.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": false,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "framework_claim",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-14T233040Z-engine-auto-conditional-nested-combat-trigger-e649a61321-v1-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-14T23:35:00Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-p-sacrifice-rishadan-footpad-ded758958f/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-conditional-opponent-sacrifice-unless-payment-95e22bc830/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-conditional-opponent-sacrifice-unless-payment-95e22bc830-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-13T182446Z-engine-auto-conditional-opponent-sacrifice-unless-payment-95e22bc830-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-13T18:27:38Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-sacrifice-blood-spatter-analysis-81c4f000e1/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-conditional-sacrifice-self-counter-threshold-7309b1dfac/v4",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-conditional-sacrifice-self-counter-threshold-7309b1dfac-v4.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "gate-repair-apply",
+      "ticket-gate-1"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "gate_failed",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-16T212353Z-engine-auto-conditional-sacrifice-self-counter-threshold-7309b1dfac-v4-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "failed",
+    "updated_at": "2026-09-16T21:35:57Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-multi-gargantuan-gorilla-7c4f9d7661/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-conditional-sacrifice-supertype-followup-fc178471e2/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-conditional-sacrifice-supertype-followup-fc178471e2-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-14T191130Z-engine-auto-conditional-sacrifice-supertype-followup-fc178471e2-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-14T19:19:38Z"
+  },
+  {
+    "attempts": 2,
+    "blocked_map_jobs": [
+      "ticket:map.plan-copy-thousand-year-storm-2819e9310a/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-copy-amount-from-spells-cast-this-turn-ecbb339d14/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-copy-amount-from-spells-cast-this-turn-ecbb339d14-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-09T202546Z-engine-auto-copy-amount-from-spells-cast-this-turn-ecbb339d14-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-09T20:35:35Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-multi-rysorian-badger-84d3b8a430/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-count-cards-exiled-this-way-59b6742ac6/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-count-cards-exiled-this-way-59b6742ac6-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-15T034316Z-engine-auto-count-cards-exiled-this-way-59b6742ac6-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-15T03:50:27Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-draw-tymna-the-weaver-2f8825a9c6/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-count-opponents-dealt-combat-damage-this-turn-a88a3d02eb/v4",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-count-opponents-dealt-combat-damage-this-turn-a88a3d02eb-v4.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "gate-repair-apply",
+      "prior-remote-test-failure"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "gate_failed",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-17T195113Z-engine-auto-count-opponents-dealt-combat-damage-this-turn-a88a3d02eb-v4-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "failed",
+    "updated_at": "2026-09-17T19:54:09Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-counter-glen-elendra-s-answer-f27e46e330/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-counter-all-opponent-spells-and-abilities-f415eda291/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-counter-all-opponent-spells-and-abilities-f415eda291-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": null,
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-04T065617Z-engine-auto-counter-all-opponent-spells-and-abilities-f415eda291-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-04T06:59:59Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-counter-lifeforce-eb5795a5e7/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-counter-target-spell-color-filter-8a87fd4563/v4",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-counter-target-spell-color-filter-8a87fd4563-v4.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-17T194732Z-engine-auto-counter-target-spell-color-filter-8a87fd4563-v4-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-17T19:52:24Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-counter-ertai-s-trickery-e7c4111331/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-counter-target-spell-if-kicked-1ed16fc0bb/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-counter-target-spell-if-kicked-1ed16fc0bb-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-14T153604Z-engine-auto-counter-target-spell-if-kicked-1ed16fc0bb-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-14T15:40:05Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-counter-grip-of-amnesia-628f2ac578/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-counter-unless-exile-graveyard-c0db0c63bc/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-counter-unless-exile-graveyard-c0db0c63bc-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-15T010749Z-engine-auto-counter-unless-exile-graveyard-c0db0c63bc-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-15T01:17:12Z"
+  },
+  {
+    "attempts": 2,
+    "blocked_map_jobs": [
+      "ticket:map.plan-create-token-chocobo-racetrack-fc6653892a/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-create-token-custom-token-ability-fc842089e2/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-create-token-custom-token-ability-fc842089e2-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": null,
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-04T214323Z-engine-auto-create-token-custom-token-ability-fc842089e2-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-04T21:49:59Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-damage-curse-of-thirst-548cccb82e/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-curses-attached-to-player-count-e2434f30c2/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-curses-attached-to-player-count-e2434f30c2-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-14T090510Z-engine-auto-curses-attached-to-player-count-e2434f30c2-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-14T09:10:14Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-create-token-cornered-by-black-mages-4e43d8a65f/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-custom-token-definition-with-ability-5dbbecb705/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-custom-token-definition-with-ability-5dbbecb705-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": false,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": null,
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-03T224010Z-engine-auto-custom-token-definition-with-ability-5dbbecb705-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-03T22:45:07Z"
+  },
+  {
+    "attempts": 4,
+    "blocked_map_jobs": [
+      "ticket:map.plan-damage-outrage-shaman-389bf3fc05/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-damage-amount-chroma-red-mana-symbols-dafa42ca0a/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-damage-amount-chroma-red-mana-symbols-dafa42ca0a-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": false,
+    "failed_gates": [
+      "ticket-gate-2"
+    ],
+    "failure_category": "candidate_gate",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "gate_failed",
+    "profile": "codex-constrained@1.1.0",
+    "receipt": "docs/factory-ng/runs/2026-09-16T193100Z-engine-auto-damage-amount-chroma-red-mana-symbols-dafa42ca0a-v2-codex.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "failed",
+    "updated_at": "2026-09-16T19:51:34Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-damage-by-orim-s-thunder-2ee3151a3f/v3"
+    ],
+    "engine_ticket": "ticket:engine.auto-damage-from-prior-destroyed-permanent-mana-value-83067c45d1/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-damage-from-prior-destroyed-permanent-mana-value-83067c45d1-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": false,
+    "failed_gates": [
+      "gate-repair-apply",
+      "ticket-gate-1"
+    ],
+    "failure_category": "model_response",
+    "named_seam_files": [],
+    "no_verdict_in_output": true,
+    "outcome": "gate_failed",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-12T003424Z-engine-auto-damage-from-prior-destroyed-permanent-mana-value-83067c45d1-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "failed",
+    "updated_at": "2026-09-12T00:48:56Z"
+  },
+  {
+    "attempts": 2,
+    "blocked_map_jobs": [
+      "ticket:map.plan-damage-antagonism-a754476ca3/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-damage-trigger-source-player-d4b0b5298d/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-damage-trigger-source-player-d4b0b5298d-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": null,
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-03T152715Z-engine-auto-damage-trigger-source-player-d4b0b5298d-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-07T11:39:00Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-destroy-venomous-dragonfly-f2f3a1853a/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-destroy-at-end-of-combat-on-referent-7d3e4c8485/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-destroy-at-end-of-combat-on-referent-7d3e4c8485-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-09T221029Z-engine-auto-destroy-at-end-of-combat-on-referent-7d3e4c8485-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-09T22:18:24Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-destroy-black-hole-fd5852713d/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-destroy-multiple-target-creatures-dynamic-count-82974a4983/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-destroy-multiple-target-creatures-dynamic-count-82974a4983-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": false,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": null,
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-03T180249Z-engine-auto-destroy-multiple-target-creatures-dynamic-count-82974a4983-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-03T18:04:59Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-destroy-crazed-armodon-68baeb6a7f/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-destroy-self-at-next-end-step-d3760736ee/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-destroy-self-at-next-end-step-d3760736ee-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-14T100852Z-engine-auto-destroy-self-at-next-end-step-d3760736ee-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-14T10:14:33Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-destroy-grotag-siege-runner-56a3a96a7d/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-destroy-target-creature-with-defender-85b5938c84/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-destroy-target-creature-with-defender-85b5938c84-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-11T001506Z-engine-auto-destroy-target-creature-with-defender-85b5938c84-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-11T00:20:10Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-destroy-naturalize-2-8374dcaf3e/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-destroy-target-emblem-or-gameplay-tracker-79301fbc6a/v1",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-destroy-target-emblem-or-gameplay-tracker-79301fbc6a-v1.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": false,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "framework_claim",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "codex-constrained@1.1.0",
+    "receipt": "docs/factory-ng/runs/2026-09-15T153519Z-engine-auto-destroy-target-emblem-or-gameplay-tracker-79301fbc6a-v1-codex.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-15T15:37:49Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-destroy-break-the-ice-f9f9ea72cb/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-destroy-target-land-snow-or-colorless-mana-08e4bcd244/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-destroy-target-land-snow-or-colorless-mana-08e4bcd244-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-14T060729Z-engine-auto-destroy-target-land-snow-or-colorless-mana-08e4bcd244-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-14T06:10:53Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-multi-kaervek-s-purge-e024096e3f/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-destroy-target-mv-x-conditional-damage-to-contro-c2be2fd91a/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-destroy-target-mv-x-conditional-damage-to-contro-c2be2fd91a-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-14T200623Z-engine-auto-destroy-target-mv-x-conditional-damage-to-contro-c2be2fd91a-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-14T20:15:07Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-gain-life-marrow-chomper-d99a7bc611/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-devoured-creature-count-2704062b20/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-devoured-creature-count-2704062b20-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-12T193443Z-engine-auto-devoured-creature-count-2704062b20-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-12T19:38:19Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-untap-shriekwood-devourer-137b1f708e/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-dispatch-untap-amount-count-cap-86b3679388/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-dispatch-untap-amount-count-cap-86b3679388-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "gate-repair-apply",
+      "prior-remote-test-failure"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "gate_failed",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-16T225929Z-engine-auto-dispatch-untap-amount-count-cap-86b3679388-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "failed",
+    "updated_at": "2026-09-16T23:01:59Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-multi-occult-epiphany-a825880dc9/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-distinct-card-types-discarded-this-way-3963c62e28/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-distinct-card-types-discarded-this-way-3963c62e28-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-15T003823Z-engine-auto-distinct-card-types-discarded-this-way-3963c62e28-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-15T00:43:04Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-damage-by-polliwallop-2dd83f40ae/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-dual-target-atom-selection-3fb1267aaa/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-dual-target-atom-selection-3fb1267aaa-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-12T001457Z-engine-auto-dual-target-atom-selection-3fb1267aaa-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-12T00:21:47Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-fight-go-for-blood-b8ab107362/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-dual-target-fight-05abe44d35/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-dual-target-fight-05abe44d35-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-11T202223Z-engine-auto-dual-target-fight-05abe44d35-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-11T20:27:34Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-draw-voracious-bibliophile-3bb27bc3b4/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-dynamic-amount-triggering-spell-target-count-0004fbea05/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-dynamic-amount-triggering-spell-target-count-0004fbea05-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-13T021444Z-engine-auto-dynamic-amount-triggering-spell-target-count-0004fbea05-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-13T02:19:16Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-p-sacrifice-rishadan-cutpurse-d2db1b84d4/v4"
+    ],
+    "engine_ticket": "ticket:engine.auto-edict-sacrifice-unless-payment-1966d9b944/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-edict-sacrifice-unless-payment-1966d9b944-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-18T010537Z-engine-auto-edict-sacrifice-unless-payment-1966d9b944-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-18T01:12:18Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-exile-blazing-hope-2c73b77c13/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-exile-power-gte-life-ac3ea11b8c/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-exile-power-gte-life-ac3ea11b8c-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": null,
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-03T180435Z-engine-auto-exile-power-gte-life-ac3ea11b8c-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-03T18:09:36Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-multi-mindreaver-92aa4b4f12/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-exile-top-n-target-player-library-55442be02d/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-exile-top-n-target-player-library-55442be02d-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-15T040505Z-engine-auto-exile-top-n-target-player-library-55442be02d-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-15T04:09:43Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-fight-ace-fearless-rebel-b66f13e5f4/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-fight-sequenced-after-sibling-counter-d212312f37/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-fight-sequenced-after-sibling-counter-d212312f37-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-11T181531Z-engine-auto-fight-sequenced-after-sibling-counter-d212312f37-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-11T18:21:09Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-multi-honor-the-fallen-715381e840/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-filtered-all-graveyards-exile-count-72e6808d58/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-filtered-all-graveyards-exile-count-72e6808d58-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-15T030515Z-engine-auto-filtered-all-graveyards-exile-count-72e6808d58-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-15T03:09:40Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-grant-eot-undying-evil-d8dcce3d98/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-grant-ability-until-eot-aced7d1a69/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-grant-ability-until-eot-aced7d1a69-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-09T212836Z-engine-auto-grant-ability-until-eot-aced7d1a69-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-09T21:36:04Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-grant-eot-expressive-firedancer-e69a7854f9/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-grant-keyword-if-spell-mana-spent-eot-1866e2a81c/v4",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-grant-keyword-if-spell-mana-spent-eot-1866e2a81c-v4.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-16T232337Z-engine-auto-grant-keyword-if-spell-mana-spent-eot-1866e2a81c-v4-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-16T23:34:15Z"
+  },
+  {
+    "attempts": 4,
+    "blocked_map_jobs": [
+      "ticket:map.plan-grant-eot-crown-of-ascension-18e00b1e55/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-grant-keywords-until-eot-enchanted-shared-type-a70040c6e5/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-grant-keywords-until-eot-enchanted-shared-type-a70040c6e5-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-15T223008Z-engine-auto-grant-keywords-until-eot-enchanted-shared-type-a70040c6e5-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-15T22:36:30Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-grant-eot-furnace-reins-62a025ca1f/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-grant-triggered-ability-until-eot-41d5087742/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-grant-triggered-ability-until-eot-41d5087742-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-14T204146Z-engine-auto-grant-triggered-ability-until-eot-41d5087742-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-14T20:46:29Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-grant-eot-herd-heirloom-06449fd7a2/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-grant-triggered-ability-until-eot-da00167c1f/v4",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-grant-triggered-ability-until-eot-da00167c1f-v4.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "initial-patch-apply",
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [
+      "backend/cards/converter.go"
+    ],
+    "no_verdict_in_output": true,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-16T233353Z-engine-auto-grant-triggered-ability-until-eot-da00167c1f-v4-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-16T23:36:42Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-add-mana-great-hall-of-the-citadel-be5cb8d2a6/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-independent-mana-color-choices-1f1fbb7a10/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-independent-mana-color-choices-1f1fbb7a10-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-13T004510Z-engine-auto-independent-mana-color-choices-1f1fbb7a10-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-13T00:47:57Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-gain-life-impose-hierarchy-cd59d46925/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-life-gain-count-creature-cards-target-controller-b08c6ba149/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-life-gain-count-creature-cards-target-controller-b08c6ba149-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-12T182156Z-engine-auto-life-gain-count-creature-cards-target-controller-b08c6ba149-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-12T18:25:10Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-multi-overwhelming-forces-ef2cd40a47/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-mass-destroy-scoped-to-targeted-player-f18213f28e/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-mass-destroy-scoped-to-targeted-player-f18213f28e-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-15T000102Z-engine-auto-mass-destroy-scoped-to-targeted-player-f18213f28e-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-15T00:09:08Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-reanimate-vulpine-harvester-1dfa696785/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-parametric-target-filter-on-reanimate-11f46459eb/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-parametric-target-filter-on-reanimate-11f46459eb-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "codex-constrained@1.1.0",
+    "receipt": "docs/factory-ng/runs/2026-09-09T231423Z-engine-auto-parametric-target-filter-on-reanimate-11f46459eb-v2-codex.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-09T23:17:07Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-fight-mutant-s-prey-2d5c1896b2/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-per-position-spell-fight-target-selection-4146b57f3f/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-per-position-spell-fight-target-selection-4146b57f3f-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-12T002125Z-engine-auto-per-position-spell-fight-target-selection-4146b57f3f-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-12T00:24:23Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-prevent-safe-passage-32df981143/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-prevent-all-damage-to-you-and-controlled-creatur-6d8fc3e81e/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-prevent-all-damage-to-you-and-controlled-creatur-6d8fc3e81e-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-12T231032Z-engine-auto-prevent-all-damage-to-you-and-controlled-creatur-6d8fc3e81e-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-12T23:14:11Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-prevent-terrifying-presence-cb548d0fc2/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-prevent-combat-damage-from-all-other-than-target-643ec76f41/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-prevent-combat-damage-from-all-other-than-target-643ec76f41-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-12T232649Z-engine-auto-prevent-combat-damage-from-all-other-than-target-643ec76f41-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-12T23:32:43Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-prevent-pack-leader-77fba05174/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-prevent-combat-damage-to-controlled-subtype-crea-a74b78e376/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-prevent-combat-damage-to-controlled-subtype-crea-a74b78e376-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-12T213136Z-engine-auto-prevent-combat-damage-to-controlled-subtype-crea-a74b78e376-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-12T21:34:31Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-multi-azlask-the-swelling-scourge-b9cefdecca/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-pump-until-eot-all-creatures-you-control-experie-7ef993cbfb/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-pump-until-eot-all-creatures-you-control-experie-7ef993cbfb-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-15T022825Z-engine-auto-pump-until-eot-all-creatures-you-control-experie-7ef993cbfb-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-15T02:33:55Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-pump-threnody-singer-c9d78bdef8/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-pump-until-eot-devotion-to-color-cfb0b6c2cd/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-pump-until-eot-devotion-to-color-cfb0b6c2cd-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "gate-repair-apply",
+      "ticket-gate-2"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "gate_failed",
+    "profile": "codex-constrained@1.1.0",
+    "receipt": "docs/factory-ng/runs/2026-09-16T100239Z-engine-auto-pump-until-eot-devotion-to-color-cfb0b6c2cd-v2-codex.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "failed",
+    "updated_at": "2026-09-16T10:11:08Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-pump-thunderous-might-9b4bf26d1b/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-pump-until-eot-dynamic-implicit-recipient-7d8ee8ec79/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-pump-until-eot-dynamic-implicit-recipient-7d8ee8ec79-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": false,
+    "failed_gates": [
+      "ticket-gate-2"
+    ],
+    "failure_category": "candidate_gate",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "gate_failed",
+    "profile": "codex-constrained@1.1.0",
+    "receipt": "docs/factory-ng/runs/2026-09-09T193617Z-engine-auto-pump-until-eot-dynamic-implicit-recipient-7d8ee8ec79-v2-codex.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "failed",
+    "updated_at": "2026-09-09T19:50:02Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-pump-champions-from-beyond-dea73f1aa6/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-pump-until-eot-referent-set-599d85e635/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-pump-until-eot-referent-set-599d85e635-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": null,
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-03T235913Z-engine-auto-pump-until-eot-referent-set-599d85e635-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-04T00:03:54Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-put-counters-zaxara-the-exemplary-16c6c74a80/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-put-counters-amount-x-on-prior-created-object-11be2df623/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-put-counters-amount-x-on-prior-created-object-11be2df623-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-10T015404Z-engine-auto-put-counters-amount-x-on-prior-created-object-11be2df623-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-10T02:02:09Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-put-counters-summoner-s-sending-b695a241c3/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-put-counters-conditional-prior-referent-mv-thres-9ef58344ba/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-put-counters-conditional-prior-referent-mv-thres-9ef58344ba-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-10T191404Z-engine-auto-put-counters-conditional-prior-referent-mv-thres-9ef58344ba-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-10T19:17:55Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-put-counters-stand-together-c45526a3a2/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-put-counters-independent-required-targets-cca498f642/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-put-counters-independent-required-targets-cca498f642-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-10T231717Z-engine-auto-put-counters-independent-required-targets-cca498f642-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-10T23:21:48Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-multi-blast-zone-c3a14a2bad/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-put-counters-own-x-cost-target-self-defdb3b9b5/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-put-counters-own-x-cost-target-self-defdb3b9b5-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-14T114914Z-engine-auto-put-counters-own-x-cost-target-self-defdb3b9b5-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-14T11:55:27Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-multi-fear-of-ridicule-3b8a250fb5/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-random-library-creature-exile-copy-1f0e27a629/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-random-library-creature-exile-copy-1f0e27a629-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-14T214237Z-engine-auto-random-library-creature-exile-copy-1f0e27a629-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-14T21:45:15Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-reanimate-hourglass-of-the-lost-ddca5ebdc7/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-return-from-graveyard-mana-value-filter-ffe5180714/v4",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-return-from-graveyard-mana-value-filter-ffe5180714-v4.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": null,
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-04T221211Z-engine-auto-return-from-graveyard-mana-value-filter-ffe5180714-v4-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-04T22:18:25Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-exile-gerrard-weatherlight-hero-74a90130bc/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-return-graveyard-cards-entered-this-turn-from-ba-c4c2652a34/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-return-graveyard-cards-entered-this-turn-from-ba-c4c2652a34-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-14T211839Z-engine-auto-return-graveyard-cards-entered-this-turn-from-ba-c4c2652a34-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-14T21:25:22Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-sacrifice-scapeshift-d09c34cfc8/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-sacrifice-any-number-linked-count-9f779e8f08/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-sacrifice-any-number-linked-count-9f779e8f08-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-11T015051Z-engine-auto-sacrifice-any-number-linked-count-9f779e8f08-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-11T01:55:35Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-multi-pitiless-carnage-a52e774b9a/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-sacrifice-any-number-then-draw-count-061ce1de07/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-sacrifice-any-number-then-draw-count-061ce1de07-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-14T225450Z-engine-auto-sacrifice-any-number-then-draw-count-061ce1de07-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-14T23:02:27Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-sacrifice-fallow-wurm-3371bfe6da/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-sacrifice-unless-pay-cost-ed754f8385/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-sacrifice-unless-pay-cost-ed754f8385-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-10T184721Z-engine-auto-sacrifice-unless-pay-cost-ed754f8385-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-10T18:56:13Z"
+  },
+  {
+    "attempts": 4,
+    "blocked_map_jobs": [
+      "ticket:map.plan-search-bitterheart-witch-aeef376a83/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-search-attach-to-target-c74e339814/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-search-attach-to-target-c74e339814-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": false,
+    "failed_gates": [
+      "initial-patch-apply",
+      "patch-apply"
+    ],
+    "failure_category": "model_response",
+    "named_seam_files": [
+      "backend/game/ability_effects.go"
+    ],
+    "no_verdict_in_output": true,
+    "outcome": "infrastructure_failed_model_protocol",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-16T002815Z-engine-auto-search-attach-to-target-c74e339814-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "failed",
+    "updated_at": "2026-09-16T00:38:28Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-fight-khalni-ambush-519a58e86d/v4"
+    ],
+    "engine_ticket": "ticket:engine.auto-spell-dual-target-fight-per-position-filters-4647191eb0/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-spell-dual-target-fight-per-position-filters-4647191eb0-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-12T001952Z-engine-auto-spell-dual-target-fight-per-position-filters-4647191eb0-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-12T00:23:59Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-exile-decompose-ecd48d0f25/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-spell-graveyard-card-target-selection-cb317f54a0/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-spell-graveyard-card-target-selection-cb317f54a0-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-14T112825Z-engine-auto-spell-graveyard-card-target-selection-cb317f54a0-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-14T11:33:53Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-put-counters-river-heralds-boon-8f2f623537/v3"
+    ],
+    "engine_ticket": "ticket:engine.auto-spell-independent-target-slot-selection-1a021ab27d/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-spell-independent-target-slot-selection-1a021ab27d-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-10T230807Z-engine-auto-spell-independent-target-slot-selection-1a021ab27d-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-10T23:11:36Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-fight-kapow-1acce2d06d/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-spell-referent-fight-target-4b08a9d8ed/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-spell-referent-fight-target-4b08a9d8ed-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-11T204908Z-engine-auto-spell-referent-fight-target-4b08a9d8ed-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-11T20:52:55Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-fight-hunt-the-weak-c861a3afcd/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-spell-sequence-two-independent-targets-5a7d08a785/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-spell-sequence-two-independent-targets-5a7d08a785-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-11T204519Z-engine-auto-spell-sequence-two-independent-targets-5a7d08a785-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-11T20:48:14Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-multi-angel-s-trumpet-8b979afeb4/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-tap-all-qualifying-then-damage-equal-to-tapped-c-ddddeee987/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-tap-all-qualifying-then-damage-equal-to-tapped-c-ddddeee987-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-14T150518Z-engine-auto-tap-all-qualifying-then-damage-equal-to-tapped-c-ddddeee987-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-14T15:11:32Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-put-counters-erithizon-74c9e8d739/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-target-choice-by-defending-player-aeff48c0e9/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-target-choice-by-defending-player-aeff48c0e9-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-14T202804Z-engine-auto-target-choice-by-defending-player-aeff48c0e9-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-14T20:34:27Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-damage-by-legolas-s-quick-reflexes-6c0a81f4e6/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-temporary-triggered-ability-grant-until-eot-15b78d87ce/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-temporary-triggered-ability-grant-until-eot-15b78d87ce-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-11T210033Z-engine-auto-temporary-triggered-ability-grant-until-eot-15b78d87ce-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-11T21:03:56Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-token-copy-dino-dna-a2cbb6e93f/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-token-copy-from-source-linked-exile-e8628bf953/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-token-copy-from-source-linked-exile-e8628bf953-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-12T233644Z-engine-auto-token-copy-from-source-linked-exile-e8628bf953-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-12T23:45:51Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-token-copy-electroduplicate-f305dfa71d/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-token-copy-grant-keyword-and-delayed-sacrifice-13e991c971/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-token-copy-grant-keyword-and-delayed-sacrifice-13e991c971-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-17T203913Z-engine-auto-token-copy-grant-keyword-and-delayed-sacrifice-13e991c971-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-17T20:44:14Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-token-copy-kiki-jiki-mirror-breaker-fb4d8e97cd/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-token-copy-keyword-and-referent-override-96b5980cf6/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-token-copy-keyword-and-referent-override-96b5980cf6-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-13T182929Z-engine-auto-token-copy-keyword-and-referent-override-96b5980cf6-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-13T18:33:24Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-fight-aggressive-biomancy-7cdd566f59/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-token-copy-with-nested-etb-trigger-2029678fce/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-token-copy-with-nested-etb-trigger-2029678fce-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-11T182151Z-engine-auto-token-copy-with-nested-etb-trigger-2029678fce-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-11T18:25:30Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-sacrifice-azorius-herald-90c4b4d674/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-trigger-condition-mana-spent-to-cast-bab4ebf511/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-trigger-condition-mana-spent-to-cast-bab4ebf511-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-10T024909Z-engine-auto-trigger-condition-mana-spent-to-cast-bab4ebf511-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-10T02:58:05Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-multi-consuming-ferocity-5554eeba11/v1"
+    ],
+    "engine_ticket": "ticket:engine.auto-triggered-attached-creature-power-damage-to-cont-a4f5a91aad/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-triggered-attached-creature-power-damage-to-cont-a4f5a91aad-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-14T191911Z-engine-auto-triggered-attached-creature-power-damage-to-cont-a4f5a91aad-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-14T19:25:56Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-pump-doran-besieged-by-time-2ce2ddae6d/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-triggered-event-creature-power-toughness-differe-f84b1cb0da/v3",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-triggered-event-creature-power-toughness-differe-f84b1cb0da-v3.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-14T190353Z-engine-auto-triggered-event-creature-power-toughness-differe-f84b1cb0da-v3-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-14T19:08:31Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-destroy-ragnarok-divine-deliverance-aa5decbbb2/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-triggered-multi-target-effect-sequence-62c9bf423c/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-triggered-multi-target-effect-sequence-62c9bf423c-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-11T004617Z-engine-auto-triggered-multi-target-effect-sequence-62c9bf423c-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-11T00:51:50Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.plan-pump-monoist-circuit-feeder-2a48b57d10/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-triggered-sequence-dual-independent-targets-e3d2439f8b/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-triggered-sequence-dual-independent-targets-e3d2439f8b-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": true,
+    "failed_gates": [
+      "patch-apply"
+    ],
+    "failure_category": "missing_evidence",
+    "named_seam_files": [],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "claude-staged@1.0.0",
+    "receipt": "docs/factory-ng/runs/2026-09-10T205241Z-engine-auto-triggered-sequence-dual-independent-targets-e3d2439f8b-v2-claude.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-10T20:56:40Z"
+  },
+  {
+    "attempts": 1,
+    "blocked_map_jobs": [
+      "ticket:map.frontier-c28a32f2ac9f/v2"
+    ],
+    "engine_ticket": "ticket:engine.auto-venture-into-dungeon-effect-417a75a77c/v2",
+    "engine_ticket_path": "docs/factory-ng/tickets/engine-auto-venture-into-dungeon-effect-417a75a77c-v2.json",
+    "evidence_insufficient_signal": true,
+    "explicit_ambiguous_verdict": false,
+    "failed_gates": [
+      "initial-patch-apply",
+      "patch-apply"
+    ],
+    "failure_category": "model_response",
+    "named_seam_files": [
+      "backend/game/ability_effects.go"
+    ],
+    "no_verdict_in_output": false,
+    "outcome": "parked",
+    "profile": "qwen-prepared-local@1.0.1",
+    "receipt": "docs/factory-ng/runs/2026-09-19T082641Z-engine-auto-venture-into-dungeon-effect-417a75a77c-v2-qwen-agentic.json",
+    "repair_lane_eligible": false,
+    "retry_generation": null,
+    "scope_excluded_signal": false,
+    "state": "parked",
+    "updated_at": "2026-09-19T08:30:47Z"
+  }
+]

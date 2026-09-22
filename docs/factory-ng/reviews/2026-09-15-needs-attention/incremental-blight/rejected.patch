@@ -1,0 +1,173 @@
+diff --git a/backend/cards/converter.go b/backend/cards/converter.go
+index d1591d3612efb14a6d8709bf3623d0ed690196c6..d9cc2afea73519dfd2e008d6156bc949206cf038 100644
+--- a/backend/cards/converter.go
++++ b/backend/cards/converter.go
+@@ -145,6 +145,7 @@ func (def *CardDefinition) ToGameCard(owner int) (*game.Card, error) {
+ 				continue
+ 			}
+ 			independentDamageTargets := false
++			putCounterTargetCount := 0
+ 			for ai := range ab.Effects {
+ 				if ai > 0 && ab.Effects[ai].Target != nil &&
+ 					(CanonicalEffect(ab.Effects[ai].Effect) == "damage_by_power" ||
+@@ -153,6 +154,15 @@ func (def *CardDefinition) ToGameCard(owner int) (*game.Card, error) {
+ 					break
+ 				}
+ 			}
++			for _, atom := range ab.Effects {
++				if atom.Target != nil &&
++					(CanonicalEffect(atom.Effect) == "put_counters" ||
++						CanonicalEffect(atom.Effect) == "put_counter") {
++					putCounterTargetCount++
++				}
++			}
++			independentPutCounterTargets := putCounterTargetCount > 1
++			targetSlot := 0
+ 			for ai, atom := range ab.Effects {
+ 				// "Exile ~." as one step of a v2 sequence (task-1922, e.g.
+ 				// "Discard your hand, then draw eight cards. ~ deals 8
+@@ -348,6 +358,13 @@ func (def *CardDefinition) ToGameCard(owner int) (*game.Card, error) {
+ 						spec.TargetType = game.TargetType("unsupported_target_filter")
+ 					}
+ 				}
++				if independentPutCounterTargets && atom.Target != nil {
++					if effect == "put_counters" || effect == "put_counter" {
++						slot := targetSlot
++						spec.TargetIndex = &slot
++					}
++					targetSlot++
++				}
+ 				if atom.Granted != nil && atom.Granted.Type == "activated" {
+ 					spec.GrantedActivated = AbilityToActivated(*atom.Granted, card, 3000+i*100+ai)
+ 				}
+@@ -385,7 +402,11 @@ func (def *CardDefinition) ToGameCard(owner int) (*game.Card, error) {
+ 						}
+ 					}
+ 				}
+-				if n == 1 {
++				if independentPutCounterTargets {
++					minTargets = n
++					maxTargets = n
++				}
++				if n == 1 || independentPutCounterTargets {
+ 					card.SpellEffect = &game.SpellEffect{Type: "seq_target_stub", SpellTargetType: tf, MinTargets: minTargets, MaxTargets: maxTargets}
+ 				}
+ 			}
+diff --git a/backend/game/effect_sequence.go b/backend/game/effect_sequence.go
+index f220288a281380c24a34d55b47e667a8efd50854..b77d696ff5796daaae67435c3e1f2941d62d72be 100644
+--- a/backend/game/effect_sequence.go
++++ b/backend/game/effect_sequence.go
+@@ -44,6 +44,10 @@ type EffectAtomSpec struct {
+ 	// targeted atoms still ride the cast-side SpellEffect stub instead
+ 	// (cards/converter.go round 2a), not this field.
+ 	TargetType TargetType `json:"target_type,omitempty"`
++	// TargetIndex selects the independently chosen spell target for this
++	// sequence atom when multiple targeted put_counters atoms share one
++	// spell resolution.
++	TargetIndex *int `json:"target_index,omitempty"`
+ 	// TargetQualifier narrows a TRIGGERED ability's own EffectSequence atom
+ 	// target past the bare TargetType filter word — Subtype/Attacking/
+ 	// Controller/Other (trigger-target qualifier round, task-2418). nil for
+@@ -515,6 +519,14 @@ func (gs *GameState) executeEffectSequenceEv(controller int, source *Card, atoms
+ 		// return ever got scheduled). Bypass routing for this one effect
+ 		// name and always forward the ability's shared targets directly.
+ 		seqTargets := targets
++		if atom.TargetIndex != nil {
++			index := *atom.TargetIndex
++			if index < 0 || index >= len(targets) {
++				seqTargets = nil
++			} else {
++				seqTargets = targets[index : index+1]
++			}
++		}
+ 		// sacrifice_until_next_end_step (ticket #3193, Rule 603.7 delayed
+ 		// trigger) is the same shape as exile_until_next_end_step: "Sacrifice
+ 		// it" never carries its own TargetType marker, so routeSeqTargets'
+@@ -753,6 +765,13 @@ func (gs *GameState) executeSequenceAtomEv(controller int, source *Card, atom *E
+ // atom is marked (legacy records; activated ability.Target promotion), every
+ // atom receives them, preserving pre-round behavior.
+ func routeSeqTargets(atoms []EffectAtomSpec, atom *EffectAtomSpec, targets []Target) []Target {
++	if atom.TargetIndex != nil {
++		index := *atom.TargetIndex
++		if index < 0 || index >= len(targets) {
++			return nil
++		}
++		return targets[index : index+1]
++	}
+ 	anyMarked := false
+ 	for i := range atoms {
+ 		if atoms[i].TargetType != "" {
+diff --git a/backend/game/factory_ng_a8e4b194e3_test.go b/backend/game/factory_ng_a8e4b194e3_test.go
+new file mode 100644
+index 0000000000000000000000000000000000000000..766019066f13ef62650b63e20a891b0f959deb4e
+--- /dev/null
++++ b/backend/game/factory_ng_a8e4b194e3_test.go
+@@ -0,0 +1,68 @@
++package game_test
++
++import (
++	"testing"
++
++	"magic-backend/cards"
++	"magic-backend/game"
++)
++
++func TestFactoryNGPutCountersIndependentMultiTargetSequence_a8e4b194e3(t *testing.T) {
++	def := &cards.CardDefinition{
++		Name:  "Incremental Blight",
++		Type:  "Instant",
++		Types: []string{"Instant"},
++		Abilities: []cards.AbilityDSL{{
++			Type: "spell",
++			Effects: []cards.EffectAtom{
++				{Effect: "put_counters", Value: map[string]interface{}{
++					"amount": 1, "counter_type": "-1/-1",
++				}, Target: &cards.TargetFilter{Filter: "creature", MinTargets: 1, MaxTargets: 1}},
++				{Effect: "put_counters", Value: map[string]interface{}{
++					"amount": 2, "counter_type": "-1/-1",
++				}, Target: &cards.TargetFilter{Filter: "creature", MinTargets: 1, MaxTargets: 1}},
++				{Effect: "put_counters", Value: map[string]interface{}{
++					"amount": 3, "counter_type": "-1/-1",
++				}, Target: &cards.TargetFilter{Filter: "creature", MinTargets: 1, MaxTargets: 1}},
++			},
++		}},
++	}
++
++	spell, err := def.ToGameCard(0)
++	if err != nil {
++		t.Fatal(err)
++	}
++
++	gs := game.NewGame("P0", "P1", false)
++	one := game.NewCreature("One", game.ManaCost{}, 5, 5, 1)
++	two := game.NewCreature("Two", game.ManaCost{}, 5, 5, 1)
++	three := game.NewCreature("Three", game.ManaCost{}, 5, 5, 1)
++	gs.Battlefield.AddCard(one)
++	gs.Battlefield.AddCard(two)
++	gs.Battlefield.AddCard(three)
++	gs.Players[0].Hand.AddCard(spell)
++
++	targets := []game.Target{
++		{IsCard: true, CardID: one.ID},
++		{IsCard: true, CardID: two.ID},
++		{IsCard: true, CardID: three.ID},
++	}
++	if err := gs.CastSpellWithTargets(0, spell.ID, targets); err != nil {
++		t.Fatal(err)
++	}
++	for !gs.Stack.IsEmpty() {
++		if err := gs.ResolveTopOfStack(); err != nil {
++			t.Fatal(err)
++		}
++	}
++
++	if got := one.Counters.GetCount(game.CounterMinusOneMinusOne); got != 1 {
++		t.Fatalf("first target counters=%d, want 1", got)
++	}
++	if got := two.Counters.GetCount(game.CounterMinusOneMinusOne); got != 2 {
++		t.Fatalf("second target counters=%d, want 2", got)
++	}
++	if got := three.Counters.GetCount(game.CounterMinusOneMinusOne); got != 3 {
++		t.Fatalf("third target counters=%d, want 3", got)
++	}
++}

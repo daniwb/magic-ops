@@ -1,0 +1,12 @@
+[
+  {
+    "ticket_id": "ticket:engine.operator-filtered-pump-recovery-sep15/v2",
+    "ticket_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/filtered-pump-rebase/ticket.json",
+    "proposal": "docs/factory-ng/candidates/proposal-f8705111c0894bba8a464dc8b8ecdb28.json",
+    "identity": {
+      "worker": "operator",
+      "model": "operator-correction-no-worker-provider-run",
+      "profile": "codex-constrained@1.1.0"
+    }
+  }
+]

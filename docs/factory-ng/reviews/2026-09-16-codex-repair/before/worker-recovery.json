@@ -1,0 +1,1747 @@
+{
+  "schema": "factory.reviewed-attention-recovery/v1",
+  "batch": "needs-attention-2026-09-15",
+  "max_active": 6,
+  "authorization": "User requested review and repair of all Needs attention tickets on 2026-09-15. One additional bounded attempt under current compatible harnesses; no attempt resets or gate changes.",
+  "tickets": [
+    {
+      "ticket_id": "ticket:engine.auto-remove-all-source-counters-with-linked-amount-efe3e9ca1c/v1",
+      "ticket_sha256": "sha256:c272aecbda1a524d6fa2850b5dfb6feb54bebe16dd7c2026ef154d973d19d509",
+      "receipt": "docs/factory-ng/runs/2026-09-15T091632Z-engine-auto-remove-all-source-counters-with-linked-amount-efe3e9ca1c-v1-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-15T09:16:27Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-15T091632Z-engine-auto-remove-all-source-counters-with-linked-amount-efe3e9ca1c-v1-codex.json",
+      "evidence_sha256": "sha256:f50b1a9c97af48e18fe3d7eb485e3eef015a7b6347b10afb615528f16e9dd69d",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_capacity",
+      "reason": "The provider terminated with an explicit model-capacity rejection and no accepted proposal resulted. Partial work, if any, remains retained. Current Codex workers have since produced accepted patches; only an error-only rejection is classified as provider-capacity by the updated adapter. One reviewed attempt is authorized without resetting counters."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-sequence-excess-damage-token-count-109b0ec3af/v2",
+      "ticket_sha256": "sha256:e216026139c50a7f5b7b84a9742c09d5094f4dbbdb69af9d36a821cd310c8d0e",
+      "receipt": "docs/factory-ng/runs/2026-09-15T091343Z-engine-auto-sequence-excess-damage-token-count-109b0ec3af-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-15T09:13:40Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-15T091343Z-engine-auto-sequence-excess-damage-token-count-109b0ec3af-v2-codex.json",
+      "evidence_sha256": "sha256:9881d5f8a844ff06de6569f480fe61213293098ee55a427ec81f1c35f431742a",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_capacity",
+      "reason": "The provider terminated with an explicit model-capacity rejection and no accepted proposal resulted. Partial work, if any, remains retained. Current Codex workers have since produced accepted patches; only an error-only rejection is classified as provider-capacity by the updated adapter. One reviewed attempt is authorized without resetting counters."
+    },
+    {
+      "ticket_id": "ticket:map.plan-multi-sylvan-smite-eb280a50a2/v1",
+      "ticket_sha256": "sha256:4d5c1b044b93c03af973e07718e86c45d09844d13ec77de5a35c4e99b6d0c888",
+      "receipt": "docs/factory-ng/runs/2026-09-15T091109Z-map-plan-multi-sylvan-smite-eb280a50a2-v1-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-15T09:11:06Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-15T091109Z-map-plan-multi-sylvan-smite-eb280a50a2-v1-codex.json",
+      "evidence_sha256": "sha256:743cf613da9218bc3cb90ee9f5309a7cfec071b6a1590c2562b19b117e044833",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_capacity",
+      "reason": "The provider terminated with an explicit model-capacity rejection and no accepted proposal resulted. Partial work, if any, remains retained. Current Codex workers have since produced accepted patches; only an error-only rejection is classified as provider-capacity by the updated adapter. One reviewed attempt is authorized without resetting counters."
+    },
+    {
+      "ticket_id": "ticket:map.plan-pump-righteous-indignation-6d54d5491f/v2",
+      "ticket_sha256": "sha256:3a25704a6e1913e9fc55e66f84298b4f375b3d4952941aed9767e0cb63c115f9",
+      "receipt": "docs/factory-ng/runs/2026-09-15T090822Z-map-plan-pump-righteous-indignation-6d54d5491f-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-15T09:08:20Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-15T090822Z-map-plan-pump-righteous-indignation-6d54d5491f-v2-codex.json",
+      "evidence_sha256": "sha256:668cff4de5123898e30404e54af9e4ac2dbfd71853399e336139692ddbec931e",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_capacity",
+      "reason": "The provider terminated with an explicit model-capacity rejection and no accepted proposal resulted. Partial work, if any, remains retained. Current Codex workers have since produced accepted patches; only an error-only rejection is classified as provider-capacity by the updated adapter. One reviewed attempt is authorized without resetting counters."
+    },
+    {
+      "ticket_id": "ticket:map.plan-grant-eot-revelation-of-power-850cd79af8/v2",
+      "ticket_sha256": "sha256:5ae710c0c2ea663494a53efdf60566c3b1b2060887f87213fbcc9af682329fee",
+      "receipt": "docs/factory-ng/runs/2026-09-15T090550Z-map-plan-grant-eot-revelation-of-power-850cd79af8-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-15T09:05:47Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-15T090550Z-map-plan-grant-eot-revelation-of-power-850cd79af8-v2-codex.json",
+      "evidence_sha256": "sha256:31e18f0fc70dad227f7053804371ea0f1ad461313f21a2876c1f321410ca0db4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_capacity",
+      "reason": "The provider terminated with an explicit model-capacity rejection and no accepted proposal resulted. Partial work, if any, remains retained. Current Codex workers have since produced accepted patches; only an error-only rejection is classified as provider-capacity by the updated adapter. One reviewed attempt is authorized without resetting counters."
+    },
+    {
+      "ticket_id": "ticket:map.plan-damage-retromancer-e4dfae8651/v2",
+      "ticket_sha256": "sha256:222ac5b1d9d0d5046eb01c726845e6e952fe5b9f1aaa9c52dbf6e151d581b9b2",
+      "receipt": "docs/factory-ng/runs/2026-09-15T085615Z-map-plan-damage-retromancer-e4dfae8651-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-15T08:56:14Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-15T085615Z-map-plan-damage-retromancer-e4dfae8651-v2-codex.json",
+      "evidence_sha256": "sha256:aa817450f5e8ecd662e197483c0640e77bdc6674d2170be88f528cf4d4eff30c",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_capacity",
+      "reason": "The provider terminated with an explicit model-capacity rejection and no accepted proposal resulted. Partial work, if any, remains retained. Current Codex workers have since produced accepted patches; only an error-only rejection is classified as provider-capacity by the updated adapter. One reviewed attempt is authorized without resetting counters."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-combat-damage-recipient-creature-filter-bb8e92c7a7/v1",
+      "ticket_sha256": "sha256:6a1992a6191e615d83264118cba5c69c3bf72700c36b51c5b2534b6c870c9c3b",
+      "receipt": "docs/factory-ng/runs/2026-09-15T085439Z-engine-auto-combat-damage-recipient-creature-filter-bb8e92c7a7-v1-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-15T08:54:38Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-15T085439Z-engine-auto-combat-damage-recipient-creature-filter-bb8e92c7a7-v1-codex.json",
+      "evidence_sha256": "sha256:59147909566f7a5b23d08fd1d61fae42aca24a45fb3410868210b8fe23ffcf56",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_capacity",
+      "reason": "The provider terminated with an explicit model-capacity rejection and no accepted proposal resulted. Partial work, if any, remains retained. Current Codex workers have since produced accepted patches; only an error-only rejection is classified as provider-capacity by the updated adapter. One reviewed attempt is authorized without resetting counters."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-put-counters-on-combat-related-creatures-7fda0f0882/v3",
+      "ticket_sha256": "sha256:e1d4bf27155741a51a855c27363b14458a10810ac9fc2c35770e920c50c6e889",
+      "receipt": "docs/factory-ng/runs/2026-09-15T085249Z-engine-auto-put-counters-on-combat-related-creatures-7fda0f0882-v3-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-15T08:52:48Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-15T085249Z-engine-auto-put-counters-on-combat-related-creatures-7fda0f0882-v3-codex.json",
+      "evidence_sha256": "sha256:a7fd4b5edcdaf684ac16bc9fe8cdacc40ee6e5435185fc28a2878cb61198ab3e",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_capacity",
+      "reason": "The provider terminated with an explicit model-capacity rejection and no accepted proposal resulted. Partial work, if any, remains retained. Current Codex workers have since produced accepted patches; only an error-only rejection is classified as provider-capacity by the updated adapter. One reviewed attempt is authorized without resetting counters."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-fractional-filtered-sacrifice-half-rounded-up-febb727aef/v1",
+      "ticket_sha256": "sha256:a83f5b90cbd97c4dea6dc505b1477ab526e0b536b959e4d2dd0fd9cbc08d42ed",
+      "receipt": "docs/factory-ng/runs/2026-09-15T084854Z-engine-auto-fractional-filtered-sacrifice-half-rounded-up-febb727aef-v1-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-15T08:48:52Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-15T084854Z-engine-auto-fractional-filtered-sacrifice-half-rounded-up-febb727aef-v1-codex.json",
+      "evidence_sha256": "sha256:10eb1c63ff119d9948953ab41e8854798e1b6b0c4a5514ca632184a3e0de0d85",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-put-counters-independent-multi-target-sequence-a8e4b194e3/v1",
+      "ticket_sha256": "sha256:15fa39624991630cd0bf8f4e9fbc99e2cda5c45103314693c1c294c9c2648ee4",
+      "receipt": "docs/factory-ng/runs/2026-09-15T085105Z-engine-auto-put-counters-independent-multi-target-sequence-a8e4b194e3-v1-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-15T08:51:04Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-15T085105Z-engine-auto-put-counters-independent-multi-target-sequence-a8e4b194e3-v1-codex.json",
+      "evidence_sha256": "sha256:c64a2d8ad658f1923b9784bea97fbd56bd5406145692eec0f94130db4f2d36cd",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_capacity",
+      "reason": "The provider terminated with an explicit model-capacity rejection and no accepted proposal resulted. Partial work, if any, remains retained. Current Codex workers have since produced accepted patches; only an error-only rejection is classified as provider-capacity by the updated adapter. One reviewed attempt is authorized without resetting counters."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-target-player-compound-sacrifice-damage-99c146a20f/v1",
+      "ticket_sha256": "sha256:f5d09997b813572d6aaff71b64030d138c8d9a05f12747a09cdbce2016386dd8",
+      "receipt": "docs/factory-ng/runs/2026-09-15T084954Z-engine-auto-target-player-compound-sacrifice-damage-99c146a20f-v1-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-15T08:49:52Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-15T084954Z-engine-auto-target-player-compound-sacrifice-damage-99c146a20f-v1-codex.json",
+      "evidence_sha256": "sha256:23baa4229a422af54e45960d9f3a1a643d5e8233b889209428bc9d33c6e9f8ba",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_capacity",
+      "reason": "The provider terminated with an explicit model-capacity rejection and no accepted proposal resulted. Partial work, if any, remains retained. Current Codex workers have since produced accepted patches; only an error-only rejection is classified as provider-capacity by the updated adapter. One reviewed attempt is authorized without resetting counters."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-copy-all-controlled-stack-objects-f0627c34c8/v1",
+      "ticket_sha256": "sha256:9a3ad0fd07e8938d6ebf66f87eb928473fed8e3698c63d441871c6d035ee1f8d",
+      "receipt": "docs/factory-ng/runs/2026-09-15T084809Z-engine-auto-copy-all-controlled-stack-objects-f0627c34c8-v1-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-15T08:48:08Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-15T084809Z-engine-auto-copy-all-controlled-stack-objects-f0627c34c8-v1-codex.json",
+      "evidence_sha256": "sha256:0992aa698d4692ad837e0611a80badce77f0898815b88a80f7b11ae78427f18a",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_capacity",
+      "reason": "The provider terminated with an explicit model-capacity rejection and no accepted proposal resulted. Partial work, if any, remains retained. Current Codex workers have since produced accepted patches; only an error-only rejection is classified as provider-capacity by the updated adapter. One reviewed attempt is authorized without resetting counters."
+    },
+    {
+      "ticket_id": "ticket:map.plan-multi-stone-giant-ffd78803cd/v1",
+      "ticket_sha256": "sha256:6d56757d58ee22af8ace0c853b4623bcddda35781fa8ded51502b671bd2145d8",
+      "receipt": "docs/factory-ng/runs/2026-09-15T084536Z-map-plan-multi-stone-giant-ffd78803cd-v1-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-15T08:45:33Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-15T084536Z-map-plan-multi-stone-giant-ffd78803cd-v1-codex.json",
+      "evidence_sha256": "sha256:69fe7c37cad4baa6a6d704acb8b4eba2ff124c4c7f27d3a10136d699f455ae0b",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_capacity",
+      "reason": "The provider terminated with an explicit model-capacity rejection and no accepted proposal resulted. Partial work, if any, remains retained. Current Codex workers have since produced accepted patches; only an error-only rejection is classified as provider-capacity by the updated adapter. One reviewed attempt is authorized without resetting counters."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-prevent-combat-damage-to-and-by-referent-123447f8f0/v3",
+      "ticket_sha256": "sha256:597920cfd1485e7e3b86c69926bb2f06743304534cc0bf0a6d80b6fd8162f7a7",
+      "receipt": "docs/factory-ng/runs/2026-09-15T080105Z-engine-auto-prevent-combat-damage-to-and-by-referent-123447f8f0-v3-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-15T08:01:03Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-15T080105Z-engine-auto-prevent-combat-damage-to-and-by-referent-123447f8f0-v3-codex.json",
+      "evidence_sha256": "sha256:ecdef4a1c3337878b84698cd7ec1e560376df0432ad20d266f7135ece74c9f45",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_capacity",
+      "reason": "The provider terminated with an explicit model-capacity rejection and no accepted proposal resulted. Partial work, if any, remains retained. Current Codex workers have since produced accepted patches; only an error-only rejection is classified as provider-capacity by the updated adapter. One reviewed attempt is authorized without resetting counters."
+    },
+    {
+      "ticket_id": "ticket:map.plan-pump-rabble-rouser-21e06a8b0b/v2",
+      "ticket_sha256": "sha256:bff6af4f2a55ef7bf74d8b7e65da5d3c4626102eaf92f28b49b7dafbafa90e3f",
+      "receipt": "docs/factory-ng/runs/2026-09-15T075533Z-map-plan-pump-rabble-rouser-21e06a8b0b-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-15T07:55:32Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-15T075533Z-map-plan-pump-rabble-rouser-21e06a8b0b-v2-codex.json",
+      "evidence_sha256": "sha256:0e17b6c5c10ad5307d8036b5925f779e08aa9b5bfbff8e59f864da1bb61acdc9",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_capacity",
+      "reason": "The provider terminated with an explicit model-capacity rejection and no accepted proposal resulted. Partial work, if any, remains retained. Current Codex workers have since produced accepted patches; only an error-only rejection is classified as provider-capacity by the updated adapter. One reviewed attempt is authorized without resetting counters."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-enchanted-attached-creature-9b5f19f1fc/v2",
+      "ticket_sha256": "sha256:e30380c4462154456d08da545d76473738b8d71103422dda298c962418693a0b",
+      "receipt": "docs/factory-ng/runs/2026-09-15T075500Z-engine-auto-damage-enchanted-attached-creature-9b5f19f1fc-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-15T07:54:59Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-15T075500Z-engine-auto-damage-enchanted-attached-creature-9b5f19f1fc-v2-codex.json",
+      "evidence_sha256": "sha256:5add8349338b610a5c224584086209afe06391a93cc22cbfd99fb2992d6e9a75",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_capacity",
+      "reason": "The provider terminated with an explicit model-capacity rejection and no accepted proposal resulted. Partial work, if any, remains retained. Current Codex workers have since produced accepted patches; only an error-only rejection is classified as provider-capacity by the updated adapter. One reviewed attempt is authorized without resetting counters."
+    },
+    {
+      "ticket_id": "ticket:map.plan-pump-prismabasher-f1d1567dae/v2",
+      "ticket_sha256": "sha256:bafbd0097e96149c24336c30b0af0b56c4dbcc4f998a986dbc2545ee45172be0",
+      "receipt": "docs/factory-ng/runs/2026-09-15T075424Z-map-plan-pump-prismabasher-f1d1567dae-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-15T07:54:22Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-15T075424Z-map-plan-pump-prismabasher-f1d1567dae-v2-codex.json",
+      "evidence_sha256": "sha256:3fafb3410a42ab5c1876dac0d3e924ff340108f2a41feb16e673b6a6a0ef6658",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_capacity",
+      "reason": "The provider terminated with an explicit model-capacity rejection and no accepted proposal resulted. Partial work, if any, remains retained. Current Codex workers have since produced accepted patches; only an error-only rejection is classified as provider-capacity by the updated adapter. One reviewed attempt is authorized without resetting counters."
+    },
+    {
+      "ticket_id": "ticket:map.plan-destroy-premature-burial-8c31678b86/v2",
+      "ticket_sha256": "sha256:f3bc5aaaa8bf9fbfa97b70cedaae192ddccb05750ce28e314421eb0b1d17cdfe",
+      "receipt": "docs/factory-ng/runs/2026-09-15T075350Z-map-plan-destroy-premature-burial-8c31678b86-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-15T07:53:48Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-15T075350Z-map-plan-destroy-premature-burial-8c31678b86-v2-codex.json",
+      "evidence_sha256": "sha256:514d0508678f6bf1e62baaf1ba7da77434dcdbd3516186de06b7db3b26b6aa56",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_capacity",
+      "reason": "The provider terminated with an explicit model-capacity rejection and no accepted proposal resulted. Partial work, if any, remains retained. Current Codex workers have since produced accepted patches; only an error-only rejection is classified as provider-capacity by the updated adapter. One reviewed attempt is authorized without resetting counters."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-sacrifice-self-unless-mill-4b119c08d6/v1",
+      "ticket_sha256": "sha256:9fb49391e0cfa6057d8e2503e639556d486a49692e70f762e5e1df51d903dcc7",
+      "receipt": "docs/factory-ng/runs/2026-09-14T100539Z-engine-auto-sacrifice-self-unless-mill-4b119c08d6-v1-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-14T10:13:29Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-14T100539Z-engine-auto-sacrifice-self-unless-mill-4b119c08d6-v1-codex.json",
+      "evidence_sha256": "sha256:9824e1ee1ddabd410e6c44e3b071cd7af3177213d7c7fae72015bdfa93d791aa",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_capacity",
+      "reason": "The provider terminated with an explicit model-capacity rejection and no accepted proposal resulted. Partial work, if any, remains retained. Current Codex workers have since produced accepted patches; only an error-only rejection is classified as provider-capacity by the updated adapter. One reviewed attempt is authorized without resetting counters."
+    },
+    {
+      "ticket_id": "ticket:map.plan-damage-force-of-nature-ceed866a48/v2",
+      "ticket_sha256": "sha256:80e0bdacc060e5c993400ef01964e1cae645c252fc75972442f4f7a7ffff4865",
+      "receipt": "docs/factory-ng/runs/2026-09-14T100539Z-map-plan-damage-force-of-nature-ceed866a48-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-14T10:05:35Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-14T100539Z-map-plan-damage-force-of-nature-ceed866a48-v2-codex.json",
+      "evidence_sha256": "sha256:6697bd82c2b3fd0613818573d31e48d29de756afe6529e39159a2c8d0ada977d",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_capacity",
+      "reason": "The provider terminated with an explicit model-capacity rejection and no accepted proposal resulted. Partial work, if any, remains retained. Current Codex workers have since produced accepted patches; only an error-only rejection is classified as provider-capacity by the updated adapter. One reviewed attempt is authorized without resetting counters."
+    },
+    {
+      "ticket_id": "ticket:map.plan-multi-frenzied-fugue-a4f2dc8c74/v1",
+      "ticket_sha256": "sha256:c8bc249885775f32d546959371cb02c7f12f188bfee434e826b62c075cc8e431",
+      "receipt": "docs/factory-ng/runs/2026-09-14T095037Z-map-plan-multi-frenzied-fugue-a4f2dc8c74-v1-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-14T09:50:35Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-14T095037Z-map-plan-multi-frenzied-fugue-a4f2dc8c74-v1-codex.json",
+      "evidence_sha256": "sha256:be644982193a30c2a87c1e552f2148e0abad991b63e61b4d6e54bf11588d8470",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_capacity",
+      "reason": "The provider terminated with an explicit model-capacity rejection and no accepted proposal resulted. Partial work, if any, remains retained. Current Codex workers have since produced accepted patches; only an error-only rejection is classified as provider-capacity by the updated adapter. One reviewed attempt is authorized without resetting counters."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-enchanted-player-or-controlled-planeswalk-d9c6b90b0e/v2",
+      "ticket_sha256": "sha256:382019080dab4db0bb8c5cfa113d5bd977dd5f62c78dbd3b1715630b1b23944f",
+      "receipt": "docs/factory-ng/runs/2026-09-14T094920Z-engine-auto-damage-enchanted-player-or-controlled-planeswalk-d9c6b90b0e-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-14T09:49:18Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-14T094920Z-engine-auto-damage-enchanted-player-or-controlled-planeswalk-d9c6b90b0e-v2-codex.json",
+      "evidence_sha256": "sha256:820f030af2f1703548e462e9d831803a9b3533bc28b9191f57929f9d5927e4d1",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_capacity",
+      "reason": "The provider terminated with an explicit model-capacity rejection and no accepted proposal resulted. Partial work, if any, remains retained. Current Codex workers have since produced accepted patches; only an error-only rejection is classified as provider-capacity by the updated adapter. One reviewed attempt is authorized without resetting counters."
+    },
+    {
+      "ticket_id": "ticket:map.plan-multi-angel-of-serenity-9784e9b8d6/v1",
+      "ticket_sha256": "sha256:cedcdc67bcb06683651f7de87f0afe89003869f6a261e714ba66f7d97a5f86dd",
+      "receipt": "docs/factory-ng/runs/2026-09-14T082554Z-map-plan-multi-angel-of-serenity-9784e9b8d6-v1-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-14T08:25:52Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-14T082554Z-map-plan-multi-angel-of-serenity-9784e9b8d6-v1-codex.json",
+      "evidence_sha256": "sha256:b86f83fef68099bd45cf500ae016dd917a07702d5943ce553ea85e4a2b075341",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_capacity",
+      "reason": "The provider terminated with an explicit model-capacity rejection and no accepted proposal resulted. Partial work, if any, remains retained. Current Codex workers have since produced accepted patches; only an error-only rejection is classified as provider-capacity by the updated adapter. One reviewed attempt is authorized without resetting counters."
+    },
+    {
+      "ticket_id": "ticket:map.plan-counter-dovin-s-veto-da0aa55667/v2",
+      "ticket_sha256": "sha256:6cec1127b6ce004262a005891faecd4c244c99d79e59637cfac93d30e791eec3",
+      "receipt": "docs/factory-ng/runs/2026-09-14T080436Z-map-plan-counter-dovin-s-veto-da0aa55667-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-14T08:04:35Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-14T080436Z-map-plan-counter-dovin-s-veto-da0aa55667-v2-codex.json",
+      "evidence_sha256": "sha256:66953de1435a6007a6abb4b839c18368fcb3f63b71a649207ae1f2d7ccef4eba",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_capacity",
+      "reason": "The provider terminated with an explicit model-capacity rejection and no accepted proposal resulted. Partial work, if any, remains retained. Current Codex workers have since produced accepted patches; only an error-only rejection is classified as provider-capacity by the updated adapter. One reviewed attempt is authorized without resetting counters."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-mass-damage-exclude-source-ecd06fa7e5/v2",
+      "ticket_sha256": "sha256:be309de8784c2e1956404c1a6bee44b7fcc9c8b9850dcefcbf3568db9701f0e9",
+      "receipt": "docs/factory-ng/runs/2026-09-14T075413Z-engine-auto-mass-damage-exclude-source-ecd06fa7e5-v2-claude.json",
+      "attempts": 3,
+      "started_at": "2026-09-14T07:54:12Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-14T075413Z-engine-auto-mass-damage-exclude-source-ecd06fa7e5-v2-claude.json",
+      "evidence_sha256": "sha256:cb89ec6383b036eb737df07696b7a1c0fa5d32f17eeeb7636d43dc912204e116",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "symbol_resolver",
+      "reason": "Pre-model missing hashlib import in symbol resolver. Import is now present and covered by resolver checks."
+    },
+    {
+      "ticket_id": "ticket:engine.staged-trial-verify-sigil/v2",
+      "ticket_sha256": "sha256:faf999dde0af7d0dd3bf965f180ce4b3c9e3f5139907e0126dfe0786b6812c0c",
+      "receipt": "docs/factory-ng/runs/2026-09-09T161806Z-engine-staged-trial-verify-sigil-v2-claude.json",
+      "attempts": 1,
+      "started_at": "2026-09-09T16:18:05Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-09T161806Z-engine-staged-trial-verify-sigil-v2-claude.json",
+      "evidence_sha256": "sha256:aa6ae1efd351f32e8c5ce0f6fd8c527806ebbc2e774509d3c7c98c9f543c5207",
+      "profiles": [
+        "claude-staged@1.0.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:map.plan-exile-scarab-feast-d952117a2a/v4",
+      "ticket_sha256": "sha256:d544ca09881b4c2393b804483ab298d97a7f628bb564e2016848db0946e64fcf",
+      "receipt": "docs/factory-ng/runs/2026-09-09T050633Z-map-plan-exile-scarab-feast-d952117a2a-v4-qwen.json",
+      "attempts": 1,
+      "started_at": "2026-09-09T05:06:33Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-09T050633Z-map-plan-exile-scarab-feast-d952117a2a-v4-qwen.json",
+      "evidence_sha256": "sha256:f592174324155f493a12c494c4ab0014cec6643a58f865309a014665aecb655c",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-each-of-x-targets-spell-registration-d078b33904/v1",
+      "ticket_sha256": "sha256:984d489a5777c49e6ed1a089a9770c1463893387c978ee357b0e6174d43669d9",
+      "receipt": "docs/factory-ng/runs/2026-09-09T033343Z-engine-auto-damage-each-of-x-targets-spell-registration-d078b33904-v1-qwen-agentic.json",
+      "attempts": 3,
+      "started_at": "2026-09-09T03:33:43Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-09T033343Z-engine-auto-damage-each-of-x-targets-spell-registration-d078b33904-v1-qwen-agentic.json",
+      "evidence_sha256": "sha256:4c32d59b562abb066469453160626f724f2a66d43ae69fcb0faf11e2706d2e16",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:map.plan-exile-rats-feast-5a756bbff8/v3",
+      "ticket_sha256": "sha256:4ea51ee9538b9fa5108f89bee6d8187f36eaf04681f87b97b9d4094fa9c936d0",
+      "receipt": "docs/factory-ng/runs/2026-09-09T012313Z-map-plan-exile-rats-feast-5a756bbff8-v3-qwen.json",
+      "attempts": 2,
+      "started_at": "2026-09-09T01:23:13Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-09T012313Z-map-plan-exile-rats-feast-5a756bbff8-v3-qwen.json",
+      "evidence_sha256": "sha256:c6a5caf4e41dac17fa59e6f755e175180c63e53ff969e80486117c42cb6776af",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:map.plan-damage-road-rage-f32e5d1b48/v2",
+      "ticket_sha256": "sha256:7072466b7acd3b0e1eda15b4e3796f638b64622ba66ec1030a15d39fd9fcaeb3",
+      "receipt": "docs/factory-ng/runs/2026-09-09T010150Z-map-plan-damage-road-rage-f32e5d1b48-v2-qwen.json",
+      "attempts": 1,
+      "started_at": "2026-09-09T01:01:50Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-09T010150Z-map-plan-damage-road-rage-f32e5d1b48-v2-qwen.json",
+      "evidence_sha256": "sha256:dde7c5be7e43759aaffe53cab9f93911e551d0349df9f8070c4e54fd98194111",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:map.plan-exile-aegis-sculptor-6fafc7e78e/v3",
+      "ticket_sha256": "sha256:fa074e43882d12389ee77d8be41d5ba89ba4b8d255139b5e8e752d5d0f2149e6",
+      "receipt": "docs/factory-ng/runs/2026-09-08T201128Z-map-plan-exile-aegis-sculptor-6fafc7e78e-v3-openrouter.json",
+      "attempts": 3,
+      "started_at": "2026-09-08T20:19:44Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-08T201128Z-map-plan-exile-aegis-sculptor-6fafc7e78e-v3-openrouter.json",
+      "evidence_sha256": "sha256:16b3deca1cc6e8958914a240e6c6f0ef83b99e8fb1d204d28c39ec9775888fee",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-grant-ability-until-eot-8ec4b633a2/v1",
+      "ticket_sha256": "sha256:c2f81d34adb1bba4a0fe3ee0f414e8e320d5db621f77737514b0a22f9c845ee8",
+      "receipt": "docs/factory-ng/runs/2026-09-08T034943Z-engine-auto-grant-ability-until-eot-8ec4b633a2-v1-qwen-agentic.json",
+      "attempts": 3,
+      "started_at": "2026-09-08T03:49:43Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-08T034943Z-engine-auto-grant-ability-until-eot-8ec4b633a2-v1-qwen-agentic.json",
+      "evidence_sha256": "sha256:c931b8ab8c15cffeecf67a2a9868af6844021fef18639bedb15fd7ff18c964de",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-ability-pump-filtered-no-target-1e97812a5d/v4",
+      "ticket_sha256": "sha256:45ff56bc2bfa7b932ec28704a1028d0e06af38819d831c2547245a7804bac7c4",
+      "receipt": "docs/factory-ng/runs/2026-09-07T123345Z-engine-auto-ability-pump-filtered-no-target-1e97812a5d-v4-qwen-agentic.json",
+      "attempts": 3,
+      "started_at": "2026-09-07T18:09:21Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-07T123345Z-engine-auto-ability-pump-filtered-no-target-1e97812a5d-v4-qwen-agentic.json",
+      "evidence_sha256": "sha256:0922cf0f004176a43de8d733376dd43c5095931e320fcbaaa6d5bafce067ddfd",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:map.plan-tap-lead-astray-27a4322784/v3",
+      "ticket_sha256": "sha256:069acc51e09839ca1bc518a96748017854284ba4636f9e355f3f9b4025010013",
+      "receipt": "docs/factory-ng/runs/2026-09-07T170314Z-map-plan-tap-lead-astray-27a4322784-v3-qwen.json",
+      "attempts": 1,
+      "started_at": "2026-09-07T17:03:14Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-07T170314Z-map-plan-tap-lead-astray-27a4322784-v3-qwen.json",
+      "evidence_sha256": "sha256:1d6dc5942ce7c753a3dbc9c8b85ac9b0de60b0e925ae58cfe121b7aaa9061810",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-exile-complex-filter-6e01106bce/v2",
+      "ticket_sha256": "sha256:a7c7ef0ad2b16259b792adda22f710dd64c2e210746a1405b1b9ad1132e54223",
+      "receipt": "docs/factory-ng/runs/2026-09-07T153002Z-engine-auto-exile-complex-filter-6e01106bce-v2-qwen-agentic.json",
+      "attempts": 3,
+      "started_at": "2026-09-07T15:30:02Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-07T153002Z-engine-auto-exile-complex-filter-6e01106bce-v2-qwen-agentic.json",
+      "evidence_sha256": "sha256:4b813b4fb60555923a6310658e9d34f1ca00660268dc46e51b2334c937090e12",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:map.plan-exile-time-to-reflect-261d7e6271/v2",
+      "ticket_sha256": "sha256:b93211ec697be9755c5f038f283213f1975180a44f61ab979a0916388d2ce8ea",
+      "receipt": "docs/factory-ng/runs/2026-09-07T142448Z-map-plan-exile-time-to-reflect-261d7e6271-v2-qwen.json",
+      "attempts": 1,
+      "started_at": "2026-09-07T14:24:47Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-07T142448Z-map-plan-exile-time-to-reflect-261d7e6271-v2-qwen.json",
+      "evidence_sha256": "sha256:f897434ae93642c3fd1f193301aef3784b0a2f3fb5e7ba5200f13426dedd2531",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-copy-triggering-permanent-spell-9e4be89001/v1",
+      "ticket_sha256": "sha256:a914159546bd28e2c9f089374b207224f5d1025ce9c9877866ca17e3faa4ea0d",
+      "receipt": "docs/factory-ng/runs/2026-09-07T134458Z-engine-auto-copy-triggering-permanent-spell-9e4be89001-v1-qwen-agentic.json",
+      "attempts": 3,
+      "started_at": "2026-09-07T13:44:57Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-07T134458Z-engine-auto-copy-triggering-permanent-spell-9e4be89001-v1-qwen-agentic.json",
+      "evidence_sha256": "sha256:85aeee44390b984893d8ec846b07a24af0e3623892274c34ca6b1deea80d6a04",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-bounce-permanent-sharing-type-1626ffcfbf/v3",
+      "ticket_sha256": "sha256:fea3d637e651407db2d3dc6a9214255cd1b2353543f78d62f97dfd9cec21566c",
+      "receipt": "docs/factory-ng/runs/2026-09-04T191439Z-engine-auto-bounce-permanent-sharing-type-1626ffcfbf-v3-qwen-agentic.json",
+      "attempts": 3,
+      "started_at": "2026-09-04T19:14:39Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-04T191439Z-engine-auto-bounce-permanent-sharing-type-1626ffcfbf-v3-qwen-agentic.json",
+      "evidence_sha256": "sha256:47cffc092864cce8730113cfd4f06f853df7d41d43e222a93fdd934fd4e9e1c3",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "clone_preflight",
+      "reason": "Historical clone failure. Current canonical clone succeeded and filesystem has 49 GiB free."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-conditional-damage-to-referent-player-768261106f/v2",
+      "ticket_sha256": "sha256:5156da58a5eb0daf06bd4e583538103a50c6e6a265a0a8d48542aa222b406da8",
+      "receipt": "docs/factory-ng/runs/2026-09-04T191112Z-engine-auto-conditional-damage-to-referent-player-768261106f-v2-claude.json",
+      "attempts": 3,
+      "started_at": "2026-09-04T19:11:12Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-04T191112Z-engine-auto-conditional-damage-to-referent-player-768261106f-v2-claude.json",
+      "evidence_sha256": "sha256:c4a350dcf6da83c90ebee819dec027ed10a9b69a04deefb938aa14d5002e6d3c",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "clone_preflight",
+      "reason": "Historical clone failure. Current canonical clone succeeded and filesystem has 49 GiB free."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-equal-to-source-power-to-flying-creature-4efc529ec4/v2",
+      "ticket_sha256": "sha256:a14eb34eef8292dc29064d4d73bdef9017532b51427b8d0438f001dbd1442d69",
+      "receipt": "docs/factory-ng/runs/2026-09-04T214025Z-engine-auto-damage-equal-to-source-power-to-flying-creature-4efc529ec4-v2-qwen-agentic.json",
+      "attempts": 3,
+      "started_at": "2026-09-04T21:40:24Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-04T214025Z-engine-auto-damage-equal-to-source-power-to-flying-creature-4efc529ec4-v2-qwen-agentic.json",
+      "evidence_sha256": "sha256:f18ce0016cab24daae49864f68ac897d1fd1d107e6b21b7e878034cc589b082a",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-punisher-choice-e36bbf48c8/v2",
+      "ticket_sha256": "sha256:d08afb6cafce7cc48ca950c8facc68c541c149144d8b7687949b59199fba7f22",
+      "receipt": "docs/factory-ng/runs/2026-09-04T191112Z-engine-auto-damage-punisher-choice-e36bbf48c8-v2-claude.json",
+      "attempts": 3,
+      "started_at": "2026-09-04T19:11:12Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-04T191112Z-engine-auto-damage-punisher-choice-e36bbf48c8-v2-claude.json",
+      "evidence_sha256": "sha256:c2a593d8adcbb0c53522412b83e9f55f6f328137cc405f6a6b0401c1be189eb4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "clone_preflight",
+      "reason": "Historical clone failure. Current canonical clone succeeded and filesystem has 49 GiB free."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-grant-keywords-until-eot-enchanted-shared-type-a70040c6e5/v3",
+      "ticket_sha256": "sha256:0b5fabcbc48f6c5b05070389e731544a1818704e8bbf9330cf3efe6106cc06fa",
+      "receipt": "docs/factory-ng/runs/2026-09-04T215220Z-engine-auto-grant-keywords-until-eot-enchanted-shared-type-a70040c6e5-v3-claude.json",
+      "attempts": 3,
+      "started_at": "2026-09-04T21:52:19Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-04T215220Z-engine-auto-grant-keywords-until-eot-enchanted-shared-type-a70040c6e5-v3-claude.json",
+      "evidence_sha256": "sha256:c9b184c477761fe7ef9c729fc2f6f5cbea2e5a09a0dbfde325c1db31d5ae9b44",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-controller-filter-referent-triggering-player-76c02b824f/v2",
+      "ticket_sha256": "sha256:849018b01ba51a9c97fd43fa040ffb158f75983adf02a47ac152ee5bf79d5117",
+      "receipt": "docs/factory-ng/runs/2026-08-31T160722Z-engine-auto-controller-filter-referent-triggering-player-76c02b824f-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-08-31T16:07:21Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-31T160722Z-engine-auto-controller-filter-referent-triggering-player-76c02b824f-v2-codex.json",
+      "evidence_sha256": "sha256:9df80dbff99cf7d1011be6067d4645ad7e9797d90b4339e0fafcbf00a602d03d",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-counter-target-spell-mana-value-threshold-98c3884b4c/v2",
+      "ticket_sha256": "sha256:74d66ba84522cb872b2b0fd1436ddd2a40a1107aeecb3a85b93875b63fb68f0c",
+      "receipt": "docs/factory-ng/runs/2026-08-31T213218Z-engine-auto-counter-target-spell-mana-value-threshold-98c3884b4c-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-08-31T21:32:18Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-31T213218Z-engine-auto-counter-target-spell-mana-value-threshold-98c3884b4c-v2-codex.json",
+      "evidence_sha256": "sha256:53b87643c7e3b35970f0921896d9babea2276c64d296f7ad86f1a47a2077399c",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-create-token-dynamic-counter-a0d2ceedb7/v2",
+      "ticket_sha256": "sha256:778e9251f7db42bc0002f3d39911c16acce0f6826157d70d797b5cb9217dd090",
+      "receipt": "docs/factory-ng/runs/2026-08-31T133610Z-engine-auto-create-token-dynamic-counter-a0d2ceedb7-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-08-31T13:36:09Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-31T133610Z-engine-auto-create-token-dynamic-counter-a0d2ceedb7-v2-codex.json",
+      "evidence_sha256": "sha256:6fa5b2ef255f85e864ef351794cf67810e0841dded34cb15af48f7d694074be5",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-to-defending-player-9a47b7025e/v1",
+      "ticket_sha256": "sha256:bb9f9eff4e3f81405ec5a45cae4be33508c90418aae551925eddf27c5e59a92d",
+      "receipt": "docs/factory-ng/runs/2026-09-04T215055Z-engine-auto-damage-to-defending-player-9a47b7025e-v1-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-04T21:50:54Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-04T215055Z-engine-auto-damage-to-defending-player-9a47b7025e-v1-codex.json",
+      "evidence_sha256": "sha256:45a9612360a9e51ed39c46b5d62e072c8ed68c4a32fbbd3ad0ad31d5cef98e5b",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-attached-equipment-at-end-of-combat-1a39af850c/v2",
+      "ticket_sha256": "sha256:64e0a9acffa840bd9d80c1ed546a5ae33381a5654a18bbfc2071f6f38c737bf2",
+      "receipt": "docs/factory-ng/runs/2026-08-31T140801Z-engine-auto-destroy-attached-equipment-at-end-of-combat-1a39af850c-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-08-31T14:08:01Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-31T140801Z-engine-auto-destroy-attached-equipment-at-end-of-combat-1a39af850c-v2-codex.json",
+      "evidence_sha256": "sha256:b66ed4cfcb0c91adda884eaf42dcd4169b26ea5f1c022d63857b2f890d1205a5",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-target-creature-that-dealt-damage-this-t-2dd7f03acd/v2",
+      "ticket_sha256": "sha256:735bb8d4cf85e8168ba3a8e012727d53dd8e9df555448eab94e3e08361bc5d12",
+      "receipt": "docs/factory-ng/runs/2026-08-31T120244Z-engine-auto-destroy-target-creature-that-dealt-damage-this-t-2dd7f03acd-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-08-31T12:02:43Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-31T120244Z-engine-auto-destroy-target-creature-that-dealt-damage-this-t-2dd7f03acd-v2-codex.json",
+      "evidence_sha256": "sha256:ed0cec37236aa658a5e038c03a6d81c2bb43489467fac785bdc0abe98e9ed1e9",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-dynamic-graveyard-mana-value-filter-3f054094e5/v1",
+      "ticket_sha256": "sha256:bc8720f4ae5e54552e1f2fd1599a059037db5f0bcdab3df7f7922175e8dc74d0",
+      "receipt": "docs/factory-ng/runs/2026-08-30T201052Z-engine-auto-dynamic-graveyard-mana-value-filter-3f054094e5-v1-codex.json",
+      "attempts": 3,
+      "started_at": "2026-08-30T20:10:52Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-30T201052Z-engine-auto-dynamic-graveyard-mana-value-filter-3f054094e5-v1-codex.json",
+      "evidence_sha256": "sha256:e202b1580601cf26d3f7dc2251a0dc1bd01fc9e41f7cd717fe7993a2526f7cc8",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-exile-crewed-creatures-filter-dd5f27d519/v2",
+      "ticket_sha256": "sha256:343a0391253e5a39bfa02e7b3de9b00a4e0699048c52c29f9db907a481af8631",
+      "receipt": "docs/factory-ng/runs/2026-09-04T214530Z-engine-auto-exile-crewed-creatures-filter-dd5f27d519-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-04T21:45:30Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-04T214530Z-engine-auto-exile-crewed-creatures-filter-dd5f27d519-v2-codex.json",
+      "evidence_sha256": "sha256:65e35243ffc29243a9c3e6697f43aae75416e2fc2ec807c55258ef7d0618c050",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-gain-control-duration-source-permanent-50db4d2e53/v2",
+      "ticket_sha256": "sha256:b38d39e943a891951f76e607d0aa0752278b528508d1b1fe13cc5b336c93460c",
+      "receipt": "docs/factory-ng/runs/2026-08-31T115945Z-engine-auto-gain-control-duration-source-permanent-50db4d2e53-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-08-31T11:59:45Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-31T115945Z-engine-auto-gain-control-duration-source-permanent-50db4d2e53-v2-codex.json",
+      "evidence_sha256": "sha256:afe29c0c39c2878a4e04a01bfff57ff8ebce1b19df2fb8e1c79b19d79d69de84",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-self-source-dynamic-sac-power-576cf4aa49/v2",
+      "ticket_sha256": "sha256:86ad9ae7c7c5c0f92ae270b327404aa54927b5717d63962e3b50e037efcde956",
+      "receipt": "docs/factory-ng/runs/2026-08-31T120205Z-engine-auto-pump-self-source-dynamic-sac-power-576cf4aa49-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-08-31T12:02:05Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-31T120205Z-engine-auto-pump-self-source-dynamic-sac-power-576cf4aa49-v2-codex.json",
+      "evidence_sha256": "sha256:62ece57bf00c20dcc7ce3a4fc0f157ec22d980422d393350c4f31abd45088002",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-until-eot-untargeted-dynamic-c37bccdec1/v1",
+      "ticket_sha256": "sha256:5f1a87e75512a489b9963e629bc2d57c9f0cf7183f405a29031c93262efb937d",
+      "receipt": "docs/factory-ng/runs/2026-08-31T132550Z-engine-auto-pump-until-eot-untargeted-dynamic-c37bccdec1-v1-codex.json",
+      "attempts": 3,
+      "started_at": "2026-08-31T13:25:50Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-31T132550Z-engine-auto-pump-until-eot-untargeted-dynamic-c37bccdec1-v1-codex.json",
+      "evidence_sha256": "sha256:cb31eb5b701c8ee2f0818eef3363d4c93b259a2c24ba7b4b77b857b4bb543258",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-attach-5f9eabcbcc/v2",
+      "ticket_sha256": "sha256:2a83d12986bcb401742211056886b09b4489dc72bfe08011cc86d2f29c164aa4",
+      "receipt": "docs/factory-ng/runs/2026-09-01T063806Z-engine-auto-return-from-graveyard-attach-5f9eabcbcc-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-01T06:38:06Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-01T063806Z-engine-auto-return-from-graveyard-attach-5f9eabcbcc-v2-codex.json",
+      "evidence_sha256": "sha256:e6e28e8b84cc0e0c1d5e5c5ce61200fad79e5695edf33924ef265ce8fa116475",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-lesser-toughness-filter-cfeba54e07/v2",
+      "ticket_sha256": "sha256:b58c363536c3f6b97c7a4a5814a780df27b0ef39f348d184599949fb20430233",
+      "receipt": "docs/factory-ng/runs/2026-08-31T135908Z-engine-auto-return-from-graveyard-lesser-toughness-filter-cfeba54e07-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-08-31T13:59:08Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-31T135908Z-engine-auto-return-from-graveyard-lesser-toughness-filter-cfeba54e07-v2-codex.json",
+      "evidence_sha256": "sha256:4e865b5d88978e48a3e1582c1c79bedbc4bc44ac2462ab104825d864d30d329b",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-search-attach-to-target-c74e339814/v2",
+      "ticket_sha256": "sha256:a85bf906527c7b6a27637719d0ff42423c4cd00994b3601eed1621d43a3c58f9",
+      "receipt": "docs/factory-ng/runs/2026-08-31T154635Z-engine-auto-search-attach-to-target-c74e339814-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-08-31T15:46:34Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-31T154635Z-engine-auto-search-attach-to-target-c74e339814-v2-codex.json",
+      "evidence_sha256": "sha256:f5c19e4e811d63e292600228f7d602c6ab1f93434e7c0c5304bd103881ba5135",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-search-dynamic-mana-value-cap-a5b3c243f2/v1",
+      "ticket_sha256": "sha256:caac6dd909bfed843df8a61d201f11d9561a1287a4975d9034c1faf2218e0921",
+      "receipt": "docs/factory-ng/runs/2026-08-31T124024Z-engine-auto-search-dynamic-mana-value-cap-a5b3c243f2-v1-codex.json",
+      "attempts": 3,
+      "started_at": "2026-08-31T12:40:24Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-31T124024Z-engine-auto-search-dynamic-mana-value-cap-a5b3c243f2-v1-codex.json",
+      "evidence_sha256": "sha256:944ec9d374f8928c3eccc843120a8f9138e21f48e8130e965f7546b370102457",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-source-referent-pump-until-eot-8b8ac7ccb7/v1",
+      "ticket_sha256": "sha256:f5f52cbb8a1e473f4f0a097bd11c504b625175020f1520676458551a79d9b011",
+      "receipt": "docs/factory-ng/runs/2026-08-31T123948Z-engine-auto-source-referent-pump-until-eot-8b8ac7ccb7-v1-codex.json",
+      "attempts": 3,
+      "started_at": "2026-08-31T12:39:48Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-31T123948Z-engine-auto-source-referent-pump-until-eot-8b8ac7ccb7-v1-codex.json",
+      "evidence_sha256": "sha256:6500a7271eff0b2f856412df0cdfa9a530af5b9cad2e971a0d476738721d50bf",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-tap-all-filtered-permanents-7e17906098/v2",
+      "ticket_sha256": "sha256:7c27880abb1a9b6b6efec20b3d5580315c11b1dfbc959e081cfbaf6a0282d212",
+      "receipt": "docs/factory-ng/runs/2026-08-30T185855Z-engine-auto-tap-all-filtered-permanents-7e17906098-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-08-30T18:58:54Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-30T185855Z-engine-auto-tap-all-filtered-permanents-7e17906098-v2-codex.json",
+      "evidence_sha256": "sha256:7c48c4aa93b54f500a5907d17c59cd9a5314e3101a3c399b5d68b21cf7508816",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-untap-referent-previous-targets-f33b5c1c71/v2",
+      "ticket_sha256": "sha256:41411778f68f77d49b5f8f78ab5a62f0d1df6247340a6ae1d2f318320e429669",
+      "receipt": "docs/factory-ng/runs/2026-08-30T164102Z-engine-auto-untap-referent-previous-targets-f33b5c1c71-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-08-30T16:41:02Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-30T164102Z-engine-auto-untap-referent-previous-targets-f33b5c1c71-v2-codex.json",
+      "evidence_sha256": "sha256:6925e4fca5509388825982e0c11acb801125bb9a451240b604d4fcce5fe78628",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:map.plan-grant-eot-consul-s-shieldguard-e0cfcd56f2/v1",
+      "ticket_sha256": "sha256:c2b497c38ffaf9aa618325ac587916b44721982f4552de7cd8c819e53999a5d9",
+      "receipt": "docs/factory-ng/runs/2026-08-31T113121Z-map-plan-grant-eot-consul-s-shieldguard-e0cfcd56f2-v1-qwen.json",
+      "attempts": 1,
+      "started_at": "2026-08-31T11:31:21Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-31T113121Z-map-plan-grant-eot-consul-s-shieldguard-e0cfcd56f2-v1-qwen.json",
+      "evidence_sha256": "sha256:94976e52bd6beea6d82a99dc14f8f5ee10f47b6f506f32a8affa9519f8ef576b",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-conditional-payment-unless-pays-mana-8f85c47b3e/v1",
+      "ticket_sha256": "sha256:778a2077ae38878aa996696ba3262acdc3df401e9cbdead8ff5f29fbdac46e3a",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-06T21:03:24Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-conditional-payment-unless-pays-mana-8f85c47b3e-v1.log",
+      "evidence_sha256": "sha256:030cdcdf77718ee0d5af2a5b6b7bb05b7e0f212c6222cc08b29e1e93c08d9676",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "unsupported_profile",
+      "reason": "Pre-model unsupported profile rejection. Current enabled staged/Codex profiles pass validation and the runner supports them."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-grant-dynamic-keyword-eot-4c8621edfa/v1",
+      "ticket_sha256": "sha256:499a65e3aad9cf5879a5f95b23f445cd7c0778edff7133d9b5d5117abf187d07",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-06T21:02:33Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-grant-dynamic-keyword-eot-4c8621edfa-v1.log",
+      "evidence_sha256": "sha256:030cdcdf77718ee0d5af2a5b6b7bb05b7e0f212c6222cc08b29e1e93c08d9676",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "unsupported_profile",
+      "reason": "Pre-model unsupported profile rejection. Current enabled staged/Codex profiles pass validation and the runner supports them."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-with-counters-77c5905163/v1",
+      "ticket_sha256": "sha256:584dd1033729a88703239f4e7f52289574f790c0e9769d05dbb1f3edaf99be38",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-06T21:02:00Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-return-from-graveyard-with-counters-77c5905163-v1.log",
+      "evidence_sha256": "sha256:030cdcdf77718ee0d5af2a5b6b7bb05b7e0f212c6222cc08b29e1e93c08d9676",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "unsupported_profile",
+      "reason": "Pre-model unsupported profile rejection. Current enabled staged/Codex profiles pass validation and the runner supports them."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-put-counters-amount-from-trigger-damage-cc03cdb048/v1",
+      "ticket_sha256": "sha256:cef648a27b9debb5cb8384eb77fedc6524a44144c1e54e7a5dc0ebb6a407a449",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-06T21:01:35Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-put-counters-amount-from-trigger-damage-cc03cdb048-v1.log",
+      "evidence_sha256": "sha256:030cdcdf77718ee0d5af2a5b6b7bb05b7e0f212c6222cc08b29e1e93c08d9676",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "unsupported_profile",
+      "reason": "Pre-model unsupported profile rejection. Current enabled staged/Codex profiles pass validation and the runner supports them."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-grant-triggered-ability-until-eot-938952c6e2/v1",
+      "ticket_sha256": "sha256:79f08ff74e55b6c9f4f0ed412311942a40cbe224df6bae24ccff73cc2e651a79",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-06T21:01:10Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-grant-triggered-ability-until-eot-938952c6e2-v1.log",
+      "evidence_sha256": "sha256:030cdcdf77718ee0d5af2a5b6b7bb05b7e0f212c6222cc08b29e1e93c08d9676",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "unsupported_profile",
+      "reason": "Pre-model unsupported profile rejection. Current enabled staged/Codex profiles pass validation and the runner supports them."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-bounce-with-mana-value-filter-4bf6a351c2/v1",
+      "ticket_sha256": "sha256:4c6e6d454d0f8c9a0069b97b840586687df7375b6d2904cc1ac4d1bb918417ce",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-06T21:00:36Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-bounce-with-mana-value-filter-4bf6a351c2-v1.log",
+      "evidence_sha256": "sha256:030cdcdf77718ee0d5af2a5b6b7bb05b7e0f212c6222cc08b29e1e93c08d9676",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "unsupported_profile",
+      "reason": "Pre-model unsupported profile rejection. Current enabled staged/Codex profiles pass validation and the runner supports them."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-bounce-filter-nonland-permanent-entered-this-tur-76dd65401b/v1",
+      "ticket_sha256": "sha256:a8e8901c47709d26aec4cd9f5612f1cea04930da8ab568b6e831d473d2fe5976",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-06T21:00:11Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-bounce-filter-nonland-permanent-entered-this-tur-76dd65401b-v1.log",
+      "evidence_sha256": "sha256:030cdcdf77718ee0d5af2a5b6b7bb05b7e0f212c6222cc08b29e1e93c08d9676",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "unsupported_profile",
+      "reason": "Pre-model unsupported profile rejection. Current enabled staged/Codex profiles pass validation and the runner supports them."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-exile-player-graveyard-56bee2bbbc/v1",
+      "ticket_sha256": "sha256:17662d47529f38afeba4f60884471ea56d0246f1eb2f888151aa7c6dea787ceb",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-06T20:59:43Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-exile-player-graveyard-56bee2bbbc-v1.log",
+      "evidence_sha256": "sha256:030cdcdf77718ee0d5af2a5b6b7bb05b7e0f212c6222cc08b29e1e93c08d9676",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "unsupported_profile",
+      "reason": "Pre-model unsupported profile rejection. Current enabled staged/Codex profiles pass validation and the runner supports them."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-multi-target-optional-a6ba6fb044/v1",
+      "ticket_sha256": "sha256:72f074447944796b334a6f83d584ce80d213f87b6f1a5f61c0afe2a617ca5605",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-06T20:58:52Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-destroy-multi-target-optional-a6ba6fb044-v1.log",
+      "evidence_sha256": "sha256:030cdcdf77718ee0d5af2a5b6b7bb05b7e0f212c6222cc08b29e1e93c08d9676",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "unsupported_profile",
+      "reason": "Pre-model unsupported profile rejection. Current enabled staged/Codex profiles pass validation and the runner supports them."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-attached-to-matching-type-1595222f2c/v1",
+      "ticket_sha256": "sha256:2d8ac2815d80493ea7493da978c45a20ddfd5aa618e1c589339ba3f742227354",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-06T20:58:27Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-return-from-graveyard-attached-to-matching-type-1595222f2c-v1.log",
+      "evidence_sha256": "sha256:030cdcdf77718ee0d5af2a5b6b7bb05b7e0f212c6222cc08b29e1e93c08d9676",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "unsupported_profile",
+      "reason": "Pre-model unsupported profile rejection. Current enabled staged/Codex profiles pass validation and the runner supports them."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-n-target-filter-5aef2d6f94/v1",
+      "ticket_sha256": "sha256:f67b866a8d472e21c8b717fd260cd4538e1d23d841e60f6bc2781c2b68c40fb5",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-06T20:58:02Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-destroy-n-target-filter-5aef2d6f94-v1.log",
+      "evidence_sha256": "sha256:030cdcdf77718ee0d5af2a5b6b7bb05b7e0f212c6222cc08b29e1e93c08d9676",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "unsupported_profile",
+      "reason": "Pre-model unsupported profile rejection. Current enabled staged/Codex profiles pass validation and the runner supports them."
+    },
+    {
+      "ticket_id": "ticket:map.plan-grant-eot-kitesail-skirmisher-986fe778a3/v2",
+      "ticket_sha256": "sha256:1c7bb55dc442fe64abb52eea880996adb8ba9363fc84c8ebb022474f02b245a5",
+      "receipt": "docs/factory-ng/runs/2026-09-05T053353Z-map-plan-grant-eot-kitesail-skirmisher-986fe778a3-v2-claude-agentic.json",
+      "attempts": 3,
+      "started_at": "2026-09-06T20:51:18Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-05T053353Z-map-plan-grant-eot-kitesail-skirmisher-986fe778a3-v2-claude-agentic.json",
+      "evidence_sha256": "sha256:0da3e96005b035699a3a3986fcdcaa841b29256e3061c84691b6774ba5fdc68c",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-unless-controller-pays-205cf02727/v1",
+      "ticket_sha256": "sha256:43814c73d26cad1db369dbdcfc273a62692cb280168eee63956e3871a3adcc79",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-06T09:35:07Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-destroy-unless-controller-pays-205cf02727-v1.log",
+      "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_preflight",
+      "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-dynamic-amount-distinct-counter-kinds-controlled-46440abfac/v1",
+      "ticket_sha256": "sha256:5a9113091c65a90762cfc339b5cc534841bce67d124fb59e5229189e64af2020",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-06T06:11:03Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-dynamic-amount-distinct-counter-kinds-controlled-46440abfac-v1.log",
+      "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_preflight",
+      "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-until-eot-unconditional-filter-959af8d8e3/v1",
+      "ticket_sha256": "sha256:ddb653df8a8fe44290b888a97bae9ed2a9a427b85aa9397cdec35bb3dfcd5a61",
+      "receipt": "docs/factory-ng/runs/2026-09-06T055314Z-engine-auto-pump-until-eot-unconditional-filter-959af8d8e3-v1-claude.json",
+      "attempts": 3,
+      "started_at": "2026-09-06T06:04:38Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-06T055314Z-engine-auto-pump-until-eot-unconditional-filter-959af8d8e3-v1-claude.json",
+      "evidence_sha256": "sha256:2dcaecb570bf830b1221783fb6342990950161ba8627fa2b33610d13a1171c19",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-until-eot-all-creatures-you-control-63ebcf17a9/v2",
+      "ticket_sha256": "sha256:14330116980934eb24c955cd7b6ecf970c6b84b61149e51af5ab4872cef29f73",
+      "receipt": "docs/factory-ng/runs/2026-09-06T023406Z-engine-auto-pump-until-eot-all-creatures-you-control-63ebcf17a9-v2-claude.json",
+      "attempts": 3,
+      "started_at": "2026-09-06T02:34:06Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-06T023406Z-engine-auto-pump-until-eot-all-creatures-you-control-63ebcf17a9-v2-claude.json",
+      "evidence_sha256": "sha256:e478b507435f27132ca2418ecc626b148333a5945d9bc019ba33650e02008372",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_quota",
+      "reason": "Historical provider session quota expired; retry through current usage-gated workers with original limits."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-amount-chroma-red-mana-symbols-dafa42ca0a/v1",
+      "ticket_sha256": "sha256:ef058581a0eee6cf243ef77b7c24bd9adb487fa785a50e5595e4a38f8f95b6a4",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-06T02:25:51Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-damage-amount-chroma-red-mana-symbols-dafa42ca0a-v1.log",
+      "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_preflight",
+      "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+    },
+    {
+      "ticket_id": "ticket:map.plan-damage-grotag-siege-runner-794b86980b/v1",
+      "ticket_sha256": "sha256:b5860d59653f4c95b41e71ce9aeb584b313946184b7cdb210e20bd9851d4eeae",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-05T19:31:14Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/map-plan-damage-grotag-siege-runner-794b86980b-v1.log",
+      "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_preflight",
+      "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-target-filter-power-threshold-72615893da/v2",
+      "ticket_sha256": "sha256:a008044d1d1f60b03d428d4e213d5c3ecda9cd55ebc5daa2cdb0b32e9507d50d",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-05T10:02:34Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-target-filter-power-threshold-72615893da-v2.log",
+      "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_preflight",
+      "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-attach-to-source-05cf182b14/v2",
+      "ticket_sha256": "sha256:f057d1674f6285960e356598109f618eb44ea7f3b5c46873a0118759674b5d3a",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-05T08:38:08Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-return-from-graveyard-attach-to-source-05cf182b14-v2.log",
+      "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_preflight",
+      "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-filter-creature-with-tap-activated-ability-839a37bf06/v2",
+      "ticket_sha256": "sha256:17a0c662308fd5343ff0f4ad9355b9afe9648ac706aceb5897a5b70a62fcba81",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-05T08:37:34Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-filter-creature-with-tap-activated-ability-839a37bf06-v2.log",
+      "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_preflight",
+      "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-all-controller-filter-until-eot-753299440a/v3",
+      "ticket_sha256": "sha256:f9624b64883186004e8c9a044a96aee47171477626493501a2e57d51c7a6d73c",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-05T08:37:07Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-pump-all-controller-filter-until-eot-753299440a-v3.log",
+      "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_preflight",
+      "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+    },
+    {
+      "ticket_id": "ticket:map.plan-destroy-knight-of-dusk-982188caf0/v2",
+      "ticket_sha256": "sha256:128de2ba5994d7bef9a0218e8b189b30566242b0569e2dca10de7dfa13246155",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-05T08:34:30Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/map-plan-destroy-knight-of-dusk-982188caf0-v2.log",
+      "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_preflight",
+      "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-target-filter-mana-value-threshold-5abb67184a/v3",
+      "ticket_sha256": "sha256:094678a51785bb8c59e1ab1e07f8548ffa6730fe651d302429ce5ef1575ccacd",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-05T07:24:21Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-target-filter-mana-value-threshold-5abb67184a-v3.log",
+      "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_preflight",
+      "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-delayed-destroy-at-end-of-combat-c4e51f7648/v3",
+      "ticket_sha256": "sha256:1df48c42ae7acad497860ea73362a6720f7670caa89deee1cc79cafed846dde9",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-05T07:23:58Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-delayed-destroy-at-end-of-combat-c4e51f7648-v3.log",
+      "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_preflight",
+      "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-grant-keyword-to-creatures-with-power-equal-to-p-cb482d4bb8/v3",
+      "ticket_sha256": "sha256:9053756074ef33cde0ea4a7cd5cfe46e4b7c9544fb72333279e75aad21eff0bc",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-05T07:23:10Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-grant-keyword-to-creatures-with-power-equal-to-p-cb482d4bb8-v3.log",
+      "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_preflight",
+      "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-amount-equals-trigger-creature-count-d7ae562dbc/v3",
+      "ticket_sha256": "sha256:b106e139549fddf2a6419f53819190d40466abf915bbc7b4576ef6e34082ed63",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-05T06:10:29Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-damage-amount-equals-trigger-creature-count-d7ae562dbc-v3.log",
+      "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_preflight",
+      "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-amount-runtime-count-686e9699e6/v3",
+      "ticket_sha256": "sha256:1ce2d1340711bc594c4ebd0e92bb877952cd4187acec2c90c3a273ac890c865e",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-05T03:48:28Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-damage-amount-runtime-count-686e9699e6-v3.log",
+      "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_preflight",
+      "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-all-other-creatures-no-target-f3ef75632a/v3",
+      "ticket_sha256": "sha256:b06cb5ad57a105c61cd8bcc612b05047f405f4c55a49942416c5e4a3b7e50649",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-05T03:48:04Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-pump-all-other-creatures-no-target-f3ef75632a-v3.log",
+      "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_preflight",
+      "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-ability-pump-filter-all-23b3b60c38/v3",
+      "ticket_sha256": "sha256:a497ef3fc2173cb4e8f9225cb5ff80d8582ba519f9903a48e50d998e23a05ec5",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-05T03:47:39Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-ability-pump-filter-all-23b3b60c38-v3.log",
+      "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_preflight",
+      "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-blocking-or-blocked-creatures-bd51bb2a55/v3",
+      "ticket_sha256": "sha256:26522e3b47b177618c2a79d1ec65a3723af7d1d25581b7a6fde5b7b7fc3d1b3c",
+      "receipt": "docs/factory-ng/runs/2026-09-05T015826Z-engine-auto-destroy-blocking-or-blocked-creatures-bd51bb2a55-v3-claude-agentic.json",
+      "attempts": 3,
+      "started_at": "2026-09-05T01:58:26Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-05T015826Z-engine-auto-destroy-blocking-or-blocked-creatures-bd51bb2a55-v3-claude-agentic.json",
+      "evidence_sha256": "sha256:6c11b05355767ffa8174c538505f9e0347b262cfb124e222545a8de729871ada",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_quota",
+      "reason": "Historical provider session quota expired; retry through current usage-gated workers with original limits."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-tap-doesnt-untap-next-untap-step-6f26ccc5c2/v3",
+      "ticket_sha256": "sha256:6969e8bede68df96612e2800d7d225fa19a9f99525018376ab910707a64190a4",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-05T01:07:53Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-tap-doesnt-untap-next-untap-step-6f26ccc5c2-v3.log",
+      "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_preflight",
+      "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-conditional-grant-keywords-until-eot-d97d5d518c/v3",
+      "ticket_sha256": "sha256:ca95e55df6954d606887b3ab845cef3708eba823bcf82ce850e8c06ab5dc5be1",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-04T23:52:22Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-conditional-grant-keywords-until-eot-d97d5d518c-v3.log",
+      "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_preflight",
+      "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-grant-effects-until-eot-1fc9545bbb/v3",
+      "ticket_sha256": "sha256:66825404acfbf85f04e3660a99ad40d2cdff9c875dc27cc96c38aabdc048e217",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-04T23:51:58Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-grant-effects-until-eot-1fc9545bbb-v3.log",
+      "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_preflight",
+      "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-until-eot-all-a0f16e387d/v3",
+      "ticket_sha256": "sha256:2f5b6f66790e4585f5511568307ff53b1d4e28a9296d4f93a7d7a516e4633941",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-04T23:51:34Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-pump-until-eot-all-a0f16e387d-v3.log",
+      "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_preflight",
+      "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-until-eot-dynamic-amount-471184ae88/v3",
+      "ticket_sha256": "sha256:3f8bbfb0097b27f5faffef395379c243b55906e823d9cec4ad906834b0cf25bc",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-04T23:51:10Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/engine-auto-pump-until-eot-dynamic-amount-471184ae88-v3.log",
+      "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_preflight",
+      "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+    },
+    {
+      "ticket_id": "ticket:map.plan-damage-iron-maiden-9d3b851486/v2",
+      "ticket_sha256": "sha256:4223bb84b582856df9a83b1eeb084e5c058e33eea90381ffbba79048c1433174",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-04T23:50:45Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/map-plan-damage-iron-maiden-9d3b851486-v2.log",
+      "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_preflight",
+      "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+    },
+    {
+      "ticket_id": "ticket:map.plan-exile-isolate-b41c98bc06/v2",
+      "ticket_sha256": "sha256:80c8b558aa8c7ebca09deda8025648ab995263e41d6fa26a88e9fae2c2fbb40b",
+      "receipt": null,
+      "attempts": 3,
+      "started_at": "2026-09-04T23:50:19Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/map-plan-exile-isolate-b41c98bc06-v2.log",
+      "evidence_sha256": "sha256:7f64a08558bbf0b8f472b3cf462845438168e5ac892cf31b372bdf7bf146d6a4",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_preflight",
+      "reason": "Legacy pre-model source-cleanliness rejection. Current runner records source_unavailable and controller defers it; canonical source was verified clean."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-damage-to-each-battle-protected-36b6c50579/v1",
+      "ticket_sha256": "sha256:c907b137a996a7d18a8e9e1599d6a4980263df96d94109c1c0be0a03b4af2da5",
+      "receipt": "docs/factory-ng/runs/2026-09-02T015616Z-engine-auto-damage-to-each-battle-protected-36b6c50579-v1-qwen-agentic.json",
+      "attempts": 3,
+      "started_at": "2026-09-04T23:25:54Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-02T015616Z-engine-auto-damage-to-each-battle-protected-36b6c50579-v1-qwen-agentic.json",
+      "evidence_sha256": "sha256:c709d3c7b332b6dbd4594146de258d7eacc980d2246d93749e89053df89d82e6",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-delayed-referent-destroy-f4ed1aabb4/v1",
+      "ticket_sha256": "sha256:c8239bcc2f235655649016431f917b4b544c4b8d5b213097e2f1d97e8141575b",
+      "receipt": "docs/factory-ng/runs/2026-09-02T003329Z-engine-auto-delayed-referent-destroy-f4ed1aabb4-v1-qwen-agentic.json",
+      "attempts": 3,
+      "started_at": "2026-09-04T23:25:30Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-02T003329Z-engine-auto-delayed-referent-destroy-f4ed1aabb4-v1-qwen-agentic.json",
+      "evidence_sha256": "sha256:79bf45332c6d8a0791b38846c408f7d53dc60b99ff089fee6d0f895841d60cf8",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-execute-pump-until-eot-no-target-5eb89fc696/v3",
+      "ticket_sha256": "sha256:011951e52f2e3c07674db175b164f2eef54a5d5c325dc6f092a7f3e9b5e3675e",
+      "receipt": "docs/factory-ng/runs/2026-09-04T215447Z-engine-auto-execute-pump-until-eot-no-target-5eb89fc696-v3-claude.json",
+      "attempts": 3,
+      "started_at": "2026-09-04T21:54:46Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-04T215447Z-engine-auto-execute-pump-until-eot-no-target-5eb89fc696-v3-claude.json",
+      "evidence_sha256": "sha256:970db6d007964888e27b71bfbe29cf9c5c01f50939d57323097942cf8eb97cdf",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-until-eot-dynamic-count-789a23ad0c/v2",
+      "ticket_sha256": "sha256:744c6978f17d22dc981ec0b2a30570f91b011056f7c175926739a19cbb573521",
+      "receipt": "docs/factory-ng/runs/2026-09-04T214110Z-engine-auto-pump-until-eot-dynamic-count-789a23ad0c-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-04T21:41:10Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-04T214110Z-engine-auto-pump-until-eot-dynamic-count-789a23ad0c-v2-codex.json",
+      "evidence_sha256": "sha256:381941877c16edc2b1745ad890a7b898cc33067cc1864170b615073f452f0f27",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-exile-zone-ce4b8ad676/v3",
+      "ticket_sha256": "sha256:4220a6546cb1a7961265b36d9eb24d3f75797e22efc04aa522772df7b600a532",
+      "receipt": "docs/factory-ng/runs/2026-09-04T214025Z-engine-auto-exile-zone-ce4b8ad676-v3-codex.json",
+      "attempts": 3,
+      "started_at": "2026-09-04T21:40:24Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-04T214025Z-engine-auto-exile-zone-ce4b8ad676-v3-codex.json",
+      "evidence_sha256": "sha256:e71dca971a72e1beda07c461364e5f9242a7a6a8d5d67913ec0f568ca9b305b6",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-bounce-target-creature-and-attached-auras-e20af02124/v2",
+      "ticket_sha256": "sha256:24dc5394ab2cd7c6ffe6750da659c7bf966a220725c692a4c084914208b1605e",
+      "receipt": "docs/factory-ng/runs/2026-09-04T090514Z-engine-auto-bounce-target-creature-and-attached-auras-e20af02124-v2-qwen-agentic.json",
+      "attempts": 3,
+      "started_at": "2026-09-04T18:11:50Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-04T090514Z-engine-auto-bounce-target-creature-and-attached-auras-e20af02124-v2-qwen-agentic.json",
+      "evidence_sha256": "sha256:f6bae8ac3b198235b1ff08bd31c07ead5a0258d4c82adc16dd75f71bec2211aa",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:map.plan-grant-eot-iron-man-armored-avenger-a68fc51222/v1",
+      "ticket_sha256": "sha256:028e5f6905fb5ee6a8f70e2bdacf86467a0b50c20c8c592c8a44f1a7215aced5",
+      "receipt": "docs/factory-ng/runs/2026-09-01T191803Z-map-plan-grant-eot-iron-man-armored-avenger-a68fc51222-v1-qwen.json",
+      "attempts": 1,
+      "started_at": "2026-09-01T19:18:02Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-09-01T191803Z-map-plan-grant-eot-iron-man-armored-avenger-a68fc51222-v1-qwen.json",
+      "evidence_sha256": "sha256:b0b8a5c280bce163d523ca06bffd4cde03c1891e20ba0f8bdfe026abc693cc01",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-creature-subtype-filter-b70311209e/v2",
+      "ticket_sha256": "sha256:b06288b54714103a89285f0fe1a2ed05f993393acf57fba0cd33af9acc8c5784",
+      "receipt": "docs/factory-ng/runs/2026-08-31T174309Z-engine-auto-return-from-graveyard-creature-subtype-filter-b70311209e-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-08-31T17:43:09Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-31T174309Z-engine-auto-return-from-graveyard-creature-subtype-filter-b70311209e-v2-codex.json",
+      "evidence_sha256": "sha256:02874c8ef2e7375fcb672eeb603c1b70c915e1b9b9558cf025940b96de702bd5",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-triggered-destroy-enchanted-referent-91096471c1/v1",
+      "ticket_sha256": "sha256:6c8fb1d942ec5777e9b37bca7eb5bbadf1b9ed3f14fbc98df4cb5ba4f4145ac9",
+      "receipt": "docs/factory-ng/runs/2026-08-31T155524Z-engine-auto-triggered-destroy-enchanted-referent-91096471c1-v1-codex.json",
+      "attempts": 3,
+      "started_at": "2026-08-31T15:55:24Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-31T155524Z-engine-auto-triggered-destroy-enchanted-referent-91096471c1-v1-codex.json",
+      "evidence_sha256": "sha256:b115346979e659517156eca34601dbf6988fcea2c0eeca924a94fc96b31735f3",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-destroy-delayed-end-of-combat-403991530b/v2",
+      "ticket_sha256": "sha256:4378cee353986abb2411508a692c7e9019e8eecf6459a66a2707b2d210c7e4b4",
+      "receipt": "docs/factory-ng/runs/2026-08-31T135147Z-engine-auto-destroy-delayed-end-of-combat-403991530b-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-08-31T13:51:47Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-31T135147Z-engine-auto-destroy-delayed-end-of-combat-403991530b-v2-codex.json",
+      "evidence_sha256": "sha256:b2dea860e58dc3a2aa27959ca667b56528957093839d221b072eb8a9f95cb1bc",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-return-from-graveyard-unique-names-75e6465f75/v2",
+      "ticket_sha256": "sha256:e97ceb2682ba3a1e243ee93fe1f87b4b0c1f5882076811c2ea040188d6966722",
+      "receipt": "docs/factory-ng/runs/2026-08-31T130506Z-engine-auto-return-from-graveyard-unique-names-75e6465f75-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-08-31T13:05:05Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-31T130506Z-engine-auto-return-from-graveyard-unique-names-75e6465f75-v2-codex.json",
+      "evidence_sha256": "sha256:70bfeda791e74a4966efb21f960ee783c3415979dff67e1d33d816ce4ca0af7b",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-pump-untargeted-referent-dynamic-baa2736f83/v1",
+      "ticket_sha256": "sha256:7489c2fe01e58f7de0cf4a2c9538a32513ac46d4932456dedaa1298123ca2f96",
+      "receipt": "docs/factory-ng/runs/2026-08-31T123242Z-engine-auto-pump-untargeted-referent-dynamic-baa2736f83-v1-codex.json",
+      "attempts": 3,
+      "started_at": "2026-08-31T12:32:42Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-31T123242Z-engine-auto-pump-untargeted-referent-dynamic-baa2736f83-v1-codex.json",
+      "evidence_sha256": "sha256:34a7e365d22bacdfa51c2b5e4ca7095d70a016f6c864f48a4245470b80b65f60",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-exile-target-players-graveyard-aab2a6ee8a/v2",
+      "ticket_sha256": "sha256:74a9d16cb85ab6a141c469e3f727dead12c84d2f8bffd82d77d72c87bdea4012",
+      "receipt": "docs/factory-ng/runs/2026-08-30T210946Z-engine-auto-exile-target-players-graveyard-aab2a6ee8a-v2-codex.json",
+      "attempts": 3,
+      "started_at": "2026-08-30T21:09:46Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-30T210946Z-engine-auto-exile-target-players-graveyard-aab2a6ee8a-v2-codex.json",
+      "evidence_sha256": "sha256:362ef40040c8e1b11207826a80f4ea9e990fe89aae9c25f84c13a72f5e209cfc",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:engine.auto-exile-target-return-next-end-step-8d20b29883/v1",
+      "ticket_sha256": "sha256:f54256e812071fdc986a86ae35230558a137f9809110b8ee26938a9ea291b35c",
+      "receipt": "docs/factory-ng/runs/2026-08-30T190637Z-engine-auto-exile-target-return-next-end-step-8d20b29883-v1-codex.json",
+      "attempts": 3,
+      "started_at": "2026-08-30T19:06:36Z",
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-30T190637Z-engine-auto-exile-target-return-next-end-step-8d20b29883-v1-codex.json",
+      "evidence_sha256": "sha256:5a46670e80d418887dfa63149410a72e50249916c539d5ff0d044712276df0df",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "source_context",
+      "reason": "Historical missing-source/protocol failure. Current bounded NEED resolver, symbol lookup and Codex 1.1 local-source access provide the required evidence; retain one attempt and all original gates."
+    },
+    {
+      "ticket_id": "ticket:map.switch-pt/v2",
+      "ticket_sha256": "sha256:1a4b0874877ac51a14a6a327c531177c516e0cafe1a13225f32ddd67be8b4e82",
+      "receipt": "docs/factory-ng/runs/2026-08-28-map-switch-pt-v2-qwen.json",
+      "attempts": 0,
+      "started_at": null,
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-28-map-switch-pt-v2-qwen.json",
+      "evidence_sha256": "sha256:2b59056603ae1cd4f6b0b5d6fe89fe5ccc949281321f8f93269edc742987f1b7",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    },
+    {
+      "ticket_id": "ticket:map.switch-pt/v3",
+      "ticket_sha256": "sha256:cf7cf8e8deafdbe45da832d6b910c4ef28b45260549ecb9fc9c9679082db29c9",
+      "receipt": "docs/factory-ng/runs/2026-08-28-map-switch-pt-v3-claude.json",
+      "attempts": 0,
+      "started_at": null,
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-28-map-switch-pt-v3-claude.json",
+      "evidence_sha256": "sha256:fd34e61cbcb6ea9b65cd776cf66012e601f92948393be34c9475d0fbe8b9d210",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "provider_quota",
+      "reason": "Historical provider session quota expired; retry through current usage-gated workers with original limits."
+    },
+    {
+      "ticket_id": "ticket:map.target-player-draw/v3",
+      "ticket_sha256": "sha256:ae532499a1323d59104637c68d291588752344125f5f12a512044507977f1136",
+      "receipt": "docs/factory-ng/runs/2026-08-28-map-target-player-draw-v3.json",
+      "attempts": 0,
+      "started_at": null,
+      "evidence_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/worker-evidence/2026-08-28-map-target-player-draw-v3.json",
+      "evidence_sha256": "sha256:caa8078026b4c87fcbc61801a5e628377447b5ae94d376a50d7dd9697814ddce",
+      "profiles": [
+        "claude-staged@1.0.0",
+        "codex-constrained@1.1.0"
+      ],
+      "category": "model_protocol",
+      "reason": "Historical empty, truncated or malformed model response. Current enabled staged adapters enforce patch blocks with bounded repair; one reviewed attempt under current compatible profiles, with all original gates retained."
+    }
+  ]
+}

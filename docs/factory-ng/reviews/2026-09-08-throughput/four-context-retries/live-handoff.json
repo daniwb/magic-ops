@@ -1,0 +1,111 @@
+{
+  "at": "2026-09-08T21:36:41.429074+00:00",
+  "dashboard_summary": {
+    "tickets": 3988,
+    "attempts": 4587,
+    "accepted": 533,
+    "integrations": 485,
+    "problems": 131
+  },
+  "dashboard_indexed_at": "2026-09-08T21:36:22.347003Z",
+  "canonical_clean": true,
+  "selected_jobs": {
+    "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v1": {
+      "state": "blocked",
+      "outcome": "blocked_by_capability",
+      "worker": "claude",
+      "attempts": 1,
+      "superseded_by": "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v2",
+      "production": {
+        "key": "build-plan:verb_unmapped:damage:sha256:1226a3b39a91bcf16fcacb9053774635ae765d8cfee64fa5fefb3bc5be226f64",
+        "plan_rank": 3,
+        "predicted_class_unlock": 356,
+        "producer": "build-plan-continuous",
+        "retry_generation": 0
+      },
+      "receipt": "docs/factory-ng/runs/2026-09-02T142452Z-map-plan-damage-rakdos-roustabout-8c3132d96a-v1-claude.json"
+    },
+    "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v2": {
+      "state": "parked",
+      "outcome": "infrastructure_failed_model_protocol",
+      "worker": "claude",
+      "attempts": 2,
+      "superseded_by": "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v3",
+      "production": {
+        "key": "staged-five-card-2026-09-08:map:roustabout",
+        "producer": "staged-five-card-trial",
+        "retry_reason": "dependency_resume",
+        "trial_card": "Rakdos Roustabout",
+        "trial_id": "staged-five-card-2026-09-08"
+      },
+      "receipt": "docs/factory-ng/runs/2026-09-08T203540Z-map-plan-damage-rakdos-roustabout-8c3132d96a-v2-claude.json"
+    },
+    "ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v3": {
+      "state": "queued",
+      "outcome": null,
+      "worker": null,
+      "attempts": null,
+      "superseded_by": null,
+      "production": {
+        "context_repair_version": "python-handoff-v2",
+        "integration_repair_generation": 1,
+        "key": "staged-five-card-2026-09-08:map:roustabout",
+        "producer": "build-plan-integration-recovery",
+        "retry_batch": "four-context-retries-2026-09-08",
+        "retry_reason": "context_repair",
+        "trial_card": "Rakdos Roustabout",
+        "trial_id": "staged-five-card-2026-09-08"
+      },
+      "receipt": null
+    },
+    "ticket:map.plan-pump-barge-in-a96db2c352/v1": {
+      "state": "parked",
+      "outcome": "parked",
+      "worker": "claude",
+      "attempts": 1,
+      "superseded_by": null,
+      "production": {
+        "key": "build-plan:verb_unmapped:pump:sha256:81ea82d7f7182c4db5e0830a040f21dffdde755185fc8f62b1bce64d9ac236a2",
+        "plan_rank": 4,
+        "predicted_class_unlock": 351,
+        "producer": "build-plan-continuous",
+        "retry_generation": 0
+      },
+      "receipt": "docs/factory-ng/runs/2026-09-03T030542Z-map-plan-pump-barge-in-a96db2c352-v1-claude.json"
+    },
+    "ticket:map.plan-pump-thorntooth-witch-5b8aaa9b51/v1": {
+      "state": "parked",
+      "outcome": "parked",
+      "worker": "claude",
+      "attempts": 1,
+      "superseded_by": null,
+      "production": {
+        "key": "build-plan:verb_unmapped:pump:sha256:c87d45dc0798d914674e0bae952d2aafddc8f004820293352b8e99b73d838b7b",
+        "plan_rank": 4,
+        "predicted_class_unlock": 351,
+        "producer": "build-plan-continuous",
+        "retry_generation": 0
+      },
+      "receipt": "docs/factory-ng/runs/2026-09-03T012555Z-map-plan-pump-thorntooth-witch-5b8aaa9b51-v1-claude.json"
+    },
+    "ticket:map.plan-put-counters-machine-man-model-x-51-5f65a12e95/v1": {
+      "state": "parked",
+      "outcome": "parked",
+      "worker": "claude",
+      "attempts": 1,
+      "superseded_by": null,
+      "production": {
+        "key": "build-plan:verb_unmapped:put_counters:sha256:402a53ad5cd9da1682dbe56e95cbc7b4fb18a6f21e9e852a42550a062bf05ef2",
+        "plan_rank": 19,
+        "predicted_class_unlock": 196,
+        "producer": "build-plan-continuous",
+        "retry_generation": 0
+      },
+      "receipt": "docs/factory-ng/runs/2026-09-02T063441Z-map-plan-put-counters-machine-man-model-x-51-5f65a12e95-v1-claude.json"
+    }
+  },
+  "admission_log": [
+    "[2026-09-08T21:35:40Z] producer=context-retry-batch status=queued ticket=ticket:map.plan-damage-rakdos-roustabout-8c3132d96a/v3"
+  ],
+  "deployment": false
+}

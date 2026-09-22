@@ -1,0 +1,6 @@
+{
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/reparse.py:18271: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/factory-ng-blocker-recovery-sep11/scripts/paragraph/../../backend/data/carddb/p.json' mode='r' encoding='UTF-8'>\n  db = json.load(open(path))\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n..\n----------------------------------------------------------------------\nRan 2 tests in 0.347s\n\nOK\n",
+  "elapsed_ms": 1144
+}

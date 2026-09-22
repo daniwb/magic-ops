@@ -1,0 +1,581 @@
+<title>Factory NG Galaxy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --space:      #05060a;
+    --panel:      rgba(14,17,26,0.86);
+    --panel-2:    rgba(20,24,36,0.9);
+    --hair:       rgba(220,228,245,0.10);
+    --hair-strong:rgba(220,228,245,0.22);
+    --ink:        #e9edf6;
+    --ink-soft:   #a4acc0;
+    --ink-mute:   #6c7488;
+    --good:       #35d17a;
+    --critical:   #ff6a63;
+    --warning:    #f2b545;
+    --link:       #bfe8ff;
+    --shadow: 0 18px 50px -18px rgba(0,0,0,0.75);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+  body {
+    background: var(--space);
+    color: var(--ink);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 13px;
+  }
+  #stage { position: fixed; inset: 0; }
+  canvas { display: block; width: 100%; height: 100%; cursor: grab; }
+  canvas.dragging { cursor: grabbing; }
+
+  .hud { position: fixed; z-index: 5; pointer-events: none; }
+  .hud > * { pointer-events: auto; }
+
+  .top {
+    top: 18px; left: 18px; right: 18px;
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+  }
+  .title-card {
+    background: var(--panel);
+    border: 1px solid var(--hair);
+    border-radius: 12px;
+    padding: 14px 18px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+    max-width: 420px;
+  }
+  nav.topnav { margin-bottom: 8px; }
+  nav.topnav a { color: var(--ink-mute); text-decoration: none; font-size: 11px; }
+  nav.topnav a:hover { color: var(--link); }
+  .eyebrow {
+    font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--link); font-weight: 600;
+  }
+  h1 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600; font-size: 21px; margin: 4px 0 6px; color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .title-card p { margin: 0; color: var(--ink-soft); font-size: 12px; line-height: 1.55; }
+
+  .stats-card {
+    background: var(--panel);
+    border: 1px solid var(--hair);
+    border-radius: 12px;
+    padding: 12px 16px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+    display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+  }
+  .stats-row { display: flex; gap: 20px; }
+  .stat { text-align: right; }
+  .stat .n { font-size: 18px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .stat .l { font-size: 9.5px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.06em; }
+  #stamp { font-size: 10.5px; color: var(--ink-mute); }
+  #stamp .live { color: var(--good); }
+  #stamp .live:before { content: '●'; margin-right: 5px; }
+
+  .search-wrap { position: fixed; top: 18px; left: 50%; transform: translateX(-50%); z-index: 6; }
+  .search-box {
+    background: var(--panel); border: 1px solid var(--hair); border-radius: 10px;
+    box-shadow: var(--shadow); backdrop-filter: blur(10px); padding: 8px 12px;
+    display: flex; align-items: center; gap: 8px; width: 300px;
+  }
+  .search-box input { background: none; border: none; outline: none; color: var(--ink); font-family: inherit; font-size: 12.5px; width: 100%; }
+  .search-box input::placeholder { color: var(--ink-mute); }
+  .search-box svg { flex: none; opacity: 0.55; }
+  .search-results {
+    margin-top: 6px; background: var(--panel-2); border: 1px solid var(--hair); border-radius: 10px;
+    box-shadow: var(--shadow); max-height: 260px; overflow-y: auto; display: none;
+  }
+  .search-results.show { display: block; }
+  .search-results div { padding: 7px 12px; font-size: 11.5px; cursor: pointer; color: var(--ink-soft); border-bottom: 1px solid var(--hair); }
+  .search-results div:last-child { border-bottom: none; }
+  .search-results div:hover { background: rgba(191,232,255,0.08); color: var(--ink); }
+  .search-results .tag { color: var(--ink-mute); font-size: 10px; }
+
+  .legend {
+    position: fixed; left: 18px; bottom: 18px; z-index: 5;
+    background: var(--panel); border: 1px solid var(--hair); border-radius: 12px;
+    padding: 12px 14px; box-shadow: var(--shadow); backdrop-filter: blur(10px);
+    font-size: 11px; max-width: 250px;
+  }
+  .legend h3 { margin: 0 0 8px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-mute); font-weight: 600; }
+  .legend .row { display: flex; align-items: center; gap: 7px; margin-bottom: 5px; color: var(--ink-soft); }
+  .legend .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  .legend .line { width: 16px; height: 2px; flex: none; }
+  .legend hr { border: none; border-top: 1px solid var(--hair); margin: 9px 0; }
+
+  .clusters {
+    position: fixed; right: 18px; bottom: 18px; z-index: 5;
+    background: var(--panel); border: 1px solid var(--hair); border-radius: 12px;
+    padding: 12px 14px; box-shadow: var(--shadow); backdrop-filter: blur(10px);
+    font-size: 11px; max-width: 230px; max-height: 46vh; overflow-y: auto;
+  }
+  .clusters h3 { margin: 0 0 8px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-mute); font-weight: 600; }
+  .clusters .row { display: flex; align-items: baseline; gap: 7px; margin-bottom: 6px; cursor: pointer; }
+  .clusters .row:hover .lbl { color: var(--ink); }
+  .clusters .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  .clusters .lbl { color: var(--ink-soft); flex: 1; font-size: 11px; }
+  .clusters .val { color: var(--ink-mute); font-variant-numeric: tabular-nums; font-size: 10.5px; }
+
+  .tooltip {
+    position: fixed; z-index: 8; pointer-events: none;
+    background: var(--panel-2); border: 1px solid var(--hair-strong);
+    border-radius: 8px; padding: 8px 10px; font-size: 11px;
+    max-width: 300px; box-shadow: var(--shadow); opacity: 0; transition: opacity .06s;
+    color: var(--ink-soft);
+  }
+  .tooltip.show { opacity: 1; }
+  .tooltip b { color: var(--ink); font-weight: 600; word-break: break-all; }
+
+  .detail {
+    position: fixed; top: 18px; right: 18px; z-index: 7; width: 300px;
+    background: var(--panel); border: 1px solid var(--hair); border-radius: 12px;
+    box-shadow: var(--shadow); backdrop-filter: blur(10px); padding: 16px;
+    display: none; max-height: calc(100vh - 36px); overflow-y: auto;
+  }
+  .detail.show { display: block; }
+  .detail .close { position: absolute; top: 10px; right: 10px; cursor: pointer; color: var(--ink-mute); background: none; border: none; font-size: 16px; line-height: 1; font-family: inherit; }
+  .detail .close:hover { color: var(--ink); }
+  .detail .id { font-size: 12.5px; color: var(--ink); font-weight: 600; word-break: break-all; padding-right: 16px; }
+  .detail .kind { display: inline-block; margin-top: 6px; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 7px; border-radius: 20px; }
+  .detail dl { margin: 12px 0 0; }
+  .detail dt { font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-mute); margin-top: 8px; }
+  .detail dd { margin: 2px 0 0; font-size: 12px; color: var(--ink-soft); }
+  .detail .neighbors { margin-top: 6px; }
+  .detail .neighbors div { padding: 5px 0; border-bottom: 1px solid var(--hair); font-size: 11px; color: var(--link); cursor: pointer; word-break: break-all; }
+  .detail .neighbors div:hover { color: var(--ink); }
+  .detail .neighbors div:last-child { border-bottom: none; }
+
+  .hint {
+    position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); z-index: 5;
+    color: var(--ink-mute); font-size: 10.5px; background: var(--panel); border: 1px solid var(--hair);
+    border-radius: 20px; padding: 6px 14px; backdrop-filter: blur(10px); box-shadow: var(--shadow);
+  }
+  .loading {
+    position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+    color: var(--ink-mute); font-size: 13px; z-index: 20;
+  }
+  @media (max-width: 760px) {
+    .clusters, .legend { display: none; }
+    .title-card { max-width: 220px; }
+    .stats-card { display: none; }
+    .search-wrap { left: 18px; transform: none; }
+  }
+</style>
+
+<div id="stage"><canvas id="cv"></canvas></div>
+<div class="loading" id="loading">loading galaxy…</div>
+
+<div class="hud">
+  <div class="top">
+    <div class="title-card">
+      <nav class="topnav"><a href="/dashboard">← Magic Factory NG</a></nav>
+      <div class="eyebrow">Factory NG · Ticket Dependency Galaxy</div>
+      <h1>Every ticket, wired by what it actually depends on</h1>
+      <p>Nebulae are the coverage-plan capability classes each ticket declares as its parent. Bright threads are real Map ⇄ Engine dependency links pulled from ticket lineage. Drag to pan, scroll to zoom, click a star.</p>
+    </div>
+    <div class="stats-card">
+      <div class="stats-row" id="stats"></div>
+      <div id="stamp">loading…</div>
+    </div>
+  </div>
+</div>
+
+<div class="search-wrap">
+  <div class="search-box">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input id="search" type="text" placeholder="find a ticket or capability…" autocomplete="off">
+  </div>
+  <div class="search-results" id="results"></div>
+</div>
+
+<div class="legend">
+  <h3>Reading the sky</h3>
+  <div class="row"><span class="line" style="background:var(--link)"></span> real dependency link (Map ⇄ Engine)</div>
+  <div class="row"><span class="line" style="border-top:2px dashed var(--warning);background:none;height:0"></span> revision chain (supersedes)</div>
+  <div class="row"><span class="line" style="background:rgba(255,255,255,0.18)"></span> nebula membership</div>
+  <hr>
+  <div class="row"><span class="dot" style="background:var(--good)"></span> completed / integrated</div>
+  <div class="row"><span class="dot" style="background:var(--link)"></span> working</div>
+  <div class="row"><span class="dot" style="background:var(--ink-mute)"></span> queued / parked / blocked</div>
+  <div class="row"><span class="dot" style="background:var(--critical)"></span> failed</div>
+</div>
+
+<div class="clusters" id="clusters"></div>
+<div class="tooltip" id="tooltip"></div>
+<div class="detail" id="detail"><button class="close" id="detail-close">✕</button><div id="detail-body"></div></div>
+<div class="hint">scroll to zoom · drag to pan · click a star for its links · refreshes every 45s</div>
+
+<script>
+(function () {
+  // ================= mutable graph state, rebuilt on every poll =================
+  let nodes = [], edges = [], hubs = [], hubHue = {}, adj = [], clusterOf = {};
+  let idIndex = {};
+  let firstLoad = true;
+
+  function expand(raw) {
+    const KIND_NAME = { c: 'cluster', d: 'dependency', r: 'revision' };
+    nodes = raw.nodes.map((n, i) => {
+      if (n.k === 'h') return { i, id: n.id, kind: 'hub', label: n.l, x: n.x, y: n.y, unlock: n.u, rank: n.r };
+      return {
+        i, id: n.id, kind: 'ticket', label: n.l, x: n.x, y: n.y, degree: n.d || 0,
+        workType: n.w === 'm' ? 'map' : n.w === 'e' ? 'engine' : null,
+        state: n.s || null, outcome: n.o || null,
+      };
+    });
+    edges = raw.edges.map(([a, b, k]) => ({ a, b, kind: KIND_NAME[k] }));
+    idIndex = {};
+    nodes.forEach(n => { idIndex[n.id] = n.i; });
+
+    hubs = nodes.filter(n => n.kind === 'hub').sort((a, b) => (b.unlock || 0) - (a.unlock || 0));
+    const GOLDEN = 137.508;
+    hubHue = {};
+    hubs.forEach((h, i) => { hubHue[h.i] = (208 + i * GOLDEN) % 360; });
+
+    adj = nodes.map(() => []);
+    edges.forEach(e => { adj[e.a].push({ n: e.b, kind: e.kind }); adj[e.b].push({ n: e.a, kind: e.kind }); });
+    clusterOf = {};
+    edges.forEach(e => {
+      if (e.kind === 'cluster') {
+        const hub = nodes[e.a].kind === 'hub' ? e.a : (nodes[e.b].kind === 'hub' ? e.b : null);
+        const leaf = hub === e.a ? e.b : e.a;
+        if (hub !== null && !(leaf in clusterOf)) clusterOf[leaf] = hub;
+      }
+    });
+  }
+
+  function nodeColor(n) {
+    if (n.kind === 'hub') return `hsl(${hubHue[n.i]} 78% 62%)`;
+    const hub = clusterOf[n.i];
+    const hue = hub !== undefined ? hubHue[hub] : 210;
+    const sat = hub !== undefined ? 55 : 8;
+    let light = 72;
+    if (n.state === 'completed' || (n.outcome || '').startsWith('pushed')) light = 82;
+    if (n.state === 'failed') light = 42;
+    return `hsl(${hue} ${sat}% ${light}%)`;
+  }
+  function nodeRing(n) {
+    if (n.kind === 'hub') return null;
+    if (n.state === 'completed' || (n.outcome || '').startsWith('pushed') || (n.outcome || '').startsWith('accepted')) return 'var(--good)';
+    if (n.state === 'working') return 'var(--link)';
+    if (n.state === 'failed') return 'var(--critical)';
+    return null;
+  }
+  function nodeRadius(n) {
+    if (n.kind === 'hub') return 5 + Math.sqrt(n.unlock || 1) * 0.9;
+    return 2.1 + Math.min(n.degree, 10) * 0.32;
+  }
+
+  function renderPanels() {
+    const depCount = edges.filter(e => e.kind === 'dependency').length;
+    const revCount = edges.filter(e => e.kind === 'revision').length;
+    document.getElementById('stats').innerHTML = [
+      ['tickets', nodes.length - hubs.length],
+      ['nebulae', hubs.length],
+      ['links', depCount],
+      ['revisions', revCount],
+    ].map(([l, v]) => `<div class="stat"><div class="n">${v.toLocaleString()}</div><div class="l">${l}</div></div>`).join('');
+
+    document.getElementById('clusters').innerHTML = '<h3>Nebulae, by unlock value</h3>' +
+      hubs.map(h => `<div class="row" data-jump="${h.i}"><span class="dot" style="background:hsl(${hubHue[h.i]} 78% 62%)"></span><span class="lbl">${h.label}</span><span class="val">${h.unlock}</span></div>`).join('');
+  }
+
+  // ================= canvas + camera =================
+  const canvas = document.getElementById('cv');
+  const ctx = canvas.getContext('2d');
+  let DPR = Math.min(window.devicePixelRatio || 1, 2);
+  let cam = { x: 0, y: 0, scale: 0.16 };
+  let dirty = true;
+
+  function resize() {
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = window.innerWidth * DPR;
+    canvas.height = window.innerHeight * DPR;
+    dirty = true;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  function worldToScreen(x, y) { return [(x - cam.x) * cam.scale + canvas.width / 2, (y - cam.y) * cam.scale + canvas.height / 2]; }
+  function screenToWorld(sx, sy) { return [(sx - canvas.width / 2) / cam.scale + cam.x, (sy - canvas.height / 2) / cam.scale + cam.y]; }
+
+  let hovered = null;
+  let selected = null;
+  let selectedId = null;
+  let selectedSet = null;
+
+  function draw() {
+    dirty = false;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = '#05060a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = 'rgba(255,255,255,0.35)';
+    for (let i = 0; i < 140; i++) {
+      const sx = (i * 97.13) % canvas.width, sy = (i * 233.7) % canvas.height;
+      ctx.globalAlpha = 0.12 + (i % 5) * 0.03;
+      ctx.fillRect(sx, sy, 1, 1);
+    }
+    ctx.globalAlpha = 1;
+
+    hubs.forEach(h => {
+      const [sx, sy] = worldToScreen(h.x, h.y);
+      const r = (260 + Math.sqrt(h.unlock || 1) * 22) * cam.scale;
+      if (sx < -r || sx > canvas.width + r || sy < -r || sy > canvas.height + r) return;
+      const grad = ctx.createRadialGradient(sx, sy, 0, sx, sy, r);
+      const hue = hubHue[h.i];
+      grad.addColorStop(0, `hsla(${hue},80%,60%,0.16)`);
+      grad.addColorStop(1, `hsla(${hue},80%,60%,0)`);
+      ctx.fillStyle = grad;
+      ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2); ctx.fill();
+    });
+
+    const dimming = selectedSet !== null;
+
+    edges.forEach(e => {
+      const A = nodes[e.a], B = nodes[e.b];
+      if (!A || !B) return;
+      const [ax, ay] = worldToScreen(A.x, A.y);
+      const [bx, by] = worldToScreen(B.x, B.y);
+      if (Math.max(ax, bx) < 0 || Math.min(ax, bx) > canvas.width || Math.max(ay, by) < 0 || Math.min(ay, by) > canvas.height) return;
+      const active = dimming && (e.a === selected || e.b === selected);
+      let alpha, color, width;
+      if (e.kind === 'cluster') {
+        const hub = A.kind === 'hub' ? A : B;
+        alpha = dimming ? (active ? 0.5 : 0.02) : 0.05;
+        color = `hsla(${hubHue[hub.i]},70%,65%,${alpha})`;
+        width = 1 * DPR;
+      } else if (e.kind === 'dependency') {
+        alpha = dimming ? (active ? 0.95 : 0.04) : 0.55;
+        color = `rgba(191,232,255,${alpha})`;
+        width = (active ? 2 : 1.3) * DPR;
+      } else {
+        alpha = dimming ? (active ? 0.95 : 0.04) : 0.4;
+        color = `rgba(242,181,69,${alpha})`;
+        width = (active ? 1.8 : 1.1) * DPR;
+      }
+      ctx.strokeStyle = color;
+      ctx.lineWidth = width;
+      if (e.kind === 'revision') ctx.setLineDash([4 * DPR, 3 * DPR]); else ctx.setLineDash([]);
+      ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
+    });
+    ctx.setLineDash([]);
+
+    const labelCandidates = [];
+    nodes.forEach(n => {
+      const [sx, sy] = worldToScreen(n.x, n.y);
+      if (sx < -20 || sx > canvas.width + 20 || sy < -20 || sy > canvas.height + 20) return;
+      const rr = Math.max(nodeRadius(n) * cam.scale * DPR, n.kind === 'hub' ? 2.4 * DPR : 1.1 * DPR);
+      let alpha = 1;
+      if (dimming) {
+        const isActive = n.i === selected || selectedSet.has(n.i);
+        alpha = isActive ? 1 : 0.08;
+      }
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = nodeColor(n);
+      ctx.beginPath(); ctx.arc(sx, sy, rr, 0, Math.PI * 2); ctx.fill();
+      const ring = nodeRing(n);
+      if (ring && (!dimming || alpha === 1)) {
+        ctx.strokeStyle = ring; ctx.lineWidth = 1.2 * DPR;
+        ctx.beginPath(); ctx.arc(sx, sy, rr + 1.6 * DPR, 0, Math.PI * 2); ctx.stroke();
+      }
+      if (n.i === hovered || n.i === selected) {
+        ctx.strokeStyle = 'rgba(255,255,255,0.9)'; ctx.lineWidth = 1.4 * DPR;
+        ctx.beginPath(); ctx.arc(sx, sy, rr + 3.5 * DPR, 0, Math.PI * 2); ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+      if (n.kind === 'hub' && cam.scale > 0.05) labelCandidates.push({ n, sx, sy, rr });
+      else if (n.i === hovered || n.i === selected) labelCandidates.push({ n, sx, sy, rr });
+    });
+
+    ctx.font = `${11 * DPR}px "IBM Plex Mono", monospace`;
+    ctx.textBaseline = 'middle';
+    labelCandidates.forEach(({ n, sx, sy, rr }) => {
+      ctx.fillStyle = 'rgba(233,237,246,0.94)';
+      ctx.fillText(n.label, sx + rr + 6 * DPR, sy);
+    });
+  }
+
+  function loop() { if (dirty) draw(); requestAnimationFrame(loop); }
+  requestAnimationFrame(loop);
+
+  function fit() {
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    nodes.forEach(n => { minX = Math.min(minX, n.x); maxX = Math.max(maxX, n.x); minY = Math.min(minY, n.y); maxY = Math.max(maxY, n.y); });
+    cam.x = (minX + maxX) / 2; cam.y = (minY + maxY) / 2;
+    const spanX = (maxX - minX) || 1000, spanY = (maxY - minY) || 1000;
+    const sx = window.innerWidth * DPR / (spanX * 1.15);
+    const sy = window.innerHeight * DPR / (spanY * 1.15);
+    cam.scale = Math.min(sx, sy);
+  }
+
+  // ================= interaction =================
+  let dragging = false, lastX = 0, lastY = 0, moved = false;
+  canvas.addEventListener('mousedown', e => { dragging = true; moved = false; lastX = e.clientX; lastY = e.clientY; canvas.classList.add('dragging'); });
+  window.addEventListener('mouseup', () => { dragging = false; canvas.classList.remove('dragging'); });
+  window.addEventListener('mousemove', e => {
+    if (dragging) {
+      const dx = e.clientX - lastX, dy = e.clientY - lastY;
+      if (Math.abs(dx) + Math.abs(dy) > 2) moved = true;
+      cam.x -= dx * DPR / cam.scale; cam.y -= dy * DPR / cam.scale;
+      lastX = e.clientX; lastY = e.clientY;
+      dirty = true; hideTip();
+      return;
+    }
+    handleHover(e.clientX, e.clientY);
+  });
+  canvas.addEventListener('wheel', e => {
+    e.preventDefault();
+    const [wx, wy] = screenToWorld(e.clientX * DPR, e.clientY * DPR);
+    const factor = Math.exp(-e.deltaY * 0.0012);
+    cam.scale = Math.min(6, Math.max(0.006, cam.scale * factor));
+    const [wx2, wy2] = screenToWorld(e.clientX * DPR, e.clientY * DPR);
+    cam.x += wx - wx2; cam.y += wy - wy2;
+    dirty = true;
+  }, { passive: false });
+
+  function nearestNode(clientX, clientY, maxScreenDist) {
+    const [wx, wy] = screenToWorld(clientX * DPR, clientY * DPR);
+    let best = null, bestD = Infinity;
+    for (const n of nodes) {
+      const dx = n.x - wx, dy = n.y - wy, d = dx * dx + dy * dy;
+      if (d < bestD) { bestD = d; best = n; }
+    }
+    if (!best) return null;
+    const [sx, sy] = worldToScreen(best.x, best.y);
+    const dist = Math.hypot(sx - clientX * DPR, sy - clientY * DPR);
+    return dist <= maxScreenDist * DPR ? best : null;
+  }
+
+  const tooltip = document.getElementById('tooltip');
+  function handleHover(clientX, clientY) {
+    const n = nearestNode(clientX, clientY, 16);
+    if (n !== (hovered !== null ? nodes[hovered] : null)) { hovered = n ? n.i : null; dirty = true; }
+    if (n) {
+      tooltip.innerHTML = tipHtml(n);
+      tooltip.classList.add('show');
+      positionTip(clientX, clientY);
+      canvas.style.cursor = 'pointer';
+    } else {
+      hideTip();
+      canvas.style.cursor = dragging ? 'grabbing' : 'grab';
+    }
+  }
+  function hideTip() { tooltip.classList.remove('show'); }
+  function positionTip(clientX, clientY) {
+    const pad = 14;
+    let left = clientX + pad, top = clientY + pad;
+    tooltip.style.left = '0px'; tooltip.style.top = '0px';
+    const tw = tooltip.offsetWidth, th = tooltip.offsetHeight;
+    if (left + tw > window.innerWidth - 8) left = clientX - tw - pad;
+    if (top + th > window.innerHeight - 8) top = clientY - th - pad;
+    tooltip.style.left = left + 'px'; tooltip.style.top = top + 'px';
+  }
+  function tipHtml(n) {
+    if (n.kind === 'hub') return `<b>${n.label}</b><br>capability class · rank #${n.rank ?? '—'}<br>${n.unlock} marginal cards`;
+    const bits = [n.workType || 'ticket', n.state || 'no active job'].filter(Boolean);
+    return `<b>${n.label}</b><br>${bits.join(' · ')}${n.degree ? '<br>' + n.degree + ' direct link(s)' : ''}`;
+  }
+
+  canvas.addEventListener('click', e => {
+    if (moved) return;
+    const n = nearestNode(e.clientX, e.clientY, 16);
+    selectNode(n ? n.i : null);
+  });
+
+  const detail = document.getElementById('detail');
+  const detailBody = document.getElementById('detail-body');
+  document.getElementById('detail-close').addEventListener('click', () => selectNode(null));
+
+  function selectNode(i) {
+    selected = i;
+    selectedId = i === null ? null : nodes[i].id;
+    if (i === null) { selectedSet = null; detail.classList.remove('show'); dirty = true; return; }
+    selectedSet = new Set(adj[i].map(x => x.n));
+    dirty = true;
+    renderDetail(nodes[i], adj[i]);
+    detail.classList.add('show');
+  }
+
+  function renderDetail(n, neighbors) {
+    if (n.kind === 'hub') {
+      detailBody.innerHTML = `
+        <div class="id">${n.label}</div>
+        <span class="kind" style="background:hsla(${hubHue[n.i]},70%,55%,0.25);color:hsl(${hubHue[n.i]},80%,78%)">capability class</span>
+        <dl><dt>Rank</dt><dd>#${n.rank ?? '—'} by marginal unlock</dd>
+        <dt>Unlock potential</dt><dd>${n.unlock} review cards</dd>
+        <dt>Tickets in this nebula</dt><dd>${neighbors.filter(x => x.kind === 'cluster').length}</dd></dl>`;
+      return;
+    }
+    const ring = nodeRing(n);
+    const stateLabel = n.state ? n.state.replace(/_/g, ' ') : 'no active job record';
+    const deps = neighbors.filter(x => x.kind !== 'cluster');
+    const hub = clusterOf[n.i];
+    detailBody.innerHTML = `
+      <div class="id">${n.label}</div>
+      <span class="kind" style="background:${ring ? ring + '33' : 'rgba(255,255,255,0.1)'};color:${ring || 'var(--ink-soft)'}">${n.workType || 'ticket'}</span>
+      <dl><dt>State</dt><dd>${stateLabel}${n.outcome ? ' · ' + n.outcome.replace(/_/g, ' ') : ''}</dd>
+      ${hub !== undefined ? `<dt>Nebula</dt><dd>${nodes[hub].label}</dd>` : ''}
+      <dt>Direct links (${deps.length})</dt>
+      <dd class="neighbors">${deps.length ? deps.map(x => `<div data-jump="${x.n}">${x.kind === 'dependency' ? '→' : '↻'} ${nodes[x.n].label}</div>`).join('') : '<span style="color:var(--ink-mute)">none — standalone ticket</span>'}</dd></dl>`;
+  }
+
+  function jumpTo(i) {
+    const n = nodes[i];
+    cam.x = n.x; cam.y = n.y;
+    cam.scale = Math.max(cam.scale, 0.55);
+    selectNode(i);
+    dirty = true;
+  }
+  document.addEventListener('click', e => {
+    const jump = e.target.closest('[data-jump]');
+    if (jump) jumpTo(parseInt(jump.dataset.jump, 10));
+  });
+
+  // ================= search =================
+  const searchInput = document.getElementById('search');
+  const results = document.getElementById('results');
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.trim().toLowerCase();
+    if (q.length < 2) { results.classList.remove('show'); results.innerHTML = ''; return; }
+    const matches = nodes.filter(n => n.label.toLowerCase().includes(q)).slice(0, 30);
+    results.innerHTML = matches.length
+      ? matches.map(n => `<div data-jump="${n.i}">${n.label} <span class="tag">${n.kind === 'hub' ? 'nebula' : (n.workType || '')}</span></div>`).join('')
+      : '<div style="cursor:default">no matches</div>';
+    results.classList.add('show');
+  });
+  document.addEventListener('click', e => { if (!e.target.closest('.search-wrap')) results.classList.remove('show'); });
+
+  // ================= live data polling =================
+  async function load() {
+    try {
+      const r = await fetch('/factory-ng/galaxy.json');
+      const raw = await r.json();
+      if (raw.error || !raw.generated_at) {
+        document.getElementById('stamp').innerHTML = '<span style="color:var(--warning)">snapshot not generated yet</span>';
+        return;
+      }
+      expand(raw);
+      renderPanels();
+      document.getElementById('stamp').innerHTML = '<span class="live">live</span> updated ' + new Date(raw.generated_at).toLocaleTimeString();
+      document.getElementById('loading').style.display = 'none';
+      if (firstLoad) { fit(); firstLoad = false; }
+      if (selectedId !== null && selectedId in idIndex) {
+        selected = idIndex[selectedId];
+        selectedSet = new Set(adj[selected].map(x => x.n));
+        renderDetail(nodes[selected], adj[selected]);
+      } else if (selectedId !== null) {
+        selectNode(null);
+      }
+      dirty = true;
+    } catch (e) {
+      document.getElementById('stamp').innerHTML = '<span style="color:var(--critical)">data unavailable</span>';
+    }
+  }
+  load();
+  setInterval(load, 45000);
+})();
+</script>

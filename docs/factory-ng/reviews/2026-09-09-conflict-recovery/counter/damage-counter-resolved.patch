@@ -1,0 +1,125 @@
+From 26bac10dbec102f637ef8c6439a16a2d7846b40c Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Mon, 7 Sep 2026 20:15:57 +0000
+Subject: [PATCH] factory-ng: supervised engine observation
+
+---
+ backend/game/ability_effects.go            | 40 ++++++++++++++++
+ backend/game/factory_ng_82dee1907b_test.go | 54 ++++++++++++++++++++++
+ 2 files changed, 94 insertions(+)
+ create mode 100644 backend/game/factory_ng_82dee1907b_test.go
+
+diff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go
+index 19d4a124f..cf69eef48 100644
+--- a/backend/game/ability_effects.go
++++ b/backend/game/ability_effects.go
+@@ -158,6 +158,46 @@ func (gs *GameState) executeExileTwoCardsFromGraveyardUpkeepCost(controller int)
+ 	return true
+ }
+ 
++// DealDamageEqualToCounterCount implements the damage_amount_counter_count
++// primitive (ticket engine.auto-damage-amount-counter-count-82dee1907b,
++// Falkenrath Exterminator class): "~ deals damage to target creature equal
++// to the number of +1/+1 counters on this creature." Unlike the literal-
++// amount and map_atom-resolved damage shapes (which pre-fold a plain int
++// before dispatch), the amount here is read directly off counterSource's
++// own Counters AT RESOLUTION time (Rule 608.2g) — counterSource is
++// whichever permanent the ability's text actually references (usually the
++// source itself, as in the blocked example, but kept as its own parameter
++// so a future reference to some OTHER permanent isn't precluded). Returns
++// the resolved counter amount after using the ordinary damage pipeline,
++// including prevention, replacement effects and damage event dispatch. No-op (amount 0, nil error) if
++// counterSource is nil, the target isn't a card, the target isn't found
++// on the battlefield, or counterSource currently has none of the named
++// counter type — mirroring the amount<=0 no-op convention used throughout
++// this file (see DealDamageSameNameAsTargetCreature above).
++func (gs *GameState) DealDamageEqualToCounterCount(source *Card, controller int, target Target, counterSource *Card, counterType CounterType) (int, error) {
++	if counterSource == nil || !target.IsCard {
++		return 0, nil
++	}
++	amount := counterSource.Counters.GetCount(counterType)
++	if amount <= 0 {
++		return 0, nil
++	}
++	var targetCard *Card
++	for _, c := range gs.Battlefield.GetAll() {
++		if c != nil && c.ID == target.CardID {
++			targetCard = c
++			break
++		}
++	}
++	if targetCard == nil {
++		return 0, nil
++	}
++	if err := gs.executeDamageEffect(controller, source, map[string]interface{}{"amount": amount}, []Target{target}); err != nil {
++		return 0, err
++	}
++	return amount, nil
++}
++
+ // executeDestroyLowestManaValueNonlandPermanentEffect implements the
+ // destroy_lowest_mana_value_nonland_permanent primitive (ticket
+ // engine.auto-destroy-lowest-mana-value-nonland-permanent-cd5217d89c,
+diff --git a/backend/game/factory_ng_82dee1907b_test.go b/backend/game/factory_ng_82dee1907b_test.go
+new file mode 100644
+index 000000000..b887e7f98
+--- /dev/null
++++ b/backend/game/factory_ng_82dee1907b_test.go
+@@ -0,0 +1,54 @@
++package game
++
++import "testing"
++
++// TestFactoryNGDamageAmountCounterCount covers the damage_amount_counter_count
++// primitive (ticket engine.auto-damage-amount-counter-count-82dee1907b,
++// Falkenrath Exterminator class): "~ deals damage to target creature equal
++// to the number of +1/+1 counters on this creature." Verifies the resolved
++// amount tracks the referenced permanent's counter count exactly — zero
++// counters is a no-op, a specific count produces that exact amount, and an
++// unrelated counter type on the same permanent is never conflated with it.
++func TestFactoryNGDamageAmountCounterCount(t *testing.T) {
++	gs := NewGame("P0", "P1", false)
++
++	src := NewCreature("Test Exterminator", ManaCost{}, 2, 2, 0)
++	src.Owner, src.Controller = 0, 0
++	gs.Battlefield.AddCard(src)
++
++	victim := NewCreature("Test Victim", ManaCost{}, 4, 4, 0)
++	victim.Owner, victim.Controller = 1, 1
++	gs.Battlefield.AddCard(victim)
++
++	target := Target{IsCard: true, CardID: victim.ID}
++
++	amount, err := gs.DealDamageEqualToCounterCount(src, 0, target, src, CounterType("+1/+1"))
++	if err != nil {
++		t.Fatalf("DealDamageEqualToCounterCount (no counters): %v", err)
++	}
++	if amount != 0 {
++		t.Fatalf("expected 0 amount with no +1/+1 counters, got %d", amount)
++	}
++
++	src.Counters.AddCounter(CounterType("+1/+1"), 3)
++
++	amount, err = gs.DealDamageEqualToCounterCount(src, 0, target, src, CounterType("+1/+1"))
++	if err != nil {
++		t.Fatalf("DealDamageEqualToCounterCount: %v", err)
++	}
++	if amount != 3 {
++		t.Fatalf("expected amount 3 matching +1/+1 counters on source, got %d", amount)
++	}
++
++	if victim.Damage != 3 {
++		t.Fatalf("damage must reach the creature, got %d want 3", victim.Damage)
++	}
++
++	amount, err = gs.DealDamageEqualToCounterCount(src, 0, target, src, CounterType("charge"))
++	if err != nil {
++		t.Fatalf("DealDamageEqualToCounterCount (unrelated counter type): %v", err)
++	}
++	if amount != 0 {
++		t.Fatalf("expected 0 amount for unrelated counter type, got %d", amount)
++	}
++}
+-- 
+2.43.0
+

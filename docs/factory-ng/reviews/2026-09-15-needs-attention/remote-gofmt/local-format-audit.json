@@ -1,0 +1,86 @@
+[
+  {
+    "review": "shared-type-bounce",
+    "clone": "/tmp/factory-ng-attention-shared-type-bounce",
+    "files": [
+      "backend/cards/registry_shared_permanent_bounce.go",
+      "backend/cards/shape_shared_permanent_bounce_test.go",
+      "backend/game/ability_effects.go",
+      "backend/game/bounce_shared_permanent_type.go",
+      "backend/game/events.go"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "review": "triggering-copy",
+    "clone": "/tmp/factory-ng-attention-triggering-copy",
+    "files": [
+      "backend/cards/converter.go",
+      "backend/cards/registry_triggering_permanent_copy.go",
+      "backend/cards/shape_triggering_permanent_copy_test.go",
+      "backend/game/ability_effects.go",
+      "backend/game/copy_triggering_permanent.go"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "review": "structural-collapse",
+    "clone": "/tmp/factory-ng-attention-structural-collapse",
+    "files": [
+      "backend/cards/converter.go",
+      "backend/cards/converter_sacrifice_damage.go",
+      "backend/cards/shape_sacrifice_damage_test.go",
+      "backend/game/edict_sequence.go",
+      "backend/game/effect_sequence.go",
+      "backend/game/gamestate.go",
+      "backend/game/gamestate_choice.go"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "review": "filtered-pump-rebase",
+    "clone": "/tmp/factory-ng-attention-filtered-pump-rebase",
+    "files": [
+      "backend/cards/converter.go",
+      "backend/cards/converter_untargeted_pump.go",
+      "backend/cards/shape_untargeted_pump_test.go",
+      "backend/game/ability_effects.go",
+      "backend/game/gamestate.go"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "review": "exile-filter",
+    "clone": "/tmp/factory-ng-attention-exile-filter",
+    "files": [
+      "backend/cards/converter.go",
+      "backend/cards/shape_exile_complex_filter_test.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "review": "block-receiver-color",
+    "clone": "/tmp/factory-ng-attention-block-receiver-color",
+    "files": [
+      "backend/cards/converter.go",
+      "backend/cards/shape_block_receiver_color_test.go",
+      "backend/game/events.go",
+      "backend/game/gamestate.go"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+]

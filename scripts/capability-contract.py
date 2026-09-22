@@ -56,7 +56,7 @@ def extract(text: str) -> dict:
     return obj
 
 
-def validate_oracle(obj: dict, repo: str) -> None:
+def oracle_records(repo: str) -> dict:
     records = {}
     for path in glob.glob(os.path.join(repo, "backend/data/carddb/*.json")):
         try:
@@ -65,7 +65,19 @@ def validate_oracle(obj: dict, repo: str) -> None:
         except (OSError, json.JSONDecodeError):
             continue
         if isinstance(data, dict):
-            records.update(data)
+            # carddb also contains metadata maps such as _handlers.json whose
+            # string values reuse card names.  Never let those overwrite the
+            # authoritative card record loaded from the alphabetical shard.
+            for name, record in data.items():
+                if isinstance(record, dict):
+                    records[name] = record
+
+    return records
+
+
+def validate_oracle(obj: dict, repo: str, records=None) -> None:
+    if records is None:
+        records = oracle_records(repo)
 
     def norm(value: str) -> str:
         return " ".join(value.replace("’", "'").replace("“", '"').replace("”", '"').split())

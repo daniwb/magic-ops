@@ -1,0 +1,142 @@
+[
+  {
+    "original": "ticket:engine.auto-copy-triggering-referent-b4a4facffb/v1",
+    "latest": "ticket:engine.auto-copy-triggering-referent-b4a4facffb/v2",
+    "state": "completed",
+    "outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-09T072046Z-engine-auto-copy-triggering-referent-b4a4facffb-v2-operator-format.json",
+    "integration_receipt": "docs/factory-ng/runs/2026-09-09T072545Z-wave-c98ed497aae2-integration.json",
+    "verified_integration_outcome": "pushed_full_production_gate_green",
+    "verified_integration_receipt": "docs/factory-ng/runs/2026-09-09T072545Z-wave-c98ed497aae2-integration.json"
+  },
+  {
+    "original": "ticket:engine.auto-damage-amount-counter-count-82dee1907b/v3",
+    "latest": "ticket:engine.auto-damage-amount-counter-count-82dee1907b/v3",
+    "state": "completed",
+    "outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-07T200419Z-engine-auto-damage-amount-counter-count-82dee1907b-v3-claude.json",
+    "integration_receipt": "docs/factory-ng/runs/2026-09-09T072545Z-wave-c98ed497aae2-integration.json",
+    "verified_integration_outcome": "pushed_full_production_gate_green",
+    "verified_integration_receipt": "docs/factory-ng/runs/2026-09-09T072545Z-wave-c98ed497aae2-integration.json"
+  },
+  {
+    "original": "ticket:engine.auto-damage-amount-referent-target-hand-size-5b58aa258c/v1",
+    "latest": "ticket:engine.auto-damage-amount-referent-target-hand-size-5b58aa258c/v2",
+    "state": "failed",
+    "outcome": "gate_failed",
+    "receipt": "docs/factory-ng/runs/2026-09-09T065045Z-engine-auto-damage-amount-referent-target-hand-size-5b58aa258c-v2-codex.json",
+    "integration_receipt": null
+  },
+  {
+    "original": "ticket:engine.auto-destroy-attached-to-referent-d32bfbcd7a/v1",
+    "latest": "ticket:engine.auto-destroy-attached-to-referent-d32bfbcd7a/v1",
+    "state": "completed",
+    "outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-08T185732Z-engine-auto-destroy-attached-to-referent-d32bfbcd7a-v1-claude-agentic.json",
+    "integration_receipt": "docs/factory-ng/runs/2026-09-09T071132Z-wave-e6994e69884f-integration.json",
+    "verified_integration_outcome": "pushed_full_production_gate_green",
+    "verified_integration_receipt": "docs/factory-ng/runs/2026-09-09T071132Z-wave-e6994e69884f-integration.json"
+  },
+  {
+    "original": "ticket:engine.auto-destroyed-this-way-per-player-count-58304e2f98/v1",
+    "latest": "ticket:engine.auto-destroyed-this-way-per-player-count-58304e2f98/v2",
+    "state": "failed",
+    "outcome": "gate_failed",
+    "receipt": "docs/factory-ng/runs/2026-09-09T072122Z-engine-auto-destroyed-this-way-per-player-count-58304e2f98-v2-codex.json",
+    "integration_receipt": null
+  },
+  {
+    "original": "ticket:engine.auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295/v1",
+    "latest": "ticket:engine.auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295/v2",
+    "state": "failed",
+    "outcome": "gate_failed",
+    "receipt": "docs/factory-ng/runs/2026-09-09T071108Z-engine-auto-dynamic-amount-mana-value-of-exiled-this-way-a737105295-v2-codex.json",
+    "integration_receipt": null
+  },
+  {
+    "original": "ticket:engine.auto-exile-target-graveyard-card-and-named-matches-656434340c/v1",
+    "latest": "ticket:engine.auto-exile-target-graveyard-card-and-named-matches-656434340c/v1",
+    "state": "completed",
+    "outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-09T005900Z-engine-auto-exile-target-graveyard-card-and-named-matches-656434340c-v1-codex.json",
+    "integration_receipt": "docs/factory-ng/runs/2026-09-09T071132Z-wave-e6994e69884f-integration.json",
+    "verified_integration_outcome": "pushed_full_production_gate_green",
+    "verified_integration_receipt": "docs/factory-ng/runs/2026-09-09T071132Z-wave-e6994e69884f-integration.json"
+  },
+  {
+    "original": "ticket:engine.auto-pump-all-referent-controller-spell-e7617de98a/v1",
+    "latest": "ticket:engine.auto-pump-all-referent-controller-spell-e7617de98a/v1",
+    "state": "completed",
+    "outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-09T012442Z-engine-auto-pump-all-referent-controller-spell-e7617de98a-v1-claude.json",
+    "integration_receipt": "docs/factory-ng/runs/2026-09-09T071132Z-wave-e6994e69884f-integration.json",
+    "verified_integration_outcome": "pushed_full_production_gate_green",
+    "verified_integration_receipt": "docs/factory-ng/runs/2026-09-09T071132Z-wave-e6994e69884f-integration.json"
+  },
+  {
+    "original": "ticket:engine.auto-pump-until-eot-ability-self-no-target-9e24f96767/v1",
+    "latest": "ticket:engine.auto-pump-until-eot-ability-self-no-target-9e24f96767/v2",
+    "state": "failed",
+    "outcome": "gate_failed",
+    "receipt": "docs/factory-ng/runs/2026-09-09T071508Z-engine-auto-pump-until-eot-ability-self-no-target-9e24f96767-v2-codex.json",
+    "integration_receipt": null
+  },
+  {
+    "original": "ticket:engine.auto-pump-until-eot-untargeted-all-36523aeef0/v1",
+    "latest": "ticket:engine.auto-pump-until-eot-untargeted-all-36523aeef0/v1",
+    "state": "completed",
+    "outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-08T180022Z-engine-auto-pump-until-eot-untargeted-all-36523aeef0-v1-claude.json",
+    "integration_receipt": "docs/factory-ng/runs/2026-09-09T071132Z-wave-e6994e69884f-integration.json",
+    "verified_integration_outcome": "pushed_full_production_gate_green",
+    "verified_integration_receipt": "docs/factory-ng/runs/2026-09-09T071132Z-wave-e6994e69884f-integration.json"
+  },
+  {
+    "original": "ticket:engine.auto-return-exiled-cards-with-source-15c611c278/v1",
+    "latest": "ticket:engine.auto-return-exiled-cards-with-source-15c611c278/v1",
+    "state": "completed",
+    "outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-08T233406Z-engine-auto-return-exiled-cards-with-source-15c611c278-v1-claude.json",
+    "integration_receipt": "docs/factory-ng/runs/2026-09-09T071132Z-wave-e6994e69884f-integration.json",
+    "verified_integration_outcome": "pushed_full_production_gate_green",
+    "verified_integration_receipt": "docs/factory-ng/runs/2026-09-09T071132Z-wave-e6994e69884f-integration.json"
+  },
+  {
+    "original": "ticket:engine.auto-sacrifice-any-number-choice-9baee341fb/v1",
+    "latest": "ticket:engine.auto-sacrifice-any-number-choice-9baee341fb/v1",
+    "state": "completed",
+    "outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-08T234431Z-engine-auto-sacrifice-any-number-choice-9baee341fb-v1-claude.json",
+    "integration_receipt": "docs/factory-ng/runs/2026-09-09T071132Z-wave-e6994e69884f-integration.json",
+    "verified_integration_outcome": "pushed_full_production_gate_green",
+    "verified_integration_receipt": "docs/factory-ng/runs/2026-09-09T071132Z-wave-e6994e69884f-integration.json"
+  },
+  {
+    "original": "ticket:engine.auto-sacrifice-source-d0c00a2e90/v1",
+    "latest": "ticket:engine.auto-sacrifice-source-d0c00a2e90/v1",
+    "state": "completed",
+    "outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-08T232313Z-engine-auto-sacrifice-source-d0c00a2e90-v1-claude.json",
+    "integration_receipt": "docs/factory-ng/runs/2026-09-09T071132Z-wave-e6994e69884f-integration.json",
+    "verified_integration_outcome": "pushed_full_production_gate_green",
+    "verified_integration_receipt": "docs/factory-ng/runs/2026-09-09T071132Z-wave-e6994e69884f-integration.json"
+  },
+  {
+    "original": "ticket:engine.auto-sacrifice-unless-alternative-action-d672580388/v1",
+    "latest": "ticket:engine.auto-sacrifice-unless-alternative-action-d672580388/v1",
+    "state": "completed",
+    "outcome": "pushed_full_production_gate_green",
+    "receipt": "docs/factory-ng/runs/2026-09-08T230221Z-engine-auto-sacrifice-unless-alternative-action-d672580388-v1-claude.json",
+    "integration_receipt": "docs/factory-ng/runs/2026-09-09T071132Z-wave-e6994e69884f-integration.json",
+    "verified_integration_outcome": "pushed_full_production_gate_green",
+    "verified_integration_receipt": "docs/factory-ng/runs/2026-09-09T071132Z-wave-e6994e69884f-integration.json"
+  },
+  {
+    "original": "ticket:engine.auto-sacrifice-unless-discard-3e88a33648/v1",
+    "latest": "ticket:engine.auto-sacrifice-unless-discard-3e88a33648/v2",
+    "state": "failed",
+    "outcome": "gate_failed",
+    "receipt": "docs/factory-ng/runs/2026-09-09T072321Z-engine-auto-sacrifice-unless-discard-3e88a33648-v2-codex.json",
+    "integration_receipt": null
+  }
+]

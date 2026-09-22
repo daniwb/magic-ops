@@ -1,0 +1,18 @@
+{
+  "provider": "openrouter",
+  "requested_model": "openrouter/free",
+  "resolved_model": null,
+  "elapsed_seconds": 1.7,
+  "answer": "{\"status\":\"ok\",\"sum\":4}",
+  "usage": {
+    "type": "complete",
+    "total_tokens": 355,
+    "input_tokens": 342,
+    "output_tokens": 13,
+    "cache_read_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "cost_usd": 0.0
+  },
+  "validation": "Exact JSON assertion passed using existing Goose event decoder",
+  "scope": "Isolated no-tools connectivity test only; no Factory ticket or production activation"
+}

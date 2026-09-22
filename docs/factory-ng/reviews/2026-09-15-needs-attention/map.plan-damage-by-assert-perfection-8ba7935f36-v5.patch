@@ -1,0 +1,190 @@
+From 596e815cba3b34d9522ba19a84e0417fc17cef12 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Fri, 11 Sep 2026 21:44:31 +0000
+Subject: [PATCH] factory-ng: supervised engine observation
+
+---
+ scripts/paragraph/reparse.py                  | 44 ++++++++++--
+ .../paragraph/test_factory_ng_8ba7935f36.py   | 67 +++++++++++++++++++
+ 2 files changed, 107 insertions(+), 4 deletions(-)
+ create mode 100644 scripts/paragraph/test_factory_ng_8ba7935f36.py
+
+diff --git a/scripts/paragraph/reparse.py b/scripts/paragraph/reparse.py
+index 7736f2988..c5384c8fb 100644
+--- a/scripts/paragraph/reparse.py
++++ b/scripts/paragraph/reparse.py
+@@ -4944,6 +4944,19 @@ def map_atom(verb, args, allow_multi_search=False, kind=None, card_name=None):
+             and amount_expr == 'its mana value'
+         ):
+             return ('damage_by', {}, None)
++        if (kind == 'spell_oneshot' and isinstance(src_obj, dict)
++                and src_obj.get('filter') == 'referent'
++                and amount_expr in ('its power', 'its toughness')):
++            return map_atom(
++                'damage',
++                {
++                    'amount_expr': amount_expr,
++                    'to': args.get('to'),
++                    'raw_to': args.get('raw_to'),
++                    '_sequence_referent_amount': True,
++                },
++                kind=kind,
++            )
+         if (kind == 'activated' and isinstance(src_obj, dict)
+                 and src_obj.get('filter') == 'referent'
+                 and amount_expr in ('its power', 'its toughness')):
+@@ -5272,6 +5285,12 @@ def map_atom(verb, args, allow_multi_search=False, kind=None, card_name=None):
+             and amount_expr == "the number of cards in that player's hand"
+         ):
+             return ('damage', {'amount_from': 'target_hand_size'}, None)
++        use_sequence_referent = (
++            raw_amt is None
++            and kind == 'spell_oneshot'
++            and args.get('_sequence_referent_amount')
++            and amount_expr in ('its power', 'its toughness')
++        )
+         use_source_count = None
+         # raw_amt (not n): 'amount' is entirely ABSENT from args for this
+         # clause shape (the VERBS regex captures amount_expr/to instead, no
+@@ -5344,10 +5363,11 @@ def map_atom(verb, args, allow_multi_search=False, kind=None, card_name=None):
+             phrase = re.sub(r'^the number of ', '', amount_expr)
+             use_count_spec = _token_count_phrase(phrase)
+         if raw_amt is None and amount_expr and use_source_count is None and use_count_spec is None \
+-           and use_keyword_count is None and not use_x_value:
++           and use_keyword_count is None and not use_x_value and not use_sequence_referent:
+             return None
+         if n is None and not use_x_value and not use_x_sweep and not use_x_activated_target \
+-           and not use_x_value_rider and use_source_count is None and use_count_spec is None: return None
++           and not use_x_value_rider and use_source_count is None and use_count_spec is None \
++           and not use_sequence_referent: return None
+         if (rider_gl or rider_gl_same_x) and kind not in ('spell_oneshot', 'triggered', 'activated'):
+             # only those three emit loops expand the rider into a life_gain
+             # atom; anywhere else (modal modes, gated-effect promotion) the
+@@ -5360,9 +5380,14 @@ def map_atom(verb, args, allow_multi_search=False, kind=None, card_name=None):
+             # SAME dynamic x_value the main damage resolves, not a literal.
+             if rider_gl_same_x: value['_rider_gain_life'] = {'amount_count': {'count': 'x_value'}}
+             elif rider_gl: value['_rider_gain_life'] = rider_gl
++            if to.get('up_to') and to.get('count') == 'one':
++                value['_optional_up_to'] = True
+             if use_x_value:
+                 value = {k: v for k, v in value.items() if k != 'amount'}
+                 value['amount_from'] = 'x_value'
++            elif use_sequence_referent:
++                value = {k: v for k, v in value.items() if k != 'amount'}
++                value['amount_count'] = {'count': 'sequence_referent'}
+             elif use_source_count:
+                 value = {k: v for k, v in value.items() if k != 'amount'}
+                 value['amount_count'] = {'count': use_source_count}
+@@ -21959,6 +21984,7 @@ def reparse_card(card):
+                 rider_gl = (value or {}).pop('_rider_gain_life', None)
+                 rider_md = _pop_rider_mass_damage(value)
+                 modal_modes = (value or {}).pop('_modes', None)
++                opt_up_to = (value or {}).pop('_optional_up_to', None)
+                 atom = {'effect': eff}
+                 if value: atom['value'] = value
+                 if modal_modes is not None: atom['modes'] = modal_modes
+@@ -21974,7 +22000,7 @@ def reparse_card(card):
+                     }
+                 ):
+                     atom['link'] = 'then'
+-                if may: atom['optional'] = True
++                if may or opt_up_to: atom['optional'] = True
+                 mapped_atoms.append(atom)
+                 if rider_kws:
+                     mapped_atoms.append({'effect': 'grant_keywords_until_eot',
+@@ -22112,8 +22138,18 @@ def reparse_card(card):
+                     len(targeted) == 2
+                     and mapped_atoms[-1].get('effect') == 'fight'
+                 )
++                referent_damage = (
++                    len(targeted) == 2
++                    and any(
++                        i > 0
++                        and atom.get('effect') == 'damage'
++                        and (atom.get('value') or {}).get('amount_count')
++                        == {'count': 'sequence_referent'}
++                        for i, atom in enumerate(mapped_atoms)
++                    )
++                )
+                 if (len(targeted) > 1 and not same_target
+-                        and not referent_fight
++                        and not referent_fight and not referent_damage
+                         and not independent_damage_target_pair) \
+                    or any(a['effect'] not in SEQ_TGT_OK for a in targeted):
+                     misses.append(('spell_seq_targeted', body[:70])); continue
+diff --git a/scripts/paragraph/test_factory_ng_8ba7935f36.py b/scripts/paragraph/test_factory_ng_8ba7935f36.py
+new file mode 100644
+index 000000000..85b41ba32
+--- /dev/null
++++ b/scripts/paragraph/test_factory_ng_8ba7935f36.py
+@@ -0,0 +1,67 @@
++import unittest
++
++from reparse import load_card, map_atom, reparse_card
++
++
++class TestAssertPerfectionDamageBy(unittest.TestCase):
++    def test_assert_perfection_maps_complete_oracle(self):
++        result = reparse_card(load_card("Assert Perfection"))
++
++        self.assertTrue(result["eligible"], result["misses"])
++        self.assertEqual(result["misses"], [])
++        self.assertEqual(
++            result["abilities"],
++            [
++                {
++                    "type": "spell",
++                    "effects": [
++                        {
++                            "effect": "pump_until_eot",
++                            "value": {"power": 1, "toughness": 0},
++                            "target": {
++                                "controller": "you",
++                                "filter": "creature",
++                            },
++                        },
++                        {
++                            "effect": "damage",
++                            "value": {
++                                "amount_count": {"count": "sequence_referent"},
++                            },
++                            "target": {"filter": "creature_opp_ctrl"},
++                            "optional": True,
++                        },
++                    ],
++                }
++            ],
++        )
++
++    def test_independent_target_source_remains_unmapped(self):
++        self.assertIsNone(
++            map_atom(
++                "damage_by",
++                {
++                    "amount_expr": "its power",
++                    "raw_to": "up to one target creature an opponent controls",
++                    "src": {
++                        "object": {
++                            "controller": "you",
++                            "filter": "creature",
++                        }
++                    },
++                    "to": {
++                        "count": "one",
++                        "target": {
++                            "controller": "opponent",
++                            "filter": "creature",
++                        },
++                        "up_to": True,
++                    },
++                },
++                kind="spell_oneshot",
++            )
++        )
++
++
++if __name__ == "__main__":
++    unittest.main()
+-- 
+2.43.0
+

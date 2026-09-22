@@ -1,0 +1,7 @@
+{
+  "tickets": 7876,
+  "full_json_scan_seconds": 4.491773953661323,
+  "warm_compact_scan_seconds": 0.9540836159139872,
+  "same_existing_lineage": true,
+  "new_tickets_during_benchmark": 0
+}

@@ -1,0 +1,67 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-engine-auto-damage-to-defending-player-9a47b7025e-v1-6q6wz0mx",
+    "candidate_commit": "aedeb6cbf0c59565d901fa9ccd5d8d6321c17b10",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "fb2e520e2312e5baa691ad6ea5b735c0f135c010",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "codex-constrained@1.0.0",
+    "resolved_model": "gpt-5.6-luna",
+    "telemetry": {
+      "bounded_repair_attempted": true,
+      "cache_read_tokens": 0,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 639,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      }
+    },
+    "worker": "codex"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed_model_protocol",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-04T215055Z-engine-auto-damage-to-defending-player-9a47b7025e-v1-codex.raw.json",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "bounded_repair",
+      "path": "docs/factory-ng/runs/2026-09-04T215055Z-engine-auto-damage-to-defending-player-9a47b7025e-v1-codex.repair.raw.json",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-damage-to-defending-player-9a47b7025e/v1",
+    "path": "docs/factory-ng/tickets/engine-auto-damage-to-defending-player-9a47b7025e-v1.json",
+    "sha256": "sha256:bb9f9eff4e3f81405ec5a45cae4be33508c90418aae551925eddf27c5e59a92d"
+  }
+}

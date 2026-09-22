@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "provider_engine": "openai",
+  "requested_max_tokens": 16000,
+  "input_tokens": 7273,
+  "output_tokens": 15218,
+  "total_tokens": 22491,
+  "cache_read_tokens": null,
+  "generation_seconds": 860.261,
+  "validation_seconds": 69.898,
+  "total_seconds": 930.159,
+  "model_requests": 1,
+  "tool_calls": 0,
+  "gate_outcomes": {
+    "scope": "passed",
+    "go-format": "passed",
+    "engine-vocabulary-handoff": "passed",
+    "ticket-gate-0": "passed",
+    "ticket-gate-1": "passed",
+    "ticket-gate-2": "passed",
+    "ticket-gate-3": "passed"
+  },
+  "runtime_caveat": "Concurrent inference requests observed on the server; not a controlled speed comparison."
+}

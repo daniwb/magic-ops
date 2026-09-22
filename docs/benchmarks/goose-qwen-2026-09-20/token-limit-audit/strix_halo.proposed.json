@@ -1,0 +1,15 @@
+{
+  "name": "strix_halo",
+  "engine": "openai",
+  "display_name": "Local Strix Halo",
+  "description": "Local inference on Strix Halo",
+  "api_key_env": "STRIX_HALO_API_KEY",
+  "base_url": "http://192.168.1.251:8080",
+  "models": [
+    {
+      "name": "halogen-qwen3.8-flash-next"
+    }
+  ],
+  "requires_auth": false,
+  "supports_streaming": true
+}

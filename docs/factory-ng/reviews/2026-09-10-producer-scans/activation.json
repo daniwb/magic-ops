@@ -1,0 +1,28 @@
+{
+  "published_at": "2026-09-10T19:01:51.070579+00:00",
+  "previous_controller_pid": 3685797,
+  "files": [
+    "factory-ng-controller.py",
+    "factory-ng-produce-capability-dependency.py",
+    "factory-ng-produce-build-plan.py",
+    "capability-contract.py",
+    "factory_ng_producer_cache.py",
+    "test_factory_ng_producer_performance.py"
+  ],
+  "source_revision": "374344d5b2b3a10001eec0357912ac8dac3f3f26",
+  "python_tests": 106,
+  "go_shapes": "passed",
+  "live_deployment": false,
+  "verified_at": "2026-09-10T19:06:08.977951+00:00",
+  "controller_pid": 1153298,
+  "new_family_jobs": [
+    {
+      "id": "ticket:map.plan-damage-by-aggressive-instinct-9e89e924ec/v1",
+      "state": "queued",
+      "created_at": "2026-09-10T19:05:44Z",
+      "worker": null
+    }
+  ],
+  "profile_validation": "pass (3)",
+  "dispatch_during_production": "codex-2 assigned engine.auto-damage-to-referent-controller-equal-to-died-crea-93a6e54e30/v3 at 19:04:49 while the fresh producer was active"
+}

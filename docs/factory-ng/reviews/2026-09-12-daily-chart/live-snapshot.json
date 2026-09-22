@@ -1,0 +1,472 @@
+{
+  "schema": "factory.daily-activations/v1",
+  "generated_at": "2026-09-12T11:40:26.732571+00:00",
+  "source_head": "2a3a6f26d0da8304d3dd01952ab22e7d799bb0d3",
+  "timezone": "UTC",
+  "days": 14,
+  "metric": "Net change in committed status-auto cards; not live deployments.",
+  "target_per_day": 100,
+  "high_threshold": 150,
+  "rows": [
+    {
+      "date_utc": "2026-08-29",
+      "partial_day": false,
+      "revision": "d524a1a98d6d592247486bad849bfc2a7741c4dc",
+      "total_auto": 11481,
+      "net_activated": 29,
+      "reason": {
+        "category": "below_target",
+        "text": "Repeated duplicate-ticket responses indicate a supply bottleneck; its daily impact is not quantified.",
+        "evidence": [
+          "2 imports increased enabled cards; largest +28 (08cfc79602ae).",
+          "432 duplicate-ticket responses were logged."
+        ],
+        "operator_note_source": null,
+        "largest_imports": [
+          {
+            "revision": "08cfc79602aeb087eca184b084bd8f02d20fc25b",
+            "net_activated": 28
+          },
+          {
+            "revision": "d524a1a98d6d592247486bad849bfc2a7741c4dc",
+            "net_activated": 1
+          }
+        ]
+      }
+    },
+    {
+      "date_utc": "2026-08-30",
+      "partial_day": false,
+      "revision": "755e258ac3c708bcc8fcd51db0ac599e1f9e07e3",
+      "total_auto": 11536,
+      "net_activated": 55,
+      "reason": {
+        "category": "below_target",
+        "text": "Repeated duplicate-ticket responses indicate a supply bottleneck; its daily impact is not quantified.",
+        "evidence": [
+          "6 imports increased enabled cards; largest +29 (328780ca7ba6).",
+          "2 producer error responses were logged.",
+          "300 duplicate-ticket responses were logged.",
+          "The fresh-work producer reported an exhausted frontier in 1 checks."
+        ],
+        "operator_note_source": null,
+        "largest_imports": [
+          {
+            "revision": "328780ca7ba674a2f39f323fd128af0d8c117bd0",
+            "net_activated": 29
+          },
+          {
+            "revision": "e6af51ecb04410a1f15e23029cbbe7d527f8bd45",
+            "net_activated": 11
+          },
+          {
+            "revision": "e79683d8a373bf49742ff4b21f051716850efaa8",
+            "net_activated": 9
+          }
+        ]
+      }
+    },
+    {
+      "date_utc": "2026-08-31",
+      "partial_day": false,
+      "revision": "dda71384277d32d155ca55f9966f60b004ec4ebf",
+      "total_auto": 11927,
+      "net_activated": 391,
+      "reason": {
+        "category": "high",
+        "text": "A large import contributed +215 cards in one step.",
+        "evidence": [
+          "30 imports increased enabled cards; largest +215 (72199fbb70e9)."
+        ],
+        "operator_note_source": null,
+        "largest_imports": [
+          {
+            "revision": "72199fbb70e9441df04b4030885eeadb3b2b8b2f",
+            "net_activated": 215
+          },
+          {
+            "revision": "a131da5cd17380369c11654f6fafb0504657e8a9",
+            "net_activated": 71
+          },
+          {
+            "revision": "422dec148baa9f543115eb890764cdcab25bdfb9",
+            "net_activated": 24
+          }
+        ]
+      }
+    },
+    {
+      "date_utc": "2026-09-01",
+      "partial_day": false,
+      "revision": "38cfe32c5491de862ca65acfe1b56752d11f388f",
+      "total_auto": 11982,
+      "net_activated": 55,
+      "reason": {
+        "category": "below_target",
+        "text": "Dependency scans were timing out before a producer repair; provider HTTP 429 cooldowns also constrained work. The records do not quantify each factor's daily impact.",
+        "evidence": [
+          "17 imports increased enabled cards; largest +21 (3bf580d1e85a)."
+        ],
+        "operator_note_source": "docs/factory-ng/CURRENT.md#2026-09-01-producer-stall-repair",
+        "largest_imports": [
+          {
+            "revision": "3bf580d1e85a8962cc7cd54f58882c5eca3ea029",
+            "net_activated": 21
+          },
+          {
+            "revision": "7e06abc6dc71f7d8971792078c2f979ca117bce6",
+            "net_activated": 10
+          },
+          {
+            "revision": "e47b0bfb47d4bd97bfd816c0ff2895e8494263bf",
+            "net_activated": 3
+          }
+        ]
+      }
+    },
+    {
+      "date_utc": "2026-09-02",
+      "partial_day": false,
+      "revision": "451d14284645f3405b702287325a3294dda9dd2c",
+      "total_auto": 12103,
+      "net_activated": 121,
+      "reason": {
+        "category": "on_target",
+        "text": "The daily target was reached.",
+        "evidence": [
+          "52 imports increased enabled cards; largest +14 (4f57abeab8c6).",
+          "10 producer error responses were logged."
+        ],
+        "operator_note_source": null,
+        "largest_imports": [
+          {
+            "revision": "4f57abeab8c6299388378d438025fd25c31dbcd1",
+            "net_activated": 14
+          },
+          {
+            "revision": "b7501f3ee89b69fb54406e0c866d9a673e51c8b6",
+            "net_activated": 13
+          },
+          {
+            "revision": "b6836ecc54866116814920ff869a14ecf3339575",
+            "net_activated": 6
+          }
+        ]
+      }
+    },
+    {
+      "date_utc": "2026-09-03",
+      "partial_day": false,
+      "revision": "ca448e96a4b73978157fd4e16e82641ca93364e7",
+      "total_auto": 12140,
+      "net_activated": 37,
+      "reason": {
+        "category": "below_target",
+        "text": "The supported Map frontier was exhausted from about 11:00 UTC. Remaining cards needed Engine dependencies; missing source evidence caused many Engine tasks to be parked.",
+        "evidence": [
+          "20 imports increased enabled cards; largest +6 (83ea3b8d4094).",
+          "161 producer error responses were logged.",
+          "The fresh-work producer reported an exhausted frontier in 41 checks."
+        ],
+        "operator_note_source": "docs/factory-ng/CURRENT.md#2026-09-04-agentic-claude-rollout-single-worker-overnight",
+        "largest_imports": [
+          {
+            "revision": "83ea3b8d4094674c93c041e267d6db2c3b07a329",
+            "net_activated": 6
+          },
+          {
+            "revision": "2344249a5171f6762b7eaf1ac2e7f6d52d040967",
+            "net_activated": 5
+          },
+          {
+            "revision": "dcf51aeafe6e6e91ade8f4897b592fca3a265bb8",
+            "net_activated": 4
+          }
+        ]
+      }
+    },
+    {
+      "date_utc": "2026-09-04",
+      "partial_day": false,
+      "revision": "7574e4f0d63c5051b04ccb6286528594432d56aa",
+      "total_auto": 12155,
+      "net_activated": 15,
+      "reason": {
+        "category": "below_target",
+        "text": "Fresh Map supply remained exhausted and Engine work was frequently parked for missing context. The controller also became stale; a single-worker route was introduced during recovery.",
+        "evidence": [
+          "2 imports increased enabled cards; largest +8 (7574e4f0d63c).",
+          "138 producer error responses were logged.",
+          "The fresh-work producer reported an exhausted frontier in 116 checks.",
+          "A stale controller was reported in 1 watchdog samples."
+        ],
+        "operator_note_source": "docs/factory-ng/CURRENT.md#2026-09-04-agentic-claude-rollout-single-worker-overnight",
+        "largest_imports": [
+          {
+            "revision": "7574e4f0d63c5051b04ccb6286528594432d56aa",
+            "net_activated": 8
+          },
+          {
+            "revision": "9c3787423bab1c21d86089b4e0d3a8387a21dfd0",
+            "net_activated": 7
+          }
+        ]
+      }
+    },
+    {
+      "date_utc": "2026-09-05",
+      "partial_day": false,
+      "revision": "7f910b6f9aad38e604ae930709502c34d0cda72a",
+      "total_auto": 12349,
+      "net_activated": 194,
+      "reason": {
+        "category": "high",
+        "text": "Activations accumulated across 33 imports; the three largest contributed +80 cards.",
+        "evidence": [
+          "33 imports increased enabled cards; largest +33 (97b6ae4fce75).",
+          "18 producer error responses were logged.",
+          "The fresh-work producer reported an exhausted frontier in 27 checks."
+        ],
+        "operator_note_source": null,
+        "largest_imports": [
+          {
+            "revision": "97b6ae4fce7568e953a8283d25e2cfb82b6a3f9a",
+            "net_activated": 33
+          },
+          {
+            "revision": "935b8801a5fe138da538a47a6766a5d34a55f039",
+            "net_activated": 29
+          },
+          {
+            "revision": "0a0b447f7ca831408ee5f149c298110bd50fa4ec",
+            "net_activated": 18
+          }
+        ]
+      }
+    },
+    {
+      "date_utc": "2026-09-06",
+      "partial_day": false,
+      "revision": "1aecc4b90746a8502d87a45ab42e5e3881524db0",
+      "total_auto": 12400,
+      "net_activated": 51,
+      "reason": {
+        "category": "below_target",
+        "text": "Progress stopped after about 10:07 UTC. Competing integrators and an unfinished merge stranded accepted work; the merge was repaired on September 7.",
+        "evidence": [
+          "12 imports increased enabled cards; largest +14 (efac4f93c20c).",
+          "4 producer error responses were logged.",
+          "The fresh-work producer reported an exhausted frontier in 87 checks.",
+          "No active work in 13/143 watchdog samples (samples, not hours)."
+        ],
+        "operator_note_source": "docs/factory-ng/reviews/2026-09-07-reliability-review.md",
+        "largest_imports": [
+          {
+            "revision": "efac4f93c20c7b1abd8f483eec65ae08dcce5499",
+            "net_activated": 14
+          },
+          {
+            "revision": "c5bd8e8a9b3e9055fa4a32d9d3a8275985c97c13",
+            "net_activated": 13
+          },
+          {
+            "revision": "a8e979e1e3db8acf3dc63b8bce81abfc0203299a",
+            "net_activated": 7
+          }
+        ]
+      }
+    },
+    {
+      "date_utc": "2026-09-07",
+      "partial_day": false,
+      "revision": "b3d3206e72e9921b00e494d9db00bae96e25d1c7",
+      "total_auto": 12476,
+      "net_activated": 76,
+      "reason": {
+        "category": "below_target",
+        "text": "The stranded merge and integration ownership were repaired around midday. Existing conflicts and Claude pacing until 18:00 UTC continued to constrain recovery.",
+        "evidence": [
+          "6 imports increased enabled cards; largest +54 (11ef1298b32b).",
+          "The fresh-work producer reported an exhausted frontier in 120 checks.",
+          "No active work in 37/144 watchdog samples (samples, not hours)."
+        ],
+        "operator_note_source": "docs/factory-ng/reviews/2026-09-07-reliability-review.md",
+        "largest_imports": [
+          {
+            "revision": "11ef1298b32bd00adb46795b20abe71558551b20",
+            "net_activated": 54
+          },
+          {
+            "revision": "435aa05e3f4f0371a208167494aa2542ce7395fd",
+            "net_activated": 10
+          },
+          {
+            "revision": "a4014bc7db5dc5023dff9ec5b8acd6aee43cedca",
+            "net_activated": 9
+          }
+        ]
+      }
+    },
+    {
+      "date_utc": "2026-09-08",
+      "partial_day": false,
+      "revision": "654fe7ebd04c178fed83b7e91a4161ea9e566cf8",
+      "total_auto": 12491,
+      "net_activated": 15,
+      "reason": {
+        "category": "below_target",
+        "text": "Many integrations delivered Engine prerequisites rather than completed cards. Context gaps, rejected candidates and merge conflicts delayed Map completion while repair work continued.",
+        "evidence": [
+          "10 imports increased enabled cards; largest +4 (f4f553b8bdd5).",
+          "1 producer error responses were logged."
+        ],
+        "operator_note_source": "docs/factory-ng/reviews/2026-09-08-throughput/README.md",
+        "largest_imports": [
+          {
+            "revision": "f4f553b8bdd54652a82b1047f87ae7d3c76468e2",
+            "net_activated": 4
+          },
+          {
+            "revision": "54609c76ee6064d1b7081e26461618744c3e926a",
+            "net_activated": 2
+          },
+          {
+            "revision": "ebbdca7d10a642d1061b8502f415815283fad570",
+            "net_activated": 2
+          }
+        ]
+      }
+    },
+    {
+      "date_utc": "2026-09-09",
+      "partial_day": false,
+      "revision": "c65414586a112bb2e28e3d6b577d8c4c5cf370e6",
+      "total_auto": 12719,
+      "net_activated": 228,
+      "reason": {
+        "category": "high",
+        "text": "Activations accumulated across 47 imports; the three largest contributed +112 cards.",
+        "evidence": [
+          "47 imports increased enabled cards; largest +58 (da5495345406).",
+          "89 producer error responses were logged.",
+          "The fresh-work producer reported an exhausted frontier in 130 checks.",
+          "Fifteen conflict lineages were recovered and pushed; a second Codex worker was enabled. These are documented contributors, not attribution of every activated card."
+        ],
+        "operator_note_source": "docs/factory-ng/reviews/2026-09-09-conflict-recovery/README.md",
+        "largest_imports": [
+          {
+            "revision": "da54953454066b60c3c996d5a273da0e1bafdd0a",
+            "net_activated": 58
+          },
+          {
+            "revision": "2404c57053a613f181345874a7cd6ee7a9ce7ca4",
+            "net_activated": 40
+          },
+          {
+            "revision": "80f891ae02c8ced1d5155a992c98f28d71592213",
+            "net_activated": 14
+          }
+        ]
+      }
+    },
+    {
+      "date_utc": "2026-09-10",
+      "partial_day": false,
+      "revision": "b6ec87e7a3c0660f33e245250cb2fa78720aa749",
+      "total_auto": 12816,
+      "net_activated": 97,
+      "reason": {
+        "category": "below_target",
+        "text": "Repeated producer scans and timeouts restricted fresh supply. Scan caching, resumable discovery and fight/damage-by families were activated around 19:00 UTC.",
+        "evidence": [
+          "35 imports increased enabled cards; largest +17 (ac5dd3e8febf).",
+          "140 producer error responses were logged.",
+          "The fresh-work producer reported an exhausted frontier in 153 checks."
+        ],
+        "operator_note_source": "docs/factory-ng/reviews/2026-09-10-producer-scans/README.md",
+        "largest_imports": [
+          {
+            "revision": "ac5dd3e8febf681669a279d69be6c3cba434cb8d",
+            "net_activated": 17
+          },
+          {
+            "revision": "892adab16b19abefb4c916546bd2a1ef5ace89b3",
+            "net_activated": 7
+          },
+          {
+            "revision": "a0b292c7b54df6d60f5b70fb093ab4e5279bb4b6",
+            "net_activated": 6
+          }
+        ]
+      }
+    },
+    {
+      "date_utc": "2026-09-11",
+      "partial_day": false,
+      "revision": "dc157b6d7202d205ab325d23825ac462098fa8e6",
+      "total_auto": 12956,
+      "net_activated": 140,
+      "reason": {
+        "category": "on_target",
+        "text": "The daily target was reached.",
+        "evidence": [
+          "27 imports increased enabled cards; largest +60 (d1d90c6fd20b).",
+          "2 producer error responses were logged."
+        ],
+        "operator_note_source": null,
+        "largest_imports": [
+          {
+            "revision": "d1d90c6fd20b04e8b9c8513564b80f510fa9d34a",
+            "net_activated": 60
+          },
+          {
+            "revision": "9026debddd1d08b6fdcef164a9314e958b75387e",
+            "net_activated": 24
+          },
+          {
+            "revision": "48df17966616e95744efb87722a62b0fa8d50040",
+            "net_activated": 10
+          }
+        ]
+      }
+    },
+    {
+      "date_utc": "2026-09-12",
+      "partial_day": true,
+      "revision": "2a3a6f26d0da8304d3dd01952ab22e7d799bb0d3",
+      "total_auto": 13024,
+      "net_activated": 68,
+      "reason": {
+        "category": "in_progress",
+        "text": "Today is still in progress; the daily target is not assessed yet.",
+        "evidence": [
+          "19 imports increased enabled cards; largest +11 (aeb32abad5a4).",
+          "1 producer error responses were logged.",
+          "The fresh-work producer reported an exhausted frontier in 34 checks.",
+          "No active work in 22/69 watchdog samples (samples, not hours).",
+          "The fresh frontier was exhausted in the morning. Registry extraction was repaired and more verb families were enabled after 09:12 UTC, restoring worker supply."
+        ],
+        "operator_note_source": "docs/factory-ng/reviews/2026-09-12-frontier/README.md",
+        "largest_imports": [
+          {
+            "revision": "aeb32abad5a4640c33fe92018e05a492227ad12b",
+            "net_activated": 11
+          },
+          {
+            "revision": "29b58d80e1032ef67c3900b015b812400042d12d",
+            "net_activated": 10
+          },
+          {
+            "revision": "390d0eb1867bd70585868df8f47f5373881a5fd7",
+            "net_activated": 10
+          }
+        ]
+      }
+    }
+  ],
+  "summary": {
+    "completed_days": 14,
+    "total_net": 1504,
+    "average_per_day": 107.42857142857143
+  }
+}

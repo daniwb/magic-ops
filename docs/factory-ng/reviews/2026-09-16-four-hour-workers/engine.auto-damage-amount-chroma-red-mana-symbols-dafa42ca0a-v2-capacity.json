@@ -1,0 +1,10 @@
+{
+  "ticket_id": "ticket:engine.auto-damage-amount-chroma-red-mana-symbols-dafa42ca0a/v2",
+  "receipt": "docs/factory-ng/runs/2026-09-16T091520Z-engine-auto-damage-amount-chroma-red-mana-symbols-dafa42ca0a-v2-codex.json",
+  "receipt_sha256": "sha256:a1481240d6bdb5dbd0266446c7abdbfd3c8b6f5115c459701c1c43a1052c351e",
+  "raw_artifact": {
+    "path": "docs/factory-ng/runs/2026-09-16T091520Z-engine-auto-damage-amount-chroma-red-mana-symbols-dafa42ca0a-v2-codex.raw.json",
+    "sha256": "sha256:f49a723087260dcf8099529eaf1e9850144516603a5b83d4744a65c6e688906c"
+  },
+  "finding": "Explicit Luna capacity rejection before any patch; Terra configured and functioning since previous recovery. One attempt, original scope and all gates required."
+}

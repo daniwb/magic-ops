@@ -1,0 +1,12 @@
+{
+  "at": "2026-09-17T05:37:47.690472+00:00",
+  "go_tests": "six focused checks passed",
+  "javascript_syntax": "passed",
+  "user_authorized_primary_limit_sync": true,
+  "hashes": {
+    "services/dispatcher/v4/factory_ng.go": "eb10a4c9c628cddeeb38855acf3032796a0267aca70daed9a0a034da29072456",
+    "services/dispatcher/v4/dashboard.html": "daf1fd453ca8fb46693de34a28282294a04c617b182de210f50a46f52a257de4",
+    "services/dispatcher/v4/factory_worker_limits_test.go": "63a32ae4702c821dfd5c668e99fca7bb00facb43cb7f03410b035877a44a95b8",
+    "config/factory-ng-workers.json": "866804804170d3e9e56d8a685583a7a67d8e70b13a85271197fbb085da64fb19"
+  }
+}

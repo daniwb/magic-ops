@@ -1,0 +1,155 @@
+{
+  "capability": {
+    "expected_unlock": 1,
+    "negative_examples": [
+      "Unconditional filter-scoped sacrifice with no unless-cost (existing executeSacrificeFiltered targets like 'sacrifice an artifact') must keep executing without offering a discard-to-avoid option"
+    ],
+    "required_behavior": "When a sacrifice effect targets its own source permanent and is qualified by 'unless you discard a card', let the affected player choose at resolution to discard a card instead of sacrificing the source, instead of an unconditional sacrifice",
+    "source_misses": [
+      {
+        "card": "Masticore",
+        "oracle_text_sha256": "f3b9d1ad8a6456203eef5df5d1ed8205bf0ba83b16f5da8733aa90b27926ddd0",
+        "paragraph": "At the beginning of your upkeep, sacrifice this creature unless you discard a card.",
+        "required_behavior": "Give the controller the choice, at trigger resolution, to discard a card instead of sacrificing the source creature"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "key": "sacrifice_unless_discard",
+        "specification": {
+          "expected_unlock": 1,
+          "negative_examples": [
+            "Unconditional filter-scoped sacrifice with no unless-cost (existing executeSacrificeFiltered targets like 'sacrifice an artifact') must keep executing without offering a discard-to-avoid option"
+          ],
+          "required_behavior": "When a sacrifice effect targets its own source permanent and is qualified by 'unless you discard a card', let the affected player choose at resolution to discard a card instead of sacrificing the source, instead of an unconditional sacrifice",
+          "source_misses": [
+            {
+              "card": "Masticore",
+              "oracle_text_sha256": "f3b9d1ad8a6456203eef5df5d1ed8205bf0ba83b16f5da8733aa90b27926ddd0",
+              "paragraph": "At the beginning of your upkeep, sacrifice this creature unless you discard a card.",
+              "required_behavior": "Give the controller the choice, at trigger resolution, to discard a card instead of sacrificing the source creature"
+            }
+          ]
+        },
+        "summary": "Support 'sacrifice ~ unless you discard a card' avoidance clause on self-target sacrifice triggers"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-03T103657Z-map-plan-sacrifice-masticore-2357acac60-v1-claude.json"
+    },
+    {
+      "anchor": "6080-6145",
+      "fact": "Card-knowledge index match (engine): executeSacrificeChoiceEffect is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d0ac33d83a17c5e21e00829259f817523252b61afd7aa34b5e989710ebaa7a0b"
+    },
+    {
+      "anchor": "209-274",
+      "fact": "Card-knowledge index match (engine): hasChoiceCost is the nearest indexed seam for this capability.",
+      "path": "backend/game/activated_abilities.go",
+      "sha256": "sha256:edf6d170ea88ccbc08b0b16fcbb97e43a47e12b5d16e242255def0ce1028fac1"
+    },
+    {
+      "anchor": "393-458",
+      "fact": "Card-knowledge index match (engine): GetTokenCreationReplacement is the nearest indexed seam for this capability.",
+      "path": "backend/game/replacement.go",
+      "sha256": "sha256:f43aa2fb37b6a94b9bf499a8b898b696142e36332011e961ae2558714cb5f62b"
+    },
+    {
+      "anchor": "281-346",
+      "fact": "Card-knowledge index match (engine): startCostChoice is the nearest indexed seam for this capability.",
+      "path": "backend/game/activated_abilities.go",
+      "sha256": "sha256:edf6d170ea88ccbc08b0b16fcbb97e43a47e12b5d16e242255def0ce1028fac1"
+    },
+    {
+      "path": "docs/factory-ng/runs/2026-09-08T235315Z-wave-5c2c4a8558a4-integration.json",
+      "fact": "The previous candidate compiled/ran and failed this exact gate: candidate-apply: error: Failed to merge in the changes.\no\nM\tbackend/game/gamestate.go\nFalling back to patching base and 3-way merge...\nAuto-merging backend/game/gamestate.go\nAuto-merging backend/game/ability_effects.go\nCONFLICT (content): Merge conflict in backend/game/ability_effects.go\nPatch failed at 0001 factory-ng: supervised engine observation\nWhen you have resolved this problem, run \"git am --continue\".\nIf you prefer to skip this patch, run \"git am --skip\" instead.\nTo restore the original branch and stop patching, run \"git am --abort\".\nerror: Failed to merge in the changes.\nhint: Use 'git am --show-current-patch=diff' to see the failed patch. Fix only this defect; do not restructure unrelated code or revisit already-passing behavior."
+    },
+    {
+      "path": "docs/factory-ng/candidates/2026-09-08T233353Z-engine-auto-sacrifice-unless-discard-3e88a33648-v1.patch",
+      "sha256": "sha256:d359316e90c5ecea7848436636f1efecc1f32e0e6f439d7bdbdcf85c94cc0f5e",
+      "fact": "Historical candidate for review/reuse, NOT applied to the current source. Verify every hunk and test against current source and the original semantic contract.\nFrom 14a44297c4b6fd2e6395e26535eb71c60942b393 Mon Sep 17 00:00:00 2001\nFrom: Factory NG <factory-ng@local>\nDate: Tue, 8 Sep 2026 23:33:53 +0000\nSubject: [PATCH] factory-ng: supervised engine observation\n\n---\n backend/game/ability_effects.go            | 10 +++\n backend/game/factory_ng_3e88a33648_test.go | 89 ++++++++++++++++++++++\n backend/game/gamestate.go                  | 59 ++++++++++++++\n 3 files changed, 158 insertions(+)\n create mode 100644 backend/game/factory_ng_3e88a33648_test.go\n\ndiff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go\nindex 17a407284..f720ca2a7 100644\n--- a/backend/game/ability_effects.go\n+++ b/backend/game/ability_effects.go\n@@ -6077,6 +6077,16 @@ func (gs *GameState) ExecuteAbilityEffect(stackObj *StackObject) error {\n \t\t// (Eldrazi Monument, Korvold, Wilhelt the Rotcleaver, ...). See\n \t\t// executeSacrificeFiltered.\n \t\treturn gs.executeSacrificeFiltered(controller, source, effectValue)\n+\n+\tcase \"sacrifice_unless_discard\":\n+\t\t// \"sacrifice ~ unless you discard a card\" (ticket\n+\t\t// engine.auto-sacrifice-unless-discard-3e88a33648, Masticore\n+\t\t// class): a self-target sacrifice qualified by a discard-to-avoid\n+\t\t// clause \u2014 distinct from the unconditional filter-scoped\n+\t\t// \"sacrifice\" case immediately above, which keeps sacrificing\n+\t\t// unconditionally with no discard option. See\n+\t\t// executeSacrificeUnlessDiscard.\n+\t\treturn gs.executeSacrificeUnlessDiscard(controller, source)\n \tcase \"sacrifice_choice\":\n \t\t// \"[player] sacrifices a permanent of their choice\" \u2014 the\n \t\t// unless-pay consequence for event-triggered abilities whose\ndiff --git a/backend/game/factory_ng_3e88a33648_test.go b/backend/game/factory_ng_3e88a33648_test.go\nnew file mode 100644\nindex 000000000..6bbbdde8b\n--- /dev/null\n+++ b/backend/game/factory_ng_3e88a33648_test.go\n@@ -0,0 +1,89 @@\n+package game\n+\n+import \"testing\"\n+\n+// TestFactoryNGSacrificeUnlessDiscard covers ticket\n+// engine.auto-sacrifice-unless-discard-3e88a33648 (Masticore class):\n+// \"sacrifice ~ unless you discard a card\" must give the affected player a\n+// real choice at resolution \u2014 discard a card to keep the source, or decline\n+// and have it sacrificed \u2014 instead of an unconditional sacrifice.\n+func TestFactoryNGSacrificeUnlessDiscard(t *testing.T) {\n+\tt.Run(\"declines discard: source is sacrificed\", func(t *testing.T) {\n+\t\tgs := NewGame(\"P0\", \"P1\", false)\n+\t\tsrc := NewCreature(\"Factory NG Masticore\", ManaCost{}, 4, 4, 1)\n+\t\tsrc.Owner, src.Controller = 0, 0\n+\t\tgs.Battlefield.AddCard(src)\n+\n+\t\tstackObj := &StackObject{\n+\t\t\tIsAbility:   true,\n+\t\t\tText:        \"sacrifice_unless_discard\",\n+\t\t\tController:  0,\n+\t\t\tCard:        src,\n+\t\t\tEffectValue: map[string]interface{}{},\n+\t\t}\n+\t\tif err := gs.ExecuteAbilityEffect(stackObj); err != nil {\n+\t\t\tt.Fatalf(\"ExecuteAbilityEffect: %v\", err)\n+\t\t}\n+\t\tif gs.PendingSacrificeUnlessDiscard == nil {\n+\t\t\tt.Fatalf(\"expected a pending sacrifice-unless-discard choice\")\n+\t\t}\n+\n+\t\tif err := gs.ResolveSacrificeUnlessDiscard(0, \"\"); err != nil {\n+\t\t\tt.Fatalf(\"ResolveSacrificeUnlessDiscard: %v\", err)\n+\t\t}\n+\t\tif _, err := gs.Battlefield.GetCard(src.ID); err == nil {\n+\t\t\tt.Fatalf(\"source was not sacrificed after declining the discard\")\n+\t\t}\n+\t})\n+\n+\tt.Run(\"discards a card: source survives\", func(t *testing.T) {\n+\t\tgs := NewGame(\"P0\", \"P1\", false)\n+\t\tsrc := NewCreature(\"Factory NG Masticore\", ManaCost{}, 4, 4, 1)\n+\t\tsrc.Owner, src.Controller = 0, 0\n+\t\tgs.Battlefield.AddCard(src)\n+\n+\t\thandCard := NewCreature(\"Factory NG Filler Card\", ManaCost{}, 1, 1, 1)\n+\t\thandCard.Owner, handCard.Controller = 0, 0\n+\t\tgs.Players[0].Hand.AddCard(handCard)\n+\n+\t\tstackObj := &StackObject{\n+\t\t\tIsAbility:   true,\n+\t\t\tText:        \"sacrifice_unless_discard\",\n+\t\t\tController:  0,\n+\t\t\tCard:        src,\n+\t\t\tEffectValue: map[string]interface{}{},\n+\t\t}\n+\t\tif err := gs.ExecuteAbilityEffect(stackObj); err != nil {\n+\t\t\tt.Fatalf(\"ExecuteAbilityEffect: %v\", err)\n+\t\t}\n+\n+\t\tif err := gs.ResolveSacrificeUnlessDiscard(0, handCard.ID); err != nil {\n+\t\t\tt.Fatalf(\"ResolveSacrificeUnlessDiscard: %v\", err)\n+\t\t}\n+\t\tif _, err := gs.Battlefield.GetCard(src.ID); err != nil {\n+\t\t\tt.Fatalf(\"source was sacrificed despite discarding a card\")\n+\t\t}\n+\t\tif gs.Players[0].Hand.HasCard(handCard.ID) {\n+\t\t\tt.Fatalf(\"discarded card is still in hand\")\n+\t\t}\n+\t})\n+\n+\tt.Run(\"unconditional filter-scoped sacrifice offers no discard option\", func(t *testing.T) {\n+\t\tgs := NewGame(\"P0\", \"P1\", false)\n+\t\tsrc := NewCreature(\"Factory NG Filter Sac Source\", ManaCost{}, 2, 2, 1)\n+\t\tsrc.Owner, src.Controller = 0, 0\n+\t\tgs.Battlefield.AddCard(src)\n+\n+\t\tstackObj := &StackObject{\n+\t\t\tIsAbility:   true,\n+\t\t\tText:        \"sacrifice\",\n+\t\t\tController:  0,\n+\t\t\tCard:        src,\n+\t\t\tEffectValue: map[string]interface{}{},\n+\t\t}\n+\t\t_ = gs.ExecuteAbilityEffect(stackObj)\n+\t\tif gs.PendingSacrificeUnlessDiscard != nil {\n+\t\t\tt.Fatalf(\"unconditional filter-scoped sacrifice must not offer a discard-to-avoid choice\")\n+\t\t}\n+\t})\n+}\ndiff --git a/backend/game/gamestate.go b/backend/game/gamestate.go\nindex 232af69e8..77dfee92d 100644\n--- a/backend/game/gamestate.go\n+++ b/backend/game/gamestate.go\n@@ -114,6 +114,58 @@ type PendingChoice struct {\n \tNextEdict *EdictContinuation `json:\"next_edict,omitempty\"`\n }\n \n+// PendingSacrificeUnlessDiscard records a paused \"sacrifice ~ unless you\n+// discard a card\" resolution ([VOCAB] sacrifice_unless_discard, ticket\n+// engine.auto-sacrifice-unless-discard-3e88a33648, Masticore class): the\n+// affected player may discard a card to keep Source, or decline and have\n+// Source sacrificed instead. Kept as its own field rather than routed\n+// through the generic PendingChoice/ResolvePendingChoice switch\n+// (gamestate_choice.go): that switch's only \"declined choice triggers an\n+// alternate action\" case is CounterSpellID (spell-specific) \u2014 there is no\n+// existing hook for \"declining a discard sacrifices a permanent instead\" \u2014\n+// so ResolveSacrificeUnlessDiscard below completes either branch directly.\n+type PendingSacrificeUnlessDiscard struct {\n+\tPlayerIdx int\n+\tSourceID  string\n+}\n+\n+// executeSacrificeUnlessDiscard implements the sacrifice_unless_discard\n+// primitive: instead of sacrificing Source immediately (the unconditional\n+// \"sacrifice\" case's behavior), it pauses on a PendingSacrificeUnlessDiscard\n+// so ResolveSacrificeUnlessDiscard can let the controller discard a card\n+// instead once they choose to.\n+func (gs *GameState) executeSacrificeUnlessDiscard(controller int, source *Card) error {\n+\tgs.PendingSacrificeUnlessDiscard = &PendingSacrificeUnlessDiscard{\n+\t\tPlayerIdx: controller,\n+\t\tSourceID:  source.ID,\n+\t}\n+\treturn nil\n+}\n+\n+// ResolveSacrificeUnlessDiscard completes a pending sacrifice_unless_discard\n+// choice (see PendingSacrificeUnlessDiscard): discardCardID names a card in\n+// the affected player's hand to discard, keeping Source alive; an empty\n+// discardCardID declines the discard and sacrifices Source instead.\n+func (gs *GameState) ResolveSacrificeUnlessDiscard(playerIdx int, discardCardID string) error {\n+\tpending := gs.PendingSacrificeUnlessDiscard\n+\tif pending == nil || pending.PlayerIdx != playerIdx {\n+\t\treturn nil\n+\t}\n+\tgs.PendingSacrificeUnlessDiscard = nil\n+\n+\tif discardCardID != \"\" {\n+\t\tif player := gs.Players[playerIdx]; player.Hand.HasCard(discardCardID) {\n+\t\t\treturn gs.Discard(playerIdx, discardCardID)\n+\t\t}\n+\t\treturn nil\n+\t}\n+\n+\tif card, err := gs.Battlefield.GetCard(pending.SourceID); err == nil {\n+\t\tgs.sacrificeCard(card, playerIdx)\n+\t}\n+\treturn nil\n+}\n+\n // choiceActivation stores state needed to resume an ability activation or\n // chained spell effect after a PendingChoice is resolved.\n type choiceActivation struct {\n@@ -273,6 +325,13 @@ type GameState struct {\n \t// game/phyrexian_activation_cost.go.\n \tactivePhyrexianChoices []PhyrexianPaymentChoice `json:\"-\"`\n \n+\t// PendingSacrificeUnlessDiscard holds a paused sacrifice_unless_discard\n+\t// resolution (Masticore class, ticket\n+\t// engine.auto-sacrifice-unless-discard-3e88a33648): non-nil between\n+\t// executeSacrificeUnlessDiscard creating the choice and\n+\t// ResolveSacrificeUnlessDiscard completing it.\n+\tPendingSacrificeUnlessDiscard *PendingSacrificeUnlessDiscard `json:\"pending_sacrifice_unless_discard,omitempty\"`\n+\n \t// activeXCostValue carries the activating player's announced {X} value\n \t// (activated-ability-x-cost) across a single synchronous\n \t// ActivateAbilityWithX call, exactly mirroring activePhyrexianChoices\n-- \n2.43.0\n\n"
+    },
+    {
+      "path": "docs/factory-ng/reviews/2026-09-09-conflict-recovery/negative-probes.log",
+      "fact": "Review negative probe proves ResolveSacrificeUnlessDiscard accepts a nonexistent hand card, clears PendingSacrificeUnlessDiscard, and neither discards nor sacrifices. Validate input before consuming the choice. Also inspect nil source/controller bounds and existing production choice dispatch so the new decision is actually reachable."
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "codex-constrained@1.1.0",
+    "selection_reason": "Operator-reviewed integration repair, preserving the one-repair allowance and all original gates.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGSacrificeUnlessDiscard$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.auto-sacrifice-unless-discard-3e88a33648/v2",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Retain the terminal receipt and continue independent discovery; do not request manual source transcription.",
+  "parents": [
+    "ticket:map.plan-sacrifice-masticore-2357acac60/v1",
+    "ticket:engine.auto-sacrifice-unless-discard-3e88a33648/v1"
+  ],
+  "production": {
+    "key": "capability:sacrifice_unless_discard:sha256:3e88a336483cc3f1bc70b4964f4ba27201911e84f4cbf1cd01ed1ac8ed20d184:integration-repair-v1",
+    "producer": "capability-dependencies",
+    "retry_reason": "semantic_gate_repair",
+    "integration_repair_parent": "ticket:engine.auto-sacrifice-unless-discard-3e88a33648/v1"
+  },
+  "required_behavior": [
+    "When a sacrifice effect targets its own source permanent and is qualified by 'unless you discard a card', let the affected player choose at resolution to discard a card instead of sacrificing the source, instead of an unconditional sacrifice",
+    "Preserve these adjacent behaviors: Unconditional filter-scoped sacrifice with no unless-cost (existing executeSacrificeFiltered targets like 'sacrifice an artifact') must keep executing without offering a discard-to-avoid option",
+    "Add a discriminating behavior test named TestFactoryNGSacrificeUnlessDiscard; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases.",
+    "Review negative probe proves ResolveSacrificeUnlessDiscard accepts a nonexistent hand card, clears PendingSacrificeUnlessDiscard, and neither discards nor sacrifices. Validate input before consuming the choice. Also inspect nil source/controller bounds and existing production choice dispatch so the new decision is actually reachable.",
+    "Invalid discard selection must fail without consuming the choice or granting a free escape. Preserve valid discard, decline/sacrifice, and unconditional sacrifice behavior. Add the recorded negative probe as a subtest under the original required selector, and exercise the actual choice-resolution entry point.",
+    "Preserve every original gate and semantic obligation; do not edit the frozen registry literal."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_3e88a33648_test.go",
+      "backend/cards/factory_ng_3e88a33648_test.go",
+      "backend/cards/registry_factory_ng_3e88a33648.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "13f9971583fd8f63bfda25477072ce95369aa8de",
+    "clean": true
+  },
+  "title": "Repair semantic defect found during merge review: Implement atomic capability: Support 'sacrifice ~ unless you discard a card' avoidance clause on self-target sacrifice triggers",
+  "work_type": "engine",
+  "supersedes": "ticket:engine.auto-sacrifice-unless-discard-3e88a33648/v1"
+}

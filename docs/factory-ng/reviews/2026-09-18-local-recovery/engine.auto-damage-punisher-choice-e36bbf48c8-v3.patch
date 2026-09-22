@@ -1,0 +1,146 @@
+From 7931b5c98045ed03003a34c260d353d74487ff79 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Wed, 16 Sep 2026 05:21:33 +0000
+Subject: [PATCH] factory-ng: focused batch proposal
+
+---
+ backend/cards/factory_ng_e36bbf48c8_test.go   | 56 +++++++++++++++++++
+ .../cards/registry_factory_ng_e36bbf48c8.go   |  8 +++
+ backend/game/ability_effects.go               | 36 ++++++++++++
+ 3 files changed, 100 insertions(+)
+ create mode 100644 backend/cards/factory_ng_e36bbf48c8_test.go
+ create mode 100644 backend/cards/registry_factory_ng_e36bbf48c8.go
+
+diff --git a/backend/cards/factory_ng_e36bbf48c8_test.go b/backend/cards/factory_ng_e36bbf48c8_test.go
+new file mode 100644
+index 000000000..4dbee12fb
+--- /dev/null
++++ b/backend/cards/factory_ng_e36bbf48c8_test.go
+@@ -0,0 +1,56 @@
++package cards
++
++import (
++	"testing"
++
++	"magic-backend/game"
++)
++
++func TestFactoryNGDamagePunisherChoice(t *testing.T) {
++	run := func(t *testing.T, choice string) (*game.GameState, *game.Card) {
++		t.Helper()
++
++		gs, source := shapeCard(t, []AbilityDSL{{
++			Type: "activated",
++			Effect: "damage_punisher_choice",
++			Cost: &AbilityCost{},
++			Value: map[string]interface{}{
++				"amount":            1,
++				"controller_amount": 2,
++			},
++			Target: &TargetFilter{Filter: "creature"},
++		}})
++
++		target := game.NewCreature("Target", game.ManaCost{}, 3, 3, 1)
++		target.Owner, target.Controller = 1, 1
++		gs.Battlefield.AddCard(target)
++
++		if err := gs.ActivateAbility(0, source.ID, 0, []game.Target{{
++			Type:    game.TargetCreature,
++			CardID:  target.ID,
++			IsCard:  true,
++		}}); err != nil {
++			t.Fatalf("ActivateAbility: %v", err)
++		}
++		if err := gs.ResolveTopOfStack(); err != nil {
++			t.Fatalf("ResolveTopOfStack: %v", err)
++		}
++		if gs.PendingOptionChoice == nil || gs.PendingOptionChoice.PlayerIdx != 1 {
++			t.Fatalf("expected target controller choice, got %#v", gs.PendingOptionChoice)
++		}
++		if err := gs.ResolveOptionChoice(1, choice); err != nil {
++			t.Fatalf("ResolveOptionChoice: %v", err)
++		}
++		return gs, target
++	}
++
++	gs, target := run(t, "creature")
++	if target.Damage != 1 || gs.Players[1].Life != 20 {
++		t.Fatalf("creature choice: damage=%d, controller life=%d", target.Damage, gs.Players[1].Life)
++	}
++
++	gs, target = run(t, "controller")
++	if target.Damage != 0 || gs.Players[1].Life != 18 {
++		t.Fatalf("controller choice: damage=%d, controller life=%d", target.Damage, gs.Players[1].Life)
++	}
++}
+diff --git a/backend/cards/registry_factory_ng_e36bbf48c8.go b/backend/cards/registry_factory_ng_e36bbf48c8.go
+new file mode 100644
+index 000000000..2e9c58ece
+--- /dev/null
++++ b/backend/cards/registry_factory_ng_e36bbf48c8.go
+@@ -0,0 +1,8 @@
++package cards
++
++func init() {
++	regEffect("damage_punisher_choice", Primitive{
++		Executor:  "game/ability_effects.go case \"damage_punisher_choice\" -> executeDamagePunisherChoiceEffect",
++		ShapeTest: "TestFactoryNGDamagePunisherChoice",
++	})
++}
+diff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go
+index b05acae6b..fd735a305 100644
+--- a/backend/game/ability_effects.go
++++ b/backend/game/ability_effects.go
+@@ -9395,6 +9395,8 @@ func (gs *GameState) ExecuteAbilityEffect(stackObj *StackObject) error {
+ 			resolve(chosen)
+ 		})
+ 		return nil
++	case "damage_punisher_choice":
++		return gs.executeDamagePunisherChoiceEffect(controller, source, effectValue, targets)
+ 	case "damage", "deal_damage_target", "damage_target_player":
+ 		// deal_damage_target is a Speed-1 spelling variant (task-2121,
+ 		// [deal_damage_target] Chandra, Legacy of Fire class): the parser
+@@ -16032,6 +16034,40 @@ func (gs *GameState) executeDamageRecipientsDealtDamageThisGame(controller int,
+ 	return gs.executeDamageEffect(controller, source, effectValue, targets)
+ }
+ 
++func (gs *GameState) executeDamagePunisherChoiceEffect(controller int, source *Card, effectValue map[string]interface{}, targets []Target) error {
++	if len(targets) == 0 || !targets[0].IsCard {
++		return nil
++	}
++	target, err := gs.Battlefield.GetCard(targets[0].CardID)
++	if err != nil || target == nil || !target.IsCreature() {
++		return nil
++	}
++	chooser := target.Controller
++	if chooser < 0 || chooser >= len(gs.Players) {
++		return nil
++	}
++	creatureAmount := getIntValue(effectValue, "amount", 0)
++	controllerAmount := getIntValue(effectValue, "controller_amount", 0)
++	targetID := target.ID
++	sourceName := ""
++	if source != nil {
++		sourceName = source.Name
++	}
++	gs.StartOptionChoice(chooser, []string{"creature", "controller"}, sourceName, func(gs *GameState, chosen string) {
++		if chosen == "controller" {
++			_ = gs.executeDamageEffect(controller, source,
++				map[string]interface{}{"amount": controllerAmount},
++				[]Target{{PlayerIdx: chooser}})
++			return
++		}
++		_ = gs.executeDamageEffect(controller, source,
++			map[string]interface{}{"amount": creatureAmount},
++			[]Target{{IsCard: true, CardID: targetID}})
++	})
++	return nil
++}
++
++// executeDamageEffect - "Deal N damage to target"
+ func (gs *GameState) executeDamageEffect(controller int, source *Card, effectValue map[string]interface{}, targets []Target) error {
+ 	if getStringValue(effectValue, "target_filter", "") == "creature_blocking_self" {
+ 		if source == nil || !source.Blocking {
+-- 
+2.55.0
+

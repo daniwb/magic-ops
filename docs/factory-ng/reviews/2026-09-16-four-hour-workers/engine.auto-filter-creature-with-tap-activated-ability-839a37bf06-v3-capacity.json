@@ -1,0 +1,10 @@
+{
+  "ticket_id": "ticket:engine.auto-filter-creature-with-tap-activated-ability-839a37bf06/v3",
+  "receipt": "docs/factory-ng/runs/2026-09-16T085343Z-engine-auto-filter-creature-with-tap-activated-ability-839a37bf06-v3-codex.json",
+  "receipt_sha256": "sha256:2c3a7e4de7b6e18bb59b6b16616f170f24b9e198f1bd54943ac461b4655e0dcb",
+  "raw_artifact": {
+    "path": "docs/factory-ng/runs/2026-09-16T085343Z-engine-auto-filter-creature-with-tap-activated-ability-839a37bf06-v3-codex.raw.json",
+    "sha256": "sha256:6fed653a6edf6d98d7578cb1eda9248cf63a86d06cfa3b2ea7c510b7388ef076"
+  },
+  "finding": "Explicit Luna capacity rejection before any patch; Terra configured and functioning since previous recovery. One attempt, original scope and all gates required."
+}

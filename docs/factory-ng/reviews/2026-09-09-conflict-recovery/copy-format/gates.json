@@ -1,0 +1,28 @@
+[
+  {
+    "id": "scope",
+    "outcome": "passed",
+    "detail": "changed=backend/cards/converter.go,backend/game/ability_effects.go,backend/cards/factory_ng_b4a4facffb_test.go"
+  },
+  {
+    "id": "ticket-gate-0",
+    "command": "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "outcome": "passed",
+    "elapsed_ms": 331,
+    "detail": ""
+  },
+  {
+    "id": "ticket-gate-1",
+    "command": "cd backend && go test ./game ./cards -run '^TestFactoryNGCopyTriggeringReferent$' -count=1",
+    "outcome": "passed",
+    "elapsed_ms": 242688,
+    "detail": "testing: warning: no tests to run\nPASS\nok  \tmagic-backend/game\t0.016s [no tests to run]\n=== RUN   TestFactoryNGCopyTriggeringReferent\n--- PASS: TestFactoryNGCopyTriggeringReferent (0.00s)\nPASS\nok  \tmagic-backend/cards\t0.026s\nNamed test gate: 1 test(s) passed for '^TestFactoryNGCopyTriggeringReferent$'"
+  },
+  {
+    "id": "ticket-gate-2",
+    "command": "cd backend && go test ./game ./cards",
+    "outcome": "failed",
+    "elapsed_ms": 90557,
+    "detail": "--- FAIL: TestTempestAnglerTriggerConversion (0.00s)\n    tempest_angler_test.go:67: expected effect=put_counter, got \"put_counters\"\nok  \tmagic-backend/game\t0.251s\nABILITIES: []\nERRORS: [Could not parse: When you cast this spell, copy it for each time you've cast your commander from the command zone this game. You may choose new targets for the copies. Could not parse: Copy target instant or sorcery spell. You may choose new targets for the copy.]\n2026/09/09 07:13:23 \ud83d\udde1\ufe0f  gs.DeclareAttackers called player=0 ids=[Shape_Spirit_Warden-643-da884d7e] step=declare_attackers active=0\n2026/09/09 07:13:23    \u21b3 accepted 1 attacker(s)\n2026/09/09 07:13:23 \ud83d\udde1\ufe0f  gs.DeclareAttackers called player=0 ids=[Shape_Spirit_Warden-645-9aee2e59] step=declare_attackers active=0\n2026/09/09 07:13:23    \u21b3 accepted 1 attacker(s)\n2026/09/09 07:13:23 \ud83d\udde1\ufe0f  gs.DeclareAttackers called player=0 ids=[Shape_Questing_Elk-647-d72447a3] step=declare_attackers active=0\n2026/09/09 07:13:23    \u21b3 accepted 1 attacker(s)\n2026/09/09 07:13:23 \ud83d\udde1\ufe0f  gs.DeclareAttackers called player=0 ids=[Shape_Questing_Elk-649-2f7224cb] step=declare_attackers active=0\n2026/09/09 07:13:23    \u21b3 accepted 1 attacker(s)\n2026/09/09 07:13:23 \ud83d\udde1\ufe0f  gs.DeclareAttackers called player=0 ids=[Shape_Argothian_Pixies-1305-5b22af1a] step=declare_attackers active=0\n2026/09/09 07:13:23    \u21b3 accepted 1 attacker(s)\n2026/09/09 07:13:23 \ud83d\udde1\ufe0f  gs.DeclareAttackers called player=0 ids=[Shape_Attacker-2250-f837eba6] step=declare_attackers active=0\n2026/09/09 07:13:23    \u21b3 accepted 1 attacker(s)\nAbilities: [{Type:keyword Effect:toxic Value:map[amount:1] Keyword: Trigger: Cost:<nil> Affects:<nil> Target:<nil> TriggerV2:<nil> Effects:[] Condition:<nil>}]\nErrors: []\nStatus: review\nParseErrors: [Could not parse: As an additional cost to cast this spell, you may behold a Dragon. (You may choose a Dragon you control or reveal a Dragon card from your hand.)]\nAbilities: [{Type:spell Effect:counter_unless_pay Value:map[amount:2] Keyword: Trigger: Cost:<nil> Affects:<nil> Target:0xc005460700 TriggerV2:<nil> Effects:[] Condition:<nil>}]\nParseErrors: []\nAbilities count: 2\n  Ability: type=keyword_cost effect=tiered\n  Ability: type=triggered effect=custom\n--- FAIL: TestTempestAnglerTriggerConversion (0.00s)\n    tempest_angler_test.go:67: expected effect=put_counter, got \"put_counters\"\nFAIL\nFAIL\tmagic-backend/cards\t78.832s\nFAIL"
+  }
+]

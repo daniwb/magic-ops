@@ -1,0 +1,172 @@
+{
+  "at": "2026-09-16T23:31:50.507723+00:00",
+  "window": {
+    "start": "2026-09-16T19:02:46Z",
+    "end": "2026-09-16T23:44:56.854616Z",
+    "baseline_states": {
+      "failed": 1341,
+      "completed": 1461,
+      "parked": 402,
+      "integration_failed": 3,
+      "blocked": 921
+    },
+    "workers": [
+      "codex",
+      "codex-2",
+      "codex-3",
+      "codex-4"
+    ],
+    "requested_end": "2026-09-16T23:02:46Z",
+    "stability_start": "2026-09-16T19:44:56.854616Z",
+    "stability_baseline_states": {
+      "failed": 1316,
+      "completed": 1467,
+      "integrating": 1,
+      "parked": 403,
+      "awaiting_verification": 7,
+      "working": 9,
+      "queued": 1,
+      "awaiting_integration": 1,
+      "integration_failed": 3,
+      "blocked": 920
+    }
+  },
+  "states": {
+    "failed": 1211,
+    "completed": 1557,
+    "parked": 422,
+    "integration_failed": 14,
+    "working": 7,
+    "awaiting_verification": 5,
+    "integrating": 2,
+    "queued": 5,
+    "blocked": 906
+  },
+  "model_leases": {
+    "codex": [
+      {
+        "ticket": "ticket:engine.auto-grant-keywords-until-eot-conditional-205e618cf1/v4",
+        "alive": true,
+        "repair": false
+      }
+    ],
+    "codex-2": [
+      {
+        "ticket": "ticket:engine.auto-grant-keywords-until-eot-conditional-on-bargain-0f64b39cbd/v3",
+        "alive": true,
+        "repair": false
+      }
+    ],
+    "codex-3": [
+      {
+        "ticket": "ticket:engine.auto-gain-control-until-eot-untap-haste-db1c0653ee/v3",
+        "alive": false,
+        "repair": true
+      }
+    ],
+    "codex-4": [
+      {
+        "ticket": "ticket:engine.auto-goad-sequence-referent-ec28edcd2e/v4",
+        "alive": true,
+        "repair": true
+      }
+    ]
+  },
+  "recent_occupancy": [
+    {
+      "at": "2026-09-16T23:21:47.824502+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T23:22:18.244319+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T23:22:48.651176+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T23:23:19.074275+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T23:23:49.514760+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T23:24:19.964366+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T23:24:50.389673+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T23:25:20.806042+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T23:25:51.244002+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T23:26:21.673137+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T23:26:52.096237+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T23:27:22.508626+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T23:27:52.920839+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T23:28:23.326143+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T23:28:53.734973+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T23:29:24.150136+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T23:29:54.595592+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T23:30:25.023259+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T23:30:55.451778+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T23:31:25.891920+00:00",
+      "occupied": 4
+    }
+  ],
+  "window_sample_counts": {
+    "4": 108,
+    "3": 121,
+    "2": 113,
+    "1": 98,
+    "0": 7
+  },
+  "net_completed_since_request": 96,
+  "queued": [
+    "ticket:engine.auto-grant-keywords-until-eot-power-filtered-group-7076dd9843/v3",
+    "ticket:engine.auto-grant-protection-from-chosen-card-type-until-eot-7e2b94082b/v3",
+    "ticket:engine.auto-grant-pt-color-and-keywords-until-eot-897943eedf/v3",
+    "ticket:engine.auto-grant-triggered-ability-until-eot-da00167c1f/v4",
+    "ticket:map.plan-destroy-anarchy-4ff1b8d38a/v2"
+  ]
+}

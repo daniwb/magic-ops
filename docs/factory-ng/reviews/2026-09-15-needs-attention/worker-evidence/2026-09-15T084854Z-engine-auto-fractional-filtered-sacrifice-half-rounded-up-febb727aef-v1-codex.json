@@ -1,0 +1,84 @@
+{
+  "attempt_history": [],
+  "capability_assessments": [],
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-engine-auto-fractional-filtered-sacrifice-half-rounded-up-febb727aef-v1-aep5py2l",
+    "candidate_commit": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+    "source_tree_changed": false
+  },
+  "failure_category": "model_response",
+  "gates": [
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "Provider call exited 1; see retained raw response. tokens: in=302772 out=6677 cache_r=257792 cache_w=0\ncodex: rejected direct checkout mutation; model must return patch blocks only\n",
+      "id": "provider-call",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "codex-constrained@1.1.0",
+    "resolved_model": "gpt-5.6-luna",
+    "telemetry": {
+      "cache_read_tokens": 257792,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 173183,
+      "input_tokens": 302772,
+      "model_calls": 1,
+      "output_tokens": 6677,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      },
+      "stage_times": {
+        "attempt_wall_ms": 220963,
+        "candidate_gate_ms": 0,
+        "compilation_ms": {
+          "availability": "unavailable",
+          "reason": "go test includes package compilation; not separately timed"
+        },
+        "model_ms": 173183
+      }
+    },
+    "worker": "codex-3"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-15T084854Z-engine-auto-fractional-filtered-sacrifice-half-rounded-up-febb727aef-v1-codex.raw.json",
+      "sha256": "sha256:8cf228ed9dad1fac60fbef871b60583ad4a5871d1984ad1ba83030256a852bb2"
+    },
+    {
+      "kind": "prepared_packet",
+      "path": "docs/factory-ng/runs/2026-09-15T084854Z-engine-auto-fractional-filtered-sacrifice-half-rounded-up-febb727aef-v1-codex.packet.txt",
+      "sha256": "sha256:31e37b13c38194712e0ca33c9b933c5abcf4807542bc6391d7b3bc4860219168"
+    },
+    {
+      "kind": "knowledge_trace",
+      "path": "docs/factory-ng/runs/2026-09-15T084854Z-engine-auto-fractional-filtered-sacrifice-half-rounded-up-febb727aef-v1-codex.lookup.jsonl",
+      "sha256": "sha256:dc9588715ba42fd4b3997c3407bcbf1285faa5b992bbce3feddeb1f13aa2c505"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-fractional-filtered-sacrifice-half-rounded-up-febb727aef/v1",
+    "path": "docs/factory-ng/tickets/engine-auto-fractional-filtered-sacrifice-half-rounded-up-febb727aef-v1.json",
+    "sha256": "sha256:a83f5b90cbd97c4dea6dc505b1477ab526e0b536b959e4d2dd0fd9cbc08d42ed"
+  }
+}

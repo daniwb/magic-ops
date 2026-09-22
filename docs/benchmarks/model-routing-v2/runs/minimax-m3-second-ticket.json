@@ -1,0 +1,95 @@
+{
+  "accepted": true,
+  "apply": {
+    "elapsed_ms": 120,
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "applied: scripts/paragraph/reparse.py\ncreated: scripts/paragraph/test_factory_ng_561f09e16e.py\n"
+  },
+  "calls": [
+    {
+      "elapsed_ms": 40975,
+      "exit_code": 0,
+      "stderr": "tokens: in=6630 out=5353 cache_r=146 cache_w=0\n",
+      "stdout": "<<<FILE scripts/paragraph/reparse.py\n<<<SEARCH\n        target_phrase = next(\n            (value.strip().rstrip('.,').lower()\n             for value in args.values()\n             if isinstance(value, str)\n             and value.strip().rstrip('.,').lower()\n             in ('artifact or creature', 'target artifact or creature')),\n            None,\n        )\n        if target_phrase is not None:\n            return ('untap', {}, {'filter': 'artifact_or_creature'})\n===REPLACE\n        target_phrase = next(\n            (value.strip().rstrip('.,').lower()\n             for value in args.values()\n             if isinstance(value, str)\n             and value.strip().rstrip('.,').lower()\n             in ('artifact or creature', 'target artifact or creature',\n                 'permanent', 'target permanent')),\n            None,\n        )\n        if target_phrase is not None:\n            if 'artifact' in target_phrase:\n                return ('untap', {}, {'filter': 'artifact_or_creature'})\n            return ('untap', {}, {'filter': 'permanent'})\n>>>END\n<<<NEWFILE scripts/paragraph/test_factory_ng_561f09e16e.py\nimport unittest\n\nfrom reparse import map_atom\n\n\nclass TestFactoryNg561f09e16e(unittest.TestCase):\n    \"\"\"Factory-NG mapping test for verb_unmapped:untap class member\n    Burst of Energy (\"Untap target permanent.\") \u2014 the sole pinned miss\n    on the verb_unmapped:untap lane. Routes through the already-registered\n    untap primitive (executeUntapEffect) with a 'permanent' target filter.\n    \"\"\"\n\n    def test_positive_untap_target_permanent(self):\n        # Burst of Energy: \"Untap target permanent.\" \u2014 the single pinned\n        # verb_unmapped:untap miss. The existing untap primitive accepts\n        # a target filter; 'permanent' is the rules-correct filter for\n        # this Oracle text.\n        result = map_atom('untap', {'target': 'target permanent'})\n        self.assertEqual(result, ('untap', {}, {'filter': 'permanent'}))\n\n    def test_positive_untap_bare_permanent(self):\n        # Variant phrasing without the \"target\" prefix must also map \u2014\n        # the filter vocabulary is what the executor consumes.\n        result = map_atom('untap', {'target': 'permanent'})\n        self.assertEqual(result, ('untap', {}, {'filter': 'permanent'}))\n\n    def test_negative_untap_two_targets_remains_unmapped(self):\n        # Adjacent negative: \"Untap two target creatures.\" carries a\n        # count > 1 with a creature filter; the existing untap primitive\n        # has no amount slot, so this must remain an honest None miss\n        # rather than be silently coerced to amount=1.\n        result = map_atom('untap', {'target': 'two target creatures'})\n        self.assertIsNone(result)\n\n    def test_negative_untap_conditional_remains_unmapped(self):\n        # Adjacent negative: conditional untap (\"Untap target creature\n        # if you control a blue permanent.\") has no condition slot in\n        # the existing untap primitive, must stay unmapped.\n        result = map_atom('untap', {\n            'target': 'target creature',\n            'condition': 'you control a blue permanent',\n        })\n        self.assertIsNone(result)\n\n    def test_negative_untap_referent_land_remains_mapped(self):\n        # Regression guard: the existing referent branch (\"it\" / \"that\n        # land\") must keep mapping after the new permanent-filter branch\n        # is added \u2014 it is reached only when no target_phrase matches.\n        result = map_atom('untap', {'target': 'that land'})\n        self.assertEqual(result, ('untap', {}, None))\n\n\nif __name__ == '__main__':\n    unittest.main()\n>>>END",
+      "usage": {
+        "cache_read_tokens": 146,
+        "cache_write_tokens": 0,
+        "effective_tokens": 11983,
+        "input_tokens": 6630,
+        "output_tokens": 5353
+      }
+    }
+  ],
+  "changed_paths": [
+    "scripts/paragraph/reparse.py",
+    "scripts/paragraph/test_factory_ng_561f09e16e.py"
+  ],
+  "execution": {
+    "agentic": false,
+    "canonical_source_unchanged": true,
+    "effective_token_limit": 200000,
+    "max_model_calls": 2,
+    "mode": "isolated_clone_observation_only",
+    "tools": []
+  },
+  "gates": [
+    {
+      "command": "cd scripts/paragraph && python3 -m unittest test_factory_ng_561f09e16e",
+      "detail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK",
+      "id": "ticket-gate-0",
+      "outcome": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "detail": "",
+      "id": "ticket-gate-1",
+      "outcome": "passed"
+    },
+    {
+      "command": "git status --porcelain adds or changes only scripts/paragraph/reparse.py and scripts/paragraph/test_factory_ng_561f09e16e.py",
+      "detail": "changed=scripts/paragraph/reparse.py,scripts/paragraph/test_factory_ng_561f09e16e.py",
+      "id": "ticket-gate-2",
+      "outcome": "passed"
+    },
+    {
+      "command": "python3 /opt/development/magic-ops/scripts/factory-ng-targeted-demand.py --repo . --members-from /opt/development/magic-ops/docs/factory-ng/measurements/build-plan-561f09e16e-v1.json reports zero remaining pinned members",
+      "detail": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-561f09e16e-v1.json\",\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:untap\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:999c948870f7242538a86b3ea0ecf6d101f963d8ac14058e70673e5758fbb2e9\",\n    \"repository\": \"/tmp/minimax-m3-second-ticket-b2yc02h0\",\n    \"revision\": \"6abb0865b20fba1fd868e448e0b4aea385489ece\"\n  }\n}",
+      "id": "ticket-gate-3",
+      "outcome": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "detail": "",
+      "id": "diff-check",
+      "outcome": "passed"
+    },
+    {
+      "command": "ticket allowed_paths only",
+      "detail": "changed=scripts/paragraph/reparse.py,scripts/paragraph/test_factory_ng_561f09e16e.py",
+      "id": "scope",
+      "outcome": "passed"
+    }
+  ],
+  "model": {
+    "profile": "openrouter-prepared-direct@1.0.0",
+    "provider": "openrouter",
+    "resolved_model": "minimax/minimax-m3:free"
+  },
+  "schema": "factory.model-candidate-evaluation/v1",
+  "status": "COMPLETE",
+  "ticket": {
+    "id": "ticket:map.plan-untap-burst-of-energy-561f09e16e/v1",
+    "independent_of": "benchmark.map.target-player-draw/v2",
+    "path": "docs/factory-ng/tickets/map-plan-untap-burst-of-energy-561f09e16e-v1.json",
+    "sha256": "sha256:3b0a63a26949e8a3393b7944ce66359c45893e2cb3967dfb424831b720c20f48",
+    "source_revision": "6abb0865b20fba1fd868e448e0b4aea385489ece"
+  },
+  "usage": {
+    "cache_read_tokens": 146,
+    "cache_write_tokens": 0,
+    "effective_tokens": 11983,
+    "input_tokens": 6630,
+    "output_tokens": 5353
+  }
+}

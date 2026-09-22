@@ -1,0 +1,208 @@
+From 7853d6c234c730581218efbe4fb5ae6bd4062c27 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Tue, 8 Sep 2026 23:33:53 +0000
+Subject: [PATCH] factory-ng: supervised engine observation
+
+---
+ backend/game/ability_effects.go            | 10 +++
+ backend/game/factory_ng_3e88a33648_test.go | 89 ++++++++++++++++++++++
+ backend/game/gamestate.go                  | 59 ++++++++++++++
+ 3 files changed, 158 insertions(+)
+ create mode 100644 backend/game/factory_ng_3e88a33648_test.go
+
+diff --git a/backend/game/ability_effects.go b/backend/game/ability_effects.go
+index d6469ec39..37386c7c0 100644
+--- a/backend/game/ability_effects.go
++++ b/backend/game/ability_effects.go
+@@ -8327,6 +8327,16 @@ func (gs *GameState) ExecuteAbilityEffect(stackObj *StackObject) error {
+ 		// graveyard to your hand" (Harvest Wurm class) — see
+ 		// executeSacrificeUnlessReturnBasicLand.
+ 		return gs.executeSacrificeUnlessReturnBasicLand(controller, source)
++
++	case "sacrifice_unless_discard":
++		// "sacrifice ~ unless you discard a card" (ticket
++		// engine.auto-sacrifice-unless-discard-3e88a33648, Masticore
++		// class): a self-target sacrifice qualified by a discard-to-avoid
++		// clause — distinct from the unconditional filter-scoped
++		// "sacrifice" case immediately above, which keeps sacrificing
++		// unconditionally with no discard option. See
++		// executeSacrificeUnlessDiscard.
++		return gs.executeSacrificeUnlessDiscard(controller, source)
+ 	case "sacrifice_choice":
+ 		// "[player] sacrifices a permanent of their choice" — the
+ 		// unless-pay consequence for event-triggered abilities whose
+diff --git a/backend/game/factory_ng_3e88a33648_test.go b/backend/game/factory_ng_3e88a33648_test.go
+new file mode 100644
+index 000000000..6bbbdde8b
+--- /dev/null
++++ b/backend/game/factory_ng_3e88a33648_test.go
+@@ -0,0 +1,89 @@
++package game
++
++import "testing"
++
++// TestFactoryNGSacrificeUnlessDiscard covers ticket
++// engine.auto-sacrifice-unless-discard-3e88a33648 (Masticore class):
++// "sacrifice ~ unless you discard a card" must give the affected player a
++// real choice at resolution — discard a card to keep the source, or decline
++// and have it sacrificed — instead of an unconditional sacrifice.
++func TestFactoryNGSacrificeUnlessDiscard(t *testing.T) {
++	t.Run("declines discard: source is sacrificed", func(t *testing.T) {
++		gs := NewGame("P0", "P1", false)
++		src := NewCreature("Factory NG Masticore", ManaCost{}, 4, 4, 1)
++		src.Owner, src.Controller = 0, 0
++		gs.Battlefield.AddCard(src)
++
++		stackObj := &StackObject{
++			IsAbility:   true,
++			Text:        "sacrifice_unless_discard",
++			Controller:  0,
++			Card:        src,
++			EffectValue: map[string]interface{}{},
++		}
++		if err := gs.ExecuteAbilityEffect(stackObj); err != nil {
++			t.Fatalf("ExecuteAbilityEffect: %v", err)
++		}
++		if gs.PendingSacrificeUnlessDiscard == nil {
++			t.Fatalf("expected a pending sacrifice-unless-discard choice")
++		}
++
++		if err := gs.ResolveSacrificeUnlessDiscard(0, ""); err != nil {
++			t.Fatalf("ResolveSacrificeUnlessDiscard: %v", err)
++		}
++		if _, err := gs.Battlefield.GetCard(src.ID); err == nil {
++			t.Fatalf("source was not sacrificed after declining the discard")
++		}
++	})
++
++	t.Run("discards a card: source survives", func(t *testing.T) {
++		gs := NewGame("P0", "P1", false)
++		src := NewCreature("Factory NG Masticore", ManaCost{}, 4, 4, 1)
++		src.Owner, src.Controller = 0, 0
++		gs.Battlefield.AddCard(src)
++
++		handCard := NewCreature("Factory NG Filler Card", ManaCost{}, 1, 1, 1)
++		handCard.Owner, handCard.Controller = 0, 0
++		gs.Players[0].Hand.AddCard(handCard)
++
++		stackObj := &StackObject{
++			IsAbility:   true,
++			Text:        "sacrifice_unless_discard",
++			Controller:  0,
++			Card:        src,
++			EffectValue: map[string]interface{}{},
++		}
++		if err := gs.ExecuteAbilityEffect(stackObj); err != nil {
++			t.Fatalf("ExecuteAbilityEffect: %v", err)
++		}
++
++		if err := gs.ResolveSacrificeUnlessDiscard(0, handCard.ID); err != nil {
++			t.Fatalf("ResolveSacrificeUnlessDiscard: %v", err)
++		}
++		if _, err := gs.Battlefield.GetCard(src.ID); err != nil {
++			t.Fatalf("source was sacrificed despite discarding a card")
++		}
++		if gs.Players[0].Hand.HasCard(handCard.ID) {
++			t.Fatalf("discarded card is still in hand")
++		}
++	})
++
++	t.Run("unconditional filter-scoped sacrifice offers no discard option", func(t *testing.T) {
++		gs := NewGame("P0", "P1", false)
++		src := NewCreature("Factory NG Filter Sac Source", ManaCost{}, 2, 2, 1)
++		src.Owner, src.Controller = 0, 0
++		gs.Battlefield.AddCard(src)
++
++		stackObj := &StackObject{
++			IsAbility:   true,
++			Text:        "sacrifice",
++			Controller:  0,
++			Card:        src,
++			EffectValue: map[string]interface{}{},
++		}
++		_ = gs.ExecuteAbilityEffect(stackObj)
++		if gs.PendingSacrificeUnlessDiscard != nil {
++			t.Fatalf("unconditional filter-scoped sacrifice must not offer a discard-to-avoid choice")
++		}
++	})
++}
+diff --git a/backend/game/gamestate.go b/backend/game/gamestate.go
+index f6a7b080e..c67bf8d3b 100644
+--- a/backend/game/gamestate.go
++++ b/backend/game/gamestate.go
+@@ -114,6 +114,58 @@ type PendingChoice struct {
+ 	NextEdict *EdictContinuation `json:"next_edict,omitempty"`
+ }
+ 
++// PendingSacrificeUnlessDiscard records a paused "sacrifice ~ unless you
++// discard a card" resolution ([VOCAB] sacrifice_unless_discard, ticket
++// engine.auto-sacrifice-unless-discard-3e88a33648, Masticore class): the
++// affected player may discard a card to keep Source, or decline and have
++// Source sacrificed instead. Kept as its own field rather than routed
++// through the generic PendingChoice/ResolvePendingChoice switch
++// (gamestate_choice.go): that switch's only "declined choice triggers an
++// alternate action" case is CounterSpellID (spell-specific) — there is no
++// existing hook for "declining a discard sacrifices a permanent instead" —
++// so ResolveSacrificeUnlessDiscard below completes either branch directly.
++type PendingSacrificeUnlessDiscard struct {
++	PlayerIdx int
++	SourceID  string
++}
++
++// executeSacrificeUnlessDiscard implements the sacrifice_unless_discard
++// primitive: instead of sacrificing Source immediately (the unconditional
++// "sacrifice" case's behavior), it pauses on a PendingSacrificeUnlessDiscard
++// so ResolveSacrificeUnlessDiscard can let the controller discard a card
++// instead once they choose to.
++func (gs *GameState) executeSacrificeUnlessDiscard(controller int, source *Card) error {
++	gs.PendingSacrificeUnlessDiscard = &PendingSacrificeUnlessDiscard{
++		PlayerIdx: controller,
++		SourceID:  source.ID,
++	}
++	return nil
++}
++
++// ResolveSacrificeUnlessDiscard completes a pending sacrifice_unless_discard
++// choice (see PendingSacrificeUnlessDiscard): discardCardID names a card in
++// the affected player's hand to discard, keeping Source alive; an empty
++// discardCardID declines the discard and sacrifices Source instead.
++func (gs *GameState) ResolveSacrificeUnlessDiscard(playerIdx int, discardCardID string) error {
++	pending := gs.PendingSacrificeUnlessDiscard
++	if pending == nil || pending.PlayerIdx != playerIdx {
++		return nil
++	}
++	gs.PendingSacrificeUnlessDiscard = nil
++
++	if discardCardID != "" {
++		if player := gs.Players[playerIdx]; player.Hand.HasCard(discardCardID) {
++			return gs.Discard(playerIdx, discardCardID)
++		}
++		return nil
++	}
++
++	if card, err := gs.Battlefield.GetCard(pending.SourceID); err == nil {
++		gs.sacrificeCard(card, playerIdx)
++	}
++	return nil
++}
++
+ // choiceActivation stores state needed to resume an ability activation or
+ // chained spell effect after a PendingChoice is resolved.
+ type choiceActivation struct {
+@@ -380,6 +432,13 @@ type GameState struct {
+ 	// game/phyrexian_activation_cost.go.
+ 	activePhyrexianChoices []PhyrexianPaymentChoice `json:"-"`
+ 
++	// PendingSacrificeUnlessDiscard holds a paused sacrifice_unless_discard
++	// resolution (Masticore class, ticket
++	// engine.auto-sacrifice-unless-discard-3e88a33648): non-nil between
++	// executeSacrificeUnlessDiscard creating the choice and
++	// ResolveSacrificeUnlessDiscard completing it.
++	PendingSacrificeUnlessDiscard *PendingSacrificeUnlessDiscard `json:"pending_sacrifice_unless_discard,omitempty"`
++
+ 	// activeXCostValue carries the activating player's announced {X} value
+ 	// (activated-ability-x-cost) across a single synchronous
+ 	// ActivateAbilityWithX call, exactly mirroring activePhyrexianChoices
+-- 
+2.43.0
+

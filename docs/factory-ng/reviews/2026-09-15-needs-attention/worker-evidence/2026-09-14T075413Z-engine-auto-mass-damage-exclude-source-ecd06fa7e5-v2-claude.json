@@ -1,0 +1,81 @@
+{
+  "attempt_history": [],
+  "capability_assessments": [],
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-engine-auto-mass-damage-exclude-source-ecd06fa7e5-v2-ax2v0gpb",
+    "candidate_commit": "unavailable",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "e28952a555225e6ab7491ae1345754bcd92103de",
+    "source_tree_changed": false
+  },
+  "failure_category": "infrastructure",
+  "gates": [
+    {
+      "detail": "packet failed:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/development/magic-ops/scripts/factory_ng_symbols.py\", line 63, in resolve\n    sha256='sha256:'+hashlib.sha256(text.encode()).hexdigest(),\n                     ^^^^^^^\nNameError: name 'hashlib' is not defined. Did you forget to import 'hashlib'?\n",
+      "id": "runner",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "claude-staged@1.0.0",
+    "resolved_model": "claude-sonnet-5",
+    "telemetry": {
+      "cache_read_tokens": {
+        "availability": "unavailable",
+        "reason": "runner failed before model"
+      },
+      "cache_write_tokens": {
+        "availability": "unavailable",
+        "reason": "runner failed before model"
+      },
+      "elapsed_ms": 0,
+      "input_tokens": {
+        "availability": "unavailable",
+        "reason": "runner failed before model"
+      },
+      "model_calls": 0,
+      "output_tokens": {
+        "availability": "unavailable",
+        "reason": "runner failed before model"
+      },
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "runner failed before model"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "runner failed before model"
+      },
+      "stage_times": {
+        "attempt_wall_ms": 19866,
+        "candidate_gate_ms": 0,
+        "compilation_ms": {
+          "availability": "unavailable",
+          "reason": "go test includes package compilation; not separately timed"
+        },
+        "model_ms": 0
+      }
+    },
+    "worker": "claude-2"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-14T075413Z-engine-auto-mass-damage-exclude-source-ecd06fa7e5-v2-claude.raw.json",
+      "sha256": "sha256:f3122d6ec2f18b7a38bc4b800a03f7961b2724585e62a505e941184ee2e080b6"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-mass-damage-exclude-source-ecd06fa7e5/v2",
+    "path": "docs/factory-ng/tickets/engine-auto-mass-damage-exclude-source-ecd06fa7e5-v2.json",
+    "sha256": "sha256:be309de8784c2e1956404c1a6bee44b7fcc9c8b9850dcefcbf3568db9701f0e9"
+  }
+}

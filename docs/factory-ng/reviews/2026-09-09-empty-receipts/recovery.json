@@ -1,0 +1,31 @@
+{
+  "action": "quarantine_empty_receipt_artifacts",
+  "created_at": "2026-09-09T14:29:41.018326+00:00",
+  "history": "No receipt contents, job outcomes, attempt counters, or provider logs changed. Original empty files preserved byte-for-byte outside the receipt input directory.",
+  "records": [
+    {
+      "mtime_ns": 1788545531009553558,
+      "original_path": "docs/factory-ng/runs/2026-09-04T181001Z-engine-auto-destroy-all-matching-trigger-spell-mana-value-a3ccd7f284-v4-integration.json",
+      "preserved_path": "docs/factory-ng/reviews/2026-09-09-empty-receipts/originals/2026-09-04T181001Z-engine-auto-destroy-all-matching-trigger-spell-mana-value-a3ccd7f284-v4-integration.json",
+      "reason": "Zero-byte file; no JSON receipt or outcome recoverable from this artifact.",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "mtime_ns": 1788545556408338907,
+      "original_path": "docs/factory-ng/runs/2026-09-04T181001Z-engine-auto-damage-with-unless-state-guard-c530d087a2-v3-claude.json",
+      "preserved_path": "docs/factory-ng/reviews/2026-09-09-empty-receipts/originals/2026-09-04T181001Z-engine-auto-damage-with-unless-state-guard-c530d087a2-v3-claude.json",
+      "reason": "Zero-byte file; no JSON receipt or outcome recoverable from this artifact.",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "mtime_ns": 1788545604837743140,
+      "original_path": "docs/factory-ng/runs/2026-09-04T181033Z-engine-auto-damage-variable-player-life-9ee01e74de-v2-claude.json",
+      "preserved_path": "docs/factory-ng/reviews/2026-09-09-empty-receipts/originals/2026-09-04T181033Z-engine-auto-damage-variable-player-life-9ee01e74de-v2-claude.json",
+      "reason": "Zero-byte file; no JSON receipt or outcome recoverable from this artifact.",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ]
+}

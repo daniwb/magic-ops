@@ -1,0 +1,116 @@
+From 7d68b0066f93b56f8377341cc99168148b65e783 Mon Sep 17 00:00:00 2001
+From: Factory NG <factory-ng@local>
+Date: Thu, 17 Sep 2026 04:06:11 +0000
+Subject: [PATCH] factory-ng: focused batch proposal
+
+---
+ backend/cards/converter.go                  | 11 +++-
+ backend/cards/factory_ng_8575a14e03_test.go | 67 +++++++++++++++++++++
+ 2 files changed, 77 insertions(+), 1 deletion(-)
+ create mode 100644 backend/cards/factory_ng_8575a14e03_test.go
+
+diff --git a/backend/cards/converter.go b/backend/cards/converter.go
+index fa7a43b47..20df5af59 100644
+--- a/backend/cards/converter.go
++++ b/backend/cards/converter.go
+@@ -13,7 +13,8 @@ import (
+ // ToGameCard converts a CardDefinition to a game.Card
+ func (def *CardDefinition) ToGameCard(owner int) (*game.Card, error) {
+ 	var cardType game.CardType
+-	switch def.Type {
++	typeName := strings.TrimSpace(strings.Split(def.Type, "—")[0])
++	switch typeName {
+ 	case "Land":
+ 		cardType = game.TypeLand
+ 	case "Creature":
+@@ -4592,6 +4593,14 @@ func AbilityToTriggered(ability AbilityDSL, source *game.Card, index int) *game.
+ 				}
+ 				effectValue["link_created_to_source"] = true
+ 			}
++			if effect == "fight" &&
++				((atom.Affects != nil && atom.Affects.Filter == "enchanted") ||
++					(ability.Affects != nil && ability.Affects.Filter == "enchanted")) {
++				if effectValue == nil {
++					effectValue = map[string]interface{}{}
++				}
++				effectValue["fight_attached_referent"] = true
++			}
+ 			if effect == "exile" && ai > 0 &&
+ 				CanonicalEffect(ability.Effects[ai-1].Effect) == "token_copy" {
+ 				atEndOfCombat, _ := effectValue["at_end_of_combat"].(bool)
+diff --git a/backend/cards/factory_ng_8575a14e03_test.go b/backend/cards/factory_ng_8575a14e03_test.go
+new file mode 100644
+index 000000000..890e5f8cd
+--- /dev/null
++++ b/backend/cards/factory_ng_8575a14e03_test.go
+@@ -0,0 +1,67 @@
++package cards
++
++import (
++	"testing"
++
++	"magic-backend/game"
++)
++
++// CAPABILITY_ASSESSMENT: {"classification":"connection","existing_symbols":["game.GameState.ExecuteAbilityEffect#case:fight"],"remaining_gap":"the converter did not preserve an enchanted-creature fight referent for v2 trigger atoms","verification":"public converter, trigger, target-choice, and resolution path"}
++func TestFactoryNGFightAttachedCreature_8575a14e03(t *testing.T) {
++	def := &CardDefinition{
++		Name:     "Warbriar Blessing",
++		Type:     "Enchantment — Aura",
++		Types:    []string{"Enchantment"},
++		SubTypes: []string{"Aura"},
++		Abilities: []AbilityDSL{{
++			Type:    "triggered",
++			Trigger: "etb",
++			Effects: []EffectAtom{{
++				Effect:  "fight",
++				Affects: &TargetFilter{Filter: "enchanted"},
++				Target:  &TargetFilter{Filter: "creature", Controller: "opponent"},
++			}},
++		}},
++		Status: StatusManual,
++	}
++	aura, err := def.ToGameCard(0)
++	if err != nil {
++		t.Fatalf("ToGameCard: %v", err)
++	}
++	if !aura.IsAura() {
++		t.Fatal("converted Enchantment — Aura is not an Aura")
++	}
++
++	gs := game.NewGame("P0", "P1", false)
++	enchanted := game.NewCreature("Enchanted Fighter", game.ManaCost{}, 4, 6, 0)
++	enchanted.Counters.PlusOnePlusOne = 1
++	target := game.NewCreature("Opponent Target", game.ManaCost{}, 3, 6, 1)
++	gs.Battlefield.AddCard(enchanted)
++	gs.Battlefield.AddCard(target)
++	gs.Battlefield.AddCard(aura)
++	if err := aura.AttachTo(enchanted); err != nil {
++		t.Fatalf("AttachTo: %v", err)
++	}
++	gs.RegisterCardAbilities(aura)
++
++	gs.ProcessTriggeredAbilities(game.CreateETBEvent(aura, 0))
++	if gs.PendingTriggerTarget == nil {
++		t.Fatal("Aura fight trigger did not request its opponent creature target")
++	}
++	if err := gs.ResolveTriggerTargetChoice(0, target.ID); err != nil {
++		t.Fatalf("ResolveTriggerTargetChoice: %v", err)
++	}
++	if err := gs.ResolveTopOfStack(); err != nil {
++		t.Fatalf("ResolveTopOfStack: %v", err)
++	}
++
++	if got := enchanted.Damage; got != 3 {
++		t.Fatalf("enchanted creature damage = %d, want 3", got)
++	}
++	if got := target.Damage; got != 5 {
++		t.Fatalf("target damage = %d, want enchanted creature's live power 5", got)
++	}
++	if aura.Damage != 0 {
++		t.Fatalf("Aura incorrectly participated in fight with %d damage", aura.Damage)
++	}
++}
+-- 
+2.55.0
+

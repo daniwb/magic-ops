@@ -1,0 +1,38 @@
+{
+  "controller_pid": 3915495,
+  "policy": {
+    "schema": "factory-ng-policy/v1",
+    "retry": {
+      "infrastructure_attempts": 3,
+      "backoff_seconds": 300
+    },
+    "queue": {
+      "target_ready": 3,
+      "ready_per_worker": 2,
+      "map_reserve": 2,
+      "max_queued": 12,
+      "stalled_after_seconds": 900
+    },
+    "integration": {
+      "automatic": true,
+      "wave_size": 8,
+      "push_when_full_gate_green": true,
+      "deploy_after_push": false,
+      "collect_seconds": 120,
+      "collect_min_candidates": 3
+    }
+  },
+  "runtime": {
+    "state": "running",
+    "phase": "producing_ticket",
+    "updated_at": "2026-09-12T12:34:29Z",
+    "queue": {
+      "deferred": 2,
+      "runnable": 2,
+      "target_ready": 8,
+      "total": 4
+    },
+    "message": "Replenishing the automatic ground-truth queue."
+  },
+  "full_gate_observation": "Pre-change integration still active at controller reload; no post-change speedup claimed."
+}

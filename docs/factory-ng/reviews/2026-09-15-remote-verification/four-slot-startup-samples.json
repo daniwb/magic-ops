@@ -1,0 +1,174 @@
+[
+  {
+    "monotonic": 864627.335071148,
+    "jobs": []
+  },
+  {
+    "monotonic": 864629.379566086,
+    "jobs": []
+  },
+  {
+    "monotonic": 864631.428601337,
+    "jobs": []
+  },
+  {
+    "monotonic": 864633.471257114,
+    "jobs": []
+  },
+  {
+    "monotonic": 864635.517693397,
+    "jobs": []
+  },
+  {
+    "monotonic": 864637.56106914,
+    "jobs": []
+  },
+  {
+    "monotonic": 864639.601713501,
+    "jobs": []
+  },
+  {
+    "monotonic": 864641.645795311,
+    "jobs": []
+  },
+  {
+    "monotonic": 864643.691945525,
+    "jobs": []
+  },
+  {
+    "monotonic": 864645.730117805,
+    "jobs": []
+  },
+  {
+    "monotonic": 864647.772881009,
+    "jobs": []
+  },
+  {
+    "monotonic": 864649.808936748,
+    "jobs": []
+  },
+  {
+    "monotonic": 864651.878231417,
+    "jobs": [
+      {
+        "name": "factory-ng-verify-60a8d1fb2f524b61baea27ec87a1a767",
+        "slot": 0,
+        "cpus": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "cpu_usec": 62145,
+        "memory_bytes": 11075584,
+        "memory_peak_bytes": 11075584
+      }
+    ]
+  },
+  {
+    "monotonic": 864653.979134908,
+    "jobs": [
+      {
+        "name": "factory-ng-verify-60a8d1fb2f524b61baea27ec87a1a767",
+        "slot": 0,
+        "cpus": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "cpu_usec": 2149264,
+        "memory_bytes": 414236672,
+        "memory_peak_bytes": 564834304
+      },
+      {
+        "name": "factory-ng-verify-96265147ee1f4f0aab1ae787a9ac1b81",
+        "slot": 1,
+        "cpus": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "cpu_usec": 631227,
+        "memory_bytes": 112939008,
+        "memory_peak_bytes": 113201152
+      }
+    ]
+  },
+  {
+    "monotonic": 864656.052940711,
+    "jobs": [
+      {
+        "name": "factory-ng-verify-96265147ee1f4f0aab1ae787a9ac1b81",
+        "slot": 1,
+        "cpus": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "cpu_usec": 2761987,
+        "memory_bytes": 427163648,
+        "memory_peak_bytes": 569212928
+      },
+      {
+        "name": "factory-ng-verify-13c2e0d3344f43f9b6eb32231621dae6",
+        "slot": 2,
+        "cpus": [
+          8,
+          9,
+          10,
+          11
+        ],
+        "cpu_usec": 419235,
+        "memory_bytes": 18497536,
+        "memory_peak_bytes": 18518016
+      }
+    ]
+  },
+  {
+    "monotonic": 864658.121621839,
+    "jobs": [
+      {
+        "name": "factory-ng-verify-96265147ee1f4f0aab1ae787a9ac1b81",
+        "slot": 1,
+        "cpus": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "cpu_usec": 7846332,
+        "memory_bytes": 649797632,
+        "memory_peak_bytes": 903815168
+      },
+      {
+        "name": "factory-ng-verify-13c2e0d3344f43f9b6eb32231621dae6",
+        "slot": 2,
+        "cpus": [
+          8,
+          9,
+          10,
+          11
+        ],
+        "cpu_usec": 2490664,
+        "memory_bytes": 426856448,
+        "memory_peak_bytes": 568061952
+      },
+      {
+        "name": "factory-ng-verify-1963a302c7a04fffb0abd7ba01854846",
+        "slot": 3,
+        "cpus": [
+          12,
+          13,
+          14,
+          15
+        ],
+        "cpu_usec": 877587,
+        "memory_bytes": 262193152,
+        "memory_peak_bytes": 262193152
+      }
+    ]
+  }
+]

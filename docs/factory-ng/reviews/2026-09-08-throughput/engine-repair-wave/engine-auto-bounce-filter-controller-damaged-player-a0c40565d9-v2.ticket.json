@@ -1,0 +1,97 @@
+{
+  "capability": {
+    "expected_unlock": 1,
+    "negative_examples": [
+      "Existing bounce filters with static controller referents (you, opponent, target_player from an explicit target-player clause, or no controller restriction) must keep their current resolution and must not be rerouted through a damaged-player referent"
+    ],
+    "required_behavior": "DamageTargetFromSource and executeDamageEffect publish actual post-prevention noncombat player damage through emitPlayerDamaged; combat uses the same new player_damaged event at the point damage is applied. Existing combat-only events and monarch behavior retain their meaning. Native trigger_v2={event:player_damaged,subject:{filter:enchanted}} observes only its attached creature dealing damage to a player. qualifiedTriggerTargetSupported accepts target.controller=defending_player, which resolves to the actually damaged player for this event. Reuse a bounce atom with target={filter:creature,controller:defending_player}. The selected creature returns to its owner, and control/target legality is rechecked at resolution. Prevented damage, unrelated life loss and unrelated sources do not trigger it.",
+    "source_misses": [
+      {
+        "card": "Sigil of Sleep",
+        "oracle_text_sha256": "31e264c5373d46d35572c0884ff0d30880025c4b6eca654a747fd4e16804c037",
+        "paragraph": "Whenever enchanted creature deals damage to a player, return target creature that player controls to its owner's hand.",
+        "required_behavior": "Support a bounce target_filter controller value that resolves to 'the player dealt damage' from the triggering damage event, restricting the bounce target to that player's creatures"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "fact": "Immutable predecessor. This successor corrects its implementation premise and scope using the behavior audit.",
+      "path": "docs/factory-ng/tickets/engine-auto-bounce-filter-controller-damaged-player-a0c40565d9-v1.json"
+    },
+    {
+      "fact": "Source and public-path evidence for this correction; old nearest-match line anchors are not carried forward.",
+      "path": "docs/factory-ng/reviews/2026-09-08-throughput/fts5-miss-audit.md"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "Operator-authorized audited repair; preserve model-neutral contract and ordinary integration gates.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "cd backend && go test ./game ./cards -run '^TestShape_Audited(PlayerDamage|EnchantedDamage)' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.auto-bounce-filter-controller-damaged-player-a0c40565d9/v2",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Retain failed gate evidence; repair the demonstrated defect without weakening acceptance.",
+  "parents": [
+    "ticket:map.plan-bounce-sigil-of-sleep-a3b32a7cef/v1",
+    "ticket:engine.auto-bounce-filter-controller-damaged-player-a0c40565d9/v1"
+  ],
+  "production": {
+    "key": "capability:bounce_filter_controller_damaged_player:sha256:a0c40565d9249c676dfcd7d20afc08f09159a8679d6895cda41664129f9663fb:audited-correction-20260908",
+    "producer": "capability-dependencies",
+    "retry_reason": "operator_audited_contract_correction"
+  },
+  "required_behavior": [
+    "DamageTargetFromSource and executeDamageEffect publish actual post-prevention noncombat player damage through emitPlayerDamaged; combat uses the same new player_damaged event at the point damage is applied. Existing combat-only events and monarch behavior retain their meaning. Native trigger_v2={event:player_damaged,subject:{filter:enchanted}} observes only its attached creature dealing damage to a player. qualifiedTriggerTargetSupported accepts target.controller=defending_player, which resolves to the actually damaged player for this event. Reuse a bounce atom with target={filter:creature,controller:defending_player}. The selected creature returns to its owner, and control/target legality is rechecked at resolution. Prevented damage, unrelated life loss and unrelated sources do not trigger it.",
+    "Add the public-path regression tests selected by ^TestShape_Audited(PlayerDamage|EnchantedDamage). No parser/card-name exceptions. Full integration gates and dependent Map verification remain required."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/cards/converter.go",
+      "backend/game/ability_effects.go",
+      "backend/game/combat.go",
+      "backend/game/events.go",
+      "backend/game/gamestate.go",
+      "backend/game/gamestate_trigger_target.go",
+      "backend/game/stack.go",
+      "backend/game/targeting.go",
+      "backend/cards/registry_player_damaged.go",
+      "backend/cards/shape_audited_player_damage_test.go",
+      "backend/game/lib_player_damage_event.go",
+      "backend/game/shape_audited_player_damage_test.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "clean": true,
+    "repository": "/opt/development/test/openmagic",
+    "revision": "6642351731e0c336cd220a861dd14fc212e7d192"
+  },
+  "supersedes": "ticket:engine.auto-bounce-filter-controller-damaged-player-a0c40565d9/v1",
+  "title": "Audited correction: Connect actual player damage to enchanted-source target choice",
+  "work_type": "engine"
+}

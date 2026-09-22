@@ -1,0 +1,152 @@
+{
+  "at": "2026-09-16T22:39:49.892424+00:00",
+  "window": {
+    "start": "2026-09-16T19:02:46Z",
+    "end": "2026-09-16T23:44:56.854616Z",
+    "baseline_states": {
+      "failed": 1341,
+      "completed": 1461,
+      "parked": 402,
+      "integration_failed": 3,
+      "blocked": 921
+    },
+    "workers": [
+      "codex",
+      "codex-2",
+      "codex-3",
+      "codex-4"
+    ],
+    "requested_end": "2026-09-16T23:02:46Z",
+    "stability_start": "2026-09-16T19:44:56.854616Z",
+    "stability_baseline_states": {
+      "failed": 1316,
+      "completed": 1467,
+      "integrating": 1,
+      "parked": 403,
+      "awaiting_verification": 7,
+      "working": 9,
+      "queued": 1,
+      "awaiting_integration": 1,
+      "integration_failed": 3,
+      "blocked": 920
+    }
+  },
+  "states": {
+    "failed": 1238,
+    "completed": 1527,
+    "parked": 419,
+    "integration_failed": 11,
+    "working": 7,
+    "awaiting_verification": 19,
+    "blocked": 908
+  },
+  "model_leases": {
+    "codex": [
+      {
+        "ticket": "ticket:engine.auto-dual-target-fight-atom-c63ae8f425/v3",
+        "alive": true,
+        "repair": false
+      }
+    ],
+    "codex-2": [
+      {
+        "ticket": "ticket:engine.auto-damage-by-prior-chosen-target-power-b5ec4751bb/v3",
+        "alive": true,
+        "repair": true
+      }
+    ],
+    "codex-3": [],
+    "codex-4": []
+  },
+  "recent_occupancy": [
+    {
+      "at": "2026-09-16T22:30:00.620826+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:30:31.048613+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:31:01.465090+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T22:31:31.976970+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:32:02.679495+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:32:33.100451+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:33:03.573626+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T22:33:33.989065+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:34:04.400551+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T22:34:34.823498+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T22:35:05.249164+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:35:35.661464+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T22:36:06.069944+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T22:36:36.479379+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T22:37:07.023994+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T22:37:37.452726+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T22:38:07.916557+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T22:38:38.327129+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T22:39:08.751800+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T22:39:39.180557+00:00",
+      "occupied": 2
+    }
+  ],
+  "window_sample_counts": {
+    "4": 78,
+    "3": 95,
+    "2": 85,
+    "1": 80,
+    "0": 7
+  },
+  "net_completed_since_request": 66,
+  "queued": []
+}

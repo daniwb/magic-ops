@@ -1,0 +1,14 @@
+{
+  "mode": "agentic",
+  "source_revision": "fcb60f31cda3285216ac60206c56cc320b8e8b16",
+  "gates": [
+    {
+      "id": "scope",
+      "outcome": "failed",
+      "detail": "changed="
+    }
+  ],
+  "changed": [],
+  "passed": false,
+  "validation_seconds": 0.011
+}

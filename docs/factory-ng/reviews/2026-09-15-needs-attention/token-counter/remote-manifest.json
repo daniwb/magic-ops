@@ -1,0 +1,12 @@
+[
+  {
+    "ticket_id": "ticket:engine.operator-token-counter-recovery-sep15/v1",
+    "ticket_path": "docs/factory-ng/reviews/2026-09-15-needs-attention/token-counter/ticket.json",
+    "proposal": "docs/factory-ng/candidates/proposal-7ddd9d0598d84934bee03779f419b5a1.json",
+    "identity": {
+      "worker": "operator",
+      "model": "operator-correction-no-worker-provider-run",
+      "profile": "codex-constrained@1.1.0"
+    }
+  }
+]

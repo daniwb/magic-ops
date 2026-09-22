@@ -1,0 +1,6 @@
+{
+  "exit_code": 0,
+  "stdout": "{\n  \"member_count\": 0,\n  \"members\": [],\n  \"pinned_member_count\": 1,\n  \"pinned_members_from\": \"/opt/development/magic-ops/docs/factory-ng/measurements/build-plan-70becf7c9a-retry1.json\",\n  \"pinned_unresolved_count\": 0,\n  \"pinned_unresolved_members\": [],\n  \"review_cards_scanned\": 1,\n  \"schema\": \"factory.targeted-demand/v1\",\n  \"shape\": \"verb_unmapped:gain_control\",\n  \"source\": {\n    \"parser_sha256\": \"sha256:f47574e5187d4e484067001ae98cb54c75093910307a8c3c0a68152e70780536\",\n    \"repository\": \"/tmp/factory-ng-blocker-recovery-sep11\",\n    \"revision\": \"d705f2ef3f6d17ecec79c4a9ad1ecf6684c81572\"\n  }\n}\n",
+  "stderr": "",
+  "elapsed_ms": 4217
+}

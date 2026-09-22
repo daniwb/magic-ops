@@ -1,0 +1,67 @@
+{
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-engine-auto-copy-triggering-permanent-spell-9e4be89001-v1-s5b2irq0",
+    "candidate_commit": "d9b2ccdfb4b07614fadc714dd28ee9e71c8a05e5",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "d9b2ccdfb4b07614fadc714dd28ee9e71c8a05e5",
+    "source_tree_changed": false
+  },
+  "gates": [
+    {
+      "detail": "backend/cards/converter.go: SEARCH text not found (must be copied verbatim, no line numbers)\n",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "qwen-prepared-local@1.0.1",
+    "resolved_model": "Qwen3.8-27B-Q8_0",
+    "telemetry": {
+      "bounded_repair_attempted": true,
+      "cache_read_tokens": 1666952,
+      "cache_write_tokens": 0,
+      "elapsed_ms": 1416748,
+      "input_tokens": 109918,
+      "output_tokens": 6467,
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "local adapter has no versioned pricing record"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter aggregates reasoning into output when applicable"
+      }
+    },
+    "worker": "qwen-local"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-07T134458Z-engine-auto-copy-triggering-permanent-spell-9e4be89001-v1-qwen-agentic.raw.json",
+      "sha256": "sha256:32bd61d7f4fb391d4c677027d0dc4152891145246f67c3d7333310cd4cebca81"
+    },
+    {
+      "kind": "bounded_repair",
+      "path": "docs/factory-ng/runs/2026-09-07T134458Z-engine-auto-copy-triggering-permanent-spell-9e4be89001-v1-qwen-agentic.repair.raw.json",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "ticket": {
+    "id": "ticket:engine.auto-copy-triggering-permanent-spell-9e4be89001/v1",
+    "path": "docs/factory-ng/tickets/engine-auto-copy-triggering-permanent-spell-9e4be89001-v1.json",
+    "sha256": "sha256:a914159546bd28e2c9f089374b207224f5d1025ce9c9877866ca17e3faa4ea0d"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "damage_unless_hand_count": "TestFactoryNGTriggerUnlessHandCountCondition",
+  "exile_mv_le_source_counters_multizone": "TestFactoryNGExileMvLeSourceCountersMultizone",
+  "put_counter_and_draw_card": "TestFactoryNGPutCounterAndDrawCard",
+  "return_from_graveyard_dual_filter_hand": "TestFactoryNGReturnFromGraveyardDualFilterHand",
+  "sacrifice_self_return_exiled": "TestFactoryNGReturnExiledCardsWithSource",
+  "tap_or_untap_target_choice": "TestFactoryNGTapOrUntapChoiceTarget",
+  "tap_variable_amount_x": "TestFactoryNGTapVariableXTargetCount",
+  "tap_or_gain_control_if_named": "TestFactoryNGNamedPermanentControlGatesEffectChoice_fac1071987",
+  "damage_by_target_power_to_its_controller": "TestFactoryNGDamageByTargetPowerToItsController_fa4925b0a9"
+}

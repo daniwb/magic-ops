@@ -1,0 +1,13 @@
+{
+  "ticket": "ticket:engine.auto-put-counters-independent-multi-target-sequence-a8e4b194e3/v1",
+  "clone": "/tmp/factory-ng-engine-auto-put-counters-independent-multi-target-sequence-a8e4b194e3-v1-ngubpcmn",
+  "base": "5e8ce2866f3b71d291ca44ef4a50b9a22480d729",
+  "outcome": "proposal_scope_rejected_without_receipt",
+  "reason": "The candidate modified backend/game/effect_sequence.go, which is absent from the immutable allowed_paths. The deferred-save exception escaped the runner. This candidate remains unaccepted.",
+  "patch_sha256": "sha256:c634061cebc01817b310995d72a3792aaa04ae50ec4185e027c71e174b43715b",
+  "known_review_gaps": [
+    "Duplicate-target rejection needs a public casting regression; the existing cardinality validator rejects duplicates when bounds are set.",
+    "Index-based routing must preserve target identity if an earlier target becomes illegal.",
+    "The converter currently broadens all sequences with two put_counters atoms; same-target riders must not become independent targets."
+  ]
+}

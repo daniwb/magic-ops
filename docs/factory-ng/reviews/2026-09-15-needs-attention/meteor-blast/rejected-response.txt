@@ -1,0 +1,132 @@
+CAPABILITY_ASSESSMENT: {"classification":"connection","existing_symbols":["game.GameState.ExecuteAbilityEffect case \"damage_each_of_x_targets\"","CardDefinition.ToGameCard"],"remaining_gap":"spell-atom damage conversion and registry entry are missing","verification":"public conversion and effect-sequence resolution test"}
+
+<<<FILE backend/cards/converter.go
+<<<SEARCH
+				effectValue := targetCountEffectValue(atom.Value, atom.Target)
+				effect := CanonicalEffect(atom.Effect)
+				// Bind only an immediately preceding creature-card return to
+<<<REPLACE
+				effectValue := targetCountEffectValue(atom.Value, atom.Target)
+				effect := CanonicalEffect(atom.Effect)
+				if effect == "damage" && atom.Target != nil &&
+					atom.Target.Filter == "any" &&
+					effectValue["amount"] != nil &&
+					effectValue["amount_from"] == nil &&
+					effectValue["amount_count"] == nil &&
+					effectValue["max_targets_from"] == "x_value" {
+					switch effectValue["amount"].(type) {
+					case int, float64:
+						effect = "damage_each_of_x_targets"
+					}
+				}
+				// Bind only an immediately preceding creature-card return to
+<<<SEARCH
+							if a.Target != nil && a.Target.MaxTargets > 1 {
+								if from, ok := a.Value["max_targets_from"].(string); ok {
+									card.SpellEffect.MaxTargetsFrom = from
+								}
+							}
+<<<REPLACE
+							if a.Target != nil &&
+								(a.Target.MaxTargets > 1 || a.Value["max_targets_from"] != nil) {
+								if from, ok := a.Value["max_targets_from"].(string); ok {
+									card.SpellEffect.MaxTargetsFrom = from
+								}
+							}
+>>>END
+
+<<<NEWFILE backend/cards/registry_factory_ng_d078b33904.go
+package cards
+
+func init() {
+	regEffect("damage_each_of_x_targets", Primitive{
+		Executor:  "game/ability_effects.go case \"damage_each_of_x_targets\" -> executeDamageEffect for each separately chosen creature-or-player target, capped by the spell's x_value",
+		ShapeTest: "TestFactoryNGDamageEachOfXTargetsSpellRegistration",
+	})
+}
+>>>END
+
+<<<NEWFILE backend/cards/factory_ng_d078b33904_test.go
+package cards
+
+import (
+	"testing"
+
+	"magic-backend/game"
+)
+
+func TestFactoryNGDamageEachOfXTargetsSpellRegistration(t *testing.T) {
+	def := &CardDefinition{
+		Name: "Meteor Blast",
+		Type: "Sorcery",
+		Abilities: []AbilityDSL{{
+			Type: "spell",
+			Effects: []EffectAtom{{
+				Effect: "damage",
+				Value: map[string]interface{}{
+					"amount":           4,
+					"max_targets_from": "x_value",
+				},
+				Target: &TargetFilter{Filter: "any"},
+			}},
+		}},
+	}
+
+	spell, err := def.ToGameCard(0)
+	if err != nil {
+		t.Fatalf("ToGameCard: %v", err)
+	}
+	if len(spell.SpellEffectSequence) != 1 {
+		t.Fatalf("expected one spell atom, got %d", len(spell.SpellEffectSequence))
+	}
+	atom := spell.SpellEffectSequence[0]
+	if atom.Effect != "damage_each_of_x_targets" {
+		t.Fatalf("expected damage_each_of_x_targets, got %q", atom.Effect)
+	}
+	if atom.EffectValue["amount"] != 4 {
+		t.Fatalf("expected fixed amount 4, got %#v", atom.EffectValue["amount"])
+	}
+	if atom.TargetType != game.TargetAny {
+		t.Fatalf("expected any-target requirement, got %q", atom.TargetType)
+	}
+	if spell.SpellEffect == nil || spell.SpellEffect.MaxTargetsFrom != "x_value" {
+		t.Fatalf("expected target count tied to x_value, got %+v", spell.SpellEffect)
+	}
+
+	gs := game.NewGame("P0", "P1", false)
+	target := game.NewCreature("Target", game.ManaCost{}, 3, 3, 1)
+	target.Controller, target.Owner = 1, 1
+	gs.Battlefield.AddCard(target)
+
+	if err := gs.ExecuteEffectSequence(0, spell, spell.SpellEffectSequence,
+		[]game.Target{{IsCard: true, CardID: target.ID}}, 0, nil); err != nil {
+		t.Fatalf("ExecuteEffectSequence: %v", err)
+	}
+	if target.Damage != 4 {
+		t.Fatalf("expected target to take 4 damage, got %d", target.Damage)
+	}
+
+	firestorm := &CardDefinition{
+		Name: "Firestorm",
+		Type: "Sorcery",
+		Abilities: []AbilityDSL{{
+			Type: "spell",
+			Effects: []EffectAtom{{
+				Effect: "damage",
+				Value: map[string]interface{}{"amount_from": "x_value"},
+				Target: &TargetFilter{Filter: "any"},
+			}},
+		}},
+	}
+	firestormCard, err := firestorm.ToGameCard(0)
+	if err != nil {
+		t.Fatalf("Firestorm ToGameCard: %v", err)
+	}
+	if len(firestormCard.SpellEffectSequence) != 1 ||
+		firestormCard.SpellEffectSequence[0].Effect != "damage" {
+		t.Fatalf("dynamic X damage must remain unmapped: %+v", firestormCard.SpellEffectSequence)
+	}
+}
+>>>END
+
+EXPECT: Fixed numeric damage-to-each-of-X-targets spell atoms now register, require any-targets tied to x_value, dispatch through the existing executor, and leave dynamic-X damage unmapped.

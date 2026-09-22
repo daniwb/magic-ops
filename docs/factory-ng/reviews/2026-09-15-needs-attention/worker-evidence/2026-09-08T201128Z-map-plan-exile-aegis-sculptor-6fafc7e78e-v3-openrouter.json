@@ -1,0 +1,93 @@
+{
+  "attempt_history": [],
+  "capability_assessments": [],
+  "execution": {
+    "candidate_clone": "/tmp/factory-ng-map-plan-exile-aegis-sculptor-6fafc7e78e-v3-ip0_8isv",
+    "candidate_commit": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+    "mode": "isolated_clone_observation_only",
+    "source_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+    "source_tree_changed": false
+  },
+  "failure_category": "model_response",
+  "gates": [
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "initial-patch-apply",
+      "outcome": "failed"
+    },
+    {
+      "detail": "no edit blocks and no verdict found in model output\n",
+      "id": "patch-apply",
+      "outcome": "failed"
+    }
+  ],
+  "integration": "observation_only",
+  "model": {
+    "profile": "minimax-prepared-direct@1.0.0",
+    "resolved_model": "minimax/minimax-m3:free",
+    "telemetry": {
+      "bounded_repair_attempted": true,
+      "cache_read_tokens": {
+        "availability": "unavailable",
+        "reason": "at least one model call omitted this counter"
+      },
+      "cache_write_tokens": {
+        "availability": "unavailable",
+        "reason": "at least one model call omitted this counter"
+      },
+      "elapsed_ms": 2509,
+      "input_tokens": {
+        "availability": "unavailable",
+        "reason": "at least one model call omitted this counter"
+      },
+      "model_calls": 2,
+      "output_tokens": {
+        "availability": "unavailable",
+        "reason": "at least one model call omitted this counter"
+      },
+      "provider_cost_usd": {
+        "availability": "unavailable",
+        "reason": "provider cost unavailable"
+      },
+      "reasoning_tokens": {
+        "availability": "unavailable",
+        "reason": "adapter emitted no token counter"
+      }
+    },
+    "worker": "minimax-m3-free"
+  },
+  "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy.",
+  "outcome": "infrastructure_failed_model_protocol",
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-08T201128Z-map-plan-exile-aegis-sculptor-6fafc7e78e-v3-openrouter.raw.json",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "prepared_packet",
+      "path": "docs/factory-ng/runs/2026-09-08T201128Z-map-plan-exile-aegis-sculptor-6fafc7e78e-v3-openrouter.packet.txt",
+      "sha256": "sha256:35c5bf739c0d5bb7b963480850e817c70804dfadc3a7ee63df4ef8e0c072ffc6"
+    },
+    {
+      "kind": "knowledge_trace",
+      "path": "docs/factory-ng/runs/2026-09-08T201128Z-map-plan-exile-aegis-sculptor-6fafc7e78e-v3-openrouter.lookup.jsonl",
+      "sha256": "sha256:a0c34a7975e961aeabc473f36076de26137b963b80b27f483f619040eb65944d"
+    },
+    {
+      "kind": "bounded_repair",
+      "path": "docs/factory-ng/runs/2026-09-08T201128Z-map-plan-exile-aegis-sculptor-6fafc7e78e-v3-openrouter.repair.raw.json",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "schema": "factory.observation-receipt/v1",
+  "skill": {
+    "name": "implement-map-class",
+    "path": "docs/factory-ng/skills/v1/implement-map-class/SKILL.md",
+    "sha256": "sha256:8f8d63908a99e282b67de96fe84f1000d11808a695eb66e72c2cb1816c08c844"
+  },
+  "ticket": {
+    "id": "ticket:map.plan-exile-aegis-sculptor-6fafc7e78e/v3",
+    "path": "docs/factory-ng/tickets/map-plan-exile-aegis-sculptor-6fafc7e78e-v3.json",
+    "sha256": "sha256:fa074e43882d12389ee77d8be41d5ba89ba4b8d255139b5e8e752d5d0f2149e6"
+  }
+}

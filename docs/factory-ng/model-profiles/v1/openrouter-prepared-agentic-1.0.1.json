@@ -1,0 +1,31 @@
+{
+  "schema": "factory.model-profile/v1",
+  "id": "openrouter-prepared-agentic",
+  "version": "1.0.1",
+  "extends": "staged-baseline@1.0.0",
+  "adapter": {
+    "adapter_id": "openrouter-prepared-agentic-v1",
+    "executable": "scripts/openrouter-agentic-call.py",
+    "engine": "openrouter-agentic",
+    "workflow": "prepared read-only tool loop over OpenRouter; exact evidence is supplied before bounded repository reads, then a forced no-tools final phase and harness-owned apply and gates",
+    "allowed_tools": ["read_file", "grep", "list_dir"],
+    "filesystem": "read-only",
+    "network": "OpenRouter API only",
+    "reasoning": "bounded by the adapter and excluded from response content",
+    "max_turns": 12,
+    "max_completion_tokens": 6000,
+    "max_model_calls": 2
+  },
+  "routing": {
+    "best_for": ["candidate small evidence-complete Map patch needing literal source confirmation", "deterministic wiring", "constrained repair"],
+    "do_not_use_when": ["the packet has unresolved design alternatives", "cross-layer capability design is required"],
+    "promotion_gate": "frozen benchmark acceptance plus a second independently frozen Map ticket"
+  },
+  "telemetry": {
+    "source": "aggregated OpenRouter Chat Completions usage across tool turns",
+    "measured": ["input", "output", "cache_read", "elapsed"],
+    "unavailable": ["cache_write", "reasoning token split"],
+    "cost": "provider endpoint price; zero for the tested :free model"
+  },
+  "change_note": "1.0.1 uses real regex search and removes tools during the bounded final-answer phase so the adapter can enforce its output boundary."
+}

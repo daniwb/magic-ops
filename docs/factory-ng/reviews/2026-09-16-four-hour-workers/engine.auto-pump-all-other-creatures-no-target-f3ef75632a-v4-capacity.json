@@ -1,0 +1,10 @@
+{
+  "ticket_id": "ticket:engine.auto-pump-all-other-creatures-no-target-f3ef75632a/v4",
+  "receipt": "docs/factory-ng/runs/2026-09-16T090829Z-engine-auto-pump-all-other-creatures-no-target-f3ef75632a-v4-codex.json",
+  "receipt_sha256": "sha256:9ddf52028e9b87753ed30f9937e15fbec9cd7e37191593f4b605c12a5e77ca16",
+  "raw_artifact": {
+    "path": "docs/factory-ng/runs/2026-09-16T090829Z-engine-auto-pump-all-other-creatures-no-target-f3ef75632a-v4-codex.raw.json",
+    "sha256": "sha256:e4834fc8e9f5c38fb10ac67266e7b7d13aa0a34255643b8d213d9f3b10b41df0"
+  },
+  "finding": "Explicit Luna capacity rejection before any patch; Terra configured and functioning since previous recovery. One attempt, original scope and all gates required."
+}

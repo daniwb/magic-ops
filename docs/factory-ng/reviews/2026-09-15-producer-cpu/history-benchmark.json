@@ -1,0 +1,20 @@
+[
+  {
+    "mode": "original",
+    "cpu_seconds": 7.2197896870000005,
+    "wall_seconds": 22.169700112193823,
+    "keys": 6287
+  },
+  {
+    "mode": "cache_cold",
+    "cpu_seconds": 9.633030252999998,
+    "wall_seconds": 30.096551526337862,
+    "keys": 6287
+  },
+  {
+    "mode": "cache_warm",
+    "cpu_seconds": 1.986659706000001,
+    "wall_seconds": 6.801990587264299,
+    "keys": 6287
+  }
+]

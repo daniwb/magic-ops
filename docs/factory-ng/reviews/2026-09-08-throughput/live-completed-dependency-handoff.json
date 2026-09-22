@@ -1,0 +1,27 @@
+{
+  "recorded_at": "2026-09-08T16:34:30.427863+00:00",
+  "ticket": "ticket:map.plan-pump-a-radha-coalition-warlord-ed4644a3b7/v2",
+  "job_state": "queued",
+  "production": {
+    "key": "build-plan:verb_unmapped:pump:sha256:1462ce410bab8380beacc26011d7be0c4916e1d11b2f83e321d0f24547d0c79f:after:ticket:engine.auto-domain-basic-land-types-count-8ba494156c/v3",
+    "producer": "capability-dependencies",
+    "retry_reason": "dependency_resume"
+  },
+  "required_behavior": [
+    "Map the exact current verb_unmapped:pump miss on A-Radha, Coalition Warlord through the already-registered pump_until_eot primitive without losing any Oracle semantics.",
+    "The pinned card loses this miss and retains no new or silently swallowed miss.",
+    "Add a focused positive test plus an adjacent negative that must remain unmapped.",
+    "If the exact amount, recipient, filter, referent, or duration cannot execute through existing runtime behavior, return NEEDS_PRIMITIVE with one atomic CAPABILITY_JSON instead of a partial Map patch.",
+    "Do not edit Engine, converter, corpus data, or use a card-name special case.",
+    "The Engine dependency landing is not proof this card is fixed. Verify the complete Oracle mapping against its runtime representation, including every ability, even if parsing is already eligible."
+  ],
+  "engine_symbols": [
+    "game.GameState.countDomainBasicLandTypesControlledBy",
+    "game.GameState.resolveDynamicAmount",
+    "game.GameState.evalDynamicAmountBase#case:domain"
+  ],
+  "runtime_contracts": [
+    "The required atomic Engine capability passed full integration gates. Runtime contract: Add an amount_count/value-spec kind that resolves to the count of distinct basic land types (Plains, Island, Swamp, Mountain, Forest) among lands controlled by the ability's controller, so it can be plugged into pump_until_eot's amount (and other amount_count-driven primitives) via the existing resolveDynamicAmount chokepoint."
+  ],
+  "card_completion_claim": false
+}

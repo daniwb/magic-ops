@@ -1,0 +1,45 @@
+{
+  "schema": "factory.observation-receipt/v1",
+  "ticket": {
+    "id": "ticket:map.switch-pt/v2",
+    "path": "docs/factory-ng/tickets/map-switch-pt-v2.json",
+    "sha256": "sha256:1a4b0874877ac51a14a6a327c531177c516e0cafe1a13225f32ddd67be8b4e82"
+  },
+  "model": {
+    "profile": "qwen-prepared-direct@1.0.0",
+    "profile_path": "docs/factory-ng/model-profiles/v1/qwen-prepared-direct.json",
+    "resolved_model": "./Qwen3.8-27B/Qwen3.8-27B-Q8_0.gguf",
+    "telemetry": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_read_tokens": 0,
+      "cache_write_tokens": 0,
+      "reasoning_tokens": null,
+      "provider_cost_usd": null,
+      "source": "The adapter received two empty successful payloads and emitted no usage line. A separate 16-token direct endpoint probe returned exactly OK, so this is a full-packet adapter/serving failure, not quality evidence."
+    }
+  },
+  "execution": {
+    "mode": "isolated_clone_observation_only",
+    "packet_bytes": 7779,
+    "calls": [
+      {"kind": "prepared_direct", "outcome": "empty_provider_payload"},
+      {"kind": "one_allowed_retry", "outcome": "empty_provider_payload"}
+    ],
+    "source_tree_changed": false
+  },
+  "raw_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-map-switch-pt-v2-qwen.raw.txt",
+      "sha256": "sha256:a029cc73ebfdddc298240acd4e5274f05dcea34927b35a3fe0b4d7cd0eaeff18",
+      "description": "First empty model response."
+    },
+    {
+      "path": "docs/factory-ng/runs/2026-08-28-map-switch-pt-v2-qwen-retry.raw.txt",
+      "sha256": "sha256:92d1d429710bd195cf72aabe3fa8861714c0fa4ae10cea59c1ef32c3aa8a3112",
+      "description": "Second empty model response."
+    }
+  ],
+  "outcome": "infrastructure_failed_no_provider_payload",
+  "next_action": "Reissue the identical bounded Map contract to a compatible staged remote adapter. Do not infer a Qwen semantic failure and do not hand-write the patch."
+}

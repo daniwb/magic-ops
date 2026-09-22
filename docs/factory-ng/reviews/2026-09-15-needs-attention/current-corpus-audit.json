@@ -1,0 +1,1975 @@
+{
+  "source_revision": "4f790b46f49e7ed03d1314e37f7c1a8611a378c3",
+  "note": "Parser eligibility is not proof of runtime correctness or ticket completion. Isolated reviewed composition, before corpus import.",
+  "tickets": [
+    {
+      "ticket": "ticket:engine.auto-remove-all-source-counters-with-linked-amount-efe3e9ca1c/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Ventifact Bottle",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:put_counters",
+              "put x charge counters on ~."
+            ],
+            [
+              "verb_unmapped:tap",
+              "tap it and remove all charge counters from it"
+            ],
+            [
+              "verb_unmapped:add_mana",
+              "add {c} for each charge counter removed this way."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-sequence-excess-damage-token-count-109b0ec3af/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Windswift Slice",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:damage_by",
+              "target creature you control deals damage equal to its power to target "
+            ],
+            [
+              "verb_unmapped:create_token",
+              "create a number of 1/1 green elf warrior creature tokens equal to the "
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-multi-sylvan-smite-eb280a50a2/v1",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Sylvan Smite",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:put_counters",
+              "put a +1/+1 counter on target creature you control if you weren't the "
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-pump-righteous-indignation-6d54d5491f/v2",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Righteous Indignation",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:pump",
+              "the blocking creature gets +1/+1 until end of turn."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-grant-eot-revelation-of-power-850cd79af8/v2",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Revelation of Power",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:grant_eot",
+              "if it has a counter on it, it also gains flying and lifelink until end"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-damage-retromancer-e4dfae8651/v2",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Retromancer",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:damage",
+              "~ deals 3 damage to that spell or ability's controller."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-combat-damage-recipient-creature-filter-bb8e92c7a7/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Witch-king of Angmar",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:p_sacrifice",
+              "each opponent sacrifices a creature of their choice that dealt combat "
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-put-counters-on-combat-related-creatures-7fda0f0882/v3",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Greater Werewolf",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:put_counters",
+              "put a -0/-2 counter on each creature blocking or blocked by ~."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-fractional-filtered-sacrifice-half-rounded-up-febb727aef/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Rakdos the Defiler",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:sacrifice",
+              "sacrifice half the non-demon permanents you control, rounded up."
+            ],
+            [
+              "verb_unmapped:p_sacrifice",
+              "target opponent sacrifices half the non-demon permanents they control "
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-put-counters-independent-multi-target-sequence-a8e4b194e3/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Incremental Blight",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:put_counters",
+              "put a -1/-1 counter on target creature, two -1/-1 counters on another "
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-target-player-compound-sacrifice-damage-99c146a20f/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Structural Collapse",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:p_sacrifice",
+              "target player sacrifices an artifact and a land of their choice"
+            ],
+            [
+              "verb_unmapped:damage",
+              "~ deals 2 damage to that player."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-copy-all-controlled-stack-objects-f0627c34c8/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Ulalek, Fused Atrocity",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:copy",
+              "copy all spells you control"
+            ],
+            [
+              "verb_unmapped:copy",
+              "copy all other activated and triggered abilities you control"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-multi-stone-giant-ffd78803cd/v1",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Stone Giant",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:grant_eot",
+              "target creature you control with toughness less than ~'s power gains f"
+            ],
+            [
+              "verb_unmapped:destroy",
+              "destroy that creature at the beginning of the next end step."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-prevent-combat-damage-to-and-by-referent-123447f8f0/v3",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Elvish Scout",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:untap",
+              "untap target attacking creature you control"
+            ],
+            [
+              "verb_unmapped:prevent",
+              "prevent all combat damage that would be dealt to and dealt by it this "
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-pump-rabble-rouser-21e06a8b0b/v2",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Rabble-Rouser",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:pump",
+              "attacking creatures get +x/+0 until end of turn, where x is ~'s power."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-damage-enchanted-attached-creature-9b5f19f1fc/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Fatal Attraction",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:damage",
+              "~ deals 2 damage to enchanted creature."
+            ],
+            [
+              "verb_unmapped:damage",
+              "~ deals 4 damage to enchanted creature."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-pump-prismabasher-f1d1567dae/v2",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Prismabasher",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:pump",
+              "up to x target creatures you control get +x/+x until end of turn, wher"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-destroy-premature-burial-8c31678b86/v2",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Premature Burial",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:destroy",
+              "destroy target nonblack creature that entered since your last turn end"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-sacrifice-self-unless-mill-4b119c08d6/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Deep Spawn",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:sacrifice",
+              "sacrifice ~ unless you mill two cards."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-damage-force-of-nature-ceed866a48/v2",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Force of Nature",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-multi-frenzied-fugue-a4f2dc8c74/v1",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Frenzied Fugue",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:untap",
+              "untap that permanent"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-damage-enchanted-player-or-controlled-planeswalk-d9c6b90b0e/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Curse of the Pierced Heart",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:damage",
+              "~ deals 1 damage to that player or a planeswalker that player controls"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-multi-angel-of-serenity-9784e9b8d6/v1",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Angel of Serenity",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:exile",
+              "exile up to three other target creatures from the battlefield and/or c"
+            ],
+            [
+              "verb_unmapped:bounce",
+              "return the exiled cards to their owners' hands."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-counter-dovin-s-veto-da0aa55667/v2",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Dovin's Veto",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-mass-damage-exclude-source-ecd06fa7e5/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Conductor of Cacophony",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:damage",
+              "~ deals 1 damage to each other creature and each player."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-each-player-discard-hand-dynamic-count-6be50d10d1/v3",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Wheel of Fortune",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-remove-counter-at-end-of-combat-a452329fad/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Clockwork Dragon",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-regenerate-butcher-s-glee-ec963567a0/v4",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Butcher's Glee",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-damage-by-assert-perfection-8ba7935f36/v5",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Assert Perfection",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.staged-trial-verify-sigil/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Sigil of Sleep",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-put-counters-selfcraft-mechan-ac7fb28b1a/v4",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Selfcraft Mechan",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-exile-scarab-feast-d952117a2a/v4",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Scarab Feast",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:exile",
+              "exile up to three target cards from a single graveyard."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-damage-each-of-x-targets-spell-registration-d078b33904/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Meteor Blast",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:damage",
+              "~ deals 4 damage to each of x targets."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-exile-rats-feast-5a756bbff8/v3",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Rats' Feast",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:exile",
+              "exile x target cards from a single graveyard."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-damage-road-rage-f32e5d1b48/v2",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Road Rage",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:damage",
+              "~ deals x damage to target creature or planeswalker, where x is 2 plus"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-exile-aegis-sculptor-6fafc7e78e/v3",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Aegis Sculptor",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:exile",
+              "exile two cards from your graveyard"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-grant-ability-until-eot-8ec4b633a2/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Subterfuge",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:grant_eot",
+              "target creature gains flying and \"whenever ~ deals combat damage to a "
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-ability-pump-filtered-no-target-1e97812a5d/v4",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Artificer's Dragon",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:pump",
+              "artifact creatures you control get +1/+0 until end of turn."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-tap-lead-astray-27a4322784/v3",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Lead Astray",
+          "eligible": false,
+          "misses": [
+            [
+              "spell_seq_targeted",
+              "tap up to two target creatures."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-exile-complex-filter-6e01106bce/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Thraben Exorcism",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:exile",
+              "exile target spirit, creature with disturb, or enchantment."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-exile-time-to-reflect-261d7e6271/v2",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Time to Reflect",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:exile",
+              "exile target creature that blocked or was blocked by a zombie this tur"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-copy-triggering-permanent-spell-9e4be89001/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Archmage of Echoes",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-bounce-permanent-sharing-type-1626ffcfbf/v3",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Cloudstone Curio",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:bounce",
+              "return another permanent you control that shares a permanent type with"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-conditional-damage-to-referent-player-768261106f/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Insubordination",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:damage",
+              "~ deals 2 damage to that player unless that creature attacked this tur"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-damage-equal-to-source-power-to-flying-creature-4efc529ec4/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Jagged-Scar Archers",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-damage-punisher-choice-e36bbf48c8/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Dwarven Scorcher",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:damage",
+              "~ deals 1 damage to target creature unless that creature's controller "
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-grant-keywords-until-eot-enchanted-shared-type-a70040c6e5/v3",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Crown of Ascension",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:grant_eot",
+              "enchanted creature and other creatures that share a creature type with"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-controller-filter-referent-triggering-player-76c02b824f/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Blind Zealot",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-counter-target-spell-mana-value-threshold-98c3884b4c/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Disdainful Stroke",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:counter",
+              "counter target spell with mana value 4 or greater."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-create-token-dynamic-counter-a0d2ceedb7/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Boss's Chauffeur",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:create_token",
+              "create a 1/1 green and white citizen creature token for each +1/+1 cou"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-damage-to-defending-player-9a47b7025e/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Falkenrath Perforator",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-destroy-attached-equipment-at-end-of-combat-1a39af850c/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Corrosive Ooze",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:destroy",
+              "destroy all equipment attached to that creature at end of combat."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-destroy-target-creature-that-dealt-damage-this-t-2dd7f03acd/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Avenging Arrow",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:destroy",
+              "destroy target creature that dealt damage this turn."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-dynamic-graveyard-mana-value-filter-3f054094e5/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Alesha, Who Laughs at Fate",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-exile-crewed-creatures-filter-dd5f27d519/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Golden Argosy",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:exile",
+              "exile each creature that crewed it this turn"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-gain-control-duration-source-permanent-50db4d2e53/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Charisma",
+          "eligible": false,
+          "misses": [
+            [
+              "spine_L2",
+              "whenever enchanted creature deals damage to a creature"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-pump-self-source-dynamic-sac-power-576cf4aa49/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Atogatog",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:pump",
+              "~ gets +x/+x until end of turn, where x is the sacrificed creature's p"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-pump-until-eot-untargeted-dynamic-c37bccdec1/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Cybermat",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:pump",
+              "it gets +x/+0 until end of turn, where x is the number of attacking ar"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-return-from-graveyard-attach-5f9eabcbcc/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Dragon Shadow",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:reanimate",
+              "return ~ from your graveyard to the battlefield attached to that creat"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-return-from-graveyard-lesser-toughness-filter-cfeba54e07/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Colfenor, the Last Yew",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:regrow",
+              "return up to one other target creature card with lesser toughness from"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-search-attach-to-target-c74e339814/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Bitterheart Witch",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:search",
+              "search your library for a curse card, put it onto the battlefield atta"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-search-dynamic-mana-value-cap-a5b3c243f2/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Chord of Calling",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:search",
+              "search your library for a creature card with mana value x or less, put"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-source-referent-pump-until-eot-8b8ac7ccb7/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Congregation Gryff",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-tap-all-filtered-permanents-7e17906098/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Aboshan, Cephalid Emperor",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:tap",
+              "tap all creatures without flying."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-untap-referent-previous-targets-f33b5c1c71/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Jeskai Ascendancy",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:untap",
+              "untap those creatures."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-grant-eot-consul-s-shieldguard-e0cfcd56f2/v1",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Consul's Shieldguard",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-conditional-payment-unless-pays-mana-8f85c47b3e/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Rhystic Deluge",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:tap",
+              "tap target creature unless its controller pays {1}."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-grant-dynamic-keyword-eot-4c8621edfa/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Reverent Mantra",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:grant_eot",
+              "all creatures gain protection from the chosen color until end of turn."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-return-from-graveyard-with-counters-77c5905163/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Retrofitted Transmogrant",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:reanimate",
+              "return ~ from your graveyard to the battlefield tapped with two +1/+1 "
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-put-counters-amount-from-trigger-damage-cc03cdb048/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Retaliator Griffin",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:put_counters",
+              "put that many +1/+1 counters on ~."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-grant-triggered-ability-until-eot-938952c6e2/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Requiem Monolith",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:grant_eot",
+              "until end of turn, target creature gains \"whenever ~ is dealt damage, "
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-bounce-with-mana-value-filter-4bf6a351c2/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Repeal",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:bounce",
+              "return target nonland permanent with mana value x to its owner's hand."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-bounce-filter-nonland-permanent-entered-this-tur-76dd65401b/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Renet, Temporal Apprentice",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:bounce",
+              "return each other nonland permanent that entered this turn to its owne"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-exile-player-graveyard-56bee2bbbc/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Remorseful Cleric",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:exile",
+              "exile target player's graveyard."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-destroy-multi-target-optional-a6ba6fb044/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Relic Crush",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:destroy",
+              "destroy target artifact or enchantment and up to one other target arti"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-return-from-graveyard-attached-to-matching-type-1595222f2c/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Reins of the Vinesteed",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:reanimate",
+              "return ~ from your graveyard to the battlefield attached to a creature"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-destroy-n-target-filter-5aef2d6f94/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Release the Gremlins",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-grant-eot-kitesail-skirmisher-986fe778a3/v2",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Kitesail Skirmisher",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:grant_eot",
+              "another target creature attacking the same player or planeswalker gain"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-destroy-unless-controller-pays-205cf02727/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Plague Fiend",
+          "eligible": false,
+          "misses": [
+            [
+              "spine_L2",
+              "whenever ~ deals combat damage to a creature"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-dynamic-amount-distinct-counter-kinds-controlled-46440abfac/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Perrie, the Pulverizer",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:pump",
+              "target creature you control gains trample and gets +x/+x until end of "
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-pump-until-eot-unconditional-filter-959af8d8e3/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Pendelhaven Elder",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:pump",
+              "each 1/1 creature you control gets +1/+2 until end of turn."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-pump-until-eot-all-creatures-you-control-63ebcf17a9/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Moonveil Dragon",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:pump",
+              "each creature you control gets +1/+0 until end of turn."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-damage-amount-chroma-red-mana-symbols-dafa42ca0a/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Outrage Shaman",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:damage",
+              "~ deals damage to target creature equal to the number of red mana symb"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-damage-grotag-siege-runner-794b86980b/v1",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Grotag Siege-Runner",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-target-filter-power-threshold-72615893da/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Make Your Move",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:destroy",
+              "destroy target artifact, enchantment, or creature with power 4 or grea"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-return-from-graveyard-attach-to-source-05cf182b14/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Magnetic Snuffler",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:reanimate",
+              "return target equipment card from your graveyard to the battlefield at"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-filter-creature-with-tap-activated-ability-839a37bf06/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Magewright's Stone",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:untap",
+              "untap target creature that has an activated ability with {t} in its co"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-pump-all-controller-filter-until-eot-753299440a/v3",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Great Oak Guardian",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-destroy-knight-of-dusk-982188caf0/v2",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Knight of Dusk",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:destroy",
+              "destroy target creature blocking ~."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-target-filter-mana-value-threshold-5abb67184a/v3",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Lucky Offering",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-delayed-destroy-at-end-of-combat-c4e51f7648/v3",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Lowland Basilisk",
+          "eligible": false,
+          "misses": [
+            [
+              "spine_L2",
+              "whenever ~ deals damage to a creature"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-grant-keyword-to-creatures-with-power-equal-to-p-cb482d4bb8/v3",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Localized Destruction",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:grant_eot",
+              "each creature you control with power equal to the amount of {e} paid t"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-damage-amount-equals-trigger-creature-count-d7ae562dbc/v3",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Lightmine Field",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:damage",
+              "~ deals damage to each of those creatures equal to the number of attac"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-damage-amount-runtime-count-686e9699e6/v3",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Kratos, God of War",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:damage",
+              "~ deals damage to that player equal to the number of creatures that pl"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-pump-all-other-creatures-no-target-f3ef75632a/v3",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Kodama of the South Tree",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-ability-pump-filter-all-23b3b60c38/v3",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Knight of Valor",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:pump",
+              "each creature without flanking blocking ~ gets -1/-1 until end of turn"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-destroy-blocking-or-blocked-creatures-bd51bb2a55/v3",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Kjeldoran Frostbeast",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:destroy",
+              "destroy all creatures blocking or blocked by ~."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-tap-doesnt-untap-next-untap-step-6f26ccc5c2/v3",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Kashi-Tribe Elite",
+          "eligible": false,
+          "misses": [
+            [
+              "spine_L2",
+              "whenever ~ deals combat damage to a creature"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-conditional-grant-keywords-until-eot-d97d5d518c/v3",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Karametra's Blessing",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:grant_eot",
+              "if it's an enchanted creature or enchantment creature, it also gains h"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-grant-effects-until-eot-1fc9545bbb/v3",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Jump Scare",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:grant_eot",
+              "target creature gets +2/+2, gains flying, and becomes a horror enchant"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-pump-until-eot-all-a0f16e387d/v3",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Inner Demon",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-pump-until-eot-dynamic-amount-471184ae88/v3",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Impetuous Protege",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:pump",
+              "it gets +x/+0 until end of turn, where x is the greatest power among t"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-damage-iron-maiden-9d3b851486/v2",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Iron Maiden",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-exile-isolate-b41c98bc06/v2",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Isolate",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:exile",
+              "exile target permanent with mana value 1."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-damage-to-each-battle-protected-36b6c50579/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Joyful Stormsculptor",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:damage",
+              "~ deals 1 damage to each opponent and each battle they protect."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-delayed-referent-destroy-f4ed1aabb4/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Hornet Cannon",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:destroy",
+              "destroy it at the beginning of the next end step."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-execute-pump-until-eot-no-target-5eb89fc696/v3",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "General Tazri",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:pump",
+              "ally creatures you control get +x/+x until end of turn, where x is the"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-pump-until-eot-dynamic-count-789a23ad0c/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Escaped Experiment",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-exile-zone-ce4b8ad676/v3",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Jirina, Dauntless General",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:exile",
+              "exile target player's graveyard."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-bounce-target-creature-and-attached-auras-e20af02124/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Hubris",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:bounce",
+              "return target creature and all auras attached to it to their owners' h"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.plan-grant-eot-iron-man-armored-avenger-a68fc51222/v1",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "Iron Man, Armored Avenger",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-return-from-graveyard-creature-subtype-filter-b70311209e/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Celestial Gatekeeper",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-triggered-destroy-enchanted-referent-91096471c1/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Blight",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-destroy-delayed-end-of-combat-403991530b/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Cinder Wall",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-return-from-graveyard-unique-names-75e6465f75/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Behold the Sinister Six!",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-pump-untargeted-referent-dynamic-baa2736f83/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Catacomb Dragon",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:pump",
+              "non-dragon creature, that creature gets -x/-0 until end of turn, where"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-exile-target-players-graveyard-aab2a6ee8a/v2",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Angel of Finality",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:exile",
+              "exile target player's graveyard."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:engine.auto-exile-target-return-next-end-step-8d20b29883/v1",
+      "work_type": "engine",
+      "cards": [
+        {
+          "name": "Abuelo, Ancestral Echo",
+          "eligible": true,
+          "misses": []
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.switch-pt/v2",
+      "work_type": "map",
+      "cards": [
+        {
+          "name": "About Face",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:switch_pt",
+              "switch target creature's power and toughness until end of turn."
+            ]
+          ]
+        },
+        {
+          "name": "Aeromoeba",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:switch_pt",
+              "switch ~'s power and toughness until end of turn."
+            ]
+          ]
+        },
+        {
+          "name": "Aquamoeba",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:switch_pt",
+              "switch ~'s power and toughness until end of turn."
+            ]
+          ]
+        },
+        {
+          "name": "Calcite Snapper",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:switch_pt",
+              "switch ~'s power and toughness until end of turn."
+            ]
+          ]
+        },
+        {
+          "name": "Crookclaw Transmuter",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:switch_pt",
+              "switch target creature's power and toughness until end of turn."
+            ]
+          ]
+        },
+        {
+          "name": "Dwarven Thaumaturgist",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:switch_pt",
+              "switch target creature's power and toughness until end of turn."
+            ]
+          ]
+        },
+        {
+          "name": "Flatman",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:switch_pt",
+              "switch ~'s power and toughness until end of turn."
+            ]
+          ]
+        },
+        {
+          "name": "Fluxcharger",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:switch_pt",
+              "switch ~'s power and toughness until end of turn."
+            ]
+          ]
+        },
+        {
+          "name": "Mannichi, the Fevered Dream",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:switch_pt",
+              "switch each creature's power and toughness until end of turn."
+            ]
+          ]
+        },
+        {
+          "name": "Merfolk Thaumaturgist",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:switch_pt",
+              "switch target creature's power and toughness until end of turn."
+            ]
+          ]
+        },
+        {
+          "name": "Myr Quadropod",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:switch_pt",
+              "switch ~'s power and toughness until end of turn."
+            ]
+          ]
+        },
+        {
+          "name": "Phantasmal Fiend",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:switch_pt",
+              "switch ~'s power and toughness until end of turn."
+            ]
+          ]
+        },
+        {
+          "name": "Strange Inversion",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:switch_pt",
+              "switch target creature's power and toughness until end of turn."
+            ]
+          ]
+        },
+        {
+          "name": "Transmutation",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:switch_pt",
+              "switch target creature's power and toughness until end of turn."
+            ]
+          ]
+        },
+        {
+          "name": "Turtleshell Changeling",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:switch_pt",
+              "switch ~'s power and toughness until end of turn."
+            ]
+          ]
+        },
+        {
+          "name": "Twisted Image",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:switch_pt",
+              "switch target creature's power and toughness until end of turn."
+            ]
+          ]
+        },
+        {
+          "name": "Windreaver",
+          "eligible": false,
+          "misses": [
+            [
+              "verb_unmapped:switch_pt",
+              "switch ~'s power and toughness until end of turn."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "ticket": "ticket:map.switch-pt/v3",
+      "work_type": "map",
+      "cards": []
+    },
+    {
+      "ticket": "ticket:map.target-player-draw/v3",
+      "work_type": "map",
+      "cards": []
+    }
+  ]
+}

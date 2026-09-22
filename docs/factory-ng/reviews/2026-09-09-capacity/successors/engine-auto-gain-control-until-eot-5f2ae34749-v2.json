@@ -1,0 +1,143 @@
+{
+  "capability": {
+    "expected_unlock": 0,
+    "negative_examples": [
+      "That creature gains haste until end of turn (the existing grant_keywords_until_eot haste mapping on the same card must remain unchanged and unaffected)"
+    ],
+    "required_behavior": "Untap target creature and give control of it to the effect's controller until end of turn",
+    "source_misses": [
+      {
+        "card": "Threaten",
+        "oracle_text_sha256": "39555bd5694d4f265457e027380a371e9fd6b43c00f98cce832f66c7136dc821",
+        "paragraph": "Untap target creature and gain control of it until end of turn.",
+        "required_behavior": "Untap target creature and give control of it to the effect's controller until end of turn"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "capability": {
+        "key": "gain_control_until_eot",
+        "specification": {
+          "expected_unlock": 0,
+          "negative_examples": [
+            "That creature gains haste until end of turn (the existing grant_keywords_until_eot haste mapping on the same card must remain unchanged and unaffected)"
+          ],
+          "required_behavior": "Untap target creature and give control of it to the effect's controller until end of turn",
+          "source_misses": [
+            {
+              "card": "Threaten",
+              "oracle_text_sha256": "39555bd5694d4f265457e027380a371e9fd6b43c00f98cce832f66c7136dc821",
+              "paragraph": "Untap target creature and gain control of it until end of turn.",
+              "required_behavior": "Untap target creature and give control of it to the effect's controller until end of turn"
+            }
+          ]
+        },
+        "summary": "Untap target creature and gain control of it until end of turn"
+      },
+      "fact": "A Map worker returned this Oracle-validated atomic capability demand.",
+      "path": "docs/factory-ng/runs/2026-09-03T013508Z-map-plan-grant-eot-threaten-b6cf3da813-v1-claude.json"
+    },
+    {
+      "anchor": "1-63",
+      "fact": "Card-knowledge index match (engine): executeGainControlEffect is the nearest indexed seam for this capability.",
+      "path": "backend/game/control_effects.go",
+      "sha256": "sha256:e05b148d7ba6ea7a9a73152aa3031bbf38c8b3dfb2da3d42755946e6df9aec82"
+    },
+    {
+      "anchor": "2470-2535",
+      "fact": "Card-knowledge index match (engine): executeGainControlFilteredUntilEotEffect is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d0ac33d83a17c5e21e00829259f817523252b61afd7aa34b5e989710ebaa7a0b"
+    },
+    {
+      "anchor": "1184-1249",
+      "fact": "Card-knowledge index match (engine): executeGrantColorUntilEOTEffect is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d0ac33d83a17c5e21e00829259f817523252b61afd7aa34b5e989710ebaa7a0b"
+    },
+    {
+      "anchor": "1154-1219",
+      "fact": "Card-knowledge index match (engine): executeTemporaryCharacteristicOverwriteEOTEffect is the nearest indexed seam for this capability.",
+      "path": "backend/game/ability_effects.go",
+      "sha256": "sha256:d0ac33d83a17c5e21e00829259f817523252b61afd7aa34b5e989710ebaa7a0b"
+    },
+    {
+      "fact": "Operator-reviewed correction, September 9: Use unique new regression TestFactoryNGGainControlUntilEot_Contract_6cec89276f; preserve the original TestFactoryNGGainControlUntilEot gate as well.",
+      "path": "docs/factory-ng/reviews/2026-09-09-capacity/contract-audit.json"
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "minimax-prepared-direct@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "An Oracle-validated Map block has been compiled into one bounded Engine dependency.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGGainControlUntilEot$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check",
+    "cd backend && go test ./game ./cards -run '^TestFactoryNGGainControlUntilEot_Contract_6cec89276f$' -count=1"
+  ],
+  "id": "ticket:engine.auto-gain-control-until-eot-5f2ae34749/v2",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Record an immutable bounded verdict; automatic discovery continues with independent work.",
+  "parents": [
+    "ticket:map.plan-grant-eot-threaten-b6cf3da813/v1",
+    "ticket:engine.auto-gain-control-until-eot-5f2ae34749/v1"
+  ],
+  "production": {
+    "contract_correction_batch": "2026-09-09-capacity",
+    "key": "capability:gain_control_until_eot:sha256:5f2ae347492de1aa4e011fd3a82dae9956800cb1381b184a61358b60a6b805cc:reviewed-contract-sep09",
+    "producer": "capability-dependencies"
+  },
+  "required_behavior": [
+    "Untap target creature and give control of it to the effect's controller until end of turn",
+    "Preserve these adjacent behaviors: That creature gains haste until end of turn (the existing grant_keywords_until_eot haste mapping on the same card must remain unchanged and unaffected)",
+    "Add a discriminating behavior test named TestFactoryNGGainControlUntilEot_Contract_6cec89276f; a compile-only assertion is insufficient.",
+    "Implement only this atomic dependency. Do not add parser patterns, corpus exceptions, or card-name special cases."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/ability_effects.go",
+      "backend/game/dynamic_amount.go",
+      "backend/game/effects.go",
+      "backend/game/card.go",
+      "backend/game/gamestate.go",
+      "backend/game/targeting.go",
+      "backend/cards/converter.go",
+      "backend/cards/registry.go",
+      "backend/game/factory_ng_5f2ae34749_test.go",
+      "backend/cards/factory_ng_5f2ae34749_test.go",
+      "backend/cards/registry_factory_ng_5f2ae34749.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "clean": true,
+    "repository": "/opt/development/test/openmagic",
+    "revision": "c0fac85b88da04f3d54fe2a5acd553a36662a329"
+  },
+  "supersedes": "ticket:engine.auto-gain-control-until-eot-5f2ae34749/v1",
+  "title": "Corrected contract: Implement atomic capability: Untap target creature and gain control of it until end of turn",
+  "work_type": "engine"
+}

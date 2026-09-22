@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-08T20:16:21.628525+00:00",
+  "primary_claude_profile": "claude-staged@1.0.0",
+  "queued_tickets_with_agentic_implementation_route": [],
+  "active_claude_jobs": [
+    {
+      "ticket": "ticket:engine.auto-add-stun-counter-to-target-ee8fe19b4f/v1",
+      "worker": "claude-2",
+      "profile": "claude-staged@1.0.0",
+      "pid": 3019826
+    },
+    {
+      "ticket": "ticket:engine.auto-filter-power-threshold-e51ee6ce10/v1",
+      "worker": "claude",
+      "profile": "claude-agentic@1.0.0",
+      "pid": 3021019
+    }
+  ],
+  "canonical_revision": "c2596268735df4fc8dd88b7033d4da211b27dea0",
+  "canonical_clean": true,
+  "deployment": false
+}

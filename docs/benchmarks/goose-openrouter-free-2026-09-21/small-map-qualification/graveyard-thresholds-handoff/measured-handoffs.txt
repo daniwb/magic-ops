@@ -1,0 +1,126 @@
+
+
+## Measured public parser handoffs at this pinned revision
+[
+  {
+    "card": "A-Dragon's Rage Channeler",
+    "oracle": "Whenever you cast a noncreature spell, surveil 1. (Look at the top card of your library. You may put that card into your graveyard.)\nDelirium \u2014 As long as there are four or more card types among cards in your graveyard, Dragon's Rage Channeler gets +2/+0, has flying, and attacks each combat if able.",
+    "condition_calls": [
+      {
+        "input": "there are four or more card types among cards in your graveyard",
+        "result": {
+          "kind": "named",
+          "name": "delirium"
+        }
+      }
+    ],
+    "misses": [
+      [
+        "static_conditional",
+        "as long as there are four or more card types among cards in your grave"
+      ]
+    ]
+  },
+  {
+    "card": "Dragon's Rage Channeler",
+    "oracle": "Whenever you cast a noncreature spell, surveil 1. (Look at the top card of your library. You may put that card into your graveyard.)\nDelirium \u2014 As long as there are four or more card types among cards in your graveyard, this creature gets +2/+2, has flying, and attacks each combat if able.",
+    "condition_calls": [
+      {
+        "input": "there are four or more card types among cards in your graveyard",
+        "result": {
+          "kind": "named",
+          "name": "delirium"
+        }
+      }
+    ],
+    "misses": [
+      [
+        "static_conditional",
+        "as long as there are four or more card types among cards in your grave"
+      ]
+    ]
+  },
+  {
+    "card": "Winter, Misanthropic Guide",
+    "oracle": "Ward {2}\nAt the beginning of your upkeep, each player draws two cards.\nDelirium \u2014 As long as there are four or more card types among cards in your graveyard, each opponent's maximum hand size is equal to seven minus the number of those card types.",
+    "condition_calls": [
+      {
+        "input": "there are four or more card types among cards in your graveyard",
+        "result": {
+          "kind": "named",
+          "name": "delirium"
+        }
+      }
+    ],
+    "misses": [
+      [
+        "static_conditional",
+        "as long as there are four or more card types among cards in your grave"
+      ]
+    ]
+  },
+  {
+    "card": "A-Syndicate Infiltrator",
+    "oracle": "Flying, ward {2}\nAs long as there are five or more mana values among cards in your graveyard, Syndicate Infiltrator gets +2/+2.",
+    "condition_calls": [
+      {
+        "input": "there are five or more mana values among cards in your graveyard",
+        "result": null
+      }
+    ],
+    "misses": [
+      [
+        "static_conditional",
+        "as long as there are five or more mana values among cards in your grav"
+      ]
+    ]
+  },
+  {
+    "card": "Aven Heartstabber",
+    "oracle": "Flying\nAs long as there are five or more mana values among cards in your graveyard, this creature gets +2/+2 and has deathtouch.\nWhen this creature dies, mill two cards, then draw a card.",
+    "condition_calls": [
+      {
+        "input": "there are five or more mana values among cards in your graveyard",
+        "result": null
+      }
+    ],
+    "misses": [
+      [
+        "static_conditional",
+        "as long as there are five or more mana values among cards in your grav"
+      ]
+    ]
+  },
+  {
+    "card": "Snooping Newsie",
+    "oracle": "When this creature enters, mill two cards. (Put the top two cards of your library into your graveyard.)\nAs long as there are five or more mana values among cards in your graveyard, this creature gets +1/+1 and has lifelink.",
+    "condition_calls": [
+      {
+        "input": "there are five or more mana values among cards in your graveyard",
+        "result": null
+      }
+    ],
+    "misses": [
+      [
+        "static_conditional",
+        "as long as there are five or more mana values among cards in your grav"
+      ]
+    ]
+  },
+  {
+    "card": "Syndicate Infiltrator",
+    "oracle": "Flying\nAs long as there are five or more mana values among cards in your graveyard, this creature gets +2/+2.",
+    "condition_calls": [
+      {
+        "input": "there are five or more mana values among cards in your graveyard",
+        "result": null
+      }
+    ],
+    "misses": [
+      [
+        "static_conditional",
+        "as long as there are five or more mana values among cards in your grav"
+      ]
+    ]
+  }
+]

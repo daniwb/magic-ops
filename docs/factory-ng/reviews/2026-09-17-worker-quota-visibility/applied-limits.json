@@ -1,0 +1,246 @@
+{
+  "at": "2026-09-17T05:34:49.496403+00:00",
+  "authorization": "User requested same limits as primary, preserving disabled Codex agentic worker",
+  "before": [
+    {
+      "id": "qwen-local",
+      "label": "Qwen local",
+      "enabled": false,
+      "profile": "qwen-prepared-direct@1.0.2",
+      "alternate_profiles": [
+        "qwen-prepared-local@1.0.1"
+      ],
+      "routing_mode": "auto",
+      "model": "Qwen3.8-27B-Q8_0",
+      "usage_policy": "unmetered",
+      "work": "small evidence-complete Map work plus bounded agentic Engine work"
+    },
+    {
+      "id": "minimax-m3-free",
+      "label": "MiniMax M3 free",
+      "enabled": false,
+      "profile": "minimax-prepared-direct@1.0.0",
+      "routing_mode": "auto",
+      "model": "minimax/minimax-m3:free",
+      "usage_policy": "openrouter-cooldown",
+      "work": "evidence-complete Map work through the non-agentic prepared-direct adapter"
+    },
+    {
+      "id": "claude",
+      "label": "Claude (staged)",
+      "enabled": true,
+      "profile": "claude-staged@1.0.0",
+      "routing_mode": "auto",
+      "model": "claude-sonnet-5",
+      "usage_policy": "claude-weekly",
+      "weekly_gate_mode": "paced",
+      "weekly_gate_pct": 100,
+      "work": "Staged Map/Engine implementation; one coding correction. Agentic is a bounded read-only evidence helper only after explicit staged evidence failure, then implementation returns to staged."
+    },
+    {
+      "id": "claude-2",
+      "label": "Claude (secondary)",
+      "enabled": true,
+      "profile": "claude-staged@1.0.0",
+      "routing_mode": "auto",
+      "model": "claude-sonnet-5",
+      "usage_policy": "claude-weekly",
+      "weekly_gate_mode": "paced",
+      "weekly_gate_pct": 95,
+      "work": "Staged Map and Engine worker; prioritized bounded five-card trial, with exact staged routing and complete-card verification. Normal work continues when no trial job is ready."
+    },
+    {
+      "id": "claude-3",
+      "label": "Claude (tertiary)",
+      "enabled": false,
+      "profile": "claude-staged@1.0.0",
+      "routing_mode": "auto",
+      "model": "claude-sonnet-5",
+      "usage_policy": "claude-weekly",
+      "weekly_gate_mode": "paced",
+      "weekly_gate_pct": 95,
+      "work": "third concurrent claude-staged lease taking whichever lane (Map or Engine) has runnable backlog, to use more of the daily paced tranche"
+    },
+    {
+      "id": "claude-agentic-test",
+      "label": "Claude (agentic, bulk-read shunt test)",
+      "enabled": false,
+      "profile": "claude-agentic-test@1.0.0",
+      "routing_mode": "auto",
+      "model": "claude-sonnet-5",
+      "usage_policy": "claude-weekly",
+      "weekly_gate_mode": "paced",
+      "weekly_gate_pct": 5,
+      "work": "controlled rollout 2026-09-05: same as the claude worker but whole-file Reads over 350 lines are shunted to a summarizer first, scoped offset/limit reads pass through untouched so exact-text SEARCH/REPLACE edits still work (docs/factory-ng/model-profiles/v1/claude-agentic-test.json); default SHUNT_BACKEND=llama-server (unmetered Qwen3.8 box, ~145s/read measured) or SHUNT_BACKEND=openrouter (minimax/minimax-m3:free via the shared openrouter-cooldown state, ~6s/read measured but shares the minimax-m3-free worker's rate-limit ceiling); 5% weekly-gate tranche so acceptance/repair rate can be compared against claude on live tickets before any wider promotion"
+    },
+    {
+      "id": "codex",
+      "label": "Codex",
+      "enabled": true,
+      "profile": "codex-constrained@1.1.0",
+      "routing_mode": "auto",
+      "model": "gpt-5.6-terra",
+      "usage_policy": "codex-weekly",
+      "weekly_gate_mode": "fixed",
+      "weekly_gate_pct": 95,
+      "work": "well-evidenced Map/Engine work and focused repair"
+    },
+    {
+      "id": "codex-2",
+      "label": "Codex (secondary)",
+      "enabled": true,
+      "profile": "codex-constrained@1.1.0",
+      "routing_mode": "auto",
+      "model": "gpt-5.6-terra",
+      "usage_policy": "codex-weekly",
+      "weekly_gate_mode": "fixed",
+      "weekly_gate_pct": 70,
+      "work": "well-evidenced Map/Engine work and focused repair"
+    },
+    {
+      "id": "codex-3",
+      "label": "Codex (third, tool-enabled)",
+      "enabled": false,
+      "profile": "codex-constrained@1.1.0",
+      "routing_mode": "auto",
+      "model": "gpt-5.6-terra",
+      "usage_policy": "codex-weekly",
+      "weekly_gate_mode": "fixed",
+      "weekly_gate_pct": 70,
+      "work": "Third concurrent Codex lease: bounded source investigation, Map/Engine implementation and focused repair through the existing constrained harness; shares Codex quota and the secondary 70% weekly ceiling."
+    },
+    {
+      "id": "codex-4",
+      "label": "Codex (fourth, staged)",
+      "enabled": true,
+      "profile": "codex-constrained@1.1.0",
+      "routing_mode": "auto",
+      "model": "gpt-5.6-terra",
+      "usage_policy": "codex-weekly",
+      "weekly_gate_mode": "fixed",
+      "weekly_gate_pct": 70,
+      "work": "Fourth concurrent staged Codex lease: bounded source investigation, Map/Engine implementation and focused repair through the existing constrained harness; shares Codex quota and the secondary 70% weekly ceiling."
+    }
+  ],
+  "after": [
+    {
+      "id": "qwen-local",
+      "label": "Qwen local",
+      "enabled": false,
+      "profile": "qwen-prepared-direct@1.0.2",
+      "alternate_profiles": [
+        "qwen-prepared-local@1.0.1"
+      ],
+      "routing_mode": "auto",
+      "model": "Qwen3.8-27B-Q8_0",
+      "usage_policy": "unmetered",
+      "work": "small evidence-complete Map work plus bounded agentic Engine work"
+    },
+    {
+      "id": "minimax-m3-free",
+      "label": "MiniMax M3 free",
+      "enabled": false,
+      "profile": "minimax-prepared-direct@1.0.0",
+      "routing_mode": "auto",
+      "model": "minimax/minimax-m3:free",
+      "usage_policy": "openrouter-cooldown",
+      "work": "evidence-complete Map work through the non-agentic prepared-direct adapter"
+    },
+    {
+      "id": "claude",
+      "label": "Claude (staged)",
+      "enabled": true,
+      "profile": "claude-staged@1.0.0",
+      "routing_mode": "auto",
+      "model": "claude-sonnet-5",
+      "usage_policy": "claude-weekly",
+      "weekly_gate_mode": "paced",
+      "weekly_gate_pct": 100,
+      "work": "Staged Map/Engine implementation; one coding correction. Agentic is a bounded read-only evidence helper only after explicit staged evidence failure, then implementation returns to staged."
+    },
+    {
+      "id": "claude-2",
+      "label": "Claude (secondary)",
+      "enabled": true,
+      "profile": "claude-staged@1.0.0",
+      "routing_mode": "auto",
+      "model": "claude-sonnet-5",
+      "usage_policy": "claude-weekly",
+      "weekly_gate_mode": "paced",
+      "weekly_gate_pct": 95,
+      "work": "Staged Map and Engine worker; prioritized bounded five-card trial, with exact staged routing and complete-card verification. Normal work continues when no trial job is ready."
+    },
+    {
+      "id": "claude-3",
+      "label": "Claude (tertiary)",
+      "enabled": false,
+      "profile": "claude-staged@1.0.0",
+      "routing_mode": "auto",
+      "model": "claude-sonnet-5",
+      "usage_policy": "claude-weekly",
+      "weekly_gate_mode": "paced",
+      "weekly_gate_pct": 95,
+      "work": "third concurrent claude-staged lease taking whichever lane (Map or Engine) has runnable backlog, to use more of the daily paced tranche"
+    },
+    {
+      "id": "claude-agentic-test",
+      "label": "Claude (agentic, bulk-read shunt test)",
+      "enabled": false,
+      "profile": "claude-agentic-test@1.0.0",
+      "routing_mode": "auto",
+      "model": "claude-sonnet-5",
+      "usage_policy": "claude-weekly",
+      "weekly_gate_mode": "paced",
+      "weekly_gate_pct": 5,
+      "work": "controlled rollout 2026-09-05: same as the claude worker but whole-file Reads over 350 lines are shunted to a summarizer first, scoped offset/limit reads pass through untouched so exact-text SEARCH/REPLACE edits still work (docs/factory-ng/model-profiles/v1/claude-agentic-test.json); default SHUNT_BACKEND=llama-server (unmetered Qwen3.8 box, ~145s/read measured) or SHUNT_BACKEND=openrouter (minimax/minimax-m3:free via the shared openrouter-cooldown state, ~6s/read measured but shares the minimax-m3-free worker's rate-limit ceiling); 5% weekly-gate tranche so acceptance/repair rate can be compared against claude on live tickets before any wider promotion"
+    },
+    {
+      "id": "codex",
+      "label": "Codex",
+      "enabled": true,
+      "profile": "codex-constrained@1.1.0",
+      "routing_mode": "auto",
+      "model": "gpt-5.6-terra",
+      "usage_policy": "codex-weekly",
+      "weekly_gate_mode": "fixed",
+      "weekly_gate_pct": 95,
+      "work": "well-evidenced Map/Engine work and focused repair"
+    },
+    {
+      "id": "codex-2",
+      "label": "Codex (secondary)",
+      "enabled": true,
+      "profile": "codex-constrained@1.1.0",
+      "routing_mode": "auto",
+      "model": "gpt-5.6-terra",
+      "usage_policy": "codex-weekly",
+      "weekly_gate_mode": "fixed",
+      "weekly_gate_pct": 95,
+      "work": "well-evidenced Map/Engine work and focused repair"
+    },
+    {
+      "id": "codex-3",
+      "label": "Codex (third, tool-enabled)",
+      "enabled": false,
+      "profile": "codex-constrained@1.1.0",
+      "routing_mode": "auto",
+      "model": "gpt-5.6-terra",
+      "usage_policy": "codex-weekly",
+      "weekly_gate_mode": "fixed",
+      "weekly_gate_pct": 95,
+      "work": "Third concurrent Codex lease: bounded source investigation, Map/Engine implementation and focused repair through the existing constrained harness; shares Codex quota and the secondary 70% weekly ceiling."
+    },
+    {
+      "id": "codex-4",
+      "label": "Codex (fourth, staged)",
+      "enabled": true,
+      "profile": "codex-constrained@1.1.0",
+      "routing_mode": "auto",
+      "model": "gpt-5.6-terra",
+      "usage_policy": "codex-weekly",
+      "weekly_gate_mode": "fixed",
+      "weekly_gate_pct": 95,
+      "work": "Fourth concurrent staged Codex lease: bounded source investigation, Map/Engine implementation and focused repair through the existing constrained harness; shares Codex quota and the secondary 70% weekly ceiling."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "ticket": "ticket:engine.auto-target-player-compound-sacrifice-damage-99c146a20f/v1",
+    "state": "parked after one reviewed attempt",
+    "review": "Current edict executor can scope to target player, but current sharedTargetPlayerCompoundEffect only connects an adjacent life_loss rider. Need preserve player-choice pauses across artifact sacrifice, land sacrifice and damage; a standalone unbound that-player damage must remain unmapped.",
+    "next": "Review sequence continuation before implementing; full public cast + both sacrifice choices + delayed damage + ownership + missing-type tests."
+  },
+  {
+    "ticket": "ticket:engine.auto-copy-all-controlled-stack-objects-f0627c34c8/v1",
+    "state": "parked after one reviewed attempt",
+    "review": "Needs a snapshot of controlled spells and other controlled nonmana abilities, spell copies before ability copies, excluding resolving ability, with each copy retargeting independently. Existing targeted copy paths must remain unchanged.",
+    "next": "Inspect stack copy/retarget APIs and provide an isolated operator correction with the exact original selector and gates."
+  },
+  {
+    "ticket": "ticket:engine.staged-trial-verify-sigil/v2",
+    "state": "parked after one reviewed attempt; exact-profile assistance forbidden",
+    "review": "Fresh current corpus reparses cleanly to enchant_target + player_damaged/enchanted -> bounce creature/defending_player. Missing requirement is the full-card runtime proof, not parser eligibility.",
+    "next": "Test-only operator proof can load fresh reparse output and exercise AttachAura, DamageTargetFromSource, DeclareAttackers/ResolveCombatDamage and ResolveTriggerTargetChoice. Cover combat/noncombat/zero/prevented/life loss/creature damage, damaged player equal to aura controller, stolen target owner, changed controller/shroud, monarch and exactly-once events. Preserve failed exact-profile trial evidence; do not claim operator proof is a successful staged-model trial."
+  }
+]

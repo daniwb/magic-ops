@@ -1,0 +1,160 @@
+{
+  "at": "2026-09-16T21:59:19.288484+00:00",
+  "window": {
+    "start": "2026-09-16T19:02:46Z",
+    "end": "2026-09-16T23:44:56.854616Z",
+    "baseline_states": {
+      "failed": 1341,
+      "completed": 1461,
+      "parked": 402,
+      "integration_failed": 3,
+      "blocked": 921
+    },
+    "workers": [
+      "codex",
+      "codex-2",
+      "codex-3",
+      "codex-4"
+    ],
+    "requested_end": "2026-09-16T23:02:46Z",
+    "stability_start": "2026-09-16T19:44:56.854616Z",
+    "stability_baseline_states": {
+      "failed": 1316,
+      "completed": 1467,
+      "integrating": 1,
+      "parked": 403,
+      "awaiting_verification": 7,
+      "working": 9,
+      "queued": 1,
+      "awaiting_integration": 1,
+      "integration_failed": 3,
+      "blocked": 920
+    }
+  },
+  "states": {
+    "failed": 1262,
+    "completed": 1509,
+    "parked": 415,
+    "working": 9,
+    "awaiting_verification": 7,
+    "integration_failed": 8,
+    "integrating": 7,
+    "awaiting_integration": 2,
+    "blocked": 910
+  },
+  "model_leases": {
+    "codex": [
+      {
+        "ticket": "ticket:engine.auto-damage-each-creature-without-horsemanship-3f89ee6c67/v3",
+        "alive": true,
+        "repair": true
+      }
+    ],
+    "codex-2": [],
+    "codex-3": [
+      {
+        "ticket": "ticket:engine.auto-damage-recipients-dealt-damage-this-game-76c9531a8b/v3",
+        "alive": true,
+        "repair": false
+      }
+    ],
+    "codex-4": [
+      {
+        "ticket": "ticket:engine.auto-damage-by-sequence-referent-power-to-controller-dc9ad508e3/v3",
+        "alive": true,
+        "repair": true
+      }
+    ]
+  },
+  "recent_occupancy": [
+    {
+      "at": "2026-09-16T21:49:24.150367+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:49:54.662615+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T21:50:25.141600+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T21:50:55.570644+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T21:51:25.979147+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T21:51:56.449416+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T21:52:26.871288+00:00",
+      "occupied": 2
+    },
+    {
+      "at": "2026-09-16T21:52:57.282778+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:53:27.693248+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:53:58.114161+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:54:28.563310+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:54:58.969078+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:55:29.409325+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:55:59.836119+00:00",
+      "occupied": 1
+    },
+    {
+      "at": "2026-09-16T21:56:30.259591+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T21:57:00.724733+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T21:57:31.185831+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T21:58:01.796589+00:00",
+      "occupied": 4
+    },
+    {
+      "at": "2026-09-16T21:58:32.233044+00:00",
+      "occupied": 3
+    },
+    {
+      "at": "2026-09-16T21:59:02.648064+00:00",
+      "occupied": 2
+    }
+  ],
+  "window_sample_counts": {
+    "4": 59,
+    "3": 71,
+    "2": 61,
+    "1": 69,
+    "0": 5
+  },
+  "net_completed_since_request": 48,
+  "queued": []
+}

@@ -1,0 +1,76 @@
+{
+  "capability": {
+    "required_behavior": "Block triggers filter the color of the blocked creature and retain the blocking creature as event subject."
+  },
+  "evidence": [
+    {
+      "path": "docs/factory-ng/tickets/map-plan-pump-righteous-indignation-6d54d5491f-v2.json",
+      "fact": "Review of the real Oracle clause uncovered missing receiver-color matching and no block-event emission."
+    }
+  ],
+  "execution": {
+    "automatic_stop": false,
+    "compatible_profiles": [
+      "claude-staged@1.0.0",
+      "codex-constrained@1.0.0"
+    ],
+    "effective_token_target": 200000,
+    "mode": "isolated_clone_observation_only",
+    "model_may_not_commit_push_deploy_or_mutate_live_tickets": true,
+    "selected_profile": "claude-staged@1.0.0",
+    "selection_reason": "One index-grounded evidence retry after an AMBIGUOUS park caused by an incomplete evidence pack.",
+    "warning_reflection_threshold": 500000
+  },
+  "gates": [
+    "test -z \"$(gofmt -l $(git status --porcelain | awk '{print $2}' | grep '\\.go$'))\"",
+    "cd backend && go test ./game ./cards -run '^TestShape_BlockReceiverColor$' -count=1",
+    "cd backend && go test ./game ./cards",
+    "git diff --check"
+  ],
+  "id": "ticket:engine.operator-block-receiver-color-sep15/v1",
+  "lifecycle": "ready_for_observation",
+  "on_failure": "Retain the terminal receipt and continue independent discovery; do not request manual source transcription.",
+  "parents": [],
+  "production": {
+    "producer": "operator-attention-review",
+    "key": "block-receiver-color-sep15"
+  },
+  "required_behavior": [
+    "Emit block events through the public declaration path, retaining blocker and attacker identities.",
+    "Preserve receiver color restrictions in converted triggers and pump only the blocker of a black or red creature.",
+    "Unknown receiver color values fail closed."
+  ],
+  "schema": "factory.ticket-spec/v1",
+  "scope": {
+    "allowed_paths": [
+      "backend/game/events.go",
+      "backend/game/gamestate.go",
+      "backend/cards/converter.go",
+      "backend/cards/shape_block_receiver_color_test.go"
+    ],
+    "forbidden_paths": [
+      "backend/data/",
+      "backend/cardfns/",
+      "scripts/paragraph/"
+    ]
+  },
+  "skill": {
+    "name": "implement-engine-capability",
+    "path": "docs/factory-ng/skills/v1/implement-engine-capability/SKILL.md",
+    "sha256": "sha256:65ebe6f86707752b7e55b9a68859a01da0991f68e8a4ee75efad17ce67b5d1d5"
+  },
+  "source": {
+    "repository": "/opt/development/test/openmagic",
+    "revision": "d9b220db49c707cc802d23b9fd78176ddc54733e",
+    "clean": true
+  },
+  "title": "Emit block events and preserve receiver color restrictions",
+  "work_type": "engine",
+  "operator_recovery": {
+    "authorization": "User requested fixing all needs-attention tickets.",
+    "related_original": "ticket:map.plan-pump-righteous-indignation-6d54d5491f/v2",
+    "additional_provider_runs": 0,
+    "counter_resets": false,
+    "scope_addition_reason": "Separate Engine prerequisite; original Map ticket remains open until its parser correction is integrated."
+  }
+}

@@ -1,0 +1,33 @@
+         2382586 function calls (2349237 primitive calls) in 15.057 seconds
+
+   Ordered by: cumulative time
+   List reduced from 832 to 25 due to restriction <25>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.216    0.216   15.060   15.060 /opt/development/magic-ops/scripts/factory-ng-produce-capability-dependency.py:582(main)
+        1    0.292    0.292   14.764   14.764 /opt/development/magic-ops/scripts/factory-ng-produce-capability-dependency.py:596(produce)
+    17391    0.088    0.000    6.002    0.000 /usr/lib/python3.12/json/__init__.py:299(loads)
+    17391    0.275    0.000    5.880    0.000 /usr/lib/python3.12/json/decoder.py:332(decode)
+     7927    0.063    0.000    5.736    0.001 /opt/development/magic-ops/scripts/factory-ng-produce-capability-dependency.py:57(load_json)
+    17391    5.483    0.000    5.483    0.000 /usr/lib/python3.12/json/decoder.py:343(raw_decode)
+        1    0.004    0.004    2.592    2.592 /opt/development/magic-ops/scripts/factory-ng-produce-capability-dependency.py:421(resumed_map)
+     9343    0.119    0.000    1.754    0.000 /opt/development/magic-ops/scripts/factory_ng_producer_cache.py:26(file)
+        1    0.000    0.000    1.632    1.632 /opt/development/magic-ops/scripts/factory_ng_attention_recovery.py:159(prioritized_dependency_receipts)
+    32576    0.054    0.000    1.631    0.000 /usr/lib/python3.12/pathlib.py:1083(glob)
+      119    0.098    0.001    1.622    0.014 {built-in method builtins.sorted}
+    32576    0.325    0.000    1.575    0.000 /usr/lib/python3.12/pathlib.py:199(_select_from)
+       78    0.005    0.000    1.548    0.020 /opt/development/magic-ops/scripts/factory-ng-produce-capability-dependency.py:105(recover_valid_capability)
+        1    0.030    0.030    1.397    1.397 /opt/development/magic-ops/scripts/capability-contract.py:59(oracle_records)
+       32    0.001    0.000    1.352    0.042 /usr/lib/python3.12/json/__init__.py:274(load)
+     7930    0.061    0.000    1.188    0.000 /usr/lib/python3.12/pathlib.py:1024(read_text)
+    32574    0.265    0.000    1.145    0.000 /usr/lib/python3.12/pathlib.py:1067(_make_child_relpath)
+        1    0.000    0.000    1.076    1.076 /opt/development/magic-ops/scripts/factory-ng-produce-capability-dependency.py:227(source_evidence)
+        1    0.000    0.000    1.076    1.076 /opt/development/magic-ops/scripts/factory-ng-produce-capability-dependency.py:204(knowledge_hits)
+    17437    0.075    0.000    0.966    0.000 /usr/lib/python3.12/re/__init__.py:280(_compile)
+      428    0.008    0.000    0.837    0.002 /usr/lib/python3.12/re/_compiler.py:740(compile)
+    33025    0.124    0.000    0.821    0.000 /usr/lib/python3.12/pathlib.py:380(with_segments)
+        1    0.000    0.000    0.798    0.798 /opt/development/magic-ops/scripts/factory_ng_knowledge.py:85(discover_capability)
+    89/81    0.001    0.000    0.797    0.010 <frozen importlib._bootstrap_external>:989(exec_module)
+        6    0.000    0.000    0.792    0.132 /opt/development/magic-ops/scripts/factory_ng_knowledge.py:57(search)
+
+

@@ -1,0 +1,24 @@
+{
+  "ticket_id": "ticket:map.plan-exile-scarab-feast-d952117a2a/v5",
+  "receipt": "docs/factory-ng/runs/2026-09-16T160329Z-map-plan-exile-scarab-feast-d952117a2a-v5-codex.json",
+  "receipt_sha256": "sha256:5861cd539aea6b519106dd35ef06a6a0c3e9319b28776c9f1ff3e69b1a2e09fa",
+  "provider_capacity_artifacts": [
+    {
+      "path": "docs/factory-ng/runs/2026-09-16T160329Z-map-plan-exile-scarab-feast-d952117a2a-v5-codex.raw.json",
+      "sha256": "sha256:9b2b4996be035932a1a806a63e72da22c8b36b858d962795f75c6c8a32cbdc92"
+    }
+  ],
+  "prior_recovery": {
+    "admitted_at": "2026-09-16T15:57:45Z",
+    "batch": "needs-attention-2026-09-15",
+    "evidence_path": "docs/factory-ng/reviews/2026-09-16-codex-repair/map.plan-exile-scarab-feast-d952117a2a-v5.review.json",
+    "evidence_sha256": "sha256:d3c0d716eacd13811bea17a132809109c2aab5df72e5f88b9d427f5cdbeecb39",
+    "previous_attempts": 1,
+    "previous_receipt": "docs/factory-ng/runs/2026-09-16T082649Z-map-plan-exile-scarab-feast-d952117a2a-v5-codex.json",
+    "profiles": [
+      "codex-constrained@1.1.0"
+    ],
+    "reason": "Repair now supplies exact source excerpts and allows existing Codex read tools; final-call instructions prohibit unhandled NEED and spell out strict delimiters. Original scope, gates, two-call bound and pinned source remain unchanged."
+  },
+  "correction": "New jobs use gpt-5.6-terra after explicit Luna provider-capacity rejections. One finite retry is restricted to that different model; previous attempts, review and failed-profile history remain."
+}

@@ -1,0 +1,53 @@
+```json
+{
+  "findings": [
+    {
+      "symbol_id": "backend/game/ability_effects.go::game.GameState.ExecuteAbilityEffect#case:put_counter_and_draw_card",
+      "path": "backend/game/ability_effects.go",
+      "source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+      "start_line": 10313,
+      "behavior": "A case arm inside the ExecuteAbilityEffect dispatcher keyed on the effect string \"put_counter_and_draw_card\". It first delegates to gs.executePutCounterEffect(source, effectValue, targets) and returns early on error; then, if the effect's controller index is in range of gs.Players, it calls gs.Players[controller].DrawCards(1). Notably the draw error is explicitly discarded (`_ =`), so a failed draw (e.g. empty library) does not fail the already-applied counter effect. This is the closest verified engine site where an activated/resolved ability effect draws cards; it draws a fixed 1 card rather than a variable amount."
+    },
+    {
+      "symbol_id": "backend/game/gamestate.go::game.GameState.DrawCardWithEvent",
+      "path": "backend/game/gamestate.go",
+      "source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+      "start_line": 8931,
+      "behavior": "Game-level single-card draw entry point. Resolves the player via gs.GetPlayer(playerIdx) (error on nil). Before drawing, consults gs.ReplacementManager.GetDrawReplacement(playerIdx) and, if present, short-circuits by returning effect.DrawReplacementFn(gs, playerIdx) — i.e. replacement effects intercept before the draw. Otherwise it peeks the top of the library with player.Library.LookAtTop(1) so the identity of the drawn card is known before mutation, calls player.DrawCard() to perform the move, then publishes CreateDrawEvent(drawnCard, playerIdx) on gs.EventBus and pushes every triggered ability returned by Publish onto the stack via gs.PutTriggeredAbilityOnStack. Both ReplacementManager and EventBus are nil-guarded, so events/triggers are skipped when unwired."
+    },
+    {
+      "symbol_id": "backend/game/player.go::game.Player.DrawCard",
+      "path": "backend/game/player.go",
+      "source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+      "start_line": 1982,
+      "behavior": "VERIFIED helper that moves a card from a player's library into their hand. Calls p.Library.DrawCard() to remove the top card, and on success appends it with p.Hand.AddCard(card). On failure it returns a formatted error (\"player %d tried to draw from empty library\") with a comment citing Rule 104.3c about losing when required to draw more cards than remain. This function performs no event publication, no replacement-effect handling, and no hand-size/max-hand logic — it is purely the zone-to-zone move plus the empty-library error path."
+    },
+    {
+      "symbol_id": "backend/game/zone.go::game.Zone.DrawCard",
+      "path": "backend/game/zone.go",
+      "source_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+      "start_line": 201,
+      "behavior": "Lowest-level library removal primitive, documented as Rule 121 (Drawing a Card). Guards that z.Type == ZoneLibrary (else \"can only draw from library\") and that the zone is non-empty. Removes and returns the top card as the head of the slice: card := z.Cards[0]; z.Cards = z.Cards[1:]. Establishes that index 0 is the top of a library in this model. Returns the *Card to the caller and is zone-agnostic about where the card goes next — the hand insertion happens one level up in Player.DrawCard."
+    }
+  ],
+  "call_chain": "ExecuteAbilityEffect(case \"put_counter_and_draw_card\") -> Player.DrawCards(1) -> [Player.DrawCard] -> Zone.DrawCard (removes top of library) -> Player.Hand.AddCard. Separately, the event-firing path GameState.DrawCardWithEvent wraps Player.DrawCard with replacement-effect interception and draw-event publication.",
+  "negative_search": {
+    "query": "factory_probe_nonexistent_9ec77a_function",
+    "lookup_id": "066cb178ffc7419a9bc09cf49d4f361e",
+    "result": "not_found",
+    "strategy": "normalized_all_terms",
+    "indexed_revision": "f8d04f3ce658cafd9fc05a92edd2960e016e36d9",
+    "what_a_miss_can_establish": "Only that this exact identifier is not present in the search index's symbol table at the indexed revision, and that the normalized-all-terms matcher produced no candidate for this string. It is a reliable statement about the index contents.",
+    "what_a_miss_cannot_establish": "It cannot establish that the engine lacks the behavior, that no such function exists in the pinned checkout, that the name is absent under a different spelling/casing/receiver, or that the capability would need to be built. The probe string is a synthetic sentinel with no semantic terms, so normalized term matching has nothing to match on; a real capability could exist under an unrelated name. Per the tool contract, a search miss is not proof of a missing engine capability, and confirming absence would require inspecting the pinned checkout itself.",
+    "also_observed_non_hit": "The helper query 'put card into hand from library draw helper' (lookup fdaa8bd9228f4211b082e5a871096124) returned not_found under kind=helper, yet the same behavior demonstrably exists as game.Player.DrawCard, found via kind=engine. This is direct evidence in this session that a miss reflects index/query-shape limits, not missing code."
+  },
+  "limitations": [
+    "All four declarations were read from the search database at indexed revision f8d04f3ce658cafd9fc05a92edd2960e016e36d9. The working checkout at /tmp/goose-database-tools/engine/checkout is pinned and was NOT independently opened, so agreement between the pinned checkout and the indexed revision is unverified; line numbers and bodies could drift.",
+    "Only the exact line ranges returned by read_source were seen. ExecuteAbilityEffect was observed only as the single 'put_counter_and_draw_card' case arm; other draw-related case arms in that dispatcher (e.g. a plain 'draw_card' key) were not read and remain unresolved, so this is not an exhaustive enumeration of draw effect keys.",
+    "Player.DrawCards (plural) and GameState.DrawCardsWithEvent surfaced in search results but were not read with read_source, so their loop/error semantics are unverified. The claim that DrawCards(1) funnels into Player.DrawCard is inferred from naming and the singular implementation, not read.",
+    "The fixed draw amount of 1 in the put_counter_and_draw_card case means this is not a general variable-card-draw effect path; cards_drawn_this_turn appeared in evalDynamicAmountBase but was not read, so variable-X draw handling is unresolved.",
+    "No files were edited and no tests were run, per instructions. Tool outputs were treated as evidence only; the 'MISSING_PRIMITIVE: exile' line from the first search was an unrelated handler annotation and was not acted on.",
+    "Behavior descriptions are read from declaration bodies and doc comments only; no runtime verification was performed, so edge-case behavior (hand-size limits, replacement-effect ordering) is described structurally rather than empirically."
+  ]
+}
+```

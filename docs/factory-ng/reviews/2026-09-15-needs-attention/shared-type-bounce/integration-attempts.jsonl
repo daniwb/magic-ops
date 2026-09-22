@@ -1,0 +1,8 @@
+{"at": 1789509846.5056486, "exit_code": 75, "stdout": "{\"status\": \"integration_busy\", \"reason\": \"openmagic integration lock held\"}\n", "stderr": ""}
+{"at": 1789509856.7430835, "exit_code": 75, "stdout": "{\"status\": \"integration_busy\", \"reason\": \"openmagic integration lock held\"}\n", "stderr": ""}
+{"at": 1789509866.9646523, "exit_code": 75, "stdout": "{\"status\": \"integration_busy\", \"reason\": \"openmagic integration lock held\"}\n", "stderr": ""}
+{"at": 1789509877.1871161, "exit_code": 75, "stdout": "{\"status\": \"integration_busy\", \"reason\": \"openmagic integration lock held\"}\n", "stderr": ""}
+{"at": 1789509887.4078174, "exit_code": 75, "stdout": "{\"status\": \"integration_busy\", \"reason\": \"openmagic integration lock held\"}\n", "stderr": ""}
+{"at": 1789509897.6148422, "exit_code": 75, "stdout": "{\"status\": \"integration_busy\", \"reason\": \"openmagic integration lock held\"}\n", "stderr": ""}
+{"at": 1789509907.842258, "exit_code": 75, "stdout": "{\"status\": \"integration_busy\", \"reason\": \"openmagic integration lock held\"}\n", "stderr": ""}
+{"at": 1789510049.223009, "exit_code": 0, "stdout": "{\"pushed\": true, \"receipt\": \"docs/factory-ng/runs/2026-09-15T220518Z-engine-operator-shared-type-bounce-recovery-sep15-v1-1789509918080326527-integration.json\", \"result_commit\": \"6173533df8d81070974ed6eef2be4a2a859348fa\", \"status\": \"pushed_full_production_gate_green\", \"ticket_results\": {\"ticket:engine.operator-shared-type-bounce-recovery-sep15/v1\": {\"reason\": \"\", \"receipt\": \"docs/factory-ng/runs/2026-09-15T220518Z-engine-operator-shared-type-bounce-recovery-sep15-v1-1789509918080326527-integration.json\", \"status\": \"pushed_full_production_gate_green\"}}}\n", "stderr": ""}
