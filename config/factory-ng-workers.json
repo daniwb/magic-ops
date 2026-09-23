@@ -33,7 +33,7 @@
       "model": "claude-sonnet-5",
       "usage_policy": "claude-weekly",
       "weekly_gate_mode": "fixed",
-      "weekly_gate_pct": 95,
+      "weekly_gate_pct": 98,
       "work": "Staged Map/Engine implementation; one coding correction. Agentic is a bounded read-only evidence helper only after explicit staged evidence failure, then implementation returns to staged."
     },
     {

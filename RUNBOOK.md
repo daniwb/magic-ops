@@ -376,6 +376,56 @@ python3 scripts/factory-ng-dashboard.py
 python3 scripts/factory-ng-dashboard.py --format json | jq .
 ```
 
+## Debug session: produced data, wire out, response back
+
+Every model call is one short-lived `scripts/model_call.py` process: prompt on
+stdin, answer on stdout, `tokens: in=… out=…` on stderr. That is the whole wire
+boundary, so it can be observed without touching the controller.
+
+Already retained per attempt in `docs/factory-ng/runs/` (same stem, one per
+attempt and phase):
+
+| Artifact | What it is |
+|---|---|
+| `<stem>.packet.txt` | the full prompt sent to the model |
+| `<stem>.raw.json` | the raw provider response (`.continuation`/`.investigation`/`.gate-repair`/`.repair` variants) |
+| `<stem>.lookup.jsonl` | card-knowledge MCP lookups for that attempt |
+| `<stem>.json` | the immutable receipt (outcome, telemetry, gates) |
+
+The wire tap adds what those files never held: the exact provider argv (flags,
+system prompt, timeouts) and the byte-exact request/response pair with one
+`call_id` correlating them. It is switched by a file and re-read by every new
+`model_call.py`, so **no controller restart is needed** and it is completely
+inert when off.
+
+```bash
+python3 scripts/factory_ng_wire_tap.py --on --minutes 120   # start (auto-expires)
+python3 scripts/factory_ng_wire_tap.py --status              # state + storage used
+python3 scripts/factory_ng_wire_tap.py --list                # recorded call ids
+python3 scripts/factory_ng_wire_tap.py --show <call_id> --part argv
+python3 scripts/factory_ng_wire_tap.py --show <call_id> --part request
+python3 scripts/factory_ng_wire_tap.py --follow              # live stream
+python3 scripts/factory_ng_wire_tap.py --off
+```
+
+Records: `state/wire-tap/wire-YYYYMMDD.jsonl` (gitignored, 200 MB budget,
+auto-disables past it; hard expiry so it cannot run unattended).
+
+Driver for a session:
+
+```bash
+python3 scripts/factory-ng-debug-session.py status   # what runs, tap state, recent trips
+python3 scripts/factory-ng-debug-session.py watch --follow   # live correlated round trips
+python3 scripts/factory-ng-debug-session.py show --stem <stem> --full
+python3 scripts/factory-ng-debug-session.py pack --ticket docs/factory-ng/tickets/<t>.json
+```
+
+`pack` is free: it runs the real packer against the canonical checkout and
+prints the packet without calling a model. `call` performs one live round trip
+in a hardlinked throwaway clone and **spends quota** — it never applies a patch,
+runs a gate, writes a receipt, or touches the canonical checkout, and requires
+`--yes`. Full detail: `docs/factory-ng/DEBUG-SESSION.md`.
+
 ## Recovery
 
 ### Controller missing or stale

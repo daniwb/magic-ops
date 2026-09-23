@@ -23,6 +23,11 @@ import urllib.request, urllib.error
 import openrouter_cooldown
 from factory_ng_provider_failure import CAPACITY_EXIT, codex_capacity_failure
 
+try:  # optional diagnostics; a missing or broken tap must never break a worker
+    import factory_ng_wire_tap as wire_tap
+except Exception:  # noqa: BLE001
+    wire_tap = None
+
 OPS = os.environ.get("OPS", "/opt/development/magic-ops")
 
 NO_TOOLS_SYSTEM = (
@@ -101,6 +106,71 @@ def log_tokens(tin, tout, cr, cw):
     print(f"tokens: in={tin} out={tout} cache_r={cr} cache_w={cw}", file=sys.stderr)
 
 
+# --- optional wire tap -------------------------------------------------------
+# state/factory-ng-wire-tap.json decides whether this process records itself.
+# The prompt is teed on the way in and replayed to the engine, so every engine
+# path (CLI subprocess or direct HTTPS) is observed without touching its code.
+TAP = {"call_id": None, "started": None, "spawns": 0, "real_run": None}
+
+
+def install_wire_tap(engine, model, tier):
+    if wire_tap is None or not wire_tap.enabled():
+        return
+    import io
+    TAP["call_id"] = wire_tap.call_id()
+    TAP["started"] = time.time()
+    os.environ.update({"TAP_CALL_ID": TAP["call_id"], "TAP_ENGINE": engine,
+                      "TAP_MODEL": model, "TAP_TIER": tier})
+    real_run = subprocess.run
+    TAP["real_run"] = real_run
+
+    def traced(command, *args, **kwargs):
+        try:
+            argv = ([os.fsdecode(x) for x in command]
+                    if isinstance(command, (list, tuple)) else [str(command)])
+        except Exception:  # noqa: BLE001
+            argv = [repr(command)]
+        TAP["spawns"] += 1
+        wire_tap.record("spawn", call_id=TAP["call_id"],
+                       argv=[wire_tap.clip(x, 500) for x in argv])
+        return real_run(command, *args, **kwargs)
+
+    subprocess.run = traced
+    payload = sys.stdin.buffer.read()
+    wire_tap.record("request", call_id=TAP["call_id"],
+                    prompt_bytes=len(payload),
+                    prompt_sha256=hashlib.sha256(payload).hexdigest(),
+                    prompt=wire_tap.clip(payload.decode("utf-8", "replace")))
+    sys.stdin = io.TextIOWrapper(io.BytesIO(payload), encoding="utf-8", errors="replace")
+
+
+def tap_summary(exit_code, text=""):
+    if not TAP["call_id"] or wire_tap is None:
+        return
+    wire_tap.record("summary", call_id=TAP["call_id"], exit=exit_code,
+                    duration_ms=int((time.time() - (TAP["started"] or time.time())) * 1000),
+                    spawns=TAP["spawns"],
+                    stdout_bytes=len(text or ""),
+                    answer=wire_tap.clip(text or "", 60000))
+
+
+def uninstall_wire_tap():
+    """Put subprocess.run back so the tap never outlives the call it observed."""
+    if TAP.get("real_run") is not None:
+        subprocess.run = TAP["real_run"]
+        TAP["real_run"] = None
+
+
+def wire_tap_record(event, **fields):
+    """Record through the installed tap; never raise into the call path."""
+    if wire_tap is None or not TAP["call_id"]:
+        return
+    try:
+        wire_tap.record(event, call_id=TAP["call_id"], **fields)
+    except Exception:  # noqa: BLE001 - diagnostics stay non-fatal
+        pass
+
+
 def save_raw(raw):
     # Kept from the bash implementation — "empty reply" was undiagnosable
     # without the raw response on disk, used repeatedly tonight.
@@ -117,6 +187,10 @@ def save_raw(raw):
         os.makedirs(os.path.dirname(artifact) or ".", exist_ok=True)
         with open(artifact, "w") as f:
             f.write(raw if isinstance(raw, str) else json.dumps(raw))
+    if TAP["call_id"] and wire_tap is not None:
+        payload = raw if isinstance(raw, str) else json.dumps(raw, default=str)
+        wire_tap.record("response", call_id=TAP["call_id"],
+                        raw_bytes=len(payload), raw=wire_tap.clip(payload))
 
 
 def call_codex(model, tier):
@@ -368,6 +442,10 @@ def call_openrouter(model, tier):
             {"role": "user", "content": prompt},
         ],
     }
+    # The OpenRouter request is built in-process, so record the exact JSON body
+    # (never the Authorization header or the key).
+    wire_tap_record("http_request", url="https://openrouter.ai/api/v1/chat/completions",
+                    body=body)
     req = urllib.request.Request(
         "https://openrouter.ai/api/v1/chat/completions",
         data=json.dumps(body).encode(),
@@ -483,11 +561,24 @@ def main():
     ap.add_argument("--model", required=True)
     ap.add_argument("--tier", default="map", choices=["map", "engine"])
     args = ap.parse_args()
-    text = ENGINES[args.engine](args.model, args.tier)
-    sys.stdout.write(text)
-    if authentication_failed(text):
-        print("factory-ng-model-error: authentication_failed", file=sys.stderr)
-        raise SystemExit(AUTHENTICATION_EXIT)
+    install_wire_tap(args.engine, args.model, args.tier)
+    try:
+        try:
+            text = ENGINES[args.engine](args.model, args.tier)
+        except SystemExit as exc:
+            tap_summary(exc.code if isinstance(exc.code, int) else 1)
+            raise
+        except BaseException:  # noqa: BLE001 - record the failure, re-raise unchanged
+            tap_summary(1)
+            raise
+        sys.stdout.write(text)
+        if authentication_failed(text):
+            tap_summary(AUTHENTICATION_EXIT, text)
+            print("factory-ng-model-error: authentication_failed", file=sys.stderr)
+            raise SystemExit(AUTHENTICATION_EXIT)
+        tap_summary(0, text)
+    finally:
+        uninstall_wire_tap()
 
 
 if __name__ == "__main__":
