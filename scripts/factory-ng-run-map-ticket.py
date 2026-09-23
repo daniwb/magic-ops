@@ -299,7 +299,9 @@ def main():
                                if repair_raw_path.exists() else [])),
             "gates": gates, "outcome": outcome,
             "integration": "eligible_full_gate" if outcome == "accepted_for_dependent_observation" else "observation_only",
-            "next_action": "The controller will integrate an accepted candidate under the configured full-gate policy."
+            "next_action": ("The controller will integrate an accepted candidate under the configured full-gate policy."
+                            if outcome == "accepted_for_dependent_observation" else
+                            "No candidate to integrate; a retry requires a successor TicketSpec that supersedes this ticket.")
         }
         if candidate_patch:
             receipt["execution"]["candidate_patch"] = str(candidate_patch.relative_to(OPS))

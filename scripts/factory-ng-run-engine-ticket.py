@@ -212,6 +212,8 @@ def ticket_gate(command, clone, ticket):
         result['exit_code']=1; result['stderr']+='\ncommand produced output'
     return result
 
+NO_CANDIDATE_NEXT_ACTION = 'No candidate to integrate; a retry requires a successor TicketSpec that supersedes this ticket.'
+
 class PreparationFailure(ValueError):
     pass
 
@@ -717,7 +719,7 @@ def main():
     for path, kind in ((investigation_raw, 'agentic_investigation'), (investigation_packet, 'investigation_packet'),
                        (investigation_context, 'investigation_source'), (investigation_resume, 'staged_after_investigation')):
         if path.exists(): artifacts.append({'path':str(path.relative_to(OPS)),'sha256':file_digest(path),'kind':kind})
-    value={'schema':'factory.observation-receipt/v1','ticket':{'id':ticket['id'],'path':str(ticket_path.relative_to(OPS)),'sha256':file_digest(ticket_path)},'skill':ticket['skill'],'model':{'profile':args.profile,'resolved_model':args.model,'worker':args.worker,'telemetry':telemetry},'execution':{'mode':'isolated_clone_observation_only','source_revision':ticket['source']['revision'],'source_tree_changed':source_changed,'candidate_commit':result_commit,'candidate_clone':str(clone)},'raw_artifacts':artifacts,'gates':gates,'outcome':outcome,'integration':'eligible_full_gate' if outcome=='accepted_for_dependent_observation' else 'observation_only','next_action':'The controller will integrate an accepted candidate under the configured full-gate policy.'}
+    value={'schema':'factory.observation-receipt/v1','ticket':{'id':ticket['id'],'path':str(ticket_path.relative_to(OPS)),'sha256':file_digest(ticket_path)},'skill':ticket['skill'],'model':{'profile':args.profile,'resolved_model':args.model,'worker':args.worker,'telemetry':telemetry},'execution':{'mode':'isolated_clone_observation_only','source_revision':ticket['source']['revision'],'source_tree_changed':source_changed,'candidate_commit':result_commit,'candidate_clone':str(clone)},'raw_artifacts':artifacts,'gates':gates,'outcome':outcome,'integration':'eligible_full_gate' if outcome=='accepted_for_dependent_observation' else 'observation_only','next_action':'The controller will integrate an accepted candidate under the configured full-gate policy.' if outcome=='accepted_for_dependent_observation' else NO_CANDIDATE_NEXT_ACTION}
     value['attempt_history']=attempt_history
     value['capability_assessments']=assessments
     value['failure_category']=failure_category(outcome, gates, preparation)

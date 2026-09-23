@@ -8,6 +8,8 @@ import contextlib
 import importlib.util
 import io
 import json
+import os
+import shutil
 from pathlib import Path
 import subprocess
 import sys
@@ -19,6 +21,12 @@ from factory_ng_context import (requested_context, preparation_problems,
                                 failure_detail, source_path)
 
 OPS = Path(__file__).resolve().parents[1]
+# The supervised controller puts the repo toolchain on PATH; do the same so
+# the real-Go gate tests run from a plain interactive shell too.
+REPO_GO_BIN = OPS.parents[1] / 'toolchain' / 'go' / 'bin'
+if (REPO_GO_BIN / 'go').exists() and not shutil.which('go'):
+    os.environ['PATH'] = '%s:%s' % (REPO_GO_BIN, os.environ.get('PATH', ''))
+GO_TOOLCHAIN = shutil.which('go') or Path('/usr/local/go/bin/go').exists()
 
 
 def load(filename):
@@ -305,6 +313,8 @@ class RunnerTests(unittest.TestCase):
         self.assertEqual(receipt['outcome'], 'gate_failed')
         self.assertEqual(len(prompts), 2)
         self.assertNotIn('candidate_patch', receipt['execution'])
+        self.assertIn('successor TicketSpec', receipt['next_action'])
+        self.assertNotIn('integrate an accepted candidate', receipt['next_action'])
 
     def test_repair_sees_modified_lines_far_beyond_the_file_header(self):
         receipt, prompts, _ = self.run_fixture([self.patch(0, 1), self.patch(1, 2)], long_file=True)
@@ -320,6 +330,7 @@ class RunnerTests(unittest.TestCase):
         self.assertFalse(prompts)
         self.assertFalse(any('clone' in c for c in commands))
 
+    @unittest.skipUnless(GO_TOOLCHAIN, "real Go gate needs a go toolchain on PATH or in /usr/local/go/bin")
     def test_real_go_compile_failure_can_repair_and_pass_named_behavior_test(self):
         def patch(before, after):
             return '<<<FILE backend/game/effect.go\n<<<SEARCH\nvar Value = %s\n===REPLACE\nvar Value = %s\n>>>END\n' % (before, after)
@@ -329,6 +340,7 @@ class RunnerTests(unittest.TestCase):
         self.assertIn('var Value = Missing', prompts[1])
         self.assertIn('Named test gate: 1 test(s) passed', receipt['gates'][-2]['detail'])
 
+    @unittest.skipUnless(GO_TOOLCHAIN, "real Go gate needs a go toolchain on PATH or in /usr/local/go/bin")
     def test_misnamed_real_go_test_is_rejected_then_repaired_before_acceptance(self):
         first = '<<<FILE backend/game/effect.go\n<<<SEARCH\nvar Value = 0\n===REPLACE\nvar Value = 2\n>>>END\n'
         repair = ('<<<FILE backend/game/effect_test.go\n<<<SEARCH\n'
