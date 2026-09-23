@@ -36,3 +36,11 @@ haiku-rounds-orch-*
 plan_attemory_integration.md
 requirements.txt
 state/
+# Factory NG generated artifacts (receipts, tickets, patches, measurements).
+# Written continuously by producers/controller; kept on disk, not in history.
+# Files tracked before this rule stay tracked; force-add (git add -f) to keep one.
+docs/factory-ng/runs/
+docs/factory-ng/tickets/
+docs/factory-ng/job-archive/
+docs/factory-ng/measurements/
+docs/factory-ng/candidates/
