@@ -47,6 +47,19 @@ class InvestigationTests(unittest.TestCase):
             self.assertIn('func Real()', evidence)
             self.assertTrue(anchors[0]['sha256'].startswith('sha256:'))
 
+    def test_evidence_line_survives_surrounding_prose_but_not_ambiguity(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory); (root / 'backend/game').mkdir(parents=True)
+            (root / 'backend/game/a.go').write_text('package game\nfunc Real() {}\n')
+            line = 'EVIDENCE_JSON: ' + json.dumps({'sources': [{'path': 'backend/game/a.go', 'start_line': 1, 'end_line': 2}],
+                                                   'summary': 'func Fake() {} is prose, not evidence'})
+            evidence, _ = validate_evidence('I have enough evidence now: Real exists.\n\n' + line + '\nDone.\n', root)
+            self.assertIn('func Real()', evidence)
+            self.assertNotIn('Fake', evidence)
+            for reply in [line + '\n' + line, 'EVIDENCE_UNRESOLVED: not found\n' + line,
+                          'prefix ' + line, 'EVIDENCE_JSON: see below\n{"sources": []}']:
+                with self.assertRaises(ValueError): validate_evidence(reply, root)
+
     def test_agentic_adapter_has_investigation_only_system_and_hard_turn_limit(self):
         adapter = load('model_call.py')
         reply = {'result': 'EVIDENCE_UNRESOLVED', 'modelUsage': {}}

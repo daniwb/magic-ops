@@ -62,10 +62,14 @@ def validate_evidence(reply, repo):
     """Forward source read by the harness, never investigator-authored patches."""
     if len(reply) > 12000 or '<<<' in reply:
         raise ValueError('investigation must return bounded source references, not a patch')
-    match = re.fullmatch(r'\s*EVIDENCE_JSON:\s*(\{[^\n]*\})\s*', reply)
-    if not match:
+    # Surrounding prose is harmless: only the referenced ranges are forwarded,
+    # re-read from the checkout by the harness. Ambiguity still fails closed.
+    matches = re.findall(r'^[ \t]*EVIDENCE_JSON:[ \t]*(\{[^\n]*\})[ \t]*$', reply, re.M)
+    if not matches:
         raise ValueError('investigation returned no structured evidence')
-    value = json.loads(match[1])
+    if len(matches) > 1 or re.search(r'^[ \t]*EVIDENCE_UNRESOLVED\b', reply, re.M):
+        raise ValueError('investigation returned ambiguous structured evidence')
+    value = json.loads(matches[0])
     sources = value.get('sources') if isinstance(value, dict) else None
     if not isinstance(sources, list) or not 1 <= len(sources) <= 6:
         raise ValueError('investigation requires one to six source ranges')
